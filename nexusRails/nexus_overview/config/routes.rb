@@ -1,4 +1,8 @@
 NexusOverview::Application.routes.draw do
+  get "nexus_overview/overview"
+  
+  match 'example_send' => 'nexus_overview#example_send'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +52,7 @@ NexusOverview::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => 'nexus_overview#overview'
 
   # See how all your routes lay out with "rake routes"
 

@@ -2,11 +2,21 @@
 <html>
 <head>
   <title>NexusOverview</title>
-  <%= stylesheet_link_tag :all %>
+  <%= stylesheet_link_tag 'nexus.css' %>
   <%= javascript_include_tag :defaults %>
+	<%= javascript_include_tag 'nexusUI/nexusDial.js'%>
+	<%= javascript_include_tag 'nexusUI/nexusUI.js'%>
   <%= csrf_meta_tag %>
+
+	<script type="text/javascript" charset="utf-8">
+		function nexusInit(){
+			dial1 = new dial("dial_1", 1, "example_send");
+			dial1.circle_size = 20.;
+			dial1.redraw();
+		}
+	</script>
 </head>
-<body>
+<body onLoad="nexusInit()">
 
 <%= yield %>
 

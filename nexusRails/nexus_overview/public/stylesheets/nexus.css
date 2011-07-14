@@ -1,0 +1,10 @@
+
+body {
+	background-color: #DDD;
+	color: #333;
+}
+
+div#ui {
+	display: inline;
+	margin-left: 100px;
+}
