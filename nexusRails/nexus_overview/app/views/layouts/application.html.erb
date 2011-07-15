@@ -15,9 +15,15 @@
 			// dial1.circle_size = 20.;
 			// dial1.redraw();
 		}
+		
+		function blockMove(event) {
+		  // Tell Safari not to move the window.
+		  event.preventDefault() ;
+		 }
+		
 	</script>
 </head>
-<body onLoad="nexusInit()">
+<body ontouchmove="blockMove(event);" onLoad="nexusInit()">
 
 <%= yield %>
 
