@@ -5,9 +5,12 @@
 
 require 'osc'
 
-OSCHost = 'localhost'
+OSCHost = '127.0.0.1'
 OSCReceivePort = 7474
 OSCSendPort = 7475
+
+@@osc_ip = OSCHost
+@@osc_port = OSCSendPort
 
 
 puts "  Starting the OSC Server..."

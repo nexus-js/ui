@@ -1,5 +1,6 @@
 NexusOverview::Application.routes.draw do
   get "nexus_overview/overview"
+  match 'set_osc' => 'nexus_overview#set_osc'
   
   match 'example_send' => 'nexus_overview#example_send'
 

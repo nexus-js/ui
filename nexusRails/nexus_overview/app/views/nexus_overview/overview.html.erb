@@ -1,6 +1,19 @@
 
 <h1>Nexus Overview of UI elements</h1>
 
+<div>
+	<p>This application is set up to demonstrate the nexus javascript user interfaces.  It is also capable of passing parameter changes along to a client computer via osc. By default it is set to send to itself.  Download the project and run the included nexus_overview rails application to try it out.
+</div>
+<div>
+	<h2>OSC Setup</h2>
+	<p>If your computer is not behind a router, or the router is configured properly, you can set this ip address for the client computer's ip and port to receive osc commands.</p>
+	<p>Please be aware that anyone with access to this site can change the ip or port number and it will not be reflected until you update the page.</p>
+	<% form_tag ('/set_osc') do %>
+		<%= text_field_tag 'osc_ip', @osc_ip %>
+		<%= text_field_tag 'osc_port', @osc_port %>
+		<%= submit_tag 'update osc destination' %>
+	<% end %>
+</div>
 <div id="ui">
 	<div>
 		Button?
