@@ -1,4 +1,5 @@
-// Javascript keyboard
+// Nexus Keyboard
+// Contributors: Yemin Oh
 
 var octaves =3;
 var width = 7;
