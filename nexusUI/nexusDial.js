@@ -4,12 +4,13 @@
 // this.redraw is an example of a publicly accessible function
 // use var to create a variable that is private, but accessible by embedded functions
 // never create a variable w/o one of these two as it looks up the object chain for a match
-// if it reaches the global document level and doesn't find it, it makes a global variable.
+// 		if it reaches the global document level and doesn't find it, it makes a global variable.
 
 
-// *** Instantiate a dial and pass in a canvas to draw into.
-// *	 ajax_command is the url that the UI changes will be sent to - optional, default = "dial"
-// *   dial_id is the id for this specific UI e.g. if you have multiple dials they could be dial.1, dial.2, etc.
+// *** Usage:  dial1 = new dial("dial_1", "example_send", 1);
+// *   Instantiate a dial.  1st argument, a canvas to draw into.
+// *	 (optional) ajax_command is the url that the UI changes will be sent to - default = "dial"
+// *   (optional) dial_id is the id for this specific UI e.g. if you have multiple dials they could be dial.1, dial.2, etc.
 // ***
 				
 function dial(canvas, ajax_command, dial_id) {
