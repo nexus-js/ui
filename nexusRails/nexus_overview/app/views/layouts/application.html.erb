@@ -7,6 +7,7 @@
 	<%= javascript_include_tag 'nexusUI/nexusUI.js'%>
 	<%= javascript_include_tag 'nexusUI/nexusDial.js'%>
 	<%= javascript_include_tag 'nexusUI/nexusSplineSlider.js'%>
+	<%= javascript_include_tag 'nexusUI/nexusKeyboard.js'%>
   <%= csrf_meta_tag %>
 
 	<script type="text/javascript" charset="utf-8">
@@ -16,6 +17,7 @@
 			dial2 = new dial("dial_2", "example_send", 2);
 			dial2.osc_name = "dial";
 			splineSlider = new splineSlider("splineSlider", "example_send");
+			keyboard = new keyboard("keyboard", "example_send");
 			// dial1.circle_size = 20.;
 			// dial1.redraw();
 		}
