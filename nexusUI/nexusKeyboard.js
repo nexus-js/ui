@@ -13,15 +13,16 @@ function keyboard(canvas, ajax_command, keyboard_id) {
 	var canvas_width = canvas.width;
 	var canvas_offset = new CanvasOffset(canvas.offsetLeft,canvas.offsetTop);
 	
-	this.octaves = 3;
-	var width = 7;
-	var w_height = 100;
+	this.octaves = 2;
+	var width = (canvas_width/(this.octaves*12))/3;
+	var w_height = canvas_height;
 	var b_height = w_height*4/7;
 	var w_width = width*3;
 	var b_width = width*2;
-	// [press, order of white or black, white(0) or black(1), start_position of X, end_position of X]
+	// [On/Off, order of white or black, white(0) or black(1), start_position of X, end_position of X]
 	var black_dis = [0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 5];
 	var white_dis = [[0, 2], [4, 5], [7, 9], [9, 11], [13, 14], [16, 17], [19, 21]];
+	var order = [0, 2, 4, 5, 7, 9, 11, 1, 3, 6, 8, 10];
 	var keys = new Array();
 
 	var note_new;
@@ -37,6 +38,7 @@ function keyboard(canvas, ajax_command, keyboard_id) {
 	this.clip = clip;
 
 	init();
+	
 
 	function init() {
 		
@@ -46,18 +48,19 @@ function keyboard(canvas, ajax_command, keyboard_id) {
 		
 		for (j=0;j<self.octaves;j++) {
 			for (i=0; i<12; i++) {
+				o = order[i]+j*12;
 				if (i<7) {
 					var u1 = w_width*(i + j*7);
 					var y = i + 1;
 					var u2 = w_width*(y + j*7);
-					keys.push([0, i, 0, u1, u2]);
+					keys.push([0, i, 0, u1, u2, o]);
 				}
 				else {
 					var k = black_dis[i];
 					var t1 = b_width*(1 + k + k/2) + 7*j*w_width;
 					var r = k + 1;
 					var t2 = b_width*(1 + r + k/2) + 7*j*w_width;
-					keys.push([0, k, 1, t1, t2]);
+					keys.push([0, k, 1, t1, t2, o]);
 				}
 			}
 		}
@@ -172,8 +175,10 @@ function keyboard(canvas, ajax_command, keyboard_id) {
 		change_cell(note_new, 1);
 		note_old = note_new;
 		
+		midi_note = keys[note_new][5];
+		
 		// change the note_new --> midi_note_new (offset)
-		self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, note_new);
+		self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
 		draw();
 		clicked = 1;	
 	}
