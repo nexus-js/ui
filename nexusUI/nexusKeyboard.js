@@ -191,7 +191,8 @@ function keyboard(canvas, ajax_command, keyboard_id) {
 			if (note_old != note_new) {
 				change_cell(note_old, 0);
 				change_cell(note_new, 1);
-				self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, note_new);
+				midi_note = keys[note_new][5];
+				self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
 				draw();
 			}
 		}
