@@ -72,9 +72,9 @@ function keyboard(canvas, ajax_command, keyboard_id) {
 		canvas.addEventListener("mouseup", keyboard_release, false);
 		document.addEventListener("mouseup", keyboard_release, false);
 
-		canvas.ontouchstart = keyboard_click;
-		canvas.ontouchmove = self.throttle(keyboard_move, 20);
-		canvas.ontouchend = keyboard_release;
+		canvas.ontouchstart = keyboard_touch;
+		canvas.ontouchmove = self.throttle(keyboard_touchMove, 20);
+		canvas.ontouchend = keyboard_touchRelease;
 	}
 
 	function draw() {
@@ -209,6 +209,45 @@ function keyboard(canvas, ajax_command, keyboard_id) {
 		draw();
 		clicked = 0;
 	}
+	function keyboard_touch(e) {
+		click_pos = self.getTouchPosition(e, canvas_offset);;
+		whichKey_pressed(click_pos.x, click_pos.y);
+		change_cell(note_new, 1);
+		note_old = note_new;
+		
+		midi_note = keys[note_new][5];
+		
+		// change the note_new --> midi_note_new (offset)
+		self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
+		draw();
+		clicked = 1;	
+	}
 
+	function keyboard_touchMove(e) {
+		if(clicked) {
+		new_click_pos = self.getTouchPosition(e, canvas_offset);;
+
+		whichKey_pressed(new_click_pos.x,new_click_pos.y);
+			if (note_old != note_new) {
+				change_cell(note_old, 0);
+				change_cell(note_new, 1);
+				midi_note = keys[note_new][5];
+				self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
+				draw();
+			}
+		}
+	note_old = note_new;
+	}
+
+	function keyboard_touchRelease(e) {
+		for (j=0;j<self.octaves;j++) {
+			for (i=0;i<12;i++) {
+				var d = j*12 + i;
+					change_cell(d, 0);
+			}
+		}
+		draw();
+		clicked = 0;
+	}
 	
 }
