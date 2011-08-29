@@ -10,16 +10,16 @@
 // *** Usage:  dial1 = new dial("dial_1", "example_send", 1);
 // *   Instantiate a dial.  1st argument, a canvas to draw into.
 // *	 (optional) ajax_command is the url that the UI changes will be sent to - default = "dial"
-// *   (optional) dial_id is the id for this specific UI e.g. if you have multiple dials they could be dial.1, dial.2, etc.
+// *   (optional) ui_id is the id for this specific UI e.g. if you have multiple dials they could be dial.1, dial.2, etc.
 // ***
 				
-function dial(canvas, ajax_command, dial_id) {
+function dial(canvas, ajax_command, ui_id) {
 					// *** Declare variables: this. variables become properties - dial.circle_size = 40.;
 					// *** within later functions, use the self. reference to call them - self.circle_size
 					// *** var variables have scope only within this instance, cannot be accessed outside.
 
 	this.canvas_id = canvas;
-	this.dial_id = dial_id;
+	this.ui_id = ui_id;
 	this.ajax_command = ajax_command;
 	this.osc_name = canvas;
 	var self = this;
@@ -30,13 +30,14 @@ function dial(canvas, ajax_command, dial_id) {
 	var canvas_center = [canvas_width /2., canvas_height / 2.];
 	this.circle_size = 1.0;
 	this.dial_position_length = 6.;
+	this.outline_color = "#000";
+	this.fill_color = "#AAA";
+	this.accent_color = "#ff7f24";
 	this.line_width = 4.;
 	this.dial_value = 0.5;
 	this.responsivity = 0.005;
 	var clicked = 0;
 	var click_position = new Point(0,0);
-	var offsetLeft = canvas.offsetLeft;
-	var offsetTop = canvas.offsetTop;
 
 			// *** add any nexusUI.js mixin functions that are required in this UI.
 			// *** notice that they are set to this object and called using self.<function>
@@ -91,9 +92,9 @@ function dial(canvas, ajax_command, dial_id) {
 
 		with (dial_context) {
 			clearRect(0,0, canvas_width, canvas_height);
-			strokeStyle = "#000";
+			strokeStyle = self.outline_color;
 			lineWidth = self.line_width;
-			fillStyle = "#AAA";
+			fillStyle = self.fill_color;
 			beginPath();
 			arc(canvas_center[0], canvas_center[1], self.circle_size, 0, Math.PI*2, true);
 			fill();
@@ -103,13 +104,13 @@ function dial(canvas, ajax_command, dial_id) {
 			beginPath();
 				lineWidth = self.line_width * 2;
 				arc(canvas_center[0], canvas_center[1], self.circle_size , Math.PI* 0.5, dial_position, false);
-				strokeStyle = "#ff7f24";
+				strokeStyle = self.accent_color;
 				stroke();
 			closePath();
 			
 			beginPath();
 				lineWidth = self.line_width;
-				strokeStyle = "#000";
+				strokeStyle = self.outline_color;
 				moveTo(canvas_center[0], canvas_center[1]);
 				lineTo(point.x + canvas_center[0], point.y + canvas_center[1]);
 				stroke();
@@ -122,7 +123,7 @@ function dial(canvas, ajax_command, dial_id) {
 		// canvas.addEventListener("mousemove", self.throttle(dial_move, 20), false);	// Best to only add mousemove event listener when clicked and moving.
 		click_position = self.getCursorPosition(e, canvas_offset);
 		clicked = 1;
-		self.ajax_send(self.ajax_command, self.osc_name, self.dial_id, self.dial_value.toFixed(2));
+		self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, self.dial_value.toFixed(2));
 		draw();
 	}
 
@@ -134,7 +135,7 @@ function dial(canvas, ajax_command, dial_id) {
 
 			self.dial_value = self.clip((self.dial_value - (delta_move * self.responsivity)), 0., 1.);
 			click_position = new_click_position;
-			self.ajax_send(self.ajax_command, self.osc_name, self.dial_id, self.dial_value.toFixed(2));
+			self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, self.dial_value.toFixed(2));
 			draw();
 		}
 	}
@@ -149,7 +150,7 @@ function dial(canvas, ajax_command, dial_id) {
 	function dial_touch(e) {
 		click_position = self.getTouchPosition(e, canvas_offset);
 		clicked = 1;
-		self.ajax_send(self.ajax_command, self.osc_name, self.dial_id, self.dial_value.toFixed(2));
+		self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, self.dial_value.toFixed(2));
 		draw();
 	}
 
@@ -161,7 +162,7 @@ function dial(canvas, ajax_command, dial_id) {
 
 			self.dial_value = self.clip((self.dial_value - (delta_move * self.responsivity)), 0., 1.);
 			click_position = new_click_position;
-			self.ajax_send(self.ajax_command, self.osc_name, self.dial_id, self.dial_value.toFixed(2));
+			self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, self.dial_value.toFixed(2));
 			draw();
 		}
 	}
