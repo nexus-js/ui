@@ -66,15 +66,18 @@ function dial(canvas, ajax_command, dial_id) {
 		
 		draw();
 		
-		canvas.addEventListener("mousedown", dial_click, false);
-		// canvas.addEventListener("mousemove", dial_move, false);
-		canvas.addEventListener("mousemove", self.throttle(dial_move, 20), false);	
-		canvas.addEventListener("mouseup", dial_release, false);
-		document.addEventListener("mouseup", dial_release, false);
-
-		canvas.ontouchstart = dial_touch;
-		canvas.ontouchmove = self.throttle(dial_touchMove, 20);
-		canvas.ontouchend = dial_touchRelease;
+		if(is_touch_device) {
+			canvas.ontouchstart = dial_touch;
+			canvas.ontouchmove = self.throttle(dial_touchMove, 20);
+			canvas.ontouchend = dial_touchRelease;
+		} else {
+			canvas.addEventListener("mousedown", dial_click, false);
+			// canvas.addEventListener("mousemove", dial_move, false);
+			canvas.addEventListener("mousemove", self.throttle(dial_move, 20), false);	
+			canvas.addEventListener("mouseup", dial_release, false);
+			document.addEventListener("mouseup", dial_release, false);
+			// document_release.add_delegate(self, dial_release);
+		}
 		return 1;
 	}
 
@@ -166,7 +169,9 @@ function dial(canvas, ajax_command, dial_id) {
 
 	function dial_touchRelease(e) {
 		// canvas.ontouchmove = null;	// remove when not needed any longer.
-		clicked = 0;
+		if (clicked == 1){
+			clicked = 0;
+		}
 	}
 	
 }

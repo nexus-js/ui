@@ -47,11 +47,14 @@ function button(canvas, ajax_command, button_id) {
 		
 		draw();
 		
-		canvas.ontouchstart = touch_depress;
-		canvas.ontouchend = touch_release;
-		canvas.addEventListener("mousedown", button_depress, false);
-		canvas.addEventListener("mouseup", button_release, false);
-		document.addEventListener("mouseup", button_release, false);
+		if(is_touch_device) {
+			canvas.ontouchstart = touch_depress;
+			canvas.ontouchend = touch_release;
+		} else {
+			canvas.addEventListener("mousedown", button_depress, false);
+			canvas.addEventListener("mouseup", button_release, false);
+			document.addEventListener("mouseup", button_release, false);
+		}
 	}
 	function draw()
 	{
@@ -104,9 +107,11 @@ function button(canvas, ajax_command, button_id) {
 	}
 
 	function button_release(e) {
-		self.depressed = 0;
-		self.ajax_send(self.ajax_command, self.osc_name, self.button_id, self.depressed * self.button_value);
-		draw();
+		if (self.depressed == 1){
+			self.depressed = 0;
+			self.ajax_send(self.ajax_command, self.osc_name, self.button_id, self.depressed * self.button_value);
+			draw();
+		}
 	}
 	
 	function touch_depress(e) {

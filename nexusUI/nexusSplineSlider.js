@@ -42,14 +42,16 @@ function splineSlider(canvas, ajax_command, slider_id) {
 		
 		draw();
 		
-		canvas.addEventListener("mousedown", slider_click, false);
-		canvas.addEventListener("mousemove", self.throttle(slider_move, 20), false);
-		canvas.addEventListener("mouseup", slider_release, false);
-		document.addEventListener("mouseup", slider_release, false);
-		
-		canvas.ontouchstart = slider_touch;
-		canvas.ontouchmove = self.throttle(slider_touch_move, 20);
-		canvas.ontouchend = slider_touch_release;
+		if(is_touch_device) {
+			canvas.ontouchstart = slider_touch;
+			canvas.ontouchmove = self.throttle(slider_touch_move, 20);
+			canvas.ontouchend = slider_touch_release;
+		} else {
+			canvas.addEventListener("mousedown", slider_click, false);
+			canvas.addEventListener("mousemove", self.throttle(slider_move, 20), false);
+			canvas.addEventListener("mouseup", slider_release, false);
+			document.addEventListener("mouseup", slider_release, false);
+		}
 	}
 	
 	function draw()
@@ -129,11 +131,15 @@ function splineSlider(canvas, ajax_command, slider_id) {
 	}
 	
 	function slider_release(e) {
-		clicked = 0;
+		if (clicked == 1){
+			clicked = 0;
+		}
 	}
 	
 	function slider_touch_release(e) {
-		clicked = 0;
+		if (clicked == 1){
+			clicked = 0;
+		}
 	}
 
 }

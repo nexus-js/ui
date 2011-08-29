@@ -9,7 +9,9 @@
 	<%= javascript_include_tag 'nexusUI/nexusDial.js'%>
 	<%= javascript_include_tag 'nexusUI/nexusSplineSlider.js'%>
 	<%= javascript_include_tag 'nexusUI/nexusKeyboard.js'%>
+	<%= javascript_include_tag 'nexusUI/nexusMultiSlider.js'%>
   <%= csrf_meta_tag %>
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
 
 	<script type="text/javascript" charset="utf-8">
 		function nexusInit(){
@@ -21,6 +23,7 @@
 			splineSlider = new splineSlider("splineSlider", "example_send");
 			keyboard = new keyboard("keyboard", "example_send");
 //			keyboard2 = new keyboard("keyboard", "example_send");
+			multiSlider = new multiSlider("multiSlider", "example_send");
 
 
 			// dial1.circle_size = 20.;

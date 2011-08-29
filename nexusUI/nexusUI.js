@@ -2,6 +2,29 @@
 // nexus - shared utility functions for javascript UI objects
 
 
+document.addEventListener("mouseup", document_release.release, false);
+
+var is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
+
+function document_release() {
+	this.delegates = new Array();
+	this.delegate_functions = new Array();
+	var self = this;
+	
+	this.add_delegate = function(ui_instance, function_to_call) {
+		self.delegates.push(ui_instance);
+		self.delegate_functions.push(function_to_call);
+	}
+	
+	this.release = function(e){
+		for(i=0;i==self.delegates.length;i++) {
+			window["functionName"](arguments);
+			window[self.delegates[i]][self.delegate_functions[i]](e);
+		}
+	}
+	
+}
+
 		// ajax_send is the function to send info back to the server. 
 		// it requires a command and an osc_name (by default it is the name of the canvas id) and data
 		// an id can be sent or left out.  the id is used for multiple instances of the same type of UI
