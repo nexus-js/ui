@@ -9,6 +9,7 @@
 	<%= javascript_include_tag 'nexusUI/nexusDial.js'%>
 	<%= javascript_include_tag 'nexusUI/nexusSplineSlider.js'%>
 	<%= javascript_include_tag 'nexusUI/nexusPositionArray.js'%>
+	<%= javascript_include_tag 'nexusUI/nexusPosition.js'%>	
 	<%= javascript_include_tag 'nexusUI/nexusKeyboard.js'%>
 	<%= javascript_include_tag 'nexusUI/nexusMultiSlider.js'%>
   <%= csrf_meta_tag %>
@@ -23,6 +24,7 @@
 			dial2.osc_name = "dial";
 			splineSlider = new splineSlider("splineSlider", "example_send");
 			position_array = new positionArray("positionArray", "example_send");
+			position1 = new position("position_1", "example_send");
 			keyboard = new keyboard("keyboard", "example_send");
 //			keyboard2 = new keyboard("keyboard", "example_send");
 			multiSlider = new multiSlider("multiSlider", "example_send");
