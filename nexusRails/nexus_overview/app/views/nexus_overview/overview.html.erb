@@ -1,47 +1,78 @@
+<div id="main_screen">
+	<h1>Nexus UI Example</h1>
 
-<h1>Nexus Overview of UI elements</h1>
+	<div id="navText" >
+		<a href="javascript:nav_toggle('screen1');">Buttons</a> | 
+		<a href="javascript:nav_toggle('screen2');">Sliders</a>	| 
+		<a href="javascript:nav_toggle('screen3');">Position</a> | 
+		<a href="javascript:nav_toggle('screen4');">Keyboard</a> | 
+		<a href="javascript:nav_toggle('screen5');">Accelerometer</a>
+	</div>
 
-<div>
-	<p>This application is set up to demonstrate the nexus javascript user interfaces.  It is also capable of passing parameter changes along to a client computer via osc. By default it is set to send to itself.  Download the project and run the included nexus_overview rails application to try it out.
+	<div>
+		<p>This application is set up to demonstrate usage of the nexus javascript user interfaces.  It is also capable of passing parameter changes along to a client computer via osc. By default it is set to send to 127.0.0.1  Download the project and run the included nexus_overview rails application to try it out.
+	</div>
+	<div>
+		<h2>OSC Setup</h2>
+		<p>If your computer is not behind a router, or the router is configured properly, you can set this ip address for the client computer's ip and port to receive osc commands.</p>
+		<p>Please be aware that anyone can change the ip or port number at any time.  Use for testing only.</p>
+		<% form_tag ('/set_osc') do %>
+			<%= text_field_tag 'osc_ip', @osc_ip %>
+			<%= text_field_tag 'osc_port', @osc_port %>
+			<%= submit_tag 'update osc destination' %>
+		<% end %>
+	</div>
 </div>
-<div>
-	<h2>OSC Setup</h2>
-	<p>If your computer is not behind a router, or the router is configured properly, you can set this ip address for the client computer's ip and port to receive osc commands.</p>
-	<p>Please be aware that anyone with access to this site can change the ip or port number and it will not be reflected until you update the page.</p>
-	<% form_tag ('/set_osc') do %>
-		<%= text_field_tag 'osc_ip', @osc_ip %>
-		<%= text_field_tag 'osc_port', @osc_port %>
-		<%= submit_tag 'update osc destination' %>
-	<% end %>
-</div>
+
 <div id="ui">
-	<div>
-		Button
-		<canvas id="button" width="200px" height="200px">Button</canvas>
+	
+	<div id="screen1">
+		<div><a href="javascript:nav_toggle('screen1');">Back</a></div>
+		<div>
+			<canvas id="button" width="200px" height="200px">Button</canvas>
+			<p>Button</p>
+		</div>
+		<div>
+			<canvas id="dial_1" width="150px" height="150px">Dial 1</canvas>
+			<canvas id="dial_2" width="150px" height="150px">Dial 2</canvas>
+			<p>Dials</p>
+		</div>
 	</div>
-	<div>
-		Potentiometer
-		<canvas id="dial_1" width="200px" height="200px">Dial 1</canvas>
-		<canvas id="dial_2" width="200px" height="200px">Dial 2</canvas>
+	
+	<div id="screen2">
+		<div><a href="javascript:nav_toggle('screen2');">Back</a></div>
+		<div>
+			SplineSlider
+			<canvas id="splineSlider" width="50px" height="200px">splineSlider</canvas>
+		</div>
+		<div>
+			MultiSlider
+			<canvas id="multiSlider" width="320px" height="240px">multiSlider</canvas>
+		</div>
 	</div>
-	<div>
-		SplineSlider
-		<canvas id="splineSlider" width="50px" height="200px">splineSlider</canvas>
+	
+	<div id="screen3">
+		<div><a href="javascript:nav_toggle('screen3');">Back</a></div>
+		<div>
+			position
+			<canvas id="position_1" width="300px" height="220px">position</canvas>
+		</div>
+		<div>
+			positionArray
+			<canvas id="positionArray" width="300px" height="220px">positionArray</canvas>
+		</div>
 	</div>
-	<div>
-		position
-		<canvas id="position_1" width="600px" height="300px">position</canvas>
+	
+	<div id="screen4">
+		<div><a href="javascript:nav_toggle('screen4');">Back</a></div>
+		<div>
+			Keyboard
+			<canvas id="keyboard" width="320px" height="100px">keyboard</canvas>
+		</div>
 	</div>
-	<div>
-		positionArray
-		<canvas id="positionArray" width="600px" height="300px">positionArray</canvas>
-	</div>
-	<div>
-		Keyboard
-		<canvas id="keyboard" width="600px" height="100px">keyboard</canvas>
-	</div>
-	<div>
-		MultiSlider
-		<canvas id="multiSlider" width="600px" height="300px">multiSlider</canvas>
+	
+	<div id="screen5">
+		<div><a href="javascript:nav_toggle('screen5');">Back</a></div>
+		
 	</div>
 </div>

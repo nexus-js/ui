@@ -1,12 +1,102 @@
 
 body {
+	width: 320px;
+	height: 480px;
+	background-color: #000;
+	color: #333;
+	margin: 0px;
+	padding: 0px;
+	top: 0px;
+	display: block;
+}
+
+div#main_screen {
+	width: 320px;
+	height: 480px;
 	background-color: #DDD;
 	color: #333;
+	margin: 0px;
+	padding: 0px;
+	display: block;
+}
+
+h1 {
+	font-size: 1.5em;
+	margin: 0px;
+	padding: 10px;
+	font-weight: bold;
+}
+
+h2 {
+	font-size: 1.2em;
+	font-weight: bold;
 }
 
 div#ui {
-	display: inline;
-	margin-left: 100px;
+	display: block;
+	width: 100%;
+	height: 300px;
+	/*margin-left: 100px;*/
+}
+
+p {
+	margin: 0px;
+	text-align: center;
+}
+
+div#screen1 {
+	position: fixed;
+	display: none;
+	top: 0px;
+	background-color: #DDD;
+	width: 320px;
+	height: 480px;
+	overflow: hidden;
+	text-align: center;
+}
+
+div#screen2 {
+	position: fixed;
+	display: none;
+	top: 0px;
+	background-color: #DDD;
+	width: 320px;
+	height: 480px;
+	overflow: hidden;
+	text-align: center;
+}
+
+div#screen3 {
+	position: fixed;
+	display: none;
+	top: 0px;
+	background-color: #DDD;
+	width: 320px;
+	height: 480px;
+	overflow: hidden;
+	text-align: center;
+}
+
+div#screen4 {
+	position: fixed;
+	display: none;
+	top: 0px;
+	background-color: #DDD;
+	width: 320px;
+	height: 480px;
+	overflow: hidden;
+	text-align: center;
+}
+
+div#screen5 {
+	position: fixed;
+	display: none;
+	top: 0px;
+	background-color: #DDD;
+	width: 320px;
+	height: 480px;
+	overflow: hidden;
+	text-align: center;
 }
 
 canvas#splineSlider {
