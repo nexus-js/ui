@@ -98,7 +98,6 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 	function multi_sliderOnMousemove(e) {
 		if(multi_clicked == 1 ) {
 			var click_location = self.getCursorPosition(e, canvas_offset);
-			// var click_location = self.getCursorPosition2(e, canvas.offsetTop, canvas.offsetLeft);
 	
 			clicked = Math.floor(click_location.x / multi_slider_width);
 		
@@ -113,7 +112,7 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 
 	function multi_sliderOnTouchMove(e) {
 		if(multi_clicked == 1) {
-			var click_location = self.getCursorPosition(e, canvas_offset);
+			var click_location = self.getTouchPosition(e, canvas_offset);
 			
 			clicked = Math.floor(click_location.x / multi_slider_width);
 	

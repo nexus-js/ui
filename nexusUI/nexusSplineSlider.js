@@ -13,7 +13,7 @@ function splineSlider(canvas, ajax_command, slider_id) {
 	var canvas = document.getElementById(this.canvas_id);
 	var canvas_height = canvas.height;
 	var canvas_width = canvas.width;
-	var canvas_offset = new CanvasOffset(canvas.offsetLeft,canvas.offsetTop);
+	var canvas_offset = findPosition(canvas);
 	var canvas_center = [canvas_width /2., canvas_height / 2.];
 	var canvas_aspect = canvas_width/canvas_height;
 	var canvas_tenth = (canvas_width* 0.1);
