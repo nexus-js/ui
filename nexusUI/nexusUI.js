@@ -64,6 +64,16 @@ window.ajax_send = function (command, osc_name, id, data) {
 }
 
 
+	// nexus_send is the function to send osc commands as urls to be captured by the browser.
+
+window.nexus_send = function (command, osc_name, id, data) {
+	if (id) {
+		
+	} else {
+		
+	}
+}
+
 
 function Point(x,y){
 	this.x = x;
@@ -84,22 +94,6 @@ function getCursorPosition(e, canvas_offset) {
   }
 	x -= canvas_offset.left;
   y -= canvas_offset.top;
-	var click_position = new Point(x,y);
-	return click_position;
-}
-
-function getCursorPosition2(e, top, left) {
-	var x;
-  var y;
-  if (e.pageX != undefined && e.pageY != undefined) {
-		x = e.pageX;
-		y = e.pageY;
-  } else {
-		x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-		y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-  }
-	x -= left;
-	y = y - top;
 	var click_position = new Point(x,y);
 	return click_position;
 }
