@@ -1,6 +1,5 @@
-// nexus Button UI 
+// nexus Graphic Button UI 
 // 
-// TODO: Fix double release from both document and mouseup. Fix touch release not firing.
 
 function graphicButton(canvas, image, ajax_command, button_id) {
 
@@ -61,6 +60,7 @@ function graphicButton(canvas, image, ajax_command, button_id) {
 			document.addEventListener("mouseup", button_release, false);
 		}
 	}
+	
 	function draw()
 	{
 	  var button_context = canvas.getContext("2d");

@@ -1,16 +1,16 @@
 // nexus MultiSlider
 //
-//  Prototype.
+//
 
 // add Throttle, add Clip
 
 
-function multiSlider(canvas, ajax_command, multiSlider_id) {
+function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 	
-	this.canvas_id = canvas;
+	this.canvas_id = draw_canvas;
 	this.multiSlider_id = multiSlider_id;
 	this.ajax_command = ajax_command;
-	this.osc_name = canvas;
+	this.osc_name = draw_canvas;
 	var self = this;
 	var canvas = document.getElementById(this.canvas_id);
 	var canvas_height = canvas.height;
@@ -98,6 +98,7 @@ function multiSlider(canvas, ajax_command, multiSlider_id) {
 	function multi_sliderOnMousemove(e) {
 		if(multi_clicked == 1 ) {
 			var click_location = self.getCursorPosition(e, canvas_offset);
+			// var click_location = self.getCursorPosition2(e, canvas.offsetTop, canvas.offsetLeft);
 	
 			clicked = Math.floor(click_location.x / multi_slider_width);
 		

@@ -2,10 +2,16 @@
 // nexus - shared utility functions for javascript UI objects
 
 
-document.addEventListener("mouseup", document_release.release, false);
+function CanvasOffset(left, top) {
+	this.left = left;
+	this.top = top;
+}
+
+// document.addEventListener("mouseup", document_release.release, false);
 
 var is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
 
+/*
 function document_release() {
 	this.delegates = new Array();
 	this.delegate_functions = new Array();
@@ -25,6 +31,8 @@ function document_release() {
 	
 }
 
+*/
+
 		// ajax_send is the function to send info back to the server. 
 		// it requires a command and an osc_name (by default it is the name of the canvas id) and data
 		// an id can be sent or left out.  the id is used for multiple instances of the same type of UI
@@ -37,15 +45,14 @@ window.ajax_send = function (command, osc_name, id, data) {
 	}
 }
 
+
+
 function Point(x,y){
 	this.x = x;
 	this.y = y;
 }
 
-function CanvasOffset(left, top) {
-	this.left = left;
-	this.top = top;
-}
+
 
 function getCursorPosition(e, canvas_offset) {
 	var x;
@@ -59,6 +66,22 @@ function getCursorPosition(e, canvas_offset) {
   }
 	x -= canvas_offset.left;
   y -= canvas_offset.top;
+	var click_position = new Point(x,y);
+	return click_position;
+}
+
+function getCursorPosition2(e, top, left) {
+	var x;
+  var y;
+  if (e.pageX != undefined && e.pageY != undefined) {
+		x = e.pageX;
+		y = e.pageY;
+  } else {
+		x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+		y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+  }
+	x -= left;
+	y = y - top;
 	var click_position = new Point(x,y);
 	return click_position;
 }
