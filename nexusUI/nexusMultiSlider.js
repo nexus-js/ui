@@ -39,7 +39,7 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 			self.ajax_command = "multiSlider";
 		}	
 		
-		draw();
+		multi_draw();
 		if(is_touch_device) {
 			canvas.ontouchstart = multi_sliderOnTouchStart;
 			canvas.ontouchmove = self.throttle(multi_sliderOnTouchMove, 20);
@@ -52,7 +52,7 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 		}
 	}
 
-	function draw()
+	function multi_draw()
 	{
 		var multiSlider_context = canvas.getContext("2d");
 		
@@ -104,7 +104,7 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 			if (multi_values[clicked] != (click_location.y / canvas_height)) {
 				multi_values[clicked] = (click_location.y / canvas_height);
 				multi_val = clicked;
-				draw();
+				multi_draw();
 				self.ajax_send(self.ajax_command, self.osc_name, self.multiSlider_id, 'slider_number=' + encodeURIComponent(clicked) + '&slider_value=' + encodeURIComponent((1.-multi_values[clicked]).toFixed(2)));
 			}
 		}
