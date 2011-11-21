@@ -2,7 +2,7 @@
 	<h1>Nexus UI Example</h1>
 
 	<div id="navText" >
-		<a href="javascript:nav_toggle('screen1');">Buttons</a> | 
+		<a href="javascript:nav_toggle('screen1');">Buttons & Dials</a> | 
 		<a href="javascript:nav_toggle('screen2');">Sliders</a>	| 
 		<a href="javascript:nav_toggle('screen3');">Position</a> | 
 		<a href="javascript:nav_toggle('screen4');">Keyboard</a> | 
@@ -22,14 +22,12 @@
 			<%= submit_tag 'update osc destination' %>
 		<% end %>
 	</div>
-</div>
-
-<div id="ui">
 	
 	<div id="screen1">
 		<div><a href="javascript:nav_toggle('screen1');">Back</a></div>
 		<div>
 			<canvas id="button" width="200px" height="200px">Button</canvas>
+			<canvas id="pic_button" width="150px" height="150px">Pic Button</canvas>
 			<p>Button</p>
 		</div>
 		<div>
