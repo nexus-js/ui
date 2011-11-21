@@ -7,6 +7,24 @@ function CanvasOffset(left, top) {
 	this.top = top;
 }
 
+// FYI, if the style.display is set to 'none' or style.visibility is set to 'hidden'
+// you will not be able to detect the position of the element properly.  
+// You may need to detect the position after making visible, or detect the position
+// when instantiated, then set the display to none.  
+function findPosition( oElement ) {
+  if( typeof( oElement.offsetParent ) != 'undefined' ) {
+    for( var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent ) {
+      posX += oElement.offsetLeft;
+      posY += oElement.offsetTop;
+    }
+		var canvas_offset = new CanvasOffset(posX,posY);
+    return canvas_offset;
+  } else {
+		var canvas_offset = new CanvasOffset(oElement.x, oElement.y);
+    return canvas_offset;
+  }
+}
+
 // document.addEventListener("mouseup", document_release.release, false);
 
 var is_touch_device = ('ontouchstart' in document.documentElement)?true:false;

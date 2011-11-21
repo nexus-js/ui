@@ -28,12 +28,19 @@
 			position_array = new positionArray("positionArray", "example_send");
 			position1 = new position("position_1", "example_send");
 			keyboard = new keyboard("keyboard", "example_send");
-//			keyboard2 = new keyboard("keyboard", "example_send");
 			multiSlider = new multiSlider("multiSlider", "example_send");
-
-
-			// dial1.circle_size = 20.;
-			// dial1.redraw();
+			
+			// position of each element can't be detected when hidden.  Instantiate above first, then hide divs if needed.
+			var screen = document.getElementById("screen1");
+				screen.style.display = "none";
+			screen = document.getElementById("screen2");
+				screen.style.display = "none";
+			screen = document.getElementById("screen3");
+				screen.style.display = "none";
+			screen = document.getElementById("screen4");
+				screen.style.display = "none";
+			screen = document.getElementById("screen5");
+				screen.style.display = "none";
 		}
 		
 		function blockMove(event) {

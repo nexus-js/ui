@@ -50,7 +50,7 @@ p {
 
 div#screen1 {
 	position: fixed;
-	display: none;
+	display: block;
 	top: 0px;
 	background-color: #DDD;
 	width: 320px;
@@ -61,7 +61,7 @@ div#screen1 {
 
 div#screen2 {
 	position: fixed;
-	display: none;
+	display: block;
 	top: 0px;
 	background-color: #DDD;
 	width: 320px;
@@ -72,7 +72,7 @@ div#screen2 {
 
 div#screen3 {
 	position: fixed;
-	display: none;
+	display: block;
 	top: 0px;
 	background-color: #DDD;
 	width: 320px;
@@ -83,7 +83,7 @@ div#screen3 {
 
 div#screen4 {
 	position: fixed;
-	display: none;
+	display: block;
 	top: 0px;
 	background-color: #DDD;
 	width: 320px;
@@ -94,7 +94,7 @@ div#screen4 {
 
 div#screen5 {
 	position: fixed;
-	display: none;
+	display: block;
 	top: 0px;
 	background-color: #DDD;
 	width: 320px;

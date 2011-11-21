@@ -12,10 +12,10 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 	this.ajax_command = ajax_command;
 	this.osc_name = draw_canvas;
 	var self = this;
-	var canvas = document.getElementById(this.canvas_id);
+	var canvas = document.getElementById(self.canvas_id);
 	var canvas_height = canvas.height;
 	var canvas_width = canvas.width;
-	var canvas_offset = new CanvasOffset(canvas.offsetLeft,canvas.offsetTop);
+	var canvas_offset = findPosition(canvas);
 	
 	this.slider_number = 20;
 	var multi_values = [0, 0.05, 0.1,0.15,0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95];
@@ -37,7 +37,7 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 	function init() {
 		if (!self.ajax_command) {
 			self.ajax_command = "multiSlider";
-		}
+		}	
 		
 		draw();
 		if(is_touch_device) {
