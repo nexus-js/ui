@@ -1,21 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
+<!doctype html>
 
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Dial</title>
 	<meta name="Jesse Allison" content="nexus">
-	<!-- Date: 2012-12-12 -->
-	
+	<!-- Date: 2013-04-03 -->
 	<link type="style/css" href="nexusUI.css" rel="stylesheet">
-	<script type="text/javascript" src="nexusUINew.js"></script>
-	<script type="text/javascript" src="nexusDialNew.js"></script>
+	<script type="text/javascript" src="nexusUI.js"></script>
+	<script type="text/javascript" src="nexusDial.js"></script>
 	<script type="text/javascript" charset="utf-8">
 		function init(){
 		
 			dial1 = new dial("dial_1", "none", 1);
 			dial2 = new dial("dial_2", "none", 2);
+			
+			dial2.value = 0.75;
+			dial2.draw();
 			
 		}
 	</script>

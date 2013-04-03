@@ -1,19 +1,33 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
-   
-<html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>2D slider</title>
-	<meta name="Jesse Allison" content="nexus">
-	<!-- Date: 2011-06-27 -->
-
-	<script type="text/javascript" src="2d_slider.js"></script>
-</head>
-<body onLoad="init()" style="margin:20px">
-	<div id="2d_slider">
-		<canvas id="2d_slider_1" width="500px" height="200px">HI!</canvas>
-	</div>
-
-</body>
+<!doctype html>
+   <html lang="en">
+   	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Position (2D slider)</title>
+		<meta name="Jesse Allison" content="nexus">
+		<!-- Date: 2013-04-02 -->
+		<link type="style/css" href="nexusUI.css" rel="stylesheet">
+		<script type="text/javascript" src="nexusPosition.js"></script>
+		<script type="text/javascript" src="nexusUI.js"></script>
+		
+		<script>
+		
+			var position1;
+		
+			function init() {
+				position1 = new position("position_1", false, 1);
+			}
+		
+		</script>
+		
+	</head>
+	
+	<body onLoad="init()" style="margin:20px">
+			
+		
+		<canvas id="position_1" width="500px" height="200px">HI!</canvas>
+	
+	
+	</body>
+	
 </html>

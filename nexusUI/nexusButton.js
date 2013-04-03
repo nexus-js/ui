@@ -27,6 +27,8 @@ function button(target, ajaxCommand, ui_index) {
 	
 	this.draw = function() {
 		
+		console.log("draw called");
+		
 		with (self.context) {
 			clearRect(0, 0, self.canvas.width, self.canvas.height);
 			lineWidth = self.line_width;

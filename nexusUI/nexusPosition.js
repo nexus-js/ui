@@ -1,13 +1,13 @@
 // Javascript 2d_slider
 
-
-//function position(canvas, ajaxCommand, uiIndex) {
-
 function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 					
 	//self awareness
 	var self = this;
 	this.uiIndex = uiIndex;
+	
+	this.position2 = position2;
+	this.position2();
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;

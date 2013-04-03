@@ -275,8 +275,6 @@ function getTemplate(self, target, ajaxCommand) {
 	this.context = this.canvas.getContext("2d");
 	this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
 	this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
-//	this.height = this.canvas.height;
-//	this.width = this.canvas.width;
 	this.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
 	this.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
 	this.offset = new CanvasOffset(findPosition(self.canvas).left,findPosition(self.canvas).top);
