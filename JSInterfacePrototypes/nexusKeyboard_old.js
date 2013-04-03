@@ -1,21 +1,21 @@
 // Nexus Keyboard
-// Contributors: Yemin Oh, Ben Taylor
+// Contributors: Yemin Oh
 
-//function keyboard(this.canvas, ajax_command, this.uiIndex) {
-function keyboard(target, ajaxCommand, uiIndex) {
-
-	//self awareness
-	var self = this;
-	this.uiIndex = uiIndex;
+function keyboard(canvas, ajax_command, keyboard_id) {
 	
-	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
-
-	//unique
+	this.canvas_id = canvas;
+	this.keyboard_id = keyboard_id;
+	this.ajax_command = ajax_command;
+	this.osc_name = canvas;
+	var self = this;
+	var canvas = document.getElementById(this.canvas_id);
+	var canvas_height = canvas.height;
+	var canvas_width = canvas.width;
+	var canvas_offset = new CanvasOffset(canvas.offsetLeft,canvas.offsetTop);
+	
 	this.octaves = 2;
-	var width = (this.canvas.width/(this.octaves*12))/3;
-	var w_height = this.canvas.height;
+	var width = (canvas_width/(this.octaves*12))/3;
+	var w_height = canvas_height;
 	var b_height = w_height*4/7;
 	var w_width = width*3;
 	var b_width = width*2;
@@ -27,16 +27,23 @@ function keyboard(target, ajaxCommand, uiIndex) {
 
 	var note_new;
 	var note_old;
+	var click_pos = new Point(0,0);
+	var new_click_pos = new Point(0,0);
+	var clicked = 0;
 	
+	this.getCursorPosition = getCursorPosition;
+	this.getTouchPosition = getTouchPosition;
 	this.ajax_send = ajax_send;
 	this.throttle = throttle;
 	this.clip = clip;
+
+	init();
 	
-	this.init = function() {
-		getHandlers(self);
+
+	function init() {
 		
-		if (!this.ajax_command) {
-			this.ajax_command = "keyboard";
+		if (!self.ajax_command) {
+			self.ajax_command = "keyboard";
 		}
 		
 		for (j=0;j<self.octaves;j++) {
@@ -58,11 +65,21 @@ function keyboard(target, ajaxCommand, uiIndex) {
 			}
 		}
 		
-		this.draw();
+		draw();
 
+		canvas.addEventListener("mousedown", keyboard_click, false);
+		canvas.addEventListener("mousemove", self.throttle(keyboard_move, 20), false);
+		canvas.addEventListener("mouseup", keyboard_release, false);
+		document.addEventListener("mouseup", keyboard_release, false);
+
+		canvas.ontouchstart = keyboard_touch;
+		canvas.ontouchmove = self.throttle(keyboard_touchMove, 20);
+		canvas.ontouchend = keyboard_touchRelease;
 	}
 
-	this.draw = function() {
+	function draw() {
+
+		var keyboard_context = canvas.getContext("2d");
 
 		for(m=0;m<self.octaves;m++) {
 			for (i=0;i<12;i++){
@@ -70,7 +87,7 @@ function keyboard(target, ajaxCommand, uiIndex) {
 				if (keys[d][2] == 0) {
 					var k = keys[d][1];
 					var x = k*w_width + (m*w_width*7);
-					with (this.context) {
+					with (keyboard_context) {
 						if (keys[d][0] == 0){
 							fillStyle = '#FFF';
 							fillRect(x, 0, w_width, w_height);
@@ -88,7 +105,7 @@ function keyboard(target, ajaxCommand, uiIndex) {
 				else {
 					var dis = keys[d][1];
 					var xx = dis*(b_width+b_width/2) + b_width + (m*w_width*7);	
-					with (this.context) {
+					with (keyboard_context) {
 						if (keys[d][0] == 0){
 							fillStyle = '#000';
 						}	
@@ -152,80 +169,85 @@ function keyboard(target, ajaxCommand, uiIndex) {
 	}
 
 	// 
-	this.click = function(e) {
-		whichKey_pressed(self.clickPos.x, self.clickPos.y);
+	function keyboard_click(e) {
+		click_pos = self.getCursorPosition(e, canvas_offset);;
+		whichKey_pressed(click_pos.x, click_pos.y);
 		change_cell(note_new, 1);
 		note_old = note_new;
 		
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
-		self.draw();	
+		self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
+		draw();
+		clicked = 1;	
 	}
 
-	this.move = function(e) {
-		if (this.clicked) {
-			whichKey_pressed(this.clickPos.x,this.clickPos.y);
+	function keyboard_move(e) {
+		if(clicked) {
+		new_click_pos = self.getCursorPosition(e, canvas_offset);;
+
+		whichKey_pressed(new_click_pos.x,new_click_pos.y);
 			if (note_old != note_new) {
 				change_cell(note_old, 0);
 				change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
-				self.draw();
+				self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
+				draw();
 			}
 		}
-		note_old = note_new;
+	note_old = note_new;
 	}
 
-	this.release = function(e) {
+	function keyboard_release(e) {
 		for (j=0;j<self.octaves;j++) {
 			for (i=0;i<12;i++) {
 				var d = j*12 + i;
 					change_cell(d, 0);
 			}
 		}
-		self.draw();
+		draw();
+		clicked = 0;
 	}
-	this.touch = function(e) {
-		whichKey_pressed(self.clickPos.x, self.clickPos.y);
+	function keyboard_touch(e) {
+		click_pos = self.getTouchPosition(e, canvas_offset);;
+		whichKey_pressed(click_pos.x, click_pos.y);
 		change_cell(note_new, 1);
 		note_old = note_new;
 		
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
-		self.draw();	
+		self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
+		draw();
+		clicked = 1;	
 	}
 
-	this.touchMove = function(e) {
-		if(this.clicked) {
-		this.clickPos = self.getTouchPosition(e, this.this.offset);;
+	function keyboard_touchMove(e) {
+		if(clicked) {
+		new_click_pos = self.getTouchPosition(e, canvas_offset);;
 
-		whichKey_pressed(this.clickPos.x,this.clickPos.y);
+		whichKey_pressed(new_click_pos.x,new_click_pos.y);
 			if (note_old != note_new) {
 				change_cell(note_old, 0);
 				change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
-				self.draw();
+				self.ajax_send(self.ajax_command, self.osc_name, self.keyboard_id, midi_note);
+				draw();
 			}
 		}
-		note_old = note_new;
+	note_old = note_new;
 	}
 
-	this.touchRelease = function(e) {
+	function keyboard_touchRelease(e) {
 		for (j=0;j<self.octaves;j++) {
 			for (i=0;i<12;i++) {
 				var d = j*12 + i;
 					change_cell(d, 0);
 			}
 		}
-		self.draw();
+		draw();
+		clicked = 0;
 	}
-	
-
-	this.init();
 	
 }
