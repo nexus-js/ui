@@ -11,7 +11,7 @@ function CanvasOffset(left, top) {
 // you will not be able to detect the position of the element properly.  
 // You may need to detect the position after making visible, or detect the position
 // when instantiated, then set the display to none.  
-function findPosition( oElement ) {
+/* function findPosition( oElement ) {
   if( typeof( oElement.offsetParent ) != 'undefined' ) {
     for( var posX = 0, posY = 0; oElement; oElement = oElement.offsetParent ) {
       posX += oElement.offsetLeft;
@@ -23,6 +23,27 @@ function findPosition( oElement ) {
 		var canvas_offset = new CanvasOffset(oElement.x, oElement.y);
     return canvas_offset;
   }
+} */
+
+
+function findPosition(element) {
+    var body = document.body,
+        win = document.defaultView,
+        docElem = document.documentElement,
+        box = document.createElement('div');
+    box.style.paddingLeft = box.style.width = "1px";
+    body.appendChild(box);
+    var isBoxModel = box.offsetWidth == 2;
+    body.removeChild(box);
+    box = element.getBoundingClientRect();
+    var clientTop  = docElem.clientTop  || body.clientTop  || 0,
+        clientLeft = docElem.clientLeft || body.clientLeft || 0,
+        scrollTop  = win.pageYOffset || isBoxModel && docElem.scrollTop  || body.scrollTop,
+        scrollLeft = win.pageXOffset || isBoxModel && docElem.scrollLeft || body.scrollLeft;
+    return {
+        top : box.top  + scrollTop  - clientTop,
+        left: box.left + scrollLeft - clientLeft
+  	};
 }
 
 // document.addEventListener("mouseup", document_release.release, false);
@@ -55,11 +76,23 @@ function document_release() {
 		// it requires a command and an osc_name (by default it is the name of the canvas id) and data
 		// an id can be sent or left out.  the id is used for multiple instances of the same type of UI
 		// e.g. dial.1, dial.2, etc.  
-window.ajax_send = function (command, osc_name, id, data) {
-	if (id) {
-		new Ajax.Request(command, {parameters: {osc_name: osc_name, id: id, data: data}});
+window.ajax_send = function (command, tag, uiIndex, uiData, address) {
+	if (address) {
+		//new Ajax.Request(command, {parameters: {osc_name: osc_name, id: id, data: data}});
+		//$.ajax(command, {parameters: {osc_name: osc_name, id: id, data: data, oscIp: oscIp}});
+		//var stuff = "oscMsg="+topost+"&oscIp="+now;
+		//console.log(stuff);
+		/*$.post(command, stuff, 
+				function() {
+					console.log("sent");
+				}
+		); */
+		$.post(command, { oscTag: tag, oscIndex: uiIndex, oscData: uiData, oscIp: address }, function(data) {
+  			//console.log(data);
+		});
 	} else {
-		new Ajax.Request(command, {parameters: {osc_name: osc_name, data: data}});
+		//new Ajax.Request(command, {parameters: {osc_name: osc_name, data: data}});
+		//$.ajax(command, {parameters: {osc_name: osc_name, data: data}});
 	}
 }
 
@@ -232,7 +265,7 @@ function text(context, text, position) {
 
 /*****************************
 * Shared Property Handling   *
-* @author Ben Taylor   		 *
+* @uthor Ben Taylor   		 *
 *****************************/
 
 function getTemplate(self, target, ajaxCommand) {
@@ -240,9 +273,13 @@ function getTemplate(self, target, ajaxCommand) {
 	this.canvasID = target;
 	this.canvas = document.getElementById(target);
 	this.context = this.canvas.getContext("2d");
-	this.height = this.canvas.height;
-	this.width = this.canvas.width;
-	this.offset = new CanvasOffset(self.canvas.offsetLeft,self.canvas.offsetTop);
+	this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
+	this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
+//	this.height = this.canvas.height;
+//	this.width = this.canvas.width;
+	this.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
+	this.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+	this.offset = new CanvasOffset(findPosition(self.canvas).left,findPosition(self.canvas).top);
 	this.center = {
 					x: self.width/2, 
 					y: self.height/2
@@ -280,6 +317,7 @@ function getTemplate(self, target, ajaxCommand) {
 	this.getCursorPosition = getCursorPosition;
 	this.getTouchPosition = getTouchPosition;
 	this.preClick = function(e) {
+		self.offset = new CanvasOffset(findPosition(self.canvas).left,findPosition(self.canvas).top);
 		//console.log("click");
 		//document.addEventListener("mousemove", self.throttle(self.preMove, 20), false);
 		document.addEventListener("mousemove", self.preMove, false);
@@ -310,6 +348,9 @@ function getTemplate(self, target, ajaxCommand) {
 		this.bgWidth = this.bgRight - this.lineWidth;	
 		
 		makeRoundRect(self.context, self.bgLeft, self.bgTop, self.bgWidth, self.bgHeight);
+	};
+	this.erase = function() {
+		this.context.clearRect(0,0,self.width,self.height);
 	};
 }
 

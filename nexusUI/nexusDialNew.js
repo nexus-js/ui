@@ -27,6 +27,11 @@ function dial(target, ajaxCommand, ui_index) {
 	this.circle_size = 1;
 	this.dial_position_length = 6;
 	this.lineWidth = 4;
+	if (this.width<60 || this.width<60) {
+		this.accentWidth = this.lineWidth * 1.2;
+	} else {
+		this.accentWidth = this.lineWidth * 2;
+	}
 	this.value = 0.5;
 	this.responsivity = 0.005;
 	this.to_cartesian = to_cartesian;
@@ -45,8 +50,13 @@ function dial(target, ajaxCommand, ui_index) {
 		if (!self.ajaxCall) {
 			self.ajaxCall = "dial";
 		}
-		self.circle_size = (Math.min(self.center.x, self.center.y-10) - 5);
+		self.circle_size = (Math.min(self.center.x, self.center.y)-5);
 		self.dial_position_length = self.circle_size+self.lineWidth;
+		
+		if (self.width<60) {
+			self.dial_position_length--;
+			self.dial_position_length--;
+		}
 		
 		self.draw();
 		
@@ -71,37 +81,37 @@ function dial(target, ajaxCommand, ui_index) {
 			
 			//draw main circle
 			beginPath();
-				arc(self.center.x, self.center.y+5, self.circle_size, 0, Math.PI*2, true);
+				arc(self.center.x, self.center.y, self.circle_size, 0, Math.PI*2, true);
 				fill();
 				stroke();
 			closePath();
 
 			//draw round accent
 			beginPath();
-				lineWidth = self.lineWidth * 2;
-				arc(self.center.x, self.center.y+5, self.circle_size , Math.PI* 0.5, dial_position, false);
+				lineWidth = self.accentWidth;
+				arc(self.center.x, self.center.y, self.circle_size , Math.PI* 0.5, dial_position, false);
 				strokeStyle = Colors.accent;
 				stroke();
 			closePath(); 
 		
 			//draw bar accent
 			beginPath();
-				lineWidth = self.lineWidth * 2;
+				lineWidth = self.accentWidth;
 				strokeStyle = Colors.accent;
-				moveTo(self.center.x, self.center.y+5);
-				lineTo(point.x + self.center.x, point.y + self.center.y+5);
+				moveTo(self.center.x, self.center.y);
+				lineTo(point.x + self.center.x, point.y + self.center.y);
 				stroke();
 			closePath(); 
 			
 			//draw circle in center
 			beginPath();
 				fillStyle = Colors.accent;
-				arc(self.center.x, self.center.y+5, self.circle_size/15+6, 0, Math.PI*2, false);
+				arc(self.center.x, self.center.y, self.circle_size/15+6, 0, Math.PI*2, false);
 				fill();
 			closePath(); 
 			
 		}
-		text(self.context,self.value.toFixed(2));
+		//text(self.context,self.value.toFixed(2));
 	}
 	
 
@@ -115,7 +125,7 @@ function dial(target, ajaxCommand, ui_index) {
 
 	this.move = function() {
 		//self.delta_move is set to difference between curr and prev pos
-		//self.clickPos is now newest mouse position
+		//self.clickPos is now newest mouse position in [x,y]
 		
 		self.value = self.clip((self.value - (self.delta_move * self.responsivity)), 0, 1);
 		self.centralAjax();
@@ -162,6 +172,8 @@ function dial(target, ajaxCommand, ui_index) {
 	
 	this.centralAjax = function() {
 		//self.ajax_send(self.ajaxCall, self.osc_name, self.ui_id, self.value.toFixed(2));
+	//	self.ajax_send(self.ajaxCommand, self.oscName, self.uiIndex, click_position.x+" "+click_position.y);
+		self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
 	}
 
 	init();

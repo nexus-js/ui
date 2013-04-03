@@ -1,136 +1,150 @@
 // Javascript 2d_slider
 
 
-function position(canvas, ajax_command, ui_id) {
-	
-	this.canvas_id = canvas;
-	this.ui_id = ui_id;
-	this.ajax_command = ajax_command;
-	this.osc_name = canvas;
+//function position(canvas, ajaxCommand, uiIndex) {
+
+function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
+					
+	//self awareness
 	var self = this;
-	var canvas = document.getElementById(this.canvas_id);
-	var canvas_height = canvas.height;
-	var canvas_width = canvas.width;
-	var canvas_offset = new CanvasOffset(canvas.offsetLeft,canvas.offsetTop);
+	this.uiIndex = uiIndex;
 	
-	this.outline_color = "#000";
-	this.fill_color = "#AAA";
-	this.textColor = "#ff7f24";	
-	this.accent_color = "#ff7f24";
-	this.line_width = 3.;
-	this.node_size = 15;
-	this.default_text = "click or touch to control a node";	
-	var node_pos = [null,null];
-	var clicked = 0;
-			// *** add any nexusUI.js mixin functions that are required in this UI.
-			// *** notice that they are set to this object and called using self.<function>
-			// *** this allows the functions in nexusUI.js to use the this.xxxx operator if needed.
-			// *** declaring them without this. effectively uses the global function.
-	this.getCursorPosition = getCursorPosition;
-	this.getTouchPosition = getTouchPosition;
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, ajaxCommand);
+	this.ajaxCommand = ajaxCommand;
+	
+	//this.line_width = 3;
+	this.nodeSize = 15;
+	
 	this.ajax_send = ajax_send;
+	this.oscName = oscName;
+	this.oscIp = oscIp;
+	
+	this.default_text = "click or touch to control a node";	
 	this.throttle = throttle;
 	this.clip = clip;
 	
-	init();
-
-	function init() {
-		if (!self.ajax_command) {
-			self.ajax_command = "position";
-		}
-
-		draw();
 	
-		if(is_touch_device) {
-			canvas.ontouchstart = slider2d_touch;
-			canvas.ontouchmove = self.throttle(slider2d_touchMove, 20);
-			canvas.ontouchend = slider2d_touchRelease;
-		} else {
-			canvas.addEventListener("mousedown", slider2d_click, false);
-			canvas.addEventListener("mousemove", self.throttle(slider2d_move, 20), false);	
-			canvas.addEventListener("mouseup", slider2d_release, false);
-			document.addEventListener("mouseup", slider2d_release, false);
+
+	this.init = function() {
+		getHandlers(self);
+		
+		if (!self.ajaxCommand) {
+			self.ajaxCommand = "position";
 		}
+
+		self.draw();
 	}
 
-	function draw() {
-		var slider2d_context = canvas.getContext("2d");
-		with (slider2d_context) {
-			clearRect(0,0, canvas_width, canvas_height);
-			strokeStyle = self.outline_color;
-			lineWidth = "1";			
-			strokeRect(0,0, canvas_width, canvas_height);
-			if (node_pos[0] != null) {
-				draw_node();
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = Colors.border;
+			fillStyle = Colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			if (self.nodePos[0] != null) {
+				self.drawNode();
 			}
 			else {
-				fillStyle = self.textColor;
-				font = "15px Arial";
-				fillText(self.default_text, 10, 15);
+				fillStyle = Colors.border;
+				font = "14px courier";
+				fillText(self.default_text, 10, 20);
 			}
 		}
 	}
 
-	function draw_node() {
-		var slider2d_context = canvas.getContext("2d");
-			with (slider2d_context) {
-				beginPath();
-					fillStyle = self.fill_color;
-					strokeStyle = self.accent_color;
-					lineWidth = self.line_width;
-					arc(node_pos[0], node_pos[1], self.node_size, 0, Math.PI*2, true);
-//					shadowColor = '#FF7F24'; //if you want a shadow for the node.
-//					shadowBlur = 20;					
-					fill();
-					stroke();
-				closePath();
-
-			}
-	}
-
-	function slider2d_click(e) {
-		click_position = self.getCursorPosition(e, canvas_offset);
-		node_pos[0] = click_position.x;
-		node_pos[1] = click_position.y;
-		self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, click_position.x+" "+click_position.y);
-		draw();
-		clicked = 1;
-	}
-
-	function slider2d_move(e) {
-		if (clicked) {
-			click_position = self.getCursorPosition(e, canvas_offset);
-			node_pos[0] = click_position.x;
-			node_pos[1] = click_position.y;
-			self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, click_position.x+" "+click_position.y);			
-			draw();
+	this.drawNode = function() {
+		//stay within right/left bounds
+		if (self.nodePos[0]<(self.bgLeft+self.nodeSize)) {
+			self.nodePos[0] = self.bgLeft + self.nodeSize;
+		} else if (self.nodePos[0]>(self.bgRight-self.nodeSize)) {
+			self.nodePos[0] = self.bgRight - self.nodeSize;
+		}
+		//stay within top/bottom bounds
+		if (self.nodePos[1]<(self.bgTop+self.nodeSize)) {
+			self.nodePos[1] = self.bgTop + self.nodeSize;
+		} else if (self.nodePos[1]>(self.bgBottom-self.nodeSize)) {
+			self.nodePos[1] = self.bgBottom - self.nodeSize;
+		}
+	
+		with (self.context) {
+			beginPath();
+				fillStyle = Colors.accent;
+				strokeStyle = Colors.border;
+				lineWidth = self.lineWidth;
+				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, true);					
+				fill();
+			closePath();
 		}
 	}
 
-	function slider2d_release(e) {
-		clicked = 0;
+	this.click = function() {
+		self.nodePos[0] = self.clickPos.x;
+		self.nodePos[1] = self.clickPos.y;
+	//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
+		self.draw();
+		
+		console.log(self.clickPos.y);
+	}
+
+	this.move = function() {
+		if (self.clicked) {
+			self.nodePos[0] = self.clickPos.x;
+			self.nodePos[1] = self.clickPos.y;
+			self.mainAjax();
+			self.draw();
+			var help = {
+				"self.clickPos.x": self.clickPos.x,
+				"self.clickPos.y": self.clickPos.y,
+				"self.nodePos[0]": self.nodePos[0],
+				"self.nodePos[1]": self.nodePos[1],
+				"self.offset": self.offset
+			}
+			//console.log(help);
+		}
 	}
 	
-	function slider2d_touch(e) {
-		click_position = self.getTouchPosition(e, canvas_offset);
-		node_pos[0] = click_position.x;
-		node_pos[1] = click_position.y;
-		self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, click_position.x+" "+click_position.y);		
+
+	this.release = function() {
+		
+	}
+	
+	this.touch = function() {
+		self.nodePos[0] = self.clickPos.x;
+		self.nodePos[1] = self.clickPos.y;
+	//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);		
 		draw();
-		clicked = 1;
 	}
 
-	function slider2d_touchMove(e) {
-		if (clicked) {
-			click_position = self.getTouchPosition(e, canvas_offset);
-			node_pos[0] = click_position.x;
-			node_pos[1] = click_position.y;
-			self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, click_position.x+" "+click_position.y);			
-			draw();
+	this.touchMove = function() {
+		if (self.clicked) {
+			self.nodePos[0] = self.clickPos.x;
+			self.nodePos[1] = self.clickPos.y;
+		//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
+			self.draw();
 		}
 	}
 
-	function slider2d_touchRelease(e) {
-		clicked = 0;
+	this.touchRelease = function() {
+		
 	}
+	
+	
+	this.mainAjax = function() {
+		self.Yvalue = self.nodePos[1] / self.canvas.height;
+		if (self.Yvalue > 1) { 
+			self.Yvalue = 1;	
+		} else if (self.Yvalue < 0) { 
+			self.Yvalue = 0;	
+		}
+		self.Yvalue = Math.abs(self.Yvalue - 1);
+	//	self.ajax_send(self.ajaxCommand, self.oscName, self.uiIndex, click_position.x+" "+click_position.y);
+		self.ajax_send(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
+	}
+	
+	this.init();
 }
