@@ -1,12 +1,12 @@
 // nexus Button UI 
 // 
-// TODO: Fix double release from both document and mouseup. Fix touch release not firing.
+// TODO: Fix double release(?) from both document and mouseup. Fix touch release not firing.
 
-function button(target, ajaxCommand, ui_index) {
+function button(target, ajaxCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
-	this.ui_index = ui_index;
+	this.uiIndex = uiIndex;
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
@@ -25,8 +25,6 @@ function button(target, ajaxCommand, ui_index) {
 	}
 	
 	this.draw = function() {
-		
-		console.log("draw called");
 		
 		with (self.context) {
 			clearRect(0, 0, self.canvas.width, self.canvas.height);
@@ -50,12 +48,12 @@ function button(target, ajaxCommand, ui_index) {
 	}
 
 	this.click = function() {
-		//self.ajax_send(self.ajaxCommand, self.osc_name, self.ui_index, self.depressed * self.button_value);
+		//self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
 		self.draw();
 	}
 
 	this.release = function() {
-		//	self.ajax_send(self.ajaxCommand, self.osc_name, self.ui_index, self.depressed * self.button_value);
+		//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
 		self.draw();
 	}
 	
@@ -63,14 +61,14 @@ function button(target, ajaxCommand, ui_index) {
 		click_position = self.getTouchPosition(e, canvas_offset);
 		if (click_position) {
 			self.depressed = 1;
-			self.ajax_send(self.ajaxCommand, self.osc_name, self.ui_index, self.depressed * self.button_value);
+			self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
 			draw();
 		}
 	}
 
 	this.touch_release = function() {
 		self.depressed = 0;
-		self.ajax_send(self.ajaxCommand, self.osc_name, self.ui_index, self.depressed * self.button_value);
+		self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
 		draw();
 	}
 	

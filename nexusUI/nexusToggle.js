@@ -1,4 +1,6 @@
 // nexus Toggle button
+
+// TODO: add central AJAX and ajax handling
 			
 //function toggle(canvas, ajax_command, ui_id) {
 function toggle(target, ajaxCommand, ui_index) {

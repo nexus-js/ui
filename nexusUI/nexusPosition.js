@@ -6,9 +6,6 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	var self = this;
 	this.uiIndex = uiIndex;
 	
-	this.position2 = position2;
-	this.position2();
-	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, ajaxCommand);

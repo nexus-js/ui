@@ -324,14 +324,15 @@ function getTemplate(self, target, ajaxCommand) {
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
 		self.clicked = 1;
-		self.click();
+		self.click(e);
 	};
 	this.preMove = function(e) {
 		self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
-		self.delta_move = new_click_position.y - self.clickPos.y;
+		self.deltaMoveY = new_click_position.y - self.clickPos.y;
+		self.deltaMoveX = new_click_position.x - self.clickPos.x;
 		self.clickPos = new_click_position;
-		self.move();
+		self.move(e);
 	};
 	this.preRelease = function(e) {
 		//document.removeEventListener("mousemove", self.throttle(self.preMove, 20), false);
@@ -352,7 +353,13 @@ function getTemplate(self, target, ajaxCommand) {
 	this.erase = function() {
 		this.context.clearRect(0,0,self.width,self.height);
 	};
-}
+	this.hideCursor = function() {
+		this.canvas.style.cursor = "none";
+	};
+	this.showCursor = function() {
+		this.canvas.style.cursor = "auto";
+	};
+};
 
 //event listeners
 function getHandlers(self) {

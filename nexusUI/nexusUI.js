@@ -275,6 +275,8 @@ function getTemplate(self, target, ajaxCommand) {
 	this.context = this.canvas.getContext("2d");
 	this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
 	this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
+//	this.height = this.canvas.height;
+//	this.width = this.canvas.width;
 	this.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
 	this.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
 	this.offset = new CanvasOffset(findPosition(self.canvas).left,findPosition(self.canvas).top);
@@ -322,14 +324,15 @@ function getTemplate(self, target, ajaxCommand) {
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
 		self.clicked = 1;
-		self.click();
+		self.click(e);
 	};
 	this.preMove = function(e) {
 		self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
-		self.delta_move = new_click_position.y - self.clickPos.y;
+		self.deltaMoveY = new_click_position.y - self.clickPos.y;
+		self.deltaMoveX = new_click_position.x - self.clickPos.x;
 		self.clickPos = new_click_position;
-		self.move();
+		self.move(e);
 	};
 	this.preRelease = function(e) {
 		//document.removeEventListener("mousemove", self.throttle(self.preMove, 20), false);
@@ -350,7 +353,13 @@ function getTemplate(self, target, ajaxCommand) {
 	this.erase = function() {
 		this.context.clearRect(0,0,self.width,self.height);
 	};
-}
+	this.hideCursor = function() {
+		this.canvas.style.cursor = "none";
+	};
+	this.showCursor = function() {
+		this.canvas.style.cursor = "auto";
+	};
+};
 
 //event listeners
 function getHandlers(self) {
