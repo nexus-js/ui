@@ -2,7 +2,6 @@
 // 
 // TODO: Fix double release from both document and mouseup. Fix touch release not firing.
 
-//function button(canvas, ajaxCommand, ui_index) {
 function button(target, ajaxCommand, ui_index) {
 
 	//self awareness
