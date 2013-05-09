@@ -66,6 +66,7 @@ function dial(target, ajaxCommand, ui_index) {
 	this.draw = function() {
 		//dial_line
 		var dial_angle = (((1.0 - self.value) * 2 * Math.PI) + (1.5 * Math.PI));
+		console.log(dial_angle);
 		var dial_position = (self.value + 0.25) * 2 * Math.PI
 		var point = self.to_cartesian(self.dial_position_length, dial_angle);
 		
@@ -126,8 +127,12 @@ function dial(target, ajaxCommand, ui_index) {
 	this.move = function() {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
+		console.log("DM: "+ self.deltaMoveY);
+		console.log("rsp: "+self.responsivity);
+		console.log("val: "+self.value);
 		
-		self.value = self.clip((self.value - (self.delta_move * self.responsivity)), 0, 1);
+		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
+		console.log("value: "+self.value);
 		self.centralAjax();
 		
 		self.draw();
@@ -173,7 +178,8 @@ function dial(target, ajaxCommand, ui_index) {
 	this.centralAjax = function() {
 		//self.ajax_send(self.ajaxCall, self.osc_name, self.ui_id, self.value.toFixed(2));
 	//	self.ajax_send(self.ajaxCommand, self.oscName, self.uiIndex, click_position.x+" "+click_position.y);
-		self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
+	
+	//	self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
 	}
 
 	init();

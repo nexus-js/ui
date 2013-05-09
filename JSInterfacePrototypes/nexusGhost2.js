@@ -1,3 +1,4 @@
+
 function ghost(target, ajaxCommand, ui_index) {
 					
 	//self awareness
