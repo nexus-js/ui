@@ -34,9 +34,9 @@ function dial(target, ajaxCommand, ui_index) {
 	}
 	this.value = 0.5;
 	this.responsivity = 0.005;
-	this.to_cartesian = to_cartesian;
-	this.throttle = throttle;
-	this.clip = clip;
+	this.toCartesian = nx.toCartesian;
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
 
 	// this.function will be available outside of this object - e.g. dial.redraw();
 	this.redraw = function(){
@@ -45,7 +45,8 @@ function dial(target, ajaxCommand, ui_index) {
 	}
 
 	function init() {
-		getHandlers(self);
+	//	getHandlers(self);
+	//moved get handlers to end of template! seems to be working.
 	
 		if (!self.ajaxCall) {
 			self.ajaxCall = "dial";
@@ -66,9 +67,8 @@ function dial(target, ajaxCommand, ui_index) {
 	this.draw = function() {
 		//dial_line
 		var dial_angle = (((1.0 - self.value) * 2 * Math.PI) + (1.5 * Math.PI));
-		console.log(dial_angle);
 		var dial_position = (self.value + 0.25) * 2 * Math.PI
-		var point = self.to_cartesian(self.dial_position_length, dial_angle);
+		var point = self.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
 			self.recorder.write(self.tapeNum,self.value);
@@ -76,8 +76,8 @@ function dial(target, ajaxCommand, ui_index) {
 
 		with (self.context) {
 			clearRect(0,0, self.width, self.height);
-			strokeStyle = Colors.border;
-			fillStyle = Colors.fill;
+			strokeStyle = nx.colors.border;
+			fillStyle = nx.colors.fill;
 			lineWidth = self.lineWidth;
 			
 			//draw main circle
@@ -91,14 +91,14 @@ function dial(target, ajaxCommand, ui_index) {
 			beginPath();
 				lineWidth = self.accentWidth;
 				arc(self.center.x, self.center.y, self.circle_size , Math.PI* 0.5, dial_position, false);
-				strokeStyle = Colors.accent;
+				strokeStyle = nx.colors.accent;
 				stroke();
 			closePath(); 
 		
 			//draw bar accent
 			beginPath();
 				lineWidth = self.accentWidth;
-				strokeStyle = Colors.accent;
+				strokeStyle = nx.colors.accent;
 				moveTo(self.center.x, self.center.y);
 				lineTo(point.x + self.center.x, point.y + self.center.y);
 				stroke();
@@ -106,7 +106,7 @@ function dial(target, ajaxCommand, ui_index) {
 			
 			//draw circle in center
 			beginPath();
-				fillStyle = Colors.accent;
+				fillStyle = nx.colors.accent;
 				arc(self.center.x, self.center.y, self.circle_size/15+6, 0, Math.PI*2, false);
 				fill();
 			closePath(); 
@@ -127,17 +127,12 @@ function dial(target, ajaxCommand, ui_index) {
 	this.move = function() {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
-		console.log("DM: "+ self.deltaMoveY);
-		console.log("rsp: "+self.responsivity);
-		console.log("val: "+self.value);
 		
 		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
-		console.log("value: "+self.value);
 		self.centralAjax();
 		
 		self.draw();
 	}
-
 
 
 	this.release = function() {

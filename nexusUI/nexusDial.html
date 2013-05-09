@@ -9,25 +9,27 @@
 	<link type="style/css" href="nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusDial.js"></script>
-	<script type="text/javascript" charset="utf-8">
-		function init(){
+	<script>
 		
-			dial1 = new dial("dial_1", "none", 1);
-			dial2 = new dial("dial_2", "none", 2);
+		nx.onload = function() {
 			
-			dial2.value = 0.75;
-			dial2.draw();
+			nx.colorize("red");
+			nx.colorize("border", "white");
+			
+			dial_2.value = 0.75;
+			dial_2.draw();
 			
 		}
+		
 	</script>
-	
+
 </head>
-<body onLoad="init()">
+<body>
 
 	<div id="dial">
-		<canvas id="dial_1" width="200px" height="200px"></canvas>
-		<canvas id="dial_2" width="250px" height="250px"></canvas>
+		<canvas id="dial_1" nx="dial" width="200px" height="200px"></canvas>
+		<canvas id="dial_2" nx="dial" width="250px" height="250px"></canvas>
 	</div>
-
+	
 </body>
 </html>
