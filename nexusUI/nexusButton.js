@@ -4,22 +4,23 @@
 
 /*
  * items to replace in each object:
- * is_touch_device becomes nx.is_touch_device
- * canvasOffset if used at all? becomes nx.canvasOffset
- * ajax_send => nx.ajaxSend
- * nexus_send => nx.directSend
- * Point => nx.point
- * ? getCursorPosition => nx.getCursorPosition
- * to_cartesian => nx.toCartesian
- * to_polar => nx.toPolar
- * clip => nx.clip
- * text => nx.text
- * Colors => this.colors
- * dream => randomNum
- * ? randomColor = nx.randomColor 
- * makeRoundRect = nx.makeRoundRect
- * isInside => nx.isInside
- * getPos => nx.getPos
+ * x is_touch_device becomes nx.is_touch_device
+ * x canvasOffset if used at all? becomes nx.canvasOffset
+ * ! ajax_send => nx.ajaxSend
+ * x nexus_send => nx.directSend
+ * x Point => nx.point
+ * x getCursorPosition => nx.getCursorPosition
+ * x to_cartesian => nx.toCartesian
+ * x to_polar => nx.toPolar
+ * ! clip => nx.clip
+ * x text => nx.text
+ * ! Colors => self.colors
+ * x dream => randomNum
+ * x randomColor = nx.randomColor 
+ * ? makeRoundRect = nx.makeRoundRect
+ * x isInside => nx.isInside
+ * x getPos => nx.getPos
+ * ! throttle => nx.throttle
  * 
  */ 
 

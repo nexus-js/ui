@@ -14,13 +14,13 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	//this.line_width = 3;
 	this.nodeSize = 15;
 	
-	this.ajax_send = ajax_send;
+	this.ajaxSend = nx.ajaxSend;
 	this.oscName = oscName;
 	this.oscIp = oscIp;
 	
 	this.default_text = "click or touch to control a node";	
-	this.throttle = throttle;
-	this.clip = clip;
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
 	
 	
 
@@ -38,8 +38,8 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		self.erase();
 		self.makeRoundedBG();
 		with (self.context) {
-			strokeStyle = Colors.border;
-			fillStyle = Colors.fill;
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
 			lineWidth = self.lineWidth;
 			stroke();
 			fill();
@@ -47,7 +47,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 				self.drawNode();
 			}
 			else {
-				fillStyle = Colors.border;
+				fillStyle = self.colors.border;
 				font = "14px courier";
 				fillText(self.default_text, 10, 20);
 			}
@@ -70,8 +70,8 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 		with (self.context) {
 			beginPath();
-				fillStyle = Colors.accent;
-				strokeStyle = Colors.border;
+				fillStyle = self.colors.accent;
+				strokeStyle = self.colors.border;
 				lineWidth = self.lineWidth;
 				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, true);					
 				fill();
@@ -82,7 +82,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	this.click = function() {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
-	//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
+	//	self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
 		self.draw();
 		
 		console.log(self.clickPos.y);
@@ -113,7 +113,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	this.touch = function() {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
-	//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);		
+	//	self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);		
 		draw();
 	}
 
@@ -121,7 +121,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		if (self.clicked) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
-		//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
+		//	self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
 			self.draw();
 		}
 	}
@@ -139,8 +139,8 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 			self.Yvalue = 0;	
 		}
 		self.Yvalue = Math.abs(self.Yvalue - 1);
-	//	self.ajax_send(self.ajaxCommand, self.oscName, self.uiIndex, click_position.x+" "+click_position.y);
-		self.ajax_send(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
+	//	self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, click_position.x+" "+click_position.y);
+		self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
 	}
 	
 	this.init();

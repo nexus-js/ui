@@ -12,20 +12,18 @@
 		
 		<script>
 		
-			var position1;
-		
-			function init() {
-				position1 = new position("position_1", false, 1);
+			nx.onload = function() {
+			//	position1 = new position("position_1", false, 1);
 			}
 		
 		</script>
 		
 	</head>
 	
-	<body onLoad="init()" style="margin:20px">
+	<body style="margin:20px">
 			
 		
-		<canvas id="position_1" width="500px" height="200px">HI!</canvas>
+		<canvas id="position_1" nx="position" width="500px" height="200px">HI!</canvas>
 	
 	
 	</body>
