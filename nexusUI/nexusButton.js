@@ -2,6 +2,27 @@
 // 
 // TODO: Fix double release(?) from both document and mouseup. Fix touch release not firing.
 
+/*
+ * items to replace in each object:
+ * is_touch_device becomes nx.is_touch_device
+ * canvasOffset if used at all? becomes nx.canvasOffset
+ * ajax_send => nx.ajaxSend
+ * nexus_send => nx.directSend
+ * Point => nx.point
+ * ? getCursorPosition => nx.getCursorPosition
+ * to_cartesian => nx.toCartesian
+ * to_polar => nx.toPolar
+ * clip => nx.clip
+ * text => nx.text
+ * Colors => this.colors
+ * dream => randomNum
+ * ? randomColor = nx.randomColor 
+ * makeRoundRect = nx.makeRoundRect
+ * isInside => nx.isInside
+ * getPos => nx.getPos
+ * 
+ */ 
+
 function button(target, ajaxCommand, uiIndex) {
 
 	//self awareness
@@ -12,10 +33,10 @@ function button(target, ajaxCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, ajaxCommand);
 
-	this.button_value = 1;
+	this.value = 1;
 
 	this.init = function() {
-		getHandlers(self);
+		// not needed anymore: getHandlers(self);
 		
 		if (!self.ajaxCommand) {
 			self.ajaxCommand = "button";
@@ -28,15 +49,15 @@ function button(target, ajaxCommand, uiIndex) {
 		
 		with (self.context) {
 			clearRect(0, 0, self.canvas.width, self.canvas.height);
-			lineWidth = self.line_width;
+			lineWidth = self.lineWidth;
 		
 			// ** Button ** //
 			if (!self.clicked) {
-				fillStyle = Colors.fill;
-				strokeStyle = Colors.border;
+				fillStyle = self.colors.fill;
+				strokeStyle = self.colors.border;
 			} else if (self.clicked) {
-				fillStyle = Colors.accent;
-				strokeStyle = Colors.accent;
+				fillStyle = self.colors.accent;
+				strokeStyle = self.colors.accent;
 			}
 			
 			beginPath();
@@ -51,6 +72,10 @@ function button(target, ajaxCommand, uiIndex) {
 		//self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
 		self.draw();
 	}
+	
+	this.move = function () {
+		
+	}
 
 	this.release = function() {
 		//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
@@ -61,14 +86,14 @@ function button(target, ajaxCommand, uiIndex) {
 		click_position = self.getTouchPosition(e, canvas_offset);
 		if (click_position) {
 			self.depressed = 1;
-			self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
+			self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.value);
 			draw();
 		}
 	}
 
 	this.touch_release = function() {
 		self.depressed = 0;
-		self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
+		self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.value);
 		draw();
 	}
 	

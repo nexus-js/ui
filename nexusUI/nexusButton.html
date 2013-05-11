@@ -9,15 +9,18 @@
 	<script type="text/javascript" src="nexusButton.js"></script>
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" charset="utf-8">
-		function init(){
-			button1 = new button("button_1", "none", 1);
+		nx.onload = function() {
+		//	button1 = new button("button_1", "none", 1);
+		
+			nx.colorize("#5dd");
+			nx.colorize("border", "#EEE");
 		}
 	</script>
 	
 </head>
-<body onLoad="init()">
+<body>
 	
-	<canvas id="button_1" width="100px" height="100px">HI!</canvas>
+	<canvas id="button_1" nx="button" width="100px" height="100px">HI!</canvas>
 	
 
 </body>
