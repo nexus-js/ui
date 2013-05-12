@@ -5,23 +5,23 @@
 	<title>Nexus Toggle</title>
 	<meta name="Jesse Allison" content="nexus">
 	<!-- Date: 2011-06-27 -->
-
+	<link rel="stylesheet" href="nexusUI.css">
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusToggle.js"></script>
 </head>
 <script>
 	
-	function init() {
-		var toggle1 = new toggle("toggle_1", "none", 1);
+	nx.onload = function() {
+		//var toggle1 = new toggle("toggle_1", "none", 1);
 	}
 	
-	
 </script>
-<body onload="init()">
+<body>
 	
-	<div id="toggle">
-		<canvas id="toggle_1" width="97px" height="132px">HI!</canvas>
-	</div>
+	<canvas id="toggle_1" nx="toggle">HI!</canvas>
+	<canvas id="toggle_2" nx="toggle" width="70px" height="100px">HI!</canvas>
+	<canvas id="toggle_3" nx="toggle" width="40px" height="60px">HI!</canvas>
+	
 
 </body>
 </html>

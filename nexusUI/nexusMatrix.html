@@ -1,6 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
-   
+<!doctype html>
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -12,28 +10,24 @@
 	<script type="text/javascript" src="nexusMatrix.js"></script>
 	
 	<script>
-		
-		var matrix1, matrix2, matrix3;
 	
-		function init() {
-			matrix1 = new matrix("Matrix_slider_1", "none", 1);
-			matrix2 = new matrix("Matrix_slider_2", "none", 2);
-			matrix3 = new matrix("Matrix_slider_3", "none", 3);
+		nx.onload = function() {
+			//matrix1 = new matrix("Matrix_slider_1", "none", 1);
+			//matrix2 = new matrix("Matrix_slider_2", "none", 2);
+			//matrix3 = new matrix("Matrix_slider_3", "none", 3);
 			
 			matrix1.row=10;
 			matrix1.col=10;
 			matrix1.init();
 		}
 		
-	
 	</script>
 </head>
-<body onLoad="init()" style="margin:20px">
-	<div id="Matrix_slider">
-		<canvas id="Matrix_slider_1" width="500px" height="500px">HI!</canvas>
-		<canvas id="Matrix_slider_2" width="200px" height="200px">HI!</canvas>
-		<canvas id="Matrix_slider_3" width="100px" height="100px">HI!</canvas>
-	</div>
+<body>
+	
+	<canvas id="matrix1" nx="matrix" width="500px" height="500px">Matrix</canvas>
+	<canvas id="matrix2" nx="matrix" width="200px" height="200px">Matrix</canvas>
+	<canvas id="matrix3" nx="matrix" width="100px" height="100px">Matrix</canvas>
 
 </body>
 </html>

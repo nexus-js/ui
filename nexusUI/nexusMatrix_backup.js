@@ -12,8 +12,6 @@ function matrix(target, ajaxCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, ajaxCommand);
 	
-	var i;
-	
 	this.row = 3;
 	this.col = 3;
 	
@@ -28,25 +26,25 @@ function matrix(target, ajaxCommand, uiIndex) {
 		
 		console.log(self.uiIndex);
 		
-	//	getHandlers(self);
+		getHandlers(self);
 		
-		if (!self.ajaxCommand) {
-			self.ajaxCommand = "matrix";
+		if (!this.ajaxCommand) {
+			this.ajaxCommand = "matrix";
 		}
 		
 		// generate 2D matrix array
-		self.matrix = new Array(self.col);
-		for (i=0;i<self.matrix.length;i++) {
-			self.matrix[i] = new Array(self.row);
+		this.matrix = new Array(this.col);
+		for (i=0;i<this.matrix.length;i++) {
+			this.matrix[i] = new Array(this.row);
 		}
 		// put "[0,0]" in each cell of matrix
-		for (i=0;i<self.col;i++) {
-			for (j=0;j<self.row;j++) {
-				self.matrix[i][j] = [0, 1]; //[on/off , value]
+		for (i=0;i<this.col;i++) {
+			for (j=0;j<this.row;j++) {
+				this.matrix[i][j] = [0, 1]; //[on/off , value]
 			}
 		}
 	
-		self.draw();
+		this.draw();
 		
 	}
 	

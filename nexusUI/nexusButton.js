@@ -23,6 +23,16 @@
  * ! throttle => nx.throttle
  * 
  */ 
+ 
+/* feature ideas for creating default easy use:
+ * 
+ * 1. if no width and height on canvas, automatically scales canvas to an ideal width/height for the object
+ * 2. if no id, automatically gives it an id of "toggle1" "toggle2" etc
+ * 
+ * -- should maybe also have a record/play/loopplay object, with graphics, that hooks up to an objects record capability automatically
+ * i also sort of want a record 1 movement and loop it automatically button
+ * or a double tap feature that enables the record 1 movement and loop it function
+ */
 
 function button(target, ajaxCommand, uiIndex) {
 

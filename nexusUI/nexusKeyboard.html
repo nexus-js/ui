@@ -11,17 +11,17 @@
 	<script type="text/javascript" src="nexusKeyboard.js"></script>
 	
 	<script>
-		function init() {
-			var keyboard1 = new keyboard("keyboard_1", "noajax", 1);
+		
+		nx.onload = function() {
+		//	var keyboard1 = new keyboard("keyboard_1", "noajax", 1);
 		}
 		
 	</script>
 	
 </head>
-<body onLoad="init()" style="margin:20px">
-	<div id="keyboard">
-		<canvas id="keyboard_1" width="800px" height="150px">HI!</canvas>
-	</div>
+<body>
+	
+	<canvas id="keyboard_1" nx="keyboard" width="800px" height="150px">HI!</canvas>
 
 </body>
 </html>

@@ -87,6 +87,18 @@ function dial(target, ajaxCommand, ui_index) {
 				stroke();
 			closePath();
 
+			//draw color fill
+			beginPath();
+				lineWidth = self.accentWidth;
+				arc(self.center.x, self.center.y, self.circle_size , Math.PI* 0.5, dial_position, false);
+				lineTo(self.center.x,self.center.y);
+				//strokeStyle = nx.colors.accent;
+				globalAlpha = 0.1;
+				fillStyle = self.colors.accent;
+				fill();
+				globalAlpha = 1;
+			closePath(); 
+
 			//draw round accent
 			beginPath();
 				lineWidth = self.accentWidth;

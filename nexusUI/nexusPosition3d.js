@@ -13,6 +13,7 @@ function position3d(target, ajaxCommand, uiIndex) {
 	this.getTemplate(self, target, ajaxCommand);
 
 	//unique attributes
+	var i;
 	this.nodeSize = 15;
 	this.defaultText = "click to create a node, multitouch expands it";
 	
@@ -33,15 +34,15 @@ function position3d(target, ajaxCommand, uiIndex) {
 		this.makeRoundedBG();
 		with (this.context) {
 			shadowBlur = false;
-			strokeStyle = Colors.border;
-			fillStyle = Colors.fill;
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
 			lineWidth = this.lineWidth;
 			stroke();
 			fill();
 			if (this.nodePos[0] != null) {
 				this.drawNode();
 			} else {
-				fillStyle = Colors.border;
+				fillStyle = self.colors.border;
 				font = "14px courier";
 				fillText(this.defaultText, 10, 20);
 			}
@@ -68,19 +69,19 @@ function position3d(target, ajaxCommand, uiIndex) {
 			beginPath();
 			moveTo(this.nodePos[0]-50, this.nodePos[1]);
 			lineTo(this.nodePos[0]+50, this.nodePos[1]);
-			strokeStyle = Colors.border;
+			strokeStyle = self.colors.border;
 			lineWidth = 3;
 			closePath();
 			stroke();
 			//top orange half
 			beginPath();
-			fillStyle = Colors.accent;
+			fillStyle = self.colors.accent;
 			arc(this.nodePos[0], this.nodePos[1], this.nodeSize, Math.PI*0.5, Math.PI*1.5, true);					
 			fill();
 			closePath();
 			//bottom gray half
 			beginPath();
-			fillStyle = Colors.border;
+			fillStyle = self.colors.border;
 			arc(this.nodePos[0], this.nodePos[1], this.nodeSize, Math.PI*1.5, Math.PI*0.5, true);					
 			fill();
 			closePath();
@@ -88,7 +89,7 @@ function position3d(target, ajaxCommand, uiIndex) {
 			beginPath();
 			moveTo(this.nodePos[0], this.nodePos[1]+this.nodeSize);
 			lineTo(this.nodePos[0], this.nodePos[1]-this.nodeSize);
-			strokeStyle = Colors.fill;
+			strokeStyle = self.colors.fill;
 			lineWidth = this.nodeSize/10;
 			closePath();
 			stroke();	
@@ -103,7 +104,6 @@ function position3d(target, ajaxCommand, uiIndex) {
 	
 	this.move = function(e) {
 		deltaScaled = Math.min(50.0, Math.max(2., self.nodeSize+self.deltaMoveX));
-		console.log(self.deltaMoveX);
 		if (self.clicked) {
 			//shift key determines size of node
 			if(e.shiftKey != 1) {

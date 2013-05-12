@@ -1,19 +1,22 @@
 // nexus Toggle button
 
-// TODO: add central AJAX and ajax handling
-			
-//function toggle(canvas, ajax_command, ui_id) {
-function toggle(target, ajaxCommand, ui_index) {
+function toggle(target, ajaxCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
-	this.ui_index = ui_index;
+	this.uiIndex = uiIndex;
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, ajaxCommand);
 	
+	var i;
 	this.on = false;
+	if (this.width>=50) {
+		this.fontsize = 20;
+	} else {
+		this.fontsize = 11;
+	}
 
 	this.init = function() {
 		getHandlers(self);
@@ -34,37 +37,37 @@ function toggle(target, ajaxCommand, ui_index) {
 		//make background
 		this.makeRoundedBG();
 		with (this.context) {	
-			strokeStyle = Colors.border;
-			fillStyle = Colors.fill;
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
 			lineWidth = this.lineWidth;
 			stroke();
 			fill();
 		}
 	
 		if (this.on) {
-			makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+			nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 			with (this.context) {
-				fillStyle = Colors.accent;
-				strokeStyle = Colors.border;
+				fillStyle = self.colors.accent;
+				strokeStyle = self.colors.border;
 				stroke();
 				fill();
 				
-				fillStyle = Colors.white;
-				font = "bold 20px courier";
+				fillStyle = self.colors.white;
+				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
 				fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
 			}
 		}
 		
 		else {
-			makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+			nx.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 			with (this.context) {
-				fillStyle = Colors.border;
-				strokeStyle = Colors.border;
+				fillStyle = self.colors.border;
+				strokeStyle = self.colors.border;
 				stroke();
 				fill();
-				fillStyle = Colors.white;
-				font = "bold 20px courier";
+				fillStyle = self.colors.white;
+				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
 				fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
 			}
@@ -79,6 +82,10 @@ function toggle(target, ajaxCommand, ui_index) {
 			self.on = false;
 		}
 		self.draw();
+	}
+	
+	this.move = function() {
+		
 	}
 	
 	this.release = function() {

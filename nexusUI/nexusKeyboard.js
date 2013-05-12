@@ -28,9 +28,9 @@ function keyboard(target, ajaxCommand, uiIndex) {
 	var note_new;
 	var note_old;
 	
-	this.ajax_send = ajax_send;
-	this.throttle = throttle;
-	this.clip = clip;
+	this.ajaxSend = nx.ajaxSend;
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
 	
 	this.init = function() {
 		getHandlers(self);
@@ -160,7 +160,7 @@ function keyboard(target, ajaxCommand, uiIndex) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+		self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
 		self.draw();	
 	}
 
@@ -171,7 +171,7 @@ function keyboard(target, ajaxCommand, uiIndex) {
 				change_cell(note_old, 0);
 				change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+				self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
 				self.draw();
 			}
 		}
@@ -195,7 +195,7 @@ function keyboard(target, ajaxCommand, uiIndex) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+		self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
 		self.draw();	
 	}
 
@@ -208,7 +208,7 @@ function keyboard(target, ajaxCommand, uiIndex) {
 				change_cell(note_old, 0);
 				change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.ajax_send(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+				self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
 				self.draw();
 			}
 		}
