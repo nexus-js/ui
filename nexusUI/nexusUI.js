@@ -3,7 +3,7 @@
  *  Nexus - shared utility functions for javascript UI objects
  */ 
  
- 
+
 /*****************************
 *     DEFINE NX MANAGER      *
 *****************************/
@@ -16,8 +16,9 @@ var nxManager = function() {
 	// new manager properties
 	
 	this.nxObjects = new Array();
-	this.throttle = 20;
+	this.nxThrottlePeriod = 20;
 	
+	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
 		if (!newCol) {
 			newCol = aspect;
@@ -35,10 +36,10 @@ var nxManager = function() {
 		console.log(this.nxObjects);
 	}
 	
-	this.setThrottle = function(newThrottle) {
-		this.throttle = newThrottle;
-		for (i=0;i<this.nxObjects.length;i++) {
-			this.nxObjects[i].throttle = this.throttle;
+	this.setNxThrottlePeriod = function(newThrottle) {
+		manager.nxThrottlePeriod = newThrottle;
+		for (i=0;i<manager.nxObjects.length;i++) {
+			manager.nxObjects[i].nxThrottlePeriod = manager.nxThrottlePeriod;
 		}
 	}
 	
@@ -71,17 +72,55 @@ var nxManager = function() {
 	        left: box.left + scrollLeft - clientLeft
 	  	};
 	}
+	
+	// transmissionProtocol = [direct, ajax, ios, android]
+	this.transmissionProtocol = "ajax";
+	
+	//nxTransmit
+	// Transmit code that sends ui data to various destinations set by the transmissionProtocol variable
+	this.nxTransmit = function (command, tag, id, data, address) {
+		if (manager.transmissionProtocol = "ajax") {
+			// command is ajaxCommand, tag is the oscName, id is UIId, data is data
+			console.log("nxTransmit: ", command, tag, id, data);
+			manager.ajaxTransmit(command, tag, id, data);
+		} else if (manager.transmissionProtocol = "direct") {
+			
+		} else if (manager.transmissionProtocol = "ios") {
 
-	//replace ajax_send
-	// ajax_send is the function to send info back to the server. 
+		} else if (manager.transmissionProtocol = "android") {
+			
+		}
+		
+		// console.log(this);
+	}
+	
+	// directTransmit is the function to send data to other js objects. 
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
-	this.ajaxSend = function (command, tag, uiIndex, uiData, address) {
+	this.directTransmit = function (command, tag, uiIndex, uiData, address) {
 		
 	}
 	
-	// nexus_send is the function to send osc commands as urls to be captured by the browser.
-	//replaces nexus_send
-	this.directSend = function (command, osc_name, id, data) {
+	// ajaxTransmit is the function to send info back to the server. 
+	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
+	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data) {
+		if (uiIndex) {
+			// new Ajax.Request(command, {parameters: {osc_name: osc_name, id: id, data: data}});
+			$.ajax(ajaxCommand, {parameters: {oscName: oscName, id: uiIndex, data: data}});
+			console.log("ajaxTransmit: ", ajaxCommand, oscName, uiIndex, data);
+		} else {
+			// new Ajax.Request(command, {parameters: {osc_name: osc_name, data: data}});
+			$.ajax(ajaxCommand, {parameters: {oscName: oscName, data: data}});
+			console.log("ajaxTransmit: ", ajaxCommand, oscName, data);
+		}
+	}
+	
+	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
+	this.iosTransmit = function (command, osc_name, id, data) {
+		
+	}
+	
+	//androidTransmit is the function to send osc commands as urls to be captured by the browser.
+	this.androidTransmit = function (command, osc_name, id, data) {
 		
 	}
 	
@@ -119,7 +158,7 @@ var nxManager = function() {
 		return click_position;
 	}
 
-	this.throttle = function(func, wait) {
+	this.nxThrottle = function(func, wait) {
 	    var timeout;
 	    return function() {
 	        var context = this, args = arguments;
@@ -252,14 +291,14 @@ var nx = new nxManager();
 /* this onload function turns canvases into nexus elements,
  * using their id as their var name */
 
-//bug!! -- this onload can be overwritten by a user putting an onload function onto the body of their html document! this is bad!!!
+//FIXME:!! -- this onload can be overwritten by a user putting an onload function onto the body of their html document! this is bad!!!
 
 
 window.onload = function() {
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
 		var nxId = allcanvi[i].getAttribute("nx");
-		eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'none', "+i+");");
+		eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
 	}
 	nx.onload();
 };
@@ -273,22 +312,22 @@ window.onload = function() {
 *      OBJECT TEMPLATE       *
 *****************************/
 
-function getTemplate(self, target, ajaxCommand) {
+function getTemplate(self, target, transmitCommand) {
 	//canvas
-	this.canvasID = target;
-	this.canvas = document.getElementById(target);
-	this.context = this.canvas.getContext("2d");
-	this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
-	this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
-	this.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
-	this.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
-	this.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
-	this.center = {
+	self.canvasID = target;
+	self.canvas = document.getElementById(target);
+	self.context = self.canvas.getContext("2d");
+	self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
+	self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
+	self.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
+	self.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+	self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
+	self.center = {
 					x: self.width/2, 
 					y: self.height/2
 				};
 	//dimensions
-	this.corners = {
+	self.corners = {
 						"TLx": 0,
 						"TLy": 0,
 						"TRx": this.width,
@@ -299,37 +338,44 @@ function getTemplate(self, target, ajaxCommand) {
 						"BLy": this.height
 				};
 	//drawing
-	this.lineWidth = 3;
-	this.padding = 3;
-	this.colors = nx.colors;
+	self.lineWidth = 3;
+	self.padding = 3;
+	self.colors = nx.colors;
 	//interaction
-	this.click = new nx.point(0,0);
-	this.clicked = false;
-	this.value = 0;
-	this.nodePos = new Array();	
-	this.throttle = nx.throttle;
+	self.click = new nx.point(0,0);
+	self.clicked = false;
+	self.value = 0;
+	self.nodePos = new Array();	
+	self.nxThrottlePeriod = nx.nxThrottlePeriod;
+	self.nxThrottle = nx.nxThrottle;
 	//recording
 	nx.addNxObject(self);
-	this.isRecording = false;
-	this.tapeNum = 0;
-	this.recorder = null;
-	//ajax
-	this.ajaxCall = ajaxCommand;
-	this.oscName = target;
-	this.ajaxSend = nx.ajaxSend;
+	self.isRecording = false;
+	self.tapeNum = 0;
+	self.recorder = null;
+	//Transmission
+	self.nxTransmit = nx.nxTransmit;
+	self.ajaxTransmit = nx.ajaxTransmit;
+	if (!transmitCommand) {
+		self.transmitCommand = "nexusTransmit";
+	} else {
+		self.transmitCommand = transmitCommand;
+	}
+	self.oscName = target;
+
 	//built-in methods
-	this.getCursorPosition = nx.getCursorPosition;
-	this.getTouchPosition = nx.getTouchPosition;
-	this.preClick = function(e) {
+	self.getCursorPosition = nx.getCursorPosition;
+	self.getTouchPosition = nx.getTouchPosition;
+	self.preClick = function(e) {
 		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
-		//document.addEventListener("mousemove", self.throttle(self.preMove, 20), false);
+		//document.addEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
 		document.addEventListener("mousemove", self.preMove, false);
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
 		self.clicked = 1;
 		self.click(e);
 	};
-	this.preMove = function(e) {
+	self.preMove = function(e) {
 		self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
 		self.deltaMoveY = new_click_position.y - self.clickPos.y;
@@ -337,13 +383,13 @@ function getTemplate(self, target, ajaxCommand) {
 		self.clickPos = new_click_position;
 		self.move(e);
 	};
-	this.preRelease = function(e) {
-		//document.removeEventListener("mousemove", self.throttle(self.preMove, 20), false);
+	self.preRelease = function(e) {
+		//document.removeEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = 0;
 		self.release();
 	};
-	this.makeRoundedBG = function() {
+	self.makeRoundedBG = function() {
 		this.bgLeft = this.lineWidth;
 		this.bgRight = this.width - this.lineWidth;
 		this.bgTop = this.lineWidth;
@@ -353,14 +399,14 @@ function getTemplate(self, target, ajaxCommand) {
 		
 		nx.makeRoundRect(self.context, self.bgLeft, self.bgTop, self.bgWidth, self.bgHeight);
 	};
-	this.erase = function() {
-		this.context.clearRect(0,0,self.width,self.height);
+	self.erase = function() {
+		self.context.clearRect(0,0,self.width,self.height);
 	};
-	this.hideCursor = function() {
-		this.canvas.style.cursor = "none";
+	self.hideCursor = function() {
+		self.canvas.style.cursor = "none";
 	};
-	this.showCursor = function() {
-		this.canvas.style.cursor = "auto";
+	self.showCursor = function() {
+		self.canvas.style.cursor = "auto";
 	};
 	
 	getHandlers(self);
@@ -370,11 +416,11 @@ function getTemplate(self, target, ajaxCommand) {
 function getHandlers(self) {
 	if(nx.is_touch_device) {
 		self.canvas.ontouchstart = self.touch;
-		self.canvas.ontouchmove = self.throttle(self.touchMove, self.throttle);
+		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
 		self.canvas.ontouchend = self.touchRelease;
 	} else {
 		self.canvas.addEventListener("mousedown", self.preClick, false);
-	//	self.canvas.addEventListener("mousemove", self.throttle(self.move, 20), false);	
+	//	self.canvas.addEventListener("mousemove", self.nxThrottle(self.move, self.nxThrottlePeriod), false);	
 	//	self.canvas.addEventListener("mouseup", self.preRelease, false);
 	}
 }

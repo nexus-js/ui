@@ -9,19 +9,21 @@
 
 // *** Usage:  dial1 = new dial("dial_1", "example_send", 1);
 // *   Instantiate a dial.  1st argument, a canvas to draw into.
-// *	 (optional) ajaxCall is the url that the UI changes will be sent to - default = "dial"
+// *	 (optional) transmitCommand is the url that the UI changes will be sent to - default = "dial"
 // *   (optional) ui_id is the id for this specific UI e.g. if you have multiple dials they could be dial.1, dial.2, etc.
 
 				
-function dial(target, ajaxCommand, ui_index) {
+function dial(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
-	this.ui_index = ui_index;
+	if (uiIndex) {
+		self.uiIndex = uiIndex;
+	}
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	this.circle_size = 1;
@@ -48,9 +50,6 @@ function dial(target, ajaxCommand, ui_index) {
 	//	getHandlers(self);
 	//moved get handlers to end of template! seems to be working.
 	
-		if (!self.ajaxCall) {
-			self.ajaxCall = "dial";
-		}
 		self.circle_size = (Math.min(self.center.x, self.center.y)-5);
 		self.dial_position_length = self.circle_size+self.lineWidth;
 		
@@ -130,8 +129,8 @@ function dial(target, ajaxCommand, ui_index) {
 
 	this.click = function(e) {
 		//clicked is now set to true, coords are in self.clickPos
-	
-		self.centralAjax();
+		// console.log("Dial nxTransmit", self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
+		self.nxTransmit(self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
 		self.draw();
 	}
 
@@ -141,7 +140,7 @@ function dial(target, ajaxCommand, ui_index) {
 		//self.clickPos is now newest mouse position in [x,y]
 		
 		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
-		self.centralAjax();
+		self.nxTransmit(self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
 		
 		self.draw();
 	}
@@ -157,7 +156,7 @@ function dial(target, ajaxCommand, ui_index) {
 	this.touch = function(e) {
 		this.clickPos = self.getTouchPosition(e, self.offset);
 		this.clicked = 1;
-		this.centralAjax();
+		this.nxTransmit();
 		this.draw();
 	}
 
@@ -169,7 +168,7 @@ function dial(target, ajaxCommand, ui_index) {
 
 			self.value = self.clip((self.value - (delta_move * self.responsivity)), 0, 1);
 			this.clickPos = new_click_position;
-			this.centralAjax();
+			this.nxTransmit();
 			this.draw();
 		}
 	}
@@ -180,13 +179,6 @@ function dial(target, ajaxCommand, ui_index) {
 		if (this.clicked == 1){
 			this.clicked = 0;
 		}
-	}
-	
-	this.centralAjax = function() {
-		//self.ajax_send(self.ajaxCall, self.osc_name, self.ui_id, self.value.toFixed(2));
-	//	self.ajax_send(self.ajaxCommand, self.oscName, self.uiIndex, click_position.x+" "+click_position.y);
-	
-	//	self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
 	}
 
 	init();
