@@ -78,11 +78,12 @@ var nxManager = function() {
 	
 	//nxTransmit
 	// Transmit code that sends ui data to various destinations set by the transmissionProtocol variable
-	this.nxTransmit = function (command, tag, id, data, address) {
+	// TODO: why does this work and not self unless self is passed in???  
+	this.nxTransmit = function (data) {
 		if (manager.transmissionProtocol = "ajax") {
 			// command is ajaxCommand, tag is the oscName, id is UIId, data is data
-			console.log("nxTransmit: ", command, tag, id, data);
-			manager.ajaxTransmit(command, tag, id, data);
+			console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
+			manager.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
 		} else if (manager.transmissionProtocol = "direct") {
 			
 		} else if (manager.transmissionProtocol = "ios") {
@@ -301,8 +302,10 @@ window.onload = function() {
 		eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
 	}
 	nx.onload();
+	
 };
 
+//FIXME: Have blockMove be added to the body automatically if it is_touch_device
 
 	
 	
@@ -366,6 +369,8 @@ function getTemplate(self, target, transmitCommand) {
 	//built-in methods
 	self.getCursorPosition = nx.getCursorPosition;
 	self.getTouchPosition = nx.getTouchPosition;
+	self.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
+	
 	self.preClick = function(e) {
 		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
 		//document.addEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
@@ -414,10 +419,12 @@ function getTemplate(self, target, transmitCommand) {
 
 //event listeners
 function getHandlers(self) {
-	if(nx.is_touch_device) {
-		self.canvas.ontouchstart = self.touch;
-		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
-		self.canvas.ontouchend = self.touchRelease;
+	if(self.is_touch_device) {
+		// // console.log("setting up as touch");
+		// self.canvas.ontouchstart = self.touch;
+		// self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
+		// //self.canvas.ontouchmove = self.touchMove;
+		// self.canvas.ontouchend = self.touchRelease;
 	} else {
 		self.canvas.addEventListener("mousedown", self.preClick, false);
 	//	self.canvas.addEventListener("mousemove", self.nxThrottle(self.move, self.nxThrottlePeriod), false);	

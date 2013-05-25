@@ -22,10 +22,14 @@
 			
 		}
 		
+		function blockMove(event) {
+			event.preventDefault();
+		}
+		
 	</script>
 
 </head>
-<body>
+<body ontouchmove="blockMove(event);">
 
 	<div id="dial">
 		<canvas id="dial_1" nx="dial" width="200px" height="200px"></canvas>

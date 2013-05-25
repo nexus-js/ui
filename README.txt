@@ -4,6 +4,7 @@
 
 Contributors
 Jesse Allison
+Ben Taylor
 Yemin Oh
 
 Project Site

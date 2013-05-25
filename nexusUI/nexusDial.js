@@ -47,8 +47,6 @@ function dial(target, transmitCommand, uiIndex) {
 	}
 
 	function init() {
-	//	getHandlers(self);
-	//moved get handlers to end of template! seems to be working.
 	
 		self.circle_size = (Math.min(self.center.x, self.center.y)-5);
 		self.dial_position_length = self.circle_size+self.lineWidth;
@@ -57,6 +55,11 @@ function dial(target, transmitCommand, uiIndex) {
 			self.dial_position_length--;
 			self.dial_position_length--;
 		}
+		
+		self.canvas.ontouchstart = self.touch;
+		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
+		//self.canvas.ontouchmove = self.touchMove;
+		self.canvas.ontouchend = self.touchRelease;
 		
 		self.draw();
 		
@@ -130,7 +133,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.click = function(e) {
 		//clicked is now set to true, coords are in self.clickPos
 		// console.log("Dial nxTransmit", self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
-		self.nxTransmit(self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
+		self.nxTransmit(self.clickPos);
 		self.draw();
 	}
 
@@ -140,7 +143,7 @@ function dial(target, transmitCommand, uiIndex) {
 		//self.clickPos is now newest mouse position in [x,y]
 		
 		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
-		self.nxTransmit(self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
+		self.nxTransmit(self.clickPos);
 		
 		self.draw();
 	}
@@ -154,30 +157,30 @@ function dial(target, transmitCommand, uiIndex) {
 	
 	
 	this.touch = function(e) {
-		this.clickPos = self.getTouchPosition(e, self.offset);
-		this.clicked = 1;
-		this.nxTransmit();
-		this.draw();
+		self.clickPos = self.getTouchPosition(e, self.offset);
+		self.clicked = 1;
+		self.nxTransmit(self.clickPos);
+		self.draw();
 	}
 
 
 	this.touchMove = function(e) {
-		if (this.clicked) {
+		if (self.clicked) {
 			var new_click_position = self.getTouchPosition(e, self.offset);
-			var delta_move = new_click_position.y - this.clickPos.y;
+			var delta_move = new_click_position.y - self.clickPos.y;
 
 			self.value = self.clip((self.value - (delta_move * self.responsivity)), 0, 1);
-			this.clickPos = new_click_position;
-			this.nxTransmit();
-			this.draw();
+			self.clickPos = new_click_position;
+			self.nxTransmit(self.clickPos);
+			self.draw();
 		}
 	}
 
 
 	this.touchRelease = function(e) {
 		// canvas.ontouchmove = null;	// remove when not needed any longer.
-		if (this.clicked == 1){
-			this.clicked = 0;
+		if (self.clicked == 1){
+			self.clicked = 0;
 		}
 	}
 
