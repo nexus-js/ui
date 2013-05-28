@@ -13,7 +13,7 @@ function dial(target, transmitCommand, uiIndex) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	getTemplate(self, target, transmitCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	this.circle_size = 1;

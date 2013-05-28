@@ -10,13 +10,13 @@ function keyboard(target, transmitCommand, uiIndex) {
 	}
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	getTemplate(self, target, transmitCommand);
+	self.getTemplate = getTemplate;
+	self.getTemplate(self, target, transmitCommand);
 
-	//unique
-	this.octaves = 2;
-	var width = (this.canvas.width/(this.octaves*12))/3;
-	var w_height = this.canvas.height;
+	// define unique attributes
+	self.octaves = 2;
+	var width = (self.canvas.width/(self.octaves*12))/3;
+	var w_height = self.height;
 	var b_height = w_height*4/7;
 	var w_width = width*3;
 	var b_width = width*2;
@@ -28,18 +28,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 
 	var note_new;
 	var note_old;
-	
-	this.ajaxSend = nx.ajaxSend;
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
-	
-	this.init = function() {
-		getHandlers(self);
 		
-		if (!this.ajax_command) {
-			this.ajax_command = "keyboard";
-		}
-		
+	function init() {
+		var o,j,i;
 		for (j=0;j<self.octaves;j++) {
 			for (i=0; i<12; i++) {
 				o = order[i]+j*12;
@@ -59,19 +50,26 @@ function keyboard(target, transmitCommand, uiIndex) {
 			}
 		}
 		
-		this.draw();
-
+		// FIXME: move to nexusUI
+		self.canvas.ontouchstart = self.touch;
+		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
+		self.canvas.ontouchend = self.touchRelease;
+		
+		self.draw();
+		
+		return 1;
 	}
 
 	this.draw = function() {
+		var m,i,d,xx, dis;
 
 		for(m=0;m<self.octaves;m++) {
 			for (i=0;i<12;i++){
-				var d = m*12 + i;
+				d = m*12 + i;
 				if (keys[d][2] == 0) {
 					var k = keys[d][1];
 					var x = k*w_width + (m*w_width*7);
-					with (this.context) {
+					with (self.context) {
 						if (keys[d][0] == 0){
 							fillStyle = '#FFF';
 							fillRect(x, 0, w_width, w_height);
@@ -87,9 +85,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 					}
 				}
 				else {
-					var dis = keys[d][1];
-					var xx = dis*(b_width+b_width/2) + b_width + (m*w_width*7);	
-					with (this.context) {
+					dis = keys[d][1];
+					xx = dis*(b_width+b_width/2) + b_width + (m*w_width*7);	
+					with (self.context) {
 						if (keys[d][0] == 0){
 							fillStyle = '#000';
 						}	
@@ -103,15 +101,16 @@ function keyboard(target, transmitCommand, uiIndex) {
 		}
 	}
 
-	function change_cell(whichCell, number) {
+	this.change_cell = function(whichCell, number) {
 		if(whichCell != null){
 			keys[whichCell].splice(0,1,number);
 		}
 	}
 
 	// "WhichKey_pressed" find out the key, and changes the cell of the array(keys[]) and pass it into variable "note_new"
-	function whichKey_pressed (x, y){
+	this.whichKey_pressed = function (x, y){
 		var found_click = 0;
+		var j,i,k;
 
 		if (y < b_height){
 			for (j=0; j<self.octaves; j++){
@@ -154,25 +153,25 @@ function keyboard(target, transmitCommand, uiIndex) {
 
 	// 
 	this.click = function(e) {
-		whichKey_pressed(self.clickPos.x, self.clickPos.y);
-		change_cell(note_new, 1);
+		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
+		self.change_cell(note_new, 1);
 		note_old = note_new;
 		
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+		self.nxTransmit(midi_note);
 		self.draw();	
 	}
 
 	this.move = function(e) {
-		if (this.clicked) {
-			whichKey_pressed(this.clickPos.x,this.clickPos.y);
+		if (self.clicked) {
+			self.whichKey_pressed(self.clickPos.x,self.clickPos.y);
 			if (note_old != note_new) {
-				change_cell(note_old, 0);
-				change_cell(note_new, 1);
+				self.change_cell(note_old, 0);
+				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+				self.nxTransmit(midi_note);
 				self.draw();
 			}
 		}
@@ -183,33 +182,36 @@ function keyboard(target, transmitCommand, uiIndex) {
 		for (j=0;j<self.octaves;j++) {
 			for (i=0;i<12;i++) {
 				var d = j*12 + i;
-					change_cell(d, 0);
+					self.change_cell(d, 0);
 			}
 		}
 		self.draw();
 	}
+	
+	
+	// FIXME: Fix touch calculations.  They are outdated...
 	this.touch = function(e) {
-		whichKey_pressed(self.clickPos.x, self.clickPos.y);
-		change_cell(note_new, 1);
+		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
+		self.change_cell(note_new, 1);
 		note_old = note_new;
 		
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+		self.nxTransmit(midi_note);
 		self.draw();	
 	}
 
 	this.touchMove = function(e) {
-		if(this.clicked) {
-		this.clickPos = self.getTouchPosition(e, this.this.offset);;
+		if(self.clicked) {
+		self.clickPos = self.getTouchPosition(e, self.offset);;
 
-		whichKey_pressed(this.clickPos.x,this.clickPos.y);
+		self.whichKey_pressed(this.clickPos.x,this.clickPos.y);
 			if (note_old != note_new) {
-				change_cell(note_old, 0);
-				change_cell(note_new, 1);
+				self.change_cell(note_old, 0);
+				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.ajaxSend(self.ajax_command, self.osc_name, self.uiIndex, midi_note);
+				self.nxTransmit(midi_note);
 				self.draw();
 			}
 		}
@@ -220,13 +222,13 @@ function keyboard(target, transmitCommand, uiIndex) {
 		for (j=0;j<self.octaves;j++) {
 			for (i=0;i<12;i++) {
 				var d = j*12 + i;
-					change_cell(d, 0);
+					self.change_cell(d, 0);
 			}
 		}
 		self.draw();
 	}
 	
 
-	this.init();
+	init();
 	
 }
