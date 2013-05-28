@@ -1,74 +1,50 @@
-// nexus Button UI 
+// nexusUI - Button 
 // 
-// TODO: Fix double release(?) from both document and mouseup. Fix touch release not firing.
-
-/*
- * items to replace in each object:
- * x is_touch_device becomes nx.is_touch_device
- * x canvasOffset if used at all? becomes nx.canvasOffset
- * ! ajax_send => nx.ajaxSend
- * x nexus_send => nx.directSend
- * x Point => nx.point
- * x getCursorPosition => nx.getCursorPosition
- * x to_cartesian => nx.toCartesian
- * x to_polar => nx.toPolar
- * ! clip => nx.clip
- * x text => nx.text
- * ! Colors => self.colors
- * x dream => randomNum
- * x randomColor = nx.randomColor 
- * ? makeRoundRect = nx.makeRoundRect
- * x isInside => nx.isInside
- * x getPos => nx.getPos
- * ! throttle => nx.throttle
- * 
- */ 
+// 
  
-/* feature ideas for creating default easy use:
- * 
- * 1. if no width and height on canvas, automatically scales canvas to an ideal width/height for the object
- * 2. if no id, automatically gives it an id of "toggle1" "toggle2" etc
- * 
- * -- should maybe also have a record/play/loopplay object, with graphics, that hooks up to an objects record capability automatically
- * i also sort of want a record 1 movement and loop it automatically button
- * or a double tap feature that enables the record 1 movement and loop it function
- */
 
-function button(target, ajaxCommand, uiIndex) {
+function button(target, transmitCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	getTemplate(self, target, transmitCommand);
 
+	// Define Unique Attributes
+	// Value is the value to send when the button is clicked.  
 	this.value = 1;
+	this.transmitRelease = true;	// transmit 0 on release of button.
 
 	this.init = function() {
-		// not needed anymore: getHandlers(self);
 		
-		if (!self.ajaxCommand) {
-			self.ajaxCommand = "button";
-		}
+		// FIXME: move to nexusUI
+		self.canvas.ontouchstart = self.touch;
+		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
+		self.canvas.ontouchend = self.touchRelease;
 		
 		self.draw();
+		
+		return 1;
 	}
 	
 	this.draw = function() {
 		
 		with (self.context) {
-			clearRect(0, 0, self.canvas.width, self.canvas.height);
+			clearRect(0, 0, self.width, self.height);
 			lineWidth = self.lineWidth;
 		
 			// ** Button ** //
 			if (!self.clicked) {
-				fillStyle = self.colors.fill;
-				strokeStyle = self.colors.border;
+				fillStyle = nx.colors.fill;
+				strokeStyle = nx.colors.border;
 			} else if (self.clicked) {
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.accent;
+				fillStyle = nx.colors.accent;
+				strokeStyle = nx.colors.accent;
 			}
 			
 			beginPath();
@@ -79,33 +55,43 @@ function button(target, ajaxCommand, uiIndex) {
 		}
 	}
 
-	this.click = function() {
-		//self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
+	this.click = function(e) {
+		self.nxTransmit(self.value * self.clicked);
 		self.draw();
 	}
 	
 	this.move = function () {
-		
+		// use to track movement on the button...
 	}
 
 	this.release = function() {
-		//	self.ajax_send(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.button_value);
+		if (self.transmitRelease) {
+			self.nxTransmit(self.value * self.clicked); 
+		}
 		self.draw();
 	}
 	
-	this.touch_depress = function() {
-		click_position = self.getTouchPosition(e, canvas_offset);
+	this.touch = function(e) {
+		click_position = self.getTouchPosition(e, self.offset);
 		if (click_position) {
-			self.depressed = 1;
-			self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.value);
-			draw();
+			self.clicked = 1;
+			self.nxTransmit(self.value * self.clicked);
+			self.draw();
 		}
 	}
+	
+	this.touchMove = function(e) {
+		//use to track movement on the button...
+	}
 
-	this.touch_release = function() {
-		self.depressed = 0;
-		self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, self.depressed * self.value);
-		draw();
+	this.touchRelease = function(e) {
+		if (self.clicked == 1){
+			self.clicked = 0;
+		}
+		if (self.transmitRelease) {
+			self.nxTransmit(self.value * self.clicked); 
+		}
+		self.draw();
 	}
 	
 	this.init();

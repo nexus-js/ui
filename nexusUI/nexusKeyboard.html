@@ -1,27 +1,40 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
-   
+<!doctype html>
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Keyboard</title>
-	<meta name="Jesse Allison" content="nexus">
-	<!-- 2013 April 3 -->
+	<meta name="LSU EMDM" content="nexus">
+	
+	<link type="style/css" href="nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusKeyboard.js"></script>
-	
+	<script type="text/javascript" src="jquery.js"></script>
 	<script>
 		
 		nx.onload = function() {
-		//	var keyboard1 = new keyboard("keyboard_1", "noajax", 1);
+			
+			nx.colorize("green");
+			nx.colorize("border", "white");
+			
+			keyboard_1.draw();
+			keyboard_2.draw();
+			
+			keyboard_1.transmissionProtocol = "none";
+			keyboard_2.transmissionProtocol = "none";
+			
+		}
+		
+		function blockMove(event) {
+			event.preventDefault();
 		}
 		
 	</script>
-	
+
 </head>
-<body>
+<body ontouchmove="blockMove(event);">
 	
-	<canvas id="keyboard_1" nx="keyboard" width="800px" height="150px">HI!</canvas>
+	<canvas id="keyboard_1" nx="keyboard" width="800px" height="150px">Keyboard</canvas>
+	<canvas id="keyboard_2" nx="keyboard" width="500px" height="100px">Keyboard</canvas>
 
 </body>
 </html>

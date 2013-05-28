@@ -72,23 +72,25 @@ var nxManager = function() {
 	        left: box.left + scrollLeft - clientLeft
 	  	};
 	}
-	
-	// transmissionProtocol = [direct, ajax, ios, android]
-	this.transmissionProtocol = "ajax";
+
 	
 	//nxTransmit
 	// Transmit code that sends ui data to various destinations set by the transmissionProtocol variable
 	// TODO: why does this work and not self unless self is passed in???  
 	this.nxTransmit = function (data) {
-		if (manager.transmissionProtocol = "ajax") {
-			// command is ajaxCommand, tag is the oscName, id is UIId, data is data
-			console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
-			manager.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
-		} else if (manager.transmissionProtocol = "direct") {
+		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
+		if (this.transmissionProtocol == "none") {
 			
-		} else if (manager.transmissionProtocol = "ios") {
+		} else if (this.transmissionProtocol == "ajax") {
+			// transmitCommand is the ajax url to send to, oscName is the osc call, uiIndex is used if you have multiple buttons/dials/etc, data is data
+			// If you want to have a callback function to respond to the method, you could send that as a final parameter.
+			console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
+			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
+		} else if (this.transmissionProtocol == "direct") {
+			
+		} else if (this.transmissionProtocol == "ios") {
 
-		} else if (manager.transmissionProtocol = "android") {
+		} else if (this.transmissionProtocol == "android") {
 			
 		}
 		
@@ -103,15 +105,20 @@ var nxManager = function() {
 	
 	// ajaxTransmit is the function to send info back to the server. 
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
-	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data) {
-		if (uiIndex) {
-			// new Ajax.Request(command, {parameters: {osc_name: osc_name, id: id, data: data}});
-			$.ajax(ajaxCommand, {parameters: {oscName: oscName, id: uiIndex, data: data}});
-			console.log("ajaxTransmit: ", ajaxCommand, oscName, uiIndex, data);
-		} else {
-			// new Ajax.Request(command, {parameters: {osc_name: osc_name, data: data}});
-			$.ajax(ajaxCommand, {parameters: {oscName: oscName, data: data}});
-			console.log("ajaxTransmit: ", ajaxCommand, oscName, data);
+	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, callbackFunction) {
+		if (this.ajaxRequestType == "post") {
+			console.log("postTransmit: ", ajaxCommand, oscName, uiIndex, data);
+			if (uiIndex) {
+				$.post(ajaxCommand, {oscName: oscName, id: uiIndex, data: data});
+			} else {
+				$.post(ajaxCommand, {oscName: oscName, data: data});
+			}
+		} else if (this.ajaxRequestType == "get") {
+			if (uiIndex) {
+				$.ajax(ajaxCommand, {oscName: oscName, id: uiIndex, data: data});
+			} else {
+				$.ajax(ajaxCommand, {oscName: oscName, data: data});
+			}
 		}
 	}
 	
@@ -189,7 +196,15 @@ var nxManager = function() {
 
 	//replaces to_polar
 	this.toPolar = function(x,y) {
-		// should probably implement. . .
+		var r = Math.sqrt(x*x + y*y);
+
+		var theta = Math.atan2(y,x);
+		if (theta < 0.) {
+			theta = theta + (2 * Math.PI);
+		}
+		var polar = new nx.point(r, theta);
+
+		return polar;
 	}
 
 	this.clip = function(value, low, high) {
@@ -298,8 +313,10 @@ var nx = new nxManager();
 window.onload = function() {
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
-		var nxId = allcanvi[i].getAttribute("nx");
-		eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
+		var nxId = allcanvi[i].getAttribute("nx");	
+		if(nxId) {
+			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
+		}
 	}
 	nx.onload();
 	
@@ -357,6 +374,8 @@ function getTemplate(self, target, transmitCommand) {
 	self.tapeNum = 0;
 	self.recorder = null;
 	//Transmission
+	self.transmissionProtocol = "ajax";  // transmissionProtocol = [none, direct, ajax, ios, android]
+	self.ajaxRequestType = "post";	// ajaxRequestType = [post, get]
 	self.nxTransmit = nx.nxTransmit;
 	self.ajaxTransmit = nx.ajaxTransmit;
 	if (!transmitCommand) {
@@ -389,10 +408,10 @@ function getTemplate(self, target, transmitCommand) {
 		self.move(e);
 	};
 	self.preRelease = function(e) {
-		//document.removeEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = 0;
 		self.release();
+		document.removeEventListener("mouseup", self.preRelease, false);
 	};
 	self.makeRoundedBG = function() {
 		this.bgLeft = this.lineWidth;
@@ -420,11 +439,11 @@ function getTemplate(self, target, transmitCommand) {
 //event listeners
 function getHandlers(self) {
 	if(self.is_touch_device) {
-		// // console.log("setting up as touch");
-		// self.canvas.ontouchstart = self.touch;
-		// self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
-		// //self.canvas.ontouchmove = self.touchMove;
-		// self.canvas.ontouchend = self.touchRelease;
+		 // console.log("setting up as touch");
+		 self.canvas.ontouchstart = self.touch;
+		 self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
+		 //self.canvas.ontouchmove = self.touchMove;
+		 self.canvas.ontouchend = self.touchRelease;
 	} else {
 		self.canvas.addEventListener("mousedown", self.preClick, false);
 	//	self.canvas.addEventListener("mousemove", self.nxThrottle(self.move, self.nxThrottlePeriod), false);	

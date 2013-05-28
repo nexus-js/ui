@@ -1,16 +1,17 @@
-// Nexus Keyboard
-// Contributors: Yemin Oh, Ben Taylor
+// nexusUI - Keyboard
+//
 
-//function keyboard(this.canvas, ajax_command, this.uiIndex) {
-function keyboard(target, ajaxCommand, uiIndex) {
+function keyboard(target, transmitCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	getTemplate(self, target, transmitCommand);
 
 	//unique
 	this.octaves = 2;

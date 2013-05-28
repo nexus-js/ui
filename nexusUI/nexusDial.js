@@ -1,23 +1,13 @@
 // nexusUI - Dial
-
-// use this to essentially make a property of the object dial - this is accessible outside of the object
-// this.redraw is an example of a publicly accessible function
-// use var to create a variable that is private, but accessible by embedded functions
-// never create a variable w/o one of these two as it looks up the object chain for a match
-// if it reaches the global document level and doesn't find it, it makes a global variable.
-
-
-// *** Usage:  dial1 = new dial("dial_1", "example_send", 1);
-// *   Instantiate a dial.  1st argument, a canvas to draw into.
-// *	 (optional) transmitCommand is the url that the UI changes will be sent to - default = "dial"
-// *   (optional) ui_id is the id for this specific UI e.g. if you have multiple dials they could be dial.1, dial.2, etc.
+//
+//
 
 				
 function dial(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
-	if (uiIndex) {
+	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
 	
@@ -40,12 +30,6 @@ function dial(target, transmitCommand, uiIndex) {
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
 
-	// this.function will be available outside of this object - e.g. dial.redraw();
-	this.redraw = function(){
-		self.dial_position_length = self.circle_size + 5.;
-		self.draw();
-	}
-
 	function init() {
 	
 		self.circle_size = (Math.min(self.center.x, self.center.y)-5);
@@ -56,9 +40,9 @@ function dial(target, transmitCommand, uiIndex) {
 			self.dial_position_length--;
 		}
 		
+		// FIXME: move to nexusUI
 		self.canvas.ontouchstart = self.touch;
 		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
-		//self.canvas.ontouchmove = self.touchMove;
 		self.canvas.ontouchend = self.touchRelease;
 		
 		self.draw();
@@ -133,7 +117,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.click = function(e) {
 		//clicked is now set to true, coords are in self.clickPos
 		// console.log("Dial nxTransmit", self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
-		self.nxTransmit(self.clickPos);
+		self.nxTransmit(self.value);
 		self.draw();
 	}
 
@@ -143,7 +127,7 @@ function dial(target, transmitCommand, uiIndex) {
 		//self.clickPos is now newest mouse position in [x,y]
 		
 		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
-		self.nxTransmit(self.clickPos);
+		self.nxTransmit(self.value);
 		
 		self.draw();
 	}
@@ -159,7 +143,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.touch = function(e) {
 		self.clickPos = self.getTouchPosition(e, self.offset);
 		self.clicked = 1;
-		self.nxTransmit(self.clickPos);
+		self.nxTransmit(self.value);
 		self.draw();
 	}
 
@@ -171,7 +155,7 @@ function dial(target, transmitCommand, uiIndex) {
 
 			self.value = self.clip((self.value - (delta_move * self.responsivity)), 0, 1);
 			self.clickPos = new_click_position;
-			self.nxTransmit(self.clickPos);
+			self.nxTransmit(self.value);
 			self.draw();
 		}
 	}

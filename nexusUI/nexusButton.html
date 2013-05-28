@@ -3,24 +3,38 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Button</title>
-	<meta name="Jesse Allison" content="nexus">
-	<!-- Date: 2012-12-07 Ben Taylor -->
+	<meta name="LSU EMDM" content="nexus">
 	
-	<script type="text/javascript" src="nexusButton.js"></script>
+	<link type="style/css" href="nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" src="nexusUI.js"></script>
-	<script type="text/javascript" charset="utf-8">
-		nx.onload = function() {
-		//	button1 = new button("button_1", "none", 1);
+	<script type="text/javascript" src="nexusButton.js"></script>
+	<script type="text/javascript" src="jquery.js"></script>
+	<script>
 		
+		nx.onload = function() {
+			
 			nx.colorize("#5dd");
 			nx.colorize("border", "#EEE");
+			
+			button_1.draw();
+			button_2.draw();
+			
+			button_1.transmissionProtocol = "none";
+			button_2.transmissionProtocol = "none";
+			
 		}
+		
+		function blockMove(event) {
+			event.preventDefault();
+		}
+		
 	</script>
 	
 </head>
-<body>
+<body ontouchmove="blockMove(event);">
 	
-	<canvas id="button_1" nx="button" width="100px" height="100px">HI!</canvas>
+	<canvas id="button_1" nx="button" width="100px" height="100px">Button</canvas>
+	<canvas id="button_2" nx="button" width="200px" height="200px">Button</canvas>
 	
 
 </body>
