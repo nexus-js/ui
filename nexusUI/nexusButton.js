@@ -22,11 +22,6 @@ function button(target, transmitCommand, uiIndex) {
 
 	this.init = function() {
 		
-		// FIXME: move to nexusUI
-		self.canvas.ontouchstart = self.touch;
-		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
-		self.canvas.ontouchend = self.touchRelease;
-		
 		self.draw();
 		
 		return 1;
@@ -56,7 +51,7 @@ function button(target, transmitCommand, uiIndex) {
 	}
 
 	this.click = function(e) {
-		self.nxTransmit(self.value * self.clicked);
+		self.nxTransmit(self.value * self.clickToVal());
 		self.draw();
 	}
 	
@@ -66,18 +61,14 @@ function button(target, transmitCommand, uiIndex) {
 
 	this.release = function() {
 		if (self.transmitRelease) {
-			self.nxTransmit(self.value * self.clicked); 
+			self.nxTransmit(self.value * self.clickToVal()); 
 		}
 		self.draw();
 	}
 	
 	this.touch = function(e) {
-		click_position = self.getTouchPosition(e, self.offset);
-		if (click_position) {
-			self.clicked = 1;
-			self.nxTransmit(self.value * self.clicked);
-			self.draw();
-		}
+		self.nxTransmit(self.value * self.clickToVal());
+		self.draw();
 	}
 	
 	this.touchMove = function(e) {
@@ -85,11 +76,8 @@ function button(target, transmitCommand, uiIndex) {
 	}
 
 	this.touchRelease = function(e) {
-		if (self.clicked == 1){
-			self.clicked = 0;
-		}
 		if (self.transmitRelease) {
-			self.nxTransmit(self.value * self.clicked); 
+			self.nxTransmit(self.value * self.clickToVal()); 
 		}
 		self.draw();
 	}

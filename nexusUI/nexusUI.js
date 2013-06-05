@@ -290,12 +290,13 @@ var nxManager = function() {
 		return adjustedPos;
 	}
 	
+	
+	this.blockMove = function(e) {
+		e.preventDefault();
+	}
 
 	
 }
-
-
-
 	
 
 /************************************************
@@ -318,13 +319,18 @@ window.onload = function() {
 			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
 		}
 	}
+	
+	if (nx.is_touch_device) {
+		document.addEventListener("touchmove", nx.blockMove, true);
+		document.addEventListener("touchstart", nx.blockMove, true);
+	}
+	
 	nx.onload();
 	
 };
 
 //FIXME: Have blockMove be added to the body automatically if it is_touch_device
 
-	
 	
 	
 
@@ -396,7 +402,7 @@ function getTemplate(self, target, transmitCommand) {
 		document.addEventListener("mousemove", self.preMove, false);
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
-		self.clicked = 1;
+		self.clicked = true;
 		self.click(e);
 	};
 	self.preMove = function(e) {
@@ -409,10 +415,39 @@ function getTemplate(self, target, transmitCommand) {
 	};
 	self.preRelease = function(e) {
 		document.removeEventListener("mousemove", self.preMove, false);
-		self.clicked = 0;
+		self.clicked = false;
 		self.release();
 		document.removeEventListener("mouseup", self.preRelease, false);
 	};
+	self.preTouch = function(e) {
+		self.clickPos = self.getTouchPosition(e, self.offset);
+		self.clicked = true;
+		self.touch(e);
+	};
+	self.preTouchMove = function(e) {
+		if (self.clicked) {
+			var new_click_position = self.getTouchPosition(e, self.offset);
+			self.deltaMoveY = new_click_position.y - self.clickPos.y;
+			self.deltaMoveX = new_click_position.x - self.clickPos.x;
+			self.clickPos = new_click_position;
+			self.touchMove(e);
+		}
+	};
+	self.preTouchRelease = function(e) {
+		if (self.clicked) {
+			self.clicked = false;
+		}
+		self.touchRelease(e);
+	};
+	
+	
+	self.clickToVal = function() {
+		if (self.clicked) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 	self.makeRoundedBG = function() {
 		this.bgLeft = this.lineWidth;
 		this.bgRight = this.width - this.lineWidth;
@@ -438,16 +473,12 @@ function getTemplate(self, target, transmitCommand) {
 
 //event listeners
 function getHandlers(self) {
-	if(self.is_touch_device) {
-		 // console.log("setting up as touch");
-		 self.canvas.ontouchstart = self.touch;
-		 self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
-		 //self.canvas.ontouchmove = self.touchMove;
-		 self.canvas.ontouchend = self.touchRelease;
+	if (nx.is_touch_device) {
+		 self.canvas.ontouchstart = self.preTouch;
+		 self.canvas.ontouchmove = self.nxThrottle(self.preTouchMove, self.nxThrottlePeriod);
+		 self.canvas.ontouchend = self.preTouchRelease;
 	} else {
-		self.canvas.addEventListener("mousedown", self.preClick, false);
-	//	self.canvas.addEventListener("mousemove", self.nxThrottle(self.move, self.nxThrottlePeriod), false);	
-	//	self.canvas.addEventListener("mouseup", self.preRelease, false);
+		 self.canvas.addEventListener("mousedown", self.preClick, false);
 	}
 }
 

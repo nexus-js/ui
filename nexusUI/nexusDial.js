@@ -40,11 +40,6 @@ function dial(target, transmitCommand, uiIndex) {
 			self.dial_position_length--;
 		}
 		
-		// FIXME: move to nexusUI
-		self.canvas.ontouchstart = self.touch;
-		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
-		self.canvas.ontouchend = self.touchRelease;
-		
 		self.draw();
 		
 		return 1;
@@ -134,38 +129,26 @@ function dial(target, transmitCommand, uiIndex) {
 
 
 	this.release = function() {
-		//self.clicked is now set to 0
+		//self.clicked is now set to false
 		//mousemove handler is removed
 		
 	}
 	
 	
 	this.touch = function(e) {
-		self.clickPos = self.getTouchPosition(e, self.offset);
-		self.clicked = 1;
 		self.nxTransmit(self.value);
 		self.draw();
 	}
 
 
 	this.touchMove = function(e) {
-		if (self.clicked) {
-			var new_click_position = self.getTouchPosition(e, self.offset);
-			var delta_move = new_click_position.y - self.clickPos.y;
-
-			self.value = self.clip((self.value - (delta_move * self.responsivity)), 0, 1);
-			self.clickPos = new_click_position;
-			self.nxTransmit(self.value);
-			self.draw();
-		}
+		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
+		self.nxTransmit(self.value);
+		self.draw();
 	}
 
 
 	this.touchRelease = function(e) {
-		// canvas.ontouchmove = null;	// remove when not needed any longer.
-		if (self.clicked == 1){
-			self.clicked = 0;
-		}
 	}
 
 	init();

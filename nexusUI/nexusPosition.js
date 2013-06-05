@@ -82,17 +82,13 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	this.click = function() {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
-	//	self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
 		self.draw();
-		
-		console.log(self.clickPos.y);
 	}
 
 	this.move = function() {
 		if (self.clicked) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
-			self.mainAjax();
 			self.draw();
 			var help = {
 				"self.clickPos.x": self.clickPos.x,
@@ -101,7 +97,6 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 				"self.nodePos[1]": self.nodePos[1],
 				"self.offset": self.offset
 			}
-			//console.log(help);
 		}
 	}
 	
@@ -113,15 +108,13 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	this.touch = function() {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
-	//	self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);		
-		draw();
+		self.draw();
 	}
 
 	this.touchMove = function() {
 		if (self.clicked) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
-		//	self.ajaxSend(self.ajaxCommand, self.osc_name, self.uiIndex, click_position.x+" "+click_position.y);
 			self.draw();
 		}
 	}
