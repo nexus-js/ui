@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Nexus Mobile Audio Interface Objects</title>
+	<meta name="LSU EMDM" content="nexus">
+	
+	<script type="text/javascript" src="jquery.js"></script>
+	<script type="text/javascript" src="nexusUI.js"></script>
+	<script type="text/javascript" src="nexusDial.js"></script>
+	<script type="text/javascript" src="nexusButton.js"></script>
+	<script type="text/javascript" src="nexusToggle.js"></script>
+	<script type="text/javascript" src="nexusPosition.js"></script>
+	<link type="style/css" href="nexusUI.css" rel="stylesheet">
+	<script type="text/javascript" charset="utf-8">
+	
+		
+		nx.onload = function() {
+			
+			nx.colorize("#08d");
+			
+			dial_2.value = 0.75;
+			dial_2.draw();
+			
+			dial_1.transmissionProtocol = "none";
+			
+		}
+		
+	</script>
+	
+</head>
+<body>
+	
+	<div style="color:#000;font-size:25pt;font-family:courier">
+		nexus
+	</div>
+	<div style="color:#000;font-size:18pt;font-family:courier;margin-bottom:40px">
+		mobile audio interface elements
+	</div>
+	
+	<canvas id="dial_1" nx="dial" width="200px" height="200px">Your browser does not support HTML5. Please update!</canvas>
+	<canvas id="dial_2" nx="dial" width="200px" height="200px"></canvas>
+	<canvas id="dial_3" nx="dial" width="200px" height="200px"></canvas><br><br>
+	<canvas id="toggle_1" nx="toggle" width="120px" height="160px"></canvas>
+	<canvas id="toggle_2" nx="toggle" width="120px" height="160px"></canvas>
+	<canvas id="toggle_3" nx="toggle" width="120px" height="160px"></canvas>
+	<canvas id="toggle_4" nx="toggle" width="120px" height="160px"></canvas><br><br>
+	<canvas id="button_1" nx="button" width="150px" height="150px"></canvas>
+	<canvas id="button_2" nx="button" width="150px" height="150px"></canvas>
+	<canvas id="button_3" nx="button" width="150px" height="150px"></canvas>
+	<canvas id="button_4" nx="button" width="150px" height="150px"></canvas><br><br>
+	<canvas id="position_1" nx="position" width="328px" height="200px"></canvas>
+	<canvas id="position_2" nx="position" width="328px" height="200px"></canvas><br>
+	
+
+</body>
+</html>

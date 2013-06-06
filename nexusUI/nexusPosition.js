@@ -69,6 +69,18 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		}
 	
 		with (self.context) {
+			globalAlpha=0.2;
+			beginPath();
+				strokeStyle = self.colors.accent;
+				//lineWidth = self.lineWidth;
+				lineWidth = 2;
+				moveTo(self.nodePos[0],0+self.padding);
+				lineTo(self.nodePos[0],self.height-self.padding);
+				moveTo(0+self.padding,self.nodePos[1]);
+				lineTo(self.width-self.padding,self.nodePos[1]);					
+				stroke();
+			closePath();
+			globalAlpha=1;
 			beginPath();
 				fillStyle = self.colors.accent;
 				strokeStyle = self.colors.border;
@@ -83,6 +95,8 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
+		//FIXME: how to send two values?
+		self.nxTransmit(self.nodePos);
 	}
 
 	this.move = function() {
@@ -97,6 +111,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 				"self.nodePos[1]": self.nodePos[1],
 				"self.offset": self.offset
 			}
+			self.nxTransmit(self.nodePos);
 		}
 	}
 	
@@ -109,6 +124,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
+		self.nxTransmit(self.nodePos);
 	}
 
 	this.touchMove = function() {
@@ -116,24 +132,12 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
+			self.nxTransmit(self.nodePos);
 		}
 	}
 
 	this.touchRelease = function() {
 		
-	}
-	
-	
-	this.mainAjax = function() {
-		self.Yvalue = self.nodePos[1] / self.canvas.height;
-		if (self.Yvalue > 1) { 
-			self.Yvalue = 1;	
-		} else if (self.Yvalue < 0) { 
-			self.Yvalue = 0;	
-		}
-		self.Yvalue = Math.abs(self.Yvalue - 1);
-	//	self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, click_position.x+" "+click_position.y);
-		self.ajaxSend(self.ajaxCommand, self.oscName, self.uiIndex, self.Yvalue, self.oscIp)
 	}
 	
 	this.init();

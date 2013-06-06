@@ -77,7 +77,9 @@ var nxManager = function() {
 	//nxTransmit
 	// Transmit code that sends ui data to various destinations set by the transmissionProtocol variable
 	// TODO: why does this work and not self unless self is passed in???  
+	// MORE: why is 'this' referring to the UI object here, not the nx manager???
 	this.nxTransmit = function (data) {
+		console.log(this);
 		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
 		if (this.transmissionProtocol == "none") {
 			
@@ -224,6 +226,14 @@ var nxManager = function() {
 			closePath();
 		}
 	}
+	
+	this.boolToVal = function(somebool) {
+		if (somebool) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 
 
 
@@ -328,8 +338,6 @@ window.onload = function() {
 	nx.onload();
 	
 };
-
-//FIXME: Have blockMove be added to the body automatically if it is_touch_device
 
 	
 	
@@ -440,14 +448,6 @@ function getTemplate(self, target, transmitCommand) {
 		self.touchRelease(e);
 	};
 	
-	
-	self.clickToVal = function() {
-		if (self.clicked) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
 	self.makeRoundedBG = function() {
 		this.bgLeft = this.lineWidth;
 		this.bgRight = this.width - this.lineWidth;

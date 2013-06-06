@@ -82,6 +82,7 @@ function toggle(target, ajaxCommand, uiIndex) {
 			self.on = false;
 		}
 		self.draw();
+		self.nxTransmit(nx.boolToVal(self.on));
 	}
 	
 	this.move = function() {
@@ -90,6 +91,25 @@ function toggle(target, ajaxCommand, uiIndex) {
 	
 	this.release = function() {
 		
+	}
+		
+	this.touch = function(e) {
+		if (!self.on) {
+			self.on = true;
+		}
+		else {
+			self.on = false;
+		}
+		self.draw();
+		self.nxTransmit(nx.boolToVal(self.on));
+	}
+
+
+	this.touchMove = function(e) {
+	}
+
+
+	this.touchRelease = function(e) {
 	}
 	
 	

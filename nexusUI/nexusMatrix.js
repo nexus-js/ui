@@ -148,7 +148,7 @@ function matrix(target, ajaxCommand, uiIndex) {
 	
 	this.move = function(e) {
 		if (self.clicked) {
-			if (self.matrix[whichCell[0]][whichCell[1]][0] == 1 && e.shiftKey == 1) {
+			if (self.matrix[whichCell[0]][whichCell[1]][0] == 1) {
 				
 				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]][1]+(self.deltaMoveY*-1)*0.01));	
 				self.matrix[whichCell[0]][whichCell[1]][1] = delta_value;
@@ -160,6 +160,44 @@ function matrix(target, ajaxCommand, uiIndex) {
 	
 	this.release = function() {
 		
+	}
+	
+		
+	this.touch = function(e) {
+		for (i=0; i<self.col; i++) {
+			for (j=0; j<self.row; j++) {
+				var cell_x = i*self.cellWid+self.off/2;
+				var cell_y = j*self.cellHgt+self.off+self.off/2;
+	
+				if(cell_x<self.clickPos.x && self.clickPos.x<cell_x+self.cellWid && cell_y<self.clickPos.y && self.clickPos.y<cell_y+self.cellHgt) {
+					if(e.shiftKey != 1) {
+						self.matrix[i][j][0] = (self.matrix[i][j][0]+1)%2;
+					}
+					whichCell = [i,j];
+					break;
+				}
+			}
+		}
+		//self.nxTransmit(self.value);
+		self.draw();
+	}
+
+
+	this.touchMove = function(e) {
+		if (self.clicked) {
+			if (self.matrix[whichCell[0]][whichCell[1]][0] == 1) {
+				
+				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]][1]+(self.deltaMoveY*-1)*0.01));	
+				self.matrix[whichCell[0]][whichCell[1]][1] = delta_value;
+				self.draw();
+	
+			} 
+		}
+		//self.nxTransmit(self.value);
+	}
+
+
+	this.touchRelease = function(e) {
 	}
 	
 	this.init();

@@ -51,7 +51,7 @@ function button(target, transmitCommand, uiIndex) {
 	}
 
 	this.click = function(e) {
-		self.nxTransmit(self.value * self.clickToVal());
+		self.nxTransmit(self.value * nx.boolToVal(self.clicked));
 		self.draw();
 	}
 	
@@ -61,13 +61,13 @@ function button(target, transmitCommand, uiIndex) {
 
 	this.release = function() {
 		if (self.transmitRelease) {
-			self.nxTransmit(self.value * self.clickToVal()); 
+			self.nxTransmit(self.value * nx.boolToVal(self.clicked)); 
 		}
 		self.draw();
 	}
 	
 	this.touch = function(e) {
-		self.nxTransmit(self.value * self.clickToVal());
+		self.nxTransmit(self.value * nx.boolToVal(self.clicked));
 		self.draw();
 	}
 	
@@ -77,7 +77,7 @@ function button(target, transmitCommand, uiIndex) {
 
 	this.touchRelease = function(e) {
 		if (self.transmitRelease) {
-			self.nxTransmit(self.value * self.clickToVal()); 
+			self.nxTransmit(self.value * nx.boolToVal(self.clicked)); 
 		}
 		self.draw();
 	}
