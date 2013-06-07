@@ -10,6 +10,7 @@ function button(target, transmitCommand, uiIndex) {
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
+	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;

@@ -10,16 +10,18 @@ function dial(target, transmitCommand, uiIndex) {
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
+	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
+	
 	//define unique attributes
 	this.circle_size = 1;
 	this.dial_position_length = 6;
 	this.lineWidth = 4;
-	if (this.width<60 || this.width<60) {
+	if (this.width<101 || this.width<101) {
 		this.accentWidth = this.lineWidth * 1.2;
 	} else {
 		this.accentWidth = this.lineWidth * 2;
@@ -35,7 +37,7 @@ function dial(target, transmitCommand, uiIndex) {
 		self.circle_size = (Math.min(self.center.x, self.center.y)-5);
 		self.dial_position_length = self.circle_size+self.lineWidth;
 		
-		if (self.width<60) {
+		if (self.width<101) {
 			self.dial_position_length--;
 			self.dial_position_length--;
 		}

@@ -325,6 +325,9 @@ window.onload = function() {
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
 		var nxId = allcanvi[i].getAttribute("nx");	
+		if (!allcanvi[i].id) {
+			allcanvi[i].id = nxId + i;
+		}
 		if(nxId) {
 			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
 		}
@@ -355,6 +358,12 @@ function getTemplate(self, target, transmitCommand) {
 	self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
 	self.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
 	self.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+	if (self.width==300 && self.height==150) {
+		self.canvas.width = self.defaultSize.width;
+		self.canvas.height = self.defaultSize.height;
+		self.width = self.defaultSize.width;
+		self.height = self.defaultSize.height;
+	}
 	self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
 	self.center = {
 					x: self.width/2, 
@@ -448,6 +457,15 @@ function getTemplate(self, target, transmitCommand) {
 		self.touchRelease(e);
 	};
 	
+	self.adjustSizeIfDefault = function() {
+		if (self.width==300 && self.height==150) {
+			console.log(wid);
+			self.canvas.width = self.defaultSize.width;
+			self.canvas.height = self.defaultSize.height;
+			self.width = self.defaultSize.width;
+			self.height = self.defaultSize.height;
+		}
+	}
 	self.makeRoundedBG = function() {
 		this.bgLeft = this.lineWidth;
 		this.bgRight = this.width - this.lineWidth;

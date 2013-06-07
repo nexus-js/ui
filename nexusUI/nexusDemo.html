@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
 	<title>Nexus Mobile Audio Interface Objects</title>
 	<meta name="LSU EMDM" content="nexus">
 	
@@ -11,6 +12,7 @@
 	<script type="text/javascript" src="nexusButton.js"></script>
 	<script type="text/javascript" src="nexusToggle.js"></script>
 	<script type="text/javascript" src="nexusPosition.js"></script>
+	<script type="text/javascript" src="nexusMatrix.js"></script>
 	<link type="style/css" href="nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" charset="utf-8">
 	
@@ -19,10 +21,7 @@
 			
 			nx.colorize("#08d");
 			
-			dial_2.value = 0.75;
-			dial_2.draw();
-			
-			dial_1.transmissionProtocol = "none";
+			dial1.transmissionProtocol = "none";
 			
 		}
 		
@@ -31,26 +30,40 @@
 </head>
 <body>
 	
-	<div style="color:#000;font-size:25pt;font-family:courier">
-		nexus
+	<div style="width:980px;height:980px;border:solid 1px black;padding:10px;margin:0;position:absolute;top:0px;left:0px;">
+			
+		<div style="color:#000;font-size:25pt;font-family:courier;">
+			nexus
+		</div>
+		<div style="color:#000;font-size:18pt;font-family:courier;margin-bottom:20px">
+			mobile audio interface elements
+		</div>
+		
+		<div>
+			<canvas nx="dial">Your browser does not support HTML5. Please update!</canvas>
+			<canvas nx="dial"></canvas>
+			<canvas nx="dial"></canvas>
+			<canvas nx="dial"></canvas>
+			<canvas nx="dial"></canvas>
+			<canvas nx="dial"></canvas>
+			<canvas nx="dial"></canvas>
+			<canvas nx="dial"></canvas>
+		</div>
+		<div>
+			<canvas nx="toggle"></canvas>
+			<canvas nx="toggle"></canvas>
+			<canvas nx="toggle"></canvas>
+			<canvas nx="toggle"></canvas>
+			<canvas nx="button"></canvas>
+			<canvas nx="button"></canvas>
+			<canvas nx="button"></canvas>
+			<canvas nx="button"></canvas>
+		</div>
+		<canvas id="position_1" nx="position" width="328px" height="200px"></canvas>
+		<canvas id="position_2" nx="position" width="328px" height="200px"></canvas><br>
+		<canvas id="matrix_1" nx="matrix" width="300px" height="300px"></canvas><br>
+		
 	</div>
-	<div style="color:#000;font-size:18pt;font-family:courier;margin-bottom:40px">
-		mobile audio interface elements
-	</div>
-	
-	<canvas id="dial_1" nx="dial" width="200px" height="200px">Your browser does not support HTML5. Please update!</canvas>
-	<canvas id="dial_2" nx="dial" width="200px" height="200px"></canvas>
-	<canvas id="dial_3" nx="dial" width="200px" height="200px"></canvas><br><br>
-	<canvas id="toggle_1" nx="toggle" width="120px" height="160px"></canvas>
-	<canvas id="toggle_2" nx="toggle" width="120px" height="160px"></canvas>
-	<canvas id="toggle_3" nx="toggle" width="120px" height="160px"></canvas>
-	<canvas id="toggle_4" nx="toggle" width="120px" height="160px"></canvas><br><br>
-	<canvas id="button_1" nx="button" width="150px" height="150px"></canvas>
-	<canvas id="button_2" nx="button" width="150px" height="150px"></canvas>
-	<canvas id="button_3" nx="button" width="150px" height="150px"></canvas>
-	<canvas id="button_4" nx="button" width="150px" height="150px"></canvas><br><br>
-	<canvas id="position_1" nx="position" width="328px" height="200px"></canvas>
-	<canvas id="position_2" nx="position" width="328px" height="200px"></canvas><br>
 	
 
 </body>
