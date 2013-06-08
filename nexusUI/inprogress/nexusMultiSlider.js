@@ -56,7 +56,7 @@ function multiSlider(draw_canvas, ajax_command, multiSlider_id) {
 	{
 		var multiSlider_context = canvas.getContext("2d");
 		
-	  var multi_aspect = canvas_width/canvas_height;
+	 	var multi_aspect = canvas_width/canvas_height;
 		var i;
 		
 		with(multiSlider_context) {

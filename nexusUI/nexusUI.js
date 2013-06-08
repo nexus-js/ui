@@ -264,6 +264,7 @@ var nxManager = function() {
 	}
 	
 	this.makeRoundRect = function(ctx,xpos,ypos,wid,hgt) {
+		console.log("rounded rect madddde");
 		var x1 = xpos;
 		var y1 = ypos;
 		var x2 = wid+x1;
@@ -326,7 +327,8 @@ window.onload = function() {
 	for (i=0;i<allcanvi.length;i++) {
 		var nxId = allcanvi[i].getAttribute("nx");	
 		if (!allcanvi[i].id) {
-			allcanvi[i].id = nxId + i;
+			var idNum = i+1;
+			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
 			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
