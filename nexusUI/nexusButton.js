@@ -36,11 +36,11 @@ function button(target, transmitCommand, uiIndex) {
 		
 			// ** Button ** //
 			if (!self.clicked) {
-				fillStyle = nx.colors.fill;
-				strokeStyle = nx.colors.border;
+				fillStyle = self.colors.fill;
+				strokeStyle = self.colors.border;
 			} else if (self.clicked) {
-				fillStyle = nx.colors.accent;
-				strokeStyle = nx.colors.accent;
+				fillStyle = self.colors.accent;
+				strokeStyle = self.colors.accent;
 			}
 			
 			beginPath();

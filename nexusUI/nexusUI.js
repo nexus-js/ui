@@ -24,9 +24,10 @@ var nxManager = function() {
 			newCol = aspect;
 			aspect = "accent";
 		}
-		eval("nx.colors."+aspect+" = '"+newCol+"';");
+	//	eval("nx.colors."+aspect+" = '"+newCol+"';");
 		for (i=0;i<this.nxObjects.length;i++) {
-			this.nxObjects[i].colors = this.colors;
+	//		this.nxObjects[i].colors = this.colors;
+			eval("this.nxObjects[i].colors."+aspect+" = '"+newCol+"';");
 			this.nxObjects[i].draw();
 		}
 	}
@@ -384,7 +385,14 @@ function getTemplate(self, target, transmitCommand) {
 	//drawing
 	self.lineWidth = 3;
 	self.padding = 3;
-	self.colors = nx.colors;
+	//self.colors = nx.colors;
+	self.colors = new Object();
+	self.colors.accent = nx.colors.accent;
+	self.colors.fill = nx.colors.fill;
+	self.colors.border = nx.colors.border;
+	self.colors.accentborder = nx.colors.accentborder;
+	self.colors.black = nx.colors.black;
+	self.colors.white = nx.colors.white; 
 	//interaction
 	self.click = new nx.point(0,0);
 	self.clicked = false;

@@ -8,6 +8,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
+	this.defaultSize = { width: 800, height: 200 };
 	
 	//get common attributes and methods
 	self.getTemplate = getTemplate;
@@ -49,11 +50,6 @@ function keyboard(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
-		
-		// FIXME: move to nexusUI
-		self.canvas.ontouchstart = self.touch;
-		self.canvas.ontouchmove = self.nxThrottle(self.touchMove, self.nxThrottlePeriod);
-		self.canvas.ontouchend = self.touchRelease;
 		
 		self.draw();
 		
@@ -199,7 +195,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 		
 		// change the note_new --> midi_note_new (offset)
 		self.nxTransmit(midi_note);
-		self.draw();	
+		self.draw();
 	}
 
 	this.touchMove = function(e) {

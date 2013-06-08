@@ -13,10 +13,25 @@
 		
 		nx.onload = function() {
 			
-			nx.colorize("#08d");
+			slider1.colors.accent = "red";
+			slider1.value = 0.2;
+			slider2.colors.accent = "orange";
+			slider2.value = 0.3;
+			slider3.colors.accent = "yellow";
+			slider3.value = 0.4;
+			slider4.colors.accent = "green";
+			slider4.value = 0.5;
+			slider5.colors.accent = "blue";
+			slider5.value = 0.6;
+			slider6.colors.accent = "purple";
+			slider6.value = 0.7;
 			
-			slider1.transmissionProtocol = "none";
-			slider2.transmissionProtocol = "none";
+			slider1.draw();
+			slider2.draw();
+			slider3.draw();
+			slider4.draw();
+			slider5.draw();
+			slider6.draw(); 
 			
 		}
 		
@@ -26,7 +41,11 @@
 <body>
 	
 	<canvas nx="slider">Slider</canvas>
-	<canvas nx="slider" height="300px" width="20px">Slider</canvas>
+	<canvas nx="slider">Slider</canvas>
+	<canvas nx="slider">Slider</canvas>
+	<canvas nx="slider">Slider</canvas>
+	<canvas nx="slider">Slider</canvas>
+	<canvas nx="slider">Slider</canvas>
 	
 
 </body>

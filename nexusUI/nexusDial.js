@@ -59,8 +59,8 @@ function dial(target, transmitCommand, uiIndex) {
 
 		with (self.context) {
 			clearRect(0,0, self.width, self.height);
-			strokeStyle = nx.colors.border;
-			fillStyle = nx.colors.fill;
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
 			lineWidth = self.lineWidth;
 			
 			//draw main circle
@@ -75,7 +75,7 @@ function dial(target, transmitCommand, uiIndex) {
 				lineWidth = self.accentWidth;
 				arc(self.center.x, self.center.y, self.circle_size , Math.PI* 0.5, dial_position, false);
 				lineTo(self.center.x,self.center.y);
-				//strokeStyle = nx.colors.accent;
+				//strokeStyle = self.colors.accent;
 				globalAlpha = 0.1;
 				fillStyle = self.colors.accent;
 				fill();
@@ -86,14 +86,14 @@ function dial(target, transmitCommand, uiIndex) {
 			beginPath();
 				lineWidth = self.accentWidth;
 				arc(self.center.x, self.center.y, self.circle_size , Math.PI* 0.5, dial_position, false);
-				strokeStyle = nx.colors.accent;
+				strokeStyle = self.colors.accent;
 				stroke();
 			closePath(); 
 		
 			//draw bar accent
 			beginPath();
 				lineWidth = self.accentWidth;
-				strokeStyle = nx.colors.accent;
+				strokeStyle = self.colors.accent;
 				moveTo(self.center.x, self.center.y);
 				lineTo(point.x + self.center.x, point.y + self.center.y);
 				stroke();
@@ -101,7 +101,7 @@ function dial(target, transmitCommand, uiIndex) {
 			
 			//draw circle in center
 			beginPath();
-				fillStyle = nx.colors.accent;
+				fillStyle = self.colors.accent;
 				arc(self.center.x, self.center.y, self.circle_size/15+6, 0, Math.PI*2, false);
 				fill();
 			closePath(); 
