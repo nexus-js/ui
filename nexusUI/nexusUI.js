@@ -264,7 +264,6 @@ var nxManager = function() {
 	}
 	
 	this.makeRoundRect = function(ctx,xpos,ypos,wid,hgt) {
-		console.log("rounded rect madddde");
 		var x1 = xpos;
 		var y1 = ypos;
 		var x2 = wid+x1;

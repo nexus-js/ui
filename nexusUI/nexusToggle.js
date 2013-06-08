@@ -5,7 +5,7 @@ function toggle(target, ajaxCommand, uiIndex) {
 	//self awareness
 	var self = this;
 	this.uiIndex = uiIndex;
-	this.defaultSize = { width: 100, height: 133 };
+	this.defaultSize = { width: 75, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;

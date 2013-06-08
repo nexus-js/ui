@@ -13,10 +13,10 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	this.ajaxCommand = ajaxCommand;
 	
 	//unique attributes
-	this.sliders = 5;
+	this.sliders = 15;
 	this.values = new Array();
 	for (var i=0;i<this.sliders;i++) {
-		this.values.push(0.5);
+		this.values.push(0.7 - i*(0.3/this.sliders));
 	}
 	this.sliderClicked = 0;
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
