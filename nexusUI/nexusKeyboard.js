@@ -167,7 +167,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.nxTransmit(midi_note);
+		var note = [midi_note, 1];
+		self.nxTransmit(note);
 		self.draw();	
 	}
 
@@ -178,7 +179,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.nxTransmit(midi_note);
+				self.nxTransmit(midi_note, 1);
 				self.draw();
 			}
 		}
@@ -188,8 +189,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 	this.release = function(e) {
 		for (j=0;j<self.octaves;j++) {
 			for (i=0;i<12;i++) {
-				var d = j*12 + i;
-					self.change_cell(d, 0);
+				var note_released = j*12 + i;
+				self.change_cell(note_released, 0);
+				self.nxTransmit(note_released, 0);
 			}
 		}
 		self.draw();
