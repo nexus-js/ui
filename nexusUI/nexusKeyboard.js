@@ -8,7 +8,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
-	this.defaultSize = { width: 800, height: 200 };
+	this.defaultSize = { width: 400, height: 100 };
 	
 	//get common attributes and methods
 	self.getTemplate = getTemplate;
@@ -16,7 +16,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 
 	// define unique attributes
 	self.octaves = 2;
-	var width = (self.canvas.width/(self.octaves*12))/3;
+//	var width = (self.canvas.width/(self.octaves*12))/3;
+	var width = (self.canvas.width/(self.octaves*12))/1.75;
 	var w_height = self.height;
 	var b_height = w_height*4/7;
 	var w_width = width*3;
@@ -30,7 +31,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 	var note_new;
 	var note_old;
 		
-	function init() {
+	this.init = function() {
+		document.addEventListener("keydown", self.type);
+		document.addEventListener("keyup", self.untype);
 		var o,j,i;
 		for (j=0;j<self.octaves;j++) {
 			for (i=0; i<12; i++) {
@@ -66,15 +69,16 @@ function keyboard(target, transmitCommand, uiIndex) {
 					var k = keys[d][1];
 					var x = k*w_width + (m*w_width*7);
 					with (self.context) {
+						lineWidth = self.lineWidth;
 						if (keys[d][0] == 0){
-							fillStyle = '#FFF';
+							fillStyle = self.colors.fill;
 							fillRect(x, 0, w_width, w_height);
-							strokeStyle = '#000';
+							strokeStyle = self.colors.border;
 							strokeRect(x , 0, w_width, w_height);
 
 						}
 						else {
-							fillStyle = '#AAA';
+							fillStyle = "#AAA";
 							fillRect(x, 0, w_width, w_height);
 						}
 
@@ -84,16 +88,22 @@ function keyboard(target, transmitCommand, uiIndex) {
 					dis = keys[d][1];
 					xx = dis*(b_width+b_width/2) + b_width + (m*w_width*7);	
 					with (self.context) {
+						lineWidth = self.lineWidth;
 						if (keys[d][0] == 0){
-							fillStyle = '#000';
+							fillStyle = self.colors.black;
 						}	
 						else {
-							fillStyle = '#AAA';
+							fillStyle = "#AAA";
 						}
 						fillRect(xx, 0, b_width, b_height);	
 					}
 				}	
 			}
+		}
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			lineWidth = 5;
+			strokeRect(0,0,self.width,self.height);
 		}
 	}
 
@@ -152,6 +162,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
 		self.change_cell(note_new, 1);
 		note_old = note_new;
+		console.log(note_new);
 		
 		midi_note = keys[note_new][5];
 		
@@ -185,7 +196,6 @@ function keyboard(target, transmitCommand, uiIndex) {
 	}
 	
 	
-	// FIXME: Fix touch calculations.  They are outdated...
 	this.touch = function(e) {
 		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
 		self.change_cell(note_new, 1);
@@ -224,7 +234,43 @@ function keyboard(target, transmitCommand, uiIndex) {
 		self.draw();
 	}
 	
+	this.type = function(e) {
+		var currKey = e.which;
+		if (e.which>47 && e.which<91) {
+			var asciis = [  81,50,87,51,69,82,53,84,54,89,55,85];
+			var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
+			var keyAsciiIndex = asciis.indexOf(currKey);
+			note_new = keyIndex[keyAsciiIndex];
+			console.log(note_new);
+			self.change_cell(note_new, 1);
+			note_old = note_new;
+			
+			midi_note = keys[note_new][5];
+			
+			// change the note_new --> midi_note_new (offset)
+			self.nxTransmit(midi_note);
+			self.draw();	
+		}
+	}
+	
+	this.untype = function(e) {
+		var currKey = e.which;
+		if (e.which>47 && e.which<91) {
+			var asciis = [  81,50,87,51,69,82,53,84,54,89,55,85];
+			var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
+			var keyAsciiIndex = asciis.indexOf(currKey);
+			note_old = keyIndex[keyAsciiIndex];
+			self.change_cell(note_old, 0);
+			
+			midi_note = keys[note_new][5];
+			
+			// change the note_new --> midi_note_new (offset)
+			self.nxTransmit(midi_note);
+			self.draw();
+		}	
+	}
+	
 
-	init();
+	this.init();
 	
 }

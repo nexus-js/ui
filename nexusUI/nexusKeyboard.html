@@ -13,14 +13,8 @@
 		
 		nx.onload = function() {
 			
-			// nx.colorize("green");
-			// nx.colorize("border", "white");
-			
-			keyboard_1.draw();
-			keyboard_2.draw();
-			
-			keyboard_1.transmissionProtocol = "none";
-			keyboard_2.transmissionProtocol = "none";
+			keyboard1.transmissionProtocol = "none";
+			keyboard2.transmissionProtocol = "none";
 			
 		}
 		
@@ -34,8 +28,8 @@
 <body ontouchmove="blockMove(event);">
 	
 	<div id="keys">
-		<canvas id="keyboard_1" nx="keyboard" width="800px" height="150px">Keyboard</canvas>
-		<canvas id="keyboard_2" nx="keyboard" width="500px" height="100px">Keyboard</canvas>
+		<canvas nx="keyboard">Keyboard</canvas><br>
+		<canvas nx="keyboard" width="200px" height="50px">Keyboard</canvas>
 	</div>
 	
 
