@@ -20,12 +20,6 @@ function toggle(target, ajaxCommand, uiIndex) {
 	}
 
 	this.init = function() {
-		getHandlers(self);
-		
-		if (!self.ajaxCommand) {
-			self.ajaxCommand = "toggle";
-		}
-		
 		self.draw();
 	}
 	

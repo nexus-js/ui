@@ -156,6 +156,23 @@ var nxManager = function() {
 	
 	
 	
+	
+	
+	
+	
+	
+	//event listeners
+	this.getHandlers = function(self) {
+		if (manager.is_touch_device) {
+			 self.canvas.ontouchstart = self.preTouch;
+			 self.canvas.ontouchmove = self.nxThrottle(self.preTouchMove, self.nxThrottlePeriod);
+			 self.canvas.ontouchend = self.preTouchRelease;
+		} else {
+			 self.canvas.addEventListener("mousedown", self.preClick, false);
+		}
+	}
+	
+	
 	//replaces Point
 	this.point = function(x,y){
 		this.x = x;
@@ -530,19 +547,8 @@ function getTemplate(self, target, transmitCommand) {
 		self.canvas.style.cursor = "auto";
 	};
 	
-	getHandlers(self);
+	nx.getHandlers(self);
 };
-
-//event listeners
-function getHandlers(self) {
-	if (nx.is_touch_device) {
-		 self.canvas.ontouchstart = self.preTouch;
-		 self.canvas.ontouchmove = self.nxThrottle(self.preTouchMove, self.nxThrottlePeriod);
-		 self.canvas.ontouchend = self.preTouchRelease;
-	} else {
-		 self.canvas.addEventListener("mousedown", self.preClick, false);
-	}
-}
 
 	
 	

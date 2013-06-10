@@ -13,6 +13,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;
+	this.values = [0,0];
 	
 	this.default_text = "click or touch to control a node";	
 	this.throttle = nx.throttle;
@@ -21,8 +22,6 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 
 	this.init = function() {
-		getHandlers(self);
-
 		self.draw();
 	}
 
@@ -82,13 +81,18 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 			closePath();
 		}
 	}
+	
+	this.scaleNode = function() {
+		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
+		return self.values;
+	}
 
 	this.click = function() {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
 		//FIXME: how to send two values?
-		self.nxTransmit(self.nodePos);
+		self.nxTransmit(self.scaleNode());
 	}
 
 	this.move = function() {
@@ -103,7 +107,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 				"self.nodePos[1]": self.nodePos[1],
 				"self.offset": self.offset
 			}
-			self.nxTransmit(self.nodePos);
+			self.nxTransmit(self.scaleNode());
 		}
 	}
 	
@@ -116,7 +120,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
-		self.nxTransmit(self.nodePos);
+		self.nxTransmit(self.scaleNode());
 	}
 
 	this.touchMove = function() {
@@ -124,7 +128,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
-			self.nxTransmit(self.nodePos);
+			self.nxTransmit(self.scaleNode());
 		}
 	}
 
