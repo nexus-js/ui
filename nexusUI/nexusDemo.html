@@ -23,7 +23,12 @@
 		nx.onload = function() {
 			
 			nx.colorize("#08d");
-			dial1.transmissionProtocol = "none";
+			
+			nx.setTransmissionProtocol("local");
+			
+			nx.route = function(oscName, data) {
+				$("#receiver").html(oscName + "<br>" +data);
+			}
 			
 		}
 		
@@ -32,7 +37,7 @@
 </head>
 <body>
 	
-	<div style="color:#000;font-size:25pt;font-family:gill sans;margin-bottom:20px;padding:10px;background-color:#eee;width:600px">
+	<div style="color:#000;font-size:25pt;font-family:gill sans;margin-bottom:20px;padding:10px;background-color:#eee;width:600px;">
 		<span style="font-size:25pt;">
 			nexus
 		</span>
@@ -70,6 +75,7 @@
 		<canvas nx="keyboard" width="300px" height="90px"></canvas>
 	</div>
 	
+	<div id="receiver" style="position:fixed;bottom:0px;right:0px;background-color:white;opacity:0.7;color:black;padding:30px;font-weight:bold;font-family:courier;font-size:20pt;max-width:200px;">/dial 10</div>
 
 </body>
 </html>

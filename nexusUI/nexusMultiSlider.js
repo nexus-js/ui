@@ -10,7 +10,6 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, ajaxCommand);
-	this.ajaxCommand = ajaxCommand;
 	
 	//unique attributes
 	this.sliders = 15;
@@ -21,10 +20,7 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	this.sliderClicked = 0;
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
 	this.sliderWidth = self.realSpace.x/self.sliders;
-	
-	this.ajaxSend = nx.ajaxSend;
-	this.oscName = oscName;
-	this.oscIp = oscIp;
+	this.oldSliderToMove;
 		
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
@@ -33,10 +29,6 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 
 	this.init = function() {
 		getHandlers(self);
-		
-		if (!self.ajaxCommand) {
-			self.ajaxCommand = "multislider";
-		}
 
 		self.draw();
 	}
@@ -72,6 +64,7 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	}
 	
 	this.click = function() {
+		self.oldSliderToMove = false;
 		self.move();
 	}
 
@@ -79,6 +72,30 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		if (self.clicked) {
 			var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
 			self.values[sliderToMove] = (Math.abs((self.clickPos.y / self.height) - 1));
+			if (self.oldSliderToMove) {
+				var sliderJump = sliderToMove -  self.oldSliderToMove;
+				if (sliderJump>1) {
+					var sliderIncrement = ( self.values[sliderToMove] - self.values[self.oldSliderToMove] ) / sliderJump;
+					for (i=1;i<sliderJump;i++) {			
+						self.values[self.oldSliderToMove+i] = self.values[self.oldSliderToMove] + sliderIncrement * i;		
+					}
+				}
+				if (sliderJump<-1) {
+					var sliderIncrement = ( self.values[sliderToMove] - self.values[self.oldSliderToMove] ) / Math.abs(sliderJump);
+					for (i=-1;i>sliderJump;i--) {			
+						self.values[self.oldSliderToMove+i] = self.values[sliderToMove] + sliderIncrement * i;		
+					}
+				}
+				/*sliderToMove value = 100
+				
+				* oldslidertomove value = 50
+				* slider increment = -25
+				* 
+				* 
+				* */
+				
+			}
+			self.oldSliderToMove = sliderToMove;
 			self.draw();
 		}
 		//FIXME: how to send multiple values?
@@ -91,6 +108,7 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	}
 
 	this.touch = function() {
+		self.oldSliderToMove = false;
 		self.move();
 	}
 

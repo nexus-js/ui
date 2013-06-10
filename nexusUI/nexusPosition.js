@@ -10,14 +10,9 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, ajaxCommand);
-	this.ajaxCommand = ajaxCommand;
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;
-	
-	this.ajaxSend = nx.ajaxSend;
-	this.oscName = oscName;
-	this.oscIp = oscIp;
 	
 	this.default_text = "click or touch to control a node";	
 	this.throttle = nx.throttle;
@@ -27,10 +22,6 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 
 	this.init = function() {
 		getHandlers(self);
-		
-		if (!self.ajaxCommand) {
-			self.ajaxCommand = "position";
-		}
 
 		self.draw();
 	}

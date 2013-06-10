@@ -17,6 +17,7 @@ var nxManager = function() {
 	
 	this.nxObjects = new Array();
 	this.nxThrottlePeriod = 20;
+	this.elemTypeArr = new Array();
 	
 	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
@@ -24,9 +25,7 @@ var nxManager = function() {
 			newCol = aspect;
 			aspect = "accent";
 		}
-	//	eval("nx.colors."+aspect+" = '"+newCol+"';");
 		for (i=0;i<this.nxObjects.length;i++) {
-	//		this.nxObjects[i].colors = this.colors;
 			eval("this.nxObjects[i].colors."+aspect+" = '"+newCol+"';");
 			this.nxObjects[i].draw();
 		}
@@ -34,7 +33,7 @@ var nxManager = function() {
 	
 	this.addNxObject = function(newObj) {
 		this.nxObjects.push(newObj);
-		console.log(this.nxObjects);
+		//console.log(this.nxObjects);
 	}
 	
 	this.setNxThrottlePeriod = function(newThrottle) {
@@ -76,18 +75,23 @@ var nxManager = function() {
 
 	
 	//nxTransmit
+	
 	// Transmit code that sends ui data to various destinations set by the transmissionProtocol variable
 	// TODO: why does this work and not self unless self is passed in???  
 	// MORE: why is 'this' referring to the UI object here, not the nx manager???
+	
 	this.nxTransmit = function (data) {
-		console.log(this);
+		//console.log(this);
 		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
+		
+		data = manager.prune(data,3);
+		
 		if (this.transmissionProtocol == "none") {
 			
 		} else if (this.transmissionProtocol == "ajax") {
 			// transmitCommand is the ajax url to send to, oscName is the osc call, uiIndex is used if you have multiple buttons/dials/etc, data is data
 			// If you want to have a callback function to respond to the method, you could send that as a final parameter.
-			console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
+			//console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
 		} else if (this.transmissionProtocol == "direct") {
 			
@@ -95,9 +99,11 @@ var nxManager = function() {
 
 		} else if (this.transmissionProtocol == "android") {
 			
+		} else if (this.transmissionProtocol == "local") {
+			manager.route(this.oscName, data);
 		}
 		
-		// console.log(this);
+		//manager.route(this.oscName,data);
 	}
 	
 	// directTransmit is the function to send data to other js objects. 
@@ -110,7 +116,7 @@ var nxManager = function() {
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
 	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, callbackFunction) {
 		if (this.ajaxRequestType == "post") {
-			console.log("postTransmit: ", ajaxCommand, oscName, uiIndex, data);
+			//console.log("postTransmit: ", ajaxCommand, oscName, uiIndex, data);
 			if (uiIndex) {
 				$.post(ajaxCommand, {oscName: oscName, id: uiIndex, data: data});
 			} else {
@@ -134,6 +140,21 @@ var nxManager = function() {
 	this.androidTransmit = function (command, osc_name, id, data) {
 		
 	}
+	
+	this.setTransmissionProtocol = function (setting) {
+		
+		for (i=0;i<this.nxObjects.length;i++) {
+			this.nxObjects[i].transmissionProtocol = setting;
+		}
+		
+	}
+	
+	this.route = function (oscName,data) {
+	//	data = manager.prune(data,3);
+		console.log(oscName,data);
+	}
+	
+	
 	
 	//replaces Point
 	this.point = function(x,y){
@@ -235,6 +256,14 @@ var nxManager = function() {
 			return 0;
 		}
 	}
+	
+	this.prune = function(data, scale) {
+		var scale = Math.pow(10,scale);
+		if (typeof data=="number") {
+			data = Math.round( data * scale ) / scale;
+		}
+		return data;
+	}
 
 
 
@@ -325,13 +354,20 @@ var nx = new nxManager();
 window.onload = function() {
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
-		var nxId = allcanvi[i].getAttribute("nx");	
+		var nxId = allcanvi[i].getAttribute("nx");
+		var elemCount = 0;
+		for (j=0;j<nx.elemTypeArr.length;j++) {
+			if (nx.elemTypeArr[j]==nxId) {
+				elemCount++;
+			}
+		}
+		nx.elemTypeArr.push(nxId);
 		if (!allcanvi[i].id) {
-			var idNum = i+1;
+			var idNum = elemCount + 1;
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+i+");");
+			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+idNum+");");
 		}
 	}
 	
@@ -468,7 +504,6 @@ function getTemplate(self, target, transmitCommand) {
 	
 	self.adjustSizeIfDefault = function() {
 		if (self.width==300 && self.height==150) {
-			console.log(wid);
 			self.canvas.width = self.defaultSize.width;
 			self.canvas.height = self.defaultSize.height;
 			self.width = self.defaultSize.width;
