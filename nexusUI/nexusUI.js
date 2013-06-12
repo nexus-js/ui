@@ -94,13 +94,13 @@ var nxManager = function() {
 			//console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
 		} else if (this.transmissionProtocol == "direct") {
-			
+			this.directTransmit(this.oscName, data);
 		} else if (this.transmissionProtocol == "ios") {
 
 		} else if (this.transmissionProtocol == "android") {
 			
 		} else if (this.transmissionProtocol == "local") {
-			manager.route(this.oscName, data);
+			this.localTransmit(this.oscName, data);
 		}
 		
 		//manager.route(this.oscName,data);
@@ -108,8 +108,17 @@ var nxManager = function() {
 	
 	// directTransmit is the function to send data to other js objects. 
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
-	this.directTransmit = function (command, tag, uiIndex, uiData, address) {
-		
+	this.directTransmit = function (oscName, data) {
+		console.log(oscName,data);
+	}
+	
+	this.route = function (oscName,data) {
+	//	data = manager.prune(data,3);
+		console.log(oscName,data);
+	}
+	
+	this.globalLocalTransmit = function (oscName, data) {
+		console.log("Global " + oscName,data);
 	}
 	
 	// ajaxTransmit is the function to send info back to the server. 
@@ -147,11 +156,6 @@ var nxManager = function() {
 			this.nxObjects[i].transmissionProtocol = setting;
 		}
 		
-	}
-	
-	this.route = function (oscName,data) {
-	//	data = manager.prune(data,3);
-		console.log(oscName,data);
 	}
 	
 	
@@ -356,6 +360,8 @@ var nxManager = function() {
 }
 	
 
+
+
 /************************************************
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
 ************************************************/
@@ -395,6 +401,9 @@ $(document).ready(function() {
 	nx.onload();
 	
 });
+	
+	
+	
 	
 	
 
@@ -461,6 +470,11 @@ function getTemplate(self, target, transmitCommand) {
 	self.ajaxRequestType = "post";	// ajaxRequestType = [post, get]
 	self.nxTransmit = nx.nxTransmit;
 	self.ajaxTransmit = nx.ajaxTransmit;
+	self.directTransmit = nx.directTransmit;
+		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
+	self.localTransmit = function(oscName, data) {
+		nx.globalLocalTransmit(oscName, data);
+	};
 	if (!transmitCommand) {
 		self.transmitCommand = "nexusTransmit";
 	} else {

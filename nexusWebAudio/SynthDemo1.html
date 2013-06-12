@@ -25,9 +25,19 @@
 			
 			nx.colorize("#08d");
 			
+				// Sets the .transmissionProtocol of all of the nexus objects
 			nx.setTransmissionProtocol("local");
 			
-			nx.route = function(oscName, data) {
+				// Sets the .transmissionProtocol for an individual nexus object
+			dial2.transmissionProtocol = "local";
+				// localTransmit has been copied into the object in the template
+				//   This means it can be overwritten individually for each object
+			dial2.localTransmit = function(oscName, data) {
+				$("#receiver").html("Hi: " + oscName + "<br>" +data);
+				s.frequency = data*500+ 500;
+			}
+				// globalLocalTransmit which can be overwritten for an individual object
+			nx.globalLocalTransmit = function(oscName, data) {
 				$("#receiver").html(oscName + "<br>" +data);
 				
 				switch (oscName) {
@@ -39,6 +49,8 @@
 						break;
 				}
 			}
+			
+			
 			
 			Gibberish.init();                   // convenience method to start audio callback
 
@@ -95,7 +107,7 @@
 		<canvas nx="keyboard" width="300px" height="90px"></canvas>
 	</div>
 	-->
-	<div id="receiver" style="position:fixed;bottom:0px;right:0px;background-color:white;opacity:0.7;color:black;padding:30px;font-weight:bold;font-family:courier;font-size:20pt;max-width:200px;">/dial 10</div>
+	<div id="receiver" style="position:fixed;bottom:0px;right:0px;background-color:white;opacity:0.7;color:black;padding:30px;font-weight:bold;font-family:courier;font-size:20pt;max-width:200px;">/dial 00</div>
 
 </body>
 </html>
