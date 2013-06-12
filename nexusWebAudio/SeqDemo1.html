@@ -43,7 +43,7 @@
 			
 			/* Object Routing */
 			
-			nx.route = function(oscName, data) {
+			nx.globalLocalTransmit = function(oscName, data) {
 				$("#receiver").html(oscName + "<br>" +data);
 				
 				switch (oscName) {
