@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
+	<title>Nexus Mobile Audio Interface Objects</title>
+	<meta name="LSU EMDM" content="nexus">
+	
+	<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+	<script type="text/javascript" src="js/gibberish_2.0.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusMatrix.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
+	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet">
+	<script type="text/javascript" charset="utf-8">
+	
+		
+		nx.onload = function() {
+			
+			/* Nexus setup */
+			
+			nx.colorize("#08d");
+			
+			matrix1.row = 6;
+			matrix1.col = 6;
+			matrix1.init();
+			
+			nx.setTransmissionProtocol("local");
+			
+			
+			/* Synth */
+			
+			Gibberish.init();                   // convenience method to start audio callback
+
+			a = new Gibberish.PolySynth2({ attack:200, decay:10000, maxVoices:10 }).connect();
+			
+			
+			/* Object Routing */
+			
+			nx.route = function(oscName, data) {
+				$("#receiver").html(oscName + "<br>" +data);
+				
+				switch (oscName) {
+					case "dial1":
+						break;
+					case "dial2":
+						a.index = data*100;
+						break;
+					case "button1":
+						stepNum = -1;
+						break;
+					case "toggle1":
+						toggleSeq(data);
+						break;
+				}
+				
+				if (oscName.search("button")==0 && data==1) {
+					var buttonNum = oscName.replace("button","");
+					stepNum = buttonNum - 1;
+					console.log(stepNum);
+				}
+				
+			}
+		
+		}
+		
+		var seqInt;
+		var stepNum=0;
+		
+		function toggleSeq(direction) {
+			if (direction==1) {
+				seqInt = setInterval("seqStep()", 100);
+			} else {
+				clearInterval(seqInt);
+			}
+			
+		}
+		
+		function seqStep() {
+			
+			stepNum++;
+			if (stepNum>=matrix1.row) {
+				stepNum=0;	
+			}
+			for (var i=0;i<matrix1.matrix.length;i++) {
+				if (matrix1.matrix[i][stepNum]>0) {
+					a.note(220*(i+1));
+				}
+			}
+
+		}
+		
+	</script>
+	
+</head>
+<body>
+	
+	<div>
+		
+		<canvas nx="toggle"></canvas>
+		<br><br>
+	<!--	<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="multislider" height=100 width=200></canvas>	
+		<br><br> -->
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas>
+		<br><br>
+		<canvas nx="matrix" height="600px" width="620px"></canvas>
+	</div>
+	
+	<div id="receiver" style="position:fixed;bottom:0px;right:0px;background-color:white;opacity:0.7;color:black;padding:30px;font-weight:bold;font-family:courier;font-size:20pt;max-width:200px;">/dial 10</div>
+
+</body>
+</html>
