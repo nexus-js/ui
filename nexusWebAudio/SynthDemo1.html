@@ -36,7 +36,8 @@
 				$("#receiver").html("Hi: " + oscName + "<br>" +data);
 				s.frequency = data*500+ 500;
 			}
-				// globalLocalTransmit which can be overwritten for an individual object
+				// globalLocalTransmit can receive and handle all of the local transmit commands in one place
+				//   it can be overwritten for an individual object (see above)
 			nx.globalLocalTransmit = function(oscName, data) {
 				$("#receiver").html(oscName + "<br>" +data);
 				
