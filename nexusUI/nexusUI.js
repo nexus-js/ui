@@ -365,10 +365,9 @@ var nx = new nxManager();
 /* this onload function turns canvases into nexus elements,
  * using their id as their var name */
 
-//FIXME:!! -- this onload can be overwritten by a user putting an onload function onto the body of their html document! this is bad!!!
+// CHANGED: using document ready to set up nexus.  Will not conflict with window.onload and you can add more functions to the document.ready chain if needed.
 
-
-window.onload = function() {
+$(document).ready(function() {
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
 		var nxId = allcanvi[i].getAttribute("nx");
@@ -395,8 +394,7 @@ window.onload = function() {
 	
 	nx.onload();
 	
-};
-
+});
 	
 	
 
