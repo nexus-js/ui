@@ -21,14 +21,15 @@
 	<script type="text/javascript" charset="utf-8">
 	
 		
+		
 		nx.onload = function() {
 			
 			/* Nexus setup */
 			
 			nx.colorize("#08d");
 			
-			matrix1.row = 6;
-			matrix1.col = 6;
+			matrix1.row = 8;
+			matrix1.col = 8;
 			matrix1.init();
 			
 			nx.setTransmissionProtocol("local");
@@ -38,23 +39,17 @@
 			
 			Gibberish.init();                   // convenience method to start audio callback
 
-			a = new Gibberish.PolySynth2({ attack:200, decay:10000, maxVoices:10 }).connect();
+			a = new Gibberish.PolySynth2({ attack:200, decay:10000, maxVoices:10 });
+			b = new Gibberish.Delay({ input:a, time:8000, feedback:.5 }).connect(); 
+			c = new Gibberish.Reverb({ input:b, roomSize:.8, wet:0.5, dry:.15}).connect(); a.note(440);
 			
 			
 			/* Object Routing */
 			
-			nx.globalLocalTransmit = function(oscName, data) {
+			nx.globalLocalTransmit = function(oscName, localObject, localParameter, data) {
 				$("#receiver").html(oscName + "<br>" +data);
 				
 				switch (oscName) {
-					case "dial1":
-						break;
-					case "dial2":
-						a.index = data*100;
-						break;
-					case "button1":
-						stepNum = -1;
-						break;
 					case "toggle1":
 						toggleSeq(data);
 						break;
@@ -62,8 +57,7 @@
 				
 				if (oscName.search("button")==0 && data==1) {
 					var buttonNum = oscName.replace("button","");
-					stepNum = buttonNum - 1;
-					console.log(stepNum);
+					stepNum = buttonNum - 2;
 				}
 				
 			}
@@ -74,6 +68,9 @@
 		var stepNum=0;
 		
 		function toggleSeq(direction) {
+			
+			//FIXME: We should really use the Gibber sequencer here instead of setInterval (unreliable timing)
+			
 			if (direction==1) {
 				seqInt = setInterval("seqStep()", 100);
 			} else {
@@ -93,7 +90,17 @@
 					a.note(220*(i+1));
 				}
 			}
+			
+			eval("displayButton = button" + (stepNum+1));
+			displayButton.clicked = true;
+			displayButton.draw();
+			setTimeout("clearButton(displayButton);", 30);
 
+		}
+		
+		function clearButton(buttonObj) {
+			buttonObj.clicked = false;
+			buttonObj.draw();
 		}
 		
 	</script>
@@ -102,22 +109,18 @@
 <body>
 	
 	<div>
-		
-		<canvas nx="toggle"></canvas>
-		<br><br>
-	<!--	<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="multislider" height=100 width=200></canvas>	
-		<br><br> -->
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
-		<br><br>
+		<div style="background-color:#eee;color:#aaa;font-size:20pt;padding:10px;font-family:courier;width:600px;margin-bottom:10px;">
+		<canvas nx="toggle" height="60px" width="60px"></canvas>
+			n e x u s s t e p
+		</div>
+		<canvas nx="button" width="73px" height="75px"></canvas>
+		<canvas nx="button" width="73px" height="75px"></canvas>
+		<canvas nx="button" width="73px" height="75px"></canvas>
+		<canvas nx="button" width="73px" height="75px"></canvas>
+		<canvas nx="button" width="73px" height="75px"></canvas>
+		<canvas nx="button" width="73px" height="75px"></canvas>
+		<canvas nx="button" width="73px" height="75px"></canvas>
+		<canvas nx="button" width="73px" height="75px"></canvas><br>
 		<canvas nx="matrix" height="600px" width="620px"></canvas>
 	</div>
 	
