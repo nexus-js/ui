@@ -30,18 +30,25 @@
 			
 				// Sets the .transmissionProtocol for an individual nexus object
 			dial2.transmissionProtocol = "local";
-				// localTransmit has been copied into the object in the template
+				// localTransmit has been copied into every object in the template
 				//   This means it can be overwritten individually for each object
-			dial2.localTransmit = function(oscName, data) {
-				$("#receiver").html("Hi: " + oscName + "<br>" +data);
+			dial2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				$("#receiver").html("Hi: " + localObject +"."+ localParameter + "<br>" +data);
 				s.frequency = data*500+ 500;
 			}
+			
+				// You can set the localObject to control and the localParameter within the object to set //
+			dial1.localObject = 's';
+			dial1.localParameter = 'amp';
+			
 				// globalLocalTransmit can receive and handle all of the local transmit commands in one place
 				//   it can be overwritten for an individual object (see above)
-			nx.globalLocalTransmit = function(oscName, data) {
-				$("#receiver").html(oscName + "<br>" +data);
 				
-				switch (oscName) {
+			/*	// *** Uncomment to handle the globalLocalTransmit function for every object *** //
+			nx.globalLocalTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				$("#receiver").html("Hi: " + localObject +"."+ localParameter + "<br>" +data);
+				
+				switch (localObjectFrom) {
 					case "dial1":
 						s.amp = data;
 						break;
@@ -50,7 +57,7 @@
 						break;
 				}
 			}
-			
+			*/
 			
 			
 			Gibberish.init();                   // convenience method to start audio callback

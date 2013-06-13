@@ -73,12 +73,12 @@ var nxManager = function() {
 	  	};
 	}
 
-	
-	//nxTransmit
-	
+	// *******************
+	//	nxTransmit
+	// *******************
+		
 	// Transmit code that sends ui data to various destinations set by the transmissionProtocol variable
 	// TODO: why does this work and not self unless self is passed in???  
-	// MORE: why is 'this' referring to the UI object here, not the nx manager???
 	
 		// Set Transmission Protocol for all nx objects
 	this.setTransmissionProtocol = function (setting) {
@@ -98,40 +98,36 @@ var nxManager = function() {
 			
 		} else if (this.transmissionProtocol == "ajax") {
 			// transmitCommand is the ajax url to send to, oscName is the osc call, uiIndex is used if you have multiple buttons/dials/etc, data is data
-			// If you want to have a callback function to respond to the method, you could send that as a final parameter.
-			//console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
+			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
+			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
 		} else if (this.transmissionProtocol == "ios") {
 
 		} else if (this.transmissionProtocol == "android") {
 			
 		} else if (this.transmissionProtocol == "local") {
-			this.localTransmit(this.oscName, data);
+				// sender, receiver, parameter, data //
+			this.localTransmit(this.canvasID, this.localObject, this.localParameter, data);
 		}
 		
 	}
 	
-	/*
-		TODO change so that it uses a local object id and parameter and applies the data semi-intelligently by default...
-				s.amp = data; 
-				(object_id, param, data) 
-	*/
-	
 		// globalLocalTransmit (and localTransmit) is the function to send data to other js objects. 
-		//   it requires a command and an osc_name (by default it is the name of the canvas id) and data
-	this.globalLocalTransmit = function (oscName, data) {
-		console.log("Global " + oscName,data);
+		//   it requires a localObjectFrom, localObject, localParameter and data
+	this.globalLocalTransmit = function (localObjectFrom, localObject, localParameter, data) {
+		// console.log("Global " + localObjectFrom + " to " + localObject, localParameter, data);
+		eval(localObject + "."+ localParameter + "=" + data);
 	}
 	
 	/*
 		TODO Update to be globalAjaxTransmit which can be overwritten on an object by object basis.
+				Follow globalLocalTransmit as an example
 	*/
 	
 	// ajaxTransmit is the function to send info back to the server. 
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
 	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, callbackFunction) {
 		if (this.ajaxRequestType == "post") {
-			//console.log("postTransmit: ", ajaxCommand, oscName, uiIndex, data);
 			if (uiIndex) {
 				$.post(ajaxCommand, {oscName: oscName, id: uiIndex, data: data});
 			} else {
@@ -386,6 +382,7 @@ $(document).ready(function() {
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
+			// dial1 = new dial(dial1, nexus, 1);
 			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+idNum+");");
 		}
 	}
@@ -463,20 +460,26 @@ function getTemplate(self, target, transmitCommand) {
 	self.tapeNum = 0;
 	self.recorder = null;
 	//Transmission
-	self.transmissionProtocol = "ajax";  // transmissionProtocol = [none, local, ajax, ios, android]
-	self.ajaxRequestType = "post";	// ajaxRequestType = [post, get]
 	self.nxTransmit = nx.nxTransmit;
-	self.ajaxTransmit = nx.ajaxTransmit;
-		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
-	self.localTransmit = function(oscName, data) {
-		nx.globalLocalTransmit(oscName, data);
-	};
+	self.transmissionProtocol = "ajax";  // transmissionProtocol = [none, local, ajax, ios, android]
+
+	self.ajaxRequestType = "post";	// ajaxRequestType = [post, get]
 	if (!transmitCommand) {
 		self.transmitCommand = "nexusTransmit";
 	} else {
 		self.transmitCommand = transmitCommand;
 	}
 	self.oscName = target;
+	
+	self.ajaxTransmit = nx.ajaxTransmit;
+	
+	
+		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
+	self.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+		nx.globalLocalTransmit(localObjectFrom, localObject, localParameter, data);
+	};
+	self.localObject = "dial1";
+	self.localParameter = "value";
 
 	//built-in methods
 	self.getCursorPosition = nx.getCursorPosition;
