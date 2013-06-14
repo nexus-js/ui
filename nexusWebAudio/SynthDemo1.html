@@ -29,46 +29,51 @@
 			nx.setTransmissionProtocol("local");
 			
 				// Sets the .transmissionProtocol for an individual nexus object
-			dial2.transmissionProtocol = "local";
-				// localTransmit has been copied into every object in the template
-				//   This means it can be overwritten individually for each object
-			dial2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				$("#receiver").html("Hi: " + localObject +"."+ localParameter + "<br>" +data);
-				s.frequency = data*500+ 500;
-			}
+			dial1.transmissionProtocol = "local";
 			
 				// You can set the localObject to control and the localParameter within the object to set //
 			dial1.localObject = 's';
 			dial1.localParameter = 'amp';
 			
+			
+				// localTransmit has been copied into every object in the template
+				//   This means it can be overwritten individually for each object
+			dial2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				s.frequency = data*500 + 500;
+			}
+			
+			
+			dial3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				m.frequency = data*1000;
+				console.log(data);
+				console.log(m.frequency);
+			}
+			
+			dial4.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				m.amp = data*50;
+			}
+			
+			
+			
 				// globalLocalTransmit can receive and handle all of the local transmit commands in one place
 				//   it can be overwritten for an individual object (see above)
-				
-			/*	// *** Uncomment to handle the globalLocalTransmit function for every object *** //
-			nx.globalLocalTransmit = function(localObjectFrom, localObject, localParameter, data) {
+		/*	nx.globalLocalTransmit = function(localObjectFrom, localObject, localParameter, data) {
 				$("#receiver").html("Hi: " + localObject +"."+ localParameter + "<br>" +data);
-				
-				switch (localObjectFrom) {
-					case "dial1":
-						s.amp = data;
-						break;
-					case "dial2":
-						s.frequency = data*500;
-						break;
-				}
-			}
-			*/
+		} */
+			
 			
 			
 			Gibberish.init();                   // convenience method to start audio callback
 
 			s = new Gibberish.Sine( 440, .4 );  // sine wave, 440 Hz, .4 amplitude
 			m = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
-			s.mod( 'frequency', m, '+' );       // modulate the frequency of sine s with the output of m
+			s.mod( 'frequency', m, '*' );       // modulate the frequency of sine s with the output of m
 			
 			d = new Gibberish.Delay(  s );      // create a delay effect and feed our sine wave into it
 			r = new Gibberish.Reverb( d );      // create a reverb effect and feed our delay into it
 			r.connect();                        // connect reverb to default master output
+			
+			
 			
 		}
 		
@@ -88,6 +93,8 @@
 	
 	<div>
 		<canvas nx="dial">Your browser does not support HTML5. Please update!</canvas>
+		<canvas nx="dial"></canvas><br><br>
+		<canvas nx="dial"></canvas>
 		<canvas nx="dial"></canvas>
 	<!--	<canvas nx="dial"></canvas>
 		<canvas nx="dial"></canvas>
