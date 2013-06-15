@@ -149,7 +149,7 @@ function matrix(target, ajaxCommand, uiIndex) {
 		if (self.clicked) {
 			if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
 				
-				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMoveY*-1)*0.01));	
+				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
 				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
 				self.matrixLevels[whichCell[0]][whichCell[1]] = delta_value;
 				self.nxTransmit(self.matrix);
@@ -193,7 +193,7 @@ function matrix(target, ajaxCommand, uiIndex) {
 		if (self.clicked) {
 			if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
 				
-				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMoveY*-1)*0.01));	
+				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
 				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
 				self.matrixLevels[whichCell[0]][whichCell[1]] = delta_value;
 				self.draw();

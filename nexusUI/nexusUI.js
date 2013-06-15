@@ -18,6 +18,7 @@ var nxManager = function() {
 	this.nxObjects = new Array();
 	this.nxThrottlePeriod = 20;
 	this.elemTypeArr = new Array();
+	this.aniItems = new Array();
 	
 	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
@@ -151,10 +152,6 @@ var nxManager = function() {
 	this.androidTransmit = function (command, osc_name, id, data) {
 		
 	}
-	
-	
-	
-	
 	
 	
 	
@@ -358,6 +355,31 @@ var nxManager = function() {
 	this.blockMove = function(e) {
 		e.preventDefault();
 	}
+	
+	
+	/* animation functions */
+	
+	this.startPulse = function() {
+		manager.pulseInt = setInterval("nx.pulse()", 30);
+	}
+	
+	this.stopPulse = function() {
+		clearInterval(manager.pulseInt);
+	}
+	
+	this.pulse = function() {
+		for (var i=0;i<manager.aniItems.length;i++) {
+			manager.aniItems[i]();
+		}
+	}
+	
+	this.bounce = function(posIn, borderMin, borderMax, delta) {
+		if (posIn > borderMin && posIn < borderMax) {
+			return delta;
+		} else {
+			return delta * -1;
+		}
+	}
 
 	
 }
@@ -462,6 +484,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.clicked = false;
 	self.value = 0;
 	self.nodePos = new Array();	
+	self.deltaMove = new Object();
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
 	self.nxThrottle = nx.nxThrottle;
 	//recording
@@ -503,13 +526,15 @@ function getTemplate(self, target, transmitCommand) {
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
 		self.clicked = true;
+		self.deltaMove.x = 0;
+		self.deltaMove.y = 0;
 		self.click(e);
 	};
 	self.preMove = function(e) {
 		self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
-		self.deltaMoveY = new_click_position.y - self.clickPos.y;
-		self.deltaMoveX = new_click_position.x - self.clickPos.x;
+		self.deltaMove.y = new_click_position.y - self.clickPos.y;
+		self.deltaMove.x = new_click_position.x - self.clickPos.x;
 		self.clickPos = new_click_position;
 		self.move(e);
 	};
@@ -522,13 +547,15 @@ function getTemplate(self, target, transmitCommand) {
 	self.preTouch = function(e) {
 		self.clickPos = self.getTouchPosition(e, self.offset);
 		self.clicked = true;
+		self.deltaMove.x = 0;
+		self.deltaMove.y = 0;
 		self.touch(e);
 	};
 	self.preTouchMove = function(e) {
 		if (self.clicked) {
 			var new_click_position = self.getTouchPosition(e, self.offset);
-			self.deltaMoveY = new_click_position.y - self.clickPos.y;
-			self.deltaMoveX = new_click_position.x - self.clickPos.x;
+			self.deltaMove.y = new_click_position.y - self.clickPos.y;
+			self.deltaMove.x = new_click_position.x - self.clickPos.x;
 			self.clickPos = new_click_position;
 			self.touchMove(e);
 		}

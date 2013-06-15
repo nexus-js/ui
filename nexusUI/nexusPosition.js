@@ -136,5 +136,29 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		
 	}
 	
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked && self.nodePos[0]) {
+			self.nodePos[0] += (self.deltaMove.x/2);
+			self.nodePos[1] += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
 	this.init();
 }

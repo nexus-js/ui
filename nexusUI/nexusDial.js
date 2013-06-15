@@ -123,7 +123,7 @@ function dial(target, transmitCommand, uiIndex) {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
 		
-		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
+		self.value = self.clip((self.value - (self.deltaMove.y * self.responsivity)), 0, 1);
 		self.nxTransmit(self.value);
 		
 		self.draw();
@@ -144,7 +144,7 @@ function dial(target, transmitCommand, uiIndex) {
 
 
 	this.touchMove = function(e) {
-		self.value = self.clip((self.value - (self.deltaMoveY * self.responsivity)), 0, 1);
+		self.value = self.clip((self.value - (self.deltaMove.y * self.responsivity)), 0, 1);
 		self.nxTransmit(self.value);
 		self.draw();
 	}

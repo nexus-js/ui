@@ -24,34 +24,9 @@
 		nx.onload = function() {
 			
 			nx.colorize("#08d");
-			
-				// Sets the .transmissionProtocol of all of the nexus objects
 			nx.setTransmissionProtocol("local");
 			
-				// Sets the .transmissionProtocol for an individual nexus object
-			dial1.transmissionProtocol = "local";
-			
-				// You can set the localObject to control and the localParameter within the object to set //
-			dial1.localObject = 'r';
-			dial1.localParameter = 'roomSize';
-			
-			
-				// localTransmit has been copied into every object in the template
-				//   This means it can be overwritten individually for each object
-			dial2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				d.feedback = data * 0.98;
-			}
-			
-				// globalLocalTransmit can receive and handle all of the local transmit commands in one place
-				//   it can be overwritten for an individual object (see above)
-			/*	nx.globalLocalTransmit = function(localObjectFrom, localObject, localParameter, data) {
-					$("#receiver").html("Hi: " + localObject +"."+ localParameter + "<br>" +data);
-			} */
-			
-			
-			
-			
-
+		
 			
 			/* synth development */
 			
@@ -62,46 +37,24 @@
 			d = new Gibberish.Delay({input: prefxBus, time: 10000, feedback: 0.9});      // create a delay effect and feed our sine wave into it
 			d.connect();                        // connect delay to default master output
 			
-			
-		
+
 			/* first synth row */	
-			osc1 = new Gibberish.Sine2( 440, .2, 0 );  // sine wave, 440 Hz, .4 amplitude
-			mod1 = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
+			osc1 = new Gibberish.Sine2( 440, .2, 0 ); 
+			mod1 = new Gibberish.Sine( 100, 50 );
 			osc1.mod( 'frequency', mod1, '*' );
 			dec1 = new Gibberish.Decimator({ input:osc1, bitDepth:16, sampleRate:1 }); 
 			
-			sm1 = new Gibberish.OnePole({input:osc1.properties.amp, a0:.0001, b1:.9999}); 
-			sm1.smooth('amp', osc1); 
-			sm11 = new Gibberish.OnePole({input:mod1.properties.frequency, a0:.0001, b1:.9999}); 
-			sm11.smooth('frequency', mod1); 
-			
-			
 			/* second synth row */	
-			osc2 = new Gibberish.Sine2( 440, .2, 0 );  // sine wave, 440 Hz, .4 amplitude
-			mod2 = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
+			osc2 = new Gibberish.Sine2( 440, .2, 0 );
+			mod2 = new Gibberish.Sine( 100, 50 );
 			osc2.mod( 'frequency', mod2, '*' );
 			dec2 = new Gibberish.Decimator({ input:osc2, bitDepth:16, sampleRate:1 }); 
 			
-	/*		sm2 = new Gibberish.OnePole({input:osc2.properties.amp, a0:.0001, b1:.9999}); 
-			sm2.smooth('amp', osc2); 
-			sm22 = new Gibberish.OnePole({input:mod2.properties.frequency, a0:.0001, b1:.9999}); 
-			sm22.smooth('frequency', mod2); 
-	*/		
-			
 			/* third synth row */	
-			osc3 = new Gibberish.Sine2( 440, .2, 0 );  // sine wave, 440 Hz, .4 amplitude
-			mod3 = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
+			osc3 = new Gibberish.Sine2( 440, .2, 0 ); 
+			mod3 = new Gibberish.Sine( 100, 50 );
 			osc3.mod( 'frequency', mod3, '*' );
 			dec3 = new Gibberish.Decimator({ input:osc3, bitDepth:16, sampleRate:1 }); 
-			
-	/*		sm3 = new Gibberish.OnePole({input:osc3.properties.amp, a0:.0001, b1:.9999}); 
-			sm3.smooth('amp', osc3); 
-		/* bug somewhere in this smoothing func, although it's the same as the others and they're bug free  
-		 	sm33 = new Gibberish.OnePole({input:mod3.properties.frequency, a0:.0001, b1:.9999}); 
-			sm33.smooth('frequency', mod3);  */
-			
-			
-		
 		
 		
 			/* nexus routing to synth*/
@@ -187,14 +140,17 @@
 			
 			
 			
-			nx.startPulse();
-			
 			position1.animate("bounce");
 			position3.animate("bounce");
 			position4.animate("bounce");
 			position6.animate("bounce");
 			position7.animate("bounce");
 			position9.animate("bounce");
+			
+			position2.animate("bounce");
+			position5.animate("bounce");
+			position8.animate("bounce");
+			nx.startPulse();
 			
 			
 		}
@@ -216,24 +172,16 @@
 		}
 	</style>
 	
-	<div style="color:#000;font-size:25pt;font-family:gill sans;margin-bottom:4px;padding:10px;background-color:#eee;width:600px;">
+	<div style="font-family:gill sans;padding:10px;background-color:#eee;width:600px;margin-bottom:10px">
 		<span style="font-size:25pt;">
 			nexus
 		</span>
 		<span style="font-size:15pt;">
-			mobile audio interface elements
+			animation demo
 		</span>
 	</div>
 	
 	<div>
-		<canvas nx="dial" class="fxDial">Your browser does not support HTML5. Please update!</canvas>
-		<canvas nx="dial" class="fxDial"></canvas>
-		<canvas nx="dial" class="fxDial"></canvas>
-		<canvas nx="dial" class="fxDial"></canvas>
-		<canvas nx="dial" class="fxDial"></canvas>
-		<canvas nx="dial" class="fxDial"></canvas>
-	</div>
-	<div>
 		<canvas nx="toggle"></canvas>
 		<canvas nx="position" class="drone2D"></canvas>
 		<canvas nx="position" class="drone2D"></canvas>
@@ -250,30 +198,6 @@
 		<canvas nx="position" class="drone2D"></canvas>
 		<canvas nx="position" class="drone2D"></canvas>
 		<canvas nx="position" class="drone2D"></canvas>
-	</div>
-	<div style="float:left">
-		<div style="float:left">
-			<canvas nx="toggle"></canvas><br>
-			<canvas nx="button" style="width:75px;height:75px;"></canvas>
-		</div>
-		<div>
-			<canvas nx="multislider" style="height:175px;width:225px;"></canvas>
-		</div>
-		<div>
-			<canvas nx="keyboard" style="width:300px;height:85px;"></canvas>
-		</div>
-	</div>
-	<div style="float:left;margin-left:12px;">
-		<div style="float:left">
-			<canvas nx="toggle"></canvas><br>
-			<canvas nx="button" style="width:75px;height:75px;"></canvas>
-		</div>
-		<div>
-			<canvas nx="multislider" style="height:175px;width:225px;"></canvas>
-		</div>
-		<div>
-			<canvas nx="keyboard" style="width:300px;height:85px;"></canvas>
-		</div>
 	</div>
 	
 </body>
