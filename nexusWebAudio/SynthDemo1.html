@@ -82,11 +82,11 @@
 			osc2.mod( 'frequency', mod2, '*' );
 			dec2 = new Gibberish.Decimator({ input:osc2, bitDepth:16, sampleRate:1 }); 
 			
-			sm2 = new Gibberish.OnePole({input:osc2.properties.amp, a0:.0001, b1:.9999}); 
+	/*		sm2 = new Gibberish.OnePole({input:osc2.properties.amp, a0:.0001, b1:.9999}); 
 			sm2.smooth('amp', osc2); 
 			sm22 = new Gibberish.OnePole({input:mod2.properties.frequency, a0:.0001, b1:.9999}); 
 			sm22.smooth('frequency', mod2); 
-			
+	*/		
 			
 			/* third synth row */	
 			osc3 = new Gibberish.Sine2( 440, .2, 0 );  // sine wave, 440 Hz, .4 amplitude
@@ -94,7 +94,7 @@
 			osc3.mod( 'frequency', mod3, '*' );
 			dec3 = new Gibberish.Decimator({ input:osc3, bitDepth:16, sampleRate:1 }); 
 			
-			sm3 = new Gibberish.OnePole({input:osc3.properties.amp, a0:.0001, b1:.9999}); 
+	/*		sm3 = new Gibberish.OnePole({input:osc3.properties.amp, a0:.0001, b1:.9999}); 
 			sm3.smooth('amp', osc3); 
 		/* bug somewhere in this smoothing func, although it's the same as the others and they're bug free  
 		 	sm33 = new Gibberish.OnePole({input:mod3.properties.frequency, a0:.0001, b1:.9999}); 
@@ -122,7 +122,7 @@
 			}
 			
 			position2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				mod1.frequency = data[0] * 1000;
+				mod1.frequency = (Math.floor(data[0]*10)/10) * 1000;
 				mod1.amp = nx.scale(data[1], 1, 0, 0, 50);
 			}
 			
@@ -149,7 +149,7 @@
 			}
 			
 			position5.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				mod2.frequency = data[0] * 1000;
+				mod2.frequency = (Math.floor(data[0]*10)/10) * 2000;
 				mod2.amp = nx.scale(data[1], 1, 0, 0, 50);
 			}
 			
@@ -176,7 +176,7 @@
 			}
 			
 			position8.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				mod3.frequency = data[0] * 1000;
+				mod3.frequency = (Math.floor(data[0]*10)/10) * 1500;
 				mod3.amp = nx.scale(data[1], 1, 0, 0, 50);
 			}
 			
