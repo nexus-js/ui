@@ -32,57 +32,181 @@
 			dial1.transmissionProtocol = "local";
 			
 				// You can set the localObject to control and the localParameter within the object to set //
-			dial1.localObject = 's';
-			dial1.localParameter = 'amp';
+			dial1.localObject = 'r';
+			dial1.localParameter = 'roomSize';
 			
 			
 				// localTransmit has been copied into every object in the template
 				//   This means it can be overwritten individually for each object
 			dial2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				s.frequency = data*500 + 500;
+				d.feedback = data * 0.98;
 			}
-			
-			
-			dial3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				m.frequency = data*1000;
-				console.log(data);
-				console.log(m.frequency);
-			}
-			
-			dial4.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				m.amp = data*50;
-			}
-			
-			
 			
 				// globalLocalTransmit can receive and handle all of the local transmit commands in one place
 				//   it can be overwritten for an individual object (see above)
-		/*	nx.globalLocalTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				$("#receiver").html("Hi: " + localObject +"."+ localParameter + "<br>" +data);
-		} */
+			/*	nx.globalLocalTransmit = function(localObjectFrom, localObject, localParameter, data) {
+					$("#receiver").html("Hi: " + localObject +"."+ localParameter + "<br>" +data);
+			} */
 			
 			
 			
-			Gibberish.init();                   // convenience method to start audio callback
+			
 
-			s = new Gibberish.Sine( 440, .4 );  // sine wave, 440 Hz, .4 amplitude
-			m = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
-			s.mod( 'frequency', m, '*' );       // modulate the frequency of sine s with the output of m
 			
-			d = new Gibberish.Delay(  s );      // create a delay effect and feed our sine wave into it
-			r = new Gibberish.Reverb( d );      // create a reverb effect and feed our delay into it
-			r.connect();                        // connect reverb to default master output
+			/* synth development */
+			
+				
+			Gibberish.init(); 
+			
+			prefxBus = new Gibberish.Bus2();
+			d = new Gibberish.Delay({input: prefxBus, time: 10000, feedback: 0.9});      // create a delay effect and feed our sine wave into it
+			d.connect();                        // connect delay to default master output
+			
+			
+		
+			/* first synth row */	
+			osc1 = new Gibberish.Sine2( 440, .2, 0 );  // sine wave, 440 Hz, .4 amplitude
+			mod1 = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
+			osc1.mod( 'frequency', mod1, '*' );
+			dec1 = new Gibberish.Decimator({ input:osc1, bitDepth:16, sampleRate:1 }); 
+			
+			sm1 = new Gibberish.OnePole({input:osc1.properties.amp, a0:.0001, b1:.9999}); 
+			sm1.smooth('amp', osc1); 
+			sm11 = new Gibberish.OnePole({input:mod1.properties.frequency, a0:.0001, b1:.9999}); 
+			sm11.smooth('frequency', mod1); 
+			
+			
+			/* second synth row */	
+			osc2 = new Gibberish.Sine2( 440, .2, 0 );  // sine wave, 440 Hz, .4 amplitude
+			mod2 = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
+			osc2.mod( 'frequency', mod2, '*' );
+			dec2 = new Gibberish.Decimator({ input:osc2, bitDepth:16, sampleRate:1 }); 
+			
+			sm2 = new Gibberish.OnePole({input:osc2.properties.amp, a0:.0001, b1:.9999}); 
+			sm2.smooth('amp', osc2); 
+			sm22 = new Gibberish.OnePole({input:mod2.properties.frequency, a0:.0001, b1:.9999}); 
+			sm22.smooth('frequency', mod2); 
+			
+			
+			/* third synth row */	
+			osc3 = new Gibberish.Sine2( 440, .2, 0 );  // sine wave, 440 Hz, .4 amplitude
+			mod3 = new Gibberish.Sine( 5, 15 );    // sine wave, 5 Hz, 15 amplitude
+			osc3.mod( 'frequency', mod3, '*' );
+			dec3 = new Gibberish.Decimator({ input:osc3, bitDepth:16, sampleRate:1 }); 
+			
+			sm3 = new Gibberish.OnePole({input:osc3.properties.amp, a0:.0001, b1:.9999}); 
+			sm3.smooth('amp', osc3); 
+		/* bug somewhere in this smoothing func, although it's the same as the others and they're bug free  
+		 	sm33 = new Gibberish.OnePole({input:mod3.properties.frequency, a0:.0001, b1:.9999}); 
+			sm33.smooth('frequency', mod3);  */
+			
+			
+		
+		
+		
+			/* nexus routing to synth*/
+		
+			/* first  synth row */
+			toggle1.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				if (data==1) {
+					dec1.connect(prefxBus);
+				} else {
+					dec1.disconnect();
+				}
+			}
+			
+			position1.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				osc1.frequency = data[0] * 1000;
+				osc1.amp = nx.invert(data[1]) - 0.1;
+				osc1.pan = osc1.pan
+			}
+			
+			position2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				mod1.frequency = data[0] * 1000;
+				mod1.amp = nx.scale(data[1], 1, 0, 0, 50);
+			}
+			
+			position3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				osc1.pan = nx.scale(data[0], 0, 1, -1, 1);
+				dec1.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
+			}
+			
+			
+			/* second synth row */
+			
+			toggle2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				if (data==1) {
+					dec2.connect(prefxBus);
+				} else {
+					dec2.disconnect();
+				}
+			}
+			
+			position4.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				osc2.frequency = data[0] * 1000;
+				osc2.amp = nx.invert(data[1]) - 0.1;
+				osc2.pan = osc2.pan
+			}
+			
+			position5.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				mod2.frequency = data[0] * 1000;
+				mod2.amp = nx.scale(data[1], 1, 0, 0, 50);
+			}
+			
+			position6.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				osc2.pan = nx.scale(data[0], 0, 1, -1, 1);
+				dec2.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
+			}
+			
+			
+			/* third synth row */
+			
+			toggle3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				if (data==1) {
+					dec3.connect(prefxBus);
+				} else {
+					dec3.disconnect();
+				}
+			}
+			
+			position7.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				osc3.frequency = data[0] * 1000;
+				osc3.amp = nx.invert(data[1]) - 0.1;
+				osc3.pan = osc3.pan;
+			}
+			
+			position8.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				mod3.frequency = data[0] * 1000;
+				mod3.amp = nx.scale(data[1], 1, 0, 0, 50);
+			}
+			
+			position9.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+				osc3.pan = nx.scale(data[0], 0, 1, -1, 1);
+				dec3.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
+			}
 			
 			
 			
 		}
+		
+			
 		
 	</script>
 	
 </head>
 <body>
 	
-	<div style="color:#000;font-size:25pt;font-family:gill sans;margin-bottom:20px;padding:10px;background-color:#eee;width:600px;">
+	<style>
+		.drone2D {
+			width:175px;height:150px;
+		}
+		.fxDial{
+			width:100px;
+			height:75px;
+		}
+	</style>
+	
+	<div style="color:#000;font-size:25pt;font-family:gill sans;margin-bottom:4px;padding:10px;background-color:#eee;width:600px;">
 		<span style="font-size:25pt;">
 			nexus
 		</span>
@@ -92,37 +216,55 @@
 	</div>
 	
 	<div>
-		<canvas nx="dial">Your browser does not support HTML5. Please update!</canvas>
-		<canvas nx="dial"></canvas><br><br>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-	<!--	<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas> -->
-	</div>
-<!--	<div>
-		<canvas nx="toggle"></canvas>
-		<canvas nx="toggle"></canvas>
-		<canvas nx="toggle"></canvas>
-		<canvas nx="toggle"></canvas>
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
+		<canvas nx="dial" class="fxDial">Your browser does not support HTML5. Please update!</canvas>
+		<canvas nx="dial" class="fxDial"></canvas>
+		<canvas nx="dial" class="fxDial"></canvas>
+		<canvas nx="dial" class="fxDial"></canvas>
+		<canvas nx="dial" class="fxDial"></canvas>
+		<canvas nx="dial" class="fxDial"></canvas>
 	</div>
 	<div>
-		<canvas nx="position"></canvas>
-		<canvas nx="multislider"></canvas>	
+		<canvas nx="toggle"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
 	</div>
 	<div>
-		<canvas nx="matrix" height="200px" width="200px"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="keyboard" width="300px" height="90px"></canvas>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
 	</div>
-	-->
-	<div id="receiver" style="position:fixed;bottom:0px;right:0px;background-color:white;opacity:0.7;color:black;padding:30px;font-weight:bold;font-family:courier;font-size:20pt;max-width:200px;">/dial 00</div>
-
+	<div>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
+		<canvas nx="position" class="drone2D"></canvas>
+	</div>
+	<div style="float:left">
+		<div style="float:left">
+			<canvas nx="toggle"></canvas><br>
+			<canvas nx="button" style="width:75px;height:75px;"></canvas>
+		</div>
+		<div>
+			<canvas nx="multislider" style="height:175px;width:225px;"></canvas>
+		</div>
+		<div>
+			<canvas nx="keyboard" style="width:300px;height:85px;"></canvas>
+		</div>
+	</div>
+	<div style="float:left;margin-left:12px;">
+		<div style="float:left">
+			<canvas nx="toggle"></canvas><br>
+			<canvas nx="button" style="width:75px;height:75px;"></canvas>
+		</div>
+		<div>
+			<canvas nx="multislider" style="height:175px;width:225px;"></canvas>
+		</div>
+		<div>
+			<canvas nx="keyboard" style="width:300px;height:85px;"></canvas>
+		</div>
+	</div>
+	
 </body>
 </html>

@@ -278,6 +278,16 @@ var nxManager = function() {
 		}
 		return data;
 	}
+	
+	
+	this.scale = function(inNum, inMin, inMax, outMin, outMax) {
+		outNum = (((inNum - inMin) * (outMax - outMin)) / (inMax - inMin)) + outMin;
+		return outNum;	
+	}
+		
+	this.invert = function (inNum) {
+		return manager.scale(inNum, 1, 0, 0, 1);
+	}
 
 
 
