@@ -20,138 +20,74 @@
 	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" charset="utf-8">
 	
-		
+		var rack, prefxBus, delay;
 		nx.onload = function() {
 			
 			nx.colorize("#08d");
 			nx.setTransmissionProtocol("local");
 			
-		
 			
 			/* synth development */
 			
-				
 			Gibberish.init(); 
-			
 			prefxBus = new Gibberish.Bus2();
-			d = new Gibberish.Delay({input: prefxBus, time: 10000, feedback: 0.9});      // create a delay effect and feed our sine wave into it
-			d.connect();                        // connect delay to default master output
+			delay = new Gibberish.Delay({input: prefxBus, time: 10000, feedback: 0.85});      // create a delay effect and feed our sine wave into it
+			delay.connect();                        // connect delay to default master output
 			
-
-			/* first synth row */	
-			osc1 = new Gibberish.Sine2( 440, .2, 0 ); 
-			mod1 = new Gibberish.Sine( 100, 50 );
-			osc1.mod( 'frequency', mod1, '*' );
-			dec1 = new Gibberish.Decimator({ input:osc1, bitDepth:16, sampleRate:1 }); 
+			rack = new Array();
 			
-			/* second synth row */	
-			osc2 = new Gibberish.Sine2( 440, .2, 0 );
-			mod2 = new Gibberish.Sine( 100, 50 );
-			osc2.mod( 'frequency', mod2, '*' );
-			dec2 = new Gibberish.Decimator({ input:osc2, bitDepth:16, sampleRate:1 }); 
+			for (var i=0;i<3;i++) {
+				
+				//create oscillators, modulators, and decimator
+				rack[i] = new Object();
+				rack[i].osc = new Gibberish.Sine2( 440, .2, 0 ); 
+				rack[i].mod = new Gibberish.Sine( 100, 50 );
+				rack[i].osc.mod( 'frequency', rack[i].mod, '*' );
+				rack[i].dec = new Gibberish.Decimator({ input:rack[i].osc, bitDepth:16, sampleRate:1 }); 
 			
-			/* third synth row */	
-			osc3 = new Gibberish.Sine2( 440, .2, 0 ); 
-			mod3 = new Gibberish.Sine( 100, 50 );
-			osc3.mod( 'frequency', mod3, '*' );
-			dec3 = new Gibberish.Decimator({ input:osc3, bitDepth:16, sampleRate:1 }); 
-		
-		
-			/* nexus routing to synth*/
-		
-			/* first  synth row */
-			toggle1.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				if (data==1) {
-					dec1.connect(prefxBus);
-				} else {
-					dec1.disconnect();
+				//programatically define nx objects to use
+				rack[i].toggle = eval("toggle"+(i+1));
+				rack[i].position1 = eval("position"+(i*3+1));
+				rack[i].position2 = eval("position"+(i*3+2));
+				rack[i].position3 = eval("position"+(i*3+3));
+				
+				//nx routing for each row
+				rack[i].toggle.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+					var i = localObjectFrom.replace("toggle", "")-1;
+					if (data==1) {
+						rack[i].dec.connect(prefxBus);
+					} else {
+						rack[i].dec.disconnect();
+					}
 				}
-			}
-			
-			position1.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				osc1.frequency = data[0] * 1000;
-				osc1.amp = nx.invert(data[1]) - 0.1;
-				osc1.pan = osc1.pan
-			}
-			
-			position2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				mod1.frequency = (Math.floor(data[0]*10)/10) * 1000;
-				mod1.amp = nx.scale(data[1], 1, 0, 0, 50);
-			}
-			
-			position3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				osc1.pan = nx.scale(data[0], 0, 1, -1, 1);
-				dec1.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
-			}
-			
-			
-			/* second synth row */
-			
-			toggle2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				if (data==1) {
-					dec2.connect(prefxBus);
-				} else {
-					dec2.disconnect();
+				
+				rack[i].position1.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+					var i = Math.floor((localObjectFrom.replace("position", "")-1)/3);
+					rack[i].osc.frequency = data[0] * 1000;
+					rack[i].osc.amp = nx.invert(data[1]) - 0.1;
+					rack[i].osc.pan = rack[i].osc.pan;
 				}
-			}
-			
-			position4.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				osc2.frequency = data[0] * 1000;
-				osc2.amp = nx.invert(data[1]) - 0.1;
-				osc2.pan = osc2.pan
-			}
-			
-			position5.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				mod2.frequency = (Math.floor(data[0]*10)/10) * 2000;
-				mod2.amp = nx.scale(data[1], 1, 0, 0, 50);
-			}
-			
-			position6.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				osc2.pan = nx.scale(data[0], 0, 1, -1, 1);
-				dec2.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
-			}
-			
-			
-			/* third synth row */
-			
-			toggle3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				if (data==1) {
-					dec3.connect(prefxBus);
-				} else {
-					dec3.disconnect();
+				
+				rack[i].position2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+					var i = Math.floor((localObjectFrom.replace("position", "")-1)/3);
+					rack[i].mod.frequency = (Math.floor(data[0]*10)/10) * 1000;
+					rack[i].mod.amp = nx.scale(data[1], 1, 0, 0, 50);
 				}
+				
+				rack[i].position3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+					var i = Math.floor((localObjectFrom.replace("position", "")-1)/3);
+					rack[i].osc.pan = nx.scale(data[0], 0, 1, -1, 1);
+					rack[i].osc.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
+				}
+				
+				//define animation
+				rack[i].position1.animate("bounce");
+				rack[i].position2.animate("bounce");
+				rack[i].position3.animate("bounce");
+			
 			}
 			
-			position7.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				osc3.frequency = data[0] * 1000;
-				osc3.amp = nx.invert(data[1]) - 0.1;
-				osc3.pan = osc3.pan;
-			}
-			
-			position8.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				mod3.frequency = (Math.floor(data[0]*10)/10) * 1500;
-				mod3.amp = nx.scale(data[1], 1, 0, 0, 50);
-			}
-			
-			position9.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-				osc3.pan = nx.scale(data[0], 0, 1, -1, 1);
-				dec3.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
-			}
-			
-			
-			
-			position1.animate("bounce");
-			position3.animate("bounce");
-			position4.animate("bounce");
-			position6.animate("bounce");
-			position7.animate("bounce");
-			position9.animate("bounce");
-			
-			position2.animate("bounce");
-			position5.animate("bounce");
-			position8.animate("bounce");
 			nx.startPulse();
-			
 			
 		}
 		
