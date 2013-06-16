@@ -108,7 +108,7 @@ var nxManager = function() {
 			
 		} else if (this.transmissionProtocol == "local") {
 				// sender, receiver, parameter, data //
-			this.localTransmit(this.canvasID, this.localObject, this.localParameter, data);
+			this.localTransmit(data);
 		}
 		
 	}
