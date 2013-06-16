@@ -36,35 +36,35 @@
 			
 				// localTransmit has been copied into every object in the template
 				// This means it can be overwritten individually for each object
-			dial2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial2.localTransmit = function(data) {
 				osc.frequency = data * 3000;
 			}
 			
-			dial3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial3.localTransmit = function(data) {
 				reverb.roomSize = data;
 			}
 			
-			dial4.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial4.localTransmit = function(data) {
 				mod.amp = data * 30;
 			}
 			
-			dial5.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial5.localTransmit = function(data) {
 				mod.frequency = data * 500;
 			}
 			
-			dial6.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial6.localTransmit = function(data) {
 				reverb.wet = data;
 			}
 			
-			dial7.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial7.localTransmit = function(data) {
 				d.feedback = data;
 			}
 			
-			dial8.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial8.localTransmit = function(data) {
 				d.time = data * 80000;
 			}
 			
-			dial9.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial9.localTransmit = function(data) {
 				//dist.amount = data * 100;
 			}
 		
