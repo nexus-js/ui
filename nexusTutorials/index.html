@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<head>
+	<meta charset="utf-8" />
+ <!--  <meta name="viewport" content="width=device-width" /> -->
+	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
+	<title>Nexus Mobile Audio Interface</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="LSU EMDM" content="nexus">
+	<link rel="stylesheet" href="foundation/css/foundation.css" />
+	<script src="foundation/js/vendor/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:300' rel='stylesheet' type='text/css'>
+	<script src="../nexusUI/jquery.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusMatrix.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
+	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet">
+  
+</head>
+<body>
+	
+	
+  
+  
+	
+	<script>
+		
+		nx.onload = function() {
+			
+			nx.colorize("red");
+			
+			dial1.transmissionProtocol = "local";
+			dial1.localTransmit = function(data) {
+				$("#demo1rcv").html(this.oscName+" "+data);
+			}
+			
+			
+			styledial1.colors.accent = "#0cf";
+			styledial1.colors.fill = "#222";
+			styledial1.colors.border = "#222";
+			styledial1.draw();
+			styledial2.colors.accent = "#0cf";
+			styledial2.colors.fill = "#222";
+			styledial2.colors.border = "#222";
+			styledial2.draw();
+			styledial3.colors.accent = "#f0c";
+			styledial3.colors.fill = "#222";
+			styledial3.colors.border = "#222";
+			styledial3.draw();
+			styledial4.colors.accent = "#0cf";
+			styledial4.colors.fill = "#222";
+			styledial4.colors.border = "#222";
+			styledial4.draw();
+			
+		}
+		
+	</script>
+	
+	
+
+<style>
+
+	body {
+	//	font-family:"Merriweather Sans", gill sans;
+		line-height:20px;;
+	}
+	
+	.row {
+		max-width:none;
+	}
+	
+	a:hover {
+		text-decoration:underline;
+	}
+	
+	@font-face {
+	    font-family: "Poiret One";
+	    src: "fonts/PoiretOne-Regular.ttf";
+	    font-weight: 400;
+	}
+	
+	h1, h2 {
+		font-family: "Poiret One";
+	}
+	
+	h1 {
+		font-size:34pt;
+		display:inline;
+		margin:40px 0px 0px 0px;
+	}
+	
+	h2 {
+		font-size:24pt;
+		margin-left:0px;
+		display:inline;
+		margin-left:40px;
+	}
+	
+	#logo {
+		margin:5px;
+		width:90px;
+		display:block;
+	}
+	
+	@media (max-width: 767px) {
+	  h2 {
+	    margin:0px 0px 10px 0px;
+	    display:block;
+	    font-size:18pt;
+		}
+	}
+	
+	.tutorialrow {
+		margin: 40px 0px 60px 20px;
+	}
+	
+	.codedisplay {
+		border:solid 1px #aaa;
+		background-color:#f7f7f7;
+		font-family: courier;
+		font-size:10pt;
+		color:#333;
+		padding:10px;
+		border-radius:6px;
+		height:150px;
+	}
+	
+	textarea {
+		user-select:none;
+	}
+	
+	textarea:Focus {
+		
+	}
+	
+	.columns {
+		margin:10px 0px;
+	}
+	
+	.titlerow {
+		font-size:20pt;
+		border-bottom:solid 1px #999;
+		padding:40px 0px 10px 35px;
+	}
+	
+	.codecolumn {
+		max-width:600px;
+	}
+	
+	.textcolumn {
+		max-width:600px;
+		margin-right:100px;
+	}
+	
+	.nxoverview {
+		font-size:18pt;
+		line-height:30px;
+		color:#444;
+		margin-left:0px;
+	}
+	
+	.nxoverviewrow {
+		margin-left:12px;
+	}
+	
+	.demorcv {
+		font-size:16pt;
+		color:#444;
+	}
+	
+</style>
+
+
+	<!-- TITLE -->
+
+	<div class="row" style="border-bottom:solid 5px #eee;position:relative;">
+		<div class="large-12 columns">
+			<img src="images/logo.png" id="logo">
+			<div style="position:absolute;left:120px;bottom:0px;min-width:500px;">		
+				<h1>nexus</h1>
+				<h2>mobile audio interface elements</h2>	
+			</div>
+		</div>
+	</div>
+	
+	
+	
+	<!-- Main explanation and download row -->
+	
+	<div class="row tutorialrow nxoverviewrow">
+		<div class="large-6 columns nxoverview">
+			<div class="textcolumn" style="min-width:350px">
+				NexusUI is a JavaScript library for adding audio interface components to your website with HTML5
+				and transmitting their OSC data to other applications via AJAX.
+				<!-- Nexus is a JavaScript library of audio interface components made with HTML5 &lt;canvas&gt; 
+				that can transmit OSC data to other applications via AJAX and a set of PHP, Rails, and Node applications. -->
+				<br><br><br>
+				<div style="line-height:22px;font-size:13pt;margin-right:100px;text-align:justify;min-width:350px;">
+				Nexus can be used to integrate directly with Web Audio API in the browser, or 
+				to communicate with Max, SuperCollider or Chuck via server-side applications.
+				It enables large-scale collaborative performances by distributing interfaces through a browser -- 
+				something that many people have at home, in their bag, or carry in their pocket. Nexus is mobile-friendly
+				and multi-touch compatible.</div>
+				<br><br>
+				<a href="">Download NexusUI</a>
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay" style="height:100px">
+		
+				
+<canvas nx="dial"></canvas>	
+			</textarea>			
+			<br>
+			<canvas nx="dial"></canvas>	
+			<span id="demo1rcv" class="demorcv"></span>
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- How to Use tutorials -->
+	
+	<div class="row titlerow">
+		How to Use It
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				To create an interface with NexusUI, first link to jquery.js and nexusUI.js libraries<br><br>
+				Any canvas with a valid nx property will be turned into a nexus element. Current nexus elements:<br>
+				<a href="javascript:seeDocs('dial')">dial</a>,
+				<a href="javascript:seeDocs('button')">button</a>,
+				<a href="javascript:seeDocs('toggle')">toggle</a>,
+				<a href="javascript:seeDocs('slider')">slider</a>,
+				<a href="javascript:seeDocs('multislider')">multislider</a>,
+				<a href="javascript:seeDocs('position')">position</a>, and 
+				<a href="javascript:seeDocs('keyboard')">keybaord</a>
+			</div>
+			
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+		
+<script src="nexusUI/jquery.js"></script>
+<script src="nexusUI/nexusUI.js"></script>	
+
+<canvas nx="toggle"></canvas>
+<canvas nx="button"></canvas>
+<canvas nx="multislider"></canvas>
+			</textarea>		
+			<canvas nx="toggle"></canvas>
+			<canvas nx="button"></canvas>
+			<canvas nx="multislider" height="100px" width="200px"></canvas>
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="row titlerow">
+		Styling
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				<b>size</b><br>Elements auto-adjust to fit the CSS or inline style of the canvas.
+				<br><br>
+				<b>color</b><br>Nexus allows for global coloring with nx.colorize or setting individual element's properties.
+				Parameters to set: accent (default), fill, border, accentborder, black, white.
+				<br><br>
+				<b>drawing parameters</b><br>Some other drawing parameters can be set on a per object basis (forthcoming).
+				<br><br>
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay" style="height:305px">
+			
+nx.onload {
+	
+  nx.colorize("#00CCFF"); // sets accent (default)
+  nx.colorize("border", "#222222");
+  nx.colorize("fill", "#222222");
+	
+  dial3.colors.accent = "#FF00CC";
+  dial3.draw();
+  
+}	
+
+<canvas nx="dial" height="150" width="150"></canvas>
+<canvas nx="dial" height="100" width="100"></canvas>
+<canvas nx="dial" height="75" width="75"></canvas>
+<canvas nx="dial" height="50" width="50"></canvas>
+<canvas nx="dial" height="40" width="40"></canvas>
+			</textarea>
+						
+			<canvas nx="dial" id="styledial1" height="150" width="150"></canvas>
+			<canvas nx="dial" id="styledial2" height="100" width="100"></canvas>
+			<canvas nx="dial" id="styledial3" height="75" width="75"></canvas>
+			<canvas nx="dial" id="styledial4" height="50" width="50"></canvas>
+			
+			
+			
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<div class="row titlerow">
+		Transmitting Data with AJAX
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				AJAX tutorial goes here
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">la
+			la
+			la</textarea>
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	<div class="row titlerow">
+		Transmitting Data to Web Audio
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				localTransmit tutorial goes here
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">la
+			la
+			la</textarea>
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- FOOTER -->
+
+	<div class="row" style="font-size:10pt;color:#aaa;padding:20px;text-align:center;margin-top:20px;background-color:#eee;">
+		
+		<span style="font-size:35pt;margin-bottom:15px;color:#dadada">©</span><br><br>experimental music & digital media @ louisiana state univeristy 2013
+		
+	</div>
+	
+	
+	
+	
+
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'foundation/js/vendor/zepto' : 'foundation/js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+  
+  <script src="foundation/js/foundation.min.js"></script>
+  <script>
+    
+    	$(document).foundation();
+    	
+    	
+  
+  </script>
+  
+</body>
+</html>
