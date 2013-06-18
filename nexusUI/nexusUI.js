@@ -87,6 +87,13 @@ var nxManager = function() {
 			this.nxObjects[i].transmissionProtocol = setting;
 		}	
 	}
+	
+		// Set Transmission Protocol for all nx objects
+	this.setTransmitCommand = function (setting) {
+		for (i=0;i<this.nxObjects.length;i++) {
+			this.nxObjects[i].transmitCommand = setting;
+		}	
+	}
 
 	
 	this.nxTransmit = function (data) {

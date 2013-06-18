@@ -7,7 +7,7 @@ function matrix(target, ajaxCommand, uiIndex) {
 	//self awareness
 	var self = this;
 	this.uiIndex = uiIndex;
-	this.defaultSize = { width: 300, height: 300 };
+	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;

@@ -61,6 +61,14 @@
 			styledial4.colors.border = "#222";
 			styledial4.draw();
 			
+			
+			  accessmatrix1.row = 2;
+			  accessmatrix1.col = 2;
+			  accessmatrix1.draw();
+			  
+			  accessmatrix2.matrix = [ [1,0,0],[0,1,0],[0,0,1] ];
+			  accessmatrix2.draw();
+			
 		}
 		
 	</script>
@@ -136,10 +144,8 @@
 	
 	textarea {
 		user-select:none;
-	}
-	
-	textarea:Focus {
-		
+		-webkit-user-select:none;
+		-moz-user-select: none;
 	}
 	
 	.columns {
@@ -198,7 +204,7 @@
 	
 	<div class="row tutorialrow nxoverviewrow">
 		<div class="large-6 columns nxoverview">
-			<div class="textcolumn" style="min-width:350px">
+			<div class="textcolumn" style="min-width:350px;margin-bottom:40px;">
 				NexusUI is a JavaScript library for adding audio interface components to your website with HTML5
 				and transmitting their OSC data to other applications via AJAX.
 				<!-- Nexus is a JavaScript library of audio interface components made with HTML5 &lt;canvas&gt; 
@@ -215,6 +221,7 @@
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
+			<div style="color:#ddd;font-size:12pt;padding:10px;">Example</div>
 			<textarea class="codedisplay" style="height:100px">
 		
 				
@@ -234,7 +241,7 @@
 	<!-- How to Use tutorials -->
 	
 	<div class="row titlerow">
-		How to Use It
+		Creating Elements
 	</div>
 	
 	<div class="row tutorialrow">
@@ -247,8 +254,9 @@
 				<a href="javascript:seeDocs('toggle')">toggle</a>,
 				<a href="javascript:seeDocs('slider')">slider</a>,
 				<a href="javascript:seeDocs('multislider')">multislider</a>,
+				<a href="javascript:seeDocs('matrix')">matrix</a>,
 				<a href="javascript:seeDocs('position')">position</a>, and 
-				<a href="javascript:seeDocs('keyboard')">keybaord</a>
+				<a href="javascript:seeDocs('keyboard')">keyboard</a>
 			</div>
 			
 		</div>
@@ -265,6 +273,50 @@
 			<canvas nx="toggle"></canvas>
 			<canvas nx="button"></canvas>
 			<canvas nx="multislider" height="100px" width="200px"></canvas>
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+		
+	
+	
+	<div class="row titlerow">
+		Accessing elements with JS
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				<b>nx</b><br>Nexus is globally instantiated as nx
+				<br><br>
+				<b>nx.onload</b><br>When Nexus loads, it triggers the nx.onload function which you can define in your javascript. Accessing Nexus elements should be done only after Nexus loads.
+				<br><br>
+				<b>element names</b><br>By default, the first dial on the page will be given the js variable of dial1, etc. You can overwrite this default by giving the canvas an ID, which will become the element's js variable name.
+				<br><br>
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay" style="height:305px" readonly>
+			
+nx.onload {
+	
+  matrix1.row = 2;
+  matrix1.col = 2;
+  matrix1.draw();
+  
+  beatmatrix5.matrix = [ [1,0,0],[0,1,0],[0,0,1] ];
+  beatmatrix5.draw();
+  
+}	
+						
+<canvas nx="matrix"></canvas>
+<canvas nx="matrix" id="beatmatrix5"></canvas>
+			</textarea>
+						
+			<canvas nx="matrix" id="accessmatrix1"></canvas>
+			<canvas nx="matrix" id="accessmatrix2"></canvas>
+			
 		</div>
 		<div class="large-1 columns"></div>
 	</div>
@@ -292,7 +344,7 @@
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay" style="height:305px">
+			<textarea class="codedisplay" style="height:305px" readonly>
 			
 nx.onload {
 	
