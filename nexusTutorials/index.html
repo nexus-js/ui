@@ -68,6 +68,13 @@
 			  
 			  accessmatrix2.matrix = [ [1,0,0],[0,1,0],[0,0,1] ];
 			  accessmatrix2.draw();
+			  
+			  localdial1.transmissionProtocol = "local";
+  
+			  localdial1.localTransmit = function(data) {
+			    localdial2.value = data;
+			    localdial2.draw();
+			  }
 			
 		}
 		
@@ -386,13 +393,28 @@ nx.onload {
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
-				AJAX tutorial goes here
+				Nexus includes a built-in PHP relay that forwards data from the UI to a specified IP and port (default 127.0.0.1). <br><br>
+				To forward with AJAX and PHP, use the global nx.setTransmissionProtocol() method to set all UI elements to send with AJAX.
+				You can override individual elements' paths by setting their transmissionProtocol property directly.<br><br>
+				An element's transmitCommand property specifies the location to send to. To use Nexus' PHP relay, set the transmitCommand to the filepath of nexusOSCRelay.php.
+				transmitCommand can also be set for all elements with the nx.setTransmitCommand() method.
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay">la
-			la
-			la</textarea>
+			<textarea class="codedisplay" style="height:250px;">
+				
+nx.onload = function() {
+	
+  nx.setTransmissionProtocol("ajax");
+  nx.setTransmitCommand("nexusPHP/nexusOSCRelay.php");
+  
+  // or set an element individually
+  
+  dial1.transmissionProtocol = "ajax";
+  dial1.transmitCommand = "nexusPHP/nexusOSCRelay.php";
+  
+}
+			</textarea>
 		</div>
 		<div class="large-1 columns"></div>
 	</div>
@@ -401,24 +423,66 @@ nx.onload {
 	
 	
 	<div class="row titlerow">
-		Transmitting Data to Web Audio
+		Transmitting Data locally to a JS function
+		<div style="font-size:12pt;color:#777;margin-top:7px">(for Web Audio or controlling other Nexus elements)</div>
 	</div>
 	
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
-				localTransmit tutorial goes here
+				To make UI data accessible from within JavaScript, set the global or local transmission protocol to "local"
+				and define individual localTransmit functions for each element you wish to receive data from.
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay">la
-			la
-			la</textarea>
+			<textarea class="codedisplay" style="height:300px;">
+<script>
+
+nx.onload = function() {
+	
+  nx.setTransmissionProtocol("local");
+  
+  dial1.localTransmit = function(data) {
+    dial2.value = data;
+    dial2.draw();
+  }
+	
+}
+
+</script>
+
+<canvas nx="dial"></canvas>
+<canvas nx="dial"></canvas>
+				
+			</textarea>
+			<canvas nx="dial" id="localdial1"></canvas>
+			<canvas nx="dial" id="localdial2"></canvas>
 		</div>
 		<div class="large-1 columns"></div>
 	</div>
 	
 	
+	
+	
+	
+	
+	<div class="row titlerow">
+		Extra nx methods
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				nx.scale, nx.invert, nx....
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+	
+			</textarea>
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
 	
 	
 	
@@ -429,9 +493,9 @@ nx.onload {
 	
 	<!-- FOOTER -->
 
-	<div class="row" style="font-size:10pt;color:#aaa;padding:20px;text-align:center;margin-top:20px;background-color:#eee;">
+	<div class="row" style="font-size:10pt;color:#aaa;padding:30px;text-align:center;margin-top:20px;background-color:#eee;">
 		
-		<span style="font-size:35pt;margin-bottom:15px;color:#dadada">©</span><br><br>experimental music & digital media @ louisiana state univeristy 2013
+		<div style="font-size:35pt;margin:5px auto 20px;color:#dadada;width:100px;text-align:center;">©</div>experimental music & digital media @ louisiana state univeristy 2013
 		
 	</div>
 	
