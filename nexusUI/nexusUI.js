@@ -515,8 +515,8 @@ function getTemplate(self, target, transmitCommand) {
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
-	self.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
-		nx.globalLocalTransmit(localObjectFrom, localObject, localParameter, data);
+	self.localTransmit = function(data) {
+		nx.globalLocalTransmit(self.canvasID, self.localObject, self.localParameter, data);
 	};
 	self.localObject = "dial1";
 	self.localParameter = "value";

@@ -134,6 +134,21 @@
 		}
 	}
 	
+	#downloadlink {
+		display:inline-block;
+		margin:40px 0px 0px;
+		padding:5px 30px;
+		border:solid 1px #08c;
+		background-color:#f7f7f7;
+		text-align:center;
+	}
+	
+	.demolink {
+		font-size:13pt;
+		line-height:0px;
+		margin:0px;
+	}
+	
 	.tutorialrow {
 		margin: 40px 0px 60px 20px;
 	}
@@ -212,19 +227,27 @@
 	<div class="row tutorialrow nxoverviewrow">
 		<div class="large-6 columns nxoverview">
 			<div class="textcolumn" style="min-width:350px;margin-bottom:40px;">
-				NexusUI is a JavaScript library for adding audio interface components to your website with HTML5
-				and transmitting their OSC data to other applications via AJAX.
-				<!-- Nexus is a JavaScript library of audio interface components made with HTML5 &lt;canvas&gt; 
-				that can transmit OSC data to other applications via AJAX and a set of PHP, Rails, and Node applications. -->
-				<br><br><br>
+			<!--	NexusUI is a JavaScript library for adding audio interface components to your website with HTML5
+				and transmitting their OSC data to other applications via AJAX. -->
+				
+				Nexus is a JavaScript library of web audio interface components made with HTML5
+				that can transmit OSC data to other applications via AJAX.
+				<br><br>
+				
 				<div style="line-height:22px;font-size:13pt;margin-right:100px;text-align:justify;min-width:350px;">
 				Nexus can be used to integrate directly with Web Audio API in the browser, or 
 				to communicate with Max, SuperCollider or Chuck via server-side applications.
 				It enables large-scale collaborative performances by distributing interfaces through a browser -- 
 				something that many people have at home, in their bag, or carry in their pocket. Nexus is mobile-friendly
-				and multi-touch compatible.</div>
-				<br><br>
-				<a href="">Download NexusUI</a>
+				and multi-touch compatible.</div><br>
+				
+				<a href="../nexusWebAudio/SeqDemo1.html" class="demolink">Simple Sequencer Demo</a> • 
+				<a href="../nexusWebAudio/AnimationDemo1.html" class="demolink">Animated Matrix Demo</a>
+				<div style="font-size:10pt;color:#777">(Thanks to <a href="http://www.charlie-roberts.com/gibberish">Gibberish</a> for the audio support.)</div>
+				
+				
+				<a href="" id="downloadlink">Download NexusUI</a>
+		
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
@@ -255,7 +278,9 @@
 		<div class="large-6 columns">
 			<div class="textcolumn">
 				To create an interface with NexusUI, first link to jquery.js and nexusUI.js libraries<br><br>
-				Any canvas with a valid nx property will be turned into a nexus element. Current nexus elements:<br>
+				Any canvas with a valid nx property will be turned into a nexus element.<br>
+				<br>
+				Current nexus elements:<br>
 				<a href="javascript:seeDocs('dial')">dial</a>,
 				<a href="javascript:seeDocs('button')">button</a>,
 				<a href="javascript:seeDocs('toggle')">toggle</a>,
