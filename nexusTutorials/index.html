@@ -11,8 +11,7 @@
 	<meta name="LSU EMDM" content="nexus">
 	<link rel="stylesheet" href="foundation/css/foundation.css" />
 	<script src="foundation/js/vendor/custom.modernizr.js"></script>
-	<link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans:300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
 	<script src="../nexusUI/jquery.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
@@ -23,16 +22,15 @@
 	<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusScroll.js"></script>
 	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet">
   
 </head>
 <body>
 	
 	
-  
-  
-	
 	<script>
+	
 		
 		nx.onload = function() {
 			
@@ -81,12 +79,40 @@
 	</script>
 	
 	
+	
+	
+<!-- UserVoice JavaScript SDK (only needed once on a page) -->
+<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/LXi9IjEXh5upmWEDNJLBtQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+
+<!-- A tab to launch the Classic Widget -->
+<script>
+UserVoice = window.UserVoice || [];
+UserVoice.push(['showTab', 'classic_widget', {
+  mode: 'feedback',
+  primary_color: '#39a2e3',
+  link_color: '#d4d4d4',
+  forum_id: 211342,
+  tab_label: 'Feedback & Suggestions',
+  tab_color: '#76a4c9',
+  tab_position: 'bottom-right',
+  tab_inverted: false
+}]);
+</script>
+	
+	
+	
+	
+	
+	
+	
+	
 
 <style>
 
 	body {
 	//	font-family:"Merriweather Sans", gill sans;
-		line-height:20px;;
+		line-height:20px;
+	//	overflow-y:scroll;
 	}
 	
 	.row {
@@ -208,9 +234,10 @@
 </style>
 
 
+
 	<!-- TITLE -->
 
-	<div class="row" style="border-bottom:solid 5px #eee;position:relative;">
+	<div class="row" style="border-bottom:solid 2px #ccc;position:relative;background-color:#fafafa">
 		<div class="large-12 columns">
 			<img src="images/logo.png" id="logo">
 			<div style="position:absolute;left:120px;bottom:0px;min-width:500px;">		
@@ -516,6 +543,33 @@ nx.onload = function() {
 	
 	
 	
+	
+	<!-- Docs for each element -->
+	
+	<div class="row titlerow">
+		Docs: Dial
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				nx.scale, nx.invert, nx....
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+	
+			</textarea>
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
 	<!-- FOOTER -->
 
 	<div class="row" style="font-size:10pt;color:#aaa;padding:30px;text-align:center;margin-top:20px;background-color:#eee;">
@@ -542,6 +596,10 @@ nx.onload = function() {
     	
   
   </script>
+  
+  
+  
+  
   
 </body>
 </html>

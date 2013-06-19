@@ -1,4 +1,4 @@
-// Javascript 2d_slider
+// Javascript Multislider
 
 function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 					
