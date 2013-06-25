@@ -188,6 +188,7 @@ UserVoice.push(['showTab', 'classic_widget', {
 		padding:10px;
 		border-radius:6px;
 		height:150px;
+		min-width:500px;
 	}
 	
 	textarea {
@@ -241,7 +242,7 @@ UserVoice.push(['showTab', 'classic_widget', {
 		<div class="large-12 columns">
 			<img src="images/logo.png" id="logo">
 			<div style="position:absolute;left:120px;bottom:0px;min-width:500px;">		
-				<h1>nexus</h1>
+				<h1>nexus UI</h1>
 				<h2>mobile audio interface elements</h2>	
 			</div>
 		</div>
@@ -257,10 +258,15 @@ UserVoice.push(['showTab', 'classic_widget', {
 			<!--	NexusUI is a JavaScript library for adding audio interface components to your website with HTML5
 				and transmitting their OSC data to other applications via AJAX. -->
 				
-				Nexus is a JavaScript library of web audio interface components made with HTML5
-				that can transmit OSC data to other applications via AJAX.
-				<br><br>
+			<!--	Nexus is a JavaScript library of web audio interface components made with HTML5
+				that can transmit OSC data to other applications via AJAX. -->
+			
+				<a href="" id="downloadlink" style="margin:0px 0px 30px">Download NexusUI</a><br>
 				
+				NexusUI is a library of audio interface components made with HTML5
+				that transmit OSC data locally or to other applications via AJAX.
+				<br>
+				<br>
 				<div style="line-height:22px;font-size:13pt;margin-right:100px;text-align:justify;min-width:350px;">
 				Nexus can be used to integrate directly with Web Audio API in the browser, or 
 				to communicate with Max, SuperCollider or Chuck via server-side applications.
@@ -273,7 +279,6 @@ UserVoice.push(['showTab', 'classic_widget', {
 				<div style="font-size:10pt;color:#777">(Thanks to <a href="http://www.charlie-roberts.com/gibberish">Gibberish</a> for the audio support.)</div>
 				
 				
-				<a href="" id="downloadlink">Download NexusUI</a>
 		
 			</div>
 		</div>
@@ -307,15 +312,15 @@ UserVoice.push(['showTab', 'classic_widget', {
 				To create an interface with NexusUI, first link to jquery.js and nexusUI.js libraries<br><br>
 				Any canvas with a valid nx property will be turned into a nexus element.<br>
 				<br>
-				Current nexus elements:<br>
-				<a href="javascript:seeDocs('dial')">dial</a>,
-				<a href="javascript:seeDocs('button')">button</a>,
-				<a href="javascript:seeDocs('toggle')">toggle</a>,
-				<a href="javascript:seeDocs('slider')">slider</a>,
-				<a href="javascript:seeDocs('multislider')">multislider</a>,
-				<a href="javascript:seeDocs('matrix')">matrix</a>,
-				<a href="javascript:seeDocs('position')">position</a>, and 
-				<a href="javascript:seeDocs('keyboard')">keyboard</a>
+				Current nexus elements:<br><br>
+				<a href="#dial_doc">dial</a><br>
+				<a href="#position_doc">position</a><br>
+				<a href="#keyboard_doc">keyboard</a><br>
+				<a href="#button_doc">button</a><br>
+				<a href="#toggle_doc">toggle</a><br>
+				<a href="#slider_doc">slider</a><br>
+				<a href="#multislider_doc">multislider</a><br>
+				<a href="#matrix_doc">matrix</a><br>
 			</div>
 			
 		</div>
@@ -518,22 +523,18 @@ nx.onload = function() {
 	
 	
 	
-	<div class="row titlerow">
-		Extra nx methods
-	</div>
 	
-	<div class="row tutorialrow">
-		<div class="large-6 columns">
-			<div class="textcolumn">
-				nx.scale, nx.invert, nx....
-			</div>
-		</div>
-		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay">
 	
-			</textarea>
+	
+	
+	
+	
+	<!-- MID TITLE -->
+
+	<div class="row" style="position:relative;background-color:#f7f7f7;padding:25px 25px 15px;margin:150px 0px 30px">
+		<div class="large-12 columns">
+			<h3 style="font-weight:normal">Component Docs</h3>
 		</div>
-		<div class="large-1 columns"></div>
 	</div>
 	
 	
@@ -541,28 +542,361 @@ nx.onload = function() {
 	
 	
 	
+	
+	<style>
+		
+		.doccategory {
+			background-color:#f7f7f7;
+		//	border-bottom:solid 1px #EEE;
+			padding:5px 5px 5px 5px;
+			color:#999;
+			font-size:13pt;
+			margin:45px 0px 15px;
+		}
+		
+		.firstdoccat {
+			margin-top:0px;
+		}
+		
+		.valuedefault {
+			color:#aaa;
+			font-size:10pt;
+		}
+		
+		
+	</style>
 	
 	
 	
 	<!-- Docs for each element -->
 	
+	
+	<!-- 
+			DIAL
+	-->
+	<a name="dial_doc"></a>
 	<div class="row titlerow">
-		Docs: Dial
+		Dial
 	</div>
 	
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
-				nx.scale, nx.invert, nx....
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				<b>.value</b><br>
+				0-1 float, rounded to 3 decimals.<br>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>.value</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
 			<textarea class="codedisplay">
-	
+
+<canvas nx="dial"></canvas>
 			</textarea>
-		</div>
+			<canvas nx="dial"></canvas>
+		</div>	
 		<div class="large-1 columns"></div>
 	</div>
+	
+	
+	
+	
+	
+	
+	<!-- 
+			POSITION
+	-->
+	<a name="position_doc"></a>
+	<div class="row titlerow">
+		Position
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>.value</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				<br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="position"></canvas>
+			</textarea>
+			<canvas nx="position"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- 
+			KEYBOARD
+	-->
+	<a name="keyboard_doc"></a>
+	<div class="row titlerow">
+		Keyboard
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>.value</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				.<br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="keyboard"></canvas>
+			</textarea>
+			<canvas nx="keyboard"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- 
+			BUTTON
+	-->
+	<a name="button_doc"></a>
+	<div class="row titlerow">
+		Button
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>button.value</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				0-1 float, rounded to 3 decimals.<br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="button"></canvas>
+			</textarea>
+			<canvas nx="button" id="buttondoc1"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- 
+			TOGGLE
+	-->
+	<a name="toggle_doc"></a>
+	<div class="row titlerow">
+		Toggle
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>toggle.value</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				0-1 float, rounded to 3 decimals.<br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="toggle"></canvas>
+			</textarea>
+			<canvas nx="toggle" id="toggledoc1"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- 
+			SLIDER
+	-->
+	<a name="slider_doc"></a>
+	<div class="row titlerow">
+		Slider
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>slider.value</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				0-1 float, rounded to 3 decimals.<br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="slider"></canvas>
+			</textarea>
+			<canvas nx="slider"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- 
+			MULTISLIDER
+	-->
+	<a name="multislider_doc"></a>
+	<div class="row titlerow">
+		Multislider
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>multislider.values</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				<br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="multislider"></canvas>
+			</textarea>
+			<canvas nx="multislider"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<!-- 
+			MATRIX
+	-->
+	<a name="matrix_doc"></a>
+	<div class="row titlerow">
+		Matrix
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>.matrix</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				<br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="matrix"></canvas>
+			</textarea>
+			<canvas nx="matrix"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
 	
 	
 	
