@@ -247,6 +247,24 @@
 			color:#444;
 		}
 		
+		.doccategory {
+			background-color:#f7f7f7;
+			padding:5px 5px 5px 5px;
+			color:#999;
+			font-size:13pt;
+			margin:45px 0px 15px;
+		}
+		
+		.firstdoccat {
+			margin-top:0px;
+		}
+		
+		.valuedefault {
+			color:#aaa;
+			font-size:10pt;
+		}
+		
+		
 	</style>
 
 
@@ -324,7 +342,7 @@
 		<div class="large-6 columns">
 			<div class="textcolumn">
 				<b>requirements</b><br>
-				To create an interface with NexusUI, first link to jquery.js and nexusUI.js libraries<br><br>
+				Nexus requires links to jquery.js and nexusUI.js libraries<br><br>
 				<b>adding elements with &lt;canvas&gt;</b><br>
 				Any canvas with a valid nx attribute will turn into a nexus element.<br>
 				<br>
@@ -370,9 +388,9 @@
 			<div class="textcolumn">
 				<b>nx</b><br>Nexus is globally instantiated as nx
 				<br><br>
-				<b>nx.onload</b><br>When Nexus loads, it triggers the nx.onload function which you can define in your javascript. Accessing Nexus elements should be done only after Nexus loads.
+				<b>nx.onload( )</b><br>When Nexus loads, it triggers the nx.onload function which you can define in your javascript. Accessing Nexus elements should be done only after Nexus loads.
 				<br><br>
-				<b>element names</b><br>By default, the first dial on the page will be given the js variable of dial1, etc. You can overwrite this default by giving the canvas an ID, which will become the element's js variable name.
+				<b>element naming</b><br>By default, the first dial on the page will be given the js variable of dial1, the third toggle will be toggle3, etc. You can overwrite this default by giving the canvas an ID attribute in the HTML, which will become the element's js variable name.
 				<br><br>
 			</div>
 		</div>
@@ -416,11 +434,11 @@ nx.onload {
 			<div class="textcolumn">
 				<b>size</b><br>Elements auto-adjust to fit the CSS or inline style of the canvas.
 				<br><br>
-				<b>color</b><br>Nexus allows for global coloring with nx.colorize or setting individual element's properties.
+				<b>color</b><br>Nexus allows for global coloring with <b>nx.colorize</b> or setting individual elements with their <b>.colors</b> property.
 				Parameters to set: accent (default), fill, border, accentborder, black, white.
 				<br><br>
-				<b>drawing parameters</b><br>Some other drawing parameters can be set on a per object basis (forthcoming).
-				<br><br>
+			<!--	<b>drawing parameters</b><br>Some other drawing parameters can be set on a per object basis (forthcoming).
+				<br><br> -->
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
@@ -441,7 +459,6 @@ nx.onload {
 <canvas nx="dial" height="100" width="100"></canvas>
 <canvas nx="dial" height="75" width="75"></canvas>
 <canvas nx="dial" height="50" width="50"></canvas>
-<canvas nx="dial" height="40" width="40"></canvas>
 			</textarea>
 						
 			<canvas nx="dial" id="styledial1" height="150" width="150"></canvas>
@@ -466,9 +483,13 @@ nx.onload {
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
-				Nexus includes a built-in PHP relay that forwards data from the UI to a specified IP and port (default 127.0.0.1). <br><br>
+				Nexus includes a built-in PHP relay that forwards data from the UI to a specified IP and port (default 127.0.0.1).
+				<br><br>
+				<b>nx.setTransmissionProtocol( )</b><br>
 				To forward with AJAX and PHP, use the global nx.setTransmissionProtocol() method to set all UI elements to send with AJAX.
-				You can override individual elements' paths by setting their transmissionProtocol property directly.<br><br>
+				You can override individual elements' paths by setting their .transmissionProtocol property directly.
+				<br><br>
+				<b>nx.setTransmitCommenand( )</b><br>
 				An element's transmitCommand property specifies the location to send to. To use Nexus' PHP relay, set the transmitCommand to the filepath of nexusOSCRelay.php.
 				transmitCommand can also be set for all elements with the nx.setTransmitCommand() method.
 			</div>
@@ -496,7 +517,7 @@ nx.onload = function() {
 	
 	
 	<div class="row titlerow">
-		Transmitting Data locally to a JS function
+		Transmitting Data locally to a callback function
 		<div style="font-size:12pt;color:#777;margin-top:7px">(for Web Audio or controlling other Nexus elements)</div>
 	</div>
 	
@@ -504,16 +525,23 @@ nx.onload = function() {
 		<div class="large-6 columns">
 			<div class="textcolumn">
 				To make UI data accessible from within JavaScript, set the global or local transmission protocol to "local"
-				and define individual localTransmit functions for each element you wish to receive data from.
+				<br><br>
+				<b>.localTransmit( )</b><br>
+				Define individual localTransmit functions for each element you wish to receive data from.
+				<br><br>
+				<b>nx.globalLocalTransmit( )</b><br>
+				Or define one function that receives all data sent from any object, with OSC name.
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay" style="height:300px;">
+			<textarea class="codedisplay" style="height:320px;">
 <script>
 
 nx.onload = function() {
 	
   nx.setTransmissionProtocol("local");
+  
+  // set individual receiver
   
   dial1.localTransmit = function(data) {
     dial2.value = data;
@@ -526,10 +554,44 @@ nx.onload = function() {
 
 <canvas nx="dial"></canvas>
 <canvas nx="dial"></canvas>
-				
 			</textarea>
 			<canvas nx="dial" id="localdial1"></canvas>
 			<canvas nx="dial" id="localdial2"></canvas>
+			<br><br><br>
+			<textarea class="codedisplay" style="height:400px;">
+AND/OR set global receiver of locally transmitted data
+
+<script>
+
+nx.onload = function() {
+	
+  nx.setTransmissionProtocol("local");
+  
+  nx.globalLocalTransmit = function(oscName, data) {
+    switch (oscName) {
+      case "dial1":
+        dial2.value = data;
+        dial2.draw();
+        break;
+      case "dial2":
+        // some code
+        break;
+    }
+  }
+	
+}
+
+</script>
+
+<canvas nx="dial"></canvas>
+<canvas nx="dial"></canvas>
+				
+			</textarea>
+			
+			
+			
+			
+			
 		</div>
 		<div class="large-1 columns"></div>
 	</div>
@@ -543,9 +605,14 @@ nx.onload = function() {
 	
 	
 	
+	<!-- 
+		
+		DOCS FOR EACH ELEMENT 
+		
+	-->
 	
 	
-	<!-- MID TITLE -->
+	
 
 	<div class="row" style="position:relative;background-color:#f7f7f7;padding:25px 25px 15px;margin:150px 0px 30px">
 		<div class="large-12 columns">
@@ -553,38 +620,48 @@ nx.onload = function() {
 		</div>
 	</div>
 	
-	
-	
-	
-	
-	
-	
 	<style>
 		
-		.doccategory {
-			background-color:#f7f7f7;
-		//	border-bottom:solid 1px #EEE;
-			padding:5px 5px 5px 5px;
-			color:#999;
-			font-size:13pt;
-			margin:45px 0px 15px;
-		}
-		
-		.firstdoccat {
-			margin-top:0px;
-		}
-		
-		.valuedefault {
+		i{
 			color:#aaa;
-			font-size:10pt;
+			font-weight:normal;
 		}
-		
-		
 	</style>
 	
 	
+	<!-- 
+			SHARED
+	-->
+	<a name="dial_doc"></a>
+	<div class="row titlerow">
+		Shared properties and methods
+	</div>
 	
-	<!-- Docs for each element -->
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- properties -->
+				<div class="doccategory firstdoccat">properties</div>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b>.draw( )</b> <br>
+				Redraws the element (with any new values that have been set)<br><br>
+				
+				<b>.nxTransmit( <i>value to send</i> )</b> <br>
+				Sends value to previously defined transmit location.
+				<br><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
 	
 	
 	<!-- 
@@ -601,13 +678,13 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				<b>.value</b><br>
 				0-1 float, rounded to 3 decimals.<br>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
 				<b>.value</b> 
 				<span class="valuedefault">(default data output)</span><br>
+				0-1 float, rounded to 3 decimals.<br>
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
@@ -644,11 +721,12 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
+				An array [ x,y ] of floats scaled 0-1<br>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
-				<b>.value</b> 
-				<span class="valuedefault">(default data output)</span><br>
+				<b>.nodePos</b> 
+			<!--	<span class="valuedefault">(default data output)</span><br> -->
 				<br>
 				
 				<!-- methods -->
