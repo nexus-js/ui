@@ -1,28 +1,18 @@
-<!DOCTYPE html>
-<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-
+<!doctype html>
+<html>
 <head>
-	<meta charset="utf-8" />
- <!--  <meta name="viewport" content="width=device-width" /> -->
-	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
 	<title>Nexus Mobile Audio Interface</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
 	<meta name="LSU EMDM" content="nexus">
+	<!-- foundation framework links -->
 	<link rel="stylesheet" href="foundation/css/foundation.css" />
 	<script src="foundation/js/vendor/custom.modernizr.js"></script>
+	<!-- fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
-	<script src="../nexusUI/jquery.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusMatrix.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusScroll.js"></script>
+	<!-- nexus links -->
+	<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+	<script type="text/javascript" src="../CurrentBuild/nexusUI.js"></script>
 	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet">
   
 </head>
@@ -60,19 +50,19 @@
 			styledial4.draw();
 			
 			
-			  accessmatrix1.row = 2;
-			  accessmatrix1.col = 2;
-			  accessmatrix1.draw();
-			  
-			  accessmatrix2.matrix = [ [1,0,0],[0,1,0],[0,0,1] ];
-			  accessmatrix2.draw();
-			  
-			  localdial1.transmissionProtocol = "local";
+			accessmatrix1.row = 2;
+			accessmatrix1.col = 2;
+			accessmatrix1.draw();
+		  
+			accessmatrix2.matrix = [ [1,0,0],[0,1,0],[0,0,1] ];
+			accessmatrix2.draw();
+		  
+			localdial1.transmissionProtocol = "local";
   
-			  localdial1.localTransmit = function(data) {
+			localdial1.localTransmit = function(data) {
 			    localdial2.value = data;
 			    localdial2.draw();
-			  }
+			}
 			
 		}
 		
@@ -80,159 +70,157 @@
 	
 	
 	
+		
+	<!-- UserVoice JavaScript SDK (only needed once on a page) -->
+	<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/LXi9IjEXh5upmWEDNJLBtQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
 	
-<!-- UserVoice JavaScript SDK (only needed once on a page) -->
-<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/LXi9IjEXh5upmWEDNJLBtQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-
-<!-- A tab to launch the Classic Widget -->
-<script>
-UserVoice = window.UserVoice || [];
-UserVoice.push(['showTab', 'classic_widget', {
-  mode: 'feedback',
-  primary_color: '#39a2e3',
-  link_color: '#d4d4d4',
-  forum_id: 211342,
-  tab_label: 'Feedback & Suggestions',
-  tab_color: '#76a4c9',
-  tab_position: 'bottom-right',
-  tab_inverted: false
-}]);
-</script>
-	
-	
-	
+	<!-- A tab to launch the Feedback Widget -->
+	<script>
+	UserVoice = window.UserVoice || [];
+	UserVoice.push(['showTab', 'classic_widget', {
+	  mode: 'feedback',
+	  primary_color: '#39a2e3',
+	  link_color: '#d4d4d4',
+	  forum_id: 211342,
+	  tab_label: 'Send Feedback',
+	  tab_color: '#76a4c9',
+	  tab_position: 'bottom-right',
+	  tab_inverted: false
+	}]);
+	</script>
+		
 	
 	
 	
 	
 	
-
-<style>
-
-	body {
-	//	font-family:"Merriweather Sans", gill sans;
-		line-height:20px;
-	//	overflow-y:scroll;
-	}
 	
-	.row {
-		max-width:none;
-	}
+		
 	
-	a:hover {
-		text-decoration:underline;
-	}
+	<style>
 	
-	@font-face {
-	    font-family: "Poiret One";
-	    src: "fonts/PoiretOne-Regular.ttf";
-	    font-weight: 400;
-	}
-	
-	h1, h2 {
-		font-family: "Poiret One";
-	}
-	
-	h1 {
-		font-size:34pt;
-		display:inline;
-		margin:40px 0px 0px 0px;
-	}
-	
-	h2 {
-		font-size:24pt;
-		margin-left:0px;
-		display:inline;
-		margin-left:40px;
-	}
-	
-	#logo {
-		margin:5px;
-		width:90px;
-		display:block;
-	}
-	
-	@media (max-width: 767px) {
-	  h2 {
-	    margin:0px 0px 10px 0px;
-	    display:block;
-	    font-size:18pt;
+		body {
+			line-height:20px;
 		}
-	}
-	
-	#downloadlink {
-		display:inline-block;
-		margin:40px 0px 0px;
-		padding:5px 30px;
-		border:solid 1px #08c;
-		background-color:#f7f7f7;
-		text-align:center;
-	}
-	
-	.demolink {
-		font-size:13pt;
-		line-height:0px;
-		margin:0px;
-	}
-	
-	.tutorialrow {
-		margin: 40px 0px 60px 20px;
-	}
-	
-	.codedisplay {
-		border:solid 1px #aaa;
-		background-color:#f7f7f7;
-		font-family: courier;
-		font-size:10pt;
-		color:#333;
-		padding:10px;
-		border-radius:6px;
-		height:150px;
-		min-width:500px;
-	}
-	
-	textarea {
-		user-select:none;
-		-webkit-user-select:none;
-		-moz-user-select: none;
-	}
-	
-	.columns {
-		margin:10px 0px;
-	}
-	
-	.titlerow {
-		font-size:20pt;
-		border-bottom:solid 1px #999;
-		padding:40px 0px 10px 35px;
-	}
-	
-	.codecolumn {
-		max-width:600px;
-	}
-	
-	.textcolumn {
-		max-width:600px;
-		margin-right:100px;
-	}
-	
-	.nxoverview {
-		font-size:18pt;
-		line-height:30px;
-		color:#444;
-		margin-left:0px;
-	}
-	
-	.nxoverviewrow {
-		margin-left:12px;
-	}
-	
-	.demorcv {
-		font-size:16pt;
-		color:#444;
-	}
-	
-</style>
+		
+		.row {
+			max-width:none;
+		}
+		
+		a:hover {
+			text-decoration:underline;
+		}
+		
+		@font-face {
+		    font-family: "Poiret One";
+		    src: "fonts/PoiretOne-Regular.ttf";
+		    font-weight: 400;
+		}
+		
+		h1, h2 {
+			font-family: "Poiret One";
+		}
+		
+		h1 {
+			font-size:34pt;
+			display:inline;
+			margin:40px 0px 0px 0px;
+		}
+		
+		h2 {
+			font-size:24pt;
+			margin-left:0px;
+			display:inline;
+			margin-left:40px;
+		}
+		
+		#logo {
+			margin:5px;
+			width:90px;
+			display:block;
+		}
+		
+		@media (max-width: 767px) {
+		  h2 {
+		    margin:0px 0px 10px 0px;
+		    display:block;
+		    font-size:18pt;
+			}
+		}
+		
+		#downloadlink {
+			display:inline-block;
+			margin:40px 0px 0px;
+			padding:5px 30px;
+			border:solid 1px #08c;
+			background-color:#f7f7f7;
+			text-align:center;
+		}
+		
+		.demolink {
+			font-size:13pt;
+			line-height:0px;
+			margin:0px;
+		}
+		
+		.tutorialrow {
+			margin: 40px 0px 60px 20px;
+		}
+		
+		.codedisplay {
+			border:solid 1px #aaa;
+			background-color:#f7f7f7;
+			font-family: courier;
+			font-size:10pt;
+			color:#333;
+			padding:10px;
+			border-radius:6px;
+			height:150px;
+			min-width:500px;
+		}
+		
+		textarea {
+			user-select:none;
+			-webkit-user-select:none;
+			-moz-user-select: none;
+		}
+		
+		.columns {
+			margin:10px 0px;
+		}
+		
+		.titlerow {
+			font-size:20pt;
+			border-bottom:solid 1px #999;
+			padding:40px 0px 10px 35px;
+		}
+		
+		.codecolumn {
+			max-width:600px;
+		}
+		
+		.textcolumn {
+			max-width:600px;
+			margin-right:100px;
+		}
+		
+		.nxoverview {
+			font-size:18pt;
+			line-height:30px;
+			color:#444;
+			margin-left:0px;
+		}
+		
+		.nxoverviewrow {
+			margin-left:12px;
+		}
+		
+		.demorcv {
+			font-size:16pt;
+			color:#444;
+		}
+		
+	</style>
 
 
 
@@ -261,22 +249,21 @@ UserVoice.push(['showTab', 'classic_widget', {
 			<!--	Nexus is a JavaScript library of web audio interface components made with HTML5
 				that can transmit OSC data to other applications via AJAX. -->
 			
-				<a href="" id="downloadlink" style="margin:0px 0px 30px">Download NexusUI</a><br>
+				<a href="../CurrentBuild/nexusUI.js" download="nexusUI.js" id="downloadlink" style="margin:0px 0px 30px">Download NexusUI</a><br>
 				
 				NexusUI is a library of audio interface components made with HTML5
 				that transmit OSC data locally or to other applications via AJAX.
 				<br>
 				<br>
 				<div style="line-height:22px;font-size:13pt;margin-right:100px;text-align:justify;min-width:350px;">
-				Nexus can be used to integrate directly with Web Audio API in the browser, or 
-				to communicate with Max, SuperCollider or Chuck via server-side applications.
-				It enables large-scale collaborative performances by distributing interfaces through a browser -- 
-				something that many people have at home, in their bag, or carry in their pocket. Nexus is mobile-friendly
-				and multi-touch compatible.</div><br>
+				Nexus can be used to integrate directly with the Web Audio API in the browser, or 
+				to communicate with Max, SuperCollider and Chuck via server-side applications.<br><br>
+				Nexus is mobile-friendly and multi-touch compatible. It enables large-scale collaborative performances by distributing interfaces through a browser -- 
+				something that many people have at home, in their bag, or carry in their pocket.</div><br>
 				
 				<a href="../nexusWebAudio/SeqDemo1.html" class="demolink">Simple Sequencer Demo</a> • 
 				<a href="../nexusWebAudio/AnimationDemo1.html" class="demolink">Animated Matrix Demo</a>
-				<div style="font-size:10pt;color:#777">(Thanks to <a href="http://www.charlie-roberts.com/gibberish">Gibberish</a> for the audio support.)</div>
+				<div style="font-size:10pt;color:#777">(Thanks to <a href="http://www.charlie-roberts.com/gibberish">Gibberish</a> for the audio support!)</div>
 				
 				
 		
@@ -309,18 +296,20 @@ UserVoice.push(['showTab', 'classic_widget', {
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
+				<b>requirements</b><br>
 				To create an interface with NexusUI, first link to jquery.js and nexusUI.js libraries<br><br>
-				Any canvas with a valid nx property will be turned into a nexus element.<br>
+				<b>adding elements with &lt;canvas&gt;</b><br>
+				Any canvas with a valid nx attribute will turn into a nexus element.<br>
 				<br>
-				Current nexus elements:<br><br>
-				<a href="#dial_doc">dial</a><br>
-				<a href="#position_doc">position</a><br>
-				<a href="#keyboard_doc">keyboard</a><br>
-				<a href="#button_doc">button</a><br>
-				<a href="#toggle_doc">toggle</a><br>
-				<a href="#slider_doc">slider</a><br>
-				<a href="#multislider_doc">multislider</a><br>
-				<a href="#matrix_doc">matrix</a><br>
+				<b>current nexus elements</b><br>
+				<a href="#dial_doc">dial</a> &nbsp;•&nbsp; 
+				<a href="#position_doc">position</a> &nbsp;•&nbsp; 
+				<a href="#keyboard_doc">keyboard</a> &nbsp;•&nbsp; 
+				<a href="#button_doc">button</a> &nbsp;•&nbsp; 
+				<a href="#toggle_doc">toggle</a> &nbsp;•&nbsp; 
+				<a href="#slider_doc">slider</a> &nbsp;•&nbsp; 
+				<a href="#multislider_doc">multislider</a> &nbsp;•&nbsp; 
+				<a href="#matrix_doc">matrix</a>
 			</div>
 			
 		</div>
@@ -915,6 +904,7 @@ nx.onload = function() {
 	
 	
 	
+  <!-- This JS code is for Foundation responsive framework-->
 
   <script>
   document.write('<script src=' +
@@ -924,11 +914,7 @@ nx.onload = function() {
   
   <script src="foundation/js/foundation.min.js"></script>
   <script>
-    
     	$(document).foundation();
-    	
-    	
-  
   </script>
   
   
