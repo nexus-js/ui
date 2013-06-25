@@ -6,7 +6,7 @@
  * I've included a minify function but it is not working at the moment
  * so I commented out the function call.
  * 
- * 
+ * Code written with assist from http://blog.millermedeiros.com/node-js-as-a-build-script/
  * 
  */
 

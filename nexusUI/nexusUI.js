@@ -401,9 +401,7 @@ var nxManager = function() {
 var nx = new nxManager();
 
 /* this onload function turns canvases into nexus elements,
- * using their id as their var name */
-
-// CHANGED: using document ready to set up nexus.  Will not conflict with window.onload and you can add more functions to the document.ready chain if needed.
+ * using the canvas's id as its var name */
 
 $(document).ready(function() {
 	var allcanvi = document.getElementsByTagName("canvas");
@@ -421,7 +419,6 @@ $(document).ready(function() {
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			// dial1 = new dial(dial1, nexus, 1);
 			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+idNum+");");
 		}
 	}
@@ -430,6 +427,11 @@ $(document).ready(function() {
 		document.addEventListener("touchmove", nx.blockMove, true);
 		document.addEventListener("touchstart", nx.blockMove, true);
 	}
+	
+	$("body").css("user-select", "none");
+	$("body").css("-moz-user-select", "none");
+	$("body").css("-webkit-user-select", "none");
+	$("body").css("cursor", "pointer");
 	
 	nx.onload();
 	
