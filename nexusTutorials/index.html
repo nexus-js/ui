@@ -721,17 +721,19 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				An array [ x,y ] of floats scaled 0-1<br>
+				An array [ x,y ] of floats scaled 0-1. If transmitted to another program like Max, the data may be received as a list.
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
-				<b>.nodePos</b> 
+				<b>.nodePos</b><br>
+				An array [ x,y ] of floats scaled to the width/height of the canvas.
 			<!--	<span class="valuedefault">(default data output)</span><br> -->
 				<br>
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
-				<b></b><br>
+				<b>.animate( <i>type</i> )</b><br>
+				Sets animation. Current valid types: "bounce", "none"
 				
 			</div>
 		</div>

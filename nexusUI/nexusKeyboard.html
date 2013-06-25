@@ -4,33 +4,38 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Keyboard</title>
 	<meta name="LSU EMDM" content="nexus">
-	
-	<link type="style/css" href="nexusUI.css" rel="stylesheet">
+	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusKeyboard.js"></script>
-	<script type="text/javascript" src="jquery.js"></script>
 	<script>
 		
 		nx.onload = function() {
 			
-			keyboard1.transmissionProtocol = "none";
-			keyboard2.transmissionProtocol = "none";
+			nx.setTransmissionProtocol("local");
 			
-		}
-		
-		function blockMove(event) {
-			event.preventDefault();
+			keyboard1.localTransmit = function(data) {
+				console.log(data);
+				$("#debug").html(data[0] + " " + data[1]);
+			}
+			
+			keyboard2.localTransmit = function(data) {
+				console.log(data);
+				$("#debug").html(data[0] + " " + data[1]);
+			}
+			
 		}
 		
 	</script>
 
 </head>
-<body ontouchmove="blockMove(event);">
+<body>
 	
 	<div id="keys">
 		<canvas nx="keyboard">Keyboard</canvas><br>
 		<canvas nx="keyboard" width="200px" height="50px">Keyboard</canvas>
 	</div>
+	
+	<div id="debug" style="font-size:50pt"></div>
 	
 
 </body>
