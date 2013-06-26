@@ -387,6 +387,33 @@ var nxManager = function() {
 			return delta * -1;
 		}
 	}
+	
+	this.addStylesheet = function() {
+		var htmlstr = '<style>'
+					+ 'select {'
+					+ 'background: transparent;'
+		   			+ '-webkit-appearance: none;'
+		   			+ 'width: 150px;'
+		   			+ 'padding: 5px 5px;'
+		   			+ 'font-size: 16px;'
+		   			+ 'color:#888;'
+		   			+ 'border: solid 2px #CCC;'
+		   			+ 'border-radius: 6;'
+		   			+ 'outline: black;'
+		   			+ 'cursor:pointer;'
+		   			+ 'background-color:#F7F7F7;'
+		   			+ 'font-family:gill sans;'
+		   			+ '}'
+		   			+ ''
+		   			+ 'body {'
+		   			+ 'user-select: none;'
+		   			+ '-moz-user-select: none;'
+		   			+ '-webkit-user-select: none;'
+		   			+ 'cursor:pointer;'
+		   			+ '}'
+		   			+ '</style>';
+		$("body").append(htmlstr);
+	}
 
 	
 }
@@ -428,10 +455,7 @@ $(document).ready(function() {
 		document.addEventListener("touchstart", nx.blockMove, true);
 	}
 	
-	$("body").css("user-select", "none");
-	$("body").css("-moz-user-select", "none");
-	$("body").css("-webkit-user-select", "none");
-	$("body").css("cursor", "pointer");
+	nx.addStylesheet();
 	
 	nx.onload();
 	
@@ -575,7 +599,20 @@ function getTemplate(self, target, transmitCommand) {
 		}
 		self.touchRelease(e);
 	};
-	
+	self.draw = function() {
+	}
+	self.click = function() {
+	}
+	self.move = function() {
+	}
+	self.release = function() {
+	}
+	self.touch = function() {
+	}
+	self.touchMove = function() {
+	}
+	self.touchRelease = function() {
+	}
 	self.adjustSizeIfDefault = function() {
 		if (self.width==300 && self.height==150) {
 			self.canvas.width = self.defaultSize.width;

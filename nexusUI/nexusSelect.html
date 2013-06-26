@@ -12,6 +12,12 @@
 	<script>
 		
 		nx.onload = function() {
+		
+			nx.setTransmissionProtocol("local");
+			
+			select1.localTransmit = function(data) {
+				console.log(data);
+			}
 			
 		}
 		
@@ -19,36 +25,11 @@
 	
 </head>
 <body>
-	
-	<!--<canvas nx="select">Slider</canvas> -->
-	
-	<style>
-		
-		select {
-		   background: transparent;
-		   -webkit-appearance: none;
-		   width: 150px;
-		   padding: 5px 5px;
-		   font-size: 16px;
-		   color:#888;
-		   border: solid 2px #CCC;
-		   border-radius: 6;
-		   outline: black;
-		   cursor:pointer;
-		   background-color:#F7F7F7;
-		   font-family:gill sans;
-		}
-		
-	</style>
-	
-	<select>
-		<option value="sine">Sine</option>
-		<option value="saw">Saw</option>
-		<option value="triangle">Triangle</option>
-		<option value="square">Square</option>
-		<option value="funky">The Funky</option>
-	</select>
-	
 
+	<!-- the canvas below changes into an html select element with options of sine, saw, and triangle -->
+
+	<canvas nx="select" choices="sine,saw,triangle">Select</canvas>
+	
+	
 </body>
 </html>

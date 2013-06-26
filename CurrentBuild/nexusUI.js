@@ -387,6 +387,33 @@ var nxManager = function() {
 			return delta * -1;
 		}
 	}
+	
+	this.addStylesheet = function() {
+		var htmlstr = '<style>'
+					+ 'select {'
+					+ 'background: transparent;'
+		   			+ '-webkit-appearance: none;'
+		   			+ 'width: 150px;'
+		   			+ 'padding: 5px 5px;'
+		   			+ 'font-size: 16px;'
+		   			+ 'color:#888;'
+		   			+ 'border: solid 2px #CCC;'
+		   			+ 'border-radius: 6;'
+		   			+ 'outline: black;'
+		   			+ 'cursor:pointer;'
+		   			+ 'background-color:#F7F7F7;'
+		   			+ 'font-family:gill sans;'
+		   			+ '}'
+		   			+ ''
+		   			+ 'body {'
+		   			+ 'user-select: none;'
+		   			+ '-moz-user-select: none;'
+		   			+ '-webkit-user-select: none;'
+		   			+ 'cursor:pointer;'
+		   			+ '}'
+		   			+ '</style>';
+		$("body").append(htmlstr);
+	}
 
 	
 }
@@ -401,9 +428,7 @@ var nxManager = function() {
 var nx = new nxManager();
 
 /* this onload function turns canvases into nexus elements,
- * using their id as their var name */
-
-// CHANGED: using document ready to set up nexus.  Will not conflict with window.onload and you can add more functions to the document.ready chain if needed.
+ * using the canvas's id as its var name */
 
 $(document).ready(function() {
 	var allcanvi = document.getElementsByTagName("canvas");
@@ -421,7 +446,6 @@ $(document).ready(function() {
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			// dial1 = new dial(dial1, nexus, 1);
 			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+idNum+");");
 		}
 	}
@@ -430,6 +454,8 @@ $(document).ready(function() {
 		document.addEventListener("touchmove", nx.blockMove, true);
 		document.addEventListener("touchstart", nx.blockMove, true);
 	}
+	
+	nx.addStylesheet();
 	
 	nx.onload();
 	
@@ -573,7 +599,20 @@ function getTemplate(self, target, transmitCommand) {
 		}
 		self.touchRelease(e);
 	};
-	
+	self.draw = function() {
+	}
+	self.click = function() {
+	}
+	self.move = function() {
+	}
+	self.release = function() {
+	}
+	self.touch = function() {
+	}
+	self.touchMove = function() {
+	}
+	self.touchRelease = function() {
+	}
 	self.adjustSizeIfDefault = function() {
 		if (self.width==300 && self.height==150) {
 			self.canvas.width = self.defaultSize.width;
@@ -972,6 +1011,12 @@ function button(target, transmitCommand, uiIndex) {
 }
 // nexusUI - Keyboard
 //
+// nexusKeyboard transmits midi pair arrays of [ note number, on/off ]
+// Middle C "pressed" message will look like [12,1]
+// Middle C "unpressed" message will look like [12,0]
+// If sent to Max, these will show up as two-number lists.
+
+// FIXME: key detection not accurate when changed num of octaves!
 
 function keyboard(target, transmitCommand, uiIndex) {
 
@@ -1006,6 +1051,14 @@ function keyboard(target, transmitCommand, uiIndex) {
 	this.init = function() {
 		document.addEventListener("keydown", self.type);
 		document.addEventListener("keyup", self.untype);
+		
+		width = (self.canvas.width/(self.octaves*12))/1.75;
+		w_height = self.height;
+		b_height = w_height*4/7;
+		w_width = width*3;
+		b_width = width*2;
+		
+		
 		var o,j,i;
 		for (j=0;j<self.octaves;j++) {
 			for (i=0; i<12; i++) {
@@ -1134,7 +1187,6 @@ function keyboard(target, transmitCommand, uiIndex) {
 		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
 		self.change_cell(note_new, 1);
 		note_old = note_new;
-		console.log(note_new);
 		
 		midi_note = keys[note_new][5];
 		
@@ -1151,7 +1203,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.nxTransmit(midi_note, 1);
+				self.nxTransmit([midi_note, 1]);
+				midi_note = keys[note_old][5];
+				self.nxTransmit([midi_note, 0]);
 				self.draw();
 			}
 		}
@@ -1163,9 +1217,10 @@ function keyboard(target, transmitCommand, uiIndex) {
 			for (i=0;i<12;i++) {
 				var note_released = j*12 + i;
 				self.change_cell(note_released, 0);
-				self.nxTransmit(note_released, 0);
 			}
 		}
+		midi_note = keys[note_new][5];
+		self.nxTransmit([midi_note, 0]);
 		self.draw();
 	}
 	
@@ -1178,7 +1233,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.nxTransmit(midi_note);
+		self.nxTransmit([midi_note, 1]);
 		self.draw();
 	}
 
@@ -1191,7 +1246,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.nxTransmit(midi_note);
+				self.nxTransmit([midi_note, 1]);
+				midi_note = keys[note_old][5];
+				self.nxTransmit([midi_note, 0]);
 				self.draw();
 			}
 		}
@@ -1205,6 +1262,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 					self.change_cell(d, 0);
 			}
 		}
+		midi_note = keys[note_new][5];
+		self.nxTransmit([midi_note, 0]);
 		self.draw();
 	}
 	
