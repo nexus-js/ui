@@ -5,6 +5,8 @@
 // Middle C "unpressed" message will look like [12,0]
 // If sent to Max, these will show up as two-number lists.
 
+// FIXME: key detection not accurate when changed num of octaves!
+
 function keyboard(target, transmitCommand, uiIndex) {
 
 	//self awareness
@@ -38,6 +40,14 @@ function keyboard(target, transmitCommand, uiIndex) {
 	this.init = function() {
 		document.addEventListener("keydown", self.type);
 		document.addEventListener("keyup", self.untype);
+		
+		width = (self.canvas.width/(self.octaves*12))/1.75;
+		w_height = self.height;
+		b_height = w_height*4/7;
+		w_width = width*3;
+		b_width = width*2;
+		
+		
 		var o,j,i;
 		for (j=0;j<self.octaves;j++) {
 			for (i=0; i<12; i++) {

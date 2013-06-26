@@ -765,12 +765,14 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
+				A MIDI data note in a two-note array [ note number, on/off ].<br>
+				<i>Example:</i> Middle C on a two-octave nexus keybaord sends [ 12, 1 ] when pressed and [ 12, 0 ] when unpressed.
+				If transmitted to another program like Max, the data may be received as a list. 
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
-				<b>.value</b> 
-				<span class="valuedefault">(default data output)</span><br>
-				.<br>
+			<!--	<b>.octaves</b><br>
+				Sets the # of octaves on the keyboard. Run .init() after.<br> -->
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
