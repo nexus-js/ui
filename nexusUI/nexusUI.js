@@ -360,7 +360,10 @@ var nxManager = function() {
 	
 	
 	this.blockMove = function(e) {
-		e.preventDefault();
+		/* enables touching on the nexusSelect but not on page drag */
+	    if (e.target.tagName != 'SELECT') {
+	        e.preventDefault();
+	    }
 	}
 	
 	

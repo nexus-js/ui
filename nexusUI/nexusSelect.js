@@ -17,10 +17,14 @@ function select(target, ajaxCommand, oscName, uiIndex, oscIp) {
 
 	this.init = function() {
 		
+		self.canvas.ontouchstart = null;
+		self.canvas.ontouchmove = null;
+		self.canvas.ontouchend = null;
+		
 		self.choices = self.canvas.getAttribute("choices");
 		self.choices = self.choices.split(",");
 	
-		var htmlstr = '<select id="'+self.canvasID+'" height="'+self.height+'px" width="'+self.width+'px" onchange="'+self.canvasID+'.change(this)"></select>'
+		var htmlstr = '<select id="'+self.canvasID+'" style="height:'+self.height+'px;width:'+self.width+'px;font-size:'+self.height/2+'px" onchange="'+self.canvasID+'.change(this)"></select>'
 		$("#"+self.canvasID).replaceWith(htmlstr);
 		
 		self.canvas = document.getElementById(self.canvasID);
