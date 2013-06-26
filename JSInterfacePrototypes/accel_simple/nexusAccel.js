@@ -46,6 +46,8 @@ function accel(canvas, ajax_command, ui_id) {
 			// *** declaring them without this. effectively uses the global function.
 	this.ajax_send = ajax_send;
 	this.throttle = throttle;
+	this.to_cartesian = to_cartesian
+	this.ax, this.ay, this.az;
 
 	init();
 
@@ -54,34 +56,41 @@ function accel(canvas, ajax_command, ui_id) {
 			self.ajax_command = "accel";
 		}
 		
-		draw();
+		if (window.DeviceMotionEvent) {
+		  console.log("DeviceMotionEvent supported");
+		} 
+		if (window.DeviceMotionEvent) {
+		  window.addEventListener('devicemotion', accelerometer, false);
+		} else {
+		  document.getElementById("dmEvent").innerHTML = "Not supported on your device."
+		}
 		
-		if (window.DeviceMotionEvent != undefined) {
-		    window.ondevicemotion = accelerometer()
+	//	draw();
+	
+		
+	/*	if (window.DeviceMotionEvent != undefined) {
+			console.log("yesm");
+		    window.ondevicemotion = accelerometer(event);
 			// setInterval(accelerometer, 25);
 		} else {
 			return 0;
 		}
-		return 1;
+		return 1; */
 	}
 
 	function accelerometer(e) {
-		ax = e.accelerationIncludingGravity.x*scale_x;
-    ay = e.accelerationIncludingGravity.y*scale_y;
-		az = e.accelerationIncludingGravity.z*scale_z;
+	//	console.log(e)
+	//	self.ax = e.accelerationIncludingGravity.x;
+		self.ax = e.accelerationIncludingGravity.x*self.scale_x;
+    	self.ay = e.accelerationIncludingGravity.y*self.scale_y;
+		self.az = e.accelerationIncludingGravity.z*self.scale_z;
 		
-		self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, self.dial_value.toFixed(2));
+		var showx = document.getElementById("showx");
+		showx.innerHTML = self.ax;
+		
+	//	self.ajax_send(self.ajax_command, self.osc_name, self.ui_id, self.dial_value.toFixed(2));
 		draw();
 
-	}
-
-	function draw() {
-	 	sphere_context.strokeRect(0,0,width,height);
-		sphere_context.beginPath();
-		sphere_context.fillStyle = "orange";
-		sphere_context.arc(sphereX+width/2, sphereY+height/2, size, 0, Math.PI*2, true);
-		sphere_context.fill();
-		sphere_context.closePath();
 	}
 
 	function draw() {
