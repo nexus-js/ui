@@ -28,12 +28,36 @@ function metroball(target, transmitCommand, uiIndex) {
 	var tempoMarker = 150;
 	var quantize = false;
 	var tilt = 0;
+	self.tiltLR;
+	self.tiltFB;
+	self.z;
     
     /** Initialize Object **/
 	
 	this.make = function() {
 		this.createUISpaces();
 		globalMetro = setInterval(this.canvasID+".pulse()", 20);
+		
+		if (window.DeviceOrientationEvent) {
+		  window.addEventListener('deviceorientation', function(eventData) {
+		    self.tiltLR = eventData.gamma;
+			self.tiltFB = eventData.beta;
+			self.z = eventData.alpha;
+		    self.tilt();
+		  }, false);
+		} else if (window.OrientationEvent) {
+		  window.addEventListener('MozOrientation', function(eventData) {
+		    self.tiltLR = eventData.x * 90;
+		    // y is the front-to-back tilt from -1 to +1, so we need to convert to degrees
+		    // We also need to invert the value so tilting the device towards us (forward) 
+		    // results in a positive value. 
+		    self.tiltFB = eventData.y * -90;
+		    self.z = eventData.z;
+		    self.tilt();
+		  }, false);
+		} else {
+		  console.log("Not supported on your device or browser.")
+		}
 		
 	}
 	
@@ -43,51 +67,27 @@ function metroball(target, transmitCommand, uiIndex) {
 							{
 								field: "main",
 								xpos: 5,
-								ypos: 35,
+								ypos: 45,
 								wid: self.width-10,
-								hgt: 200,
+								hgt: self.height - 45 - self.padding,
 								hint: "click to add"
 							},
 							{
 								field: "delete",
-								xpos: 5,
+								xpos: 45,
 								ypos: 5,
-								wid: self.width-10,
-								hgt: 25,
+								wid: self.width-50,
+								hgt: 35,
 								hint: "swipe to delete"
 							},
 							{
-								field: "tempo",
-								xpos: 5,
-								ypos: 240,
-								wid: self.width-115,
-								hgt: 30,
-								hint: "change tempo"
-							},
-							{
 								field: "quantize",
-								xpos: self.width-105,
-								ypos: 240,
-								wid: 30,
-								hgt: 30,
+								xpos: 5,
+								ypos: 5,
+								wid: 35,
+								hgt: 35,
 								hint: "Q"
 							},
-							{
-								field: "tiltup",
-								xpos: self.width-70,
-								ypos: 240,
-								wid: 30,
-								hgt: 30,
-								hint: "<"
-							},
-							{
-								field: "tiltdown",
-								xpos: self.width-35,
-								ypos: 240,
-								wid: 30,
-								hgt: 30,
-								hint: ">"
-							}
 						]; 
 						
 		for (i=0;i<this.UISpaces.length;i++) {
@@ -108,7 +108,6 @@ function metroball(target, transmitCommand, uiIndex) {
 		}
 		this.drawSpaces();
 		this.drawBalls();
-		this.drawTempo();
 	}
 	
 	/** Draw framework of rounded rectangles **/
@@ -127,7 +126,7 @@ function metroball(target, transmitCommand, uiIndex) {
 				stroke();
 				
 				if (space.field=="quantize" && quantize) {
-					fillStyle = self.olors.accent;
+					fillStyle = self.colors.accent;
 					fill();
 					fillStyle = self.colors.fill;
 				} else {
@@ -163,7 +162,6 @@ function metroball(target, transmitCommand, uiIndex) {
 	/** Mouse functions **/
 	this.click = function(e) {
 		ballPos = self.clickPos;
-		console.log(ballPos);
 		for (i=0;i<self.UISpaces.length;i++) {
 			if (nx.isInside(ballPos,self.UISpaces[i])) {
 				clickField = self.UISpaces[i].field;
@@ -176,23 +174,10 @@ function metroball(target, transmitCommand, uiIndex) {
 			case "delete":
 				self.deleteMB(ballPos);
 				break;
-			case "tempo":
-				self.moveTempo(ballPos);
-				break;
 			case "quantize":
 				self.toggleQuantization();
 				break;
-			case "tiltup":
-				self.tilt(-2);
-				break;
-			case "tiltdown":
-				self.tilt(2);
-				break;
 		}
-	}
-	
-	this.release = function() {
-		clickField = null;
 	}
 	
 	this.move = function(e) {
@@ -208,27 +193,20 @@ function metroball(target, transmitCommand, uiIndex) {
 		}
 	}
 	
-	/* Tempo functions */
-	
-	this.moveTempo = function(point) {
-		tempo = point.x*3/self.UISpaces[2].wid; 
-		tempoMarker = point.x+self.UISpaces[2].xpos;
+	this.release = function(e) {
+		clickField = null;
 	}
 	
-	this.drawTempo = function() {
-		with(self.context) {
-			var x1 = tempoMarker;
-			var y1 = self.UISpaces[2].ypos;
-			var x2 = x1;
-			var y2 = self.UISpaces[2].ypos2;
-			lineWidth = 4;
-			strokeStyle = self.colors.accent;
-			
-			beginPath();
-			moveTo(x1,y1);
-			lineTo(x2,y2);
-			stroke();
-		}	
+	this.touch = function(e) {
+		self.click(e);
+	}
+	
+	this.touchMove = function(e) {
+		self.move(e);
+	}
+	
+	this.touchRelease = function(e) {
+		self.release(e);
 	}
 	
 	/** Manage MetroBalls **/
@@ -265,9 +243,15 @@ function metroball(target, transmitCommand, uiIndex) {
 	/* Tilt */
 	
 	this.tilt = function(direction) {
-		tilt = tilt + direction;	
-		self.canvas.style.webkitTransform = "rotate("+tilt+"deg)";
-		self.canvas.style.MozTransform = "rotate("+tilt+"deg)";
+		
+		var scaledX = nx.prune(self.tiltLR/90,3);
+		var scaledY = nx.prune(self.tiltFB/90,3);
+		var scaledZ = nx.prune(self.z,3);
+		tilt = scaledX * 10;
+		tempo = Math.pow(scaledY+1,3);
+		
+	//	self.canvas.style.webkitTransform = "rotate("+self.tiltLR+"deg)";
+	//	self.canvas.style.MozTransform = "rotate("+tilt+"deg)";
 	}
 	
 	
