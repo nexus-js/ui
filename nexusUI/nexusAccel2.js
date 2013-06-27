@@ -28,6 +28,8 @@ function accel(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		
 		if (window.DeviceMotionEvent) {
 		  window.addEventListener('devicemotion', self.getAccel, false);
+		} else {
+			setInterval("accel1.draw()", 100);
 		}
 		
 	}
@@ -37,37 +39,30 @@ function accel(target, ajaxCommand, oscName, uiIndex, oscIp) {
     	self.acc.y = e.accelerationIncludingGravity.y;
 		self.acc.z = e.accelerationIncludingGravity.z;
 		
-		self.scaledX = (self.acc.x/10) * self.width/2 + self.width/2;
-		self.scaledY = (self.acc.y/10) * self.height/2 + self.height/2;
+		self.scaledX = (self.acc.x+10)/20;
+		self.scaledY = (self.acc.y+10)/20;
 		self.scaledZ = (self.acc.z + 11)*5;
 		
-	/*	self.nodeSize = scaledZ;
-		self.nodePos = [ scaledX, scaledY ];
+		
 		self.draw();
-		self.nxTransmit(self.scaleNode()); */
-	}
-
-	this.draw = function() {
-		self.erase();
-		self.makeRoundedBG();
-		with (self.context) {
-			strokeStyle = self.colors.border;
-			fillStyle = self.colors.fill;
-			lineWidth = self.lineWidth;
-			stroke();
-			fill();
-			if (self.nodePos[0] != null) {
-				self.drawNode();
-			}
-			else {
-				fillStyle = self.colors.border;
-				font = "14px courier";
-				fillText(self.default_text, 10, 20);
-			}
-		}
+	//	self.nxTransmit(self.scaleNode());
 	}
 	
+	self.scaledX = 0.1;
+	self.scaledY = 0.1;
+	self.dir = 1;
+	
 	this.draw = function() {
+		
+	/*	self.scaledX = self.scaledX + 0.1*self.dir;
+		self.scaledY = self.scaledY + 0.1*self.dir;
+		
+		if (self.scaledX>0.9) {
+			self.dir = -1;
+		} else if (self.scaledX<0.1) {
+			self.dir = 1;
+		} */
+		
 		self.erase();
 		self.makeRoundedBG();
 		with (self.context) {
@@ -79,11 +74,16 @@ function accel(target, ajaxCommand, oscName, uiIndex, oscIp) {
 			
 			fillStyle = self.colors.accent;
 			
-			save()
-		//	translate(self.canvas.width / 2, self.canvas.height / 2);
-			scale(self.scaledX, 1);
+			// when scaledX = 0, translate x should be canvas.width/2
+			// when scaledX = 0.5, translate x should be canvas.width/4
+			// when scaledX = 1, translate x should be 0
 			
-			console.log(self.acc.x)
+			save()
+			translate((self.canvas.width/2)*nx.invert(self.scaledX), (self.canvas.height/2)*self.scaledY);
+			scale(self.scaledX, nx.invert(self.scaledY));
+			
+			console.log(self.scaledX);
+			$("#debug").html(self.scaledX);
 			
 			// draw circle which will be stretched into an oval
 		    beginPath();
