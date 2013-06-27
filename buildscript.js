@@ -23,20 +23,27 @@ function concat(opts) {
             return _fs.readFileSync(filePath, FILE_ENCODING);
         });
     _fs.writeFileSync(distPath, out.join(EOL), FILE_ENCODING);
-    console.log(' '+ distPath +' built.');
+    console.log(' '+ distPath +' built!');
 }
 
 function uglify(srcPath, distPath) {
-    var
-      uglyfyJS = require('uglify-js'),
-      jsp = uglyfyJS.parser,
-      pro = uglyfyJS.uglify,
-      ast = jsp.parse( _fs.readFileSync(srcPath, FILE_ENCODING) );
+	var UglifyJS = require("uglify-js");
+	var result = UglifyJS.minify(srcPath);
+	_fs.writeFileSync(distPath, result.code, FILE_ENCODING);
+	//console.log(result.code); // minified output
+	// if you need to pass code instead of file name
+	//var result = UglifyJS.minify("var b = function () {};", {fromString: true});
+	
+/*    var jsp = require('uglify-js').parser;
+    var pro = require('uglify-js').uglify;
+      console.log(jsp);
+      
+    var ast = jsp.parse( _fs.readFileSync(srcPath, FILE_ENCODING) );
  
     ast = pro.ast_mangle(ast);
     ast = pro.ast_squeeze(ast);
  
-    _fs.writeFileSync(distPath, pro.gen_code(ast), FILE_ENCODING);
+    _fs.writeFileSync(distPath, pro.gen_code(ast), FILE_ENCODING); */
     console.log(' '+ distPath +' is built!');
 }
  
@@ -60,7 +67,7 @@ concat({
 
 
 /* this minify script is throwing an error in the jsp.parse() line ... not sure why */
-//uglify('CurrentBuild/nexusUI.js', 'CurrentBuild/nexusUI.min.js');
+uglify('CurrentBuild/nexusUI.js', 'CurrentBuild/nexusUI.min.js');
 
 
 
