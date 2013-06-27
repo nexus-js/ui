@@ -71,14 +71,28 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 			fillStyle = self.colors.fill;
 			lineWidth = self.lineWidth;
 		   	var grd = self.context.createRadialGradient(self.width/3, self.height/5, self.width/20, self.width/3, self.height/5, self.width);
-	      	grd.addColorStop(0, self.colors.white);
+	     	grd.addColorStop(0, self.colors.white);
 	      	grd.addColorStop(1, self.colors.accent);
 			fillStyle = grd;
 			
-		    beginPath();
+		/*    beginPath();
 		    arc(self.width/2, self.height/2, self.width/2, 0, 2 * Math.PI, false);
 		    fill();
+		    closePath(); */
+		   
+		    fillStyle = self.colors.fill;
+		    fillRect(0,0,self.width,self.height);
+		    strokeStyle = self.colors.border;
+		    lineWidth = 10;
+		    strokeRect(0,0,self.width,self.height);
+		    
+		/*    beginPath();
+		    	moveTo(0,self.height);
+		    	lineTo(self.width,self.height);
+		    	strokeStyle = self.colors.accent;
+		    	stroke();
 		    closePath();
+		 */  
 		    
 		    globalAlpha = 0.4;
 		    fillStyle = self.colors.accent;

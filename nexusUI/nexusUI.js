@@ -343,19 +343,11 @@ var nxManager = function() {
 	
 	
 	this.isInside = function(clickedNode,currObject) {
-		if (clickedNode.xpos > currObject.xpos && clickedNode.xpos < (currObject.xpos+currObject.wid) && clickedNode.ypos > currObject.ypos && clickedNode.ypos < (currObject.ypos+currObject.hgt)) {
+		if (clickedNode.x > currObject.xpos && clickedNode.x < (currObject.xpos+currObject.wid) && clickedNode.y > currObject.ypos && clickedNode.y < (currObject.ypos+currObject.hgt)) {
 			return true;	
 		} else {
 			return false;	
 		}
-	}
-	
-	this.getPos = function(e) {
-		clickPos = [e.pageX, e.pageY];
-		adjustedPos = new Object();
-		adjustedPos.xpos = clickPos[0]-offsetLeft;
-		adjustedPos.ypos = clickPos[1]-offsetTop;	
-		return adjustedPos;
 	}
 	
 	
@@ -429,6 +421,7 @@ var nxManager = function() {
 ************************************************/
 
 var nx = new nxManager();
+nx.onload = function() {};
 
 /* this onload function turns canvases into nexus elements,
  * using the canvas's id as its var name */
