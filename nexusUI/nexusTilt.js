@@ -6,7 +6,7 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	//self awareness
 	var self = this;
 	this.uiIndex = uiIndex;
-	this.defaultSize = { width: 300, height: 200 };
+	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
@@ -29,7 +29,11 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		document.getElementById(self.canvasID).style.transform = "rotate(" + self.tiltLR + 
 		  "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
 		  
-		self.nxTransmit([self.tiltLR, self.tiltFB, self.z]);
+		var scaledX = nx.prune(self.tiltLR/90,3);
+		var scaledY = nx.prune(self.tiltFB/90,3);
+		var scaledZ = nx.prune(self.z,3);
+		  
+		self.nxTransmit([scaledX, scaledY, self.z]);
 		
 	}
 

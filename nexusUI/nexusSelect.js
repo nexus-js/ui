@@ -5,7 +5,7 @@ function select(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	//self awareness
 	var self = this;
 	this.uiIndex = uiIndex;
-	this.defaultSize = { width: 30, height: 200 };
+	this.defaultSize = { width: 200, height: 30 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
@@ -24,7 +24,7 @@ function select(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		self.choices = self.canvas.getAttribute("choices");
 		self.choices = self.choices.split(",");
 	
-		var htmlstr = '<select id="'+self.canvasID+'" style="height:'+self.height+'px;width:'+self.width+'px;font-size:'+self.height/2+'px" onchange="'+self.canvasID+'.change(this)"></select>'
+		var htmlstr = '<select id="'+self.canvasID+'" style="height:'+self.height+'px;width:'+self.width+'px;font-size:'+self.height/2+'px" onchange="'+self.canvasID+'.change(this)"></select><canvas height="1px" width="1px"></canvas>'                   
 		$("#"+self.canvasID).replaceWith(htmlstr);
 		
 		self.canvas = document.getElementById(self.canvasID);

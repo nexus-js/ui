@@ -21,7 +21,8 @@
 	<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
-<!--	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet"> -->
+	<script type="text/javascript" src="../nexusUI/nexusSelect.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusTilt.js"></script>
   
 </head>
 <body>
@@ -39,6 +40,11 @@
 			dial1.transmissionProtocol = "local";
 			dial1.localTransmit = function(data) {
 				$("#demo1rcv").html(this.oscName+" "+data);
+			}
+			
+			tilt1.transmissionProtocol = "local";
+			tilt1.localTransmit = function(data) {
+				$("#demo2rcv").html(this.oscName+" "+data);
 			}
 			
 			
@@ -315,7 +321,7 @@
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
-			<div style="color:#ddd;font-size:12pt;padding:10px;">Example</div>
+			<div style="color:#bbb;font-size:12pt;padding:10px;">Example</div>
 			<textarea class="codedisplay" style="height:100px">
 		
 				
@@ -324,6 +330,18 @@
 			<br>
 			<canvas nx="dial"></canvas>	
 			<span id="demo1rcv" class="demorcv"></span>
+			<br><br>
+			<div style="color:#bbb;font-size:12pt;padding:10px;">Example - Mac or Mobile Only</div>
+			<textarea class="codedisplay" style="height:100px">
+		
+				
+<canvas nx="tilt"></canvas>	
+			</textarea>			
+			<br>
+			<!--<canvas nx="tilt"></canvas>	 -->
+			<span id="demo2rcv" class="demorcv"></span>	
+			
+			
 		</div>
 		<div class="large-1 columns"></div>
 	</div>
@@ -808,12 +826,13 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
+				0 (off) or 1 (on).
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
-				<b>button.value</b> 
+				<b>.value</b> 
 				<span class="valuedefault">(default data output)</span><br>
-				0-1 float, rounded to 3 decimals.<br>
+				0 (off) or 1 (on).<br>
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
@@ -849,12 +868,13 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
+				0 (off) or 1 (on).
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
-				<b>toggle.value</b> 
+				<b>.value</b> 
 				<span class="valuedefault">(default data output)</span><br>
-				0-1 float, rounded to 3 decimals.<br>
+				0 (off) or 1 (on).<br>
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
@@ -890,10 +910,11 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
+				0-1 float, rounded to 3 decimals.
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
-				<b>slider.value</b> 
+				<b>.value</b> 
 				<span class="valuedefault">(default data output)</span><br>
 				0-1 float, rounded to 3 decimals.<br>
 				
@@ -931,12 +952,12 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				
+				An array of 0-1 float values. Length of array depends on the number of sliders in the multislider. 
 				<!-- properties -->
 				<div class="doccategory">properties</div>
-				<b>multislider.values</b> 
-				<span class="valuedefault">(default data output)</span><br>
-				<br>
+				<b>.values</b> 
+				<span class="valuedefault">(default data output)</span> <br>
+				An array of 0-1 float values. Length of array depends on the number of sliders in the multislider.<br>
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
@@ -972,12 +993,17 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
+				An array of arrays of 0-1 floats. The inner arrays are rows.<br>
+				A 2x2 matrix's output array will look like:<br>
+				[ [ row1col1, row1col2 ] , [ row2col1, row2col2 ] ]
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
 				<b>.matrix</b> 
 				<span class="valuedefault">(default data output)</span><br>
-				<br>
+				An array of arrays of 0-1 floats. The inner arrays are rows.<br>
+				A 2x2 matrix's output array will look like:<br>
+				[ [ row1col1, row1col2 ] , [ row2col1, row2col2 ] ]
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
@@ -991,6 +1017,89 @@ nx.onload = function() {
 <canvas nx="matrix"></canvas>
 			</textarea>
 			<canvas nx="matrix"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	<!-- 
+			SELECT
+	-->
+	<a name="select_doc"></a>
+	<div class="row titlerow">
+		Select
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				String value of selected keyword.
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div>
+				<b>.choices</b> 
+				<span class="valuedefault">(default data output)</span><br>
+				An array of menu items.
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="select" choices="sine, saw, square"></canvas>
+			</textarea>
+			<canvas nx="select" choices="sine, saw, square"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	<!-- 
+			TILT
+	-->
+	<a name="tilt_doc"></a>
+	<div class="row titlerow">
+		Tilt
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				An array of tilt positions: [ x, y, z ];
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div><br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="tilt"></canvas>
+			</textarea>
+			<canvas nx="tilt"></canvas>
 		</div>	
 		<div class="large-1 columns"></div>
 	</div>
