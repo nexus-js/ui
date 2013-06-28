@@ -124,7 +124,7 @@ var nxManager = function() {
 		//   it requires a localObjectFrom, localObject, localParameter and data
 	this.globalLocalTransmit = function (localObjectFrom, localObject, localParameter, data) {
 		// console.log("Global " + localObjectFrom + " to " + localObject, localParameter, data);
-		eval(localObject + "."+ localParameter + "=" + data);
+		//eval(localObject + "."+ localParameter + "=" + data);
 	}
 	
 	/*

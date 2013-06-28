@@ -21,41 +21,45 @@ function sandbox(target, transmitCommand, uiIndex) {
 	var trashWall = toySize+20;
 	var dragging = -1;
 	var Toys = new Array();
-	var ToyOptions = [
-						{
-							shape: "circle",
-							color: self.colors.accent
-						},
-						{
-							shape: "circle",
-							color: self.colors.border
-						},
-						{
-							shape: "circle",
-							color: self.colors.black
-						},
-						{
-							shape: "circle",
-							color: self.colors.white
-						}
-	];
+	var ToyColors = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink"];
+	var ToyOptions = new Array();
+	self.options = 4;
 	
-	for (i=0;i<ToyOptions.length;i++) {
-			var xpos = 10;
-			var ypos = i*(toySize+12)+11;	
-			ToyOptions[i].xpos = xpos;
-			ToyOptions[i].ypos = ypos;
-			ToyOptions[i].wid = toySize;
-			ToyOptions[i].hgt = toySize;
+	for (i=0;i<self.options;i++) {
+			var xpos = 10+toySize/2;
+			var ypos = i*(toySize+12)+11 + toySize/2;	
+			ToyOptions[i] = {
+				color: ToyColors[i%8],
+				xpos: xpos,
+				ypos: ypos,
+				wid: toySize,
+				hgt: toySize
+			}
+			
 	}
 	
+	this.isInsideCircle = function(clickedNode,currObject) {
+		
+		if (clickedNode.x > currObject.xpos-currObject.wid/2 && clickedNode.x < (currObject.xpos+currObject.wid/2) && clickedNode.y > currObject.ypos-currObject.hgt/2 && clickedNode.y < (currObject.ypos+currObject.hgt/2)) {
+			return true;	
+		} else {
+			return false;	
+		}
+	}
 	
 	this.init = function() {
 		
 		self.createUISpaces();
 		self.drawSpaces();
 		self.drawToyOptions();
+		self.drawToys();
 			
+	}
+	
+	this.draw = function() {
+		self.drawSpaces();
+		self.drawToyOptions();
+		self.drawToys();
 	}
 	
 	this.createUISpaces = function() {
@@ -89,24 +93,9 @@ function sandbox(target, transmitCommand, uiIndex) {
 		
 	}
 	
-	
-	self.drawToyOptions = function () {
-			
-		with (self.context) {
-			for (i=0;i<ToyOptions.length;i++) {
-				fillStyle = ToyOptions[i].color;
-				fillRect(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize, toySize);
-				strokeStyle = "white";
-				lineWidth = 2;
-				strokeRect(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize, toySize);
-			}
-		}
-			
-	}
-	
 	self.click = function(e) {
 		for (i=0;i<ToyOptions.length;i++) {
-			if (nx.isInside(self.clickPos, ToyOptions[i])) {
+			if (self.isInsideCircle(self.clickPos, ToyOptions[i])) {
 				var newToy = {
 								xpos: ToyOptions[i].xpos,
 								ypos: ToyOptions[i].xpos,
@@ -120,7 +109,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 			}	
 		}
 		for (i=0;i<Toys.length;i++) { 
-			if (nx.isInside(self.clickPos, Toys[i])) {
+			if (self.isInsideCircle(self.clickPos, Toys[i])) {
 				dragging = i;
 			}	
 		}
@@ -129,8 +118,8 @@ function sandbox(target, transmitCommand, uiIndex) {
 	self.move = function(e) {
 		if (self.clicked) {
 			if (dragging!=-1) {
-				Toys[dragging].xpos = self.clickPos.x - toySize/2;
-				Toys[dragging].ypos = self.clickPos.y - toySize/2;
+				Toys[dragging].xpos = self.clickPos.x;
+				Toys[dragging].ypos = self.clickPos.y;
 				self.drawToys();	
 			}
 		}
@@ -146,18 +135,48 @@ function sandbox(target, transmitCommand, uiIndex) {
 		self.drawToys();
 	}	
 	
+	self.drawToyOptions = function () {
+			
+		with (self.context) {
+			for (i=0;i<ToyOptions.length;i++) {
+				globalAlpha = 0.4;
+				fillStyle = ToyOptions[i].color;
+				beginPath();
+				arc(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				closePath();
+				//fillRect(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize, toySize);
+				fillStyle = self.colors.accent;
+				
+				beginPath();
+				arc(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				//fillRect(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize, toySize);
+				globalAlpha = 1;
+			}
+		}
+			
+	}
+	
 	self.drawToys = function() {
 		with (self.context) {
 			clearRect(0,0,self.width,self.height);
 			self.drawSpaces();
 			self.drawToyOptions();
 			for (i=0;i<Toys.length;i++) {
+				globalAlpha = 0.4;
 				fillStyle = Toys[i].color;
-				fillRect(Toys[i].xpos, Toys[i].ypos, toySize, toySize);
-				strokeStyle = "white";
-				lineWidth = 2;
-				strokeRect(Toys[i].xpos, Toys[i].ypos, toySize, toySize);
+				beginPath();
+				arc(Toys[i].xpos, Toys[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				//fillRect(Toys[i].xpos, Toys[i].ypos, toySize, toySize);
+				fillStyle = self.colors.accent;
+				beginPath();
+				arc(Toys[i].xpos, Toys[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				//fillRect(Toys[i].xpos, Toys[i].ypos, toySize, toySize);
 			}
+			globalAlpha = 1;
 		}	
 	}
 	
@@ -177,15 +196,6 @@ function sandbox(target, transmitCommand, uiIndex) {
 		
 		}
 	}
-	
-	
-/*	sandbox = function(SelfIndex, SelfX, SelfY) {
-		
-		this.SelfIndex = SelfIndex;
-		this.xpos = SelfX;
-		this.ypos = SelfY;
-		
-} */
 	
 	this.init();
 	
