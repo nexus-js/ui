@@ -125,7 +125,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 		}
 	}
 	
-	self.release = function() {
+	self.release = function(e) {
 		dragging = -1;
 		for (i=Toys.length-1;i>-1;i--) { 
 			if (Toys[i].xpos<trashWall) {
@@ -134,6 +134,18 @@ function sandbox(target, transmitCommand, uiIndex) {
 		}
 		self.drawToys();
 	}	
+	
+	self.touch = function(e) {
+		self.click(e);
+	}
+	
+	self.touchMove = function(e) {
+		self.move(e);
+	}
+	
+	self.touchRelease = function(e) {
+		self.release(e);
+	}
 	
 	self.drawToyOptions = function () {
 			
@@ -197,7 +209,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 		}
 	}
 	
-	//this.init();
+	this.init();
 	
 }	
 

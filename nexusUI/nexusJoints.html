@@ -1,0 +1,38 @@
+<!doctype html>
+   <html lang="en">
+   	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Position (2D slider)</title>
+		<meta name="LSU EMDM" content="nexus">
+		<!-- Date: 2013-04-02 -->
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="nexusUI.js"></script>
+		<script type="text/javascript" src="nexusJoints.js"></script>
+		
+		<script>
+		
+			nx.onload = function() {
+				nx.colorize("#0af");
+				
+				nx.setTransmissionProtocol("local");
+				
+				joints1.localTransmit = function(data) {
+					console.log(data);
+				}
+				
+			}
+		
+		</script>
+		
+	</head>
+	
+	<body>
+			
+		
+		<canvas nx="joints" width="600px" height="500px">HI!</canvas>
+	
+	
+	</body>
+	
+</html>

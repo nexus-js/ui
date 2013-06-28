@@ -109,6 +109,8 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	}
 	
 	
+	// Below rotating cube modified from http://codentronix.com/2011/05/10/html5-experiment-a-rotating-solid-cube/
+	
 	function Point3D(x,y,z) {
             this.x = x;
             this.y = y;
