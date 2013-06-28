@@ -60,7 +60,8 @@ concat({
         'nexusUI/nexusSlider.js',
         'nexusUI/nexusMultislider.js',
         'nexusUI/nexusSelect.js',
-        'nexusUI/nexusTilt.js'
+        'nexusUI/nexusTilt.js',
+        'nexusUI/nexusMetroball.js'
     ],
     dest : 'CurrentBuild/nexusUI.js'
 });

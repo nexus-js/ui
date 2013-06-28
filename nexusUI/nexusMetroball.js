@@ -303,7 +303,7 @@ function metroball(target, transmitCommand, uiIndex) {
 		this.bounce = function() {
 			this.direction = this.direction * (-1);
 			var xMsg = this.xpos/this.space.wid;
-
+			self.nxTransmit(xMsg);
 		}
 		
 		this.kill = function() {
