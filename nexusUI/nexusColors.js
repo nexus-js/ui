@@ -58,13 +58,13 @@ function colors(target, transmitCommand, uiIndex) {
 				hue = color_table[i][j][0];
 				sat = color_table[i][j][1];
 				lum = color_table[i][j][2];
-					with(self.context) {
-	 					beginPath();
-	 					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
-	 					fillRect(i+self.padding,j+self.padding, 255/color_width, 100/color_height);
-	 					fill();
-	 					closePath();
-					}
+				with(self.context) {
+ 					beginPath();
+ 					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
+ 					fillRect(i+self.padding,j+self.padding, 255/color_width, 100/color_height);
+ 					fill();
+ 					closePath();
+				}
 			}
 		}
 	}
