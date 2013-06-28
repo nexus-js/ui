@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Pixels</title>
+	<title>Colors</title>
 	<meta name="LSU EMDM" content="nexus">
+	
+	<link type="style/css" href="nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="nexusUI.js"></script>
-	<script type="text/javascript" src="nexusPixels.js"></script>
 	<script type="text/javascript" src="nexusColors.js"></script>
 	<script>
 		
@@ -14,21 +15,17 @@
 			
 			nx.setTransmissionProtocol("local");
 			
-			pixels1.dim = { x: 20, y: 20 };
-			pixels1.init();
-			
 			colors1.localTransmit = function(data) {
-				pixels1.colors.accent = "rgb("+data[0]+","+data[1]+","+data[2]+")"
+				console.log(data);
 			}
 			
 		}
 		
+		
 	</script>
-
 </head>
 <body>
 
-	<canvas nx="pixels"></canvas>
 	<canvas nx="colors"></canvas>
 	
 </body>

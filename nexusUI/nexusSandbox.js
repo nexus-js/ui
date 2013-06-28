@@ -197,7 +197,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 		}
 	}
 	
-	this.init();
+	//this.init();
 	
 }	
 

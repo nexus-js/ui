@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusSandbox.js"></script>
+	<script type="text/javascript" src="nexusDial.js"></script>
 	<script>
 		
 		
@@ -16,6 +17,12 @@
 <body>
 
 	<canvas nx="sandbox"></canvas>
+	
+	<!-- FIXME: When I add another sandbox, the page crashes / doesn't load -- NO error message or explanation!!!!!!
+		I've tried adding breakpoints and it seems to crash right when the second sandbox is being added to he nx manager.
+		Adding other objects, like dials, to the page works fine.
+	<canvas nx="sandbox"></canvas>
+	-->
 	
 </body>
 </html>
