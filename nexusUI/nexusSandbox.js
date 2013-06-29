@@ -23,6 +23,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 	var Toys = new Array();
 	var ToyColors = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink"];
 	var ToyOptions = new Array();
+	var i;
 	self.options = 4;
 	
 	for (i=0;i<self.options;i++) {

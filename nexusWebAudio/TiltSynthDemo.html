@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
+	<title>Nexus Mobile Audio Interface Objects</title>
+	<meta name="LSU EMDM" content="nexus">
+	
+	<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+	<script type="text/javascript" src="js/gibberish_2.0.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusTilt.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusSelect.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusMetroball.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusPixels.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	
+		var rack, prefxBus, delay;
+		nx.onload = function() {
+			
+			nx.colorize("#08d");
+			nx.setTransmissionProtocol("local");
+			
+			
+			/* synth development 
+			
+			Gibberish.init(); 
+			prefxBus = new Gibberish.Bus2();
+			delay = new Gibberish.Delay({input: prefxBus, time: 10000, feedback: 0.85});      // create a delay effect and feed our sine wave into it
+			delay.connect();                        // connect delay to default master output
+			
+			rack = new Array();
+			
+			for (var i=0;i<3;i++) {
+				
+				//create oscillators, modulators, and decimator
+				rack[i] = new Object();
+				rack[i].osc = new Gibberish.Sine2( 440, .2, 0 ); 
+				rack[i].mod = new Gibberish.Sine( 100, 50 );
+				rack[i].osc.mod( 'frequency', rack[i].mod, '*' );
+				rack[i].dec = new Gibberish.Decimator({ input:rack[i].osc, bitDepth:16, sampleRate:1 }); 
+			
+				//programatically define nx objects to use
+				rack[i].toggle = eval("toggle"+(i+1));
+				rack[i].position1 = eval("position"+(i*3+1));
+				rack[i].position2 = eval("position"+(i*3+2));
+				rack[i].position3 = eval("position"+(i*3+3));
+				
+				//nx routing for each row
+				rack[i].toggle.localTransmit = function(data) {
+					var i = this.canvasID.replace("toggle", "")-1;
+					if (data==1) {
+						rack[i].dec.connect(prefxBus);
+					} else {
+						rack[i].dec.disconnect();
+					}
+				}
+				
+				rack[i].position1.localTransmit = function(data) {
+					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
+					rack[i].osc.frequency = data[0] * 1000;
+					rack[i].osc.amp = nx.invert(data[1]) - 0.1;
+					rack[i].osc.pan = rack[i].osc.pan;
+				}
+				
+				rack[i].position2.localTransmit = function(data) {
+					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
+					rack[i].mod.frequency = (Math.floor(data[0]*10)/10) * ( 1000 + 500*i) ;
+					rack[i].mod.amp = nx.scale(data[1], 1, 0, 0, 50);
+				}
+				
+				rack[i].position3.localTransmit = function(data) {
+					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
+					rack[i].osc.pan = nx.scale(data[0], 0, 1, -1, 1);
+					rack[i].osc.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
+				}
+				
+				//define animation
+				rack[i].position1.animate("bounce");
+				rack[i].position2.animate("bounce");
+				rack[i].position3.animate("bounce");
+			
+			}
+			
+			nx.startPulse(); */
+			
+		}
+		
+			
+		
+	</script>
+	
+</head>
+<body>
+	
+	<div style="font-family:gill sans;padding:10px;background-color:#eee;width:600px;margin-bottom:10px">
+		<span style="font-size:25pt;">
+			nexus
+		</span>
+		<span style="font-size:15pt;">
+			tilt synth
+		</span>
+	</div>
+	
+	<canvas nx="keyboard"></canvas>
+	<canvas nx="tilt"></canvas><br>
+	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="250px"></canvas>
+	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="250px"></canvas><br>
+	<br>
+	<canvas nx="metroball" height="300px" width="507px"></canvas>
+	<br>
+	<canvas nx="pixels" width="400px" height="300px" style="float:left"></canvas>
+	<div style="float:left">
+		<canvas nx="dial"></canvas>	<br>
+		<canvas nx="dial"></canvas>	<br>
+		<canvas nx="dial"></canvas>	<br>
+	</div>
+</body>
+</html>

@@ -126,14 +126,9 @@ function pixels(target, transmitCommand, uiIndex) {
 	}
 
 
-	this.touchMove = function(e) {
-		
-		self.draw();
-	}
-
-
 	this.touchRelease = function(e) {
 		
+		self.release(e);
 	}
 
 	this.init();

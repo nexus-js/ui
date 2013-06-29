@@ -31,12 +31,13 @@ function metroball(target, transmitCommand, uiIndex) {
 	self.tiltLR;
 	self.tiltFB;
 	self.z;
+	var i;
     
     /** Initialize Object **/
 	
-	this.make = function() {
-		this.createUISpaces();
-		globalMetro = setInterval(this.canvasID+".pulse()", 20);
+	this.init = function() {
+		self.createUISpaces();
+		globalMetro = setInterval(self.canvasID+".pulse()", 20);
 		
 		if (window.DeviceOrientationEvent) {
 		  window.addEventListener('deviceorientation', function(eventData) {
@@ -63,7 +64,7 @@ function metroball(target, transmitCommand, uiIndex) {
 	
 	this.createUISpaces = function() {
 		
-		this.UISpaces = [
+		self.UISpaces = [
 							{
 								field: "main",
 								xpos: 5,
@@ -90,12 +91,12 @@ function metroball(target, transmitCommand, uiIndex) {
 							},
 						]; 
 						
-		for (i=0;i<this.UISpaces.length;i++) {
-			this.UISpaces[i].xpos2 = this.UISpaces[i].xpos + this.UISpaces[i].wid;
-			this.UISpaces[i].ypos2 = this.UISpaces[i].ypos + this.UISpaces[i].hgt;
+		for (var i=0;i<self.UISpaces.length;i++) {
+			self.UISpaces[i].xpos2 = self.UISpaces[i].xpos + self.UISpaces[i].wid;
+			self.UISpaces[i].ypos2 = self.UISpaces[i].ypos + self.UISpaces[i].hgt;
 			
-			this.UISpaces[i].centerx = this.UISpaces[i].xpos + (this.UISpaces[i].wid/2);
-			this.UISpaces[i].centery = this.UISpaces[i].ypos + (this.UISpaces[i].hgt/2);
+			self.UISpaces[i].centerx = self.UISpaces[i].xpos + (self.UISpaces[i].wid/2);
+			self.UISpaces[i].centery = self.UISpaces[i].ypos + (self.UISpaces[i].hgt/2);
 		}
 			
 	}
@@ -106,23 +107,23 @@ function metroball(target, transmitCommand, uiIndex) {
 		with (self.context) {
 			clearRect(0,0, self.width, self.height);
 		}
-		this.drawSpaces();
-		this.drawBalls();
+		self.drawSpaces();
+		self.drawBalls();
 	}
 	
 	/** Draw framework of rounded rectangles **/
 	
 	this.drawSpaces = function() {
 		
-		with (this.context) {
+		with (self.context) {
 			
 			lineWidth = 3;
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
 			
-			for (i=0;i<this.UISpaces.length;i++) {
-				var space = this.UISpaces[i];
-				nx.makeRoundRect(this.context,space.xpos,space.ypos,space.wid,space.hgt);
+			for (i=0;i<self.UISpaces.length;i++) {
+				var space = self.UISpaces[i];
+				nx.makeRoundRect(self.context,space.xpos,space.ypos,space.wid,space.hgt);
 				stroke();
 				
 				if (space.field=="quantize" && quantize) {
@@ -140,8 +141,8 @@ function metroball(target, transmitCommand, uiIndex) {
 			font="bold 14px courier";
 			textAlign = "center";
 			
-			for (i=0;i<this.UISpaces.length;i++) {
-				var space = this.UISpaces[i];
+			for (i=0;i<self.UISpaces.length;i++) {
+				var space = self.UISpaces[i];
 				fillText(space.hint, space.centerx, space.centery+5);
 			}
 			
@@ -151,7 +152,7 @@ function metroball(target, transmitCommand, uiIndex) {
 	/** Draw functions **/
 	
 	this.drawBalls = function() {
-		with (this.context) {
+		with (self.context) {
 			for (i=0;i<self.CurrentBalls.length;i++) {
 				self.CurrentBalls[i].move();
 				self.CurrentBalls[i].draw();
@@ -345,7 +346,7 @@ function metroball(target, transmitCommand, uiIndex) {
 		
 	}
 	
-	this.make();
+	this.init();
 	
 }
 
