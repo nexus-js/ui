@@ -292,6 +292,11 @@ var nxManager = function() {
 	this.invert = function (inNum) {
 		return manager.scale(inNum, 1, 0, 0, 1);
 	}
+	
+	this.mtof = function(midi) {
+		var freq = Math.pow(2, ((midi-69)/12)) * 440;
+		return freq;
+	}
 
 
 
@@ -1991,6 +1996,9 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	this.tiltLR;
 	this.tiltFB;
 	this.z;
+	this.scaledX;
+	this.scaledY;
+	this.scaledZ;
 	
 	this.defaultText = "TILT";	
 	this.throttle = nx.throttle;
@@ -2004,11 +2012,11 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		document.getElementById(self.canvasID).style.transform = "rotate(" + self.tiltLR + 
 		  "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
 		  
-		var scaledX = nx.prune(self.tiltLR/90,3);
-		var scaledY = nx.prune(self.tiltFB/90,3);
-		var scaledZ = nx.prune(self.z,3);
+		self.scaledX = nx.prune(self.tiltLR/90,3);
+		self.scaledY = nx.prune(self.tiltFB/90,3);
+		self.scaledZ = nx.prune(self.z,3);
 		  
-		self.nxTransmit([scaledX, scaledY, self.z]);
+		self.nxTransmit([self.scaledX, self.scaledY, self.scaledZ]);
 		
 	}
 
@@ -2389,9 +2397,10 @@ function metroball(target, transmitCommand, uiIndex) {
 		}
 		
 		this.bounce = function() {
+			var dirMsg = this.direction/2+1;
 			this.direction = this.direction * (-1);
 			var xMsg = this.xpos/this.space.wid;
-			self.nxTransmit(xMsg);
+			self.nxTransmit([ xMsg, this.direction ]);
 		}
 		
 		this.kill = function() {

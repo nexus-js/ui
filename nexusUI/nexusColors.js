@@ -23,6 +23,7 @@ function colors(target, transmitCommand, uiIndex) {
 	var color_table;
 	var saturation = 100;
 	self.color = [0,0,0];
+	var i;
 	
 	this.init = function() {
 		

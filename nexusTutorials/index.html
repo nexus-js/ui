@@ -25,6 +25,10 @@
 	<script type="text/javascript" src="../nexusUI/nexusSelect.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusTilt.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusMetroball.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusPixels.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusColors.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusSandbox.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusJoints.js"></script>
   
 </head>
 <body>
@@ -125,12 +129,6 @@
 	</script>
 		
 	
-	
-	
-	
-	
-	
-		
 	
 	<style>
 	
@@ -279,13 +277,34 @@
 
 	<!-- TITLE -->
 
-	<div class="row" style="border-bottom:solid 2px #ccc;position:relative;background-color:#fafafa">
+	<div class="row" style="border-bottom:solid 1px #EEE;position:relative;background-color:#fafafa">
 		<div class="large-12 columns">
 			<img src="images/logo.png" id="logo">
 			<div style="position:absolute;left:120px;bottom:0px;min-width:500px;">		
 				<h1>nexus UI</h1>
 				<h2>mobile audio interface elements</h2>	
 			</div>
+		</div>
+	</div>
+	
+	
+	<div class="row">
+		<div class="large-12 columns" style="text-align:center;padding:6px 10px;background-color:#f7f7f7;margin:0px;border-bottom:solid 1px #DDD">
+				<a href="#dial_doc">dial</a> &nbsp;•&nbsp; 
+				<a href="#position_doc">position</a> &nbsp;•&nbsp; 
+				<a href="#keyboard_doc">keyboard</a> &nbsp;•&nbsp; 
+				<a href="#button_doc">button</a> &nbsp;•&nbsp; 
+				<a href="#toggle_doc">toggle</a> &nbsp;•&nbsp; 
+				<a href="#slider_doc">slider</a> &nbsp;•&nbsp; 
+				<a href="#multislider_doc">multislider</a> &nbsp;•&nbsp; 
+				<a href="#matrix_doc">matrix</a> &nbsp;•&nbsp; 
+				<a href="#select_doc">select</a> &nbsp;•&nbsp; 
+				<a href="#tilt_doc">tilt</a> &nbsp;•&nbsp; 
+				<a href="#metroball_doc">metroball</a> &nbsp;•&nbsp; 
+				<a href="#pixels_doc">pixels</a> &nbsp;•&nbsp; 
+				<a href="#colors_doc">colors</a> &nbsp;•&nbsp; 
+				<a href="#sandbox_doc">sandbox</a> &nbsp;•&nbsp; 
+				<a href="#joints_doc">joints</a>
 		</div>
 	</div>
 	
@@ -302,7 +321,7 @@
 			<!--	Nexus is a JavaScript library of web audio interface components made with HTML5
 				that can transmit OSC data to other applications via AJAX. -->
 			
-				<a href="../CurrentBuild/nexusUI.js" download="nexusUI.js" id="downloadlink" style="margin:0px 0px 30px">Download NexusUI</a><br>
+				<a href="../CurrentBuild/nexusUI.min.js" download="nexusUI.min.js" id="downloadlink" style="margin:0px 0px 30px">Download NexusUI</a><br>
 				
 				NexusUI is a library of audio interface components made with HTML5
 				that transmit OSC data locally or to other applications via AJAX.
@@ -361,7 +380,7 @@
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
-				<b>requirements</b><br>
+				<b>link to nexus and jquery</b><br>
 				Nexus requires links to jquery.js and nexusUI.js libraries<br><br>
 				<b>adding elements with &lt;canvas&gt;</b><br>
 				Any canvas with a valid nx attribute will turn into a nexus element.<br>
@@ -374,7 +393,14 @@
 				<a href="#toggle_doc">toggle</a> &nbsp;•&nbsp; 
 				<a href="#slider_doc">slider</a> &nbsp;•&nbsp; 
 				<a href="#multislider_doc">multislider</a> &nbsp;•&nbsp; 
-				<a href="#matrix_doc">matrix</a>
+				<a href="#matrix_doc">matrix</a> &nbsp;•&nbsp; 
+				<a href="#select_doc">select</a> &nbsp;•&nbsp; 
+				<a href="#tilt_doc">tilt</a> &nbsp;•&nbsp; 
+				<a href="#metroball_doc">metroball</a> &nbsp;•&nbsp; 
+				<a href="#pixels_doc">pixels</a> &nbsp;•&nbsp; 
+				<a href="#colors_doc">colors</a> &nbsp;•&nbsp; 
+				<a href="#sandbox_doc">sandbox</a> &nbsp;•&nbsp; 
+				<a href="#joints_doc">joints</a>
 			</div>
 			
 		</div>
@@ -382,7 +408,7 @@
 			<textarea class="codedisplay">
 		
 <script src="nexusUI/jquery.js"></script>
-<script src="nexusUI/nexusUI.js"></script>	
+<script src="nexusUI/nexusUI.min.js"></script>	
 
 <canvas nx="toggle"></canvas>
 <canvas nx="button"></canvas>
@@ -1102,6 +1128,218 @@ nx.onload = function() {
 <canvas nx="tilt"></canvas>
 			</textarea>
 			<canvas nx="tilt"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+			METROBALL
+	-->
+	<a name="metroball_doc"></a>
+	<div class="row titlerow">
+		Metroball
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div><br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="metroball"></canvas>
+			</textarea>
+			<canvas nx="metroball"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	<!-- 
+			PIXELS
+	-->
+	<a name="pixels_doc"></a>
+	<div class="row titlerow">
+		Pixels
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div><br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="pixels"></canvas>
+			</textarea>
+			<canvas nx="pixels"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+			COLORS
+	-->
+	<a name="colors_doc"></a>
+	<div class="row titlerow">
+		Colors
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div><br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="colors"></canvas>
+			</textarea>
+			<canvas nx="colors"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+			SANDBOX
+	-->
+	<a name="sandbox_doc"></a>
+	<div class="row titlerow">
+		Sandbox
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div><br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="sandbox"></canvas>
+			</textarea>
+			<canvas nx="sandbox"></canvas>
+		</div>	
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 
+			JOINTS
+	-->
+	<a name="joints_doc"></a>
+	<div class="row titlerow">
+		Joints
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				
+				<!-- output data -->
+				<div class="doccategory firstdoccat">output data</div>
+				
+				
+				<!-- properties -->
+				<div class="doccategory">properties</div><br>
+				
+				<!-- methods -->
+				<div class="doccategory">methods</div>
+				<b></b><br>
+				
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay">
+
+<canvas nx="joints"></canvas>
+			</textarea>
+			<canvas nx="joints"></canvas>
 		</div>	
 		<div class="large-1 columns"></div>
 	</div>
