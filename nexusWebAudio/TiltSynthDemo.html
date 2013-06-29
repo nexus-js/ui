@@ -23,6 +23,38 @@
 			nx.colorize("#08d");
 			nx.setTransmissionProtocol("local");
 			
+			nx.globalLocalTransmit = function(oscName, localObject, localParameter, data) {
+				switch (oscName) {
+					case "keyboard1":
+						if (data[1]==1) {
+							a.note(nx.mtof(data[0]+48));
+						}
+						break;
+					case "tilt1":
+						a.attack = (data[0]/2+1) * 10000;
+						a.decay = (data[0]/2+1) * 44000;
+						a.index= (data[0]/2+1)*10;
+						a.amp = (data[1]+0.5);
+						break;
+					case "metroball1":
+						b.note(~~(data[0]*10)*100+100);
+						break;
+				}
+			}
+			
+			Gibberish.init();
+			prefxBus = new Gibberish.Bus2();
+			postfxBus = new Gibberish.Bus2();
+			postfxBus.connect();
+			
+			a = new Gibberish.PolyFM({ cmRatio:5, index:3, attack:88200, decay:88200 }).connect(prefxBus); 
+			delay = new Gibberish.Delay({input: prefxBus, time: 20000, feedback: 0.85});      // create a delay effect and feed our sine wave into it
+			delay.connect(postfxBus);                        // connect delay to default master output
+		 	
+			b = new Gibberish.KarplusStrong({ damping:0 }).connect();
+		 	
+			//b = new Gibberish.Noise(.2).connect();
+			
 			
 			/* synth development 
 			
@@ -104,14 +136,13 @@
 		</span>
 	</div>
 	
-	<canvas nx="keyboard"></canvas>
-	<canvas nx="tilt"></canvas><br>
-	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="250px"></canvas>
-	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="250px"></canvas><br>
+	<canvas nx="keyboard" style="width:500px;height:150px"></canvas>
+	<canvas nx="tilt" style="width:100px;height:150px;"></canvas><br>
+	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="300px"></canvas>
+	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="300px"></canvas><br>
+	<canvas nx="metroball" height="300px" width="607px"></canvas>
 	<br>
-	<canvas nx="metroball" height="300px" width="507px"></canvas>
-	<br>
-	<canvas nx="pixels" width="400px" height="300px" style="float:left"></canvas>
+	<canvas nx="pixels" width="500px" height="300px" style="float:left"></canvas>
 	<div style="float:left">
 		<canvas nx="dial"></canvas>	<br>
 		<canvas nx="dial"></canvas>	<br>

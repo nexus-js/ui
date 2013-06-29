@@ -292,6 +292,11 @@ var nxManager = function() {
 	this.invert = function (inNum) {
 		return manager.scale(inNum, 1, 0, 0, 1);
 	}
+	
+	this.mtof = function(midi) {
+		var freq = Math.pow(2, ((midi-69)/12)) * 440;
+		return freq;
+	}
 
 
 

@@ -29,7 +29,7 @@ function joints(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	]
 	this.connections = new Array();
-	this.threshold = self.width / 2;
+	this.threshold = self.width / 3;
 	
 	this.default_text = "click or touch to control a node";	
 	this.throttle = nx.throttle;
@@ -120,6 +120,13 @@ function joints(target, ajaxCommand, oscName, uiIndex, oscIp) {
 		self.draw();
 		self.nxTransmit(self.connections);
 		self.connections = new Array();
+		
+	/*	for future curved GUI
+	 	deltaY = self.joints[0].y - self.nodePos[1];
+		deltaX = self.joints[0].x - self.nodePos[0];
+		angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+	    console.log(angleInDegrees); */
+	    
 	}
 
 	this.move = function() {
