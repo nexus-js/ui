@@ -1,15 +1,17 @@
 // Javascript 2d_slider
 
-function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function position(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;

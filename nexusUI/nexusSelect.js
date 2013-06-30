@@ -1,15 +1,17 @@
 // Javascript Select
 
-function select(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function select(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	this.defaultSize = { width: 200, height: 30 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	this.ajaxCommand = ajaxCommand;
 	
 	//unique attributes

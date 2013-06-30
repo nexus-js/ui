@@ -1,6 +1,6 @@
 // Javascript 2d_slider
 
-function slider(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function slider(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
@@ -9,7 +9,7 @@ function slider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.value = 0.7

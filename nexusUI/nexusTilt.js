@@ -1,7 +1,7 @@
 // Nexus Tilt
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
-function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function tilt(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
@@ -10,7 +10,7 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//unique properties
 	this.tiltLR;

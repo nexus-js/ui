@@ -1,15 +1,17 @@
 // nexus Toggle button
 
-function toggle(target, ajaxCommand, uiIndex) {
+function toggle(target, transmitCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	this.defaultSize = { width: 75, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	var i;
 	this.on = false;

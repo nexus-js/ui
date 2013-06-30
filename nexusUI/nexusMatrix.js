@@ -1,8 +1,7 @@
 // Javascript Matrix slider
 
 
-//function matrix(canvas, ajax_command, ui_id) {
-function matrix(target, ajaxCommand, uiIndex) {
+function matrix(target, transmitCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
@@ -11,7 +10,7 @@ function matrix(target, ajaxCommand, uiIndex) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	var i;
 	

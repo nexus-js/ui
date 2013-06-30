@@ -5,6 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
 	<meta name="LSU EMDM" content="nexus">
+	<link rel="icon" type="image/png" href="favicon.png" />
 	<!-- foundation framework links -->
 	<link rel="stylesheet" href="foundation/css/foundation.css" />
 	<script src="foundation/js/vendor/custom.modernizr.js"></script>
@@ -170,6 +171,7 @@
 		#logo {
 			margin:5px;
 			width:90px;
+			height:90px;
 			display:block;
 		}
 		
@@ -329,12 +331,13 @@
 				<br>
 				<div style="line-height:22px;font-size:13pt;margin-right:100px;text-align:justify;min-width:350px;">
 				Nexus can be used to integrate directly with the Web Audio API in the browser, or 
-				to communicate with Max, SuperCollider and Chuck via server-side applications.<br><br>
+				to communicate with Max, SuperCollider or Chuck via server-side applications.<br><br>
 				Nexus is mobile-friendly and multi-touch compatible. It enables large-scale collaborative performances by distributing interfaces through a browser -- 
 				something that many people have at home, in their bag, or carry in their pocket.</div><br>
 				
 				<a href="../nexusWebAudio/SeqDemo1.html" class="demolink">Simple Sequencer Demo</a> • 
-				<a href="../nexusWebAudio/AnimationDemo1.html" class="demolink">Animated Matrix Demo</a>
+				<a href="../nexusWebAudio/AnimationDemo1.html" class="demolink">Animated Matrix Demo</a> • 
+				<a href="../nexusWebAudio/MetroballDemo.html" class="demolink">Metroball Demo</a>
 				<div style="font-size:10pt;color:#777">(Thanks to <a href="http://www.charlie-roberts.com/gibberish">Gibberish</a> for the audio support!)</div>
 				
 				
@@ -529,8 +532,11 @@ nx.onload {
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
-				Nexus includes a built-in PHP relay that forwards data from the UI to a specified IP and port (default 127.0.0.1).
+				<a href="../nexusPHP/nexusOSCRelay.php" download="nexusOSCRelay.php" id="downloadlink" style="margin:0px 0px 30px">Download nexusOSCRelay.php</a><br>
+				
+				Nexus includes a PHP relay that forwards data from the UI to a specified IP and port (default 127.0.0.1).
 				<br><br>
+				
 				<b>nx.setTransmissionProtocol( )</b><br>
 				To forward with AJAX and PHP, use the global nx.setTransmissionProtocol() method to set all UI elements to send with AJAX.
 				You can override individual elements' paths by setting their .transmissionProtocol property directly.
@@ -678,7 +684,7 @@ nx.onload = function() {
 	<!-- 
 			SHARED
 	-->
-	<a name="dial_doc"></a>
+	<a name="shared_doc"></a>
 	<div class="row titlerow">
 		Shared properties and methods
 	</div>

@@ -1,6 +1,6 @@
 // Javascript 2d_slider
 
-function joints(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function joints(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;

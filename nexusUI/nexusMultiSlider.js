@@ -1,6 +1,6 @@
 // Javascript Multislider
 
-function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function multislider(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
@@ -9,7 +9,7 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.sliders = 15;
