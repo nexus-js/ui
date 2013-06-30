@@ -12,7 +12,6 @@ function select(target, transmitCommand, uiIndex) {
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
-	this.ajaxCommand = ajaxCommand;
 	
 	//unique attributes
 	self.choices;

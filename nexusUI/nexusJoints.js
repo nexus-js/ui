@@ -9,7 +9,7 @@ function joints(target, transmitCommand, uiIndex) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 35;

@@ -9,20 +9,27 @@
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusDial.js"></script>
-	<script type="text/javascript" src="nexusButton.js"></script>
 	<script type="text/javascript" src="nexusToggle.js"></script>
-	<script type="text/javascript" src="nexusPosition.js"></script>
+	<script type="text/javascript" src="nexusButton.js"></script>
 	<script type="text/javascript" src="nexusMatrix.js"></script>
-	<script type="text/javascript" src="nexusMultislider.js"></script>
 	<script type="text/javascript" src="nexusSlider.js"></script>
+	<script type="text/javascript" src="nexusMultislider.js"></script>
 	<script type="text/javascript" src="nexusKeyboard.js"></script>
-	<link type="style/css" href="nexusUI.css" rel="stylesheet">
+	<script type="text/javascript" src="nexusPosition.js"></script>
+	<script type="text/javascript" src="nexusSelect.js"></script>
+	<script type="text/javascript" src="nexusTilt.js"></script>
+	<script type="text/javascript" src="nexusMetroball.js"></script>
+	<script type="text/javascript" src="nexusPixels.js"></script>
+	<script type="text/javascript" src="nexusColors.js"></script>
+	<script type="text/javascript" src="nexusSandbox.js"></script>
+	<script type="text/javascript" src="nexusJoints.js"></script>
 	<script type="text/javascript" charset="utf-8">
 	
 		
 		nx.onload = function() {
 			
 			nx.colorize("#08d");
+			nx.setTransmissionProtocol("local");
 			
 		}
 		
@@ -42,33 +49,32 @@
 	
 	<div>
 		<canvas nx="dial">Your browser does not support HTML5. Please update!</canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-		<canvas nx="dial"></canvas>
-	</div>
-	<div>
-		<canvas nx="toggle"></canvas>
-		<canvas nx="toggle"></canvas>
-		<canvas nx="toggle"></canvas>
 		<canvas nx="toggle"></canvas>
 		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
-		<canvas nx="button"></canvas>
+		<canvas nx="keyboard" style="width:320px;height:100px;"></canvas>
 	</div>
 	<div>
-		<canvas nx="position"></canvas>
-		<canvas nx="multislider"></canvas>	
+		<div  style="float:left">
+			<canvas nx="position" style="height:200px;width:250px;"></canvas>
+			<canvas nx="multislider" style="height:200px;width:250px;"></canvas>	
+		</div>
+		<div>
+			<canvas nx="tilt"></canvas><br>
+			<canvas nx="colors" height="100px" width="100px"></canvas>	
+		</div>
 	</div>
 	<div>
-		<canvas nx="matrix" height="200px" width="200px"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="keyboard" width="300px" height="90px"></canvas>
+		<div style="float:left">
+		<canvas nx="select" choices="one,two,three" style="width:150px;height:50px;"></canvas><br>
+		<canvas nx="matrix" height="150px" width="150px"></canvas>	
+		</div>
+		<canvas nx="metroball" style="float:left"></canvas>	
+		<canvas nx="pixels" style="width:150px;height:200px"></canvas>	
 	</div>
-	
+	<div>
+		<canvas nx="joints" style="height:300px;width:305px;"></canvas>	
+		<canvas nx="sandbox" style="height:300px;width:305px;"></canvas>	
+	</div>
 	<div id="receiver" style="position:fixed;bottom:0px;right:0px;background-color:white;opacity:0.7;color:black;padding:30px;font-weight:bold;font-family:courier;font-size:20pt;max-width:200px;">/dial 10</div>
 
 </body>
