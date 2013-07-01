@@ -536,7 +536,7 @@ function getTemplate(self, target, transmitCommand) {
 	} else {
 		self.transmitCommand = transmitCommand;
 	}
-	self.oscName = target;
+	self.oscName = "/"+target;
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	
@@ -651,16 +651,18 @@ function getTemplate(self, target, transmitCommand) {
 
 // nexus Toggle button
 
-function toggle(target, ajaxCommand, uiIndex) {
+function toggle(target, transmitCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	this.defaultSize = { width: 75, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	var i;
 	this.on = false;
@@ -1311,16 +1313,18 @@ function keyboard(target, transmitCommand, uiIndex) {
 
 // Javascript 2d_slider
 
-function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function position(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;
@@ -1476,8 +1480,7 @@ function position(target, ajaxCommand, oscName, uiIndex, oscIp) {
 // Javascript Matrix slider
 
 
-//function matrix(canvas, ajax_command, ui_id) {
-function matrix(target, ajaxCommand, uiIndex) {
+function matrix(target, transmitCommand, uiIndex) {
 
 	//self awareness
 	var self = this;
@@ -1486,7 +1489,7 @@ function matrix(target, ajaxCommand, uiIndex) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	var i;
 	
@@ -1687,7 +1690,7 @@ function matrix(target, ajaxCommand, uiIndex) {
 }
 // Javascript 2d_slider
 
-function slider(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function slider(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
@@ -1696,7 +1699,7 @@ function slider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.value = 0.7
@@ -1801,7 +1804,7 @@ function slider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 }
 // Javascript Multislider
 
-function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function multislider(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
@@ -1810,7 +1813,7 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.sliders = 15;
@@ -1933,17 +1936,18 @@ function multislider(target, ajaxCommand, oscName, uiIndex, oscIp) {
 }
 // Javascript Select
 
-function select(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function select(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
 	this.defaultSize = { width: 200, height: 30 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
-	this.ajaxCommand = ajaxCommand;
+	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	self.choices;
@@ -1981,7 +1985,7 @@ function select(target, ajaxCommand, oscName, uiIndex, oscIp) {
 // Nexus Tilt
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
-function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
+function tilt(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
@@ -1990,7 +1994,7 @@ function tilt(target, ajaxCommand, oscName, uiIndex, oscIp) {
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, ajaxCommand);
+	this.getTemplate(self, target, transmitCommand);
 	
 	//unique properties
 	this.tiltLR;

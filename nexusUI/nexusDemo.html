@@ -30,6 +30,12 @@
 			
 			nx.colorize("#08d");
 			nx.setTransmissionProtocol("local");
+			nx.globalLocalTransmit = function(oscName, unknown, unknown, data) {
+				$("#receiver").html(oscName + "<br>" + data);
+			}
+			tilt1.localTransmit = function(data) {
+				
+			}
 			
 		}
 		

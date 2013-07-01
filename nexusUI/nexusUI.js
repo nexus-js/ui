@@ -536,7 +536,7 @@ function getTemplate(self, target, transmitCommand) {
 	} else {
 		self.transmitCommand = transmitCommand;
 	}
-	self.oscName = target;
+	self.oscName = "/"+target;
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	

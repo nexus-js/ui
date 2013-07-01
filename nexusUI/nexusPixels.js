@@ -74,6 +74,9 @@ function pixels(target, transmitCommand, uiIndex) {
 			imgData.data[0], imgData.data[1], imgData.data[2], 
 		]
 		
+	//	self.nxTransmit(self.lastpx, self.colors.accent);
+		self.nxTransmit(self.screen);
+		
 	}
 
 
@@ -104,13 +107,13 @@ function pixels(target, transmitCommand, uiIndex) {
 			self.screen[pixY][pixX] = [
 				imgData.data[0], imgData.data[1], imgData.data[2], 
 			]
+			self.nxTransmit(self.screen);
 		}
 	
 	}
 
 
 	this.release = function() {
-		
 		
 	}
 	
