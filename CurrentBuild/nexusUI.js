@@ -1625,7 +1625,7 @@ function matrix(target, transmitCommand, uiIndex) {
 	
 	this.move = function(e) {
 		if (self.clicked) {
-			if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
+		//	if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
 				
 				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
 				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
@@ -1633,7 +1633,7 @@ function matrix(target, transmitCommand, uiIndex) {
 				self.nxTransmit(self.matrix);
 				self.draw();
 	
-			}
+		//	}
 		}
 	}
 	
@@ -1669,14 +1669,14 @@ function matrix(target, transmitCommand, uiIndex) {
 
 	this.touchMove = function(e) {
 		if (self.clicked) {
-			if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
+		//	if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
 				
 				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
 				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
 				self.matrixLevels[whichCell[0]][whichCell[1]] = delta_value;
 				self.draw();
 	
-			} 
+		//	} 
 		}
 		self.nxTransmit(self.matrix);
 	}
