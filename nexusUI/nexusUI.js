@@ -358,7 +358,10 @@ var nxManager = function() {
 	
 	this.blockMove = function(e) {
 		/* enables touching on the nexusSelect but not on page drag */
-	    if (e.target.tagName != 'SELECT') {
+	    //  if (e.target.tagName != 'SELECT') {
+	    	
+	    // PREFERABLE -- enables page touch events unless touching a canvas	
+	  	if (e.target.tagName == 'CANVAS') {
 	        e.preventDefault();
 	    }
 	}
