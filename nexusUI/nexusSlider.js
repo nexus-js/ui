@@ -51,10 +51,10 @@ function slider(target, transmitCommand, uiIndex) {
 			fill();
 			
 			strokeStyle = this.colors.accent;
-			fillStyle = this.colors.accent;
+			fillStyle = this.colors.border;
 			lineWidth = 5;
 	    	
-			globalAlpha = 0.2;
+			globalAlpha = 0.4;
 			beginPath();
 			if (self.value>0.97) {
 				moveTo(x1+depth, y1); //TOP LEFT
@@ -81,6 +81,7 @@ function slider(target, transmitCommand, uiIndex) {
 			//	globalAlpha = 1;
 			}
 			closePath();
+			
 			// knob
 			y1=y1-10;
 			if (y1<self.padding) {
@@ -88,20 +89,20 @@ function slider(target, transmitCommand, uiIndex) {
 			} else if (y1>self.height-self.padding-20) {
 				y1=self.height-self.padding-20;
 			}
-			globalAlpha = 1;
+			globalAlpha = 0.8;
 			
 			beginPath();
 			nx.makeRoundRect(self.context,x1,y1,x2-self.padding,20);
-			fillStyle = self.colors.accent;
+			fillStyle = self.colors.black;
 			fill();
 			strokeStyle = self.colors.white;
 			lineWidth=1;
-			stroke();
+		//	stroke();
 			closePath();
 			//knob grips
-			globalAlpha = 0.7;
+			globalAlpha = 1;
 			beginPath();
-			strokeStyle = self.colors.white;
+			strokeStyle = self.colors.border;
 			lineWidth = 3;
 			moveTo(x1+3,y1+7);
 			lineTo(x2-3,y1+7);
