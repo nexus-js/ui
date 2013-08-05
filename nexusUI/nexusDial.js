@@ -132,13 +132,13 @@ function dial(target, transmitCommand, uiIndex) {
 		self.nxTransmit(self.value);
 		
 		self.draw();
-		self.aniStop = self.value;
 	}
 
 
 	this.release = function() {
 		//self.clicked is now set to false
 		//mousemove handler is removed
+		self.aniStop = self.value;
 		
 	}
 	
@@ -154,11 +154,11 @@ function dial(target, transmitCommand, uiIndex) {
 		self.value = self.clip((self.value - (self.deltaMove.y * self.responsivity)), 0, 1);
 		self.nxTransmit(self.value);
 		self.draw();
-		self.aniStop = self.value;
 	}
 
 
 	this.touchRelease = function(e) {
+		self.aniStop = self.value;
 	}
 
 	this.animate = function(aniType) {

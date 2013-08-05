@@ -386,8 +386,10 @@ var nxManager = function() {
 	this.bounce = function(posIn, borderMin, borderMax, delta) {
 		if (posIn > borderMin && posIn < borderMax) {
 			return delta;
-		} else {
-			return delta * -1;
+		} else if (posIn <= borderMin) {
+			return Math.abs(delta);	
+		} else if (posIn >= borderMax) {
+			return Math.abs(delta) * (-1);
 		}
 	}
 	
