@@ -31,6 +31,10 @@ function dial(target, transmitCommand, uiIndex) {
 	this.toCartesian = nx.toCartesian;
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
+	
+	this.aniStart = 0;
+	this.aniStop = 1;
+	this.aniMove = 0.01;
 
 	function init() {
 	
@@ -116,6 +120,7 @@ function dial(target, transmitCommand, uiIndex) {
 		// console.log("Dial nxTransmit", self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
 		self.nxTransmit(self.value);
 		self.draw();
+		self.aniStart = self.value;
 	}
 
 
@@ -127,6 +132,7 @@ function dial(target, transmitCommand, uiIndex) {
 		self.nxTransmit(self.value);
 		
 		self.draw();
+		self.aniStop = self.value;
 	}
 
 
@@ -140,6 +146,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.touch = function(e) {
 		self.nxTransmit(self.value);
 		self.draw();
+		self.aniStart = self.value;
 	}
 
 
@@ -147,11 +154,40 @@ function dial(target, transmitCommand, uiIndex) {
 		self.value = self.clip((self.value - (self.deltaMove.y * self.responsivity)), 0, 1);
 		self.nxTransmit(self.value);
 		self.draw();
+		self.aniStop = self.value;
 	}
 
 
 	this.touchRelease = function(e) {
 	}
+
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked) {
+			self.value += self.aniMove;
+			if (self.aniStop < self.aniStart) {
+				self.stopPlaceholder = self.aniStop;
+				self.aniStop = self.aniStart;
+				self.aniStart = self.stopPlaceholder;
+			}
+			self.aniMove = nx.bounce(self.value, self.aniStart, self.aniStop, self.aniMove);	
+			self.draw();
+			self.nxTransmit(self.value);
+		}
+	}
+	
 
 	init();
 	

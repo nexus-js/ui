@@ -391,6 +391,7 @@ var nxManager = function() {
 		}
 	}
 	
+	
 	this.addStylesheet = function() {
 		var htmlstr = '<style>'
 					+ 'select {'

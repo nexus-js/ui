@@ -16,7 +16,9 @@ function fireworks(target, transmitCommand, uiIndex) {
 	this.values = new Array();
 	this.firework = new Array();
 	this.gravity = 0;
+	this.gravityInt = 0.005;
 	this.fireworkSize = 0;
+	this.streams = 15;
 	
 	this.default_text = "fireworks";	
 	this.throttle = nx.throttle;
@@ -57,7 +59,7 @@ function fireworks(target, transmitCommand, uiIndex) {
 	this.explode = function() {
 		self.fireworkSize++;
 		self.context.globalAlpha = 0.05;
-		if (self.fireworkSize<250) {
+		if (self.fireworkSize<200) {
 			for (var i in self.firework) {
 				//console.log(Math.sin(i));
 				self.firework[i].x += Math.sin(self.fireworkAngles[i])/2;
@@ -72,7 +74,7 @@ function fireworks(target, transmitCommand, uiIndex) {
 					closePath();
 				}
 			}
-			self.gravity += 0.005;
+			self.gravity += self.gravityInt;
 		}
 		self.context.globalAlpha = 1;
 	}
@@ -87,9 +89,10 @@ function fireworks(target, transmitCommand, uiIndex) {
 		self.fireworkSize = 0;
 		self.firework = new Array();
 		self.fireworkAngles = new Array();
-		for (var i=0;i<10;i++) {
+		for (var i=0;i<self.streams;i++) {
 			self.firework.push({x: self.clickPos.x, y: self.clickPos.y});
-			self.fireworkAngles[i] = (nx.randomNum(100)/100)*Math.PI*2;
+		//	self.fireworkAngles[i] = (nx.randomNum(100)/100)*Math.PI*2;
+			self.fireworkAngles[i] = ((Math.PI*2)/self.streams)*(i+nx.randomNum(5)/10-0.2);
 		}
 		self.erase();
 		self.draw();
