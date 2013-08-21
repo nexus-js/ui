@@ -36,9 +36,6 @@
 						a.index= (data[0]/2+1)*10;
 						a.amp = (data[1]+0.5);
 						break;
-					case "metroball1":
-						b.note(~~(data[0]*10)*100+100);
-						break;
 				}
 			}
 			
@@ -51,72 +48,7 @@
 			delay = new Gibberish.Delay({input: prefxBus, time: 20000, feedback: 0.85});      // create a delay effect and feed our sine wave into it
 			delay.connect(postfxBus);                        // connect delay to default master output
 		 	
-			b = new Gibberish.KarplusStrong({ damping:0 }).connect();
-		 	
-			//b = new Gibberish.Noise(.2).connect();
 			
-			
-			/* synth development 
-			
-			Gibberish.init(); 
-			prefxBus = new Gibberish.Bus2();
-			delay = new Gibberish.Delay({input: prefxBus, time: 10000, feedback: 0.85});      // create a delay effect and feed our sine wave into it
-			delay.connect();                        // connect delay to default master output
-			
-			rack = new Array();
-			
-			for (var i=0;i<3;i++) {
-				
-				//create oscillators, modulators, and decimator
-				rack[i] = new Object();
-				rack[i].osc = new Gibberish.Sine2( 440, .2, 0 ); 
-				rack[i].mod = new Gibberish.Sine( 100, 50 );
-				rack[i].osc.mod( 'frequency', rack[i].mod, '*' );
-				rack[i].dec = new Gibberish.Decimator({ input:rack[i].osc, bitDepth:16, sampleRate:1 }); 
-			
-				//programatically define nx objects to use
-				rack[i].toggle = eval("toggle"+(i+1));
-				rack[i].position1 = eval("position"+(i*3+1));
-				rack[i].position2 = eval("position"+(i*3+2));
-				rack[i].position3 = eval("position"+(i*3+3));
-				
-				//nx routing for each row
-				rack[i].toggle.localTransmit = function(data) {
-					var i = this.canvasID.replace("toggle", "")-1;
-					if (data==1) {
-						rack[i].dec.connect(prefxBus);
-					} else {
-						rack[i].dec.disconnect();
-					}
-				}
-				
-				rack[i].position1.localTransmit = function(data) {
-					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
-					rack[i].osc.frequency = data[0] * 1000;
-					rack[i].osc.amp = nx.invert(data[1]) - 0.1;
-					rack[i].osc.pan = rack[i].osc.pan;
-				}
-				
-				rack[i].position2.localTransmit = function(data) {
-					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
-					rack[i].mod.frequency = (Math.floor(data[0]*10)/10) * ( 1000 + 500*i) ;
-					rack[i].mod.amp = nx.scale(data[1], 1, 0, 0, 50);
-				}
-				
-				rack[i].position3.localTransmit = function(data) {
-					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
-					rack[i].osc.pan = nx.scale(data[0], 0, 1, -1, 1);
-					rack[i].osc.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
-				}
-				
-				//define animation
-				rack[i].position1.animate("bounce");
-				rack[i].position2.animate("bounce");
-				rack[i].position3.animate("bounce");
-			
-			}
-			
-			nx.startPulse(); */
 			
 		}
 		
@@ -127,26 +59,13 @@
 </head>
 <body>
 	
-	<div style="font-family:gill sans;padding:10px;background-color:#eee;width:600px;margin-bottom:10px">
-		<span style="font-size:25pt;">
-			nexus
-		</span>
-		<span style="font-size:15pt;">
-			tilt synth
-		</span>
-	</div>
-	
-	<canvas nx="keyboard" style="width:500px;height:150px"></canvas>
+	<canvas nx="keyboard" style="width:700px;height:150px"></canvas>
 	<canvas nx="tilt" style="width:100px;height:150px;"></canvas><br>
 	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="300px"></canvas>
-	<canvas nx="select" choices="synth1,synth2,synth3" height="50px" width="300px"></canvas><br>
-	<canvas nx="metroball" height="300px" width="607px"></canvas>
-	<br>
-	<canvas nx="pixels" width="500px" height="300px" style="float:left"></canvas>
-	<div style="float:left">
-		<canvas nx="dial"></canvas>	<br>
-		<canvas nx="dial"></canvas>	<br>
-		<canvas nx="dial"></canvas>	<br>
-	</div>
+	<canvas nx="dial"></canvas>
+	<canvas nx="dial"></canvas>
+	<canvas nx="dial"></canvas>
+	<canvas nx="dial"></canvas>
+	<canvas nx="dial"></canvas>
 </body>
 </html>
