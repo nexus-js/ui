@@ -358,7 +358,10 @@ var nxManager = function() {
 	
 	this.blockMove = function(e) {
 		/* enables touching on the nexusSelect but not on page drag */
-	    if (e.target.tagName != 'SELECT') {
+	    //  if (e.target.tagName != 'SELECT') {
+	    	
+	    // PREFERABLE -- enables page touch events unless touching a canvas	
+	  	if (e.target.tagName == 'CANVAS') {
 	        e.preventDefault();
 	    }
 	}
@@ -383,10 +386,13 @@ var nxManager = function() {
 	this.bounce = function(posIn, borderMin, borderMax, delta) {
 		if (posIn > borderMin && posIn < borderMax) {
 			return delta;
-		} else {
-			return delta * -1;
+		} else if (posIn <= borderMin) {
+			return Math.abs(delta);	
+		} else if (posIn >= borderMax) {
+			return Math.abs(delta) * (-1);
 		}
 	}
+	
 	
 	this.addStylesheet = function() {
 		var htmlstr = '<style>'
@@ -797,6 +803,10 @@ function dial(target, transmitCommand, uiIndex) {
 	this.toCartesian = nx.toCartesian;
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
+	
+	this.aniStart = 0;
+	this.aniStop = 1;
+	this.aniMove = 0.01;
 
 	function init() {
 	
@@ -882,6 +892,7 @@ function dial(target, transmitCommand, uiIndex) {
 		// console.log("Dial nxTransmit", self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
 		self.nxTransmit(self.value);
 		self.draw();
+		self.aniStart = self.value;
 	}
 
 
@@ -899,6 +910,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.release = function() {
 		//self.clicked is now set to false
 		//mousemove handler is removed
+		self.aniStop = self.value;
 		
 	}
 	
@@ -906,6 +918,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.touch = function(e) {
 		self.nxTransmit(self.value);
 		self.draw();
+		self.aniStart = self.value;
 	}
 
 
@@ -917,7 +930,36 @@ function dial(target, transmitCommand, uiIndex) {
 
 
 	this.touchRelease = function(e) {
+		self.aniStop = self.value;
 	}
+
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked) {
+			self.value += self.aniMove;
+			if (self.aniStop < self.aniStart) {
+				self.stopPlaceholder = self.aniStop;
+				self.aniStop = self.aniStart;
+				self.aniStart = self.stopPlaceholder;
+			}
+			self.aniMove = nx.bounce(self.value, self.aniStart, self.aniStop, self.aniMove);	
+			self.draw();
+			self.nxTransmit(self.value);
+		}
+	}
+	
 
 	init();
 	
@@ -1741,9 +1783,10 @@ function slider(target, transmitCommand, uiIndex) {
 			fill();
 			
 			strokeStyle = this.colors.accent;
-			fillStyle = this.colors.accent;
+			fillStyle = this.colors.border;
 			lineWidth = 5;
 	    	
+			globalAlpha = 0.4;
 			beginPath();
 			if (self.value>0.97) {
 				moveTo(x1+depth, y1); //TOP LEFT
@@ -1769,6 +1812,35 @@ function slider(target, transmitCommand, uiIndex) {
 				fill();	
 			//	globalAlpha = 1;
 			}
+			closePath();
+			
+			// knob
+			y1=y1-10;
+			if (y1<self.padding) {
+				y1=self.padding;
+			} else if (y1>self.height-self.padding-20) {
+				y1=self.height-self.padding-20;
+			}
+			globalAlpha = 0.8;
+			
+			beginPath();
+			nx.makeRoundRect(self.context,x1,y1,x2-self.padding,20);
+			fillStyle = self.colors.black;
+			fill();
+			strokeStyle = self.colors.white;
+			lineWidth=1;
+		//	stroke();
+			closePath();
+			//knob grips
+			globalAlpha = 1;
+			beginPath();
+			strokeStyle = self.colors.border;
+			lineWidth = 3;
+			moveTo(x1+3,y1+7);
+			lineTo(x2-3,y1+7);
+			moveTo(x1+3,y1+13);
+			lineTo(x2-3,y1+13);
+			stroke();
 			closePath();
 		} 
 	}
@@ -1832,7 +1904,7 @@ function multislider(target, transmitCommand, uiIndex) {
 	
 
 	this.init = function() {
-		getHandlers(self);
+		nx.getHandlers(self);
 
 		self.draw();
 	}
@@ -1875,7 +1947,7 @@ function multislider(target, transmitCommand, uiIndex) {
 	this.move = function() {
 		if (self.clicked) {
 			var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
-			self.values[sliderToMove] = (Math.abs((self.clickPos.y / self.height) - 1));
+			self.values[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
 			if (self.oldSliderToMove) {
 				var sliderJump = sliderToMove -  self.oldSliderToMove;
 				if (sliderJump>1) {
