@@ -1,5 +1,5 @@
 // NEXUS
-// Distributed Performance using Ruby on Rails, HTML 5, and Javascript
+// Web Audio and Distributed Performance UI Library using Ruby on Rails, HTML 5, and Javascript
 //
 
 Contributors
@@ -8,6 +8,7 @@ Ben Taylor
 Yemin Oh
 
 Project Site
+http://nexusosc.com
 http://allisonic.com/project/4
 
 License
