@@ -7,9 +7,9 @@
 			"revision" : 9
 		}
 ,
-		"rect" : [ 505.0, 59.0, 602.0, 679.0 ],
+		"rect" : [ 51.0, 49.0, 842.0, 630.0 ],
 		"bglocked" : 0,
-		"defrect" : [ 505.0, 59.0, 602.0, 679.0 ],
+		"defrect" : [ 51.0, 49.0, 842.0, 630.0 ],
 		"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -26,12 +26,24 @@
 		"devicewidth" : 0.0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-36",
+					"maxclass" : "toggle",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"patching_rect" : [ 10.0, 210.0, 95.0, 95.0 ],
+					"varname" : "toggle1"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-31",
 					"maxclass" : "dial",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 130.0, 20.0, 57.0, 57.0 ],
+					"patching_rect" : [ 110.0, 10.0, 57.0, 57.0 ],
 					"varname" : "dial_small"
 				}
 
@@ -124,7 +136,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 200.0, 233.5, 82.0, 82.0 ],
+					"patching_rect" : [ 110.0, 110.0, 58.0, 58.0 ],
 					"varname" : "button_2"
 				}
 
@@ -136,7 +148,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 3.0, 2.5, 96.0, 96.0 ],
+					"patching_rect" : [ 10.0, 10.0, 96.0, 96.0 ],
 					"varname" : "dial_3"
 				}
 
@@ -148,7 +160,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 3.0, 495.0, 96.0, 96.0 ],
+					"patching_rect" : [ 170.0, 10.0, 96.0, 96.0 ],
 					"varname" : "dial_4"
 				}
 
@@ -160,7 +172,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 692.0, 458.0, 96.0, 96.0 ],
+					"patching_rect" : [ 440.0, 360.0, 96.0, 96.0 ],
 					"varname" : "dial_5"
 				}
 
@@ -317,7 +329,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 604.0, 250.5, 82.0, 82.0 ]
+					"patching_rect" : [ 10.0, 110.0, 96.0, 96.0 ],
+					"varname" : "dialit"
 				}
 
 			}
@@ -328,7 +341,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 210.0, 140.0, 44.0, 44.0 ],
+					"patching_rect" : [ 170.0, 110.0, 94.0, 94.0 ],
 					"varname" : "button_1"
 				}
 
@@ -356,6 +369,33 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 250.0, 480.0, 100.0, 23.0 ],
+					"text" : "print incoming"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-32",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 90.0, 410.0, 100.0, 23.0 ],
+					"text" : "udpreceive 7070"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-33",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 90.0, 440.0, 100.0, 23.0 ],
 					"text" : "print incoming"
 				}
 
@@ -430,6 +470,15 @@
 					"hidden" : 0,
 					"midpoints" : [  ],
 					"source" : [ "obj-29", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-33", 0 ],
+					"hidden" : 0,
+					"midpoints" : [  ],
+					"source" : [ "obj-32", 0 ]
 				}
 
 			}
