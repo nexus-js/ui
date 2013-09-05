@@ -1,6 +1,5 @@
 // NEXUS
-// Web Audio and Distributed Performance UI Library using Ruby on Rails, HTML 5, and Javascript
-//
+// UI Library for Distributed Performance and Web Audio using Ruby on Rails, HTML5, and Javascript
 
 Contributors
 Jesse Allison
