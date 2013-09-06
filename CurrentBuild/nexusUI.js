@@ -2169,101 +2169,6 @@ function tilt(target, transmitCommand, uiIndex) {
 	
 	this.init();
 }
-// Javascript 2d_slider
-
-function number(target, transmitCommand, uiIndex) {
-					
-	//self awareness
-	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
-	this.defaultSize = { width: 100, height: 50 };
-	
-	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
-	
-	this.value = 0;
-	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
-	
-	this.init = function() {
-		self.draw();
-	}
-
-	this.draw = function() {
-		self.erase();
-		self.makeRoundedBG();
-		with (self.context) {
-			strokeStyle = self.colors.border;
-			fillStyle = self.colors.fill;
-			lineWidth = self.lineWidth;
-			stroke();
-			fill();
-			
-			fillStyle = self.colors.black;
-			textAlign = "left";
-			//font = (self.height)+"px courier";
-			font = self.height*.9+"px courier";
-			fillText(self.value, self.width/6, self.height/2+self.height/4);
-		}
-	}
-
-	this.click = function() {
-	}
-
-	this.move = function(e) {
-		if (self.clicked) {
-			self.value += self.deltaMove.y*-1;
-			self.draw();
-			self.nxTransmit(self.scaleNode());
-		}
-	}
-	
-
-	this.release = function() {
-		
-	}
-	
-	this.touch = function(e) {
-	}
-
-	this.touchMove = function(e) {
-		self.move(e);
-	}
-
-	this.touchRelease = function() {
-		
-	}
-	
-	this.animate = function(aniType) {
-		
-		switch (aniType) {
-			case "bounce":
-				nx.aniItems.push(self.aniBounce);
-				break;
-			case "none":
-				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
-				break;
-		}
-		
-	}
-	
-	this.aniBounce = function() {
-		if (!self.clicked && self.nodePos[0]) {
-			self.nodePos[0] += (self.deltaMove.x/2);
-			self.nodePos[1] += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
-			self.draw();
-			self.nxTransmit(self.scaleNode());
-		}
-	}
-	
-	this.init();
-}
 /***********************
 * Javascript Sandbox   *
 ***********************/
@@ -3050,6 +2955,239 @@ function fireworks(target, transmitCommand, uiIndex) {
 			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
 			self.draw();
 			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
+	this.init();
+}
+// Javascript 2d_slider
+
+function number(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 100, height: 50 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	this.value = 0;
+	
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
+	
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			
+			fillStyle = self.colors.black;
+			textAlign = "left";
+			//font = (self.height)+"px courier";
+			font = self.height*.9+"px courier";
+			fillText(self.value, self.width/6, self.height/2+self.height/4);
+		}
+	}
+
+	this.click = function() {
+	}
+
+	this.move = function(e) {
+		if (self.clicked) {
+			self.value += self.deltaMove.y*-1;
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
+
+	this.release = function() {
+		
+	}
+	
+	this.touch = function(e) {
+	}
+
+	this.touchMove = function(e) {
+		self.move(e);
+	}
+
+	this.touchRelease = function() {
+		
+	}
+	
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked && self.nodePos[0]) {
+			self.nodePos[0] += (self.deltaMove.x/2);
+			self.nodePos[1] += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
+	this.init();
+}
+// Javascript 2d_slider
+
+function comment(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 100, height: 50 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	this.value = "comment";
+	
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
+	
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.erase();
+		with (self.context) {
+			
+			fillStyle = self.colors.black;
+			textAlign = "left";
+			font = "20px courier";
+			fillText(self.value, 3, self.height/2+self.height/4);
+			
+			
+		}
+	}
+
+	this.init();
+}
+// Javascript message
+
+function message(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 100, height: 50 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	this.value = "a_message";
+	
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			if (self.clicked) {
+				fillStyle = self.colors.accent;
+			} else {
+				fillStyle = self.colors.fill;
+			}
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			
+			fillStyle = self.colors.black;
+			textAlign = "left";
+			font = self.height*.9+"px courier";
+			fillText(self.value, 6, self.height/2+self.height/4);
+		}
+	}
+
+	this.click = function(e) {
+		self.draw();
+		self.nxTransmit(self.value);
+	}
+	
+	this.release = function(e) {
+		self.draw();
+	}
+	
+	this.touch = function(e) {
+		self.click(e);
+	}
+	
+	this.touchRelease = function(e) {
+		self.draw();
+	}
+	
+	this.init();
+}
+// Javascript panel
+
+function panel(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 100, height: 100 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	this.value = 0;
+	
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
+	
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
 		}
 	}
 	

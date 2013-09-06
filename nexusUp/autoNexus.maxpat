@@ -33,7 +33,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "bang" ],
-					"patching_rect" : [ 230.0, 240.0, 50.0, 23.0 ]
+					"patching_rect" : [ 230.0, 240.0, 50.0, 23.0 ],
+					"varname" : "numbernx6136024"
 				}
 
 			}
@@ -46,7 +47,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "bang" ],
-					"patching_rect" : [ 230.0, 180.0, 111.0, 47.0 ]
+					"patching_rect" : [ 230.0, 180.0, 111.0, 47.0 ],
+					"varname" : "numbernx5443238"
 				}
 
 			}

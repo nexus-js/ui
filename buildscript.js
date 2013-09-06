@@ -61,12 +61,15 @@ concat({
         'nexusUI/nexusMultislider.js',
         'nexusUI/nexusSelect.js',
         'nexusUI/nexusTilt.js',
-        'nexusUI/nexusNumber.js',
         'nexusUI/nexusSandbox.js',
         'nexusUI/nexusJoints.js',
         'nexusUI/nexusColors.js',
         'nexusUI/nexusPixels.js',
-        'nexusUI/nexusFireworks.js'
+        'nexusUI/nexusFireworks.js',
+        'nexusUI/nexusNumber.js',
+        'nexusUI/nexusComment.js',
+        'nexusUI/nexusMessage.js',
+        'nexusUI/nexusPanel.js',
     ],
     dest : 'CurrentBuild/nexusUI.js'
 });

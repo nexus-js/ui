@@ -6,9 +6,7 @@ outlets = 1;
 
 var uiObjects = new Array;
 
-//var nexusUISupportedObjects = ["dial", "button", "toggle", "slider"];
-
-// matches MAX OBJ NAME on left to NEXUS OBJ NAME on right
+// Matches MAX OBJ CLASS on left to NEXUS OBJ NAME on right
 var nexusUISupportedObjects = {
 	"dial": "dial",
 	"live.dial": "dial",
@@ -20,19 +18,14 @@ var nexusUISupportedObjects = {
 	"live.slider": "slider",
 	"gain~": "slider",
 	"kslider": "keyboard",
-	"number": "number"
+	"number": "number",
+	"message": "message",
+	"comment": "comment",
+	"panel": "panel",
+	"float": "number"
 }
 
 var thisfolder;
-
-
-function addButton(val)
-{
-	for(i=0;i<val;i++)
-	{
-		uiObjects[i] = this.patcher.newdefault(200+(i*50), 50, "button", i+1);
-	}
-}
 
 
 function findUIObjects()
@@ -43,14 +36,6 @@ function findUIObjects()
 	
 	while(current_object)
 	{
-		// post(current_object.varname, ":");
-		
-		/*for(i=0;i<nexusUISupportedObjects.length;i++) 
-		{
-			if(current_object.maxclass == nexusUISupportedObjects[i] && current_object.varname) {
-				uiObjects.push(current_object);
-			}
-		}*/
 		
 		for(var key in nexusUISupportedObjects) {
 			if(current_object.maxclass == key) {
@@ -65,10 +50,6 @@ function findUIObjects()
 		current_object = current_object.nextobject;
 	}
 	
-	
-	// current_object = this.patcher.getnamed("dial_1");
-	// post(current_object.varname);
-	// post(current_object.maxclass);
 }
 
 function createUDPReceive(port)
@@ -146,6 +127,15 @@ function bang()
 		outlet(0, uiObjects[i].varname, uiObjects[i].maxclass, uiObjects[i].rect, uiObjects[i].fgcolor);
 	}
 }
+
+function addButton(val)
+{
+	for(i=0;i<val;i++)
+	{
+		uiObjects[i] = this.patcher.newdefault(200+(i*50), 50, "button", i+1);
+	}
+}
+
 
 // this.box = myself!
 
