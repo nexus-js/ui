@@ -7,9 +7,9 @@
 			"revision" : 9
 		}
 ,
-		"rect" : [ 6.0, 49.0, 842.0, 630.0 ],
+		"rect" : [ 172.0, 44.0, 1087.0, 646.0 ],
 		"bglocked" : 0,
-		"defrect" : [ 6.0, 49.0, 842.0, 630.0 ],
+		"defrect" : [ 172.0, 44.0, 1087.0, 646.0 ],
 		"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -25,6 +25,46 @@
 		"enablevscroll" : 1,
 		"devicewidth" : 0.0,
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-39",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "int", "bang" ],
+					"patching_rect" : [ 230.0, 240.0, 50.0, 23.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 30.0,
+					"id" : "obj-35",
+					"maxclass" : "number",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "int", "bang" ],
+					"patching_rect" : [ 230.0, 180.0, 111.0, 47.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-34",
+					"linecount" : 7,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 410.0, 360.0, 150.0, 121.0 ],
+					"text" : "nx to make:\nnumber\nfloat\nmessage\ncomment\npanel\nmeter"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-32",
 					"maxclass" : "kslider",
@@ -283,7 +323,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "signal", "int" ],
-					"patching_rect" : [ 140.0, 210.0, 32.0, 71.0 ]
+					"patching_rect" : [ 140.0, 210.0, 32.0, 71.0 ],
+					"varname" : "slidernx7163601"
 				}
 
 			}
@@ -294,7 +335,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "signal", "int" ],
-					"patching_rect" : [ 110.0, 210.0, 20.0, 140.0 ]
+					"patching_rect" : [ 110.0, 210.0, 20.0, 140.0 ],
+					"varname" : "slidernx2325291"
 				}
 
 			}

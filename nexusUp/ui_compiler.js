@@ -19,7 +19,8 @@ var nexusUISupportedObjects = {
 	"slider": "slider",
 	"live.slider": "slider",
 	"gain~": "slider",
-	"kslider": "keyboard"
+	"kslider": "keyboard",
+	"number": "number"
 }
 
 var thisfolder;

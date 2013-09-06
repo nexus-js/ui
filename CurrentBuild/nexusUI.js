@@ -2169,356 +2169,889 @@ function tilt(target, transmitCommand, uiIndex) {
 	
 	this.init();
 }
-/***********************
-* Javascript MetroBall *
-***********************/
-				
+// Javascript 2d_slider
 
-
-function metroball(target, transmitCommand, uiIndex) {
-
+function number(target, transmitCommand, uiIndex) {
+					
 	//self awareness
 	var self = this;
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
-	this.defaultSize = { width: 300, height: 200 };
+	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
+	this.value = 0;
 	
-	//define unique attributes
-	this.CurrentBalls = new Array();
-	this.UISpaces = new Array();
-	var ballPos = new Object();
-	var clickField = null;
-	var globalMetro;
-	var tempo = 1;
-	var tempoMarker = 150;
-	var quantize = false;
-	var tilt = 0;
-	self.tiltLR;
-	self.tiltFB;
-	self.z;
-	var i;
-    
-    /** Initialize Object **/
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
 	
 	this.init = function() {
-		self.createUISpaces();
-		globalMetro = setInterval(self.canvasID+".pulse()", 20);
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			
+			fillStyle = self.colors.black;
+			textAlign = "left";
+			//font = (self.height)+"px courier";
+			font = self.height*.9+"px courier";
+			fillText(self.value, self.width/6, self.height/2+self.height/4);
+		}
+	}
+
+	this.click = function() {
+	}
+
+	this.move = function(e) {
+		if (self.clicked) {
+			self.value += self.deltaMove.y*-1;
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
+
+	this.release = function() {
 		
-		if (window.DeviceOrientationEvent) {
-		  window.addEventListener('deviceorientation', function(eventData) {
-		    self.tiltLR = eventData.gamma;
-			self.tiltFB = eventData.beta;
-			self.z = eventData.alpha;
-		    self.tilt();
-		  }, false);
-		} else if (window.OrientationEvent) {
-		  window.addEventListener('MozOrientation', function(eventData) {
-		    self.tiltLR = eventData.x * 90;
-		    // y is the front-to-back tilt from -1 to +1, so we need to convert to degrees
-		    // We also need to invert the value so tilting the device towards us (forward) 
-		    // results in a positive value. 
-		    self.tiltFB = eventData.y * -90;
-		    self.z = eventData.z;
-		    self.tilt();
-		  }, false);
-		} else {
-		  console.log("Not supported on your device or browser.")
+	}
+	
+	this.touch = function(e) {
+	}
+
+	this.touchMove = function(e) {
+		self.move(e);
+	}
+
+	this.touchRelease = function() {
+		
+	}
+	
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
 		}
 		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked && self.nodePos[0]) {
+			self.nodePos[0] += (self.deltaMove.x/2);
+			self.nodePos[1] += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
+	this.init();
+}
+/***********************
+* Javascript Sandbox   *
+***********************/
+
+			
+function sandbox(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 400, height: 300 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//define unique attributes
+	var toySize = 60;
+	var trashWall = toySize+20;
+	var dragging = -1;
+	var Toys = new Array();
+	var ToyColors = ["red", "orange", "yellow", "green", "blue", "purple", "black", "pink"];
+	var ToyOptions = new Array();
+	var i;
+	self.options = 4;
+	
+	for (i=0;i<self.options;i++) {
+			var xpos = 10+toySize/2;
+			var ypos = i*(toySize+12)+11 + toySize/2;	
+			ToyOptions[i] = {
+				color: ToyColors[i%8],
+				xpos: xpos,
+				ypos: ypos,
+				wid: toySize,
+				hgt: toySize
+			}
+			
+	}
+	
+	this.isInsideCircle = function(clickedNode,currObject) {
+		
+		if (clickedNode.x > currObject.xpos-currObject.wid/2 && clickedNode.x < (currObject.xpos+currObject.wid/2) && clickedNode.y > currObject.ypos-currObject.hgt/2 && clickedNode.y < (currObject.ypos+currObject.hgt/2)) {
+			return true;	
+		} else {
+			return false;	
+		}
+	}
+	
+	this.init = function() {
+		
+		self.createUISpaces();
+		self.drawSpaces();
+		self.drawToyOptions();
+		self.drawToys();
+			
+	}
+	
+	this.draw = function() {
+		self.drawSpaces();
+		self.drawToyOptions();
+		self.drawToys();
 	}
 	
 	this.createUISpaces = function() {
-		
+			
 		self.UISpaces = [
 							{
 								field: "main",
-								xpos: 5,
-								ypos: 45,
-								wid: self.width-10,
-								hgt: self.height - 45 - self.padding,
-								hint: "click to add"
+								xpos: 65,
+								ypos: 5,
+								wid: self.canvas.width-95,
+								hgt: self.canvas.height-10,
+								hint: "sandbox"
 							},
 							{
-								field: "delete",
-								xpos: 45,
-								ypos: 5,
-								wid: self.width-50,
-								hgt: 35,
-								hint: "swipe to delete"
-							},
-							{
-								field: "quantize",
+								field: "holder",
 								xpos: 5,
 								ypos: 5,
-								wid: 35,
-								hgt: 35,
-								hint: "Q"
-							},
+								wid: 70,
+								hgt: self.canvas.height-10,
+								hint: ""
+							}
 						]; 
 						
-		for (var i=0;i<self.UISpaces.length;i++) {
-			self.UISpaces[i].xpos2 = self.UISpaces[i].xpos + self.UISpaces[i].wid;
-			self.UISpaces[i].ypos2 = self.UISpaces[i].ypos + self.UISpaces[i].hgt;
+		for (i=0;i<this.UISpaces.length;i++) {
+			this.UISpaces[i].xpos2 = this.UISpaces[i].xpos + this.UISpaces[i].wid;
+			this.UISpaces[i].ypos2 = this.UISpaces[i].ypos + this.UISpaces[i].hgt;
 			
-			self.UISpaces[i].centerx = self.UISpaces[i].xpos + (self.UISpaces[i].wid/2);
-			self.UISpaces[i].centery = self.UISpaces[i].ypos + (self.UISpaces[i].hgt/2);
-		}
-			
-	}
-	
-	/** Animation Pulse **/
-	
-	this.pulse = function() {
-		with (self.context) {
-			clearRect(0,0, self.width, self.height);
-		}
-		self.drawSpaces();
-		self.drawBalls();
-	}
-	
-	/** Draw framework of rounded rectangles **/
-	
-	this.drawSpaces = function() {
+			this.UISpaces[i].centerx = this.UISpaces[i].xpos + (this.UISpaces[i].wid/2);
+			this.UISpaces[i].centery = this.UISpaces[i].ypos + (this.UISpaces[i].hgt/2);
+		}	
 		
+	}
+	
+	self.click = function(e) {
+		for (i=0;i<ToyOptions.length;i++) {
+			if (self.isInsideCircle(self.clickPos, ToyOptions[i])) {
+				var newToy = {
+								xpos: ToyOptions[i].xpos,
+								ypos: ToyOptions[i].xpos,
+								wid: ToyOptions[i].wid,
+								hgt: ToyOptions[i].hgt,
+								color: ToyOptions[i].color,
+								shape: ToyOptions[i].shape,
+				}; 
+				Toys.push(newToy);
+				dragging = Toys.length-1;
+			}	
+		}
+		for (i=0;i<Toys.length;i++) { 
+			if (self.isInsideCircle(self.clickPos, Toys[i])) {
+				dragging = i;
+			}	
+		}
+		self.nxTransmit(Toys);
+	}
+	
+	self.move = function(e) {
+		if (self.clicked) {
+			if (dragging!=-1) {
+				Toys[dragging].xpos = self.clickPos.x;
+				Toys[dragging].ypos = self.clickPos.y;
+				self.drawToys();	
+				self.nxTransmit(Toys);
+			}
+		}
+	}
+	
+	self.release = function(e) {
+		dragging = -1;
+		for (i=Toys.length-1;i>-1;i--) { 
+			if (Toys[i].xpos<trashWall) {
+				Toys.splice(i,1);
+			}	
+		}
+		self.drawToys();
+	}	
+	
+	self.touch = function(e) {
+		self.click(e);
+	}
+	
+	self.touchMove = function(e) {
+		self.move(e);
+	}
+	
+	self.touchRelease = function(e) {
+		self.release(e);
+	}
+	
+	self.drawToyOptions = function () {
+			
+		with (self.context) {
+			for (i=0;i<ToyOptions.length;i++) {
+				globalAlpha = 0.4;
+				fillStyle = ToyOptions[i].color;
+				beginPath();
+				arc(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				closePath();
+				//fillRect(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize, toySize);
+				fillStyle = self.colors.accent;
+				
+				beginPath();
+				arc(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				//fillRect(ToyOptions[i].xpos, ToyOptions[i].ypos, toySize, toySize);
+				globalAlpha = 1;
+			}
+		}
+			
+	}
+	
+	self.drawToys = function() {
+		with (self.context) {
+			clearRect(0,0,self.width,self.height);
+			self.drawSpaces();
+			self.drawToyOptions();
+			for (i=0;i<Toys.length;i++) {
+				globalAlpha = 0.4;
+				fillStyle = Toys[i].color;
+				beginPath();
+				arc(Toys[i].xpos, Toys[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				//fillRect(Toys[i].xpos, Toys[i].ypos, toySize, toySize);
+				fillStyle = self.colors.accent;
+				beginPath();
+				arc(Toys[i].xpos, Toys[i].ypos, toySize/2, Math.PI*2, false);
+				fill();
+				//fillRect(Toys[i].xpos, Toys[i].ypos, toySize, toySize);
+			}
+			globalAlpha = 1;
+		}	
+	}
+	
+	self.drawSpaces = function() {
+	
 		with (self.context) {
 			
-			lineWidth = 3;
+			lineWidth = self.lineWidth;
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
-			
 			for (i=0;i<self.UISpaces.length;i++) {
 				var space = self.UISpaces[i];
 				nx.makeRoundRect(self.context,space.xpos,space.ypos,space.wid,space.hgt);
 				stroke();
-				
-				if (space.field=="quantize" && quantize) {
-					fillStyle = self.colors.accent;
+				fill();
+			}
+		
+		}
+	}
+	
+	this.init();
+	
+}	
+
+
+
+
+// Javascript 2d_slider
+
+function joints(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	this.uiIndex = uiIndex;
+	this.defaultSize = { width: 400, height: 400 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//this.line_width = 3;
+	this.nodeSize = 35;
+	this.values = [0,0];
+	this.nodePos = [50,50];
+	this.joints = [
+		{ x: self.width/1.2 , y: self.height/1.2 },
+		{ x: self.width/2 , y: self.height/1.3 },
+		{ x: self.width/4.2 , y: self.height/1.1 },
+		
+		{ x: self.width/1.4 , y: self.height/2.2 },
+		{ x: self.width/2.1 , y: self.height/1.8 },
+		{ x: self.width/5 , y: self.height/2.4 },
+		
+		{ x: self.width/2.8 , y: self.height/6 },
+		{ x: self.width/6 , y: self.height/3.7 }
+	
+	]
+	this.connections = new Array();
+	this.threshold = self.width / 3;
+	
+	this.default_text = "click or touch to control a node";	
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
+	
+	
+
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			if (self.nodePos[0] != null) {
+				self.drawNode();
+			}
+			else {
+				fillStyle = self.colors.border;
+				font = "14px courier";
+				fillText(self.default_text, 10, 20);
+			}	
+			fillStyle = self.colors.accent;
+			strokeStyle = self.colors.border;
+			lineWidth = self.lineWidth;
+			for (var i in self.joints) {
+				beginPath();
+					arc(self.joints[i].x, self.joints[i].y, self.nodeSize/2, 0, Math.PI*2, true);					
 					fill();
-					fillStyle = self.colors.fill;
-				} else {
-					fill();
+				closePath();
+				var cnctX = Math.abs(self.joints[i].x-self.nodePos[0]);
+				var cnctY = Math.abs(self.joints[i].y-self.nodePos[1]);
+				var strength = cnctX + cnctY;
+				if (strength < self.threshold) {
+					beginPath();
+						moveTo(self.joints[i].x, self.joints[i].y);
+						lineTo(self.nodePos[0],self.nodePos[1]);
+						strokeStyle = self.colors.accent;
+						lineWidth = nx.scale( strength, 0, self.threshold, self.nodeSize/2, 5 );
+						stroke();
+					closePath();
+					self.connections.push([i,strength]);
 				}
 			}
-			
-			lineWidth=2;
-			fillStyle=self.colors.border;
-			lineStyle="#ffffff";
-			font="bold 14px courier";
-			textAlign = "center";
-			
-			for (i=0;i<self.UISpaces.length;i++) {
-				var space = self.UISpaces[i];
-				fillText(space.hint, space.centerx, space.centery+5);
-			}
-			
 		}
 	}
+
+	this.drawNode = function() {
+		//stay within right/left bounds
+		if (self.nodePos[0]<(self.bgLeft+self.nodeSize)) {
+			self.nodePos[0] = self.bgLeft + self.nodeSize;
+		} else if (self.nodePos[0]>(self.bgRight-self.nodeSize)) {
+			self.nodePos[0] = self.bgRight - self.nodeSize;
+		}
+		//stay within top/bottom bounds
+		if (self.nodePos[1]<(self.bgTop+self.nodeSize)) {
+			self.nodePos[1] = self.bgTop + self.nodeSize;
+		} else if (self.nodePos[1]>(self.bgBottom-self.nodeSize)) {
+			self.nodePos[1] = self.bgBottom - self.nodeSize;
+		}
 	
-	/** Draw functions **/
-	
-	this.drawBalls = function() {
 		with (self.context) {
-			for (i=0;i<self.CurrentBalls.length;i++) {
-				self.CurrentBalls[i].move();
-				self.CurrentBalls[i].draw();
-			}
+			globalAlpha=1;
+			beginPath();
+				fillStyle = self.colors.accent;
+				strokeStyle = self.colors.border;
+				lineWidth = self.lineWidth;
+				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, true);					
+				fill();
+			closePath();
 		}
 	}
 	
-	/** Mouse functions **/
+	this.scaleNode = function() {
+		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
+		return self.values;
+	}
+
+	this.click = function() {
+		self.nodePos[0] = self.clickPos.x;
+		self.nodePos[1] = self.clickPos.y;
+		self.draw();
+		self.nxTransmit(self.connections);
+		self.connections = new Array();
+		
+	/*	for future curved GUI
+	 	deltaY = self.joints[0].y - self.nodePos[1];
+		deltaX = self.joints[0].x - self.nodePos[0];
+		angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+	    console.log(angleInDegrees); */
+	    
+	}
+
+	this.move = function() {
+		if (self.clicked) {
+			self.nodePos[0] = self.clickPos.x;
+			self.nodePos[1] = self.clickPos.y;
+			self.draw();
+			var help = {
+				"self.clickPos.x": self.clickPos.x,
+				"self.clickPos.y": self.clickPos.y,
+				"self.nodePos[0]": self.nodePos[0],
+				"self.nodePos[1]": self.nodePos[1],
+				"self.offset": self.offset
+			}
+			self.nxTransmit(self.connections);
+			self.connections = new Array();
+		}
+	}
+	
+
+	this.release = function() {
+		
+	}
+	
+	this.touch = function() {
+		self.nodePos[0] = self.clickPos.x;
+		self.nodePos[1] = self.clickPos.y;
+		self.draw();
+		self.nxTransmit(self.connections);
+		self.connections = new Array();
+	}
+
+	this.touchMove = function() {
+		if (self.clicked) {
+			self.nodePos[0] = self.clickPos.x;
+			self.nodePos[1] = self.clickPos.y;
+			self.draw();
+			self.nxTransmit(self.connections);
+			self.connections = new Array();
+		}
+	}
+
+	this.touchRelease = function() {
+		
+	}
+	
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked && self.nodePos[0]) {
+			self.nodePos[0] += (self.deltaMove.x/2);
+			self.nodePos[1] += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
+	this.init();
+}
+// nexusUI - Color Picker
+//
+//
+
+				
+function colors(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 200, height: 200 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//define unique attributes
+	var pencil_width = 50;
+	var color_width = self.canvas.width - self.padding*2;
+	var color_height = self.canvas.height - self.padding*2;
+	var color_table;
+	var saturation = 100;
+	self.color = [0,0,0];
+	var i;
+	
+	this.init = function() {
+		
+		//prep color picker
+	 	color_table = new Array(color_width);
+		for (i=0;i<color_table.length;i++) {
+			color_table[i] = new Array(color_height);
+		}
+		
+		
+		for (i=0;i<color_width;i++) {
+			h = Math.round((255/color_width)*i);
+			for (j=0;j<color_height;j++) {
+					s = saturation;
+					l = Math.round((100/color_height)*j);
+				color_table[i][j] = [h, s, l];
+			}
+		}
+		self.draw();
+	}
+	
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with(self.context) {
+			fillStyle = self.colors.fill;
+			strokeStyle = self.colors.border;
+			fill();
+			stroke();
+		}
+		for (i=0;i<color_width;i++) {
+			for (j=0;j<color_height;j++) {
+				hue = color_table[i][j][0];
+				sat = color_table[i][j][1];
+				lum = color_table[i][j][2];
+				with(self.context) {
+ 					beginPath();
+ 					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
+ 					fillRect(i+self.padding,j+self.padding, 255/color_width, 100/color_height);
+ 					fill();
+ 					closePath();
+				}
+			}
+		}
+	}
+
 	this.click = function(e) {
-		ballPos = self.clickPos;
-		for (i=0;i<self.UISpaces.length;i++) {
-			if (nx.isInside(ballPos,self.UISpaces[i])) {
-				clickField = self.UISpaces[i].field;
-			} 
+		var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
+		self.color = [
+			imgData.data[0], imgData.data[1], imgData.data[2], 
+		]
+		self.nxTransmit(self.color);
+	}
+
+
+	this.move = function(e) {
+		self.click(e);
+	}
+	
+	this.touch = function(e) {
+		self.click(e);
+	}
+
+	this.touchMove = function(e) {
+		self.click(e);
+	}
+
+	this.init();
+	
+}
+
+
+/****************************
+* Javascript Pixel Canvas   *
+****************************/
+
+			
+function pixels(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 300, height: 300 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//define unique attributes
+	self.dim = { x: 10, y: 10};
+
+	this.init = function() {
+		self.px = {
+			wid: (self.width - self.padding*2) / self.dim.x,
+			hgt: (self.height - self.padding*2) / self.dim.y
 		}
-		switch (clickField) {
-			case "main":
-				self.addNewMB(ballPos);
-				break;
-			case "delete":
-				self.deleteMB(ballPos);
-				break;
-			case "quantize":
-				self.toggleQuantization();
-				break;
+		self.screen = new Array();
+		for (var i=0;i<self.dim.y;i++) {
+			self.screen[i] = new Array();
+			for (var j=0;j<self.dim.x;j++) {
+				self.screen[i][j] = [0,0,0];
+			}
+		}
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			fillStyle = self.colors.fill;
+			strokeStyle = self.colors.border;
+			fill();
+			stroke();
 		}
 	}
 	
-	this.move = function(e) {
-		ballPos = self.clickPos;
-		switch (clickField) {
-			case "delete":
-				self.deleteMB(ballPos);
-				break;
-			case "tempo": {
-				self.moveTempo(ballPos);	
-				break;
+	this.reset = function() {
+		self.draw();
+	}
+	
+
+	this.click = function(e) {
+		
+		var pixX = ~~(self.clickPos.x/self.px.wid);
+		var scaledX = pixX*self.px.wid+self.padding;
+		var pixY = ~~(self.clickPos.y/self.px.hgt);
+		var scaledY = pixY*self.px.hgt+self.padding;
+		
+		self.lastpx = {
+			x: scaledX,
+			y: scaledY
+		};
+			
+		with (self.context) {
+			globalAlpha = 0.3;
+			fillStyle = self.colors.accent;
+			fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
+			globalAlpha = 1;
+		}
+		
+		var imgData = self.context.getImageData(10,10,1,1);
+		self.screen[pixY][pixX] = [
+			imgData.data[0], imgData.data[1], imgData.data[2], 
+		]
+		
+	//	self.nxTransmit(self.lastpx, self.colors.accent);
+		self.nxTransmit(self.screen);
+		
+	}
+
+
+	this.move = function() {
+		
+		var pixX = ~~(self.clickPos.x/self.px.wid);
+		pixX = nx.clip(pixX,0,self.dim.x-2);
+		var scaledX = pixX*self.px.wid+self.padding;
+		var pixY = ~~(self.clickPos.y/self.px.hgt);
+		pixY = nx.clip(pixY,0,self.dim.y-2);
+		var scaledY = pixY*self.px.hgt+self.padding;
+		
+		if (scaledX!=self.lastpx.x || scaledY!=self.lastpx.y) {
+		
+			self.lastpx = {
+				x: scaledX,
+				y: scaledY
+			};
+			
+			with (self.context) {
+				globalAlpha = 0.1;
+				fillStyle = self.colors.accent;
+				fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
+				globalAlpha = 1;
+			}
+			
+			var imgData = self.context.getImageData(10,10,1,1);
+			self.screen[pixY][pixX] = [
+				imgData.data[0], imgData.data[1], imgData.data[2], 
+			]
+			self.nxTransmit(self.screen);
+		}
+	
+	}
+
+
+	this.release = function() {
+		
+	}
+	
+	
+	this.touch = function(e) {
+		
+		self.click(e);
+	}
+	
+	this.touchMove = function(e) {
+		
+		self.move(e);
+	}
+
+
+	this.touchRelease = function(e) {
+		
+		self.release(e);
+	}
+
+	this.init();
+	
+}
+
+
+// Javascript 2d_slider
+
+function fireworks(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	this.uiIndex = uiIndex;
+	this.defaultSize = { width: 400, height: 400 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//this.line_width = 3;
+	this.nodeSize = 10;
+	this.values = new Array();
+	this.firework = new Array();
+	this.gravity = 0;
+	this.gravityInt = 0.005;
+	this.fireworkSize = 0;
+	this.streams = 15;
+	
+	this.default_text = "fireworks";	
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
+	
+	
+
+	this.init = function() {
+		self.draw();
+		nx.aniItems.push(self.explode);
+	}
+
+	this.draw = function() {
+	//	self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			
+			fillStyle = self.colors.accent;
+			strokeStyle = self.colors.border;
+			lineWidth = self.lineWidth;
+		
+			if (self.firework.length>0) {
+				for (var i=0;i<self.firework.length;i++) {
+					beginPath();
+						arc(self.firework[i].x, self.firework[i].y, self.nodeSize/2, 0, Math.PI*2, true);					
+						fill();
+					closePath();	
+				}
 			}
 		}
 	}
+
+	this.explode = function() {
+		self.fireworkSize++;
+		self.context.globalAlpha = 0.05;
+		if (self.fireworkSize<200) {
+			for (var i in self.firework) {
+				//console.log(Math.sin(i));
+				self.firework[i].x += Math.sin(self.fireworkAngles[i])/2;
+				self.firework[i].y += Math.cos(self.fireworkAngles[i])/2;
+				self.firework[i].y += self.gravity;
+				//self.draw();
+				with(self.context) {
+				//	globalAlpha = 0.1*((i+1)/20);
+					beginPath();
+						arc(self.firework[i].x, self.firework[i].y, self.nodeSize/2, 0, Math.PI*2, true);					
+						fill();
+					closePath();
+				}
+			}
+			self.gravity += self.gravityInt;
+		}
+		self.context.globalAlpha = 1;
+	}
 	
-	this.release = function(e) {
-		clickField = null;
+	this.scaleNode = function() {
+		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
+		return self.values;
+	}
+
+	this.click = function(e) {
+		self.gravity = 0;
+		self.fireworkSize = 0;
+		self.firework = new Array();
+		self.fireworkAngles = new Array();
+		for (var i=0;i<self.streams;i++) {
+			self.firework.push({x: self.clickPos.x, y: self.clickPos.y});
+		//	self.fireworkAngles[i] = (nx.randomNum(100)/100)*Math.PI*2;
+			self.fireworkAngles[i] = ((Math.PI*2)/self.streams)*(i+nx.randomNum(5)/10-0.2);
+		}
+		self.erase();
+		self.draw();
 	}
 	
 	this.touch = function(e) {
 		self.click(e);
 	}
 	
-	this.touchMove = function(e) {
-		self.move(e);
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
 	}
 	
-	this.touchRelease = function(e) {
-		self.release(e);
-	}
-	
-	/** Manage MetroBalls **/
-	
-	this.deleteMB = function(ballPos) {
-		//delete in reverse order
-		for (i=self.CurrentBalls.length-1;i>=0;i--) {
-			if (Math.abs(self.CurrentBalls[i].xpos-ballPos.x)<10) {
-				self.CurrentBalls[i].kill();
-			}
+	this.aniBounce = function() {
+		if (!self.clicked && self.nodePos[0]) {
+			self.nodePos[0] += (self.deltaMove.x/2);
+			self.nodePos[1] += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.draw();
+			self.nxTransmit(self.scaleNode());
 		}
-		
-		//reset CurrentBalls
-		for (i=0;i<self.CurrentBalls.length;i++) {
-			self.CurrentBalls[i].SelfIndex=i;
-		}
-	}
-		
-	this.addNewMB = function(ballPos) {
-		var nextIndex = self.CurrentBalls.length;
-		self.CurrentBalls[nextIndex] = new self.Ball(nextIndex, ballPos.x, ballPos.y);
-	}
-	
-	/* Quantize */
-	
-	this.toggleQuantization = function() {
-		if (!quantize) {
-			quantize = true;
-		} else {
-			quantize = false;
-		}
-	}
-	
-	/* Tilt */
-	
-	this.tilt = function(direction) {
-		
-		var scaledX = nx.prune(self.tiltLR/90,3);
-		var scaledY = nx.prune(self.tiltFB/90,3);
-		var scaledZ = nx.prune(self.z,3);
-		tilt = scaledX * 10;
-		tempo = Math.pow(scaledY+1,3);
-		
-	//	self.canvas.style.webkitTransform = "rotate("+self.tiltLR+"deg)";
-	//	self.canvas.style.MozTransform = "rotate("+tilt+"deg)";
-	}
-	
-	
-	/* Ball object */
-	
-	this.Ball = function(SelfIndex, SelfX, SelfY) {
-		
-		this.SelfIndex = SelfIndex;
-		this.space = self.UISpaces[0];
-		this.color = self.colors.accent;
-		this.xpos = SelfX;
-		this.ypos = SelfY;
-		this.size = 10;
-		this.direction = 1;
-		this.speed = (this.space.hgt-(this.ypos-this.space.ypos))/20;
-		this.speedQ = 5;
-		
-		if (quantize) {
-			this.ypos = this.space.hgt+13;
-		}
-		
-		this.move = function() {
-			if (!quantize) {
-				this.ypos = this.ypos + (this.speed * this.direction * tempo);
-			} else {
-				this.ypos = this.ypos + (this.speedQ * this.direction * tempo);	
-			}
-			
-			if (this.ypos>(this.space.ypos2-this.size-2) || this.ypos<(this.space.ypos+this.size+2) ) {
-				this.bounce();
-			}
-			
-			if (this.ypos<this.space.ypos+this.size) {
-				this.ypos=this.space.ypos+this.size+5;
-			} else if (this.ypos>this.space.ypos+this.space.hgt-this.size) {
-				this.ypos=this.space.ypos+this.space.hgt-this.size-5;
-			}
-			
-			this.xpos = this.xpos + tilt;
-			
-			if (this.xpos<this.space.xpos) {
-				this.xpos = this.space.xpos2;	
-			} else if (this.xpos>this.space.xpos2) {
-				this.xpos = this.space.xpos;	
-			}
-			
-		}
-		
-		this.bounce = function() {
-			var dirMsg = this.direction/2+1;
-			this.direction = this.direction * (-1);
-			var xMsg = this.xpos/this.space.wid;
-			self.nxTransmit([ xMsg, this.direction ]);
-		}
-		
-		this.kill = function() {
-			self.CurrentBalls.splice(this.SelfIndex,1);
-		}
-		
-		this.draw = function() {
-			
-			with (self.context) {
-				beginPath();
-				fillStyle = this.color;
-				if (this.direction==1) {
-					this.radius = this.size * (Math.abs((this.ypos-this.space.ypos-this.space.hgt/2)/(this.space.hgt-this.space.ypos)*2));
-					this.radius = this.radius/2 + this.size/2;
-					
-					this.radius = this.size;
-					
-					this.radius = this.speed;
-					
-					this.radius = Math.abs(15-this.speed);
-					
-				} else {
-					this.radius = this.size * Math.abs(2-(Math.abs((this.ypos-this.space.ypos-this.space.hgt/2)/(this.space.hgt-this.space.ypos)*2)));
-					this.radius = this.radius/2 + this.size/2;
-					
-					this.radius = this.size;
-					
-					this.radius = Math.abs(15-this.speed);
-				}
-				arc(this.xpos, this.ypos, this.radius, 0, Math.PI*2, true);
-				shadowColor = this.color;
-				shadowBlur = 2;
-				fill();
-				shadowBlur = 0;
-			}
-			
-		}
-		
-		
 	}
 	
 	this.init();
-	
 }
-
