@@ -18,7 +18,7 @@ var nexusUISupportedObjects = {
 	"live.toggle": "toggle",
 	"slider": "slider",
 	"live.slider": "slider",
-	"gain": "slider",
+	"gain~": "slider",
 	"kslider": "keyboard"
 }
 
