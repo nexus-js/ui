@@ -6,7 +6,21 @@ outlets = 1;
 
 var uiObjects = new Array;
 
-var nexusUISupportedObjects = ["dial", "button", "toggle"];
+//var nexusUISupportedObjects = ["dial", "button", "toggle", "slider"];
+
+// matches MAX OBJ NAME on left to NEXUS OBJ NAME on right
+var nexusUISupportedObjects = {
+	"dial": "dial",
+	"live.dial": "dial",
+	"button": "button",
+	"live.button": "button",
+	"toggle": "toggle",
+	"live.toggle": "toggle",
+	"slider": "slider",
+	"live.slider": "slider",
+	"gain": "slider",
+	"kslider": "keyboard"
+}
 
 var thisfolder;
 
@@ -30,11 +44,21 @@ function findUIObjects()
 	{
 		// post(current_object.varname, ":");
 		
-		for(i=0;i<nexusUISupportedObjects.length;i++) 
+		/*for(i=0;i<nexusUISupportedObjects.length;i++) 
 		{
 			if(current_object.maxclass == nexusUISupportedObjects[i] && current_object.varname) {
 				uiObjects.push(current_object);
 			}
+		}*/
+		
+		for(var key in nexusUISupportedObjects) {
+			if(current_object.maxclass == key) {
+				if (!current_object.varname) {
+					current_object.varname = nexusUISupportedObjects[current_object.maxclass] + "nx" + Math.floor(Math.random()*10000000);
+				}
+				uiObjects.push(current_object);
+			}
+			
 		}
 
 		current_object = current_object.nextobject;
@@ -96,7 +120,7 @@ function generateHTML()
 	
 	for(i=0;i<uiObjects.length;i++) 
 	{
-		var canvasString = '<canvas nx="' + uiObjects[i].maxclass + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ uiObjects[i].rect[1] +'px; left: '+ uiObjects[i].rect[0] +'px;width:'+ (uiObjects[i].rect[2]-uiObjects[i].rect[0]) +'px;height:'+ (uiObjects[i].rect[3]-uiObjects[i].rect[1]) +'px;"></canvas>';
+		var canvasString = '<canvas nx="' + nexusUISupportedObjects[uiObjects[i].maxclass] + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ uiObjects[i].rect[1] +'px; left: '+ uiObjects[i].rect[0] +'px;width:'+ (uiObjects[i].rect[2]-uiObjects[i].rect[0]) +'px;height:'+ (uiObjects[i].rect[3]-uiObjects[i].rect[1]) +'px;"></canvas>';
 		html += canvasString;
 		outlet(0, uiObjects[i].varname, uiObjects[i].maxclass, uiObjects[i].rect, uiObjects[i].fgcolor);
 	}
