@@ -35,40 +35,65 @@ function toggle(target, transmitCommand, uiIndex) {
 		this.makeRoundedBG();
 		with (this.context) {	
 			strokeStyle = self.colors.border;
-			fillStyle = self.colors.fill;
+			if ( self.width > 40 && self.height > 40 ) {
+				fillStyle = self.colors.fill;
+			} else {
+				if (self.on) {
+					fillStyle = self.colors.accent;
+				} else {
+					fillStyle = self.colors.border;
+				}
+			}
 			lineWidth = this.lineWidth;
 			stroke();
 			fill();
 		}
-	
-		if (this.on) {
-			nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+		
+		if (self.width > 40 && self.height > 40) {
+			
+			if (this.on) {
+				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+				with (this.context) {
+					fillStyle = self.colors.accent;
+					strokeStyle = self.colors.border;
+					stroke();
+					fill();
+					
+					fillStyle = self.colors.white;
+					font = "bold "+self.fontsize+"px courier";
+					textAlign = "center";
+					fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
+				}
+			}
+			
+			else {
+				nx.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+				with (this.context) {
+					fillStyle = self.colors.border;
+					strokeStyle = self.colors.border;
+					stroke();
+					fill();
+					fillStyle = self.colors.white;
+					font = "bold "+self.fontsize+"px courier";
+					textAlign = "center";
+					fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
+				}
+			}
+			
+			
+		} else {
 			with (this.context) {
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.border;
-				stroke();
-				fill();
-				
 				fillStyle = self.colors.white;
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
-				fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
+				if (self.on) {
+					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
+				} else {
+					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
+				}
 			}
 		}
 		
-		else {
-			nx.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
-			with (this.context) {
-				fillStyle = self.colors.border;
-				strokeStyle = self.colors.border;
-				stroke();
-				fill();
-				fillStyle = self.colors.white;
-				font = "bold "+self.fontsize+"px courier";
-				textAlign = "center";
-				fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
-			}
-		}
 	}
 	
 	this.click = function() {

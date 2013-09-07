@@ -331,7 +331,8 @@ var nxManager = function() {
 		var y1 = ypos;
 		var x2 = wid+x1;
 		var y2 = hgt+y1;
-		var depth = 6;
+		//var depth = 6;
+		var depth = 4;
 		
 		ctx.beginPath();
 		ctx.moveTo(x1+depth, y1); //TOP LEFT
@@ -510,7 +511,7 @@ function getTemplate(self, target, transmitCommand) {
 				};
 	//drawing
 	self.lineWidth = 3;
-	self.padding = 3;
+	self.padding = 2;
 	//self.colors = nx.colors;
 	self.colors = new Object();
 	self.colors.accent = nx.colors.accent;
@@ -692,40 +693,65 @@ function toggle(target, transmitCommand, uiIndex) {
 		this.makeRoundedBG();
 		with (this.context) {	
 			strokeStyle = self.colors.border;
-			fillStyle = self.colors.fill;
+			if ( self.width > 40 && self.height > 40 ) {
+				fillStyle = self.colors.fill;
+			} else {
+				if (self.on) {
+					fillStyle = self.colors.accent;
+				} else {
+					fillStyle = self.colors.border;
+				}
+			}
 			lineWidth = this.lineWidth;
 			stroke();
 			fill();
 		}
-	
-		if (this.on) {
-			nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+		
+		if (self.width > 40 && self.height > 40) {
+			
+			if (this.on) {
+				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+				with (this.context) {
+					fillStyle = self.colors.accent;
+					strokeStyle = self.colors.border;
+					stroke();
+					fill();
+					
+					fillStyle = self.colors.white;
+					font = "bold "+self.fontsize+"px courier";
+					textAlign = "center";
+					fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
+				}
+			}
+			
+			else {
+				nx.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+				with (this.context) {
+					fillStyle = self.colors.border;
+					strokeStyle = self.colors.border;
+					stroke();
+					fill();
+					fillStyle = self.colors.white;
+					font = "bold "+self.fontsize+"px courier";
+					textAlign = "center";
+					fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
+				}
+			}
+			
+			
+		} else {
 			with (this.context) {
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.border;
-				stroke();
-				fill();
-				
 				fillStyle = self.colors.white;
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
-				fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
+				if (self.on) {
+					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
+				} else {
+					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
+				}
 			}
 		}
 		
-		else {
-			nx.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
-			with (this.context) {
-				fillStyle = self.colors.border;
-				strokeStyle = self.colors.border;
-				stroke();
-				fill();
-				fillStyle = self.colors.white;
-				font = "bold "+self.fontsize+"px courier";
-				textAlign = "center";
-				fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
-			}
-		}
 	}
 	
 	this.click = function() {
@@ -792,10 +818,12 @@ function dial(target, transmitCommand, uiIndex) {
 	//define unique attributes
 	this.circle_size = 1;
 	this.dial_position_length = 6;
-	this.lineWidth = 4;
+	//this.lineWidth = 3;
 	if (this.width<101 || this.width<101) {
-		this.accentWidth = this.lineWidth * 1.2;
+	//	this.accentWidth = this.lineWidth * 1.2;
+		this.accentWidth = this.lineWidth * 1;
 	} else {
+	//	this.accentWidth = this.lineWidth * 2;
 		this.accentWidth = this.lineWidth * 2;
 	}
 	this.value = 0.5;
@@ -810,7 +838,7 @@ function dial(target, transmitCommand, uiIndex) {
 
 	function init() {
 	
-		self.circle_size = (Math.min(self.center.x, self.center.y)-5);
+		self.circle_size = (Math.min(self.center.x, self.center.y)-self.lineWidth);
 		self.dial_position_length = self.circle_size+self.lineWidth;
 		
 		if (self.width<101) {
@@ -851,7 +879,6 @@ function dial(target, transmitCommand, uiIndex) {
 				lineWidth = self.accentWidth;
 				arc(self.center.x, self.center.y, self.circle_size , Math.PI* 0.5, dial_position, false);
 				lineTo(self.center.x,self.center.y);
-				//strokeStyle = self.colors.accent;
 				globalAlpha = 0.1;
 				fillStyle = self.colors.accent;
 				fill();
@@ -1012,7 +1039,7 @@ function button(target, transmitCommand, uiIndex) {
 			}
 			
 			beginPath();
-			arc(self.center.x, self.center.y, self.center.x-6, 0, Math.PI*2, true);
+			arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
 			fill();	  
 			stroke();
 			
@@ -3129,10 +3156,18 @@ function message(target, transmitCommand, uiIndex) {
 			stroke();
 			fill();
 			
+			globalAlpha = 0.2;
+			var grd = self.context.createLinearGradient(0,0,0,self.height);
+			grd.addColorStop(0,self.colors.fill);
+			grd.addColorStop(1,self.colors.black);
+			fillStyle=grd;
+			fill();
+			globalAlpha = 1;
+			
 			fillStyle = self.colors.black;
-			textAlign = "left";
-			font = self.height*.9+"px courier";
-			fillText(self.value, 6, self.height/2+self.height/4);
+			textAlign = "center";
+			font = "12px courier";
+			fillText(self.value, self.width/2, self.height/2+4);
 		}
 	}
 

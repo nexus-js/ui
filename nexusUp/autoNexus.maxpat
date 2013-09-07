@@ -7,9 +7,9 @@
 			"revision" : 9
 		}
 ,
-		"rect" : [ 172.0, 44.0, 1087.0, 646.0 ],
+		"rect" : [ 715.0, 49.0, 540.0, 610.0 ],
 		"bglocked" : 0,
-		"defrect" : [ 172.0, 44.0, 1087.0, 646.0 ],
+		"defrect" : [ 715.0, 49.0, 540.0, 610.0 ],
 		"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -25,6 +25,302 @@
 		"enablevscroll" : 1,
 		"devicewidth" : 0.0,
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-70",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 330.0, 370.0, 58.0, 23.0 ],
+					"text" : "pipe 500"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-69",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 330.0, 330.0, 20.0, 20.0 ],
+					"varname" : "buttonnx9780599"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-67",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patcher" : 					{
+						"fileversion" : 1,
+						"appversion" : 						{
+							"major" : 5,
+							"minor" : 1,
+							"revision" : 9
+						}
+,
+						"rect" : [ 25.0, 69.0, 850.0, 553.0 ],
+						"bglocked" : 0,
+						"defrect" : [ 25.0, 69.0, 850.0, 553.0 ],
+						"openrect" : [ 0.0, 0.0, 0.0, 0.0 ],
+						"openinpresentation" : 0,
+						"default_fontsize" : 12.0,
+						"default_fontface" : 0,
+						"default_fontname" : "Gill Sans",
+						"gridonopen" : 0,
+						"gridsize" : [ 15.0, 15.0 ],
+						"gridsnaponopen" : 0,
+						"toolbarvisible" : 1,
+						"boxanimatetime" : 200,
+						"imprint" : 0,
+						"enablehscroll" : 1,
+						"enablevscroll" : 1,
+						"devicewidth" : 0.0,
+						"boxes" : [ 							{
+								"box" : 								{
+									"fontname" : "Gill Sans",
+									"fontsize" : 12.0,
+									"id" : "obj-2",
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 180.0, 0.0, 150.0, 20.0 ],
+									"text" : "drop a file to get path"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Avenir Medium",
+									"fontsize" : 12.0,
+									"id" : "obj-17",
+									"linecount" : 4,
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 50.0, 120.0, 144.0, 70.0 ],
+									"text" : "\"Macintosh HD:/Library/WebServer/Documents/NEXUS_GIT/nexusUp/\"",
+									"varname" : "messagenx1188012"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Avenir Medium",
+									"fontsize" : 12.0,
+									"id" : "obj-14",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 195.0, 210.0, 120.0, 23.0 ],
+									"text" : "prepend setFilePath"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-13",
+									"maxclass" : "dropfile",
+									"numinlets" : 1,
+									"numoutlets" : 2,
+									"outlettype" : [ "", "" ],
+									"patching_rect" : [ 195.0, 15.0, 171.0, 87.0 ],
+									"types" : [  ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Avenir Medium",
+									"fontsize" : 12.0,
+									"id" : "obj-74",
+									"maxclass" : "flonum",
+									"numinlets" : 1,
+									"numoutlets" : 2,
+									"outlettype" : [ "float", "bang" ],
+									"patching_rect" : [ 444.0, 119.0, 50.0, 23.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Avenir Medium",
+									"fontsize" : 12.0,
+									"id" : "obj-72",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 438.0, 150.0, 100.0, 21.0 ],
+									"text" : "setDial dial_1 $1",
+									"varname" : "messagenx8138740"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Avenir Medium",
+									"fontsize" : 12.0,
+									"id" : "obj-57",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 600.0, 270.0, 141.0, 21.0 ],
+									"text" : "createUDPReceive 7070",
+									"varname" : "messagenx9830064"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Avenir Medium",
+									"fontsize" : 12.0,
+									"id" : "obj-11",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 555.0, 195.0, 78.0, 21.0 ],
+									"text" : "addButton 5",
+									"varname" : "messagenx6238592"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-8",
+									"maxclass" : "button",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "bang" ],
+									"patching_rect" : [ 360.0, 210.0, 20.0, 20.0 ],
+									"varname" : "buttonnx8647269"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"comment" : "",
+									"id" : "obj-66",
+									"maxclass" : "outlet",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 399.599976, 373.0, 25.0, 25.0 ]
+								}
+
+							}
+ ],
+						"lines" : [ 							{
+								"patchline" : 								{
+									"destination" : [ "obj-66", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-11", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-14", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-13", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-17", 1 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-13", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-66", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-14", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-14", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-17", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-66", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-57", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-66", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-72", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-72", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-74", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-66", 0 ],
+									"hidden" : 0,
+									"midpoints" : [  ],
+									"source" : [ "obj-8", 0 ]
+								}
+
+							}
+ ]
+					}
+,
+					"patching_rect" : [ 180.0, 400.0, 69.0, 23.0 ],
+					"saved_object_attributes" : 					{
+						"fontface" : 0,
+						"default_fontsize" : 12.0,
+						"fontsize" : 12.0,
+						"default_fontface" : 0,
+						"fontname" : "Gill Sans",
+						"default_fontname" : "Gill Sans",
+						"globalpatchername" : ""
+					}
+,
+					"text" : "p methods"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Avenir Medium",
 					"fontsize" : 12.0,
@@ -61,8 +357,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 410.0, 360.0, 150.0, 121.0 ],
-					"text" : "nx to make:\nnumber\nfloat\nmessage\ncomment\npanel\nmeter"
+					"patching_rect" : [ 10.0, 380.0, 150.0, 121.0 ],
+					"text" : "nx to make:\nnumber\nfloat\nmessage\ncomment\npanel\nmeter",
+					"varname" : "commentnx7864454"
 				}
 
 			}
@@ -411,49 +708,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 670.0, 370.0, 121.0, 23.0 ],
+					"patching_rect" : [ 180.0, 520.0, 121.0, 23.0 ],
 					"text" : "prepend setElement"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Avenir Medium",
-					"fontsize" : 12.0,
-					"id" : "obj-17",
-					"linecount" : 4,
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 480.0, 180.0, 144.0, 70.0 ],
-					"text" : "\"Macintosh HD:/Library/WebServer/Documents/NEXUS_GIT/nexusUp/\""
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Avenir Medium",
-					"fontsize" : 12.0,
-					"id" : "obj-14",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 610.0, 270.0, 120.0, 23.0 ],
-					"text" : "prepend setFilePath"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-13",
-					"maxclass" : "dropfile",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 650.0, 160.0, 171.0, 87.0 ],
-					"types" : [  ]
 				}
 
 			}
@@ -466,8 +722,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 750.0, 270.0, 53.0, 21.0 ],
-					"text" : "compile"
+					"patching_rect" : [ 270.0, 400.0, 53.0, 21.0 ],
+					"text" : "compile",
+					"varname" : "messagenx8639797"
 				}
 
 			}
@@ -504,49 +761,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1006.0, 332.0, 93.0, 21.0 ],
-					"text" : "generateHTML"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Avenir Medium",
-					"fontsize" : 12.0,
-					"id" : "obj-74",
-					"maxclass" : "flonum",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "float", "bang" ],
-					"patching_rect" : [ 874.0, 179.0, 50.0, 23.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Avenir Medium",
-					"fontsize" : 12.0,
-					"id" : "obj-72",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 868.0, 210.0, 100.0, 21.0 ],
-					"text" : "setDial dial_1 $1"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Avenir Medium",
-					"fontsize" : 12.0,
-					"id" : "obj-57",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 993.0, 252.0, 141.0, 21.0 ],
-					"text" : "createUDPReceive 7070"
+					"patching_rect" : [ 330.0, 400.0, 93.0, 21.0 ],
+					"text" : "generateHTML",
+					"varname" : "messagenx9460315"
 				}
 
 			}
@@ -559,34 +776,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 860.0, 247.0, 86.0, 21.0 ],
-					"text" : "findUIObjects"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Avenir Medium",
-					"fontsize" : 12.0,
-					"id" : "obj-11",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 895.0, 284.0, 78.0, 21.0 ],
-					"text" : "addButton 5"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-8",
-					"maxclass" : "button",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 807.0, 253.0, 20.0, 20.0 ],
-					"varname" : "buttonnx8647269"
+					"patching_rect" : [ 430.0, 400.0, 86.0, 21.0 ],
+					"text" : "findUIObjects",
+					"varname" : "messagenx6273859"
 				}
 
 			}
@@ -598,7 +790,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 789.0, 351.0, 36.0, 23.0 ],
+					"patching_rect" : [ 330.0, 480.0, 36.0, 23.0 ],
 					"text" : "print"
 				}
 
@@ -612,7 +804,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 789.0, 302.0, 85.0, 23.0 ],
+					"patching_rect" : [ 330.0, 440.0, 85.0, 23.0 ],
 					"text" : "js ui_compiler"
 				}
 
@@ -638,7 +830,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 670.0, 330.0, 101.0, 23.0 ],
+					"patching_rect" : [ 180.0, 460.0, 101.0, 23.0 ],
 					"text" : "udpreceive 7475"
 				}
 
@@ -651,7 +843,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 710.0, 410.0, 100.0, 23.0 ],
+					"patching_rect" : [ 200.0, 490.0, 100.0, 23.0 ],
 					"text" : "print incoming"
 				}
 
@@ -680,60 +872,15 @@
 					"destination" : [ "obj-5", 0 ],
 					"hidden" : 0,
 					"midpoints" : [  ],
-					"source" : [ "obj-11", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-14", 0 ],
-					"hidden" : 0,
-					"midpoints" : [  ],
-					"source" : [ "obj-13", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-17", 1 ],
-					"hidden" : 0,
-					"midpoints" : [  ],
-					"source" : [ "obj-13", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-5", 0 ],
-					"hidden" : 0,
-					"midpoints" : [  ],
-					"source" : [ "obj-14", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-5", 0 ],
-					"hidden" : 0,
-					"midpoints" : [  ],
 					"source" : [ "obj-15", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-14", 0 ],
-					"hidden" : 0,
-					"midpoints" : [  ],
-					"source" : [ "obj-17", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
 					"hidden" : 0,
-					"midpoints" : [  ],
+					"midpoints" : [ 189.5, 552.0, 327.5, 552.0, 327.5, 430.0, 339.5, 430.0 ],
 					"source" : [ "obj-29", 0 ]
 				}
 
@@ -761,25 +908,34 @@
 					"destination" : [ "obj-5", 0 ],
 					"hidden" : 0,
 					"midpoints" : [  ],
-					"source" : [ "obj-57", 0 ]
+					"source" : [ "obj-67", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-5", 0 ],
+					"destination" : [ "obj-43", 0 ],
 					"hidden" : 0,
-					"midpoints" : [  ],
-					"source" : [ "obj-72", 0 ]
+					"midpoints" : [ 339.5, 364.5, 439.5, 364.5 ],
+					"source" : [ "obj-69", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-72", 0 ],
+					"destination" : [ "obj-70", 0 ],
 					"hidden" : 0,
 					"midpoints" : [  ],
-					"source" : [ "obj-74", 0 ]
+					"source" : [ "obj-69", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-76", 0 ],
+					"hidden" : 0,
+					"midpoints" : [  ],
+					"source" : [ "obj-70", 0 ]
 				}
 
 			}
@@ -789,15 +945,6 @@
 					"hidden" : 0,
 					"midpoints" : [  ],
 					"source" : [ "obj-76", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-5", 0 ],
-					"hidden" : 0,
-					"midpoints" : [  ],
-					"source" : [ "obj-8", 0 ]
 				}
 
 			}

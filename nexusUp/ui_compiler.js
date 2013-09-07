@@ -25,7 +25,9 @@ var nexusUISupportedObjects = {
 	"float": "number"
 }
 
-var thisfolder;
+var thisfolder = this.patcher.filepath;
+thisfolder = thisfolder.replace(this.patcher.name+".maxpat", "");
+	
 
 
 function findUIObjects()
@@ -108,6 +110,13 @@ function generateHTML()
 	}
 	
 	html += "</body></html>";
+	
+	//adds a few thousand spaces to overwrite any previous extra html in the file
+	for (i=0;i<200;i++) {
+		html += "                                    ";
+	}
+	
+	
 	
 	f = new File(thisfolder+"nexusUp.html", "readwrite");
 	f.writestring(html);

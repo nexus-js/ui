@@ -33,10 +33,18 @@ function message(target, transmitCommand, uiIndex) {
 			stroke();
 			fill();
 			
+			globalAlpha = 0.2;
+			var grd = self.context.createLinearGradient(0,0,0,self.height);
+			grd.addColorStop(0,self.colors.fill);
+			grd.addColorStop(1,self.colors.black);
+			fillStyle=grd;
+			fill();
+			globalAlpha = 1;
+			
 			fillStyle = self.colors.black;
-			textAlign = "left";
-			font = self.height*.9+"px courier";
-			fillText(self.value, 6, self.height/2+self.height/4);
+			textAlign = "center";
+			font = "12px courier";
+			fillText(self.value, self.width/2, self.height/2+4);
 		}
 	}
 

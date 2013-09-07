@@ -20,10 +20,12 @@ function dial(target, transmitCommand, uiIndex) {
 	//define unique attributes
 	this.circle_size = 1;
 	this.dial_position_length = 6;
-	this.lineWidth = 4;
+	//this.lineWidth = 3;
 	if (this.width<101 || this.width<101) {
-		this.accentWidth = this.lineWidth * 1.2;
+	//	this.accentWidth = this.lineWidth * 1.2;
+		this.accentWidth = this.lineWidth * 1;
 	} else {
+	//	this.accentWidth = this.lineWidth * 2;
 		this.accentWidth = this.lineWidth * 2;
 	}
 	this.value = 0.5;
@@ -38,7 +40,7 @@ function dial(target, transmitCommand, uiIndex) {
 
 	function init() {
 	
-		self.circle_size = (Math.min(self.center.x, self.center.y)-5);
+		self.circle_size = (Math.min(self.center.x, self.center.y)-self.lineWidth);
 		self.dial_position_length = self.circle_size+self.lineWidth;
 		
 		if (self.width<101) {
@@ -79,7 +81,6 @@ function dial(target, transmitCommand, uiIndex) {
 				lineWidth = self.accentWidth;
 				arc(self.center.x, self.center.y, self.circle_size , Math.PI* 0.5, dial_position, false);
 				lineTo(self.center.x,self.center.y);
-				//strokeStyle = self.colors.accent;
 				globalAlpha = 0.1;
 				fillStyle = self.colors.accent;
 				fill();

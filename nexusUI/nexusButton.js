@@ -44,7 +44,7 @@ function button(target, transmitCommand, uiIndex) {
 			}
 			
 			beginPath();
-			arc(self.center.x, self.center.y, self.center.x-6, 0, Math.PI*2, true);
+			arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
 			fill();	  
 			stroke();
 			

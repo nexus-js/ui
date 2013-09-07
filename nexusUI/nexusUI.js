@@ -331,7 +331,8 @@ var nxManager = function() {
 		var y1 = ypos;
 		var x2 = wid+x1;
 		var y2 = hgt+y1;
-		var depth = 6;
+		//var depth = 6;
+		var depth = 4;
 		
 		ctx.beginPath();
 		ctx.moveTo(x1+depth, y1); //TOP LEFT
@@ -510,7 +511,7 @@ function getTemplate(self, target, transmitCommand) {
 				};
 	//drawing
 	self.lineWidth = 3;
-	self.padding = 3;
+	self.padding = 2;
 	//self.colors = nx.colors;
 	self.colors = new Object();
 	self.colors.accent = nx.colors.accent;
