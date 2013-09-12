@@ -111,7 +111,13 @@ var nxManager = function() {
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
 			console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
-
+			//window.alert(data);
+			this.iosTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
+			// nexus://hipno/data/1:x:2:y
+			// window.location.href = send_data;
+			// window.location.replace('nexus://hi');
+			//window.location = 'nexus://this/is/goofy';
+			//document.location = 'http://google.com';
 		} else if (this.transmissionProtocol == "android") {
 			
 		} else if (this.transmissionProtocol == "local") {
@@ -153,7 +159,9 @@ var nxManager = function() {
 	
 	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
 	this.iosTransmit = function (command, osc_name, id, data) {
-		
+		var osc_message = "nexus://" + command + "/" + id + "?" + osc_name + "=" + data;
+		console.log("ios Transmit: ", osc_message);
+		window.location.href = osc_message;
 	}
 	
 	//androidTransmit is the function to send osc commands as urls to be captured by the browser.
@@ -547,6 +555,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.oscName = "/"+target;
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
+	self.iosTransmit = nx.iosTransmit;
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
