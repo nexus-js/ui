@@ -109,6 +109,7 @@ var nxManager = function() {
 			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
+			console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
 			//window.alert(data);
 			this.iosTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);

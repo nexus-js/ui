@@ -63,13 +63,20 @@ function createUDPReceive(port)
 
 function setElement(oscName, oscVal)
 {
-	outlet(0, oscVal);
+//	outlet(0, oscVal);
 	oscName = oscName.replace("/","");
 	var elemToSet = this.patcher.getnamed(oscName);
 	if (elemToSet)
 	{
 		elemToSet.message("int",oscVal*128);
 	}
+/*	switch (elemToSet) {
+		case 
+		
+	}
+	{
+		elemToSet.message("int",oscVal*128);
+	} */
 }
 
 function setFilePath(fpath) {

@@ -47,7 +47,7 @@ function number(target, transmitCommand, uiIndex) {
 		if (self.clicked) {
 			self.value += self.deltaMove.y*-1;
 			self.draw();
-			self.nxTransmit(self.scaleNode());
+			self.nxTransmit(self.value);
 		}
 	}
 	
@@ -87,7 +87,7 @@ function number(target, transmitCommand, uiIndex) {
 			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
 			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
 			self.draw();
-			self.nxTransmit(self.scaleNode());
+			self.nxTransmit(self.value);
 		}
 	}
 	
