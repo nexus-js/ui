@@ -35,8 +35,10 @@ function number(target, transmitCommand, uiIndex) {
 			fillStyle = self.colors.black;
 			textAlign = "left";
 			//font = (self.height)+"px courier";
-			font = self.height*.9+"px courier";
-			fillText(self.value, self.width/6, self.height/2+self.height/4);
+			font = self.height*.6+"px courier";
+      		textBaseline = 'middle';
+		//	fillText(self.value, 10, self.height/2+self.height/4);
+			fillText(self.value, 10, self.height/2-1);
 		}
 	}
 

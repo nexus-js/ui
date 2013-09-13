@@ -13,7 +13,8 @@ function comment(target, transmitCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	this.value = "comment";
+	this.value = "this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. ";
+	this.size = 14;
 	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
@@ -28,11 +29,10 @@ function comment(target, transmitCommand, uiIndex) {
 			
 			fillStyle = self.colors.black;
 			textAlign = "left";
-			font = "20px courier";
-			fillText(self.value, 3, self.height/2+self.height/4);
-			
-			
+			font = self.size+"px Gill Sans";
+		//	fillText(self.value, 3, self.height/2+self.height/4);
 		}
+		nx.wrapText(self.context, self.value, 3, 3+self.size, self.width-6, self.size);
 	}
 
 	this.init();

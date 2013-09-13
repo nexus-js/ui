@@ -13,7 +13,8 @@ function message(target, transmitCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	this.value = "a_message";
+	this.value = "a message";
+	this.size = 13;
 	
 	this.init = function() {
 		self.draw();
@@ -42,10 +43,11 @@ function message(target, transmitCommand, uiIndex) {
 			globalAlpha = 1;
 			
 			fillStyle = self.colors.black;
-			textAlign = "center";
-			font = "12px courier";
-			fillText(self.value, self.width/2, self.height/2+4);
+			textAlign = "left";
+			font = self.size+"px Gill Sans";
+		//	fillText(self.value, self.width/2, self.height/2+4);
 		}
+		nx.wrapText(self.context, self.value, 5, 1+self.size, self.width-6, self.size);
 	}
 
 	this.click = function(e) {

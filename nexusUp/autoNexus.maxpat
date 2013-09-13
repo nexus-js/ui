@@ -3,12 +3,11 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 1,
-			"revision" : 4,
-			"architecture" : "x86"
+			"minor" : 0,
+			"revision" : 8
 		}
 ,
-		"rect" : [ 779.0, 44.0, 540.0, 610.0 ],
+		"rect" : [ -2.0, 47.0, 797.0, 650.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -31,13 +30,79 @@
 				"box" : 				{
 					"fontname" : "Avenir Medium",
 					"fontsize" : 12.0,
+					"id" : "obj-18",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 430.0, 429.0, 65.0, 23.0 ],
+					"text" : "pipe 1000"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-17",
+					"linecount" : 3,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 10.0, 389.0, 161.0, 56.0 ],
+					"presentation" : 1,
+					"presentation_linecount" : 3,
+					"presentation_rect" : [ 339.0, 10.0, 150.0, 56.0 ],
+					"text" : "nexus up test patch. yup, text wraps around and around",
+					"varname" : "commentnx5204138"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-11",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 10.0, 362.0, 101.0, 21.0 ],
+					"presentation" : 1,
+					"presentation_linecount" : 2,
+					"presentation_rect" : [ 342.5, 10.0, 84.0, 37.0 ],
+					"text" : "send a message!",
+					"varname" : "messagenx1619191"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-8",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 531.0, 459.0, 120.0, 21.0 ],
+					"text" : "getMaxpatAsJSON",
+					"varname" : "messagenx6308752"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
 					"id" : "obj-70",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 330.0, 370.0, 58.0, 23.0 ],
-					"text" : "pipe 500"
+					"patching_rect" : [ 330.0, 429.0, 66.0, 23.0 ],
+					"text" : "pipe 2000"
 				}
 
 			}
@@ -48,7 +113,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 330.0, 330.0, 20.0, 20.0 ],
+					"patching_rect" : [ 330.0, 389.0, 20.0, 20.0 ],
 					"varname" : "buttonnx9780599"
 				}
 
@@ -66,9 +131,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 6,
-							"minor" : 1,
-							"revision" : 4,
-							"architecture" : "x86"
+							"minor" : 0,
+							"revision" : 8
 						}
 ,
 						"rect" : [ 25.0, 69.0, 850.0, 553.0 ],
@@ -312,7 +376,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 180.0, 400.0, 69.0, 23.0 ],
+					"patching_rect" : [ 180.0, 459.0, 69.0, 23.0 ],
 					"saved_object_attributes" : 					{
 						"default_fontface" : 0,
 						"default_fontname" : "Gill Sans",
@@ -341,6 +405,8 @@
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 230.0, 240.0, 50.0, 23.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 230.0, 240.0, 50.0, 23.0 ],
 					"varname" : "numbernx6136024"
 				}
 
@@ -356,6 +422,8 @@
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 230.0, 180.0, 111.0, 47.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 230.0, 180.0, 111.0, 47.0 ],
 					"varname" : "numbernx5443238"
 				}
 
@@ -366,12 +434,12 @@
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
 					"id" : "obj-34",
-					"linecount" : 7,
+					"linecount" : 3,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 10.0, 380.0, 150.0, 121.0 ],
-					"text" : "nx to make:\nnumber\nfloat\nmessage\ncomment\npanel\nmeter",
+					"patching_rect" : [ 381.0, 549.0, 150.0, 56.0 ],
+					"text" : "nx objs to make:\npanel\nmeter",
 					"varname" : "commentnx7864454"
 				}
 
@@ -385,7 +453,8 @@
 					"outlettype" : [ "int", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 170.0, 110.0, 196.0, 60.0 ],
-					"presentation_rect" : [ 0.0, 0.0, 168.0, 53.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 170.0, 110.0, 196.0, 60.0 ],
 					"range" : 24,
 					"varname" : "kslidernx3413129"
 				}
@@ -400,13 +469,15 @@
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
 					"patching_rect" : [ 140.0, 170.0, 29.0, 29.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 140.0, 170.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_longname" : "live.toggle[1]",
-							"parameter_shortname" : "live.toggle",
-							"parameter_type" : 2,
+							"parameter_enum" : [ "off", "on" ],
 							"parameter_mmax" : 1.0,
-							"parameter_enum" : [ "off", "on" ]
+							"parameter_type" : 2,
+							"parameter_shortname" : "live.toggle",
+							"parameter_longname" : "live.toggle[1]"
 						}
 
 					}
@@ -424,13 +495,15 @@
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
 					"patching_rect" : [ 110.0, 170.0, 29.0, 29.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 110.0, 170.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_longname" : "live.toggle",
-							"parameter_shortname" : "live.toggle",
-							"parameter_type" : 2,
+							"parameter_enum" : [ "off", "on" ],
 							"parameter_mmax" : 1.0,
-							"parameter_enum" : [ "off", "on" ]
+							"parameter_type" : 2,
+							"parameter_shortname" : "live.toggle",
+							"parameter_longname" : "live.toggle"
 						}
 
 					}
@@ -448,13 +521,15 @@
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
 					"patching_rect" : [ 300.0, 70.0, 29.0, 29.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 300.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_longname" : "live.button[1]",
-							"parameter_shortname" : "live.button",
-							"parameter_type" : 2,
+							"parameter_enum" : [ "off", "on" ],
 							"parameter_mmax" : 1.0,
-							"parameter_enum" : [ "off", "on" ]
+							"parameter_type" : 2,
+							"parameter_shortname" : "live.button",
+							"parameter_longname" : "live.button[1]"
 						}
 
 					}
@@ -472,12 +547,14 @@
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
 					"patching_rect" : [ 110.0, 60.0, 44.0, 47.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 110.0, 60.0, 44.0, 47.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_longname" : "live.dial",
-							"parameter_shortname" : "live.dial",
+							"parameter_unitstyle" : 0,
 							"parameter_type" : 0,
-							"parameter_unitstyle" : 0
+							"parameter_shortname" : "live.dial",
+							"parameter_longname" : "live.dial"
 						}
 
 					}
@@ -495,13 +572,15 @@
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
 					"patching_rect" : [ 270.0, 70.0, 29.0, 29.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 270.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_longname" : "live.button",
-							"parameter_shortname" : "live.button",
-							"parameter_type" : 2,
+							"parameter_enum" : [ "off", "on" ],
 							"parameter_mmax" : 1.0,
-							"parameter_enum" : [ "off", "on" ]
+							"parameter_type" : 2,
+							"parameter_shortname" : "live.button",
+							"parameter_longname" : "live.button"
 						}
 
 					}
@@ -519,12 +598,14 @@
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
 					"patching_rect" : [ 180.0, 210.0, 41.0, 136.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 180.0, 210.0, 41.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_longname" : "live.slider",
-							"parameter_shortname" : "live.slider",
+							"parameter_unitstyle" : 0,
 							"parameter_type" : 0,
-							"parameter_unitstyle" : 0
+							"parameter_shortname" : "live.slider",
+							"parameter_longname" : "live.slider"
 						}
 
 					}
@@ -542,6 +623,8 @@
 					"outlettype" : [ "signal", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 140.0, 210.0, 32.0, 71.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 140.0, 210.0, 32.0, 71.0 ],
 					"varname" : "slidernx7163601"
 				}
 
@@ -555,6 +638,8 @@
 					"outlettype" : [ "signal", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 110.0, 210.0, 20.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 110.0, 210.0, 20.0, 140.0 ],
 					"varname" : "slidernx2325291"
 				}
 
@@ -568,6 +653,8 @@
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 60.0, 210.0, 22.0, 77.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 60.0, 210.0, 22.0, 77.0 ],
 					"varname" : "slider2"
 				}
 
@@ -581,6 +668,8 @@
 					"outlettype" : [ "" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 10.0, 210.0, 41.0, 140.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 10.0, 210.0, 41.0, 140.0 ],
 					"varname" : "slider1"
 				}
 
@@ -594,6 +683,8 @@
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 110.0, 110.0, 59.0, 59.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 110.0, 110.0, 59.0, 59.0 ],
 					"varname" : "toggle2"
 				}
 
@@ -607,6 +698,8 @@
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 10.0, 110.0, 95.0, 95.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 10.0, 110.0, 95.0, 95.0 ],
 					"varname" : "toggle1"
 				}
 
@@ -620,6 +713,8 @@
 					"outlettype" : [ "float" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 110.0, 10.0, 49.0, 49.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 110.0, 10.0, 49.0, 49.0 ],
 					"varname" : "dial_small"
 				}
 
@@ -633,7 +728,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 180.0, 520.0, 121.0, 23.0 ],
+					"patching_rect" : [ 180.0, 579.0, 121.0, 23.0 ],
 					"text" : "prepend setElement"
 				}
 
@@ -647,7 +742,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.0, 400.0, 53.0, 21.0 ],
+					"patching_rect" : [ 270.0, 459.0, 53.0, 21.0 ],
 					"text" : "compile",
 					"varname" : "messagenx8639797"
 				}
@@ -661,6 +756,8 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 270.0, 10.0, 58.0, 58.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 270.0, 10.0, 58.0, 58.0 ],
 					"varname" : "button_2"
 				}
 
@@ -674,6 +771,8 @@
 					"outlettype" : [ "float" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 10.0, 10.0, 96.0, 96.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 10.0, 10.0, 96.0, 96.0 ],
 					"varname" : "dial_3"
 				}
 
@@ -687,7 +786,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 330.0, 400.0, 93.0, 21.0 ],
+					"patching_rect" : [ 330.0, 459.0, 93.0, 21.0 ],
 					"text" : "generateHTML",
 					"varname" : "messagenx9460315"
 				}
@@ -702,7 +801,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 430.0, 400.0, 86.0, 21.0 ],
+					"patching_rect" : [ 430.0, 459.0, 86.0, 21.0 ],
 					"text" : "findUIObjects",
 					"varname" : "messagenx6273859"
 				}
@@ -716,7 +815,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 330.0, 480.0, 36.0, 23.0 ],
+					"patching_rect" : [ 330.0, 539.0, 36.0, 23.0 ],
 					"text" : "print"
 				}
 
@@ -730,7 +829,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 330.0, 440.0, 85.0, 23.0 ],
+					"patching_rect" : [ 330.0, 500.0, 85.0, 23.0 ],
 					"saved_object_attributes" : 					{
 						"filename" : "ui_compiler",
 						"parameter_enable" : 0
@@ -748,6 +847,8 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 170.0, 10.0, 96.0, 96.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 170.0, 10.0, 96.0, 96.0 ],
 					"varname" : "dialit"
 				}
 
@@ -761,7 +862,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 180.0, 460.0, 101.0, 23.0 ],
+					"patching_rect" : [ 180.0, 519.0, 101.0, 23.0 ],
 					"text" : "udpreceive 7475"
 				}
 
@@ -774,7 +875,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 200.0, 490.0, 100.0, 23.0 ],
+					"patching_rect" : [ 200.0, 549.0, 100.0, 23.0 ],
 					"text" : "print incoming"
 				}
 
@@ -788,7 +889,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 60.0, 518.0, 100.0, 23.0 ],
+					"patching_rect" : [ 60.0, 577.0, 100.0, 23.0 ],
 					"text" : "udpreceive 7070"
 				}
 
@@ -801,7 +902,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 548.0, 109.0, 23.0 ],
+					"patching_rect" : [ 60.0, 607.0, 109.0, 23.0 ],
 					"text" : "print incomingIOS"
 				}
 
@@ -854,10 +955,19 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-43", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-18", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 189.5, 552.0, 327.5, 552.0, 327.5, 430.0, 339.5, 430.0 ],
+					"midpoints" : [ 189.5, 611.0, 327.5, 611.0, 327.5, 489.0, 339.5, 489.0 ],
 					"source" : [ "obj-29", 0 ]
 				}
 
@@ -891,10 +1001,10 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-43", 0 ],
+					"destination" : [ "obj-18", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 339.5, 364.5, 439.5, 364.5 ],
+					"midpoints" : [ 339.5, 418.5, 439.5, 418.5 ],
 					"source" : [ "obj-69", 0 ]
 				}
 
@@ -904,6 +1014,16 @@
 					"destination" : [ "obj-70", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"source" : [ "obj-69", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 339.5, 410.5, 540.5, 410.5 ],
 					"source" : [ "obj-69", 0 ]
 				}
 
@@ -926,20 +1046,29 @@
 				}
 
 			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-8", 0 ]
+				}
+
+			}
  ],
 		"parameters" : 		{
-			"obj-28" : [ "live.toggle", "live.toggle", 0 ],
-			"obj-24" : [ "live.slider", "live.slider", 0 ],
-			"obj-26" : [ "live.dial", "live.dial", 0 ],
-			"obj-25" : [ "live.button", "live.button", 0 ],
 			"obj-27" : [ "live.button[1]", "live.button", 0 ],
-			"obj-30" : [ "live.toggle[1]", "live.toggle", 0 ]
+			"obj-26" : [ "live.dial", "live.dial", 0 ],
+			"obj-24" : [ "live.slider", "live.slider", 0 ],
+			"obj-25" : [ "live.button", "live.button", 0 ],
+			"obj-30" : [ "live.toggle[1]", "live.toggle", 0 ],
+			"obj-28" : [ "live.toggle", "live.toggle", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
 				"name" : "ui_compiler.js",
-				"bootpath" : "/Users/allison/Sites/NEXUS/nexusUp",
-				"patcherrelativepath" : ".",
+				"bootpath" : "/Library/WebServer/Documents/NEXUS_GIT/nexusUp",
+				"patcherrelativepath" : "",
 				"type" : "TEXT",
 				"implicit" : 1
 			}

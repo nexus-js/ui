@@ -44,7 +44,25 @@ function findUIObjects()
 				if (!current_object.varname) {
 					current_object.varname = nexusUISupportedObjects[current_object.maxclass] + "nx" + Math.floor(Math.random()*10000000);
 				}
-				uiObjects.push(current_object);
+				
+				//uiObjects.push(current_object);
+				
+				for (var i=0; i<patchjson.patcher.boxes.length; i++) {
+			  		if (patchjson.patcher.boxes[i].box.varname==current_object.varname && patchjson.patcher.boxes[i].box.presentation) {
+			  			uiObjects.push(current_object);
+				  	}
+			  	}
+				
+				
+				
+			//	if (current_object.presentation) {
+				//	outlet(0,current_object.presentation);
+				//	debug(current_object.presentation,"current_object.presentation");
+				//	for(var key2 in current_object.presentation) {
+				//		outlet(0,key2);
+				//	}
+				//	outlet(0,"current_object.presentation");
+				//}
 			}
 			
 		}
@@ -95,7 +113,15 @@ function generateHTML()
 	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>                               \
 	<link rel="icon" type="image/png" href="favicon.png" />                                             \
 	<script type="text/javascript" src="../nexusUI/jquery.js"></script>                                 \
-	<script type="text/javascript" src="../CurrentBuild/nexusUI.min.js"></script>                     \                                                                           \
+	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>                                \
+	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>                               \
+	<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>                                \
+	<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>                                \
+	<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>                                \
+	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>                                \
+	<script type="text/javascript" src="../nexusUI/nexusNumber.js"></script>                                \
+	<script type="text/javascript" src="../nexusUI/nexusMessage.js"></script>                                \
+	<script type="text/javascript" src="../nexusUI/nexusComment.js"></script>                     \                                                                           \
 </head>                                                                                               \
 <body>                                                                                                \
 	                                                                                                    \
@@ -104,22 +130,39 @@ function generateHTML()
 		nx.onload = function() {                                                                          \
 			nx.colorize("red");                                                                             \
 			nx.setTransmissionProtocol("ajax");                                                                \
-  			nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");                                                          \
-		}                                                                                                 \
+  			nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");'
+  	for(var i=0;i<uiObjects.length;i++) {
+	  	if (nexusUISupportedObjects[uiObjects[i].maxclass]=="comment" || nexusUISupportedObjects[uiObjects[i].maxclass]=="message") {
+	  	//	html += uiObjects[i].varname+'.value = '+uiObjects[i].text + '; '+uiObjects[i].varname+'.draw();'
+	  		for (var j=0;j<commentlist.length; j++) {
+	  			if (commentlist[j].name==uiObjects[i].varname) {
+	  				html += uiObjects[i].varname+'.value = "'+commentlist[j].text + '"; '+uiObjects[i].varname+'.draw();'
+	  				outlet(0,commentlist[j].text);
+	  			}
+	  		}
+	  	
+	  	//	outlet(0,commentlist[uiObjects[i].varname].text);
+	  	//	outlet(0,commentlist.);
+	  		
+	  	//	outlet(0,"test");
+	  	}
+	}
+  	
+  	html += '}                                                                                                 \
 		                                                                                               \
 	</script>';
 	
-	for(i=0;i<uiObjects.length;i++) 
+	for(var i=0;i<uiObjects.length;i++) 
 	{
 		var canvasString = '<canvas nx="' + nexusUISupportedObjects[uiObjects[i].maxclass] + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ uiObjects[i].rect[1] +'px; left: '+ uiObjects[i].rect[0] +'px;width:'+ (uiObjects[i].rect[2]-uiObjects[i].rect[0]) +'px;height:'+ (uiObjects[i].rect[3]-uiObjects[i].rect[1]) +'px;"></canvas>';
 		html += canvasString;
-		outlet(0, uiObjects[i].varname, uiObjects[i].maxclass, uiObjects[i].rect, uiObjects[i].fgcolor);
+	//	outlet(0, uiObjects[i].varname, uiObjects[i].maxclass, uiObjects[i].rect, uiObjects[i].fgcolor);
 	}
 	
 	html += "</body></html>";
 	
 	//adds a few thousand spaces to overwrite any previous extra html in the file
-	for (i=0;i<200;i++) {
+	for (var i=0;i<200;i++) {
 		html += "                                    ";
 	}
 	
@@ -150,6 +193,57 @@ function addButton(val)
 	{
 		uiObjects[i] = this.patcher.newdefault(200+(i*50), 50, "button", i+1);
 	}
+}
+
+var patchjson;
+var commentlist = new Array();
+
+function getMaxpatAsJSON() {
+	commentlist = new Array();
+    memstr = "";
+    data = "";
+    maxchars = 800;
+    target = this.patcher.filepath;
+    f = new File(target,"read");
+    f.open();
+    if (f.isopen) {
+        while(f.position<f.eof) {
+            memstr+=f.readstring(maxchars);
+        }
+        f.close();
+    } else {
+        post("Error\n");
+    }
+    patchjson = eval("("+memstr+")");
+   // post("Loaded!\n");
+  //  post(patchjson.patcher.boxes[0].box.numinlets);
+  	for (var i=0; i<patchjson.patcher.boxes.length; i++) {
+  		if (patchjson.patcher.boxes[i].box.maxclass=="comment" || patchjson.patcher.boxes[i].box.maxclass=="message") {
+  			patchjson.patcher.boxes[i].box.text = patchjson.patcher.boxes[i].box.text.replace(/\n/g," ");
+	  		commentlist.push({
+	  			"name": patchjson.patcher.boxes[i].box.varname,
+	  			"text": patchjson.patcher.boxes[i].box.text
+	  		});
+	  	}
+  	}
+  	
+  
+}
+
+function debug(obj, name)
+{
+    if (( typeof obj == "number") || (typeof obj == "string") ) {
+        outlet(0,  name +  " :" + obj + "n");
+    } else {
+        for(var k in obj){
+           if (obj[k] && typeof obj[k] == "object")
+            {
+                    myobjectprinter(obj[k], name + "[" + k + "]");
+            } else {
+                    outlet(0, name + "[" + k + "] : " + obj[k] +"n")
+            }
+        }
+    }
 }
 
 
