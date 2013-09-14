@@ -55,7 +55,7 @@ function toggle(target, transmitCommand, uiIndex) {
 				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 				with (this.context) {
 					fillStyle = self.colors.accent;
-					strokeStyle = self.colors.border;
+					strokeStyle = self.colors.accent;
 					stroke();
 					fill();
 					

@@ -87,13 +87,13 @@ function slider(target, transmitCommand, uiIndex) {
 			if (y1<self.padding) {
 				y1=self.padding;
 			} else if (y1>self.height-self.padding-20) {
-				y1=self.height-self.padding-20;
+				y1=self.height-self.padding-10;
 			}
 			globalAlpha = 0.8;
 			
 			beginPath();
-			nx.makeRoundRect(self.context,x1,y1,x2-self.padding,20);
-			fillStyle = self.colors.black;
+			nx.makeRoundRect(self.context,x1,y1,x2-self.padding,10);
+			fillStyle = self.colors.border;
 			fill();
 			strokeStyle = self.colors.white;
 			lineWidth=1;
@@ -102,12 +102,12 @@ function slider(target, transmitCommand, uiIndex) {
 			//knob grips
 			globalAlpha = 1;
 			beginPath();
-			strokeStyle = self.colors.border;
+			strokeStyle = self.colors.accent;
 			lineWidth = 3;
 			moveTo(x1+3,y1+7);
 			lineTo(x2-3,y1+7);
-			moveTo(x1+3,y1+13);
-			lineTo(x2-3,y1+13);
+		//	moveTo(x1+3,y1+13);
+		//	lineTo(x2-3,y1+13);
 			stroke();
 			closePath();
 		} 

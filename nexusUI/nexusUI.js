@@ -314,10 +314,18 @@ var nxManager = function() {
 	 */
 	
 	//replaces Colors
-	this.colors = { 
+/*	this.colors = { 
 			"accent": "#ff5500", 
 			"fill": "#f7f7f7", 
 			"border": "#ccc", 
+			"accentborder": "#aa2200",
+			"black": "#000",
+			"white": "#FFF"
+}; */
+	this.colors = { 
+			"accent": "#ff5500", 
+			"fill": "#f7f7f7", 
+			"border": "#bbb", 
 			"accentborder": "#aa2200",
 			"black": "#000",
 			"white": "#FFF"

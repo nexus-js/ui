@@ -26,6 +26,11 @@ function comment(target, transmitCommand, uiIndex) {
 	this.draw = function() {
 		self.erase();
 		with (self.context) {
+			globalAlpha = 0.6;
+			fillStyle = self.colors.accent;
+			fillRect(0,0,self.width,self.height);
+			globalAlpha = 1;
+			
 			
 			fillStyle = self.colors.black;
 			textAlign = "left";

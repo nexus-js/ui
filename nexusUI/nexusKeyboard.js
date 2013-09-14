@@ -33,6 +33,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 	var white_dis = [[0, 2], [4, 5], [7, 9], [9, 11], [13, 14], [16, 17], [19, 21]];
 	var order = [0, 2, 4, 5, 7, 9, 11, 1, 3, 6, 8, 10];
 	var keys = new Array();
+	self.lineWidth = 1;
 
 	var note_new;
 	var note_old;
@@ -92,7 +93,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 
 						}
 						else {
-							fillStyle = "#AAA";
+							fillStyle = self.colors.accent;
 							fillRect(x, 0, w_width, w_height);
 						}
 
@@ -107,7 +108,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 							fillStyle = self.colors.black;
 						}	
 						else {
-							fillStyle = "#AAA";
+							fillStyle = self.colors.accent;
 						}
 						fillRect(xx, 0, b_width, b_height);	
 					}
@@ -116,7 +117,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 		}
 		with (self.context) {
 			strokeStyle = self.colors.border;
-			lineWidth = 5;
+			lineWidth = 3;
 			strokeRect(0,0,self.width,self.height);
 		}
 	}
