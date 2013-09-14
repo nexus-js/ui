@@ -7,7 +7,7 @@
 			"revision" : 8
 		}
 ,
-		"rect" : [ 564.0, 44.0, 644.0, 660.0 ],
+		"rect" : [ 400.0, 44.0, 424.0, 662.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -27,6 +27,20 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-9",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 10.0, 484.5, 129.0, 21.0 ],
+					"text" : "send a message!"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Avenir Medium",
 					"fontsize" : 12.0,
@@ -520,7 +534,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 300.0, 70.0, 28.0, 36.0 ],
+					"patching_rect" : [ 301.0, 70.0, 31.0, 29.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 300.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
@@ -571,7 +585,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 270.0, 70.0, 28.0, 36.0 ],
+					"patching_rect" : [ 270.0, 70.0, 31.0, 29.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 270.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
@@ -926,6 +940,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-10", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-9", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-11", 0 ]
 				}
 
 			}
