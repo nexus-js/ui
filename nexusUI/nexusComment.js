@@ -26,9 +26,22 @@ function comment(target, transmitCommand, uiIndex) {
 	this.draw = function() {
 		self.erase();
 		with (self.context) {
-			globalAlpha = 0.6;
-			fillStyle = self.colors.accent;
+			globalAlpha = 1;
+			
+			fillStyle = self.colors.fill;
 			fillRect(0,0,self.width,self.height);
+			
+			strokeStyle = self.colors.border;
+			lineWidth = 3;
+		//	strokeRect(0,0,self.width,self.height);
+			
+			beginPath();
+			moveTo(0,self.height);
+			lineTo(self.width,self.height);
+			strokeStyle = self.colors.accent;
+			stroke();
+			closePath();
+		
 			globalAlpha = 1;
 			
 			
@@ -37,7 +50,7 @@ function comment(target, transmitCommand, uiIndex) {
 			font = self.size+"px Gill Sans";
 		//	fillText(self.value, 3, self.height/2+self.height/4);
 		}
-		nx.wrapText(self.context, self.value, 3, 3+self.size, self.width-6, self.size);
+		nx.wrapText(self.context, self.value, 6, 3+self.size, self.width-6, self.size);
 	}
 
 	this.init();
