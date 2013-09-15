@@ -23,7 +23,8 @@ var nexusUISupportedObjects = {
 	"comment": "comment",
 	"panel": "panel",
 	"float": "number",
-	"multislider": "multislider"
+	"multislider": "multislider",
+	"filtergraph~": "position"
 }
 
 var ipAddress = "localhost";
@@ -180,7 +181,7 @@ function generateHTML()
 	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>                                \
 	<script type="text/javascript" src="../nexusUI/nexusNumber.js"></script>                                \
 	<script type="text/javascript" src="../nexusUI/nexusMessage.js"></script>                                \
-	<script type="text/javascript" src="../nexusUI/nexusComment.js"></script> <script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>                     \                                                                           \
+	<script type="text/javascript" src="../nexusUI/nexusComment.js"></script> <script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>  <script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>                     \                                                                           \
 </head>                                                                                               \
 <body>                                                                                                \
 	                                                                                                    \
