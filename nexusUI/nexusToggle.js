@@ -87,9 +87,9 @@ function toggle(target, transmitCommand, uiIndex) {
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
 				if (self.on) {
-					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
+					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {
-					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
+					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
 				}
 			}
 		}
