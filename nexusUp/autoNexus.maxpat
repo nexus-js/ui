@@ -7,7 +7,7 @@
 			"revision" : 8
 		}
 ,
-		"rect" : [ 400.0, 44.0, 424.0, 662.0 ],
+		"rect" : [ 440.0, 44.0, 579.0, 662.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -28,6 +28,22 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-21",
+					"maxclass" : "multislider",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 180.0, 264.5, 216.0, 102.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 180.0, 256.5, 216.0, 102.0 ],
+					"size" : 16,
+					"varname" : "multislidernx9113164"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Avenir Medium",
 					"fontsize" : 12.0,
 					"id" : "obj-9",
@@ -36,7 +52,8 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 10.0, 484.5, 129.0, 21.0 ],
-					"text" : "send a message!"
+					"text" : "send a message!",
+					"varname" : "messagenx5976729"
 				}
 
 			}
@@ -418,7 +435,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 181.910828, 266.5, 50.0, 23.0 ],
+					"patching_rect" : [ 180.0, 232.0, 50.0, 23.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 230.0, 240.0, 50.0, 23.0 ],
 					"varname" : "numbernx6136024"
@@ -435,7 +452,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 181.910828, 210.0, 111.0, 47.0 ],
+					"patching_rect" : [ 180.0, 177.0, 111.0, 47.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 230.0, 180.0, 111.0, 47.0 ],
 					"varname" : "numbernx5443238"
@@ -975,7 +992,6 @@
 					"destination" : [ "obj-5", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 189.5, 611.0, 327.5, 611.0, 327.5, 489.0, 339.5, 489.0 ],
 					"source" : [ "obj-29", 0 ]
 				}
 

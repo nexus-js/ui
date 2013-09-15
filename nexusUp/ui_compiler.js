@@ -22,7 +22,8 @@ var nexusUISupportedObjects = {
 	"message": "message",
 	"comment": "comment",
 	"panel": "panel",
-	"float": "number"
+	"float": "number",
+	"multislider": "multislider"
 }
 
 var thisfolder = this.patcher.filepath;
@@ -104,17 +105,32 @@ function setElement(oscName, oscVal)
 			break;
 		case "toggle":
 			elemToSet.message("int", parseInt(oscVal));
-		//	outlet(0, oscVal);
-			
 			break;
 		case "keyboard":
-		//	elemToSet.message("int",oscVal*128);
+			oscVal = oscVal.split(" ");
+			if (oscVal[1]==1) {
+				elemToSet.message("int",parseInt(oscVal[0])+36);
+			} else {
+				elemToSet.message("string", "clear");
+			}
 			break;
 		case "message":
 			elemToSet.message("bang");
 			break;
 		case "number":
 			elemToSet.message("int",parseInt(oscVal));
+			break;
+		case "multislider":
+		//	oscVal = oscVal.replace(/\,/g," ");
+			oscVal = oscVal.split(",");
+			var evstr = 'elemToSet.message("list",'+oscVal[0];
+			for (var i=1;i<oscVal.length;i++) {
+				evstr += ','+oscVal[i];
+			}
+			evstr += ');';
+			eval(evstr);
+			//elemToSet.message("list", oscVal);
+		//	outlet(0,oscVal);
 			break;
 		
 	}
@@ -146,7 +162,7 @@ function generateHTML()
 	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>                                \
 	<script type="text/javascript" src="../nexusUI/nexusNumber.js"></script>                                \
 	<script type="text/javascript" src="../nexusUI/nexusMessage.js"></script>                                \
-	<script type="text/javascript" src="../nexusUI/nexusComment.js"></script>                     \                                                                           \
+	<script type="text/javascript" src="../nexusUI/nexusComment.js"></script> <script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>                     \                                                                           \
 </head>                                                                                               \
 <body>                                                                                                \
 	                                                                                                    \
