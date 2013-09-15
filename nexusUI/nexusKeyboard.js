@@ -182,7 +182,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 		
 		// change the note_new --> midi_note_new (offset)
 		var note = [midi_note, 1];
+		note = note[0] + " " + note[1]
 		self.nxTransmit(note);
+		console.log(note);
 		self.draw();	
 	}
 
@@ -193,9 +195,11 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.nxTransmit([midi_note, 1]);
+				self.nxTransmit(midi_note+" "+1);
+			//	self.nxTransmit([midi_note, 1]);
 				midi_note = keys[note_old][5];
-				self.nxTransmit([midi_note, 0]);
+			//	self.nxTransmit([midi_note, 0]);
+				self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
 		}
@@ -210,10 +214,10 @@ function keyboard(target, transmitCommand, uiIndex) {
 			}
 		}
 		midi_note = keys[note_new][5];
-		self.nxTransmit([midi_note, 0]);
+	//	self.nxTransmit([midi_note, 0]);
+		self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
-	
 	
 	this.touch = function(e) {
 		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
@@ -223,7 +227,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.nxTransmit([midi_note, 1]);
+		//self.nxTransmit([midi_note, 1]);
+		self.nxTransmit(midi_note+" "+1);
 		self.draw();
 	}
 
@@ -236,9 +241,11 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.nxTransmit([midi_note, 1]);
+				//self.nxTransmit([midi_note, 1]);
+				self.nxTransmit(midi_note+" "+1);
 				midi_note = keys[note_old][5];
-				self.nxTransmit([midi_note, 0]);
+				//self.nxTransmit([midi_note, 0]);
+				self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
 		}
@@ -253,26 +260,29 @@ function keyboard(target, transmitCommand, uiIndex) {
 			}
 		}
 		midi_note = keys[note_new][5];
-		self.nxTransmit([midi_note, 0]);
+		//self.nxTransmit([midi_note, 0]);
+		self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
 	
 	this.type = function(e) {
 		var currKey = e.which;
 		if (e.which>47 && e.which<91) {
-			var asciis = [  81,50,87,51,69,82,53,84,54,89,55,85];
+			var asciis = [81,50,87,51,69,82,53,84,54,89,55,85];
 			var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
 			var keyAsciiIndex = asciis.indexOf(currKey);
-			note_new = keyIndex[keyAsciiIndex];
-			console.log(note_new);
-			self.change_cell(note_new, 1);
-			note_old = note_new;
-			
-			midi_note = keys[note_new][5];
-			
-			// change the note_new --> midi_note_new (offset)
-			self.nxTransmit(midi_note);
-			self.draw();	
+			if (keyAsciiIndex!=-1) {
+				note_new = keyIndex[keyAsciiIndex];
+				self.change_cell(note_new, 1);
+				note_old = note_new;
+				
+				midi_note = keys[note_new][5];
+				
+				// change the note_new --> midi_note_new (offset)
+			//	self.nxTransmit(midi_note);
+				self.nxTransmit(midi_note+" "+1);
+				self.draw();	
+			}
 		}
 	}
 	
@@ -282,14 +292,17 @@ function keyboard(target, transmitCommand, uiIndex) {
 			var asciis = [  81,50,87,51,69,82,53,84,54,89,55,85];
 			var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
 			var keyAsciiIndex = asciis.indexOf(currKey);
-			note_old = keyIndex[keyAsciiIndex];
-			self.change_cell(note_old, 0);
-			
-			midi_note = keys[note_new][5];
-			
-			// change the note_new --> midi_note_new (offset)
-			self.nxTransmit(midi_note);
-			self.draw();
+			if (keyAsciiIndex!=-1) {
+				note_old = keyIndex[keyAsciiIndex];
+				self.change_cell(note_old, 0);
+				
+				midi_note = keys[note_new][5];
+				
+				// change the note_new --> midi_note_new (offset)
+			//	self.nxTransmit(midi_note);
+				self.nxTransmit(midi_note+" "+0);
+				self.draw();
+			}
 		}	
 	}
 	

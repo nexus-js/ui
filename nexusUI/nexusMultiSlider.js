@@ -99,7 +99,8 @@ function multislider(target, transmitCommand, uiIndex) {
 			self.draw();
 		}
 		//FIXME: how to send multiple values?
-		self.nxTransmit(self.values);
+		self.valuesAsString = self.values.join();
+		self.nxTransmit(self.valuesAsString);
 	}
 	
 

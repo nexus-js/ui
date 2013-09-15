@@ -462,13 +462,13 @@ var nxManager = function() {
 	
 }
 
-/* Modifies Object prototype to allow us to get the constructor function name programatically */
+/* Modifies Object prototype to allow us to get the constructor function name programatically
 
 Object.prototype.getName = function() { 
    var funcNameRegex = /function (.{1,})\(/;
    var results = (funcNameRegex).exec((this).constructor.toString());
    return (results && results.length > 1) ? results[1] : "";
-};
+};*/
 	
 
 
@@ -524,7 +524,7 @@ $(document).ready(function() {
 *****************************/
 
 function getTemplate(self, target, transmitCommand) {
-	self.nxtype = self.getName();
+//	self.nxtype = self.getName();
 	//canvas
 	self.canvasID = target;
 	self.canvas = document.getElementById(target);
