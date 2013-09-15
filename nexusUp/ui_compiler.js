@@ -26,6 +26,9 @@ var nexusUISupportedObjects = {
 	"multislider": "multislider"
 }
 
+var ipAddress = "localhost";
+var serverAddress = "Macintosh HD:/Users/allison/Sites/";
+
 var thisfolder = this.patcher.filepath;
 thisfolder = thisfolder.replace(this.patcher.name+".maxpat", "");
 	
@@ -78,6 +81,21 @@ function createUDPReceive(port)
 	var receiver = this.patcher.newdefault(50, 10, "udpreceive", port);
 	var printer = this.patcher.newdefault(50, 40, "print", "incoming");
 	this.patcher.connect(receiver, 0, printer, 0);
+}
+
+function ip(ipAddr) 
+{
+	ipAddress = ipAddr;
+}
+
+function getQRCode()
+{
+	post(thisfolder);
+	var address = thisfolder.replace(serverAddress, "http%3A%2F%2F" + ipAddress + "/");
+	address = address.replace(/\//g, "%2F");
+	address = "http://qrfree.kaywa.com/?l=1&s=8&d=" + address +"nexusUp.html alt=QRCode/";
+	outlet(0, "qr", address);
+	
 }
 
 function setElement(oscName, oscVal)
@@ -172,6 +190,7 @@ function generateHTML()
 			nx.colorize("#0cf");                                                                             \
 			nx.setTransmissionProtocol("ajax");                                                                \
   			nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");'
+	html += 'urlIPAddress = "' + ipAddress + '";'
   	for(var i=0;i<uiObjects.length;i++) {
 	  	if (nexusUISupportedObjects[uiObjects[i].maxclass]=="comment" || nexusUISupportedObjects[uiObjects[i].maxclass]=="message") {
 	  	//	html += uiObjects[i].varname+'.value = '+uiObjects[i].text + '; '+uiObjects[i].varname+'.draw();'
