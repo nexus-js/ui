@@ -3,11 +3,12 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 8
+			"minor" : 1,
+			"revision" : 4,
+			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 400.0, 44.0, 424.0, 662.0 ],
+		"rect" : [ 468.0, 44.0, 1080.0, 798.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -29,14 +30,264 @@
 		"boxes" : [ 			{
 				"box" : 				{
 					"fontname" : "Avenir Medium",
+					"fontsize" : 18.0,
+					"frgb" : 0.0,
+					"id" : "obj-71",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 606.0, 55.5, 248.0, 56.0 ],
+					"presentation_rect" : [ 731.0, 73.0, 0.0, 0.0 ],
+					"text" : "3) Generated QR Code should load from kaywa.com"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 18.0,
+					"frgb" : 0.0,
+					"id" : "obj-68",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 662.0, 737.0, 221.0, 31.0 ],
+					"presentation_rect" : [ 662.0, 734.0, 0.0, 0.0 ],
+					"text" : "2) Get QR Code"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 18.0,
+					"frgb" : 0.0,
+					"id" : "obj-66",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 531.0, 549.0, 221.0, 31.0 ],
+					"text" : "1) Select your IP Address"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
 					"fontsize" : 12.0,
-					"id" : "obj-9",
+					"frgb" : 0.0,
+					"id" : "obj-64",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 580.0, 27.5, 323.0, 23.0 ],
+					"text" : "Messy Hack until we make a Max QR Code Generator."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-58",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 651.0, 481.5, 75.0, 23.0 ],
+					"text" : "fromsymbol"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-57",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 651.0, 508.5, 74.0, 23.0 ],
+					"text" : "prepend url"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-56",
+					"linecount" : 3,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 10.0, 484.5, 129.0, 21.0 ],
-					"text" : "send a message!"
+					"patching_rect" : [ 707.0, 413.5, 363.0, 54.0 ],
+					"text" : "\"http://qrfree.kaywa.com/?l=1&s=8&d=http%3A%2F%2F192.168.20.107%2FNEXUS%2FnexusUp%2FnexusUp.html alt=QRCode/\"",
+					"varname" : "messagenx9626595"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-53",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 651.0, 444.5, 55.0, 23.0 ],
+					"text" : "route qr"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-50",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 568.0, 747.0, 76.0, 21.0 ],
+					"text" : "getQRCode",
+					"varname" : "messagenx9160921"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-46",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 580.0, 705.0, 70.0, 23.0 ],
+					"text" : "prepend ip"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-38",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 647.0, 679.0, 104.0, 20.0 ],
+					"text" : "IP addresses",
+					"varname" : "commentnx1473790"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-14",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 707.0, 640.0, 131.0, 20.0 ],
+					"text" : "network interfaces",
+					"varname" : "commentnx9612855"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-40",
+					"items" : [ "fe80:0:0:0:22c9:d0ff:fe49:609%4", ",", "192.168.20.107" ],
+					"labelclick" : 1,
+					"maxclass" : "umenu",
+					"numinlets" : 1,
+					"numoutlets" : 3,
+					"outlettype" : [ "int", "", "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 535.0, 678.0, 109.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-41",
+					"items" : [ "en0", ",", "lo0" ],
+					"labelclick" : 1,
+					"maxclass" : "umenu",
+					"numinlets" : 1,
+					"numoutlets" : 3,
+					"outlettype" : [ "int", "", "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 603.0, 642.0, 100.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-42",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"patching_rect" : [ 535.0, 579.0, 20.0, 20.0 ],
+					"varname" : "buttonnx7424983"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-44",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 535.0, 614.0, 87.0, 20.0 ],
+					"text" : "mxj net.local"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-45",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 555.0, 579.0, 393.0, 20.0 ],
+					"text" : "bang here to get the interface + IP information for this computer",
+					"varname" : "commentnx4880303"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"color" : [ 1.0, 1.0, 1.0, 1.0 ],
+					"fontname" : "Avenir Medium",
+					"fontsize" : 12.0,
+					"id" : "obj-13",
+					"maxclass" : "jweb",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 580.0, 110.0, 280.0, 280.0 ],
+					"url" : "http://qrfree.kaywa.com/?l=1&s=8&d=http%3A%2F%2F192.168.20.107%2FNEXUS%2FnexusUp%2FnexusUp.html"
 				}
 
 			}
@@ -145,8 +396,9 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 6,
-							"minor" : 0,
-							"revision" : 8
+							"minor" : 1,
+							"revision" : 4,
+							"architecture" : "x86"
 						}
 ,
 						"rect" : [ 25.0, 69.0, 850.0, 553.0 ],
@@ -487,11 +739,11 @@
 					"presentation_rect" : [ 140.0, 170.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.toggle[1]",
 							"parameter_shortname" : "live.toggle",
-							"parameter_longname" : "live.toggle[1]"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -513,11 +765,11 @@
 					"presentation_rect" : [ 110.0, 170.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.toggle",
 							"parameter_shortname" : "live.toggle",
-							"parameter_longname" : "live.toggle"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -534,16 +786,16 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 301.0, 70.0, 31.0, 29.0 ],
+					"patching_rect" : [ 300.0, 70.0, 28.0, 36.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 300.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.button[1]",
 							"parameter_shortname" : "live.button",
-							"parameter_longname" : "live.button[1]"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -565,10 +817,10 @@
 					"presentation_rect" : [ 110.0, 60.0, 44.0, 47.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_unitstyle" : 0,
-							"parameter_type" : 0,
+							"parameter_longname" : "live.dial",
 							"parameter_shortname" : "live.dial",
-							"parameter_longname" : "live.dial"
+							"parameter_type" : 0,
+							"parameter_unitstyle" : 0
 						}
 
 					}
@@ -585,16 +837,16 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 270.0, 70.0, 31.0, 29.0 ],
+					"patching_rect" : [ 270.0, 70.0, 28.0, 36.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 270.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.button",
 							"parameter_shortname" : "live.button",
-							"parameter_longname" : "live.button"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -616,10 +868,10 @@
 					"presentation_rect" : [ 180.0, 210.0, 41.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_unitstyle" : 0,
-							"parameter_type" : 0,
+							"parameter_longname" : "live.slider",
 							"parameter_shortname" : "live.slider",
-							"parameter_longname" : "live.slider"
+							"parameter_type" : 0,
+							"parameter_unitstyle" : 0
 						}
 
 					}
@@ -906,6 +1158,17 @@
 				}
 
 			}
+, 			{
+				"box" : 				{
+					"bgcolor" : [ 0.382953, 0.666667, 0.655416, 1.0 ],
+					"id" : "obj-72",
+					"maxclass" : "panel",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 531.0, 10.0, 535.0, 776.0 ]
+				}
+
+			}
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
@@ -945,15 +1208,6 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-9", 1 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-11", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -982,6 +1236,34 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-46", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-40", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-44", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"midpoints" : [ 653.0, 669.0, 846.0, 669.0, 846.0, 607.0, 544.5, 607.0 ],
+					"source" : [ "obj-41", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-44", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-42", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-5", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -991,10 +1273,100 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-40", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-44", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-41", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-44", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-46", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-53", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-5", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-6", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-5", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-5", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-50", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-56", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-53", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-58", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-53", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-58", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-56", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-13", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-57", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-57", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-58", 0 ]
 				}
 
 			}
@@ -1065,18 +1437,18 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-30" : [ "live.toggle[1]", "live.toggle", 0 ],
-			"obj-27" : [ "live.button[1]", "live.button", 0 ],
 			"obj-26" : [ "live.dial", "live.dial", 0 ],
-			"obj-25" : [ "live.button", "live.button", 0 ],
 			"obj-24" : [ "live.slider", "live.slider", 0 ],
+			"obj-30" : [ "live.toggle[1]", "live.toggle", 0 ],
+			"obj-25" : [ "live.button", "live.button", 0 ],
+			"obj-27" : [ "live.button[1]", "live.button", 0 ],
 			"obj-28" : [ "live.toggle", "live.toggle", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
 				"name" : "ui_compiler.js",
-				"bootpath" : "/Library/WebServer/Documents/NEXUS_GIT/nexusUp",
-				"patcherrelativepath" : "",
+				"bootpath" : "/Users/allison/Sites/NEXUS/nexusUp",
+				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
