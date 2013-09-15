@@ -8,7 +8,7 @@
 			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 468.0, 44.0, 1080.0, 798.0 ],
+		"rect" : [ 502.0, 55.0, 1080.0, 798.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -39,7 +39,8 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 606.0, 55.5, 248.0, 56.0 ],
 					"presentation_rect" : [ 731.0, 73.0, 0.0, 0.0 ],
-					"text" : "3) Generated QR Code should load from kaywa.com"
+					"text" : "3) Generated QR Code should load from kaywa.com",
+					"varname" : "commentnx5523134"
 				}
 
 			}
@@ -54,7 +55,8 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 662.0, 737.0, 221.0, 31.0 ],
 					"presentation_rect" : [ 662.0, 734.0, 0.0, 0.0 ],
-					"text" : "2) Get QR Code"
+					"text" : "2) Get QR Code",
+					"varname" : "commentnx398747"
 				}
 
 			}
@@ -68,7 +70,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 531.0, 549.0, 221.0, 31.0 ],
-					"text" : "1) Select your IP Address"
+					"text" : "1) Select your IP Address",
+					"varname" : "commentnx192371"
 				}
 
 			}
@@ -82,7 +85,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 580.0, 27.5, 323.0, 23.0 ],
-					"text" : "Messy Hack until we make a Max QR Code Generator."
+					"text" : "Messy Hack until we make a Max QR Code Generator.",
+					"varname" : "commentnx2487715"
 				}
 
 			}
@@ -1165,7 +1169,8 @@
 					"maxclass" : "panel",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 531.0, 10.0, 535.0, 776.0 ]
+					"patching_rect" : [ 531.0, 10.0, 535.0, 776.0 ],
+					"varname" : "panelnx5418868"
 				}
 
 			}

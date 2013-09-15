@@ -174,6 +174,7 @@ function generateHTML()
 			nx.colorize("#0cf");                                                                             \
 			nx.setTransmissionProtocol("ajax");                                                                \
   			nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");'
+	html += 'urlIPAddress = "' + ipAddress + '";'
   	for(var i=0;i<uiObjects.length;i++) {
 	  	if (nexusUISupportedObjects[uiObjects[i].maxclass]=="comment" || nexusUISupportedObjects[uiObjects[i].maxclass]=="message") {
 	  	//	html += uiObjects[i].varname+'.value = '+uiObjects[i].text + '; '+uiObjects[i].varname+'.draw();'
