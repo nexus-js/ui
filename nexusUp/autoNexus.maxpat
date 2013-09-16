@@ -3,11 +3,12 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 8
+			"minor" : 1,
+			"revision" : 4,
+			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 182.0, 44.0, 1047.0, 637.0 ],
+		"rect" : [ 464.0, 70.0, 1047.0, 637.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,7 +38,7 @@
 					"patching_rect" : [ 180.0, 264.5, 216.0, 102.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 180.0, 256.5, 216.0, 102.0 ],
-					"size" : 32,
+					"size" : 15,
 					"varname" : "multislidernx9113164"
 				}
 
@@ -142,7 +143,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 707.0, 413.5, 363.0, 54.0 ],
-					"text" : "\"http://qrfree.kaywa.com/?l=1&s=8&d=Macintosh HD:%2FLibrary%2FWebServer%2FDocuments%2FNEXUS_GIT%2FnexusUp%2FnexusUp.html alt=QRCode/\"",
+					"text" : "\"http://qrfree.kaywa.com/?l=1&s=8&d=http%3A%2F%2F173.253.233.202%2FNEXUS%2FnexusUp%2FnexusUp.html alt=QRCode/\"",
 					"varname" : "messagenx9626595"
 				}
 
@@ -225,7 +226,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-40",
-					"items" : [ "fe80:0:0:0:22c9:d0ff:feb8:364f%5", ",", "192.168.0.15" ],
+					"items" : [ "fe80:0:0:0:22c9:d0ff:fe49:609%4", ",", "173.253.233.202" ],
 					"labelclick" : 1,
 					"maxclass" : "umenu",
 					"numinlets" : 1,
@@ -241,7 +242,7 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-41",
-					"items" : [ "en1", ",", "lo0" ],
+					"items" : [ "en0", ",", "lo0" ],
 					"labelclick" : 1,
 					"maxclass" : "umenu",
 					"numinlets" : 1,
@@ -304,7 +305,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 580.0, 110.0, 280.0, 280.0 ],
-					"url" : "http://qrfree.kaywa.com/?l=1&s=8&d=Macintosh"
+					"url" : "http://qrfree.kaywa.com/?l=1&s=8&d=http%3A%2F%2F173.253.233.202%2FNEXUS%2FnexusUp%2FnexusUp.html"
 				}
 
 			}
@@ -413,8 +414,9 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 6,
-							"minor" : 0,
-							"revision" : 8
+							"minor" : 1,
+							"revision" : 4,
+							"architecture" : "x86"
 						}
 ,
 						"rect" : [ 25.0, 69.0, 850.0, 553.0 ],
@@ -755,11 +757,11 @@
 					"presentation_rect" : [ 140.0, 170.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.toggle[1]",
 							"parameter_shortname" : "live.toggle",
-							"parameter_longname" : "live.toggle[1]"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -781,11 +783,11 @@
 					"presentation_rect" : [ 110.0, 170.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.toggle",
 							"parameter_shortname" : "live.toggle",
-							"parameter_longname" : "live.toggle"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -807,11 +809,11 @@
 					"presentation_rect" : [ 300.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.button[1]",
 							"parameter_shortname" : "live.button",
-							"parameter_longname" : "live.button[1]"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -833,10 +835,10 @@
 					"presentation_rect" : [ 110.0, 60.0, 44.0, 47.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_unitstyle" : 0,
-							"parameter_type" : 0,
+							"parameter_longname" : "live.dial",
 							"parameter_shortname" : "live.dial",
-							"parameter_longname" : "live.dial"
+							"parameter_type" : 0,
+							"parameter_unitstyle" : 0
 						}
 
 					}
@@ -858,11 +860,11 @@
 					"presentation_rect" : [ 270.0, 70.0, 29.0, 29.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_enum" : [ "off", "on" ],
-							"parameter_mmax" : 1.0,
-							"parameter_type" : 2,
+							"parameter_longname" : "live.button",
 							"parameter_shortname" : "live.button",
-							"parameter_longname" : "live.button"
+							"parameter_type" : 2,
+							"parameter_mmax" : 1.0,
+							"parameter_enum" : [ "off", "on" ]
 						}
 
 					}
@@ -884,10 +886,10 @@
 					"presentation_rect" : [ 180.0, 210.0, 41.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_unitstyle" : 0,
-							"parameter_type" : 0,
+							"parameter_longname" : "live.slider",
 							"parameter_shortname" : "live.slider",
-							"parameter_longname" : "live.slider"
+							"parameter_type" : 0,
+							"parameter_unitstyle" : 0
 						}
 
 					}
@@ -1454,18 +1456,18 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-30" : [ "live.toggle[1]", "live.toggle", 0 ],
-			"obj-26" : [ "live.dial", "live.dial", 0 ],
-			"obj-27" : [ "live.button[1]", "live.button", 0 ],
 			"obj-25" : [ "live.button", "live.button", 0 ],
 			"obj-24" : [ "live.slider", "live.slider", 0 ],
-			"obj-28" : [ "live.toggle", "live.toggle", 0 ]
+			"obj-27" : [ "live.button[1]", "live.button", 0 ],
+			"obj-28" : [ "live.toggle", "live.toggle", 0 ],
+			"obj-30" : [ "live.toggle[1]", "live.toggle", 0 ],
+			"obj-26" : [ "live.dial", "live.dial", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
 				"name" : "ui_compiler.js",
-				"bootpath" : "/Library/WebServer/Documents/NEXUS_GIT/nexusUp",
-				"patcherrelativepath" : "",
+				"bootpath" : "/Users/allison/Sites/NEXUS/nexusUp",
+				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
 			}

@@ -188,7 +188,7 @@ function generateHTML()
 		                                                                                                  \
 		nx.onload = function() {                                                                          \
 			nx.colorize("#0cf");                                                                             \
-			nx.setTransmissionProtocol("ajax");                                                                \
+			nx.setTransmissionProtocol("ios");                                                                \
   			nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");'
 	html += 'urlIPAddress = "' + ipAddress + '";'
   	for(var i=0;i<uiObjects.length;i++) {
