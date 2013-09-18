@@ -108,8 +108,12 @@ var nxManager = function() {
 			// transmitCommand is the ajax url to send to, oscName is the osc call, uiIndex is used if you have multiple buttons/dials/etc, data is data
 			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
+			if (Array.isArray(data)) {
+				data = data.join();
+				data.replace(/\,/g," ");
+			}
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
-			console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
+		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
 			//window.alert(data);
 			this.iosTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);

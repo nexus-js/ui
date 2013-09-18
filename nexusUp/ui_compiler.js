@@ -24,7 +24,8 @@ var nexusUISupportedObjects = {
 	"panel": "panel",
 	"float": "number",
 	"multislider": "multislider",
-	"filtergraph~": "position"
+	"filtergraph~": "position", 
+	"nodes": "tilt"
 }
 
 var ipAddress = "localhost";
@@ -151,6 +152,10 @@ function setElement(oscName, oscVal)
 			//elemToSet.message("list", oscVal);
 		//	outlet(0,oscVal);
 			break;
+		case "tilt":
+			oscVal = oscVal.split(",");
+			elemToSet.message("list",oscVal[0],oscVal[1]);
+			break;
 		
 	}
 	
@@ -189,7 +194,7 @@ function generateHTML()
 	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>                                \
 	<script type="text/javascript" src="../nexusUI/nexusNumber.js"></script>                                \
 	<script type="text/javascript" src="../nexusUI/nexusMessage.js"></script>                                \
-	<script type="text/javascript" src="../nexusUI/nexusComment.js"></script> <script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>  <script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>                     \                                                                           \
+	<script type="text/javascript" src="../nexusUI/nexusComment.js"></script> <script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>  <script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>   <script type="text/javascript" src="../nexusUI/nexusTilt.js"></script>                     \                                                                           \
 </head>                                                                                               \
 <body>                                                                                                \
 	                                                                                                    \
