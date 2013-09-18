@@ -105,7 +105,7 @@ function setElement(oscName, oscVal)
 //	outlet(0, oscVal);
 	oscName = oscName.replace("/","");
 	var elemToSet = this.patcher.getnamed(oscName);
-	var elemType = nexusUISupportedObjects[elemToSet.maxclass]
+	var elemType = nexusUISupportedObjects[elemToSet.maxclass];
 	//outlet(0, elemToSet.maxclass);
 /*	if (elemType==)
 	{
@@ -250,7 +250,7 @@ function generateHTML()
 	
 	
 	
-	f = new File(thisfolder+"nexusUp.html", "readwrite");
+	f = new File(thisfolder+this.patcher.name+".html", "readwrite");
 	f.writestring(html);
 	f.close;
 }
