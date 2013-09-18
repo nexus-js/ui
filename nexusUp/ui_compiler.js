@@ -163,6 +163,14 @@ function setFilePath(fpath) {
 	
 }
 
+var transmitProtocol = "ajax";
+
+function setTransmitProtocol(protocol) {
+	
+	transmitProtocol = protocol.toString();
+	
+}
+
 function generateHTML()
 {
 	var html = '<!doctype html>                                                                      \
@@ -189,7 +197,7 @@ function generateHTML()
 		                                                                                                  \
 		nx.onload = function() {                                                                          \
 			nx.colorize("#0cf");                                                                             \
-			nx.setTransmissionProtocol("ios");                                                                \
+			nx.setTransmissionProtocol("'+transmitProtocol+'");                                                                \
   			nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");'
 	html += 'urlIPAddress = "' + ipAddress + '";'
   	for(var i=0;i<uiObjects.length;i++) {
