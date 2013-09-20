@@ -182,7 +182,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 		
 		// change the note_new --> midi_note_new (offset)
 		var note = [midi_note, 1];
-		note = note[0] + " " + note[1]
+	//	note = note[0] + " " + note[1]
 		self.nxTransmit(note);
 		console.log(note);
 		self.draw();	
@@ -195,11 +195,11 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				self.nxTransmit(midi_note+" "+1);
-			//	self.nxTransmit([midi_note, 1]);
+			//	self.nxTransmit(midi_note+" "+1);
+				self.nxTransmit([midi_note, 1]);
 				midi_note = keys[note_old][5];
-			//	self.nxTransmit([midi_note, 0]);
-				self.nxTransmit(midi_note+" "+0);
+				self.nxTransmit([midi_note, 0]);
+			//	self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
 		}
@@ -214,8 +214,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 			}
 		}
 		midi_note = keys[note_new][5];
-	//	self.nxTransmit([midi_note, 0]);
-		self.nxTransmit(midi_note+" "+0);
+		self.nxTransmit([midi_note, 0]);
+	//	self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
 	
@@ -227,8 +227,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		//self.nxTransmit([midi_note, 1]);
-		self.nxTransmit(midi_note+" "+1);
+		self.nxTransmit([midi_note, 1]);
+		//self.nxTransmit(midi_note+" "+1);
 		self.draw();
 	}
 
@@ -241,11 +241,11 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
-				//self.nxTransmit([midi_note, 1]);
-				self.nxTransmit(midi_note+" "+1);
+				self.nxTransmit([midi_note, 1]);
+				//self.nxTransmit(midi_note+" "+1);
 				midi_note = keys[note_old][5];
-				//self.nxTransmit([midi_note, 0]);
-				self.nxTransmit(midi_note+" "+0);
+				self.nxTransmit([midi_note, 0]);
+				//self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
 		}
@@ -260,8 +260,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 			}
 		}
 		midi_note = keys[note_new][5];
-		//self.nxTransmit([midi_note, 0]);
-		self.nxTransmit(midi_note+" "+0);
+		self.nxTransmit([midi_note, 0]);
+		//self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
 	
@@ -279,8 +279,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 				midi_note = keys[note_new][5];
 				
 				// change the note_new --> midi_note_new (offset)
-			//	self.nxTransmit(midi_note);
-				self.nxTransmit(midi_note+" "+1);
+				self.nxTransmit(midi_note);
+			//	self.nxTransmit(midi_note+" "+1);
 				self.draw();	
 			}
 		}
@@ -299,8 +299,8 @@ function keyboard(target, transmitCommand, uiIndex) {
 				midi_note = keys[note_new][5];
 				
 				// change the note_new --> midi_note_new (offset)
-			//	self.nxTransmit(midi_note);
-				self.nxTransmit(midi_note+" "+0);
+				self.nxTransmit(midi_note);
+			//	self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
 		}	

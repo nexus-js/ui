@@ -108,8 +108,12 @@ var nxManager = function() {
 			// transmitCommand is the ajax url to send to, oscName is the osc call, uiIndex is used if you have multiple buttons/dials/etc, data is data
 			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
+			if (Array.isArray(data)) {
+				data = data.join();
+				data.replace(/\,/g," ");
+			}
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
-			console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
+		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
 			//window.alert(data);
 			this.iosTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
@@ -159,7 +163,7 @@ var nxManager = function() {
 	
 	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
 	this.iosTransmit = function (command, osc_name, id, data) {
-		var osc_message = "nexus://" + command + "/" + id + "?" + osc_name + "=" + data;
+		var osc_message = "nexus://" + id + "?" + osc_name + "=" + data;
 		console.log("ios Transmit: ", osc_message);
 		window.location.href = osc_message;
 	}
@@ -314,10 +318,18 @@ var nxManager = function() {
 	 */
 	
 	//replaces Colors
-	this.colors = { 
+/*	this.colors = { 
 			"accent": "#ff5500", 
 			"fill": "#f7f7f7", 
 			"border": "#ccc", 
+			"accentborder": "#aa2200",
+			"black": "#000",
+			"white": "#FFF"
+}; */
+	this.colors = { 
+			"accent": "#ff5500", 
+			"fill": "#f7f7f7", 
+			"border": "#bbb", 
 			"accentborder": "#aa2200",
 			"black": "#000",
 			"white": "#FFF"
@@ -430,9 +442,37 @@ var nxManager = function() {
 		   			+ '</style>';
 		$("body").append(htmlstr);
 	}
+	
+	this.wrapText = function(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      }
 
 	
 }
+
+/* Modifies Object prototype to allow us to get the constructor function name programatically
+
+Object.prototype.getName = function() { 
+   var funcNameRegex = /function (.{1,})\(/;
+   var results = (funcNameRegex).exec((this).constructor.toString());
+   return (results && results.length > 1) ? results[1] : "";
+};*/
 	
 
 
@@ -488,6 +528,7 @@ $(document).ready(function() {
 *****************************/
 
 function getTemplate(self, target, transmitCommand) {
+//	self.nxtype = self.getName();
 	//canvas
 	self.canvasID = target;
 	self.canvas = document.getElementById(target);
@@ -723,7 +764,7 @@ function toggle(target, transmitCommand, uiIndex) {
 				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 				with (this.context) {
 					fillStyle = self.colors.accent;
-					strokeStyle = self.colors.border;
+					strokeStyle = self.colors.accent;
 					stroke();
 					fill();
 					
@@ -755,9 +796,9 @@ function toggle(target, transmitCommand, uiIndex) {
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
 				if (self.on) {
-					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
+					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {
-					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
+					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
 				}
 			}
 		}
@@ -1126,6 +1167,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 	var white_dis = [[0, 2], [4, 5], [7, 9], [9, 11], [13, 14], [16, 17], [19, 21]];
 	var order = [0, 2, 4, 5, 7, 9, 11, 1, 3, 6, 8, 10];
 	var keys = new Array();
+	self.lineWidth = 1;
 
 	var note_new;
 	var note_old;
@@ -1185,7 +1227,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 
 						}
 						else {
-							fillStyle = "#AAA";
+							fillStyle = self.colors.accent;
 							fillRect(x, 0, w_width, w_height);
 						}
 
@@ -1200,7 +1242,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 							fillStyle = self.colors.black;
 						}	
 						else {
-							fillStyle = "#AAA";
+							fillStyle = self.colors.accent;
 						}
 						fillRect(xx, 0, b_width, b_height);	
 					}
@@ -1209,7 +1251,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 		}
 		with (self.context) {
 			strokeStyle = self.colors.border;
-			lineWidth = 5;
+			lineWidth = 3;
 			strokeRect(0,0,self.width,self.height);
 		}
 	}
@@ -1274,7 +1316,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 		
 		// change the note_new --> midi_note_new (offset)
 		var note = [midi_note, 1];
+	//	note = note[0] + " " + note[1]
 		self.nxTransmit(note);
+		console.log(note);
 		self.draw();	
 	}
 
@@ -1285,9 +1329,11 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_old, 0);
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
+			//	self.nxTransmit(midi_note+" "+1);
 				self.nxTransmit([midi_note, 1]);
 				midi_note = keys[note_old][5];
 				self.nxTransmit([midi_note, 0]);
+			//	self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
 		}
@@ -1303,9 +1349,9 @@ function keyboard(target, transmitCommand, uiIndex) {
 		}
 		midi_note = keys[note_new][5];
 		self.nxTransmit([midi_note, 0]);
+	//	self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
-	
 	
 	this.touch = function(e) {
 		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
@@ -1316,6 +1362,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 		
 		// change the note_new --> midi_note_new (offset)
 		self.nxTransmit([midi_note, 1]);
+		//self.nxTransmit(midi_note+" "+1);
 		self.draw();
 	}
 
@@ -1329,8 +1376,10 @@ function keyboard(target, transmitCommand, uiIndex) {
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
 				self.nxTransmit([midi_note, 1]);
+				//self.nxTransmit(midi_note+" "+1);
 				midi_note = keys[note_old][5];
 				self.nxTransmit([midi_note, 0]);
+				//self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
 		}
@@ -1346,25 +1395,28 @@ function keyboard(target, transmitCommand, uiIndex) {
 		}
 		midi_note = keys[note_new][5];
 		self.nxTransmit([midi_note, 0]);
+		//self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
 	
 	this.type = function(e) {
 		var currKey = e.which;
 		if (e.which>47 && e.which<91) {
-			var asciis = [  81,50,87,51,69,82,53,84,54,89,55,85];
+			var asciis = [81,50,87,51,69,82,53,84,54,89,55,85];
 			var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
 			var keyAsciiIndex = asciis.indexOf(currKey);
-			note_new = keyIndex[keyAsciiIndex];
-			console.log(note_new);
-			self.change_cell(note_new, 1);
-			note_old = note_new;
-			
-			midi_note = keys[note_new][5];
-			
-			// change the note_new --> midi_note_new (offset)
-			self.nxTransmit(midi_note);
-			self.draw();	
+			if (keyAsciiIndex!=-1) {
+				note_new = keyIndex[keyAsciiIndex];
+				self.change_cell(note_new, 1);
+				note_old = note_new;
+				
+				midi_note = keys[note_new][5];
+				
+				// change the note_new --> midi_note_new (offset)
+				self.nxTransmit(midi_note);
+			//	self.nxTransmit(midi_note+" "+1);
+				self.draw();	
+			}
 		}
 	}
 	
@@ -1374,14 +1426,17 @@ function keyboard(target, transmitCommand, uiIndex) {
 			var asciis = [  81,50,87,51,69,82,53,84,54,89,55,85];
 			var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
 			var keyAsciiIndex = asciis.indexOf(currKey);
-			note_old = keyIndex[keyAsciiIndex];
-			self.change_cell(note_old, 0);
-			
-			midi_note = keys[note_new][5];
-			
-			// change the note_new --> midi_note_new (offset)
-			self.nxTransmit(midi_note);
-			self.draw();
+			if (keyAsciiIndex!=-1) {
+				note_old = keyIndex[keyAsciiIndex];
+				self.change_cell(note_old, 0);
+				
+				midi_note = keys[note_new][5];
+				
+				// change the note_new --> midi_note_new (offset)
+				self.nxTransmit(midi_note);
+			//	self.nxTransmit(midi_note+" "+0);
+				self.draw();
+			}
 		}	
 	}
 	
@@ -1856,13 +1911,13 @@ function slider(target, transmitCommand, uiIndex) {
 			if (y1<self.padding) {
 				y1=self.padding;
 			} else if (y1>self.height-self.padding-20) {
-				y1=self.height-self.padding-20;
+				y1=self.height-self.padding-10;
 			}
 			globalAlpha = 0.8;
 			
 			beginPath();
-			nx.makeRoundRect(self.context,x1,y1,x2-self.padding,20);
-			fillStyle = self.colors.black;
+			nx.makeRoundRect(self.context,x1,y1,x2-self.padding,10);
+			fillStyle = self.colors.border;
 			fill();
 			strokeStyle = self.colors.white;
 			lineWidth=1;
@@ -1871,12 +1926,12 @@ function slider(target, transmitCommand, uiIndex) {
 			//knob grips
 			globalAlpha = 1;
 			beginPath();
-			strokeStyle = self.colors.border;
+			strokeStyle = self.colors.accent;
 			lineWidth = 3;
 			moveTo(x1+3,y1+7);
 			lineTo(x2-3,y1+7);
-			moveTo(x1+3,y1+13);
-			lineTo(x2-3,y1+13);
+		//	moveTo(x1+3,y1+13);
+		//	lineTo(x2-3,y1+13);
 			stroke();
 			closePath();
 		} 
@@ -2012,7 +2067,10 @@ function multislider(target, transmitCommand, uiIndex) {
 			self.draw();
 		}
 		//FIXME: how to send multiple values?
+	//	self.valuesAsString = self.values.join();
+	//	self.nxTransmit(self.valuesAsString);
 		self.nxTransmit(self.values);
+		
 	}
 	
 
@@ -3034,8 +3092,10 @@ function number(target, transmitCommand, uiIndex) {
 			fillStyle = self.colors.black;
 			textAlign = "left";
 			//font = (self.height)+"px courier";
-			font = self.height*.9+"px courier";
-			fillText(self.value, self.width/6, self.height/2+self.height/4);
+			font = self.height*.6+"px courier";
+      		textBaseline = 'middle';
+		//	fillText(self.value, 10, self.height/2+self.height/4);
+			fillText(self.value, 10, self.height/2-1);
 		}
 	}
 
@@ -3107,7 +3167,8 @@ function comment(target, transmitCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	this.value = "comment";
+	this.value = "this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. ";
+	this.size = 14;
 	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
@@ -3119,14 +3180,31 @@ function comment(target, transmitCommand, uiIndex) {
 	this.draw = function() {
 		self.erase();
 		with (self.context) {
+			globalAlpha = 1;
+			
+			fillStyle = self.colors.fill;
+			fillRect(0,0,self.width,self.height);
+			
+			strokeStyle = self.colors.border;
+			lineWidth = 3;
+		//	strokeRect(0,0,self.width,self.height);
+			
+			beginPath();
+			moveTo(0,self.height);
+			lineTo(self.width,self.height);
+			strokeStyle = self.colors.accent;
+			stroke();
+			closePath();
+		
+			globalAlpha = 1;
+			
 			
 			fillStyle = self.colors.black;
 			textAlign = "left";
-			font = "20px courier";
-			fillText(self.value, 3, self.height/2+self.height/4);
-			
-			
+			font = self.size+"px Gill Sans";
+		//	fillText(self.value, 3, self.height/2+self.height/4);
 		}
+		nx.wrapText(self.context, self.value, 6, 3+self.size, self.width-6, self.size);
 	}
 
 	this.init();
@@ -3146,7 +3224,8 @@ function message(target, transmitCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	this.value = "a_message";
+	this.value = "a message";
+	this.size = 13;
 	
 	this.init = function() {
 		self.draw();
@@ -3175,10 +3254,11 @@ function message(target, transmitCommand, uiIndex) {
 			globalAlpha = 1;
 			
 			fillStyle = self.colors.black;
-			textAlign = "center";
-			font = "12px courier";
-			fillText(self.value, self.width/2, self.height/2+4);
+			textAlign = "left";
+			font = self.size+"px Gill Sans";
+		//	fillText(self.value, self.width/2, self.height/2+4);
 		}
+		nx.wrapText(self.context, self.value, 5, 1+self.size, self.width-6, self.size);
 	}
 
 	this.click = function(e) {
