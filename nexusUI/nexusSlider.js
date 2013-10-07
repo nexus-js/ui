@@ -18,14 +18,14 @@ function slider(target, transmitCommand, uiIndex) {
 		
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
+	this.label = "";
 	
 	
 
 	this.init = function() {
-		getHandlers(self);
-		
-		if (!self.ajaxCommand) {
-			self.ajaxCommand = "slider";
+	
+		if (this.canvas.getAttribute("label")!=null) {
+			this.label = this.canvas.getAttribute("label");
 		}
 
 		self.draw();
@@ -49,6 +49,7 @@ function slider(target, transmitCommand, uiIndex) {
 			lineWidth = self.lineWidth;
 			stroke();
 			fill();
+			
 			
 			strokeStyle = this.colors.accent;
 			fillStyle = this.colors.border;
@@ -110,6 +111,19 @@ function slider(target, transmitCommand, uiIndex) {
 		//	lineTo(x2-3,y1+13);
 			stroke();
 			closePath();
+			
+			
+			
+			save();
+ 			translate(self.width/2, 0);
+			rotate(Math.PI/2);
+			textAlign = "left";
+			textBaseline = "middle";
+			font = "bold 15px courier";
+			fillStyle = self.colors.border;
+			fillText(self.label, self.width/2, 0);
+			restore();
+			
 		} 
 	}
 	
@@ -141,4 +155,6 @@ function slider(target, transmitCommand, uiIndex) {
 	this.touchRelease = function() {
 		
 	}
+	
+	this.init();
 }

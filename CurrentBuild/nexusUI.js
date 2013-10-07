@@ -110,7 +110,7 @@ var nxManager = function() {
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			if (Array.isArray(data)) {
 				data = data.join();
-				data.replace(/\,/g," ");
+				data = data.replace(/\,/g," ");
 			}
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
 		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
@@ -1842,14 +1842,14 @@ function slider(target, transmitCommand, uiIndex) {
 		
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
+	this.label = "";
 	
 	
 
 	this.init = function() {
-		getHandlers(self);
-		
-		if (!self.ajaxCommand) {
-			self.ajaxCommand = "slider";
+	
+		if (this.canvas.getAttribute("label")!=null) {
+			this.label = this.canvas.getAttribute("label");
 		}
 
 		self.draw();
@@ -1873,6 +1873,7 @@ function slider(target, transmitCommand, uiIndex) {
 			lineWidth = self.lineWidth;
 			stroke();
 			fill();
+			
 			
 			strokeStyle = this.colors.accent;
 			fillStyle = this.colors.border;
@@ -1934,6 +1935,19 @@ function slider(target, transmitCommand, uiIndex) {
 		//	lineTo(x2-3,y1+13);
 			stroke();
 			closePath();
+			
+			
+			
+			save();
+ 			translate(self.width/2, 0);
+			rotate(Math.PI/2);
+			textAlign = "left";
+			textBaseline = "middle";
+			font = "bold 15px courier";
+			fillStyle = self.colors.border;
+			fillText(self.label, self.width/2, 0);
+			restore();
+			
 		} 
 	}
 	
@@ -1965,6 +1979,8 @@ function slider(target, transmitCommand, uiIndex) {
 	this.touchRelease = function() {
 		
 	}
+	
+	this.init();
 }
 // Javascript Multislider
 
@@ -2066,9 +2082,6 @@ function multislider(target, transmitCommand, uiIndex) {
 			self.oldSliderToMove = sliderToMove;
 			self.draw();
 		}
-		//FIXME: how to send multiple values?
-	//	self.valuesAsString = self.values.join();
-	//	self.nxTransmit(self.valuesAsString);
 		self.nxTransmit(self.values);
 		
 	}
@@ -3228,6 +3241,7 @@ function message(target, transmitCommand, uiIndex) {
 	this.size = 13;
 	
 	this.init = function() {
+		this.value = self.canvas.getAttribute("label");
 		self.draw();
 	}
 

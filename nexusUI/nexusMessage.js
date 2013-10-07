@@ -17,6 +17,7 @@ function message(target, transmitCommand, uiIndex) {
 	this.size = 13;
 	
 	this.init = function() {
+		this.value = self.canvas.getAttribute("label");
 		self.draw();
 	}
 

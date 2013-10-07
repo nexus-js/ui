@@ -110,7 +110,7 @@ var nxManager = function() {
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			if (Array.isArray(data)) {
 				data = data.join();
-				data.replace(/\,/g," ");
+				data = data.replace(/\,/g," ");
 			}
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
 		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
