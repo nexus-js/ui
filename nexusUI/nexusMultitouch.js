@@ -1,25 +1,28 @@
 // Javascript 2d_slider
 
-function position(target, transmitCommand, uiIndex) {
+function multitouch(target, transmitCommand, uiIndex) {
 					
 	//self awareness
 	var self = this;
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
-	this.defaultSize = { width: 300, height: 200 };
+	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	//this.line_width = 3;
-	this.nodeSize = 15;
+	//unique attributes
+	this.nodeSize = 100;
+	this.nodes = new Array();
 	this.values = [0,0];
 	
-	this.default_text = "touch to control";	
+	this.default_text = "multitouch";	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
+
+	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
 	
 	
 
@@ -36,13 +39,45 @@ function position(target, transmitCommand, uiIndex) {
 			lineWidth = self.lineWidth;
 			stroke();
 			fill();
+
+			//draw nodes
 			if (self.nodePos[0] != null) {
-				self.drawNode();
+				if (self.clickPos.touches) {
+					for (var i=0;i<self.clickPos.touches.length;i++) {
+						
+						with (self.context) {
+							globalAlpha=0.4;
+							beginPath();
+								fillStyle = self.colors.accent;
+								strokeStyle = self.colors.border;
+								lineWidth = self.lineWidth;
+								arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
+								fill();
+								stroke();
+							closePath();
+							globalAlpha=0.3;
+							beginPath();
+								fillStyle = self.rainbow[i];
+								strokeStyle = self.colors.border;
+								lineWidth = self.lineWidth;
+								arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
+								fill();
+								stroke();
+							closePath(); 
+							globalAlpha=1;
+						}
+
+					}
+				} else {
+					self.drawNode();
+				}
 			}
 			else {
 				fillStyle = self.colors.border;
 				font = "14px courier";
-				fillText(self.default_text, 10, 20);
+				textAlign = "center";
+				
+				fillText(self.default_text, self.width/2, self.height/2);
 			}
 		}
 	}
@@ -85,13 +120,7 @@ function position(target, transmitCommand, uiIndex) {
 	}
 	
 	this.scaleNode = function() {
-		var actualWid = self.width - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualHgt = self.height - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualX = self.nodePos[0] - self.nodeSize - self.lineWidth - self.padding;
-		var actualY = self.nodePos[1] - self.nodeSize - self.lineWidth - self.padding;
-		var clippedX = nx.clip(actualX/actualWid, 0, 1);
-		var clippedY = nx.clip(actualY/actualHgt, 0, 1);
-		self.values = [ nx.prune(clippedX, 3), nx.prune(clippedY, 3) ];
+		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
 		return self.values;
 	}
 
@@ -108,12 +137,23 @@ function position(target, transmitCommand, uiIndex) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
+			var help = {
+				"self.clickPos.x": self.clickPos.x,
+				"self.clickPos.y": self.clickPos.y,
+				"self.nodePos[0]": self.nodePos[0],
+				"self.nodePos[1]": self.nodePos[1],
+				"self.offset": self.offset
+			}
 			self.nxTransmit(self.scaleNode());
 		}
 	}
 	
 
 	this.release = function() {
+		if (self.clickPos.touches.length>1) {
+			self.clicked=true;
+		}
+		self.draw();
 		
 	}
 	
@@ -131,34 +171,11 @@ function position(target, transmitCommand, uiIndex) {
 			self.draw();
 			self.nxTransmit(self.scaleNode());
 		}
+
 	}
 
 	this.touchRelease = function() {
-		
-	}
-	
-	this.animate = function(aniType) {
-		
-		switch (aniType) {
-			case "bounce":
-				nx.aniItems.push(self.aniBounce);
-				break;
-			case "none":
-				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
-				break;
-		}
-		
-	}
-	
-	this.aniBounce = function() {
-		if (!self.clicked && self.nodePos[0]) {
-			self.nodePos[0] += (self.deltaMove.x/2);
-			self.nodePos[1] += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
-			self.draw();
-			self.nxTransmit(self.scaleNode());
-		}
+		self.release();
 	}
 	
 	this.init();

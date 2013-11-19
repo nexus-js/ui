@@ -11,15 +11,23 @@
 	<script type="text/javascript" src="nexusMetroball.js"></script>
 	<script type="text/javascript" charset="utf-8">
 		
-		
+		nx.onload = function() {
+
+			nx.setTransmissionProtocol("local");
+
+			metroball1.localTransmit = function(data) {
+				console.log(data);
+			}
+
+		}
 		
 	</script>
 </head>
 <body>
 
 	
-	<canvas nx="metroball" width="500px" height="300px">HI!</canvas>
-	<canvas nx="metroball" width="500px" height="300px">HI!</canvas>
+	<canvas nx="metroball">Update your browzer plz</canvas>
+	<canvas nx="metroball" width="500px" height="300px"></canvas>
 	
 
 

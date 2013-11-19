@@ -1,4 +1,4 @@
-// Javascript 2d_slider
+// Javascript Joints
 
 function joints(target, transmitCommand, uiIndex) {
 					
@@ -77,7 +77,8 @@ function joints(target, transmitCommand, uiIndex) {
 						lineWidth = nx.scale( strength, 0, self.threshold, self.nodeSize/2, 5 );
 						stroke();
 					closePath();
-					self.connections.push([i,strength]);
+					var scaledstrength = nx.scale( strength, 0, self.threshold, 1, 0 );
+					self.connections.push([i,scaledstrength]);
 				}
 			}
 		}

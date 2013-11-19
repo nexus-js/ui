@@ -32,6 +32,12 @@
 			slider4.draw();
 			slider5.draw();
 			slider6.draw(); 
+
+			nx.setTransmissionProtocol("local");
+
+			slider1.localTransmit = function(data) {
+				console.log(data)
+			}
 			
 		}
 		

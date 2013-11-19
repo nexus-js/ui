@@ -136,7 +136,8 @@ function slider(target, transmitCommand, uiIndex) {
 			self.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
 			self.draw();
 		}
-		self.nxTransmit(self.value);
+		var scaledVal = ( self.value - 0.02 ) * (1/.97);
+		self.nxTransmit(scaledVal);
 	}
 	
 

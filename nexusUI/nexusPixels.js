@@ -18,6 +18,7 @@ function pixels(target, transmitCommand, uiIndex) {
 	
 	//define unique attributes
 	self.dim = { x: 10, y: 10};
+	self.mode = "write";
 
 	this.init = function() {
 		self.px = {
@@ -62,20 +63,38 @@ function pixels(target, transmitCommand, uiIndex) {
 			y: scaledY
 		};
 			
-		with (self.context) {
-			globalAlpha = 0.3;
-			fillStyle = self.colors.accent;
-			fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
-			globalAlpha = 1;
+		if (self.mode=="write") {
+			with (self.context) {
+				globalAlpha = 0.3;
+				fillStyle = self.colors.accent;
+				fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
+				globalAlpha = 1;
+			}	
+		
+		
+			var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
+			self.screen[pixY][pixX] = [
+				imgData.data[0], imgData.data[1], imgData.data[2]
+			]
+		
+			var imgData = self.context.getImageData(self.clickPos.x+self.px.wid,self.clickPos.y,1,1);
+			self.screen[pixY][pixX+1] = [
+				imgData.data[0], imgData.data[1], imgData.data[2]
+			]
+		
+			var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y+self.px.hgt,1,1);
+			self.screen[pixY+1][pixX] = [
+				imgData.data[0], imgData.data[1], imgData.data[2]
+			]
+		
+			var imgData = self.context.getImageData(self.clickPos.x+self.px.wid,self.clickPos.y+self.px.hgt,1,1);
+			self.screen[pixY+1][pixX+1] = [
+				imgData.data[0], imgData.data[1], imgData.data[2]
+			]
+
 		}
 		
-		var imgData = self.context.getImageData(10,10,1,1);
-		self.screen[pixY][pixX] = [
-			imgData.data[0], imgData.data[1], imgData.data[2], 
-		]
-		
-	//	self.nxTransmit(self.lastpx, self.colors.accent);
-		self.nxTransmit(self.screen);
+		self.send(pixX, pixY);
 		
 	}
 
@@ -96,18 +115,37 @@ function pixels(target, transmitCommand, uiIndex) {
 				y: scaledY
 			};
 			
-			with (self.context) {
-				globalAlpha = 0.1;
-				fillStyle = self.colors.accent;
-				fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
-				globalAlpha = 1;
-			}
+
+			if (self.mode=="write") {
+				with (self.context) {
+					globalAlpha = 0.1;
+					fillStyle = self.colors.accent;
+					fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
+					globalAlpha = 1;
+				}
+
 			
-			var imgData = self.context.getImageData(10,10,1,1);
-			self.screen[pixY][pixX] = [
-				imgData.data[0], imgData.data[1], imgData.data[2], 
-			]
-			self.nxTransmit(self.screen);
+				var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
+				self.screen[pixY][pixX] = [
+					imgData.data[0], imgData.data[1], imgData.data[2]
+				]
+			
+				var imgData = self.context.getImageData(self.clickPos.x+self.px.wid,self.clickPos.y,1,1);
+				self.screen[pixY][pixX+1] = [
+					imgData.data[0], imgData.data[1], imgData.data[2]
+				]
+			
+				var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y+self.px.hgt,1,1);
+				self.screen[pixY+1][pixX] = [
+					imgData.data[0], imgData.data[1], imgData.data[2]
+				]
+			
+				var imgData = self.context.getImageData(self.clickPos.x+self.px.wid,self.clickPos.y+self.px.hgt,1,1);
+				self.screen[pixY+1][pixX+1] = [
+					imgData.data[0], imgData.data[1], imgData.data[2]
+				]
+			}
+			self.send(pixX,pixY);
 		}
 	
 	}
@@ -132,6 +170,14 @@ function pixels(target, transmitCommand, uiIndex) {
 	this.touchRelease = function(e) {
 		
 		self.release(e);
+	}
+
+	this.send = function(pixX, pixY) {
+		if (self.mode=="write") {
+			self.nxTransmit(self.screen);
+		} else if (self.mode=="read") {
+			self.nxTransmit(self.screen[pixY][pixX]);
+		}
 	}
 
 	this.init();

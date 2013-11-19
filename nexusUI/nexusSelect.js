@@ -14,7 +14,7 @@ function select(target, transmitCommand, uiIndex) {
 	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
-	self.choices;
+	self.choices = [ ];
 
 	this.init = function() {
 		
@@ -22,8 +22,10 @@ function select(target, transmitCommand, uiIndex) {
 		self.canvas.ontouchmove = null;
 		self.canvas.ontouchend = null;
 		
-		self.choices = self.canvas.getAttribute("choices");
-		self.choices = self.choices.split(",");
+		if (self.canvas.getAttribute("choices")) {
+			self.choices = self.canvas.getAttribute("choices");
+			self.choices = self.choices.split(",");
+		}
 	
 		var htmlstr = '<select id="'+self.canvasID+'" style="height:'+self.height+'px;width:'+self.width+'px;font-size:'+self.height/2+'px" onchange="'+self.canvasID+'.change(this)"></select><canvas height="1px" width="1px"></canvas>'                   
 		$("#"+self.canvasID).replaceWith(htmlstr);

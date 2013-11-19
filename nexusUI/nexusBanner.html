@@ -3,23 +3,16 @@
    	
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Tilt</title>
+		<title>Banner - Thanks for using!</title>
 		<meta name="LSU EMDM" content="nexus">
-		<!-- Date: 2013-07-02 -->
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="nexusUI.js"></script>
-		<script type="text/javascript" src="nexusTilt.js"></script>
+		<script type="text/javascript" src="nexusBanner.js"></script>
 		
 		<script>
 		
 			nx.onload = function() {
 				nx.colorize("#0af");
-				nx.setTransmissionProtocol("local");
-				
-				tilt1.localTransmit = function(data) {
-					
-				}
-				
 			}
 		
 		</script>
@@ -27,10 +20,11 @@
 	</head>
 	
 	<body>
+			
 		
-		<canvas nx="tilt" width="400px" height="400px">HI!</canvas>
-		
-		<div id="#debug" style="font-size:50pt"></div>
+		<canvas nx="banner"></canvas>
+
+		<canvas nx="banner" style="width:250px;height:100px"></canvas>
 	
 	
 	</body>

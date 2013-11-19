@@ -15,11 +15,12 @@
 			nx.onload = function() {
 				nx.colorize("#0af");
 				
-				nx.setTransmissionProtocol("local");
+				nx.setTransmissionProtocol("ajax");
+  				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
 				
-				joints1.localTransmit = function(data) {
-				//	console.log(data);
-				}
+			/*	joints1.localTransmit = function(data) {
+					console.log(data);
+				} */
 				
 			}
 		

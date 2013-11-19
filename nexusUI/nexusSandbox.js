@@ -114,7 +114,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 				dragging = i;
 			}	
 		}
-		self.nxTransmit(Toys);
+		self.nxTransmit([dragging, Toys[dragging].xpos, Toys[dragging].ypos]);
 	}
 	
 	self.move = function(e) {
@@ -123,7 +123,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 				Toys[dragging].xpos = self.clickPos.x;
 				Toys[dragging].ypos = self.clickPos.y;
 				self.drawToys();	
-				self.nxTransmit(Toys);
+				self.nxTransmit([dragging, Toys[dragging].xpos, Toys[dragging].ypos]);
 			}
 		}
 	}

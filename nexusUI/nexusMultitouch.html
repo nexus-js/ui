@@ -3,23 +3,17 @@
    	
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Tilt</title>
+		<title>Multitouch</title>
 		<meta name="LSU EMDM" content="nexus">
-		<!-- Date: 2013-07-02 -->
 		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="nexusUI.js"></script>
-		<script type="text/javascript" src="nexusTilt.js"></script>
+		<script type="text/javascript" src="nexusMultitouch.js"></script>
 		
 		<script>
 		
 			nx.onload = function() {
 				nx.colorize("#0af");
 				nx.setTransmissionProtocol("local");
-				
-				tilt1.localTransmit = function(data) {
-					
-				}
-				
 			}
 		
 		</script>
@@ -28,11 +22,8 @@
 	
 	<body>
 		
-		<canvas nx="tilt" width="400px" height="400px">HI!</canvas>
-		
-		<div id="#debug" style="font-size:50pt"></div>
-	
-	
+		<canvas nx="multitouch" style="width:1000px;height:1500px;">HI!</canvas>
+		<div id="debug"></div>
 	</body>
 	
 </html>

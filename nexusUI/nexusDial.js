@@ -119,7 +119,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.click = function(e) {
 		//clicked is now set to true, coords are in self.clickPos
 		// console.log("Dial nxTransmit", self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
-		self.nxTransmit(self.value);
+		self.nxTransmit(parseInt(self.value));
 		self.draw();
 		self.aniStart = self.value;
 	}

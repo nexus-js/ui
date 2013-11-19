@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head>
+
+	  	<title>:: Nexus Demo : PHP ::</title>
+
+		<!-- standard includes of nexusUI and jquery-->
+		<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+		<script type="text/javascript" src="../CurrentBuild/nexusUI.min.js"></script>
+	<!--	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script> -->
+
+		<!-- Make mobile display non scalable and fitting the viewport window -->
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+
+		<script>
+			
+			// Setup all of the UI objects you want to use.
+			// This occurs after the page has loaded all of the canvas objects to draw into.
+			
+			nx.onload = function() {
+				nx.colorize("f00");
+				nx.setTransmissionProtocol("ajax");
+				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
+			}
+			
+		</script>
+	</head>
+	<body>
+
+		<!-- Layout all of the UI elements as canvas objects -->
+		<div>
+			<canvas nx="dial">Dial</canvas>
+			<canvas nx="button">Button</canvas>
+			<canvas nx="toggle">Toggle</canvas>
+			<canvas nx="multislider">Multislider</canvas>
+		 </div>
+
+	</body>	
+</html>

@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusPixels.js"></script>
 	<script type="text/javascript" src="nexusColors.js"></script>
+	<script type="text/javascript" src="nexusToggle.js"></script>
 	<script>
 		
 		nx.onload = function() {
@@ -18,7 +19,19 @@
 			pixels1.init();
 			
 			colors1.localTransmit = function(data) {
-				pixels1.colors.accent = "rgb("+data[0]+","+data[1]+","+data[2]+")"
+				pixels1.colors.accent = "rgb("+data[0]+","+data[1]+","+data[2]+")";
+			}
+
+			pixels1.localTransmit = function(data) {
+				console.log(data);
+			}
+
+			toggle1.localTransmit = function(data) {
+				if (data==1) {
+					pixels1.mode = "read";
+				} else {
+					pixels1.mode = "write";
+				}
 			}
 			
 		}
@@ -30,6 +43,7 @@
 
 	<canvas nx="pixels"></canvas>
 	<canvas nx="colors"></canvas>
+	<canvas nx="toggle"></canvas> read on/off
 	
 </body>
 </html>

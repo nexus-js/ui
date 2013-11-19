@@ -20,6 +20,7 @@ function button(target, transmitCommand, uiIndex) {
 	// Value is the value to send when the button is clicked.  
 	this.value = 1;
 	this.transmitRelease = true;	// transmit 0 on release of button.
+	this.
 
 	this.init = function() {
 		
@@ -44,41 +45,54 @@ function button(target, transmitCommand, uiIndex) {
 			}
 			
 			beginPath();
-			arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
-			fill();	  
-			stroke();
+				arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
+				fill();	  
+				stroke();
+			closePath();
+
+			if (self.clicked) {
+				globalAlpha = 0.15;
+				fillStyle = "#fff";
+				beginPath();
+					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
+					fill();	  
+				closePath();
+				
+				beginPath();
+					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/3), 0, Math.PI*2, true);
+					fill();	  
+				closePath();
+				
+				beginPath();
+					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/4), 0, Math.PI*2, true);
+					fill();	  
+				closePath();
+				
+				beginPath();
+					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/5), 0, Math.PI*2, true);
+					fill();	  
+				closePath();
+
+				globalAlpha = 1;
+			}
 			
 		}
 	}
 
 	this.click = function(e) {
-		self.nxTransmit(self.value * nx.boolToVal(self.clicked));
+		self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
 		self.draw();
 	}
 	
 	this.move = function () {
 		// use to track movement on the button...
+		self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+		self.draw();
 	}
 
 	this.release = function() {
-		if (self.transmitRelease) {
-			self.nxTransmit(self.value * nx.boolToVal(self.clicked)); 
-		}
-		self.draw();
-	}
-	
-	this.touch = function(e) {
-		self.nxTransmit(self.value * nx.boolToVal(self.clicked));
-		self.draw();
-	}
-	
-	this.touchMove = function(e) {
-		//use to track movement on the button...
-	}
-
-	this.touchRelease = function(e) {
-		if (self.transmitRelease) {
-			self.nxTransmit(self.value * nx.boolToVal(self.clicked)); 
+		if (self.transmitRelease) { 
+			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
 		}
 		self.draw();
 	}

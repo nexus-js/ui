@@ -30,7 +30,6 @@
 	<script type="text/javascript" src="../nexusUI/nexusColors.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusSandbox.js"></script>
 	<script type="text/javascript" src="../nexusUI/nexusJoints.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusMango.js"></script>
   
 </head>
 <body>
@@ -50,10 +49,10 @@
 				$("#demo1rcv").html(this.oscName+" "+data);
 			}
 			
-		/*	tilt1.transmissionProtocol = "local";
+			tilt1.transmissionProtocol = "local";
 			tilt1.localTransmit = function(data) {
-			//	$("#demo2rcv").html(this.oscName+" "+data);
-			} */
+				$("#demo2rcv").html(this.oscName+" "+data);
+			}
 			
 			
 			styledial1.colors.accent = "#0cf";
@@ -284,7 +283,7 @@
 		<div class="large-12 columns">
 			<img src="images/logo.png" id="logo">
 			<div style="position:absolute;left:120px;bottom:0px;min-width:500px;">		
-				<h1>NexusUI</h1>
+				<h1>nexus UI</h1>
 				<h2>mobile audio interface elements</h2>	
 			</div>
 		</div>
@@ -307,8 +306,7 @@
 				<a href="#pixels_doc">pixels</a> &nbsp;•&nbsp; 
 				<a href="#colors_doc">colors</a> &nbsp;•&nbsp; 
 				<a href="#sandbox_doc">sandbox</a> &nbsp;•&nbsp; 
-				<a href="#joints_doc">joints</a> &nbsp;•&nbsp; 
-				<a href="#mango_doc">mango</a>
+				<a href="#joints_doc">joints</a>
 		</div>
 	</div>
 	
@@ -325,7 +323,7 @@
 			<!--	Nexus is a JavaScript library of web audio interface components made with HTML5
 				that can transmit OSC data to other applications via AJAX. -->
 			
-				<a href="https://github.com/jesseallison/NEXUS/archive/master.zip" download="nexusUI.min.js" id="downloadlink" style="margin:0px 0px 30px">Download NexusUI</a><br>
+				<a href="../CurrentBuild/nexusUI.min.js" download="nexusUI.min.js" id="downloadlink" style="margin:0px 0px 30px">Download NexusUI</a><br>
 				
 				NexusUI is a library of audio interface components made with HTML5
 				that transmit OSC data locally or to other applications via AJAX.
@@ -337,41 +335,38 @@
 				Nexus is mobile-friendly and multi-touch compatible. It enables large-scale collaborative performances by distributing interfaces through a browser -- 
 				something that many people have at home, in their bag, or carry in their pocket.</div><br>
 				
-				<a href="../nexusWebAudio/SeqDemo1.html" class="demolink">Simple Sequencer Demo</a><br>
-				<a href="../nexusWebAudio/AnimationDemo1.html" class="demolink">Animated Matrix Demo</a><br>
+				<a href="../nexusWebAudio/SeqDemo1.html" class="demolink">Simple Sequencer Demo</a> • 
+				<a href="../nexusWebAudio/AnimationDemo1.html" class="demolink">Animated Matrix Demo</a> • 
 				<a href="../nexusWebAudio/MetroballDemo.html" class="demolink">Metroball Demo</a>
 				<div style="font-size:10pt;color:#777">(Thanks to <a href="http://www.charlie-roberts.com/gibberish">Gibberish</a> for the audio support!)</div>
 				
 				
+		
 			</div>
-
 		</div>
 		<div class="large-5 columns codecolumn">
 
-			<div style="min-width:450px">
-
-				<canvas nx="dial"></canvas>
-				<canvas nx="button"></canvas>
-				<canvas nx="toggle"></canvas>
-				<canvas nx="tilt"></canvas><br>
-				<canvas nx="multislider" style="width:200px;height:100px;"></canvas>
-				<canvas nx="position" style="width:200px;height:100px;"></canvas><br>
-				<canvas nx="keyboard"></canvas>
-
-			</div>
-
-			<div>
-				<div style="color:#bbb;font-size:12pt;padding:10px;margin-top:30px">Example HTML</div>
-				<textarea class="codedisplay" style="height:100px">
 			
-					
+			<div style="color:#bbb;font-size:12pt;padding:10px;">Example</div>
+			<textarea class="codedisplay" style="height:100px">
+		
+				
 <canvas nx="dial"></canvas>	
-				</textarea>		
-
-				<canvas nx="dial"></canvas>	
-				<span id="demo1rcv" class="demorcv"></span>
-				<br>
-			</div>
+			</textarea>			
+			<br>
+			<canvas nx="dial"></canvas>	
+			<span id="demo1rcv" class="demorcv"></span>
+			<br><br>
+			<div style="color:#bbb;font-size:12pt;padding:10px;">Example - Macbook or Mobile Only</div>
+			<textarea class="codedisplay" style="height:100px">
+		
+				
+<canvas nx="tilt"></canvas>	
+			</textarea>			
+			<br>
+			<canvas nx="tilt"></canvas>
+			<span id="demo2rcv" class="demorcv"></span>	
+			
 			
 		</div>
 		<div class="large-1 columns"></div>
@@ -379,47 +374,9 @@
 	
 	
 	
-	<!--- Gallery -->
-
-
-
-
-
-
-	<div class="row titlerow">
-		Gallery of Recent Nexus Projects
-		<div style="font-size:12pt;color:#777;margin-top:7px">Add your own(!) by posting to Instagram with the hashtag #nexusui</div>
-	</div>
-	
-	<div class="row tutorialrow">
-		<div class="large-11 columns">
-
-		<!-- SnapWidget -->
-		<iframe src="http://snapwidget.com/in/?h=bmV4dXN1aXxpbnwxMjV8NnwxfHxub3wxMHxmYWRlT3V0fG9uU3RhcnR8bm8=&v=131113" title="Instagram Widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:810px; height:135px"></iframe>
-
-		</div>
-		<div class="large-1 columns"></div>
-	</div>
-	
-	
-
-
-
-
-
 	
 	
 	<!-- How to Use tutorials -->
-
-
-	<div class="row" style="position:relative;background-color:#f7f7f7;padding:25px 25px 15px;margin:150px 0px 30px">
-		<div class="large-12 columns">
-			<h3 style="font-weight:normal">How to Use Nexus UI</h3>
-		</div>
-	</div>
-
-
-
 	
 	<div class="row titlerow">
 		Creating Elements
@@ -448,23 +405,19 @@
 				<a href="#pixels_doc">pixels</a> &nbsp;•&nbsp; 
 				<a href="#colors_doc">colors</a> &nbsp;•&nbsp; 
 				<a href="#sandbox_doc">sandbox</a> &nbsp;•&nbsp; 
-				<a href="#joints_doc">joints</a> &nbsp;•&nbsp; 
-				<a href="#mango_doc">mango</a>
+				<a href="#joints_doc">joints</a>
 			</div>
 			
 		</div>
 		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay" style="height:200px">
-<head>	
-	<script src="nexusUI/jquery.js"></script>
-	<script src="nexusUI/nexusUI.min.js"></script>	
-</head>
+			<textarea class="codedisplay">
+		
+<script src="nexusUI/jquery.js"></script>
+<script src="nexusUI/nexusUI.min.js"></script>	
 
-<body>
-	<canvas nx="toggle"></canvas>
-	<canvas nx="button"></canvas>
-	<canvas nx="multislider"></canvas>
-</body>
+<canvas nx="toggle"></canvas>
+<canvas nx="button"></canvas>
+<canvas nx="multislider"></canvas>
 			</textarea>		
 			<canvas nx="toggle"></canvas>
 			<canvas nx="button"></canvas>
@@ -478,13 +431,13 @@
 	
 	
 	<div class="row titlerow">
-		Accessing elements
+		Accessing elements with JS
 	</div>
 	
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
-				<b>nx</b><br>Nexus is globally instantiated in JavaScript as nx
+				<b>nx</b><br>Nexus is globally instantiated as nx
 				<br><br>
 				<b>nx.onload( )</b><br>When Nexus loads, it triggers the nx.onload function which you can define in your javascript. Accessing Nexus elements should be done only after Nexus loads.
 				<br><br>
@@ -494,18 +447,17 @@
 		</div>
 		<div class="large-5 columns codecolumn">
 			<textarea class="codedisplay" style="height:305px" readonly>
-<script>
-	nx.onload {
-		
-	  matrix1.row = 2;
-	  matrix1.col = 2;
-	  matrix1.draw();
-	  
-	  beatmatrix5.matrix = [ [1,0,0],[0,1,0],[0,0,1] ];
-	  beatmatrix5.draw();
-	  
-	}	
-</script>
+			
+nx.onload {
+	
+  matrix1.row = 2;
+  matrix1.col = 2;
+  matrix1.draw();
+  
+  beatmatrix5.matrix = [ [1,0,0],[0,1,0],[0,0,1] ];
+  beatmatrix5.draw();
+  
+}	
 						
 <canvas nx="matrix"></canvas>
 <canvas nx="matrix" id="beatmatrix5"></canvas>
@@ -522,21 +474,74 @@
 	
 	
 	
+	
+	
 	<div class="row titlerow">
-		Transmitting data to Max
-		<div style="font-size:12pt;color:#777;margin-top:7px">with AJAX</div>
+		Styling
 	</div>
 	
 	<div class="row tutorialrow">
 		<div class="large-6 columns">
 			<div class="textcolumn">
+				<b>size</b><br>Elements auto-adjust to fit the CSS or inline style of the canvas.
+				<br><br>
+				<b>color</b><br>Nexus allows for global coloring with <b>nx.colorize</b> or setting individual elements with their <b>.colors</b> property.
+				Parameters to set: accent (default), fill, border, accentborder, black, white.
+				<br><br>
+			<!--	<b>drawing parameters</b><br>Some other drawing parameters can be set on a per object basis (forthcoming).
+				<br><br> -->
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay" style="height:305px" readonly>
+			
+nx.onload {
+	
+  nx.colorize("#00CCFF"); // sets accent (default)
+  nx.colorize("border", "#222222");
+  nx.colorize("fill", "#222222");
+	
+  dial3.colors.accent = "#FF00CC";
+  dial3.draw();
+  
+}	
+
+<canvas nx="dial" height="150" width="150"></canvas>
+<canvas nx="dial" height="100" width="100"></canvas>
+<canvas nx="dial" height="75" width="75"></canvas>
+<canvas nx="dial" height="50" width="50"></canvas>
+			</textarea>
+						
+			<canvas nx="dial" id="styledial1" height="150" width="150"></canvas>
+			<canvas nx="dial" id="styledial2" height="100" width="100"></canvas>
+			<canvas nx="dial" id="styledial3" height="75" width="75"></canvas>
+			<canvas nx="dial" id="styledial4" height="50" width="50"></canvas>
+			
+			
+			
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+	
+	
+	<div class="row titlerow">
+		Transmitting Data with AJAX
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				<a href="../nexusPHP/nexusOSCRelay.php" download="nexusOSCRelay.php" id="downloadlink" style="margin:0px 0px 30px">Download nexusOSCRelay.php</a><br>
 				
-				Nexus includes a PHP file, nexusOSCRelay.php, that forwards data from the UI to a specified IP and port (default ip 127.0.0.1 and port 7475).
+				Nexus includes a PHP relay that forwards data from the UI to a specified IP and port (default 127.0.0.1).
 				<br><br>
 				
 				<b>nx.setTransmissionProtocol( )</b><br>
 				To forward with AJAX and PHP, use the global nx.setTransmissionProtocol() method to set all UI elements to send with AJAX.
-				You can override individual elements' paths by setting their transmissionProtocol property directly.
+				You can override individual elements' paths by setting their .transmissionProtocol property directly.
 				<br><br>
 				<b>nx.setTransmitCommand( )</b><br>
 				An element's transmitCommand property specifies the location to send to. To use Nexus' PHP relay, set the transmitCommand to the filepath of nexusOSCRelay.php.
@@ -566,8 +571,8 @@ nx.onload = function() {
 	
 	
 	<div class="row titlerow">
-		Transmitting data locally to Web Audio
-		<div style="font-size:12pt;color:#777;margin-top:7px">or to graphics, other Nexus Elements, or other JavaScript variables</div>
+		Transmitting Data locally to a callback function
+		<div style="font-size:12pt;color:#777;margin-top:7px">(for Web Audio or controlling other Nexus elements)</div>
 	</div>
 	
 	<div class="row tutorialrow">
@@ -586,18 +591,18 @@ nx.onload = function() {
 			<textarea class="codedisplay" style="height:320px;">
 <script>
 
-	nx.onload = function() {
-		
-	  nx.setTransmissionProtocol("local");
-	  
-	  // set individual receiver
-	  
-	  dial1.localTransmit = function(data) {
-	    dial2.value = data;
-	    dial2.draw();
-	  }
-		
-	}
+nx.onload = function() {
+	
+  nx.setTransmissionProtocol("local");
+  
+  // set individual receiver
+  
+  dial1.localTransmit = function(data) {
+    dial2.value = data;
+    dial2.draw();
+  }
+	
+}
 
 </script>
 
@@ -606,61 +611,38 @@ nx.onload = function() {
 			</textarea>
 			<canvas nx="dial" id="localdial1"></canvas>
 			<canvas nx="dial" id="localdial2"></canvas>
-			<br>
-			
-			
-		</div>
-		<div class="large-1 columns"></div>
-	</div>
-	
-	
-	
+			<br><br><br>
+			<textarea class="codedisplay" style="height:400px;">
+AND/OR set global receiver of locally transmitted data
 
-
-	
-	<div class="row titlerow">
-		Styling
-	</div>
-	
-	<div class="row tutorialrow">
-		<div class="large-6 columns">
-			<div class="textcolumn">
-				<b>size</b><br>Elements auto-adjust to fit the CSS or inline style of the canvas.
-				<br><br>
-				<b>color</b><br>Nexus allows for global coloring with <b>nx.colorize</b> or setting individual elements with their <b>.colors</b> property.
-				Parameters to set: accent (default), fill, border, accentborder, black, white.
-				<br><br>
-			<!--	<b>drawing parameters</b><br>Some other drawing parameters can be set on a per object basis (forthcoming).
-				<br><br> -->
-			</div>
-		</div>
-		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay" style="height:305px" readonly>
 <script>
 
-	nx.onload {
-		
-	  nx.colorize("#00CCFF"); // sets accent (default)
-	  nx.colorize("border", "#222222");
-	  nx.colorize("fill", "#222222");
-		
-	  dial3.colors.accent = "#FF00CC";
-	  dial3.draw();
-	  
-	}
+nx.onload = function() {
+	
+  nx.setTransmissionProtocol("local");
+  
+  nx.globalLocalTransmit = function(oscName, data) {
+    switch (oscName) {
+      case "dial1":
+        dial2.value = data;
+        dial2.draw();
+        break;
+      case "dial2":
+        // some code
+        break;
+    }
+  }
+	
+}
 
 </script>
 
-<canvas nx="dial" height="150" width="150"></canvas>
-<canvas nx="dial" height="100" width="100"></canvas>
-<canvas nx="dial" height="75" width="75"></canvas>
-<canvas nx="dial" height="50" width="50"></canvas>
+<canvas nx="dial"></canvas>
+<canvas nx="dial"></canvas>
+				
 			</textarea>
-						
-			<canvas nx="dial" id="styledial1" height="150" width="150"></canvas>
-			<canvas nx="dial" id="styledial2" height="100" width="100"></canvas>
-			<canvas nx="dial" id="styledial3" height="75" width="75"></canvas>
-			<canvas nx="dial" id="styledial4" height="50" width="50"></canvas>
+			
+			
 			
 			
 			
@@ -670,16 +652,6 @@ nx.onload = function() {
 	
 	
 	
-
-
-
-		
-
-
-
-
-
-			
 	
 	
 	
@@ -1189,10 +1161,7 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				An array of three floats:<br>
-				y-location of bounce (0-1 left-to-right)<br>
-				x-location of bounce (1 = bottom wall, 0 = top wall)<br>
-				ball index (3 bouncing balls will be numbered 0, 1, and 2, depending on time of creation)<br>
+				<i>forthcoming</i>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
@@ -1232,20 +1201,14 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				If set to "write", outputs whole pixel matrix as RGB values in a list.
-				<br>
-				If set to "read", outputs RGB color data from click position.
+				<i>forthcoming</i>
 				
 				<!-- properties -->
-				<div class="doccategory">properties</div>
-				<b>.mode</b><br>
-				If set to "write" (default), clicking draws pixels<br>
-				If set to "read", clicking will output color data from click position
+				<div class="doccategory">properties</div><br>
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
-				<b>.sequence</b><br>
-				<i>forthcoming ... will turn this pixel matrix into a sequencer .. !!</i>
+				<b></b><br>
 				
 			</div>
 		</div>
@@ -1282,7 +1245,7 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				List of 3 integers: RGB value at mouse position if clicked.
+				<i>forthcoming</i>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
@@ -1325,11 +1288,7 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				3 integer array:<br>
-				index # of circle being dragged<br>
-				x value of that circle<br>
-				y value of that circle<br>
-				<i>more coming soon</i>
+				<i>forthcoming</i>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
@@ -1372,14 +1331,7 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				Array of integer float pairs:
-				<br>Index of node connected to
-				<br>Proximity (0-1) to that node
-				<br>
-				<br>In JavaScript: [ [nodeindex, prox], [nodeindex, prox], [nodeindex, prox] ]
-				<br>In Max: nodeindex prox nodeindex prox nodeindex prox
-				<br>
-				<br>Will be empty if not connected to any nodes
+				<i>forthcoming</i>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
@@ -1401,48 +1353,6 @@ nx.onload = function() {
 	</div>
 	
 	
-	
-	
-	
-	
-	
-	
-	<!-- 
-			MANGO
-	
-	<a name="mango_doc"></a>
-	<div class="row titlerow">
-		Mango
-	</div>
-	
-	<div class="row tutorialrow">
-		<div class="large-6 columns">
-			<div class="textcolumn">
-				
-				// output data
-				<div class="doccategory firstdoccat">output data</div>
-				<i>forthcoming</i>
-				
-				// properties
-				<div class="doccategory">properties</div><br>
-				
-				// methods
-				<div class="doccategory">methods</div>
-				<b></b><br>
-				
-			</div>
-		</div>
-		<div class="large-5 columns codecolumn">
-			<textarea class="codedisplay">
-
-<canvas nx="mango"></canvas>
-			</textarea>
-			<canvas nx="mango" width="500px" height="300px"></canvas>
-		</div>	
-		<div class="large-1 columns"></div>
-	</div>
-	
-	-->
 	
 	
 	

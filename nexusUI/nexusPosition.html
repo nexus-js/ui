@@ -4,16 +4,45 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Position (2D slider)</title>
-		<meta name="Jesse Allison" content="nexus">
-		<!-- Date: 2013-04-02 -->
+		<meta name="LSU EMDM" content="nexus">
 		<link type="style/css" href="nexusUI.css" rel="stylesheet">
-		<script type="text/javascript" src="nexusPosition.js"></script>
+		<script type="text/javascript" src="jquery.js"></script>
 		<script type="text/javascript" src="nexusUI.js"></script>
+		<script type="text/javascript" src="nexusPosition.js"></script>
 		
 		<script>
 		
 			nx.onload = function() {
 				nx.colorize("#0af");
+				nx.setTransmissionProtocol("local");
+
+				position1.localTransmit = function(data) {
+					console.log("local: "+data[1])
+				}
+
+				nx.globalLocalTransmit = function(data) {
+					console.log("global: "+data[0])
+				}
+
+				/* other nomenclature options?
+
+					nx.setTransmissionProtocol("local")
+					->  nx.transmitTo("js")
+					->  nx.connectTo("js")
+					->  nx.sendDataTo("js")
+
+					position1.setTransmissionProtocol("local")
+					->  position1.transmitTo("js")
+
+					position1.localTransmit = function(data) { }
+					-> position1.rcv = function(data) { }
+					-> position1.callback = function(data) { }
+
+					nx.globalLocalTransmit = function(data) { }
+					-> nx.rcvAll = function(data) { }
+
+				*/
+
 			}
 		
 		</script>
@@ -22,9 +51,7 @@
 	
 	<body style="margin:20px">
 			
-		
-		<canvas id="position_1" nx="position" width="500px" height="200px">HI!</canvas>
-		<canvas id="position_2" nx="position" width="600px" height="400px">HI!</canvas>
+		<canvas nx="position"></canvas>
 	
 	
 	</body>
