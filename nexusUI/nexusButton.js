@@ -20,7 +20,10 @@ function button(target, transmitCommand, uiIndex) {
 	// Value is the value to send when the button is clicked.  
 	this.value = 1;
 	this.transmitRelease = true;	// transmit 0 on release of button.
-	this.
+	
+	//set mode: impulse, toggle, node
+	this.mode = "impulse";
+
 
 	this.init = function() {
 		

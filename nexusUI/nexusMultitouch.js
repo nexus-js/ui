@@ -42,34 +42,30 @@ function multitouch(target, transmitCommand, uiIndex) {
 
 			//draw nodes
 			if (self.nodePos[0] != null) {
-				if (self.clickPos.touches) {
-					for (var i=0;i<self.clickPos.touches.length;i++) {
-						
-						with (self.context) {
-							globalAlpha=0.4;
-							beginPath();
-								fillStyle = self.colors.accent;
-								strokeStyle = self.colors.border;
-								lineWidth = self.lineWidth;
-								arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
-								fill();
-								stroke();
-							closePath();
-							globalAlpha=0.3;
-							beginPath();
-								fillStyle = self.rainbow[i];
-								strokeStyle = self.colors.border;
-								lineWidth = self.lineWidth;
-								arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
-								fill();
-								stroke();
-							closePath(); 
-							globalAlpha=1;
-						}
-
+				for (var i=0;i<self.clickPos.touches.length;i++) {
+					
+					with (self.context) {
+						globalAlpha=0.4;
+						beginPath();
+							fillStyle = self.colors.accent;
+							strokeStyle = self.colors.border;
+							lineWidth = self.lineWidth;
+							arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
+							fill();
+							stroke();
+						closePath();
+						globalAlpha=0.3;
+						beginPath();
+							fillStyle = self.rainbow[i];
+							strokeStyle = self.colors.border;
+							lineWidth = self.lineWidth;
+							arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
+							fill();
+							stroke();
+						closePath(); 
+						globalAlpha=1;
 					}
-				} else {
-					self.drawNode();
+
 				}
 			}
 			else {
@@ -128,8 +124,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
-		//FIXME: how to send two values?
-		self.nxTransmit(self.scaleNode());
+		self.sendit();
 	}
 
 	this.move = function() {
@@ -144,7 +139,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 				"self.nodePos[1]": self.nodePos[1],
 				"self.offset": self.offset
 			}
-			self.nxTransmit(self.scaleNode());
+			self.sendit()
 		}
 	}
 	
@@ -154,6 +149,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 			self.clicked=true;
 		}
 		self.draw();
+		self.sendit();
 		
 	}
 	
@@ -161,7 +157,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
-		self.nxTransmit(self.scaleNode());
+		self.sendit();
 	}
 
 	this.touchMove = function() {
@@ -169,13 +165,26 @@ function multitouch(target, transmitCommand, uiIndex) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
-			self.nxTransmit(self.scaleNode());
+			self.sendit();
 		}
 
 	}
 
 	this.touchRelease = function() {
 		self.release();
+		self.sendit();
+	}
+
+	this.sendit = function() {
+		self.values = new Array();
+		for (var i=0;i<self.clickPos.touches.length;i++) {
+			self.values.push(self.clickPos.touches[i].x/self.canvas.width);
+			self.values.push(nx.invert(self.clickPos.touches[i].y/self.canvas.height));
+		}
+		for (var i=self.values.length;i<10;i++) {
+			self.values.push(0);
+		}
+		self.nxTransmit(self.values);
 	}
 	
 	this.init();

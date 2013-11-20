@@ -206,6 +206,7 @@ var nxManager = function() {
 		x -= canvas_offset.left;
 	  y -= canvas_offset.top;
 		var click_position = new nx.point(x,y);
+		click_position.touches = [ {x: x, y: y }];
 		return click_position;
 	}
 
@@ -219,13 +220,13 @@ var nxManager = function() {
 	  	y -= canvas_offset.top;
 		var click_position = new nx.point(x,y);
 	//	if (e.targetTouches.length>1) {
-			click_position.touches = new Array();
-			for (var i=0;i<e.targetTouches.length;i++) {
-				click_position.touches.push({
-					x: e.targetTouches[i].pageX,
-					y: e.targetTouches[i].pageY
-				});
-			}
+		click_position.touches = new Array();
+		for (var i=0;i<e.targetTouches.length;i++) {
+			click_position.touches.push({
+				x: e.targetTouches[i].pageX,
+				y: e.targetTouches[i].pageY
+			});
+		}
 	//	}
 		return click_position;
 	}
