@@ -95,7 +95,7 @@ function getQRCode()
 	post(thisfolder);
 	var address = thisfolder.replace(serverAddress, "http%3A%2F%2F" + ipAddress + "/");
 	address = address.replace(/\//g, "%2F");
-	address = "http://qrfree.kaywa.com/?l=1&s=8&d=" + address +"nexusUp.html alt=QRCode/";
+	address = "http://qrfree.kaywa.com/?l=1&s=8&d=" + address +this.patcher.name + ".html alt=QRCode/";
 	outlet(0, "qr", address);
 	
 }
