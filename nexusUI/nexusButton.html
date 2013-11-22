@@ -14,11 +14,17 @@
 			nx.colorize("#5dd");
 			nx.colorize("border", "#EEE");
 			
-			button_1.draw();
+			button1.draw();
 			button_2.draw();
 			
-			button_1.transmissionProtocol = "none";
+			nx.setTransmissionProtocol("none");
 			button_2.transmissionProtocol = "none";
+			
+			button_3.setImage("images/pippin.png");
+			
+			button_4.setImage("images/pippin.png");
+			button_4.setTouchImage("images/pippinTouch.png");
+			
 			
 		}
 		
@@ -33,6 +39,8 @@
 	<canvas nx="button" width="100px" height="100px">Button</canvas>
 	
 	<canvas id="button_2" nx="button" width="200px" height="200px">Button</canvas>
+	<canvas id="button_3" nx="button" width="100px" height="100px">Button</canvas>
+	<canvas id="button_4" nx="button" width="100px" height="100px">Button</canvas>
 	
 
 </body>

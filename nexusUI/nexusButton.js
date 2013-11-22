@@ -24,8 +24,17 @@ function button(target, transmitCommand, uiIndex) {
 	//set mode: impulse, toggle, node
 	this.mode = "impulse";
 
+	// image button properties
+	var imageButton = 0;	// by default, not an image button
+	this.image = null;
+	this.imageHover = null;
+	this.imageTouch = null;
 
 	this.init = function() {
+		
+		if (this.image) {
+			imageButton = 1;
+		}
 		
 		self.draw();
 		
@@ -37,46 +46,70 @@ function button(target, transmitCommand, uiIndex) {
 		with (self.context) {
 			clearRect(0, 0, self.width, self.height);
 			lineWidth = self.lineWidth;
-		
-			// ** Button ** //
-			if (!self.clicked) {
-				fillStyle = self.colors.fill;
-				strokeStyle = self.colors.border;
-			} else if (self.clicked) {
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.accent;
-			}
 			
-			beginPath();
-				arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
-				fill();	  
-				stroke();
-			closePath();
+			if (imageButton) {
+				// ** Image Button ** //
+				if (!self.clicked) {
+					// Draw Image if not touched
+					drawImage(self.image, 0, 0);
+				} else {
+					if (!self.imageTouch) {
+						// No touch image, apply highlighting
+						fillStyle = self.colors.highlight;
+						strokeStyle = self.colors.accent;
+						
+						drawImage(self.image, 0, 0);
 
-			if (self.clicked) {
-				globalAlpha = 0.15;
-				fillStyle = "#fff";
-				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
-					fill();	  
-				closePath();
+						fillRect (0, 0, self.width, self.height);
+						strokeRect (0, 0, self.width, self.height);
+					} else {
+						// Draw Touch Image
+						drawImage(self.imageTouch, 0, 0);
+					}
+				}
 				
+			} else {
+		
+				// ** Regular Button ** //
+				if (!self.clicked) {
+					fillStyle = self.colors.fill;
+					strokeStyle = self.colors.border;
+				} else if (self.clicked) {
+					fillStyle = self.colors.accent;
+					strokeStyle = self.colors.accent;
+				}
+			
 				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/3), 0, Math.PI*2, true);
+					arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
 					fill();	  
-				closePath();
-				
-				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/4), 0, Math.PI*2, true);
-					fill();	  
-				closePath();
-				
-				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/5), 0, Math.PI*2, true);
-					fill();	  
+					stroke();
 				closePath();
 
-				globalAlpha = 1;
+				if (self.clicked) {
+					globalAlpha = 0.15;
+					fillStyle = "#fff";
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+				
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/3), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+				
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/4), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+				
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/5), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+
+					globalAlpha = 1;
+				}
 			}
 			
 		}
@@ -97,6 +130,27 @@ function button(target, transmitCommand, uiIndex) {
 		if (self.transmitRelease) { 
 			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
 		}
+		self.draw();
+	}
+	
+	this.setImage = function(image) {
+		self.image = new Image();
+		self.image.onload = function() { self.draw(); }
+		imageButton = 1;
+		self.image.src = image;
+	}
+	
+	this.setHoverImage = function(image) {
+		self.imageHover = new Image();
+		self.imageHover.onload = function() { self.draw(); }
+		self.imageHover.src = image;
+		self.draw();
+	}
+	
+	this.setTouchImage = function(image) {
+		self.imageTouch = new Image();
+		self.imageTouch.onload = function() { self.draw(); }
+		self.imageTouch.src = image;
 		self.draw();
 	}
 	

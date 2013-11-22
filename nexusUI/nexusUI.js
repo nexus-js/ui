@@ -22,10 +22,20 @@ var nxManager = function() {
 	
 	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
+		
 		if (!newCol) {
+			// just sending in a color value colorizes everything...
 			newCol = aspect;
+				// Set highlight to new color at half alpha
+			aspect = "highlight";
+			for (i=0;i<this.nxObjects.length;i++) {
+				eval("this.nxObjects[i].colors."+aspect+" = '"+ this.hexToRgb(newCol, 0.5) +"';");
+				this.nxObjects[i].draw();
+			}
+				// set the accent color next
 			aspect = "accent";
 		}
+		
 		for (i=0;i<this.nxObjects.length;i++) {
 			eval("this.nxObjects[i].colors."+aspect+" = '"+newCol+"';");
 			this.nxObjects[i].draw();
@@ -342,7 +352,8 @@ var nxManager = function() {
 			"border": "#bbb", 
 			"accentborder": "#aa2200",
 			"black": "#000",
-			"white": "#FFF"
+			"white": "#FFF",
+			"highlight": "rgba(255,85,0,0.5)"
 	};
 	
 	/* Global GUI Function Library*/
@@ -355,6 +366,25 @@ var nxManager = function() {
 	this.randomColor = function() {
 		var randCol = "rgb(" + this.randomNum(250) + "," + this.randomNum(250) + "," + this.randomNum(250) + ")";
 		return randCol;
+	}
+	
+	this.hexToRgb = function(hex, a) {
+		// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+	    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+	    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+	        return r + r + g + g + b + b;
+	    });
+	
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		if (!a) {
+			a = 0.5;
+		}
+		
+		    var r = parseInt(result[1], 16);
+		    var g = parseInt(result[2], 16);
+		    var b = parseInt(result[3], 16);
+
+	    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
 	}
 	
 	this.makeRoundRect = function(ctx,xpos,ypos,wid,hgt) {
@@ -580,6 +610,8 @@ function getTemplate(self, target, transmitCommand) {
 	self.colors.accentborder = nx.colors.accentborder;
 	self.colors.black = nx.colors.black;
 	self.colors.white = nx.colors.white; 
+	self.colors.highlight = nx.colors.highlight;
+	self.hexToRgb = nx.hexToRgb;
 	//interaction
 	self.click = new nx.point(0,0);
 	self.clicked = false;
