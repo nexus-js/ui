@@ -71,6 +71,7 @@ function multislider(target, transmitCommand, uiIndex) {
 	this.move = function() {
 		if (self.clicked) {
 			var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
+			sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
 			self.values[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
 			if (self.oldSliderToMove) {
 				var sliderJump = sliderToMove -  self.oldSliderToMove;

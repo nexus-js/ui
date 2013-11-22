@@ -14,7 +14,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
-	this.nodeSize = 100;
+	this.nodeSize = 40;
 	this.nodes = new Array();
 	this.values = [0,0];
 	

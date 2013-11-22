@@ -92,6 +92,11 @@
 			    localdial2.value = data;
 			    localdial2.draw();
 			}
+
+			anipos.animate("bounce");
+			nx.startPulse();
+
+			multi5.setNumberOfSliders(5);
 			
 		}
 		
@@ -157,7 +162,13 @@
 		    font-weight: 400;
 		}
 		
-		h1, h2 {
+		h1 {
+			font-family: Gill Sans;
+			font-weight: normal;
+			color:#888;
+		}
+
+		h2 {
 			font-family: "Poiret One";
 		}
 		
@@ -168,7 +179,7 @@
 		}
 		
 		h2 {
-			font-size:24pt;
+			font-size:20pt;
 			margin-left:0px;
 			display:inline;
 			margin-left:40px;
@@ -290,15 +301,17 @@
 			<img src="images/logo.png" id="logo">
 			<div style="position:absolute;left:120px;bottom:0px;min-width:500px;">		
 				<h1>NexusUI</h1>
-				<h2>mobile audio interface elements</h2>	
+				<h2>mobile music interfaces</h2>	
 			</div>
 		</div>
 	</div>
 	
+
+	<!-- MENU -->
 	
 	<div class="row">
-		<div class="large-12 columns" style="text-align:center;padding:6px 10px;background-color:#f7f7f7;margin:0px;border-bottom:solid 1px #DDD">
-				<a href="#dial_doc">dial</a> &nbsp;•&nbsp; 
+		<div class="large-12 columns" id="elemmenu" style="text-align:center;padding:6px 10px;background-color:#f7f7f7;margin:0px;border-bottom:solid 1px #DDD">
+			<!--	<a href="#dial_doc">dial</a> &nbsp;•&nbsp; 
 				<a href="#position_doc">position</a> &nbsp;•&nbsp; 
 				<a href="#keyboard_doc">keyboard</a> &nbsp;•&nbsp; 
 				<a href="#button_doc">button</a> &nbsp;•&nbsp; 
@@ -313,10 +326,24 @@
 				<a href="#colors_doc">colors</a> &nbsp;•&nbsp; 
 				<a href="#sandbox_doc">sandbox</a> &nbsp;•&nbsp; 
 				<a href="#joints_doc">joints</a> &nbsp;•&nbsp; 
-				<a href="#mango_doc">mango</a>
+				<a href="#mango_doc">mango</a> -->
 		</div>
 	</div>
 	
+<script>
+
+$(document).ready(function() {
+	$('a').each(function() {
+		var thisname = $(this).attr("name");
+		if (thisname.indexOf("_doc")!=-1) {
+			$("#elemmenu").append('<a href="#'+thisname+'">'+thisname.replace('_doc','')+'</a> &nbsp;•&nbsp;');
+		}
+		$(this).find(".textcolumn").append('<a href="">'+thisname+'</a>');
+	})
+});
+
+</script>
+
 	
 	
 	<!-- Main explanation and download row -->
@@ -483,7 +510,7 @@
 	
 	
 	<div class="row titlerow">
-		Accessing elements
+		Accessing elements in JS
 	</div>
 	
 	<div class="row tutorialrow">
@@ -546,6 +573,9 @@
 				<b>nx.setTransmitCommand( )</b><br>
 				An element's transmitCommand property specifies the location to send to. To use Nexus' PHP relay, set the transmitCommand to the filepath of nexusOSCRelay.php.
 				transmitCommand can also be set for all elements with the nx.setTransmitCommand() method.
+				<br><br>
+				<b>OSC naming conventions</b><br>Each element's OSC name will be the same as its JS variable name. I.e. the first dial on the page will be /dial1, the third dial will be /dial3, etc., unless you set its name with an ID.
+				<br><br>
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
@@ -678,6 +708,53 @@ nx.onload = function() {
 
 
 
+
+	
+	<div class="row titlerow">
+		Animation
+	</div>
+	
+	<div class="row tutorialrow">
+		<div class="large-6 columns">
+			<div class="textcolumn">
+				<b>.animate()</b><br>
+				A few elements have options for animation and simple physics. To animate an object, give it an animation type with .animate() <br>e.g. <i>dial1.animate("bounce");</i>
+				<br><br>
+				<b>nx.startPulse()</b><br>
+				Nexus has a centralized animation pulse that you should turn on if you have any animated objects. Turn on the pulse with <i>nx.startPulse()</i>
+				<br><br>
+				<b>current elements supporting animation</b><br>
+				position<br>
+				dial
+				<br><br>
+			</div>
+		</div>
+		<div class="large-5 columns codecolumn">
+			<textarea class="codedisplay" style="height:305px" readonly>
+<script>
+
+	nx.onload {
+		
+	  position1.animate("bounce");
+	  nx.startPulse();
+	  
+	}
+
+</script>
+
+<canvas nx="position"></canvas>
+			</textarea>
+						
+			<canvas nx="position" id="anipos"></canvas>
+			
+		</div>
+		<div class="large-1 columns"></div>
+	</div>
+	
+	
+	
+
+
 		
 
 
@@ -719,7 +796,6 @@ nx.onload = function() {
 	<!-- 
 			SHARED
 	-->
-	<a name="shared_doc"></a>
 	<div class="row titlerow">
 		Shared properties and methods
 	</div>
@@ -759,7 +835,7 @@ nx.onload = function() {
 		Dial
 	</div>
 	
-	<div class="row tutorialrow">
+	<div class="row tutorialrow" id="dial_row">
 		<div class="large-6 columns">
 			<div class="textcolumn">
 				
@@ -776,6 +852,7 @@ nx.onload = function() {
 				<!-- methods -->
 				<div class="doccategory">methods</div>
 				<b></b><br>
+
 				
 			</div>
 		</div>
@@ -788,6 +865,7 @@ nx.onload = function() {
 		</div>	
 		<div class="large-1 columns"></div>
 	</div>
+
 	
 	
 	
@@ -895,13 +973,21 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				0 (off) or 1 (on).
+				output depends on mode.<br>
+				impulse (default): 1 (on) when clicked.<br>
+				toggle: 1 (on) when clicked, 0 (off) when released.<br>
+				position: array/list of 3 numbers: on/off, x of press, y of press<br>
+				<br>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div>
 				<b>.value</b> 
 				<span class="valuedefault">(default data output)</span><br>
 				0 (off) or 1 (on).<br>
+				<br><b>.mode</b> <br>
+				options: "impulse", "toggle", "position"<br>
+				<br>
+
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
@@ -1030,16 +1116,22 @@ nx.onload = function() {
 				
 				<!-- methods -->
 				<div class="doccategory">methods</div>
-				<b></b><br>
+				<b>.setNumberOfSliders( <i>number</i> )</b><br>
+				Set # of sliders in the multislider.
 				
 			</div>
 		</div>
 		<div class="large-5 columns codecolumn">
 			<textarea class="codedisplay">
+<script>
+    nx.onload= function() {
+        multislider1.setNumberOfSliders(5);
+    }
+</script>
 
 <canvas nx="multislider"></canvas>
 			</textarea>
-			<canvas nx="multislider"></canvas>
+			<canvas nx="multislider" id="multi5"></canvas>
 		</div>	
 		<div class="large-1 columns"></div>
 	</div>
@@ -1468,15 +1560,11 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				3 integer array:<br>
-				index # of circle being dragged<br>
-				x value of that circle<br>
-				y value of that circle<br>
-				<i>more coming soon</i>
+				None
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
-				
+
 				<!-- methods -->
 				<div class="doccategory">methods</div>
 				<b></b><br>
@@ -1513,15 +1601,12 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				3 integer array:<br>
-				index # of circle being dragged<br>
-				x value of that circle<br>
-				y value of that circle<br>
-				<i>more coming soon</i>
+				String of message text
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
 				
+
 				<!-- methods -->
 				<div class="doccategory">methods</div>
 				<b></b><br>
@@ -1531,9 +1616,9 @@ nx.onload = function() {
 		<div class="large-5 columns codecolumn">
 			<textarea class="codedisplay">
 
-<canvas nx="message"></canvas>
+<canvas nx="message" label="baaaaaang!"></canvas>
 			</textarea>
-			<canvas nx="number"></canvas>
+			<canvas nx="message" label="baaaaaang!"></canvas>
 		</div>	
 		<div class="large-1 columns"></div>
 	</div>
@@ -1558,11 +1643,7 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				3 integer array:<br>
-				index # of circle being dragged<br>
-				x value of that circle<br>
-				y value of that circle<br>
-				<i>more coming soon</i>
+				Float
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
@@ -1603,11 +1684,7 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				3 integer array:<br>
-				index # of circle being dragged<br>
-				x value of that circle<br>
-				y value of that circle<br>
-				<i>more coming soon</i>
+				None
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
@@ -1648,11 +1725,7 @@ nx.onload = function() {
 				
 				<!-- output data -->
 				<div class="doccategory firstdoccat">output data</div>
-				3 integer array:<br>
-				index # of circle being dragged<br>
-				x value of that circle<br>
-				y value of that circle<br>
-				<i>more coming soon</i>
+				Array/list of 10 floats (5 x/y pairs of finger touch points)<br>
 				
 				<!-- properties -->
 				<div class="doccategory">properties</div><br>
