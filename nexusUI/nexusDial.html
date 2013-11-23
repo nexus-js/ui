@@ -4,8 +4,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Dial</title>
 	<meta name="LSU EMDM" content="nexus">
-	
-	<link type="style/css" href="nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusDial.js"></script>
@@ -16,13 +14,14 @@
 			nx.colorize("red");
 			nx.colorize("border", "white");
 			
-			dial2.value = 0.75;
-			dial2.draw();
+			dial3.value = 0.75;
+			dial3.draw();
 			
-			dial1.transmissionProtocol = "none";
+			dial1.transmissionProtocol = "ajax";
+
 			dial2.transmissionProtocol = "none";
 			
-			dial1.animate("bounce");
+			dial2.animate("bounce");
 			
 			nx.startPulse();
 			
@@ -35,9 +34,9 @@
 <body>
 
 	<div id="dial">
-		<canvas id="dial0" nx="dial" width="60px" height="60px"></canvas>
-		<canvas id="dial1" nx="dial" width="200px" height="200px"></canvas>
-		<canvas id="dial2" nx="dial" width="250px" height="250px"></canvas>
+		<canvas nx="dial" width="60px" height="60px"></canvas>
+		<canvas nx="dial" width="200px" height="200px"></canvas>
+		<canvas nx="dial" width="250px" height="250px"></canvas>
 	</div>
 	
 </body>

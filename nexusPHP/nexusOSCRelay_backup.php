@@ -11,21 +11,6 @@ include 'OSC.phps';
 /*$q=$_GET["data"];  /* Receive data parameter in get request ?data=blah*/
 $q=$_POST["data"];	/* Receive data parameter as a post */
 
-if (preg_match('/ /', $q)) {
-	//list
-	$q = (string)$q;
-	//$q = preg_split('/ /', $q);
-} else if (preg_match('/[a-z]/i', $q)) {
-	//string
-	$q = (string)$q;
-} else if (preg_match('/[0-9]/i', $q)) {
-	//number
-	$q = (float)$q;
-}
-
-
-
-
 $osc_name=$_POST["oscName"];	/* Get osc name to use as the osc message */
 
 $osc_ip=$_POST["oscIp"];	/* If an osc_ip is posted as well, use that ip, otherwise, default to localhost */
@@ -36,7 +21,6 @@ if (is_null($osc_ip))
 $c = new OSCClient();
 $c->set_destination($osc_ip, 7475);
 $c->send(new OSCMessage($osc_name, array($q)));
-//$c->send(new OSCMessage($osc_name, $q));
 
 echo "Got it";	/* If you want to send something back to the browser that sent the AJAX request. */
 
