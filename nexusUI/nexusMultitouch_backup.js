@@ -41,11 +41,11 @@ function multitouch(target, transmitCommand, uiIndex) {
 			fill();
 
 			//draw nodes
-			if (self.clickPos.touches.length>=1) {
+			if (self.nodePos[0] != null) {
 				for (var i=0;i<self.clickPos.touches.length;i++) {
 					
 					with (self.context) {
-						globalAlpha=1;
+						globalAlpha=0.4;
 						beginPath();
 							fillStyle = self.colors.accent;
 							strokeStyle = self.colors.border;
@@ -78,14 +78,67 @@ function multitouch(target, transmitCommand, uiIndex) {
 		}
 	}
 
+	this.drawNode = function() {
+		//stay within right/left bounds
+		if (self.nodePos[0]<(self.bgLeft+self.nodeSize)) {
+			self.nodePos[0] = self.bgLeft + self.nodeSize;
+		} else if (self.nodePos[0]>(self.bgRight-self.nodeSize)) {
+			self.nodePos[0] = self.bgRight - self.nodeSize;
+		}
+		//stay within top/bottom bounds
+		if (self.nodePos[1]<(self.bgTop+self.nodeSize)) {
+			self.nodePos[1] = self.bgTop + self.nodeSize;
+		} else if (self.nodePos[1]>(self.bgBottom-self.nodeSize)) {
+			self.nodePos[1] = self.bgBottom - self.nodeSize;
+		}
+	
+		with (self.context) {
+			globalAlpha=0.2;
+			beginPath();
+				strokeStyle = self.colors.accent;
+				//lineWidth = self.lineWidth;
+				lineWidth = 2;
+				moveTo(self.nodePos[0],0+self.padding);
+				lineTo(self.nodePos[0],self.height-self.padding);
+				moveTo(0+self.padding,self.nodePos[1]);
+				lineTo(self.width-self.padding,self.nodePos[1]);					
+				stroke();
+			closePath();
+			globalAlpha=1;
+			beginPath();
+				fillStyle = self.colors.accent;
+				strokeStyle = self.colors.border;
+				lineWidth = self.lineWidth;
+				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, true);					
+				fill();
+			closePath();
+		}
+	}
+	
+	this.scaleNode = function() {
+		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
+		return self.values;
+	}
+
 	this.click = function() {
+		self.nodePos[0] = self.clickPos.x;
+		self.nodePos[1] = self.clickPos.y;
 		self.draw();
 		self.sendit();
 	}
 
 	this.move = function() {
 		if (self.clicked) {
+			self.nodePos[0] = self.clickPos.x;
+			self.nodePos[1] = self.clickPos.y;
 			self.draw();
+			var help = {
+				"self.clickPos.x": self.clickPos.x,
+				"self.clickPos.y": self.clickPos.y,
+				"self.nodePos[0]": self.nodePos[0],
+				"self.nodePos[1]": self.nodePos[1],
+				"self.offset": self.offset
+			}
 			self.sendit()
 		}
 	}
@@ -94,29 +147,32 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.release = function() {
 		if (self.clickPos.touches.length>1) {
 			self.clicked=true;
-		} else {
-			self.clickPos.touches = new Array();
 		}
-		
 		self.draw();
 		self.sendit();
 		
 	}
 	
 	this.touch = function() {
+		self.nodePos[0] = self.clickPos.x;
+		self.nodePos[1] = self.clickPos.y;
 		self.draw();
 		self.sendit();
 	}
 
 	this.touchMove = function() {
 		if (self.clicked) {
+			self.nodePos[0] = self.clickPos.x;
+			self.nodePos[1] = self.clickPos.y;
 			self.draw();
 			self.sendit();
 		}
+
 	}
 
 	this.touchRelease = function() {
 		self.release();
+		self.sendit();
 	}
 
 	this.sendit = function() {

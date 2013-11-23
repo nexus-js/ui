@@ -26,13 +26,26 @@ var nxManager = function() {
 		if (!newCol) {
 			// just sending in a color value colorizes everything...
 			newCol = aspect;
-				// Set highlight to new color at half alpha
+			
+			// Set highlight to new color at half alpha
+		
+		/*	 I'm not sure we should do this here...  Reasoning:
+			1. Isn't our "accent" color generally used for highlighting?
+			2. This is breaking a few objects (uncomment this and see nexusDial.html)
+				I spent some time looking for the prob but couldn't figure it out...
+			3. We don't know if the user will pass in Hex or RGB data to .colorize
+			4. I think any transparency we do should be done with globalAlpha in canvas
+				so we don't end up multiplying alphas on accident.
+
 			aspect = "highlight";
 			for (i=0;i<this.nxObjects.length;i++) {
 				eval("this.nxObjects[i].colors."+aspect+" = '"+ this.hexToRgb(newCol, 0.5) +"';");
 				this.nxObjects[i].draw();
-			}
+			} 
 				// set the accent color next
+
+		*/		
+
 			aspect = "accent";
 		}
 		
@@ -232,11 +245,21 @@ var nxManager = function() {
 	//	if (e.targetTouches.length>1) {
 		click_position.touches = new Array();
 		for (var i=0;i<e.targetTouches.length;i++) {
+			 click_position.touches.push({
+				x: e.targetTouches[i].pageX,
+				y: e.targetTouches[i].pageY
+			});
+		/*	click_position.touches[i] = new Object();
+			click_position.touches[i].x = e.targetTouches[i].pageX;
+			click_position.touches[i].y = e.targetTouches[i].pageY; */
+		}
+		// fill rest of touches array with 0s? debating doing this...
+	/*	for (var i=click_position.touches.length;i<5;i++) {
 			click_position.touches.push({
 				x: e.targetTouches[i].pageX,
 				y: e.targetTouches[i].pageY
 			});
-		}
+		} */
 	//	}
 		return click_position;
 	}
@@ -503,6 +526,16 @@ var nxManager = function() {
         context.fillText(line, x, y);
       }
 
+      this.metas = document.getElementsByTagName('meta');
+
+	  this.setViewport = function(scale) {
+	    for (i=0; i<manager.metas.length; i++) {
+	      if (manager.metas[i].name == "viewport") {
+	        manager.metas[i].content = "minimum-scale="+scale+", maximum-scale="+scale;
+	      }
+	    }
+	  }
+
 	
 }
 
@@ -543,7 +576,7 @@ $(document).ready(function() {
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+idNum+");");
+			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
 		}
 	}
 	
@@ -613,7 +646,8 @@ function getTemplate(self, target, transmitCommand) {
 	self.colors.highlight = nx.colors.highlight;
 	self.hexToRgb = nx.hexToRgb;
 	//interaction
-	self.click = new nx.point(0,0);
+	self.clickPos = new nx.point(0,0);
+	self.clickPos.touches = new Array();
 	self.clicked = false;
 	self.value = 0;
 	self.nodePos = new Array();	

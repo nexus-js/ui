@@ -3,6 +3,7 @@
    	
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no">
 		<title>Multitouch</title>
 		<meta name="LSU EMDM" content="nexus">
 		<script type="text/javascript" src="jquery.js"></script>
@@ -15,16 +16,21 @@
 				nx.colorize("#0af");
 				nx.setTransmissionProtocol("ajax");
 				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
+
+				nx.setTransmissionProtocol("local");
+
 			}
-		
 		</script>
+
+
 		
 	</head>
 	
 	<body>
 		
-		<canvas nx="multitouch" style="width:1000px;height:1500px;">HI!</canvas>
-		<div id="debug"></div>
+		<canvas nx="multitouch" style="width:500px;height:500px;">HI!</canvas>
+
+
 	</body>
 	
 </html>
