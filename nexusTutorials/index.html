@@ -113,7 +113,16 @@
 				$("textarea").css("-moz-user-select", "none");
 				$("textarea").css("-webkit-user-select", "none");
 			});
-			
+
+			//$(".unfolder .tutorialrow").hide(0);
+			$(".unfolder .titlerow").toggle(function() {
+				$(this).next().css("height", "auto");
+				$(this).next().css("margin", "40px 0px 60px");
+			}, function() {
+				$(this).next().css("height", "0px");
+				$(this).next().css("margin", "0px");
+			});
+		
 			
 		});
 		
@@ -216,7 +225,8 @@
 		}
 		
 		.tutorialrow {
-			margin: 40px 0px 60px 20px;
+			/*margin: 40px 0px 60px 20px; */
+			margin:0px;
 		}
 		
 		.codedisplay {
@@ -243,7 +253,7 @@
 		
 		.titlerow {
 			font-size:20pt;
-			border-bottom:solid 1px #999;
+			border-bottom:solid 2px #ddd;
 			padding:40px 0px 10px 35px;
 		}
 		
@@ -287,6 +297,11 @@
 		.valuedefault {
 			color:#aaa;
 			font-size:10pt;
+		}
+
+		.unfolder .tutorialrow {
+		//	height:0px;
+		//	overflow:hidden;
 		}
 		
 		
@@ -336,11 +351,17 @@ $(document).ready(function() {
 	$('a').each(function() {
 		var thisname = $(this).attr("name");
 		if (thisname.indexOf("_doc")!=-1) {
-			$("#elemmenu").append('<a href="#'+thisname+'">'+thisname.replace('_doc','')+'</a> &nbsp;•&nbsp;');
+			$("#elemmenu").append('<a href="#'+thisname+'" onclick="openTut(\''+thisname+'\')">'+thisname.replace('_doc','')+'</a> &nbsp;•&nbsp;');
 		}
 		$(this).find(".textcolumn").append('<a href="">'+thisname+'</a>');
 	})
 });
+
+
+function openTut(tutname) {
+	$("a[name='"+tutname+"']").next().next().css("height", "auto");
+	$("a[name='"+tutname+"']").next().next().css("margin", "40px 0px 60px 0px");
+}
 
 </script>
 
@@ -437,6 +458,7 @@ $(document).ready(function() {
 
 
 
+	<div class="unfolder">
 
 
 	
@@ -452,7 +474,7 @@ $(document).ready(function() {
 
 
 
-	
+
 	<div class="row titlerow">
 		Creating Elements
 	</div>
@@ -504,7 +526,6 @@ $(document).ready(function() {
 		</div>
 		<div class="large-1 columns"></div>
 	</div>
-	
 	
 		
 	
@@ -1747,7 +1768,8 @@ nx.onload = function() {
 	</div>
 	
 	
-	
+	<!-- end unfolder -->
+	</div>
 	
 	
 	

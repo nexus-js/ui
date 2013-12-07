@@ -59,10 +59,12 @@ function button(target, transmitCommand, uiIndex) {
 						strokeStyle = self.colors.accent;
 						
 						drawImage(self.image, 0, 0);
+
 						globalAlpha = 0.5;
 						fillRect (0, 0, self.width, self.height);
 						strokeRect (0, 0, self.width, self.height);
 						globalAlpha = 1;
+						
 					} else {
 						// Draw Touch Image
 						drawImage(self.imageTouch, 0, 0);
