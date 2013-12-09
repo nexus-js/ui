@@ -1,0 +1,49 @@
+<!doctype html>
+   <html lang="en">
+   	
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>String instrument</title>
+		<meta name="LSU EMDM" content="nexus">
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="nexusUI.js"></script>
+		<script type="text/javascript" src="nexusString.js"></script>
+		<script type="text/javascript" src="../nexusWebAudio/js/gibberish_2.0.js"></script>
+		
+		<script>
+		
+			nx.onload = function() {
+				nx.colorize("#0af");
+				nx.setTransmissionProtocol("local");
+
+				string1.localTransmit = function(data) {
+					console.log("local: "+data)
+					b.note((data[0]+1)*50);
+					prefxBus.amp = data[1];
+					d.feedback = Math.abs(1-data[1])*0.7 + 0.3;
+				}
+
+
+				Gibberish.init();
+				prefxBus = new Gibberish.Bus2();
+				prefxBus.connect();
+		
+				b = new Gibberish.KarplusStrong({ damping:0 }).connect(prefxBus);
+			    d = new Gibberish.Delay(prefxBus).connect( Gibberish.out );
+			    d.time = 2000;
+			    d.feedback = 0.95;
+			}
+
+
+		</script>
+		
+	</head>
+	
+	<body style="margin:20px">
+			
+		<canvas nx="string" style="width:800px;height:700px"></canvas>
+	
+	
+	</body>
+	
+</html>
