@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+	<head>
+
+	  	<title>:: Nexus Canvas View ::</title>
+
+		<!-- standard includes of nexusUI and jquery-->
+		<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
+		<script type="text/javascript" src="../CurrentBuild/nexusUI.min.js"></script>
+
+		
+
+		<!-- Make mobile display non scalable and fitting the viewport window -->
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+
+		<script>
+
+			var editing = true;
+			
+			// Setup all of the UI objects you want to use.
+			// This occurs after the page has loaded all of the canvas objects to draw into.
+			
+			nx.onload = function() {
+				nx.colorize("f00");
+				nx.setTransmissionProtocol("local");
+				nx.globalLocalTransmit = function(data) {
+					console.log(data);
+				}
+			//	nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
+			}
+
+			$(document).ready(function() {
+				$(".nxopt").mousedown(function() {
+					// if it has an nx attribute, store that in nxId
+					var nxId = $(this).html();
+					var elemCount = 0;
+					// find out how many of the same elem type have come before
+					// i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+					// allowing you to count how many dials already exist on the page
+					// and give your new dial the appropriate index and id: dial3
+					for (j=0;j<nx.elemTypeArr.length;j++) {
+						if (nx.elemTypeArr[j]==nxId) {
+							elemCount++;
+						}
+					}
+					// add your new nexus element type to the element list
+					nx.elemTypeArr.push(nxId);
+					var idNum = elemCount + 1;
+					var thisname = nxId + idNum;
+					if(nxId) {
+						$("body").append('<canvas id="'+thisname+'" style="position:absolute"></canvas>');
+						eval(thisname + " = new "+nxId+"('"+thisname+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
+					}
+					nx.onload();
+					globaldragid = thisname;
+					document.addEventListener("mousemove", dragobj, true);
+					//$("#"+thisname).draggable();
+				})
+				$(document).mouseup(function() {
+					console.log("up");
+					document.removeEventListener("mousemove", dragobj, true)
+				});
+			})
+
+			function dragobj(e) {
+				var matrixy = ~~(e.clientY/100)*100;
+				var matrixx = ~~(e.clientX/100)*100;
+				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
+			}
+			
+		</script>
+	</head>
+	<body>
+
+		<!-- Layout all of the UI elements as canvas objects -->
+		<div style="position:fixed;left:0px;top:0px;padding:10px;border:solid 2px #ccc">
+			<div class="editbutton">editing is on</div>
+			<div class="nxopt">dial</div>
+			<div class="nxopt">toggle</div>
+			<div class="nxopt">button</div>
+			<div class="nxopt">position</div>
+			<div class="nxopt">multitouch</div>
+			
+		</div>
+
+	</body>	
+</html>

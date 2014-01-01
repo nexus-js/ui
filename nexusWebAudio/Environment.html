@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>
+	<title>Nexus Mobile Audio Interface Objects</title>
+	<meta name="LSU EMDM" content="nexus">
+	
+	<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+	<script type="text/javascript" src="js/gibberish_2.0.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusMatrix.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
+	<script type="text/javascript" src="../nexusUI/nexusString.js"></script>
+	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet">
+	<script type="text/javascript" charset="utf-8">
+	
+		/*
+			string source
+			position controlling delay time/feedback
+			some modulation? controlled by another position or multitouch
+			buttons for sounds
+			joints for droney
+			banner
+
+			other effects: granulation w/ volume on it
+			filtering
+			feedback into modulation
+			decimator
+
+		*/
+
+		nx.onload = function() {
+			
+			nx.colorize("#08d");
+			
+				// Sets the .transmissionProtocol of all of the nexus objects
+			nx.setTransmissionProtocol("local");
+		
+			string1.localTransmit = function(data) {
+					b.note((data[0]+1)*50);
+					prefxBus.amp = data[1];
+				//	d.feedback = Math.abs(1-data[1])*0.7 + 0.3;
+			}
+			position1.localTransmit = function(data) {
+				d.time = data[0]*4000;
+				d.feedback = data[1];
+			}
+			position2.localTransmit = function(data) {
+				rm.frequency = Math.floor(data[0]*10)*100;
+				rm.amp = data[1];
+			}
+			button1.localTransmit  = function(data) {
+				smp.record(prefxBus, 88200);
+			}
+			string2.localTransmit  = function(data) {
+				smp.note((data[0]/2)-2);
+			}
+			position3.localTransmit = function(data) {
+			//	myfilt.cutoff = data[0]*1000;
+			//	myfilt.Q = data[1]*4;
+			//	verbxx.roomSize = data[0]*500;
+			//	verbxx.wet = data[1];
+				deci.bitDepth = data[0]*8;
+				deci.sampleRate = data[1]*100;
+			}
+
+
+			Gibberish.init();
+			prefxBus = new Gibberish.Bus2();
+			prefxBus.connect();
+
+			b = new Gibberish.KarplusStrong({ damping:0 }).connect(prefxBus);
+		    d = new Gibberish.Delay(prefxBus).connect( Gibberish.out );
+		    d.time = 2000;
+		    d.feedback = 0.95;
+
+		    rm = new Gibberish.RingModulation({ input:b, frequency:200, amp:.8, mix:1 })
+		    rm.connect(prefxBus);
+
+		    smp = new Gibberish.Sampler().connect(prefxBus); 
+
+		    deci = new Gibberish.Decimator({ input:prefxBus, bitDepth:1.2, sampleRate:.33 }).connect(); 
+
+	
+			verbxx = new Gibberish.Reverb({input:d, roomSize:100, wet:1, dry:.25})
+			verbxx.connect(Gibberish.out);
+
+
+		  //  myfilt = new Gibberish.Biquad({input:rm, cutoff:100, Q:4, mode:"HP"});
+		 //   myfilt.connect( Gibberish.out);
+
+		  //  rm2 = new Gibberish.RingModulation({ input:prefxBus, frequency:100, amp:.8, mix:1 })
+
+
+		}
+		
+			
+		
+	</script>
+	
+</head>
+<body>
+	
+	<div style="font-family:gill sans;margin-bottom:4px;padding:10px;background-color:#eee;width:600px;">
+		<span style="font-size:25pt;">
+			nexus
+		</span>
+		<span style="font-size:15pt;">
+			evolving string environment
+		</span>
+	</div>
+	
+	<div style="float:left">
+		<canvas nx="string" style="height:600px;width:100px"></canvas>
+	</div>
+	<div style="float:left">
+		<canvas nx="position"></canvas>
+		<canvas nx="position"></canvas><br>
+		<canvas nx="button"></canvas>
+		<canvas nx="string"></canvas><br>
+		<canvas nx="position"></canvas>
+	</div>
+	
+</body>
+</html>

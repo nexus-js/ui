@@ -26,7 +26,7 @@ function multislider(target, transmitCommand, uiIndex) {
 	this.clip = nx.clip;
 	
 	
-
+	// test
 	this.init = function() {
 		nx.getHandlers(self);
 

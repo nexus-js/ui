@@ -561,16 +561,25 @@ nx.onload = function() {};
  * using the canvas's id as its var name */
 
 $(document).ready(function() {
+	// get all canvases on the page
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
+		// if it has an nx attribute, store that in nxId
 		var nxId = allcanvi[i].getAttribute("nx");
 		var elemCount = 0;
+		// find out how many of the same elem type have come before
+		// i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+		// allowing you to count how many dials already exist on the page
+		// and give your new dial the appropriate index and id: dial3
 		for (j=0;j<nx.elemTypeArr.length;j++) {
 			if (nx.elemTypeArr[j]==nxId) {
 				elemCount++;
 			}
 		}
+		// add your new nexus element type to the element list
 		nx.elemTypeArr.push(nxId);
+		// check to see if it has a pre-given ID
+		// and use that as its id if so
 		if (!allcanvi[i].id) {
 			var idNum = elemCount + 1;
 			allcanvi[i].id = nxId + idNum;
