@@ -19,6 +19,7 @@ var nxManager = function() {
 	this.nxThrottlePeriod = 20;
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
+	this.editmode = false;
 	
 	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
@@ -536,6 +537,20 @@ var nxManager = function() {
 	    }
 	  }
 
+	  this.editOn = function() {
+	  	manager.editmode = true;
+	  	$("canvas").css("border", "solid 1px #888");
+	  	$("body").css("background", "#eee");
+	  	$(".nxopt").show();
+	  }
+
+	  this.editOff = function() {
+	  	manager.editmode = false;
+	  	$("canvas").css("border", "none");
+	  	$("body").css("background", "#fff");
+	  	$(".nxopt").hide();
+	  }
+
 	
 }
 
@@ -663,6 +678,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.deltaMove = new Object();
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
 	self.nxThrottle = nx.nxThrottle;
+	self.isBeingDragged = false;
 	//recording
 	nx.addNxObject(self);
 	self.isRecording = false;
@@ -682,6 +698,10 @@ function getTemplate(self, target, transmitCommand) {
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	self.iosTransmit = nx.iosTransmit;
+
+	if (nx.editmode) {
+		self.canvas.style.border = "solid 1px #888";
+	}
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
@@ -705,7 +725,13 @@ function getTemplate(self, target, transmitCommand) {
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
-		self.click(e);
+		if (nx.editmode) {
+			self.isBeingDragged = true;
+			globaldragid = self.canvasID;
+			showSettings();
+		} else {
+			self.click(e);
+		}
 	};
 	self.preMove = function(e) {
 		self.movehandle = 0;
@@ -713,12 +739,25 @@ function getTemplate(self, target, transmitCommand) {
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
 		self.deltaMove.x = new_click_position.x - self.clickPos.x;
 		self.clickPos = new_click_position;
-		self.move(e);
+		if (nx.editmode) {
+			if (self.isBeingDragged) {
+				var matrixy = ~~(e.clientY/100)*100;
+				var matrixx = ~~(e.clientX/100)*100;
+				self.canvas.style.top = matrixy+"px";
+				self.canvas.style.left = matrixx+"px";	
+			}
+		} else {
+			self.move(e);
+		}
 	};
 	self.preRelease = function(e) {
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = false;
-		self.release();
+		if (nx.editmode) {
+			self.isBeingDragged = false;
+		} else {
+			self.release();
+		}
 		document.removeEventListener("mouseup", self.preRelease, false);
 	};
 	self.preTouch = function(e) {
