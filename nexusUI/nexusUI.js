@@ -537,20 +537,6 @@ var nxManager = function() {
 	    }
 	  }
 
-	  this.editOn = function() {
-	  	manager.editmode = true;
-	  	$("canvas").css("border", "solid 1px #888");
-	  	$("body").css("background", "#eee");
-	  	$(".nxopt").show();
-	  }
-
-	  this.editOff = function() {
-	  	manager.editmode = false;
-	  	$("canvas").css("border", "none");
-	  	$("body").css("background", "#fff");
-	  	$(".nxopt").hide();
-	  }
-
 	
 }
 
@@ -741,8 +727,8 @@ function getTemplate(self, target, transmitCommand) {
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
 			if (self.isBeingDragged) {
-				var matrixy = ~~(e.clientY/100)*100;
-				var matrixx = ~~(e.clientX/100)*100;
+				var matrixy = ~~(e.clientY/50)*50;
+				var matrixx = ~~(e.clientX/50)*50;
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";	
 			}

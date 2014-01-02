@@ -12,6 +12,11 @@
 		<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusTilt.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusColors.js"></script>
 
 		
 
@@ -26,9 +31,26 @@
 			var globaldragid = false;
 
 			nx.onload = function() {
-				nx.colorize("0f0");
+				nx.colorize("0af");
 				nx.setTransmissionProtocol("ajax");
 				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
+
+
+				nx.editOn = function() {
+					nx.editmode = true;
+				  	$("canvas").css("border", "solid 1px #888");
+				  	$("body").css("background", "#eee");
+				  	$(".nxopt").show(0);
+				  	$("#settings").show(0);
+				}
+
+				nx.editOff = function() {
+				  	nx.editmode = false;
+				  	$("canvas").css("border", "none");
+				  	$("body").css("background", "#fff");
+				  	$(".nxopt").hide();
+				  	$("#settings").hide(0);
+				}
 			}
 
 			$(document).ready(function() {
@@ -73,8 +95,8 @@
 			})
 
 			function dragobj(e) {
-				var matrixy = ~~(e.clientY/100)*100;
-				var matrixx = ~~(e.clientX/100)*100;
+				var matrixy = ~~(e.clientY/50)*50;
+				var matrixx = ~~(e.clientX/50)*50;
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
@@ -118,10 +140,14 @@
 			<div class="nxopt">toggle</div>
 			<div class="nxopt">button</div>
 			<div class="nxopt">position</div>
+			<div class="nxopt">multislider</div>
+			<div class="nxopt">slider</div>
+			<div class="nxopt">tilt</div>
+			<div class="nxopt">keyboard</div>
 			
 		</div>
 
-		<div style="position:fixed;left:0px;bottom:0px;width:100%;padding:10px;border:solid 2px #ccc;background-color:#FFF">
+		<div style="position:fixed;left:0px;bottom:0px;width:100%;padding:10px;border:solid 2px #ccc;background-color:#FFF;display:none;" id="settings">
 
 			Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" value="127.0.0.1"></input><br>
 			Set OSCName:<input type="text" id="setoscname" onkeyup="setoscname(this.value)"></input><br>
