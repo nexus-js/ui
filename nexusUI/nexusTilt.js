@@ -104,6 +104,7 @@ function tilt(target, transmitCommand, uiIndex) {
 			fillText(self.defaultText, self.width/2, self.height/2+self.height/15);
 			globalAlpha = 1;
 		}
+		self.drawLabel();
 	}
 	
 	this.scaleNode = function() {

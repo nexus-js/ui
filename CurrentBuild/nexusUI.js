@@ -19,13 +19,20 @@ var nxManager = function() {
 	this.nxThrottlePeriod = 20;
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
+	this.editmode = false;
+	this.oscIp = "127.0.0.1"
 	
 	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
+		
 		if (!newCol) {
+			// just sending in a color value colorizes everything...
 			newCol = aspect;
 			aspect = "accent";
 		}
+		
+		eval("manager.colors."+aspect+" = '"+newCol+"';");
+		
 		for (i=0;i<this.nxObjects.length;i++) {
 			eval("this.nxObjects[i].colors."+aspect+" = '"+newCol+"';");
 			this.nxObjects[i].draw();
@@ -112,7 +119,7 @@ var nxManager = function() {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
+			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
 		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
 			//window.alert(data);
@@ -145,12 +152,13 @@ var nxManager = function() {
 	
 	// ajaxTransmit is the function to send info back to the server. 
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
-	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, callbackFunction) {
+	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, oscIp, callbackFunction) {
 		if (this.ajaxRequestType == "post") {
+			console.log(oscIp);
 			if (uiIndex) {
-				$.post(ajaxCommand, {oscName: oscName, id: uiIndex, data: data});
+				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, id: uiIndex, data: data});
 			} else {
-				$.post(ajaxCommand, {oscName: oscName, data: data});
+				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, data: data});
 			}
 		} else if (this.ajaxRequestType == "get") {
 			if (uiIndex) {
@@ -222,11 +230,21 @@ var nxManager = function() {
 	//	if (e.targetTouches.length>1) {
 		click_position.touches = new Array();
 		for (var i=0;i<e.targetTouches.length;i++) {
+			 click_position.touches.push({
+				x: e.targetTouches[i].pageX,
+				y: e.targetTouches[i].pageY
+			});
+		/*	click_position.touches[i] = new Object();
+			click_position.touches[i].x = e.targetTouches[i].pageX;
+			click_position.touches[i].y = e.targetTouches[i].pageY; */
+		}
+		// fill rest of touches array with 0s? debating doing this...
+	/*	for (var i=click_position.touches.length;i<5;i++) {
 			click_position.touches.push({
 				x: e.targetTouches[i].pageX,
 				y: e.targetTouches[i].pageY
 			});
-		}
+		} */
 	//	}
 		return click_position;
 	}
@@ -289,6 +307,22 @@ var nxManager = function() {
 			closePath();
 		}
 	}
+
+	this.drawLabel = function() {
+		with(this.context) {
+			globalAlpha = 0.9;
+			fillStyle = this.colors.fill;
+			fillRect(this.width-100,this.height-20,100,20);
+			globalAlpha = 1;
+			beginPath();
+				fillStyle = this.colors.border;
+				font = "bold 15px courier";
+				textAlign = "center";
+				fillText(this.oscName,this.width-50,this.height-5);
+				textAlign = "left";
+			closePath();
+		}
+	}
 	
 	this.boolToVal = function(somebool) {
 		if (somebool) {
@@ -342,7 +376,8 @@ var nxManager = function() {
 			"border": "#bbb", 
 			"accentborder": "#aa2200",
 			"black": "#000",
-			"white": "#FFF"
+			"white": "#FFF",
+			"highlight": "rgba(255,85,0,0.5)"
 	};
 	
 	/* Global GUI Function Library*/
@@ -355,6 +390,25 @@ var nxManager = function() {
 	this.randomColor = function() {
 		var randCol = "rgb(" + this.randomNum(250) + "," + this.randomNum(250) + "," + this.randomNum(250) + ")";
 		return randCol;
+	}
+	
+	this.hexToRgb = function(hex, a) {
+		// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+	    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+	    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+	        return r + r + g + g + b + b;
+	    });
+	
+		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+		if (!a) {
+			a = 0.5;
+		}
+		
+		    var r = parseInt(result[1], 16);
+		    var g = parseInt(result[2], 16);
+		    var b = parseInt(result[3], 16);
+
+	    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
 	}
 	
 	this.makeRoundRect = function(ctx,xpos,ypos,wid,hgt) {
@@ -473,6 +527,25 @@ var nxManager = function() {
         context.fillText(line, x, y);
       }
 
+      this.metas = document.getElementsByTagName('meta');
+
+	  this.setViewport = function(scale) {
+	    for (i=0; i<manager.metas.length; i++) {
+	      if (manager.metas[i].name == "viewport") {
+	        manager.metas[i].content = "minimum-scale="+scale+", maximum-scale="+scale;
+	      }
+	    }
+	  }
+
+
+	  this.highlightEditedObj = function() {
+	  	$("canvas").css("border", "solid 1px #ccc");
+	  	$("canvas").css("z-index", 1);
+	  //	$("#"+globaldragid).css("border", "solid 2px "+manager.colors.accent);
+	  	$("#"+globaldragid).css("border", "solid 2px black");
+	  	$("#"+globaldragid).css("z-index", 2);
+	  }
+
 	
 }
 
@@ -498,22 +571,31 @@ nx.onload = function() {};
  * using the canvas's id as its var name */
 
 $(document).ready(function() {
+	// get all canvases on the page
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
+		// if it has an nx attribute, store that in nxId
 		var nxId = allcanvi[i].getAttribute("nx");
 		var elemCount = 0;
+		// find out how many of the same elem type have come before
+		// i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+		// allowing you to count how many dials already exist on the page
+		// and give your new dial the appropriate index and id: dial3
 		for (j=0;j<nx.elemTypeArr.length;j++) {
 			if (nx.elemTypeArr[j]==nxId) {
 				elemCount++;
 			}
 		}
+		// add your new nexus element type to the element list
 		nx.elemTypeArr.push(nxId);
+		// check to see if it has a pre-given ID
+		// and use that as its id if so
 		if (!allcanvi[i].id) {
 			var idNum = elemCount + 1;
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', 'nexus', "+idNum+");");
+			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
 		}
 	}
 	
@@ -580,14 +662,19 @@ function getTemplate(self, target, transmitCommand) {
 	self.colors.accentborder = nx.colors.accentborder;
 	self.colors.black = nx.colors.black;
 	self.colors.white = nx.colors.white; 
+	self.colors.highlight = nx.colors.highlight;
+	self.hexToRgb = nx.hexToRgb;
 	//interaction
-	self.click = new nx.point(0,0);
+	self.clickPos = new nx.point(0,0);
+	self.clickPos.touches = new Array();
 	self.clicked = false;
 	self.value = 0;
 	self.nodePos = new Array();	
 	self.deltaMove = new Object();
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
 	self.nxThrottle = nx.nxThrottle;
+	self.isBeingDragged = false;
+	self.label = false;
 	//recording
 	nx.addNxObject(self);
 	self.isRecording = false;
@@ -607,6 +694,10 @@ function getTemplate(self, target, transmitCommand) {
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	self.iosTransmit = nx.iosTransmit;
+
+	if (nx.editmode) {
+		self.canvas.style.border = "solid 1px #888";
+	}
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
@@ -620,6 +711,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.getCursorPosition = nx.getCursorPosition;
 	self.getTouchPosition = nx.getTouchPosition;
 	self.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
+	self.drawLabel = nx.drawLabel;
 	
 	self.preClick = function(e) {
 		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
@@ -630,7 +722,14 @@ function getTemplate(self, target, transmitCommand) {
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
-		self.click(e);
+		if (nx.editmode) {
+			self.isBeingDragged = true;
+			globaldragid = self.canvasID;
+			nx.highlightEditedObj(self.canvasID);
+			showSettings();
+		} else {
+			self.click(e);
+		}
 	};
 	self.preMove = function(e) {
 		self.movehandle = 0;
@@ -638,12 +737,25 @@ function getTemplate(self, target, transmitCommand) {
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
 		self.deltaMove.x = new_click_position.x - self.clickPos.x;
 		self.clickPos = new_click_position;
-		self.move(e);
+		if (nx.editmode) {
+			if (self.isBeingDragged) {
+				var matrixy = ~~(e.clientY/50)*50;
+				var matrixx = ~~(e.clientX/50)*50;
+				self.canvas.style.top = matrixy+"px";
+				self.canvas.style.left = matrixx+"px";	
+			}
+		} else {
+			self.move(e);
+		}
 	};
 	self.preRelease = function(e) {
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = false;
-		self.release();
+		if (nx.editmode) {
+			self.isBeingDragged = false;
+		} else {
+			self.release();
+		}
 		document.removeEventListener("mouseup", self.preRelease, false);
 	};
 	self.preTouch = function(e) {
@@ -726,7 +838,7 @@ function toggle(target, transmitCommand, uiIndex) {
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
-	this.defaultSize = { width: 75, height: 100 };
+	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
@@ -812,6 +924,8 @@ function toggle(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
+		
+		self.drawLabel();
 		
 	}
 	
@@ -971,7 +1085,8 @@ function dial(target, transmitCommand, uiIndex) {
 			closePath(); 
 			
 		}
-		//text(self.context,self.value.toFixed(2));
+
+		self.drawLabel();
 	}
 	
 
@@ -1075,13 +1190,22 @@ function button(target, transmitCommand, uiIndex) {
 	// Define Unique Attributes
 	// Value is the value to send when the button is clicked.  
 	this.value = 1;
-	this.transmitRelease = true;	// transmit 0 on release of button.
+	this.transmitRelease = false;	// transmit 0 on release of button.
 	
 	//set mode: impulse, toggle, node
 	this.mode = "impulse";
 
+	// image button properties
+	var imageButton = 0;	// by default, not an image button
+	this.image = null;
+	this.imageHover = null;
+	this.imageTouch = null;
 
 	this.init = function() {
+		
+		if (this.image) {
+			imageButton = 1;
+		}
 		
 		self.draw();
 		
@@ -1093,47 +1217,76 @@ function button(target, transmitCommand, uiIndex) {
 		with (self.context) {
 			clearRect(0, 0, self.width, self.height);
 			lineWidth = self.lineWidth;
-		
-			// ** Button ** //
-			if (!self.clicked) {
-				fillStyle = self.colors.fill;
-				strokeStyle = self.colors.border;
-			} else if (self.clicked) {
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.accent;
-			}
 			
-			beginPath();
-				arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
-				fill();	  
-				stroke();
-			closePath();
+			if (imageButton) {
+				// ** Image Button ** //
+				if (!self.clicked) {
+					// Draw Image if not touched
+					drawImage(self.image, 0, 0);
+				} else {
+					if (!self.imageTouch) {
+						// No touch image, apply highlighting
+						fillStyle = self.colors.highlight;
+						strokeStyle = self.colors.accent;
+						
+						drawImage(self.image, 0, 0);
 
-			if (self.clicked) {
-				globalAlpha = 0.15;
-				fillStyle = "#fff";
-				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
-					fill();	  
-				closePath();
+						globalAlpha = 0.5;
+						fillRect (0, 0, self.width, self.height);
+						strokeRect (0, 0, self.width, self.height);
+						globalAlpha = 1;
+						
+					} else {
+						// Draw Touch Image
+						drawImage(self.imageTouch, 0, 0);
+					}
+				}
 				
+			} else {
+		
+				// ** Regular Button ** //
+				if (!self.clicked) {
+					fillStyle = self.colors.fill;
+					strokeStyle = self.colors.border;
+				} else if (self.clicked) {
+					fillStyle = self.colors.accent;
+					strokeStyle = self.colors.accent;
+				}
+			
 				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/3), 0, Math.PI*2, true);
+					arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
 					fill();	  
-				closePath();
-				
-				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/4), 0, Math.PI*2, true);
-					fill();	  
-				closePath();
-				
-				beginPath();
-					arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/5), 0, Math.PI*2, true);
-					fill();	  
+					stroke();
 				closePath();
 
-				globalAlpha = 1;
+				if (self.clicked && self.mode=="node") {
+					globalAlpha = 0.15;
+					fillStyle = "#fff";
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+				
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/3), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+				
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/4), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+				
+					beginPath();
+						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/5), 0, Math.PI*2, true);
+						fill();	  
+					closePath();
+
+					globalAlpha = 1;
+				}
 			}
+
+			self.drawLabel();
 			
 		}
 	}
@@ -1145,14 +1298,37 @@ function button(target, transmitCommand, uiIndex) {
 	
 	this.move = function () {
 		// use to track movement on the button...
-		self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
-		self.draw();
+		if (self.mode=="node") {
+			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+			self.draw();
+		}
 	}
 
 	this.release = function() {
-		if (self.transmitRelease) { 
+		if (self.transmitRelease || self.mode=="toggle") { 
 			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
 		}
+		self.draw();
+	}
+	
+	this.setImage = function(image) {
+		self.image = new Image();
+		self.image.onload = function() { self.draw(); }
+		imageButton = 1;
+		self.image.src = image;
+	}
+	
+	this.setHoverImage = function(image) {
+		self.imageHover = new Image();
+		self.imageHover.onload = function() { self.draw(); }
+		self.imageHover.src = image;
+		self.draw();
+	}
+	
+	this.setTouchImage = function(image) {
+		self.imageTouch = new Image();
+		self.imageTouch.onload = function() { self.draw(); }
+		self.imageTouch.src = image;
 		self.draw();
 	}
 	
@@ -1281,6 +1457,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 			lineWidth = 3;
 			strokeRect(0,0,self.width,self.height);
 		}
+		self.drawLabel();
 	}
 
 	this.change_cell = function(whichCell, number) {
@@ -1519,6 +1696,8 @@ function position(target, transmitCommand, uiIndex) {
 				fillText(self.default_text, 10, 20);
 			}
 		}
+		
+		self.drawLabel();
 	}
 
 	this.drawNode = function() {
@@ -1556,6 +1735,7 @@ function position(target, transmitCommand, uiIndex) {
 				fill();
 			closePath();
 		}
+
 	}
 	
 	this.scaleNode = function() {
@@ -1755,6 +1935,7 @@ function matrix(target, transmitCommand, uiIndex) {
 				}
 			} 
 		}
+		self.drawLabel();
 	}
 	
 	var whichCell;
@@ -1855,7 +2036,7 @@ function slider(target, transmitCommand, uiIndex) {
 	//self awareness
 	var self = this;
 	this.uiIndex = uiIndex;
-	this.defaultSize = { width: 30, height: 200 };
+	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
@@ -1868,7 +2049,7 @@ function slider(target, transmitCommand, uiIndex) {
 		
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
-	this.label = "";
+	this.label = self.oscName;
 	
 	
 
@@ -2037,7 +2218,7 @@ function multislider(target, transmitCommand, uiIndex) {
 	this.clip = nx.clip;
 	
 	
-
+	// test
 	this.init = function() {
 		nx.getHandlers(self);
 
@@ -2072,6 +2253,7 @@ function multislider(target, transmitCommand, uiIndex) {
 				globalAlpha = 1;
 			}
 		}
+		self.drawLabel();
 	}
 	
 	this.click = function() {
@@ -2082,6 +2264,7 @@ function multislider(target, transmitCommand, uiIndex) {
 	this.move = function() {
 		if (self.clicked) {
 			var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
+			sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
 			self.values[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
 			if (self.oldSliderToMove) {
 				var sliderJump = sliderToMove -  self.oldSliderToMove;
@@ -2297,6 +2480,7 @@ function tilt(target, transmitCommand, uiIndex) {
 			fillText(self.defaultText, self.width/2, self.height/2+self.height/15);
 			globalAlpha = 1;
 		}
+		self.drawLabel();
 	}
 	
 	this.scaleNode = function() {
@@ -2369,6 +2553,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 		self.drawSpaces();
 		self.drawToyOptions();
 		self.drawToys();
+		self.drawLabel();
 	}
 	
 	this.createUISpaces = function() {
@@ -2611,6 +2796,8 @@ function joints(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
+		
+		self.drawLabel();
 	}
 
 	this.drawNode = function() {
@@ -2799,6 +2986,7 @@ function colors(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
+		self.drawLabel();
 	}
 
 	this.click = function(e) {
@@ -2873,6 +3061,7 @@ function pixels(target, transmitCommand, uiIndex) {
 			fill();
 			stroke();
 		}
+		self.drawLabel();
 	}
 	
 	this.reset = function() {
@@ -3126,7 +3315,7 @@ function comment(target, transmitCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	this.value = "this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. ";
+	this.value = "comment";
 	this.size = 14;
 	
 	this.throttle = nx.throttle;
@@ -3374,7 +3563,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
-	this.nodeSize = 100;
+	this.nodeSize = self.width/10;
 	this.nodes = new Array();
 	this.values = [0,0];
 	
@@ -3401,11 +3590,11 @@ function multitouch(target, transmitCommand, uiIndex) {
 			fill();
 
 			//draw nodes
-			if (self.nodePos[0] != null) {
+			if (self.clickPos.touches.length>=1) {
 				for (var i=0;i<self.clickPos.touches.length;i++) {
 					
 					with (self.context) {
-						globalAlpha=0.4;
+						globalAlpha=1;
 						beginPath();
 							fillStyle = self.colors.accent;
 							strokeStyle = self.colors.border;
@@ -3436,69 +3625,17 @@ function multitouch(target, transmitCommand, uiIndex) {
 				fillText(self.default_text, self.width/2, self.height/2);
 			}
 		}
-	}
-
-	this.drawNode = function() {
-		//stay within right/left bounds
-		if (self.nodePos[0]<(self.bgLeft+self.nodeSize)) {
-			self.nodePos[0] = self.bgLeft + self.nodeSize;
-		} else if (self.nodePos[0]>(self.bgRight-self.nodeSize)) {
-			self.nodePos[0] = self.bgRight - self.nodeSize;
-		}
-		//stay within top/bottom bounds
-		if (self.nodePos[1]<(self.bgTop+self.nodeSize)) {
-			self.nodePos[1] = self.bgTop + self.nodeSize;
-		} else if (self.nodePos[1]>(self.bgBottom-self.nodeSize)) {
-			self.nodePos[1] = self.bgBottom - self.nodeSize;
-		}
-	
-		with (self.context) {
-			globalAlpha=0.2;
-			beginPath();
-				strokeStyle = self.colors.accent;
-				//lineWidth = self.lineWidth;
-				lineWidth = 2;
-				moveTo(self.nodePos[0],0+self.padding);
-				lineTo(self.nodePos[0],self.height-self.padding);
-				moveTo(0+self.padding,self.nodePos[1]);
-				lineTo(self.width-self.padding,self.nodePos[1]);					
-				stroke();
-			closePath();
-			globalAlpha=1;
-			beginPath();
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.border;
-				lineWidth = self.lineWidth;
-				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, true);					
-				fill();
-			closePath();
-		}
-	}
-	
-	this.scaleNode = function() {
-		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
-		return self.values;
+		self.drawLabel();
 	}
 
 	this.click = function() {
-		self.nodePos[0] = self.clickPos.x;
-		self.nodePos[1] = self.clickPos.y;
 		self.draw();
 		self.sendit();
 	}
 
 	this.move = function() {
 		if (self.clicked) {
-			self.nodePos[0] = self.clickPos.x;
-			self.nodePos[1] = self.clickPos.y;
 			self.draw();
-			var help = {
-				"self.clickPos.x": self.clickPos.x,
-				"self.clickPos.y": self.clickPos.y,
-				"self.nodePos[0]": self.nodePos[0],
-				"self.nodePos[1]": self.nodePos[1],
-				"self.offset": self.offset
-			}
 			self.sendit()
 		}
 	}
@@ -3507,32 +3644,29 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.release = function() {
 		if (self.clickPos.touches.length>1) {
 			self.clicked=true;
+		} else {
+			self.clickPos.touches = new Array();
 		}
+		
 		self.draw();
 		self.sendit();
 		
 	}
 	
 	this.touch = function() {
-		self.nodePos[0] = self.clickPos.x;
-		self.nodePos[1] = self.clickPos.y;
 		self.draw();
 		self.sendit();
 	}
 
 	this.touchMove = function() {
 		if (self.clicked) {
-			self.nodePos[0] = self.clickPos.x;
-			self.nodePos[1] = self.clickPos.y;
 			self.draw();
 			self.sendit();
 		}
-
 	}
 
 	this.touchRelease = function() {
 		self.release();
-		self.sendit();
 	}
 
 	this.sendit = function() {
@@ -3545,6 +3679,525 @@ function multitouch(target, transmitCommand, uiIndex) {
 			self.values.push(0);
 		}
 		self.nxTransmit(self.values);
+	}
+	
+	this.init();
+}
+/***********************
+* Javascript MetroBall *
+***********************/
+				
+
+
+function metroball(target, transmitCommand, uiIndex) {
+
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 300, height: 200 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	
+	//define unique attributes
+	this.CurrentBalls = new Array();
+	this.UISpaces = new Array();
+	var ballPos = new Object();
+	var clickField = null;
+	var globalMetro;
+	var tempo = 1;
+	var tempoMarker = 150;
+	var quantize = false;
+	var tilt = 0;
+	self.tiltLR;
+	self.tiltFB;
+	self.z;
+	var i;
+    
+    /** Initialize Object **/
+	
+	this.init = function() {
+		self.createUISpaces();
+		globalMetro = setInterval(self.canvasID+".pulse()", 20);
+		
+		if (window.DeviceOrientationEvent) {
+		  window.addEventListener('deviceorientation', function(eventData) {
+		    self.tiltLR = eventData.gamma;
+			self.tiltFB = eventData.beta;
+			self.z = eventData.alpha;
+		    self.tilt();
+		  }, false);
+		} else if (window.OrientationEvent) {
+		  window.addEventListener('MozOrientation', function(eventData) {
+		    self.tiltLR = eventData.x * 90;
+		    // y is the front-to-back tilt from -1 to +1, so we need to convert to degrees
+		    // We also need to invert the value so tilting the device towards us (forward) 
+		    // results in a positive value. 
+		    self.tiltFB = eventData.y * -90;
+		    self.z = eventData.z;
+		    self.tilt();
+		  }, false);
+		} else {
+		  console.log("Not supported on your device or browser.")
+		}
+		
+	}
+	
+	this.createUISpaces = function() {
+		
+		self.UISpaces = [
+							{
+								field: "main",
+								xpos: 5,
+								ypos: 45,
+								wid: self.width-10,
+								hgt: self.height - 45 - self.padding,
+								hint: "click to add"
+							},
+							{
+								field: "delete",
+								xpos: 45,
+								ypos: 5,
+								wid: self.width-50,
+								hgt: 35,
+								hint: "swipe to delete"
+							},
+							{
+								field: "quantize",
+								xpos: 5,
+								ypos: 5,
+								wid: 35,
+								hgt: 35,
+								hint: "Q"
+							},
+						]; 
+						
+		for (var i=0;i<self.UISpaces.length;i++) {
+			self.UISpaces[i].xpos2 = self.UISpaces[i].xpos + self.UISpaces[i].wid;
+			self.UISpaces[i].ypos2 = self.UISpaces[i].ypos + self.UISpaces[i].hgt;
+			
+			self.UISpaces[i].centerx = self.UISpaces[i].xpos + (self.UISpaces[i].wid/2);
+			self.UISpaces[i].centery = self.UISpaces[i].ypos + (self.UISpaces[i].hgt/2);
+		}
+			
+	}
+	
+	/** Animation Pulse **/
+	
+	this.pulse = function() {
+		with (self.context) {
+			clearRect(0,0, self.width, self.height);
+		}
+		self.drawSpaces();
+		self.drawBalls();
+		self.drawLabel();
+	}
+	
+	/** Draw framework of rounded rectangles **/
+	
+	this.drawSpaces = function() {
+		
+		with (self.context) {
+			
+			lineWidth = 3;
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			
+			for (i=0;i<self.UISpaces.length;i++) {
+				var space = self.UISpaces[i];
+				nx.makeRoundRect(self.context,space.xpos,space.ypos,space.wid,space.hgt);
+				stroke();
+				
+				if (space.field=="quantize" && quantize) {
+					fillStyle = self.colors.accent;
+					fill();
+					fillStyle = self.colors.fill;
+				} else {
+					fill();
+				}
+			}
+			
+			lineWidth=2;
+			fillStyle=self.colors.border;
+			lineStyle="#ffffff";
+			font="bold 14px courier";
+			textAlign = "center";
+			
+			for (i=0;i<self.UISpaces.length;i++) {
+				var space = self.UISpaces[i];
+				fillText(space.hint, space.centerx, space.centery+5);
+			}
+			
+		}
+	}
+	
+	/** Draw functions **/
+	
+	this.drawBalls = function() {
+		with (self.context) {
+			for (i=0;i<self.CurrentBalls.length;i++) {
+				self.CurrentBalls[i].move();
+				self.CurrentBalls[i].draw();
+			}
+		}
+	}
+	
+	/** Mouse functions **/
+	this.click = function(e) {
+		ballPos = self.clickPos;
+		for (i=0;i<self.UISpaces.length;i++) {
+			if (nx.isInside(ballPos,self.UISpaces[i])) {
+				clickField = self.UISpaces[i].field;
+			} 
+		}
+		switch (clickField) {
+			case "main":
+				self.addNewMB(ballPos);
+				break;
+			case "delete":
+				self.deleteMB(ballPos);
+				break;
+			case "quantize":
+				self.toggleQuantization();
+				break;
+		}
+	}
+	
+	this.move = function(e) {
+		ballPos = self.clickPos;
+		switch (clickField) {
+			case "delete":
+				self.deleteMB(ballPos);
+				break;
+			case "tempo": {
+				self.moveTempo(ballPos);	
+				break;
+			}
+		}
+	}
+	
+	this.release = function(e) {
+		clickField = null;
+	}
+	
+	this.touch = function(e) {
+		self.click(e);
+	}
+	
+	this.touchMove = function(e) {
+		self.move(e);
+	}
+	
+	this.touchRelease = function(e) {
+		self.release(e);
+	}
+	
+	/** Manage MetroBalls **/
+	
+	this.deleteMB = function(ballPos) {
+		//delete in reverse order
+		for (i=self.CurrentBalls.length-1;i>=0;i--) {
+			if (Math.abs(self.CurrentBalls[i].xpos-ballPos.x)<10) {
+				self.CurrentBalls[i].kill();
+			}
+		}
+		
+		//reset CurrentBalls
+		for (i=0;i<self.CurrentBalls.length;i++) {
+			self.CurrentBalls[i].SelfIndex=i;
+		}
+	}
+		
+	this.addNewMB = function(ballPos) {
+		var nextIndex = self.CurrentBalls.length;
+		self.CurrentBalls[nextIndex] = new self.Ball(nextIndex, ballPos.x, ballPos.y);
+	}
+	
+	/* Quantize */
+	
+	this.toggleQuantization = function() {
+		if (!quantize) {
+			quantize = true;
+		} else {
+			quantize = false;
+		}
+	}
+	
+	/* Tilt */
+	
+	this.tilt = function(direction) {
+		
+		var scaledX = nx.prune(self.tiltLR/90,3);
+		var scaledY = nx.prune(self.tiltFB/90,3);
+		var scaledZ = nx.prune(self.z,3);
+		tilt = scaledX * 10;
+		tempo = Math.pow(scaledY+1,3);
+		
+	//	self.canvas.style.webkitTransform = "rotate("+self.tiltLR+"deg)";
+	//	self.canvas.style.MozTransform = "rotate("+tilt+"deg)";
+	}
+	
+	
+	/* Ball object */
+	
+	this.Ball = function(SelfIndex, SelfX, SelfY) {
+		
+		this.SelfIndex = SelfIndex;
+		this.space = self.UISpaces[0];
+		this.color = self.colors.accent;
+		this.xpos = SelfX;
+		this.ypos = SelfY;
+		this.size = 10;
+		this.direction = 1;
+		this.speed = (this.space.hgt-(this.ypos-this.space.ypos))/20;
+		this.speedQ = 5;
+		
+		if (quantize) {
+			this.ypos = this.space.hgt+13;
+		}
+		
+		this.move = function() {
+			if (!quantize) {
+				this.ypos = this.ypos + (this.speed * this.direction * tempo);
+			} else {
+				this.ypos = this.ypos + (this.speedQ * this.direction * tempo);	
+			}
+			
+			if (this.ypos>(this.space.ypos2-this.size-2) || this.ypos<(this.space.ypos+this.size+2) ) {
+				this.bounce();
+			}
+			
+			if (this.ypos<this.space.ypos+this.size) {
+				this.ypos=this.space.ypos+this.size+5;
+			} else if (this.ypos>this.space.ypos+this.space.hgt-this.size) {
+				this.ypos=this.space.ypos+this.space.hgt-this.size-5;
+			}
+			
+			this.xpos = this.xpos + tilt;
+			
+			if (this.xpos<this.space.xpos) {
+				this.xpos = this.space.xpos2;	
+			} else if (this.xpos>this.space.xpos2) {
+				this.xpos = this.space.xpos;	
+			}
+			
+		}
+		
+		this.bounce = function() {
+			var dirMsg = this.direction/2+1;
+			this.bounceside = (this.direction+1)/2;
+			this.direction = this.direction * (-1);
+			var xMsg = this.xpos/this.space.wid;
+			self.nxTransmit([ xMsg, this.bounceside, this.SelfIndex]);
+		}
+		
+		this.kill = function() {
+			self.CurrentBalls.splice(this.SelfIndex,1);
+		}
+		
+		this.draw = function() {
+			
+			with (self.context) {
+				beginPath();
+				fillStyle = this.color;
+				if (this.direction==1) {
+					this.radius = this.size * (Math.abs((this.ypos-this.space.ypos-this.space.hgt/2)/(this.space.hgt-this.space.ypos)*2));
+					this.radius = this.radius/2 + this.size/2;
+					
+					this.radius = this.size;
+					
+					this.radius = this.speed;
+					
+					this.radius = Math.abs(15-this.speed);
+					
+				} else {
+					this.radius = this.size * Math.abs(2-(Math.abs((this.ypos-this.space.ypos-this.space.hgt/2)/(this.space.hgt-this.space.ypos)*2)));
+					this.radius = this.radius/2 + this.size/2;
+					
+					this.radius = this.size;
+					
+					this.radius = Math.abs(15-this.speed);
+				}
+				arc(this.xpos, this.ypos, this.radius, 0, Math.PI*2, true);
+				shadowColor = this.color;
+				shadowBlur = 2;
+				fill();
+				shadowBlur = 0;
+			}
+			
+		}
+		
+		
+	}
+	
+	this.init();
+	
+}
+
+
+// Javascript 2d_slider
+
+function string(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 300, height: 200 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//this.line_width = 3;
+	this.nodeSize = 15;
+	this.values = [0,0];
+
+	this.numberofstrings = 8;
+	this.strings = new Array();
+	this.rainbow = [ self.colors.accent, self.colors.black, self.colors.border ];
+	this.abovestring = new Array();
+	
+	this.default_text = "touch to control";	
+	this.throttle = nx.throttle;
+	this.clip = nx.clip;
+	var stringdiv = self.height/(self.numberofstrings + 1);
+	
+	
+
+	this.init = function() {
+		for (var i = 0;i<self.numberofstrings;i++) {
+			self.strings[i] = {x1: self.padding, y1: stringdiv*(1+i), x2: self.width-self.padding, y2: stringdiv*(i+1), held: false};
+			self.abovestring[i] = false;
+		}
+		self.draw();
+	}
+
+	this.draw = function() {
+		self.rainbow[0] = self.colors.accent;
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			
+			strokeStyle = self.colors.accent;
+
+			for (var i = 0;i<self.strings.length;i++) {
+
+				//if crosses string
+				if (self.abovestring[i] != (self.clickPos.y<self.strings[i].y1) ) {
+					//gripup will be true if mouse us higher than string
+					self.strings[i].gripup = (self.clickPos.y<self.strings[i].y1);
+				}
+
+				//if mouse is within 20px or so of string
+				if (Math.abs(self.clickPos.y-self.strings[i].y1)<stringdiv/2) {
+					//will draw rounded
+					//if mouse is higher than string and gripup
+					//or if mouse is 
+				//	if (self.clickPos.y-self.strings[i].y1<0 && self.strings[i].gripup || self.clickPos.y-self.strings[i].y1>0 && !self.strings[i].gripup) {
+						beginPath();
+						moveTo(self.strings[i].x1, self.strings[i].y1);
+						quadraticCurveTo(self.clickPos.x, self.clickPos.y, self.strings[i].x2, self.strings[i].y2);
+						stroke();
+						closePath();
+						self.strings[i].on = true;	
+				/*	} else {
+						beginPath();
+						moveTo(self.strings[i].x1, self.strings[i].y1);
+						lineTo(self.strings[i].x2, self.strings[i].y2);
+						stroke();
+						closePath();
+					} */
+				} else {
+					beginPath();
+					moveTo(self.strings[i].x1, self.strings[i].y1);
+					lineTo(self.strings[i].x2, self.strings[i].y2);
+					stroke();
+					closePath();
+					if (self.strings[i].on) {
+						self.strings[i].on = false;
+						self.nxTransmit([i,self.clickPos.x/self.width]);
+					}
+				}
+			}
+		}
+		self.drawLabel();
+	}
+
+
+	this.click = function() {
+		for (var i = 0;i<self.numberofstrings;i++) {
+			self.abovestring[i] = (self.clickPos.y<self.strings[i].y1);
+		}
+		self.draw();
+	}
+
+	this.move = function() {
+		if (self.clicked) {
+			self.draw();
+		}
+	}
+	
+
+	this.release = function() {
+		
+	}
+	
+	this.touch = function() {
+		self.click();
+	}
+
+	this.touchMove = function() {
+		self.move();
+	}
+
+	this.touchRelease = function() {
+		
+	}
+
+	this.scaleNode = function() {
+		var actualWid = self.width - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
+		var actualHgt = self.height - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
+		var actualX = self.nodePos[0] - self.nodeSize - self.lineWidth - self.padding;
+		var actualY = self.nodePos[1] - self.nodeSize - self.lineWidth - self.padding;
+		var clippedX = nx.clip(actualX/actualWid, 0, 1);
+		var clippedY = nx.clip(actualY/actualHgt, 0, 1);
+		self.values = [ nx.prune(clippedX, 3), nx.prune(clippedY, 3) ];
+		return self.values;
+	}
+	
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked && self.nodePos[0]) {
+			self.nodePos[0] += (self.deltaMove.x/2);
+			self.nodePos[1] += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
 	}
 	
 	this.init();

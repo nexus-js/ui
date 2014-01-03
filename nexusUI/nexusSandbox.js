@@ -61,6 +61,7 @@ function sandbox(target, transmitCommand, uiIndex) {
 		self.drawSpaces();
 		self.drawToyOptions();
 		self.drawToys();
+		self.drawLabel();
 	}
 	
 	this.createUISpaces = function() {

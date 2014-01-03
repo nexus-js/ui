@@ -13,7 +13,7 @@ function comment(target, transmitCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	this.value = "this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. this is a test to see how comments react in spaces. ";
+	this.value = "comment";
 	this.size = 14;
 	
 	this.throttle = nx.throttle;

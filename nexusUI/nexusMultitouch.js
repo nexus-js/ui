@@ -14,7 +14,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
-	this.nodeSize = 40;
+	this.nodeSize = self.width/10;
 	this.nodes = new Array();
 	this.values = [0,0];
 	
@@ -76,6 +76,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 				fillText(self.default_text, self.width/2, self.height/2);
 			}
 		}
+		self.drawLabel();
 	}
 
 	this.click = function() {

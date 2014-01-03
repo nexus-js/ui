@@ -28,28 +28,10 @@ var nxManager = function() {
 		if (!newCol) {
 			// just sending in a color value colorizes everything...
 			newCol = aspect;
-			
-			// Set highlight to new color at half alpha
-		
-		/*	 I'm not sure we should do this here...  Reasoning:
-			1. Isn't our "accent" color generally used for highlighting?
-			2. This is breaking a few objects (uncomment this and see nexusDial.html)
-				I spent some time looking for the prob but couldn't figure it out...
-			3. We don't know if the user will pass in Hex or RGB data to .colorize
-			4. I think any transparency we do should be done with globalAlpha in canvas
-				so we don't end up multiplying alphas on accident.
-
-			aspect = "highlight";
-			for (i=0;i<this.nxObjects.length;i++) {
-				eval("this.nxObjects[i].colors."+aspect+" = '"+ this.hexToRgb(newCol, 0.5) +"';");
-				this.nxObjects[i].draw();
-			} 
-				// set the accent color next
-
-		*/		
-
 			aspect = "accent";
 		}
+		
+		eval("manager.colors."+aspect+" = '"+newCol+"';");
 		
 		for (i=0;i<this.nxObjects.length;i++) {
 			eval("this.nxObjects[i].colors."+aspect+" = '"+newCol+"';");
@@ -325,6 +307,22 @@ var nxManager = function() {
 			closePath();
 		}
 	}
+
+	this.drawLabel = function() {
+		with(this.context) {
+			globalAlpha = 0.9;
+			fillStyle = this.colors.fill;
+			fillRect(this.width-100,this.height-20,100,20);
+			globalAlpha = 1;
+			beginPath();
+				fillStyle = this.colors.border;
+				font = "bold 15px courier";
+				textAlign = "center";
+				fillText(this.oscName,this.width-50,this.height-5);
+				textAlign = "left";
+			closePath();
+		}
+	}
 	
 	this.boolToVal = function(somebool) {
 		if (somebool) {
@@ -539,6 +537,15 @@ var nxManager = function() {
 	    }
 	  }
 
+
+	  this.highlightEditedObj = function() {
+	  	$("canvas").css("border", "solid 1px #ccc");
+	  	$("canvas").css("z-index", 1);
+	  //	$("#"+globaldragid).css("border", "solid 2px "+manager.colors.accent);
+	  	$("#"+globaldragid).css("border", "solid 2px black");
+	  	$("#"+globaldragid).css("z-index", 2);
+	  }
+
 	
 }
 
@@ -667,6 +674,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
 	self.nxThrottle = nx.nxThrottle;
 	self.isBeingDragged = false;
+	self.label = false;
 	//recording
 	nx.addNxObject(self);
 	self.isRecording = false;
@@ -703,6 +711,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.getCursorPosition = nx.getCursorPosition;
 	self.getTouchPosition = nx.getTouchPosition;
 	self.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
+	self.drawLabel = nx.drawLabel;
 	
 	self.preClick = function(e) {
 		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
@@ -716,6 +725,7 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			self.isBeingDragged = true;
 			globaldragid = self.canvasID;
+			nx.highlightEditedObj(self.canvasID);
 			showSettings();
 		} else {
 			self.click(e);

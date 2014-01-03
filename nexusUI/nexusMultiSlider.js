@@ -61,6 +61,7 @@ function multislider(target, transmitCommand, uiIndex) {
 				globalAlpha = 1;
 			}
 		}
+		self.drawLabel();
 	}
 	
 	this.click = function() {

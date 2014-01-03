@@ -112,7 +112,8 @@ function dial(target, transmitCommand, uiIndex) {
 			closePath(); 
 			
 		}
-		//text(self.context,self.value.toFixed(2));
+
+		self.drawLabel();
 	}
 	
 

@@ -7,7 +7,8 @@
 		<!-- standard includes of nexusUI and jquery-->
 		<script type="text/javascript" src="../nexusUI/jquery.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
+		<script type="text/javascript" src="../CurrentBuild/nexusUI.min.js"></script>
+	<!--	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
@@ -16,7 +17,7 @@
 		<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusTilt.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusColors.js"></script>
+		<script type="text/javascript" src="../nexusUI/nexusColors.js"></script> -->
 
 		
 
@@ -31,7 +32,7 @@
 			var globaldragid = false;
 
 			nx.onload = function() {
-				nx.colorize("0af");
+				nx.colorize("#0af");
 				nx.setTransmissionProtocol("ajax");
 				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
 
@@ -75,6 +76,8 @@
 						$("body").append('<canvas id="'+thisname+'" style="position:absolute"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						globaldragid = thisname;
+						nx.highlightEditedObj();
+						//eval(thisname + ".highlightEditedObj()");
 						showSettings();
 					}
 					nx.onload();
@@ -82,7 +85,6 @@
 					//$("#"+thisname).draggable();
 				})
 				$(document).mouseup(function() {
-					console.log("up");
 					document.removeEventListener("mousemove", dragobj, true)
 				});
 				$(".editbutton").toggle(function() {
@@ -112,6 +114,7 @@
 			function setoscname(val) {
 				console.log(val);
 				eval(globaldragid+".oscName = '"+val+"';");
+				eval(globaldragid+".draw()");
 			}
 
 			function changeip(val) {
@@ -141,14 +144,21 @@
 		<!-- Layout all of the UI elements as canvas objects -->
 		<div style="position:fixed;left:0px;top:0px;border:solid 2px #ccc;background-color:#FFF">
 			<div class="editbutton" style="color:#0af;border:solid 1px #ccc;padding:10px;background-color:#f7f7f7">editing is off</div>
-			<div class="nxopt">dial</div>
-			<div class="nxopt">toggle</div>
 			<div class="nxopt">button</div>
-			<div class="nxopt">position</div>
-			<div class="nxopt">multislider</div>
-			<div class="nxopt">slider</div>
-			<div class="nxopt">tilt</div>
+			<div class="nxopt">comment</div>
+			<div class="nxopt">dial</div>
+			<div class="nxopt">joints</div>
 			<div class="nxopt">keyboard</div>
+			<div class="nxopt">matrix</div>
+			<div class="nxopt">metroball</div>
+			<div class="nxopt">multislider</div>
+			<div class="nxopt">pixels</div>
+			<div class="nxopt">position</div>
+			<div class="nxopt">sandbox</div>
+			<div class="nxopt">slider</div>
+			<div class="nxopt">string</div>
+			<div class="nxopt">tilt</div>
+			<div class="nxopt">toggle</div>
 			
 		</div>
 

@@ -5,7 +5,7 @@ function slider(target, transmitCommand, uiIndex) {
 	//self awareness
 	var self = this;
 	this.uiIndex = uiIndex;
-	this.defaultSize = { width: 30, height: 200 };
+	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
@@ -18,7 +18,7 @@ function slider(target, transmitCommand, uiIndex) {
 		
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
-	this.label = "";
+	this.label = self.oscName;
 	
 	
 

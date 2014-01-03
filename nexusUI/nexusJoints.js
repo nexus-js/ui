@@ -82,6 +82,8 @@ function joints(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
+		
+		self.drawLabel();
 	}
 
 	this.drawNode = function() {

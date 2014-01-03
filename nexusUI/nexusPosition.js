@@ -45,6 +45,8 @@ function position(target, transmitCommand, uiIndex) {
 				fillText(self.default_text, 10, 20);
 			}
 		}
+		
+		self.drawLabel();
 	}
 
 	this.drawNode = function() {
@@ -82,6 +84,7 @@ function position(target, transmitCommand, uiIndex) {
 				fill();
 			closePath();
 		}
+
 	}
 	
 	this.scaleNode = function() {

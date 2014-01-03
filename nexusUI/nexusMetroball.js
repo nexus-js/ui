@@ -109,6 +109,7 @@ function metroball(target, transmitCommand, uiIndex) {
 		}
 		self.drawSpaces();
 		self.drawBalls();
+		self.drawLabel();
 	}
 	
 	/** Draw framework of rounded rectangles **/

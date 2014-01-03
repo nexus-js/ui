@@ -7,7 +7,7 @@ function toggle(target, transmitCommand, uiIndex) {
 	if (!isNaN(uiIndex)) {
 		self.uiIndex = uiIndex;
 	}
-	this.defaultSize = { width: 75, height: 100 };
+	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
 	this.getTemplate = getTemplate;
@@ -93,6 +93,8 @@ function toggle(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
+		
+		self.drawLabel();
 		
 	}
 	

@@ -68,6 +68,7 @@ function colors(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
+		self.drawLabel();
 	}
 
 	this.click = function(e) {

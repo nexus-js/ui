@@ -120,6 +120,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 			lineWidth = 3;
 			strokeRect(0,0,self.width,self.height);
 		}
+		self.drawLabel();
 	}
 
 	this.change_cell = function(whichCell, number) {

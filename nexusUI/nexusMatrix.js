@@ -116,6 +116,7 @@ function matrix(target, transmitCommand, uiIndex) {
 				}
 			} 
 		}
+		self.drawLabel();
 	}
 	
 	var whichCell;

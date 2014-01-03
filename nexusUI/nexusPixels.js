@@ -44,6 +44,7 @@ function pixels(target, transmitCommand, uiIndex) {
 			fill();
 			stroke();
 		}
+		self.drawLabel();
 	}
 	
 	this.reset = function() {

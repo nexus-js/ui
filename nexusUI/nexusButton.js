@@ -19,7 +19,7 @@ function button(target, transmitCommand, uiIndex) {
 	// Define Unique Attributes
 	// Value is the value to send when the button is clicked.  
 	this.value = 1;
-	this.transmitRelease = true;	// transmit 0 on release of button.
+	this.transmitRelease = false;	// transmit 0 on release of button.
 	
 	//set mode: impulse, toggle, node
 	this.mode = "impulse";
@@ -88,7 +88,7 @@ function button(target, transmitCommand, uiIndex) {
 					stroke();
 				closePath();
 
-				if (self.clicked) {
+				if (self.clicked && self.mode=="node") {
 					globalAlpha = 0.15;
 					fillStyle = "#fff";
 					beginPath();
@@ -114,6 +114,8 @@ function button(target, transmitCommand, uiIndex) {
 					globalAlpha = 1;
 				}
 			}
+
+			self.drawLabel();
 			
 		}
 	}
@@ -125,12 +127,14 @@ function button(target, transmitCommand, uiIndex) {
 	
 	this.move = function () {
 		// use to track movement on the button...
-		self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
-		self.draw();
+		if (self.mode=="node") {
+			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+			self.draw();
+		}
 	}
 
 	this.release = function() {
-		if (self.transmitRelease) { 
+		if (self.transmitRelease || self.mode=="toggle") { 
 			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
 		}
 		self.draw();

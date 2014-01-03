@@ -70,7 +70,9 @@ concat({
         'nexusUI/nexusMessage.js',
         'nexusUI/nexusPanel.js',
         'nexusUI/nexusBanner.js',
-        'nexusUI/nexusMultitouch.js'
+        'nexusUI/nexusMultitouch.js',
+        'nexusUI/nexusMetroball.js',
+        'nexusUI/nexusString.js'
     ],
     dest : 'CurrentBuild/nexusUI.js'
 });

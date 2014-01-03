@@ -90,6 +90,7 @@ function string(target, transmitCommand, uiIndex) {
 				}
 			}
 		}
+		self.drawLabel();
 	}
 
 
