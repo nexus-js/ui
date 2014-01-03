@@ -20,6 +20,7 @@ var nxManager = function() {
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
 	this.editmode = false;
+	this.oscIp = "127.0.0.1"
 	
 	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
@@ -136,7 +137,7 @@ var nxManager = function() {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
+			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
 		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
 			//window.alert(data);
@@ -169,12 +170,13 @@ var nxManager = function() {
 	
 	// ajaxTransmit is the function to send info back to the server. 
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
-	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, callbackFunction) {
+	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, oscIp, callbackFunction) {
 		if (this.ajaxRequestType == "post") {
+			console.log(oscIp);
 			if (uiIndex) {
-				$.post(ajaxCommand, {oscName: oscName, id: uiIndex, data: data});
+				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, id: uiIndex, data: data});
 			} else {
-				$.post(ajaxCommand, {oscName: oscName, data: data});
+				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, data: data});
 			}
 		} else if (this.ajaxRequestType == "get") {
 			if (uiIndex) {
