@@ -541,7 +541,6 @@ var nxManager = function() {
 	  this.highlightEditedObj = function() {
 	  	$("canvas").css("border", "solid 1px #ccc");
 	  	$("canvas").css("z-index", 1);
-	  //	$("#"+globaldragid).css("border", "solid 2px "+manager.colors.accent);
 	  	$("#"+globaldragid).css("border", "solid 2px black");
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
@@ -763,7 +762,14 @@ function getTemplate(self, target, transmitCommand) {
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
-		self.touch(e);
+		if (nx.editmode) {
+			self.isBeingDragged = true;
+			globaldragid = self.canvasID;
+			nx.highlightEditedObj(self.canvasID);
+			showSettings();
+		} else {
+			self.touch(e);
+		}
 	};
 	self.preTouchMove = function(e) {
 		if (self.clicked) {
@@ -771,14 +777,27 @@ function getTemplate(self, target, transmitCommand) {
 			self.deltaMove.y = new_click_position.y - self.clickPos.y;
 			self.deltaMove.x = new_click_position.x - self.clickPos.x;
 			self.clickPos = new_click_position;
-			self.touchMove(e);
+			if (nx.editmode) {
+				if (self.isBeingDragged) {
+					var matrixy = ~~(e.clientY/50)*50;
+					var matrixx = ~~(e.clientX/50)*50;
+					self.canvas.style.top = matrixy+"px";
+					self.canvas.style.left = matrixx+"px";	
+				}
+			} else {
+				self.touchMove(e);
+			}
 		}
 	};
 	self.preTouchRelease = function(e) {
 		if (self.clicked) {
 			self.clicked = false;
 		}
-		self.touchRelease(e);
+		if (nx.editmode) {
+			self.isBeingDragged = false;
+		} else {
+			self.touchRelease();
+		}
 	};
 	self.draw = function() {
 	}
