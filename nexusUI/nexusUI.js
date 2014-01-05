@@ -20,7 +20,9 @@ var nxManager = function() {
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
 	this.editmode = false;
-	this.oscIp = "127.0.0.1"
+	this.oscIp = "127.0.0.1";
+	canvasgridy = 50;
+	canvasgridx = 50;
 	
 	// Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
 	this.colorize = function(aspect, newCol) {
@@ -738,8 +740,8 @@ function getTemplate(self, target, transmitCommand) {
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
 			if (self.isBeingDragged) {
-				var matrixy = ~~(e.clientY/50)*50;
-				var matrixx = ~~(e.clientX/50)*50;
+				var matrixy = ~~(e.clientY/canvasgridy)*canvasgridy;
+				var matrixx = ~~(e.clientX/canvasgridx)*canvasgridx;
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";	
 			}
@@ -779,8 +781,8 @@ function getTemplate(self, target, transmitCommand) {
 			self.clickPos = new_click_position;
 			if (nx.editmode) {
 				if (self.isBeingDragged) {
-					var matrixy = ~~(e.clientY/50)*50;
-					var matrixx = ~~(e.clientX/50)*50;
+					var matrixy = ~~(e.clientY/canvasgridy)*canvasgridy;
+					var matrixx = ~~(e.clientX/canvasgridx)*canvasgridx;
 					self.canvas.style.top = matrixy+"px";
 					self.canvas.style.left = matrixx+"px";	
 				}
