@@ -20,6 +20,7 @@ var nxManager = function() {
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
 	this.editmode = false;
+	this.showLabels = false;
 	this.oscIp = "127.0.0.1";
 	canvasgridy = 50;
 	canvasgridx = 50;
@@ -311,18 +312,20 @@ var nxManager = function() {
 	}
 
 	this.drawLabel = function() {
-		with(this.context) {
-			globalAlpha = 0.9;
-			fillStyle = this.colors.fill;
-			fillRect(this.width-100,this.height-20,100,20);
-			globalAlpha = 1;
-			beginPath();
-				fillStyle = this.colors.border;
-				font = "bold 15px courier";
-				textAlign = "center";
-				fillText(this.oscName,this.width-50,this.height-5);
-				textAlign = "left";
-			closePath();
+		if (manager.showLabels) {
+			with(this.context) {
+				globalAlpha = 0.9;
+				fillStyle = this.colors.fill;
+				fillRect(this.width-100,this.height-20,100,20);
+				globalAlpha = 1;
+				beginPath();
+					fillStyle = this.colors.border;
+					font = "bold 15px courier";
+					textAlign = "center";
+					fillText(this.oscName,this.width-50,this.height-5);
+					textAlign = "left";
+				closePath();
+			}
 		}
 	}
 	
@@ -371,11 +374,22 @@ var nxManager = function() {
 			"accentborder": "#aa2200",
 			"black": "#000",
 			"white": "#FFF"
-}; */
+}; 
 	this.colors = { 
 			"accent": "#ff5500", 
 			"fill": "#f7f7f7", 
 			"border": "#bbb", 
+			"accentborder": "#aa2200",
+			"black": "#000",
+			"white": "#FFF",
+			"highlight": "rgba(255,85,0,0.5)"
+	};
+
+	*/
+	this.colors = { 
+			"accent": "#ff5500", 
+			"fill": "#f5f5f5", 
+			"border": "#aaa", 
 			"accentborder": "#aa2200",
 			"black": "#000",
 			"white": "#FFF",
@@ -419,7 +433,7 @@ var nxManager = function() {
 		var x2 = wid+x1;
 		var y2 = hgt+y1;
 		//var depth = 6;
-		var depth = 4;
+		var depth = 2; // prev 4
 		
 		ctx.beginPath();
 		ctx.moveTo(x1+depth, y1); //TOP LEFT
@@ -653,8 +667,8 @@ function getTemplate(self, target, transmitCommand) {
 						"BLy": this.height
 				};
 	//drawing
-	self.lineWidth = 3;
-	self.padding = 2;
+	self.lineWidth = 2; // prev 3
+	self.padding = 2; // prev 2
 	//self.colors = nx.colors;
 	self.colors = new Object();
 	self.colors.accent = nx.colors.accent;
@@ -810,10 +824,13 @@ function getTemplate(self, target, transmitCommand) {
 	self.release = function() {
 	}
 	self.touch = function() {
+		self.click();
 	}
 	self.touchMove = function() {
+		self.move();
 	}
 	self.touchRelease = function() {
+		self.release();
 	}
 	self.adjustSizeIfDefault = function() {
 		if (self.width==300 && self.height==150) {

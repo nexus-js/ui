@@ -121,7 +121,11 @@ function button(target, transmitCommand, uiIndex) {
 	}
 
 	this.click = function(e) {
-		self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+		if (self.mode=="node") {
+			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+		} else {
+			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
+		}
 		self.draw();
 	}
 	
@@ -138,6 +142,18 @@ function button(target, transmitCommand, uiIndex) {
 			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
 		}
 		self.draw();
+	}
+
+	this.touch = function() {
+		self.click();
+	}
+
+	this.touchMove = function() {
+		self.move();
+	}
+
+	this.touchRelease = function() {
+		self.release();
 	}
 	
 	this.setImage = function(image) {

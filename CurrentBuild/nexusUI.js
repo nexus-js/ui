@@ -810,10 +810,13 @@ function getTemplate(self, target, transmitCommand) {
 	self.release = function() {
 	}
 	self.touch = function() {
+		self.click();
 	}
 	self.touchMove = function() {
+		self.move();
 	}
 	self.touchRelease = function() {
+		self.release();
 	}
 	self.adjustSizeIfDefault = function() {
 		if (self.width==300 && self.height==150) {
@@ -1330,6 +1333,18 @@ function button(target, transmitCommand, uiIndex) {
 			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
 		}
 		self.draw();
+	}
+
+	this.touch = function() {
+		self.click();
+	}
+
+	this.touchMove = function() {
+		self.move();
+	}
+
+	this.touchRelease = function() {
+		self.release();
 	}
 	
 	this.setImage = function(image) {
@@ -3588,13 +3603,25 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.nodes = new Array();
 	this.values = [0,0];
 	
-	this.default_text = "multitouch";	
+	this.default_text = "multi touch";	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
 
 	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
+
 	
+	this.mode = "matrix";
+	this.rows = 10;
+	this.cols = 10;
 	
+	this.getHue = function(hue) {
+		var redval = ( hue < 256 ? hue : Math.max(512-hue,0) );
+		var greenval = ( hue > 256 ? hue-256 : 0 );
+		greenval = ( greenval < 256 ? greenval : Math.max(512-greenval,0) );
+		var blueval = ( hue > 512 ? hue-512 : 0 );
+		blueval = ( blueval < 256 ? blueval : Math.max(512-blueval,0) );
+		return "rgb("+redval+","+greenval+","+blueval+")";
+	}
 
 	this.init = function() {
 		self.draw();
@@ -3610,40 +3637,84 @@ function multitouch(target, transmitCommand, uiIndex) {
 			stroke();
 			fill();
 
-			//draw nodes
-			if (self.clickPos.touches.length>=1) {
-				for (var i=0;i<self.clickPos.touches.length;i++) {
-					
-					with (self.context) {
-						globalAlpha=1;
-						beginPath();
-							fillStyle = self.colors.accent;
-							strokeStyle = self.colors.border;
-							lineWidth = self.lineWidth;
-							arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
-							fill();
-							stroke();
-						closePath();
-						globalAlpha=0.3;
-						beginPath();
-							fillStyle = self.rainbow[i];
-							strokeStyle = self.colors.border;
-							lineWidth = self.lineWidth;
-							arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
-							fill();
-							stroke();
-						closePath(); 
-						globalAlpha=1;
+			if (self.mode == "matrix") {
+				for (var i=0;i<self.rows;i++) {
+					for (var j=0;j<self.cols;j++) {
+						with (self.context) {
+							beginPath();
+								fillStyle = self.colors.accent;
+								strokeStyle = self.colors.border;
+								//var mytint = (10-j)*(i+1)*2+100;
+								//fillStyle = self.getHue(mytint);
+								lineWidth = 1;
+								var circx = i*self.width/self.rows + (self.width/self.rows)/2;
+								var circy = j*self.height/self.cols + (self.height/self.cols)/2;
+								arc(circx, circy, (self.height/self.cols)/2, 0, Math.PI*2, true);					
+								stroke();
+								//globalAlpha = 0.8;
+								//fill();
+								fillStyle = self.colors.border;
+								textAlign = "center";
+								textBaseline = "middle";
+								fillText((10-j)*(i+1), circx, circy);
+								var thisarea = {
+									xpos: i*self.width/self.rows,
+									ypos: j*self.height/self.cols,
+									wid: self.width/self.rows,
+									hgt: self.height/self.cols
+								}
+								if (self.clickPos.touches.length>=1) {
+									for (var k=0;k<self.clickPos.touches.length;k++) {
+										if (nx.isInside(self.clickPos.touches[k],thisarea)) {
+											globalAlpha=0.5;
+											fillStyle = self.colors.accent;
+											fill();
+											globalAlpha=0.3;
+											fillStyle = self.rainbow[k];
+											fill();
+											globalAlpha=1;
+										}
+									}
+								}
+							closePath();
+						}
 					}
-
 				}
-			}
-			else {
-				fillStyle = self.colors.border;
-				font = "14px courier";
-				textAlign = "center";
-				
-				fillText(self.default_text, self.width/2, self.height/2);
+			} else {
+				if (self.clickPos.touches.length>=1) {
+					for (var i=0;i<self.clickPos.touches.length;i++) {
+						
+						with (self.context) {
+							globalAlpha=0.5;
+							beginPath();
+								fillStyle = self.colors.accent;
+								strokeStyle = self.colors.border;
+								lineWidth = self.lineWidth;
+								arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
+								fill();
+							//	stroke();
+							closePath();
+							globalAlpha=0.3;
+							beginPath();
+								fillStyle = self.rainbow[i];
+								strokeStyle = self.colors.border;
+								lineWidth = self.lineWidth;
+								arc(self.clickPos.touches[i].x, self.clickPos.touches[i].y, self.nodeSize, 0, Math.PI*2, true);					
+								fill();
+							//	stroke();
+							closePath(); 
+							globalAlpha=1;
+						}
+
+					}
+				}
+				else {
+					fillStyle = self.colors.border;
+					font = "14px courier";
+					textAlign = "center";
+					
+					fillText(self.default_text, self.width/2, self.height/2);
+				}
 			}
 		}
 		self.drawLabel();

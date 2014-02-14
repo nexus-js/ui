@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<meta name="viewport" content="width=device-width, user-scalable=no"/>
+
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<!-- foundation framework links -->
+		<link rel="stylesheet" href="foundation/css/foundation.css" />
+		<script src="foundation/js/vendor/custom.modernizr.js"></script>
+	</head>
+	<body>
+
+		<style>
+
+			div {
+				border:solid 1px black;
+			}
+
+		</style>
+
+
+
+		
+				
+
+
+		<div class="row customdiv">
+
+			<div class="large-6 columns">
+
+				<h1>Ben Taylor's Page</h1>
+
+				<input type="text" onkeyup="someFunc(this.value)"></input>
+
+
+			</div>
+
+		</div>
+
+		<script>
+
+		var myh1 = document.querySelector("h1");
+
+		myh1.addEventListener('click', function(e) {
+			//the element will be stored in e.target
+			e.target.style.backgroundColor = "#000";
+		})
+
+		function someFunc(value) {
+			console.log(value);
+			value.style.backgroundColor = "#fa0";
+		}
+
+
+
+
+		var myNewObj = {
+			height: 100,
+			id: "div1",
+			name: "Andrew"
+		}
+
+		myNewObj.height;
+
+
+		var arrayOfDiv = [
+			{
+				height: 100,
+				id: "div1",
+				name: "Andrew"
+			},
+			{
+				height: 200,
+				id: "div2",
+				name: "Andrew"
+			}
+		]
+
+		arrayOfDiv[0] = myNewObj;
+
+		arrayOfDiv[0].height;
+
+
+		//Getting an ID
+
+		var getid = $("div:eq("+i+")").attr("id");
+
+		var getid = $("div")[i].id;
+
+
+		//Setting an ID
+
+		$("div:eq("+i+")").attr("id", i);
+
+		$("div")[i].id = i;2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		</script>
+
+
+
+
+
+	</body>
+</html>
