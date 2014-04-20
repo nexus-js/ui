@@ -16,12 +16,16 @@
 				nx.colorize("#0af");
 				nx.setTransmissionProtocol("local");
 
+				string1.setStrings(3);
+
 				string1.localTransmit = function(data) {
 					console.log("local: "+data)
 					b.note((data[0]+1)*50);
 					prefxBus.amp = data[1];
 					d.feedback = Math.abs(1-data[1])*0.7 + 0.3;
 				}
+
+				nx.startPulse();
 
 
 				Gibberish.init();

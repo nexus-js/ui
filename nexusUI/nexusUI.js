@@ -7,7 +7,7 @@
 /*****************************
 *     DEFINE NX MANAGER      *
 *****************************/
- 
+
 
 var nxManager = function() {
 	
@@ -157,7 +157,7 @@ var nxManager = function() {
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
 	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, oscIp, callbackFunction) {
 		if (this.ajaxRequestType == "post") {
-			console.log(oscIp);
+			//console.log(oscIp);
 			if (uiIndex) {
 				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, id: uiIndex, data: data});
 			} else {
@@ -175,7 +175,7 @@ var nxManager = function() {
 	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
 	this.iosTransmit = function (command, osc_name, id, data) {
 		var osc_message = "nexus://" + id + "?" + osc_name + "=" + data;
-		console.log("ios Transmit: ", osc_message);
+	//	console.log("ios Transmit: ", osc_message);
 		window.location.href = osc_message;
 	}
 	
@@ -215,13 +215,12 @@ var nxManager = function() {
 			y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 	  }
 		x -= canvas_offset.left;
-	  y -= canvas_offset.top;
+	  	y -= canvas_offset.top;
 		var click_position = new nx.point(x,y);
 		click_position.touches = [ {x: x, y: y }];
 		return click_position;
 	}
 
-	// Works great for one touch per UI element (does not handle multi-touch on a single UI)
 	this.getTouchPosition = function(e, canvas_offset) {
 		var x;
 		var y;
@@ -389,7 +388,7 @@ var nxManager = function() {
 	this.colors = { 
 			"accent": "#ff5500", 
 			"fill": "#f5f5f5", 
-			"border": "#aaa", 
+			"border": "#999", //aaa 
 			"accentborder": "#aa2200",
 			"black": "#000",
 			"white": "#FFF",
@@ -734,6 +733,10 @@ function getTemplate(self, target, transmitCommand) {
 		document.addEventListener("mousemove", self.preMove, false);
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
+		for (var i=0;i<self.clickPos.touches.length;i++) {
+			//self.clickPos.touches[i] == self.getCursorPosition(e, self.offset);
+			// NEEDS WORK
+		}
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;

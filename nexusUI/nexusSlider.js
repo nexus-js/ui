@@ -19,6 +19,8 @@ function slider(target, transmitCommand, uiIndex) {
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
 	this.label = self.oscName;
+
+	this.mode = "absolute";
 	
 	
 
@@ -132,9 +134,16 @@ function slider(target, transmitCommand, uiIndex) {
 	}
 
 	this.move = function() {
-		if (self.clicked) {
-			self.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
-			self.draw();
+		if (self.mode=="absolute") {
+			if (self.clicked) {
+				self.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
+				self.draw();
+			}
+		} else if (self.mode=="relative") {
+			if (self.clicked) {
+				self.value = nx.clip((self.value + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
+				self.draw();
+			}
 		}
 		var scaledVal = ( self.value - 0.02 ) * (1/.97);
 		self.nxTransmit(scaledVal);

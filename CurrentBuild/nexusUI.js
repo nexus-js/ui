@@ -1,6 +1,6 @@
-/*
- *  2013 Jesse Allison, Ben Taylor, Yemin Oh
- *  Nexus - shared utility functions for javascript UI objects
+/** NexusUI - shared utility functions for javascript UI objects
+	@author Ben Taylor, Jesse Allison, Yemin Oh
+ 	@copyright 2014
  */ 
  
 
@@ -8,6 +8,10 @@
 *     DEFINE NX MANAGER      *
 *****************************/
  
+
+/** NexusUI Manager, instantiated as nx
+	@constructor
+*/
 
 var nxManager = function() {
 	
@@ -20,6 +24,7 @@ var nxManager = function() {
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
 	this.editmode = false;
+	this.showLabels = false;
 	this.oscIp = "127.0.0.1";
 	canvasgridy = 50;
 	canvasgridx = 50;
@@ -156,7 +161,7 @@ var nxManager = function() {
 	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
 	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, oscIp, callbackFunction) {
 		if (this.ajaxRequestType == "post") {
-			console.log(oscIp);
+			//console.log(oscIp);
 			if (uiIndex) {
 				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, id: uiIndex, data: data});
 			} else {
@@ -174,7 +179,7 @@ var nxManager = function() {
 	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
 	this.iosTransmit = function (command, osc_name, id, data) {
 		var osc_message = "nexus://" + id + "?" + osc_name + "=" + data;
-		console.log("ios Transmit: ", osc_message);
+	//	console.log("ios Transmit: ", osc_message);
 		window.location.href = osc_message;
 	}
 	
@@ -214,13 +219,12 @@ var nxManager = function() {
 			y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 	  }
 		x -= canvas_offset.left;
-	  y -= canvas_offset.top;
+	  	y -= canvas_offset.top;
 		var click_position = new nx.point(x,y);
 		click_position.touches = [ {x: x, y: y }];
 		return click_position;
 	}
 
-	// Works great for one touch per UI element (does not handle multi-touch on a single UI)
 	this.getTouchPosition = function(e, canvas_offset) {
 		var x;
 		var y;
@@ -311,18 +315,20 @@ var nxManager = function() {
 	}
 
 	this.drawLabel = function() {
-		with(this.context) {
-			globalAlpha = 0.9;
-			fillStyle = this.colors.fill;
-			fillRect(this.width-100,this.height-20,100,20);
-			globalAlpha = 1;
-			beginPath();
-				fillStyle = this.colors.border;
-				font = "bold 15px courier";
-				textAlign = "center";
-				fillText(this.oscName,this.width-50,this.height-5);
-				textAlign = "left";
-			closePath();
+		if (manager.showLabels) {
+			with(this.context) {
+				globalAlpha = 0.9;
+				fillStyle = this.colors.fill;
+				fillRect(this.width-100,this.height-20,100,20);
+				globalAlpha = 1;
+				beginPath();
+					fillStyle = this.colors.border;
+					font = "bold 15px courier";
+					textAlign = "center";
+					fillText(this.oscName,this.width-50,this.height-5);
+					textAlign = "left";
+				closePath();
+			}
 		}
 	}
 	
@@ -371,11 +377,22 @@ var nxManager = function() {
 			"accentborder": "#aa2200",
 			"black": "#000",
 			"white": "#FFF"
-}; */
+}; 
 	this.colors = { 
 			"accent": "#ff5500", 
 			"fill": "#f7f7f7", 
 			"border": "#bbb", 
+			"accentborder": "#aa2200",
+			"black": "#000",
+			"white": "#FFF",
+			"highlight": "rgba(255,85,0,0.5)"
+	};
+
+	*/
+	this.colors = { 
+			"accent": "#ff5500", 
+			"fill": "#f5f5f5", 
+			"border": "#999", //aaa 
 			"accentborder": "#aa2200",
 			"black": "#000",
 			"white": "#FFF",
@@ -419,7 +436,7 @@ var nxManager = function() {
 		var x2 = wid+x1;
 		var y2 = hgt+y1;
 		//var depth = 6;
-		var depth = 4;
+		var depth = 2; // prev 4
 		
 		ctx.beginPath();
 		ctx.moveTo(x1+depth, y1); //TOP LEFT
@@ -653,8 +670,8 @@ function getTemplate(self, target, transmitCommand) {
 						"BLy": this.height
 				};
 	//drawing
-	self.lineWidth = 3;
-	self.padding = 2;
+	self.lineWidth = 2; // prev 3
+	self.padding = 2; // prev 2
 	//self.colors = nx.colors;
 	self.colors = new Object();
 	self.colors.accent = nx.colors.accent;
@@ -720,6 +737,10 @@ function getTemplate(self, target, transmitCommand) {
 		document.addEventListener("mousemove", self.preMove, false);
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
+		for (var i=0;i<self.clickPos.touches.length;i++) {
+			//self.clickPos.touches[i] == self.getCursorPosition(e, self.offset);
+			// NEEDS WORK
+		}
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
@@ -1316,7 +1337,11 @@ function button(target, transmitCommand, uiIndex) {
 	}
 
 	this.click = function(e) {
-		self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+		if (self.mode=="node") {
+			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+		} else {
+			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
+		}
 		self.draw();
 	}
 	
@@ -1330,7 +1355,7 @@ function button(target, transmitCommand, uiIndex) {
 
 	this.release = function() {
 		if (self.transmitRelease || self.mode=="toggle") { 
-			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
 		}
 		self.draw();
 	}
@@ -1789,8 +1814,8 @@ function position(target, transmitCommand, uiIndex) {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
-		//FIXME: how to send two values?
-		self.nxTransmit(self.scaleNode());
+		var node = self.scaleNode();
+		self.nxTransmit([node[0], node[1], "click"]);
 	}
 
 	this.move = function() {
@@ -1798,32 +1823,15 @@ function position(target, transmitCommand, uiIndex) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
-			self.nxTransmit(self.scaleNode());
+			var node = self.scaleNode();
+			self.nxTransmit([node[0], node[1], "move"]);
 		}
 	}
 	
 
 	this.release = function() {
-		
-	}
-	
-	this.touch = function() {
-		self.nodePos[0] = self.clickPos.x;
-		self.nodePos[1] = self.clickPos.y;
-		self.draw();
-		self.nxTransmit(self.scaleNode());
-	}
-
-	this.touchMove = function() {
-		if (self.clicked) {
-			self.nodePos[0] = self.clickPos.x;
-			self.nodePos[1] = self.clickPos.y;
-			self.draw();
-			self.nxTransmit(self.scaleNode());
-		}
-	}
-
-	this.touchRelease = function() {
+		var node = self.scaleNode();
+		self.nxTransmit([node[0], node[1], "release"]);
 		
 	}
 	
@@ -2086,6 +2094,8 @@ function slider(target, transmitCommand, uiIndex) {
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
 	this.label = self.oscName;
+
+	this.mode = "absolute";
 	
 	
 
@@ -2199,9 +2209,16 @@ function slider(target, transmitCommand, uiIndex) {
 	}
 
 	this.move = function() {
-		if (self.clicked) {
-			self.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
-			self.draw();
+		if (self.mode=="absolute") {
+			if (self.clicked) {
+				self.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
+				self.draw();
+			}
+		} else if (self.mode=="relative") {
+			if (self.clicked) {
+				self.value = nx.clip((self.value + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
+				self.draw();
+			}
 		}
 		var scaledVal = ( self.value - 0.02 ) * (1/.97);
 		self.nxTransmit(scaledVal);
@@ -3610,7 +3627,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
 
 	
-	this.mode = "matrix";
+	this.mode = "normal";
 	this.rows = 10;
 	this.cols = 10;
 	
@@ -3656,7 +3673,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 								fillStyle = self.colors.border;
 								textAlign = "center";
 								textBaseline = "middle";
-								fillText((10-j)*(i+1), circx, circy);
+								//fillText((10-j)*(i+1), circx, circy);
 								var thisarea = {
 									xpos: i*self.width/self.rows,
 									ypos: j*self.height/self.cols,
@@ -4158,16 +4175,45 @@ function string(target, transmitCommand, uiIndex) {
 	this.default_text = "touch to control";	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
-	var stringdiv = self.height/(self.numberofstrings + 1);
+	var stringdiv;
 	
 	
 
 	this.init = function() {
-		for (var i = 0;i<self.numberofstrings;i++) {
-			self.strings[i] = {x1: self.padding, y1: stringdiv*(1+i), x2: self.width-self.padding, y2: stringdiv*(i+1), held: false};
-			self.abovestring[i] = false;
+		stringdiv = self.height/(self.numberofstrings + 1);
+		for (var i=0;i<self.numberofstrings;i++) {
+			self.strings[i] = {
+				x1: self.padding,
+				y1: stringdiv*(1+i), 
+				x2: self.width-self.padding, 
+				y2: stringdiv*(i+1), 
+				held: false, // whether or not it's gripped
+				vibrating: false, // whether or not its vibrating
+				force:0, // amount of force of pull on string
+				maxstretch: 0, // vibration cap (in Y domain)
+				stretch: 0, // current point vibrating in y domain
+				direction: 0, // which direction it's vibrating
+				above: false // is mouse above or below string
+			};
 		}
 		self.draw();
+		nx.aniItems.push(self.draw);
+	}
+
+	this.setStrings = function(val) {
+		self.numberofstrings = val;
+		self.strings = new Array();
+		self.init();
+	}
+
+	this.pluck = function(which) {
+		var i = which;
+		self.nxTransmit([i,self.clickPos.x/self.width]);
+		self.strings[i].force = self.clickPos.y - self.strings[i].y1;
+		self.strings[i].maxstretch = Math.abs(self.clickPos.y - self.strings[i].y1);
+		self.strings[i].stretch = self.clickPos.y - self.strings[i].y1;
+		self.strings[i].vibrating = true;
+		self.strings[i].direction = (self.clickPos.y - self.strings[i].y1)/Math.abs(self.clickPos.y - self.strings[i].y1) * ((self.clickPos.y - self.strings[i].y1)/-1.2);
 	}
 
 	this.draw = function() {
@@ -4185,40 +4231,60 @@ function string(target, transmitCommand, uiIndex) {
 
 			for (var i = 0;i<self.strings.length;i++) {
 
-				//if crosses string
-				if (self.abovestring[i] != (self.clickPos.y<self.strings[i].y1) ) {
-					//gripup will be true if mouse us higher than string
-					self.strings[i].gripup = (self.clickPos.y<self.strings[i].y1);
-				}
+				var st = self.strings[i];
 
-				//if mouse is within 20px or so of string
-				if (Math.abs(self.clickPos.y-self.strings[i].y1)<stringdiv/2) {
+				if (st.vibrating) {
+					if (st.maxstretch < 0) {
+						st.vibrating = false;
+						st.held = false;
+					}
+					st.stretch = st.stretch + st.direction;
+					
+					if (Math.abs(st.stretch) > st.maxstretch) {
+						//st.direction *= (-0.99);
+						st.direction *= -1;
+						st.stretch = st.stretch + st.direction;
+						st.maxstretch = st.maxstretch - 1
+
+						st.direction = (st.direction / Math.abs(st.direction)) * (st.maxstretch/1)
+						console.log(st.maxstretch)
+						console.log(Math.abs(st.stretch))
+					}
+
+					beginPath();
+					moveTo(st.x1, st.y1);
+					quadraticCurveTo(self.width/2, st.y1+st.stretch, st.x2, st.y2);
+					stroke();
+					closePath();
+					st.on = true;
+
+
+				} else if (st.held) {
 					//will draw rounded
 					//if mouse is higher than string and gripup
 					//or if mouse is 
-				//	if (self.clickPos.y-self.strings[i].y1<0 && self.strings[i].gripup || self.clickPos.y-self.strings[i].y1>0 && !self.strings[i].gripup) {
+				//	if (self.clickPos.y-st.y1<0 && st.gripup || self.clickPos.y-st.y1>0 && !st.gripup) {
 						beginPath();
-						moveTo(self.strings[i].x1, self.strings[i].y1);
-						quadraticCurveTo(self.clickPos.x, self.clickPos.y, self.strings[i].x2, self.strings[i].y2);
+						moveTo(st.x1, st.y1);
+						quadraticCurveTo(self.clickPos.x, self.clickPos.y, st.x2, st.y2);
 						stroke();
 						closePath();
-						self.strings[i].on = true;	
+						st.on = true;	
 				/*	} else {
 						beginPath();
-						moveTo(self.strings[i].x1, self.strings[i].y1);
-						lineTo(self.strings[i].x2, self.strings[i].y2);
+						moveTo(st.x1, st.y1);
+						lineTo(st.x2, st.y2);
 						stroke();
 						closePath();
 					} */
 				} else {
 					beginPath();
-					moveTo(self.strings[i].x1, self.strings[i].y1);
-					lineTo(self.strings[i].x2, self.strings[i].y2);
+					moveTo(st.x1, st.y1);
+					lineTo(st.x2, st.y2);
 					stroke();
 					closePath();
-					if (self.strings[i].on) {
-						self.strings[i].on = false;
-						self.nxTransmit([i,self.clickPos.x/self.width]);
+					if (st.on) {
+						st.on = false;
 					}
 				}
 			}
@@ -4229,67 +4295,39 @@ function string(target, transmitCommand, uiIndex) {
 
 	this.click = function() {
 		for (var i = 0;i<self.numberofstrings;i++) {
-			self.abovestring[i] = (self.clickPos.y<self.strings[i].y1);
+			self.strings[i].above = (self.clickPos.y<self.strings[i].y1);
 		}
 		self.draw();
 	}
 
 	this.move = function() {
 		if (self.clicked) {
-			self.draw();
+			for (var i = 0;i<self.strings.length;i++) {
+
+				//if crosses string
+				if (self.strings[i].above != (self.clickPos.y<self.strings[i].y1) ) {
+					self.strings[i].held = true;
+					console.log(i);
+				}
+
+				//if mouse is within 20px or so of string
+				//if (Math.abs(self.clickPos.y-self.strings[i].y1)<stringdiv/2) {
+					//will draw rounded
+			}
 		}
 	}
 	
 
 	this.release = function() {
-		
-	}
-	
-	this.touch = function() {
-		self.click();
-	}
+		for (var i = 0;i<self.strings.length;i++) {
 
-	this.touchMove = function() {
-		self.move();
-	}
-
-	this.touchRelease = function() {
-		
-	}
-
-	this.scaleNode = function() {
-		var actualWid = self.width - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualHgt = self.height - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualX = self.nodePos[0] - self.nodeSize - self.lineWidth - self.padding;
-		var actualY = self.nodePos[1] - self.nodeSize - self.lineWidth - self.padding;
-		var clippedX = nx.clip(actualX/actualWid, 0, 1);
-		var clippedY = nx.clip(actualY/actualHgt, 0, 1);
-		self.values = [ nx.prune(clippedX, 3), nx.prune(clippedY, 3) ];
-		return self.values;
-	}
-	
-	this.animate = function(aniType) {
-		
-		switch (aniType) {
-			case "bounce":
-				nx.aniItems.push(self.aniBounce);
-				break;
-			case "none":
-				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
-				break;
+			if (self.strings[i].held) {
+				self.pluck(i);
+				console.log("1");
+			}
+			
 		}
 		
-	}
-	
-	this.aniBounce = function() {
-		if (!self.clicked && self.nodePos[0]) {
-			self.nodePos[0] += (self.deltaMove.x/2);
-			self.nodePos[1] += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
-			self.draw();
-			self.nxTransmit(self.scaleNode());
-		}
 	}
 	
 	this.init();

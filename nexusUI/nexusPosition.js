@@ -102,8 +102,8 @@ function position(target, transmitCommand, uiIndex) {
 		self.nodePos[0] = self.clickPos.x;
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
-		//FIXME: how to send two values?
-		self.nxTransmit(self.scaleNode());
+		var node = self.scaleNode();
+		self.nxTransmit([node[0], node[1], "click"]);
 	}
 
 	this.move = function() {
@@ -111,32 +111,15 @@ function position(target, transmitCommand, uiIndex) {
 			self.nodePos[0] = self.clickPos.x;
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
-			self.nxTransmit(self.scaleNode());
+			var node = self.scaleNode();
+			self.nxTransmit([node[0], node[1], "move"]);
 		}
 	}
 	
 
 	this.release = function() {
-		
-	}
-	
-	this.touch = function() {
-		self.nodePos[0] = self.clickPos.x;
-		self.nodePos[1] = self.clickPos.y;
-		self.draw();
-		self.nxTransmit(self.scaleNode());
-	}
-
-	this.touchMove = function() {
-		if (self.clicked) {
-			self.nodePos[0] = self.clickPos.x;
-			self.nodePos[1] = self.clickPos.y;
-			self.draw();
-			self.nxTransmit(self.scaleNode());
-		}
-	}
-
-	this.touchRelease = function() {
+		var node = self.scaleNode();
+		self.nxTransmit([node[0], node[1], "release"]);
 		
 	}
 	

@@ -25,7 +25,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
 
 	
-	this.mode = "matrix";
+	this.mode = "normal";
 	this.rows = 10;
 	this.cols = 10;
 	
@@ -71,7 +71,7 @@ function multitouch(target, transmitCommand, uiIndex) {
 								fillStyle = self.colors.border;
 								textAlign = "center";
 								textBaseline = "middle";
-								fillText((10-j)*(i+1), circx, circy);
+								//fillText((10-j)*(i+1), circx, circy);
 								var thisarea = {
 									xpos: i*self.width/self.rows,
 									ypos: j*self.height/self.cols,

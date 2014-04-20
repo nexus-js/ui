@@ -21,6 +21,7 @@ if (preg_match('/ /', $q)) {
 } else if (preg_match('/[0-9]/i', $q)) {
 	//number
 	$q = (float)$q;
+	$q =floatval($q);
 }
 
 

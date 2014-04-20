@@ -139,7 +139,7 @@ function button(target, transmitCommand, uiIndex) {
 
 	this.release = function() {
 		if (self.transmitRelease || self.mode=="toggle") { 
-			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
+			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
 		}
 		self.draw();
 	}
