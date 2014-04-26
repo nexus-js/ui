@@ -1,17 +1,13 @@
-/** NexusUI - shared utility functions for javascript UI objects
-	@author Ben Taylor, Jesse Allison, Yemin Oh
- 	@copyright 2014
+/*
+ *  2013 Jesse Allison, Ben Taylor, Yemin Oh
+ *  Nexus - shared utility functions for javascript UI objects
  */ 
  
 
 /*****************************
 *     DEFINE NX MANAGER      *
 *****************************/
- 
 
-/** NexusUI Manager, instantiated as nx
-	@constructor
-*/
 
 var nxManager = function() {
 	
@@ -2190,17 +2186,19 @@ function slider(target, transmitCommand, uiIndex) {
 			closePath();
 			
 			
+			if (nx.showLabels) {
+
+				save();
+	 			translate(self.width/2, 0);
+				rotate(Math.PI/2);
+				textAlign = "left";
+				textBaseline = "middle";
+				font = "bold 15px courier";
+				fillStyle = self.colors.border;
+				fillText(self.label, self.width/2, 0);
+				restore();
 			
-			save();
- 			translate(self.width/2, 0);
-			rotate(Math.PI/2);
-			textAlign = "left";
-			textBaseline = "middle";
-			font = "bold 15px courier";
-			fillStyle = self.colors.border;
-			fillText(self.label, self.width/2, 0);
-			restore();
-			
+			}
 		} 
 	}
 	
@@ -3630,6 +3628,11 @@ function multitouch(target, transmitCommand, uiIndex) {
 	this.mode = "normal";
 	this.rows = 10;
 	this.cols = 10;
+
+	this.matrixLabels = false;
+
+	//EXAMPLE of a labelled matrix
+	//this.matrixLabels = [ "A", "B", "C" ]
 	
 	this.getHue = function(hue) {
 		var redval = ( hue < 256 ? hue : Math.max(512-hue,0) );
@@ -3655,8 +3658,8 @@ function multitouch(target, transmitCommand, uiIndex) {
 			fill();
 
 			if (self.mode == "matrix") {
-				for (var i=0;i<self.rows;i++) {
-					for (var j=0;j<self.cols;j++) {
+				for (var i=0;i<self.cols;i++) {
+					for (var j=0;j<self.rows;j++) {
 						with (self.context) {
 							beginPath();
 								fillStyle = self.colors.accent;
@@ -3664,21 +3667,24 @@ function multitouch(target, transmitCommand, uiIndex) {
 								//var mytint = (10-j)*(i+1)*2+100;
 								//fillStyle = self.getHue(mytint);
 								lineWidth = 1;
-								var circx = i*self.width/self.rows + (self.width/self.rows)/2;
-								var circy = j*self.height/self.cols + (self.height/self.cols)/2;
-								arc(circx, circy, (self.height/self.cols)/2, 0, Math.PI*2, true);					
+								var circx = i*self.width/self.cols + (self.width/self.cols)/2;
+								var circy = j*self.height/self.rows + (self.height/self.rows)/2;
+								arc(circx, circy, (self.height/self.rows)/2, 0, Math.PI*2, true);					
 								stroke();
 								//globalAlpha = 0.8;
 								//fill();
 								fillStyle = self.colors.border;
 								textAlign = "center";
 								textBaseline = "middle";
-								//fillText((10-j)*(i+1), circx, circy);
+								if (self.matrixLabels) {
+									//fillText((10-j)*(i+1), circx, circy);
+									fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
+								} 
 								var thisarea = {
-									xpos: i*self.width/self.rows,
-									ypos: j*self.height/self.cols,
-									wid: self.width/self.rows,
-									hgt: self.height/self.cols
+									xpos: i*self.width/self.cols,
+									ypos: j*self.height/self.rows,
+									wid: self.width/self.cols,
+									hgt: self.height/self.rows
 								}
 								if (self.clickPos.touches.length>=1) {
 									for (var k=0;k<self.clickPos.touches.length;k++) {

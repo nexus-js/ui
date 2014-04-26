@@ -16,8 +16,12 @@
 				nx.colorize("#0af");
 				nx.setTransmissionProtocol("ajax");
 				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
-				multitouch1.mode = "normal";
-				multitouch1.draw();
+
+				multitouch2.mode = "matrix";
+				multitouch2.cols = 5;
+				multitouch2.rows = 10;
+				multitouch2.matrixLabels = [ "A", "B", "C" ];
+				multitouch2.draw();
 			}
 
 		</script>
@@ -28,7 +32,9 @@
 	
 	<body>
 		
-		<canvas nx="multitouch" style="width:750px;height:900px;">HI!</canvas>
+		<canvas nx="multitouch" style="width:450px;height:900px;">HI!</canvas>
+		
+		<canvas nx="multitouch" style="width:450px;height:900px;">HI!</canvas>
 
 
 	</body>

@@ -115,17 +115,19 @@ function slider(target, transmitCommand, uiIndex) {
 			closePath();
 			
 			
+			if (nx.showLabels) {
+
+				save();
+	 			translate(self.width/2, 0);
+				rotate(Math.PI/2);
+				textAlign = "left";
+				textBaseline = "middle";
+				font = "bold 15px courier";
+				fillStyle = self.colors.border;
+				fillText(self.label, self.width/2, 0);
+				restore();
 			
-			save();
- 			translate(self.width/2, 0);
-			rotate(Math.PI/2);
-			textAlign = "left";
-			textBaseline = "middle";
-			font = "bold 15px courier";
-			fillStyle = self.colors.border;
-			fillText(self.label, self.width/2, 0);
-			restore();
-			
+			}
 		} 
 	}
 	
