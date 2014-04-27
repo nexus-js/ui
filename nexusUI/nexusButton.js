@@ -31,6 +31,9 @@ function button(target, transmitCommand, uiIndex) {
 	this.imageTouch = null;
 
 	this.init = function() {
+
+		self.width = self.canvas.width;
+		self.height = self.canvas.height;
 		
 		if (this.image) {
 			imageButton = 1;

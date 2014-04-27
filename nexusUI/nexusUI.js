@@ -688,6 +688,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
 	self.nxThrottle = nx.nxThrottle;
 	self.isBeingDragged = false;
+	self.isBeingResized = false;
 	self.label = false;
 	//recording
 	nx.addNxObject(self);
@@ -741,7 +742,11 @@ function getTemplate(self, target, transmitCommand) {
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
 		if (nx.editmode) {
-			self.isBeingDragged = true;
+			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
+				self.isBeingResized = true;
+			} else {
+				self.isBeingDragged = true;
+			}
 			globaldragid = self.canvasID;
 			nx.highlightEditedObj(self.canvasID);
 			showSettings();
@@ -750,6 +755,11 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	};
 	self.preMove = function(e) {
+		if (nx.editmode && self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
+			document.body.style.cursor = "se-resize";
+		} else {
+			document.body.style.cursor = "pointer";
+		}
 		self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
@@ -761,6 +771,31 @@ function getTemplate(self, target, transmitCommand) {
 				var matrixx = ~~(e.clientX/canvasgridx)*canvasgridx;
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";	
+			} else if (self.isBeingResized) {
+				self.canvas.width = self.clickPos.x;
+				self.canvas.height = self.clickPos.y;
+
+				self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
+				self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
+				self.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
+				self.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+				self.center = {
+					x: self.width/2, 
+					y: self.height/2
+				};
+				self.corners = {
+						"TLx": 0,
+						"TLy": 0,
+						"TRx": this.width,
+						"TRy": 0,
+						"BRx": this.width,
+						"BRy": this.height,
+						"BLx": 0,
+						"BLy": this.height
+				};
+
+				self.init();
+				self.draw();
 			}
 		} else {
 			self.move(e);

@@ -7,8 +7,8 @@
 		<!-- standard includes of nexusUI and jquery-->
 		<script type="text/javascript" src="../nexusUI/jquery.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
-		<script type="text/javascript" src="../CurrentBuild/nexusUI.min.js"></script>
-	<!--	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
+	<!--	<script type="text/javascript" src="../CurrentBuild/nexusUI.min.js"></script> -->
+		<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
 		<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
@@ -35,7 +35,6 @@
 				nx.colorize("#0af");
 				nx.setTransmissionProtocol("ajax");
 				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
-				nx.showLabels = true;
 
 
 				nx.editOn = function() {
@@ -56,7 +55,7 @@
 			}
 
 			$(document).ready(function() {
-				$(".nxopt").mousedown(function(event) {
+				$(".nxopt").mousedown(function() {
 					// if it has an nx attribute, store that in nxId
 					var nxId = $(this).html();
 					var elemCount = 0;
@@ -78,22 +77,13 @@
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						globaldragid = thisname;
 						nx.highlightEditedObj();
+						//eval(thisname + ".highlightEditedObj()");
 						showSettings();
 					}
 					nx.onload();
 					document.addEventListener("mousemove", dragobj, true);
-					$("#"+thisname).mousemove(function(e) {
-					  	console.log(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px","")));
-
-						if (nx.editmode && e.clientX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.clientY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
-							console.log("success!!")
-							document.body.style.cursor = "se-resize";
-						} else {
-							document.body.style.cursor = "pointer";
-						}
-					}) 
+					//$("#"+thisname).draggable();
 				})
-
 				$(document).mouseup(function() {
 					document.removeEventListener("mousemove", dragobj, true)
 				});
@@ -132,9 +122,6 @@
 
 			function blockMove(e) {
 	       		e.preventDefault();
-			}
-
-			function setcursor(e) {
 			}
 			
 		</script>
