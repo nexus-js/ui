@@ -688,6 +688,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
 	self.nxThrottle = nx.nxThrottle;
 	self.isBeingDragged = false;
+	self.isBeingResized = false;
 	self.label = false;
 	//recording
 	nx.addNxObject(self);
@@ -741,7 +742,11 @@ function getTemplate(self, target, transmitCommand) {
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
 		if (nx.editmode) {
-			self.isBeingDragged = true;
+			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
+				self.isBeingResized = true;
+			} else {
+				self.isBeingDragged = true;
+			}
 			globaldragid = self.canvasID;
 			nx.highlightEditedObj(self.canvasID);
 			showSettings();
@@ -761,6 +766,31 @@ function getTemplate(self, target, transmitCommand) {
 				var matrixx = ~~(e.clientX/canvasgridx)*canvasgridx;
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";	
+			} else if (self.isBeingResized) {
+				self.canvas.width = self.clickPos.x;
+				self.canvas.height = self.clickPos.y;
+
+				self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
+				self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
+				self.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
+				self.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+				self.center = {
+					x: self.width/2, 
+					y: self.height/2
+				};
+				self.corners = {
+						"TLx": 0,
+						"TLy": 0,
+						"TRx": this.width,
+						"TRy": 0,
+						"BRx": this.width,
+						"BRy": this.height,
+						"BLx": 0,
+						"BLy": this.height
+				};
+
+				self.init();
+				self.draw();
 			}
 		} else {
 			self.move(e);
@@ -1052,7 +1082,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.aniStop = 1;
 	this.aniMove = 0.01;
 
-	function init() {
+	this.init = function() {
 	
 		self.circle_size = (Math.min(self.center.x, self.center.y)-self.lineWidth);
 		self.dial_position_length = self.circle_size+self.lineWidth;
@@ -1203,9 +1233,8 @@ function dial(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.value);
 		}
 	}
-	
 
-	init();
+	this.init();
 	
 }
 
@@ -1243,6 +1272,9 @@ function button(target, transmitCommand, uiIndex) {
 	this.imageTouch = null;
 
 	this.init = function() {
+
+		self.width = self.canvas.width;
+		self.height = self.canvas.height;
 		
 		if (this.image) {
 			imageButton = 1;
@@ -1706,7 +1738,7 @@ function keyboard(target, transmitCommand, uiIndex) {
 	
 }
 
-// Javascript 2d_slider
+// Javascript XY slider
 
 function position(target, transmitCommand, uiIndex) {
 					
@@ -3518,7 +3550,7 @@ function panel(target, transmitCommand, uiIndex) {
 	
 	this.init();
 }
-// Javascript 2d_slider
+// Made with NexusUI Banner
 
 function banner(target, transmitCommand, uiIndex) {
 					
@@ -3598,7 +3630,7 @@ function banner(target, transmitCommand, uiIndex) {
 	
 	this.init();
 }
-// Javascript 2d_slider
+// Javascript multitouch
 
 function multitouch(target, transmitCommand, uiIndex) {
 					
@@ -3657,9 +3689,11 @@ function multitouch(target, transmitCommand, uiIndex) {
 			stroke();
 			fill();
 
+			var count = 0;
+
 			if (self.mode == "matrix") {
-				for (var i=0;i<self.cols;i++) {
-					for (var j=0;j<self.rows;j++) {
+				for (var j=0;j<self.rows;j++) {
+					for (var i=0;i<self.cols;i++) {
 						with (self.context) {
 							beginPath();
 								fillStyle = self.colors.accent;
@@ -3677,8 +3711,15 @@ function multitouch(target, transmitCommand, uiIndex) {
 								textAlign = "center";
 								textBaseline = "middle";
 								if (self.matrixLabels) {
-									//fillText((10-j)*(i+1), circx, circy);
+<<<<<<< HEAD
+									fillText((10-j)*(i+1), circx, circy);
 									fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
+=======
+									//fillText((10-j)*(i+1), circx, circy);
+									fillText(self.matrixLabels[count%self.matrixLabels.length], circx, circy);
+									//fillText(self.matrixLabels[(i*self.rows + j)%self.matrixLabels.length], circx, circy);
+									count++
+>>>>>>> FETCH_HEAD
 								} 
 								var thisarea = {
 									xpos: i*self.width/self.cols,

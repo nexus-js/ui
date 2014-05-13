@@ -1,4 +1,4 @@
-// Javascript 2d_slider
+// Made with NexusUI Banner
 
 function banner(target, transmitCommand, uiIndex) {
 					

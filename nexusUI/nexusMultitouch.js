@@ -1,4 +1,4 @@
-// Javascript 2d_slider
+// Javascript multitouch
 
 function multitouch(target, transmitCommand, uiIndex) {
 					
@@ -57,9 +57,11 @@ function multitouch(target, transmitCommand, uiIndex) {
 			stroke();
 			fill();
 
+			var count = 0;
+
 			if (self.mode == "matrix") {
-				for (var i=0;i<self.cols;i++) {
-					for (var j=0;j<self.rows;j++) {
+				for (var j=0;j<self.rows;j++) {
+					for (var i=0;i<self.cols;i++) {
 						with (self.context) {
 							beginPath();
 								fillStyle = self.colors.accent;
@@ -77,8 +79,15 @@ function multitouch(target, transmitCommand, uiIndex) {
 								textAlign = "center";
 								textBaseline = "middle";
 								if (self.matrixLabels) {
-									//fillText((10-j)*(i+1), circx, circy);
+<<<<<<< HEAD
+									fillText((10-j)*(i+1), circx, circy);
 									fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
+=======
+									//fillText((10-j)*(i+1), circx, circy);
+									fillText(self.matrixLabels[count%self.matrixLabels.length], circx, circy);
+									//fillText(self.matrixLabels[(i*self.rows + j)%self.matrixLabels.length], circx, circy);
+									count++
+>>>>>>> FETCH_HEAD
 								} 
 								var thisarea = {
 									xpos: i*self.width/self.cols,

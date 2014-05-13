@@ -38,7 +38,7 @@ function dial(target, transmitCommand, uiIndex) {
 	this.aniStop = 1;
 	this.aniMove = 0.01;
 
-	function init() {
+	this.init = function() {
 	
 		self.circle_size = (Math.min(self.center.x, self.center.y)-self.lineWidth);
 		self.dial_position_length = self.circle_size+self.lineWidth;
@@ -189,9 +189,8 @@ function dial(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.value);
 		}
 	}
-	
 
-	init();
+	this.init();
 	
 }
 

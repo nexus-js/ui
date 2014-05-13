@@ -1,4 +1,4 @@
-// Javascript 2d_slider
+// Javascript XY slider
 
 function position(target, transmitCommand, uiIndex) {
 					
