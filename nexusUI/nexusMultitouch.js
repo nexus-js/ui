@@ -80,13 +80,19 @@ function multitouch(target, transmitCommand, uiIndex) {
 								textBaseline = "middle";
 								if (self.matrixLabels) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 									fillText((10-j)*(i+1), circx, circy);
 									fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
 =======
+=======
+>>>>>>> FETCH_HEAD
 									//fillText((10-j)*(i+1), circx, circy);
 									fillText(self.matrixLabels[count%self.matrixLabels.length], circx, circy);
 									//fillText(self.matrixLabels[(i*self.rows + j)%self.matrixLabels.length], circx, circy);
 									count++
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
 >>>>>>> FETCH_HEAD
 								} 
 								var thisarea = {
