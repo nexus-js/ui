@@ -755,11 +755,6 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	};
 	self.preMove = function(e) {
-		if (nx.editmode && self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
-			document.body.style.cursor = "se-resize";
-		} else {
-			document.body.style.cursor = "pointer";
-		}
 		self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
