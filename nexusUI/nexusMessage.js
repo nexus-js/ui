@@ -13,7 +13,7 @@ function message(target, transmitCommand, uiIndex) {
 	this.getTemplate = getTemplate;
 	this.getTemplate(self, target, transmitCommand);
 	
-	this.value = "a message";
+	this.value = "default";
 	this.size = 13;
 	
 	this.init = function() {
