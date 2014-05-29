@@ -1,31 +1,23 @@
-// nexusUI - Button 
-// 
-// 
- 
+// nexusUI Button 
 
-function button(target, transmitCommand, uiIndex) {
+function button(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
 	getTemplate(self, target, transmitCommand);
 
 	// Define Unique Attributes
 	// Value is the value to send when the button is clicked.  
 	this.value = 1;
-	this.transmitRelease = false;	// transmit 0 on release of button.
 	
 	//set mode: impulse, toggle, node
 	this.mode = "impulse";
 
 	// image button properties
-	var imageButton = 0;	// by default, not an image button
+	var imageButton = false;	// by default, not an image button
 	this.image = null;
 	this.imageHover = null;
 	this.imageTouch = null;
@@ -36,12 +28,15 @@ function button(target, transmitCommand, uiIndex) {
 		self.height = self.canvas.height;
 		
 		if (this.image) {
-			imageButton = 1;
+			imageButton = true;
 		}
+
+		this.colors.accent = "#5dd";
+		this.colors.highlight = "#5dd";
+		this.colors.border = "#eee";
 		
 		self.draw();
-		
-		return 1;
+
 	}
 	
 	this.draw = function() {
@@ -51,7 +46,7 @@ function button(target, transmitCommand, uiIndex) {
 			lineWidth = self.lineWidth;
 			
 			if (imageButton) {
-				// ** Image Button ** //
+				// Image Button
 				if (!self.clicked) {
 					// Draw Image if not touched
 					drawImage(self.image, 0, 0);
@@ -76,7 +71,7 @@ function button(target, transmitCommand, uiIndex) {
 				
 			} else {
 		
-				// ** Regular Button ** //
+				// Regular Button
 				if (!self.clicked) {
 					fillStyle = self.colors.fill;
 					strokeStyle = self.colors.border;
@@ -92,25 +87,10 @@ function button(target, transmitCommand, uiIndex) {
 				closePath();
 
 				if (self.clicked && self.mode=="node") {
-					globalAlpha = 0.15;
+					globalAlpha = 0.2;
 					fillStyle = "#fff";
 					beginPath();
 						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
-						fill();	  
-					closePath();
-				
-					beginPath();
-						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/3), 0, Math.PI*2, true);
-						fill();	  
-					closePath();
-				
-					beginPath();
-						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/4), 0, Math.PI*2, true);
-						fill();	  
-					closePath();
-				
-					beginPath();
-						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/5), 0, Math.PI*2, true);
 						fill();	  
 					closePath();
 
@@ -141,45 +121,29 @@ function button(target, transmitCommand, uiIndex) {
 	}
 
 	this.release = function() {
-		if (self.transmitRelease || self.mode=="toggle") { 
+		if (self.mode=="toggle") { 
 			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
 		}
 		self.draw();
 	}
-
-	this.touch = function() {
-		self.click();
-	}
-
-	this.touchMove = function() {
-		self.move();
-	}
-
-	this.touchRelease = function() {
-		self.release();
-	}
 	
 	this.setImage = function(image) {
 		self.image = new Image();
-		self.image.onload = function() { self.draw(); }
-		imageButton = 1;
+		self.image.onload = function() { self.draw() }
 		self.image.src = image;
+		imageButton = true;
 	}
 	
 	this.setHoverImage = function(image) {
 		self.imageHover = new Image();
-		self.imageHover.onload = function() { self.draw(); }
+		self.imageHover.onload = function() { self.draw() }
 		self.imageHover.src = image;
-		self.draw();
 	}
 	
 	this.setTouchImage = function(image) {
 		self.imageTouch = new Image();
-		self.imageTouch.onload = function() { self.draw(); }
+		self.imageTouch.onload = function() { self.draw() }
 		self.imageTouch.src = image;
-		self.draw();
 	}
-	
-	this.init();
 
 }

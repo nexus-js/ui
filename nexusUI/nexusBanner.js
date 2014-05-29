@@ -1,17 +1,13 @@
-// Made with NexusUI Banner
+// NexusUI Banner
 
-function banner(target, transmitCommand, uiIndex) {
+function banner(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 125, height: 50 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.message1 = "Powered by";
@@ -66,8 +62,6 @@ function banner(target, transmitCommand, uiIndex) {
 				lineTo(self.width-15,self.height-10);
 				fill();
 			closePath();
-
-
 		
 		}
 
@@ -75,6 +69,4 @@ function banner(target, transmitCommand, uiIndex) {
 			window.location = "http://www.nexusosc.com";
 		}
 	}
-	
-	this.init();
 }

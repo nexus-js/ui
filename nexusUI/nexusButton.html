@@ -1,31 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Button</title>
-	<meta name="LSU EMDM" content="nexus">
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="nexusUI.js"></script>
 	<script type="text/javascript" src="nexusButton.js"></script>
 	<script>
 		
 		nx.onload = function() {
+
+			nx.printOSC()
 			
-			nx.colorize("#5dd");
-			nx.colorize("border", "#EEE");
-			nx.colorize("highlight", "#5dd");
+			button1.mode = "impulse";
+			button2.mode = "node";
+			button3.mode = "toggle";
+
+			// creates an image button with highlight
+			picbutton1.setImage("images/pippin.png");
 			
-			button1.draw();
-			button_2.draw();
-			
-			nx.setTransmissionProtocol("none");
-			button_2.transmissionProtocol = "none";
-			
-			button_3.setImage("images/pippin.png");
-			
-			button_4.setImage("images/pippin.png");
-			button_4.setTouchImage("images/pippinTouch.png");
-			
+			// creates an image button with second image on click
+			picbutton2.setImage("images/pippin.png");
+			picbutton2.setTouchImage("images/pippinTouch.png");
 			
 		}
 		
@@ -34,14 +29,12 @@
 </head>
 <body>
 	
+	<canvas nx="button" width="50px" height="50px">Button</canvas>
 	<canvas nx="button" width="100px" height="100px">Button</canvas>
-	<canvas nx="button" width="100px" height="100px">Button</canvas>
-	<canvas nx="button" width="100px" height="100px">Button</canvas>
-	<canvas nx="button" width="100px" height="100px">Button</canvas>
-	
-	<canvas id="button_2" nx="button" width="200px" height="200px">Button</canvas>
-	<canvas id="button_3" nx="button" width="100px" height="100px">Button</canvas>
-	<canvas id="button_4" nx="button" width="100px" height="100px">Button</canvas>
+	<canvas nx="button" width="200px" height="200px">Button</canvas>
+
+	<canvas id="picbutton1" nx="button" width="100px" height="100px">Button</canvas>
+	<canvas id="picbutton2" nx="button" width="100px" height="100px">Button</canvas>
 	
 
 </body>

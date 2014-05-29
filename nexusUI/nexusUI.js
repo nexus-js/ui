@@ -105,11 +105,25 @@ var nxManager = function() {
 		}	
 	}
 
+	this.logOSC = false
+
+	this.printOSC = function() {
+		$("body").append('<div id="debug" style="clear:both;height:210px;width:500px;font-size:15pt;border:solid 0px #ddd;color:#777;overflow:hidden;margin:40px 0px;font-family:courier"></div>')
+		self.logOSC = true;
+	}
 	
 	this.nxTransmit = function (data) {
 		//console.log(this);
 		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
 		
+		if (self.logOSC) {
+			if (Array.isArray(data)) {
+				data = data.join();
+				data = data.replace(/\,/g," ");
+			}
+			$("#debug").prepend(this.oscName+" "+data+"<br>");
+		}
+
 		data = manager.prune(data,3);
 		
 		if (this.transmissionProtocol == "none") {
@@ -610,6 +624,7 @@ $(document).ready(function() {
 		}
 		if(nxId) {
 			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
+			eval(allcanvi[i].id + ".init()");
 		}
 	}
 	
