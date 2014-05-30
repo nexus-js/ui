@@ -6,11 +6,11 @@ NexusUI API
 
 **Overview:** Central nexusUI manager with shared utility functions for all nexusUI objects
 
-nx manager
-----------
+nx
+----
 **Methods**
 
-###nx manager.colorize(\[aspect\], \[color\])###
+###nx.colorize(\[aspect\], \[color\])###
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
 
 ```js
@@ -28,13 +28,13 @@ nx.colorize("border", "#000000")
 
 
 button
-------
+--------
 **Members**
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
 
 metroball
----------
+-----------
 **Methods**
 
 ###metroball.pulse()###

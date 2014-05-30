@@ -12,7 +12,7 @@ var somecode;
 
 /** 
 
-	@class nx manager
+	@class nx
 
 	@overview Central nexusUI manager with shared utility functions for all nexusUI objects
 
