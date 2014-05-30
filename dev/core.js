@@ -5,6 +5,7 @@
  	@copyright 2014
  */ 
  
+var somecode;
 
 /** 
 	@class nx
