@@ -1,6 +1,6 @@
 NexusUI API
 ===========
-*2014*
+*(c) 2014*
 
 **Author:** Ben Taylor, Jesse Allison, Yemin Oh, William Conlin
 
@@ -27,8 +27,8 @@ nx.colorize("border", "#000000")
 **[color]**:  *hex or rgb color code*,  
 
 
-button      Simple touch button with 3 modes of interaction       <canvas nx="button"></canvas>
------------------------------------------------------------------------------------------------
+button
+------
 **Members**
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
