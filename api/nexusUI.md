@@ -1,6 +1,8 @@
+NexusUI API
+===========
 *2014*
 
-**Author:** Ben Taylor, Jesse Allison, Yemin Oh, William Conlin
+**Author:** Ben Taylor, Jesse Allison, Yemin Oh
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
@@ -9,8 +11,7 @@ init()
 @ method init
 Initialize Object *
 
-pulse()
--------
+### pulse()
 Animation Pulse *
 
 drawSpaces()
@@ -53,17 +54,20 @@ deleteMB()
 ----------
 Manage Mangos *
 
-class Core Manager, instantiated as nx
---------------------------------------
+class nx
+--------
 **Methods**
 
-Core Manager, instantiated as nx.colorize(\[aspect\])
------------------------------------------------------
-Colorize all Nexus objects aspects = [fill, accent, border, accentborder]
+nx.colorize(\[aspect\], \[color\])
+----------------------------------
+Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
 
 
 **Parameters**
 
-**[aspect]**:  *hex color*,  
+**[aspect]**:  *which part of ui to change, i.e. "accent" "fill", "border"*,  
+
+
+**[color]**:  *hex or rgb color code*,  
 
 
