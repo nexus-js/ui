@@ -3792,7 +3792,9 @@ function metroball(target, transmitCommand) {
 			
 	}
 	
-	/** @method Animation Pulse **/
+	/** @method pulse 
+		Animation Pulse occuring each frame
+	*/
 	
 	this.pulse = function() {
 		with (self.context) {
@@ -3897,7 +3899,7 @@ function metroball(target, transmitCommand) {
 		self.release(e);
 	}
 	
-	/** @method deleteMB **/
+	/** @method deleteMB() */
 	
 	this.deleteMB = function(ballPos) {
 		//delete in reverse order
@@ -3920,7 +3922,7 @@ function metroball(target, transmitCommand) {
 		self.CurrentBalls[nextIndex] = new self.Ball(nextIndex, ballPos.x, ballPos.y);
 	}
 	
-	/* @method quantize on/off */
+	/** @method quantize on/off **/
 	
 	this.toggleQuantization = function() {
 		if (!quantize) {

@@ -55,6 +55,10 @@ metroball
 ---------
 **Methods**
 
-###metroball.Animation Pulse *()###
-###metroball.deleteMB *()###
+###metroball.pulse()###
+Animation Pulse occuring each frame
+
+
+###metroball.deleteMB()()###
 ###metroball.addNewMB *()###
+###metroball.quantize on/off *()###
