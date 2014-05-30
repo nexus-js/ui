@@ -13,6 +13,7 @@ Initialize Object *
 
 ### pulse()
 Animation Pulse *
+Start with 'nx.startPulse()'
 
 drawSpaces()
 ------------
