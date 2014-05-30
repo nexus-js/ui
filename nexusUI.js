@@ -14,7 +14,7 @@ var somecode;
 
 	@class nx
 
-	@description Central nexusUI manager with shared utility functions for all nexusUI objects
+	Central nexusUI manager with shared utility functions for all nexusUI objects
 
 */
 
@@ -1263,8 +1263,7 @@ function dial(target, transmitCommand) {
 
 /** 
 	@class button      
-	Simple touch button with 3 modes of interaction       
-	<canvas nx="button"></canvas> 
+	Simple touch button with 3 modes of interaction
 */
 
 

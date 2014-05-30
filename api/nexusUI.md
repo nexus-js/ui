@@ -8,6 +8,9 @@ NexusUI API
 
 nx
 ----
+Central nexusUI manager with shared utility functions for all nexusUI objects
+
+
 **Methods**
 
 ###nx.colorize(\[aspect\], \[color\])###
@@ -30,7 +33,7 @@ nx.colorize("border", "#000000")
 button
 --------
 Simple touch button with 3 modes of interaction
-<canvas nx="button"></canvas>
+
 **Members**
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
@@ -38,6 +41,7 @@ Simple touch button with 3 modes of interaction
 metroball
 -----------
 Bouncy-ball area with built-in tilt control
+
 **Methods**
 
 ###metroball.pulse()###
