@@ -10,7 +10,8 @@
 *****************************/
  
 /** 
-	nx
+	@class nx
+	Central nexusUI manager with shared utility functions for all nexusUI objects
 **/
 
 var nxManager = function() {
@@ -31,7 +32,7 @@ var nxManager = function() {
 	
 
 	/** 
-		### colorize 
+		@method colorize
 		@param {which part of ui to change, i.e. "accent" "fill", "border"} [aspect]
 		@param {hex or rgb color code} [color]
 		Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
@@ -3693,10 +3694,11 @@ function multitouch(target, transmitCommand) {
 		self.nxTransmit(self.values);
 	}
 }
-/***********************
-* Javascript MetroBall *
-***********************/
-				
+/** 
+	@class metroball 
+	Bouncy-ball area with built-in tilt control
+**/
+
 
 
 function metroball(target, transmitCommand) {
@@ -3723,9 +3725,6 @@ function metroball(target, transmitCommand) {
 	self.tiltFB;
 	self.z;
 	var i;
-    
-    /** @ method init
-    Initialize Object **/
 	
 	this.init = function() {
 		self.createUISpaces();
@@ -3793,7 +3792,7 @@ function metroball(target, transmitCommand) {
 			
 	}
 	
-	/** Animation Pulse **/
+	/** @method Animation Pulse **/
 	
 	this.pulse = function() {
 		with (self.context) {
@@ -3803,8 +3802,6 @@ function metroball(target, transmitCommand) {
 		self.drawBalls();
 		self.drawLabel();
 	}
-	
-	/** Draw framework of rounded rectangles **/
 	
 	this.drawSpaces = function() {
 		
@@ -3842,8 +3839,6 @@ function metroball(target, transmitCommand) {
 		}
 	}
 	
-	/** Draw functions **/
-	
 	this.drawBalls = function() {
 		with (self.context) {
 			for (i=0;i<self.CurrentBalls.length;i++) {
@@ -3853,7 +3848,6 @@ function metroball(target, transmitCommand) {
 		}
 	}
 	
-	/** Mouse functions **/
 	this.click = function(e) {
 		ballPos = self.clickPos;
 		for (i=0;i<self.UISpaces.length;i++) {
@@ -3903,7 +3897,7 @@ function metroball(target, transmitCommand) {
 		self.release(e);
 	}
 	
-	/** Manage MetroBalls **/
+	/** @method deleteMB **/
 	
 	this.deleteMB = function(ballPos) {
 		//delete in reverse order
@@ -3918,13 +3912,15 @@ function metroball(target, transmitCommand) {
 			self.CurrentBalls[i].SelfIndex=i;
 		}
 	}
+
+	/** @method addNewMB **/
 		
 	this.addNewMB = function(ballPos) {
 		var nextIndex = self.CurrentBalls.length;
 		self.CurrentBalls[nextIndex] = new self.Ball(nextIndex, ballPos.x, ballPos.y);
 	}
 	
-	/* Quantize */
+	/* @method quantize on/off */
 	
 	this.toggleQuantization = function() {
 		if (!quantize) {
@@ -3943,13 +3939,8 @@ function metroball(target, transmitCommand) {
 		var scaledZ = nx.prune(self.z,3);
 		tilt = scaledX * 10;
 		tempo = Math.pow(scaledY+1,3);
-		
-	//	self.canvas.style.webkitTransform = "rotate("+self.tiltLR+"deg)";
-	//	self.canvas.style.MozTransform = "rotate("+tilt+"deg)";
 	}
 	
-	
-	/* Ball object */
 	
 	this.Ball = function(SelfIndex, SelfX, SelfY) {
 		
@@ -4034,13 +4025,9 @@ function metroball(target, transmitCommand) {
 				shadowBlur = 2;
 				fill();
 				shadowBlur = 0;
-			}
-			
-		}
-		
-		
+			}	
+		}	
 	}
-	
 }
 
 

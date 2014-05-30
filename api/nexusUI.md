@@ -6,43 +6,6 @@ NexusUI API
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
-###colorize(\[aspect\], \[color\])###
-### colorize
-Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
-
-```js
-nx.colorize("border", "#000000")
-```
-
-
-
-**Parameters**
-
-**[aspect]**:  *which part of ui to change, i.e. "accent" "fill", "border"*,  
-
-
-**[color]**:  *hex or rgb color code*,  
-
-
-###init()###
-@ method init
-Initialize Object *
-
-###pulse()###
-Animation Pulse *
-
-###drawSpaces()###
-Draw framework of rounded rectangles *
-
-###drawBalls()###
-Draw functions *
-
-###click()###
-Mouse functions *
-
-###deleteMB()###
-Manage MetroBalls *
-
 ###init()###
 Initialize Object *
 
@@ -61,9 +24,37 @@ Mouse functions *
 ###deleteMB()###
 Manage Mangos *
 
+nx
+--
+**Methods**
+
+###nx.colorize(\[aspect\], \[color\])###
+Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
+
+```js
+nx.colorize("border", "#000000")
+```
+
+
+
+**Parameters**
+
+**[aspect]**:  *which part of ui to change, i.e. "accent" "fill", "border"*,  
+
+
+**[color]**:  *hex or rgb color code*,  
+
+
 button
 ------
 **Members**
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
 
+metroball
+---------
+**Methods**
+
+###metroball.Animation Pulse *()###
+###metroball.deleteMB *()###
+###metroball.addNewMB *()###

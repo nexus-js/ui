@@ -10,7 +10,8 @@
 *****************************/
  
 /** 
-	nx
+	@class nx
+	Central nexusUI manager with shared utility functions for all nexusUI objects
 **/
 
 var nxManager = function() {
@@ -31,7 +32,7 @@ var nxManager = function() {
 	
 
 	/** 
-		### colorize 
+		@method colorize
 		@param {which part of ui to change, i.e. "accent" "fill", "border"} [aspect]
 		@param {hex or rgb color code} [color]
 		Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
