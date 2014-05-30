@@ -1,7 +1,7 @@
 /** 
-	@class metroball 
+	@class 
 	Bouncy-ball area with built-in tilt control
-**/
+*/
 
 
 
@@ -97,7 +97,7 @@ function metroball(target, transmitCommand) {
 	}
 	
 	/** @method pulse 
-		Animation Pulse occuring each frame
+		Animation pulse occuring each frame
 	*/
 	
 	this.pulse = function() {
@@ -203,7 +203,7 @@ function metroball(target, transmitCommand) {
 		self.release(e);
 	}
 	
-	/** @method deleteMB() */
+	/** @method deleteMB */
 	
 	this.deleteMB = function(ballPos) {
 		//delete in reverse order
@@ -219,14 +219,14 @@ function metroball(target, transmitCommand) {
 		}
 	}
 
-	/** @method addNewMB **/
+	/** @method addNewMB */
 		
 	this.addNewMB = function(ballPos) {
 		var nextIndex = self.CurrentBalls.length;
 		self.CurrentBalls[nextIndex] = new self.Ball(nextIndex, ballPos.x, ballPos.y);
 	}
 	
-	/** @method quantize on/off **/
+	/** @method toggleQuantization */
 	
 	this.toggleQuantization = function() {
 		if (!quantize) {

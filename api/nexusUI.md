@@ -51,14 +51,14 @@ button
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
 
-metroball
----------
+
+
 **Methods**
 
-###metroball.pulse()###
-Animation Pulse occuring each frame
+###.pulse()###
+Animation pulse occuring each frame
 
 
-###metroball.deleteMB()()###
-###metroball.addNewMB *()###
-###metroball.quantize on/off *()###
+###.deleteMB()###
+###.addNewMB()###
+###.toggleQuantization()###

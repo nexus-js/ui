@@ -3,18 +3,15 @@
 	@overview NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 	@author Ben Taylor, Jesse Allison, Yemin Oh, William Conlin
  	@copyright 2014
- 	**/ 
+ */ 
  
-/*****************************
-*     DEFINE NX MANAGER      *
-*****************************/
- 
+
+var nxManager = function() {
+
 /** 
 	@class nx
 	Central nexusUI manager with shared utility functions for all nexusUI objects
-**/
-
-var nxManager = function() {
+*/
 	
 	var manager = this;
 	
@@ -3695,9 +3692,9 @@ function multitouch(target, transmitCommand) {
 	}
 }
 /** 
-	@class metroball 
+	@class 
 	Bouncy-ball area with built-in tilt control
-**/
+*/
 
 
 
@@ -3793,7 +3790,7 @@ function metroball(target, transmitCommand) {
 	}
 	
 	/** @method pulse 
-		Animation Pulse occuring each frame
+		Animation pulse occuring each frame
 	*/
 	
 	this.pulse = function() {
@@ -3899,7 +3896,7 @@ function metroball(target, transmitCommand) {
 		self.release(e);
 	}
 	
-	/** @method deleteMB() */
+	/** @method deleteMB */
 	
 	this.deleteMB = function(ballPos) {
 		//delete in reverse order
@@ -3915,14 +3912,14 @@ function metroball(target, transmitCommand) {
 		}
 	}
 
-	/** @method addNewMB **/
+	/** @method addNewMB */
 		
 	this.addNewMB = function(ballPos) {
 		var nextIndex = self.CurrentBalls.length;
 		self.CurrentBalls[nextIndex] = new self.Ball(nextIndex, ballPos.x, ballPos.y);
 	}
 	
-	/** @method quantize on/off **/
+	/** @method toggleQuantization */
 	
 	this.toggleQuantization = function() {
 		if (!quantize) {
