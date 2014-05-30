@@ -1,4 +1,7 @@
-// nexusUI Button 
+/** 
+	@module button 
+	Simple touch button with 3 modes of interaction 
+**/
 
 function button(target, transmitCommand) {
 
@@ -14,6 +17,7 @@ function button(target, transmitCommand) {
 	this.value = 1;
 	
 	//set mode: impulse, toggle, node
+	/** @member {mode}  property     A button accepts 3 modes: impulse, toggle, and node **/
 	this.mode = "impulse";
 
 	// image button properties

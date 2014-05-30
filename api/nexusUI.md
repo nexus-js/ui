@@ -6,7 +6,10 @@ NexusUI API
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
+module Global
+=============
 ###colorize(\[aspect\], \[color\])###
+### colorize
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
 
 ```js
@@ -23,40 +26,47 @@ nx.colorize("border", "#000000")
 **[color]**:  *hex or rgb color code*,  
 
 
-###init()###
+###button()###
+Simple touch button with 3 modes of interaction
+
+
+module button
+=============
+Simple touch button with 3 modes of interaction
+###button.init()###
 @ method init
 Initialize Object *
 
-###pulse()###
+###button.pulse()###
 Animation Pulse *
 
-###drawSpaces()###
+###button.drawSpaces()###
 Draw framework of rounded rectangles *
 
-###drawBalls()###
+###button.drawBalls()###
 Draw functions *
 
-###click()###
+###button.click()###
 Mouse functions *
 
-###deleteMB()###
+###button.deleteMB()###
 Manage MetroBalls *
 
-###init()###
+###button.init()###
 Initialize Object *
 
-###pulse()###
+###button.pulse()###
 Animation Pulse *
 
-###drawSpaces()###
+###button.drawSpaces()###
 Draw framework of rounded rectangles *
 
-###drawBalls()###
+###button.drawBalls()###
 Draw functions *
 
-###click()###
+###button.click()###
 Mouse functions *
 
-###deleteMB()###
+###button.deleteMB()###
 Manage Mangos *
 
