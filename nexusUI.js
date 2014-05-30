@@ -1,13 +1,15 @@
-/*
- *  2014 Ben Taylor, Jesse Allison, Yemin Oh
- *  Nexus - shared utility functions for javascript UI objects
+/** NexusUI - shared utility functions for javascript UI objects
+	@author Ben Taylor, Jesse Allison, Yemin Oh
+ 	@copyright 2014
  */ 
  
-
 /*****************************
 *     DEFINE NX MANAGER      *
 *****************************/
-
+ 
+/** NexusUI Manager, instantiated as nx
+	@constructor
+*/
 
 var nxManager = function() {
 	
@@ -96,6 +98,12 @@ var nxManager = function() {
 			this.nxObjects[i].transmissionProtocol = setting;
 		}	
 	}
+
+	this.sendsTo = function (setting) {
+		for (i=0;i<this.nxObjects.length;i++) {
+			this.nxObjects[i].transmissionProtocol = setting;
+		}	
+	}
 	
 		// Set Transmist Command for all nx objects
 	this.setTransmitCommand = function (setting) {
@@ -152,9 +160,10 @@ var nxManager = function() {
 			//document.location = 'http://google.com';
 		} else if (this.transmissionProtocol == "android") {
 			
-		} else if (this.transmissionProtocol == "local") {
+		} else if (this.transmissionProtocol == "local" || this.transmissionProtocol == "js" ) {
 				// sender, receiver, parameter, data //
 			this.localTransmit(data);
+			this.response(data);
 		}
 		
 	}
@@ -745,6 +754,13 @@ function getTemplate(self, target, transmitCommand) {
 	self.localTransmit = function(data) {
 		nx.globalLocalTransmit(self.canvasID, self.localObject, self.localParameter, data);
 	};
+	self.response = function(data) {
+	};
+
+	self.sendsTo = function(data) {
+		self.transmissionProtocol = data;	
+	};
+
 	self.localObject = "dial1";
 	self.localParameter = "value";
 
@@ -928,18 +944,14 @@ function getTemplate(self, target, transmitCommand) {
 
 // nexus Toggle button
 
-function toggle(target, transmitCommand, uiIndex) {
+function toggle(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	var i;
 	this.on = false;
@@ -1037,54 +1049,20 @@ function toggle(target, transmitCommand, uiIndex) {
 		self.nxTransmit(nx.boolToVal(self.on));
 	}
 	
-	this.move = function() {
-		
-	}
-	
-	this.release = function() {
-		
-	}
-		
-	this.touch = function(e) {
-		if (!self.on) {
-			self.on = true;
-		}
-		else {
-			self.on = false;
-		}
-		self.draw();
-		self.nxTransmit(nx.boolToVal(self.on));
-	}
-
-
-	this.touchMove = function(e) {
-	}
-
-
-	this.touchRelease = function(e) {
-	}
-	
-	
-	this.init();
-	
 }
 // nexusUI - Dial
 //
 //
 
 				
-function dial(target, transmitCommand, uiIndex) {
+function dial(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	
 	//define unique attributes
@@ -1259,8 +1237,6 @@ function dial(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.value);
 		}
 	}
-
-	this.init();
 	
 }
 
@@ -1423,18 +1399,14 @@ function button(target, transmitCommand) {
 
 // FIXME: key detection not accurate when changed num of octaves!
 
-function keyboard(target, transmitCommand, uiIndex) {
+function keyboard(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 400, height: 100 };
 	
 	//get common attributes and methods
-	self.getTemplate = getTemplate;
-	self.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 
 	// define unique attributes
 	self.octaves = 2;
@@ -1723,35 +1695,24 @@ function keyboard(target, transmitCommand, uiIndex) {
 		}	
 	}
 	
-
-	this.init();
-	
 }
 
 // Javascript XY slider
 
-function position(target, transmitCommand, uiIndex) {
+function position(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;
 	this.values = [0,0];
 	
-	this.default_text = "touch to control";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
-	
-	
+	this.default_text = "touch to control";
 
 	this.init = function() {
 		self.draw();
@@ -1876,22 +1837,18 @@ function position(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.scaleNode());
 		}
 	}
-	
-	this.init();
 }
 // Javascript Matrix slider
 
 
-function matrix(target, transmitCommand, uiIndex) {
+function matrix(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	var i;
 	
@@ -2088,29 +2045,23 @@ function matrix(target, transmitCommand, uiIndex) {
 	this.touchRelease = function(e) {
 	}
 	
-	this.init();
-	
 }
 // Javascript 2d_slider
 
-function slider(target, transmitCommand, uiIndex) {
+function slider(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.value = 0.7
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
 	this.sliderWidth = self.realSpace.x;
 		
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
 	this.label = self.oscName;
 
 	this.mode = "absolute";
@@ -2243,25 +2194,7 @@ function slider(target, transmitCommand, uiIndex) {
 		var scaledVal = ( self.value - 0.02 ) * (1/.97);
 		self.nxTransmit(scaledVal);
 	}
-	
 
-	this.release = function() {
-		
-	}
-
-	this.touch = function() {
-		self.move();
-	}
-
-	this.touchMove = function() {
-		self.move();
-	}
-
-	this.touchRelease = function() {
-		
-	}
-	
-	this.init();
 }
 // Javascript Multislider
 // Nexus Multislider
@@ -2271,16 +2204,14 @@ function slider(target, transmitCommand, uiIndex) {
 // list values are useful for setting the multislider object in max, 
 // outputting only changed, values and their index should be better for iOS and local transmit
 // Working on a solution- WWC
-function multislider(target, transmitCommand, uiIndex) {
+function multislider(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.sliders = 15;
@@ -2296,11 +2227,8 @@ function multislider(target, transmitCommand, uiIndex) {
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
 	
-	
 	// test
 	this.init = function() {
-		nx.getHandlers(self);
-
 		self.draw();
 	}
 
@@ -2402,22 +2330,19 @@ function multislider(target, transmitCommand, uiIndex) {
 		this.sliderWidth = self.realSpace.x/self.sliders;
 		this.init();
 	}
+	
 }
 
 // Javascript Select
 
-function select(target, transmitCommand, uiIndex) {
+function select(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 200, height: 30 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	self.choices = [ ];
@@ -2452,21 +2377,18 @@ function select(target, transmitCommand, uiIndex) {
 		self.nxTransmit(self.value);
 	}
 	
-	this.init();
 }
 // Nexus Tilt
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
-function tilt(target, transmitCommand, uiIndex) {
+function tilt(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique properties
 	this.tiltLR;
@@ -2476,9 +2398,7 @@ function tilt(target, transmitCommand, uiIndex) {
 	this.scaledY;
 	this.scaledZ;
 	
-	this.defaultText = "TILT";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.defaultText = "TILT";
 
 	
 	self.deviceOrientationHandler = function() {
@@ -2533,25 +2453,12 @@ function tilt(target, transmitCommand, uiIndex) {
 	     	grd.addColorStop(0, self.colors.white);
 	      	grd.addColorStop(1, self.colors.accent);
 			fillStyle = grd;
-			
-		/*    beginPath();
-		    arc(self.width/2, self.height/2, self.width/2, 0, 2 * Math.PI, false);
-		    fill();
-		    closePath(); */
 		   
 		    fillStyle = self.colors.fill;
 		    fillRect(0,0,self.width,self.height);
 		    strokeStyle = self.colors.border;
 		    lineWidth = 10;
-		    strokeRect(0,0,self.width,self.height);
-		    
-		/*    beginPath();
-		    	moveTo(0,self.height);
-		    	lineTo(self.width,self.height);
-		    	strokeStyle = self.colors.accent;
-		    	stroke();
-		    closePath();
-		 */  
+		    strokeRect(0,0,self.width,self.height);  
 		    
 		    globalAlpha = 0.4;
 		    fillStyle = self.colors.accent;
@@ -2567,26 +2474,20 @@ function tilt(target, transmitCommand, uiIndex) {
 		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
 		return self.values;
 	}
-	
-	this.init();
 }
 /***********************
 * Javascript Sandbox   *
 ***********************/
 
 			
-function sandbox(target, transmitCommand, uiIndex) {
+function sandbox(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 400, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	var toySize = 60;
@@ -2785,8 +2686,6 @@ function sandbox(target, transmitCommand, uiIndex) {
 		}
 	}
 	
-	this.init();
-	
 }	
 
 
@@ -2794,16 +2693,14 @@ function sandbox(target, transmitCommand, uiIndex) {
 
 // Javascript Joints
 
-function joints(target, transmitCommand, uiIndex) {
+function joints(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 400, height: 400 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 35;
@@ -2993,26 +2890,20 @@ function joints(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.scaleNode());
 		}
 	}
-	
-	this.init();
 }
 // nexusUI - Color Picker
 //
 //
 
 				
-function colors(target, transmitCommand, uiIndex) {
+function colors(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	var pencil_width = 50;
@@ -3082,16 +2973,6 @@ function colors(target, transmitCommand, uiIndex) {
 		self.click(e);
 	}
 	
-	this.touch = function(e) {
-		self.click(e);
-	}
-
-	this.touchMove = function(e) {
-		self.click(e);
-	}
-
-	this.init();
-	
 }
 
 
@@ -3100,18 +2981,14 @@ function colors(target, transmitCommand, uiIndex) {
 ****************************/
 
 			
-function pixels(target, transmitCommand, uiIndex) {
+function pixels(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	self.dim = { x: 10, y: 10};
@@ -3277,26 +3154,20 @@ function pixels(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.screen[pixY][pixX]);
 		}
 	}
-
-	this.init();
 	
 }
 
 
 // Javascript 2d_slider
 
-function number(target, transmitCommand, uiIndex) {
+function number(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	this.value = 0;
 	
@@ -3377,23 +3248,17 @@ function number(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.value);
 		}
 	}
-	
-	this.init();
 }
 // Javascript 2d_slider
 
-function comment(target, transmitCommand, uiIndex) {
+function comment(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	this.value = "comment";
 	this.size = 14;
@@ -3434,23 +3299,17 @@ function comment(target, transmitCommand, uiIndex) {
 		}
 		nx.wrapText(self.context, self.value, 6, 3+self.size, self.width-6, self.size);
 	}
-
-	this.init();
 }
 // Javascript message
 
-function message(target, transmitCommand, uiIndex) {
+function message(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	this.value = "default";
 	this.size = 13;
@@ -3507,27 +3366,17 @@ function message(target, transmitCommand, uiIndex) {
 		self.draw();
 	}
 	
-	this.init();
 }
 // Javascript panel
 
-function panel(target, transmitCommand, uiIndex) {
+function panel(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
-	
-	this.value = 0;
-	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	getTemplate(self, target, transmitCommand);
 	
 	this.init = function() {
 		self.draw();
@@ -3544,8 +3393,6 @@ function panel(target, transmitCommand, uiIndex) {
 			fill();
 		}
 	}
-	
-	this.init();
 }
 // NexusUI Banner
 
@@ -3621,18 +3468,14 @@ function banner(target, transmitCommand) {
 }
 // Javascript multitouch
 
-function multitouch(target, transmitCommand, uiIndex) {
+function multitouch(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.nodeSize = self.width/10;
@@ -3831,8 +3674,6 @@ function multitouch(target, transmitCommand, uiIndex) {
 		}
 		self.nxTransmit(self.values);
 	}
-	
-	this.init();
 }
 /***********************
 * Javascript MetroBall *
@@ -3840,18 +3681,14 @@ function multitouch(target, transmitCommand, uiIndex) {
 				
 
 
-function metroball(target, transmitCommand, uiIndex) {
+function metroball(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	
 	//define unique attributes
@@ -4185,25 +4022,19 @@ function metroball(target, transmitCommand, uiIndex) {
 		
 	}
 	
-	this.init();
-	
 }
 
 
 // Javascript 2d_slider
 
-function string(target, transmitCommand, uiIndex) {
+function string(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;
@@ -4214,9 +4045,7 @@ function string(target, transmitCommand, uiIndex) {
 	this.rainbow = [ self.colors.accent, self.colors.black, self.colors.border ];
 	this.abovestring = new Array();
 	
-	this.default_text = "touch to control";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.default_text = "touch to control";
 	var stringdiv;
 	
 	
@@ -4371,24 +4200,18 @@ function string(target, transmitCommand, uiIndex) {
 		}
 		
 	}
-	
-	this.init();
 }
 // Javascript drawing canvas
 
 				
-function draw(target, transmitCommand, uiIndex) {
+function draw(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	
 	//define unique attributes
@@ -4649,8 +4472,7 @@ function draw(target, transmitCommand, uiIndex) {
 		send_canvas = drawing_canvas
 		window.location = drawing_canvas.toDataURL("image/png");
 	}
-	
-	this.init();
+
 }
 
 /***********************
@@ -4659,47 +4481,14 @@ function draw(target, transmitCommand, uiIndex) {
 ************************/
 	
 
-
-//function mango(SelfName, CanvasName, AjaxFunc) {
-function mango(target, transmitCommand, uiIndex) {
-
-/*	var self=this;
-	
-	this.SelfName = SelfName;
-	this.CanvasName = CanvasName;
-	this.AjaxFunc = AjaxFunc;
-	this.CurrentBalls = new Array();
-	this.CurrentBlocks = new Array();
-	this.UISpaces = new Array();
-	
-	this.canvas;
-	this.context;
-	
-	var canvas_height;
-	var canvas_width;
-	var offsetLeft;
-	var offsetTop;
-	
-	this.CurrentBalls = new Array();
-	this.CurrentBlocks = new Array();
-	this.UISpaces = new Array();
-	var ballPos = new Object();
-	var clickField = null;
-	
-	this.clicked = false;
-
-	*/
+function mango(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 500, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	this.CurrentBalls = new Array();
@@ -4718,7 +4507,7 @@ function mango(target, transmitCommand, uiIndex) {
     
     /** Initialize Object **/
 	
-	this.make = function() {
+	this.init = function() {
 	/*	this.canvas = document.getElementById(this.CanvasName);
 		this.context = this.canvas.getContext("2d");
 		canvas_height = this.canvas.height;
@@ -5227,8 +5016,6 @@ function mango(target, transmitCommand, uiIndex) {
 		
 	}
 	
-	this.make();
-	
 }
 
 
@@ -5237,16 +5024,14 @@ function mango(target, transmitCommand, uiIndex) {
 
 // Javascript Joints
 
-function ldmc(target, transmitCommand, uiIndex) {
+function ldmc(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 900, height: 600 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique properties
 	this.nodeSize = 20;

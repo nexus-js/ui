@@ -74,7 +74,7 @@ var nxscripts = [
         "draw.js",
         "mango.js",
         "LDMC.js",
-        
+
     ]
 
 concat({
@@ -85,6 +85,18 @@ concat({
     src : nxscripts,
     dest : '../examples/nexusUI.js'
 })
+
+
+
+
+
+function done() {
+    console.log('jsdox compiled api md into /api');
+}
+
+jsdox = require("jsdox");
+
+jsdox.generateForDir("../nexusUI.js", "../api", done);
 
 
 //uglify('nexusUI.js', 'nexusUI.min.js');
