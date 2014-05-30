@@ -1,9 +1,11 @@
 /** 
-	@class button 
-	Simple touch button with 3 modes of interaction 
+	@class button  
+*/
 
-	<canvas nx="button"></canvas>
-**/
+/**
+ Simple touch button with 3 modes of interaction   
+ <canvas nx="button"></canvas>
+*/
 
 function button(target, transmitCommand) {
 

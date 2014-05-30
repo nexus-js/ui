@@ -7,9 +7,13 @@
  
 var somecode;
 
+
+
 /** 
+
 	@class nx
 	Central nexusUI manager with shared utility functions for all nexusUI objects
+
 */
 
 var nx = function() {
