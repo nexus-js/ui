@@ -6,12 +6,13 @@
  */ 
  
 
-var nxManager = function() {
-
 /** 
-	@class nx
+	@class nxManager
 	Central nexusUI manager with shared utility functions for all nexusUI objects
 */
+
+var nxManager = function() {
+
 	
 	var manager = this;
 	
@@ -3692,7 +3693,7 @@ function multitouch(target, transmitCommand) {
 	}
 }
 /** 
-	@class 
+	@class metroball
 	Bouncy-ball area with built-in tilt control
 */
 

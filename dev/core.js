@@ -6,12 +6,13 @@
  */ 
  
 
-var nxManager = function() {
-
 /** 
-	@class nx
+	@class nxManager
 	Central nexusUI manager with shared utility functions for all nexusUI objects
 */
+
+var nxManager = function() {
+
 	
 	var manager = this;
 	

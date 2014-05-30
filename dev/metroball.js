@@ -1,5 +1,5 @@
 /** 
-	@class 
+	@class metroball
 	Bouncy-ball area with built-in tilt control
 */
 

@@ -24,11 +24,11 @@ Mouse functions *
 ###deleteMB()###
 Manage Mangos *
 
-nx
---
+nxManager
+---------
 **Methods**
 
-###nx.colorize(\[aspect\], \[color\])###
+###nxManager.colorize(\[aspect\], \[color\])###
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
 
 ```js
@@ -51,14 +51,14 @@ button
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
 
-
-
+metroball
+---------
 **Methods**
 
-###.pulse()###
+###metroball.pulse()###
 Animation pulse occuring each frame
 
 
-###.deleteMB()###
-###.addNewMB()###
-###.toggleQuantization()###
+###metroball.deleteMB()###
+###metroball.addNewMB()###
+###metroball.toggleQuantization()###
