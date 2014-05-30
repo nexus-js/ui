@@ -1,14 +1,48 @@
-// NEXUS
-// UI Library for Distributed Performance and Web Audio using Ruby on Rails, HTML5, and Javascript
+init()
+------
+Initialize Object *
 
-Contributors
-Jesse Allison
-Ben Taylor
-Yemin Oh
+pulse()
+-------
+Animation Pulse *
 
-Project Site
-http://nexusosc.com
-http://allisonic.com/project/4
+drawSpaces()
+------------
+Draw framework of rounded rectangles *
 
-License
-NEXUS is licensed as open source software under the terms of the "New BSD License", http://creativecommons.org/licenses/BSD/
+drawBalls()
+-----------
+Draw functions *
+
+click()
+-------
+Mouse functions *
+
+deleteMB()
+----------
+Manage MetroBalls *
+
+make()
+------
+Initialize Object *
+
+pulse()
+-------
+Animation Pulse *
+
+drawSpaces()
+------------
+Draw framework of rounded rectangles *
+
+drawBalls()
+-----------
+Draw functions *
+
+click()
+-------
+Mouse functions *
+
+deleteMB()
+----------
+Manage Mangos *
+
