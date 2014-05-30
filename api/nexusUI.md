@@ -29,12 +29,15 @@ nx.colorize("border", "#000000")
 
 button
 --------
+Simple touch button with 3 modes of interaction
+<canvas nx="button"></canvas>
 **Members**
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
 
 metroball
 -----------
+Bouncy-ball area with built-in tilt control
 **Methods**
 
 ###metroball.pulse()###

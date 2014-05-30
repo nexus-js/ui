@@ -1263,8 +1263,8 @@ function dial(target, transmitCommand) {
 
 /** 
 	@class button      
-	@classdesc Simple touch button with 3 modes of interaction       
-	@classdesc <canvas nx="button"></canvas> 
+	Simple touch button with 3 modes of interaction       
+	<canvas nx="button"></canvas> 
 */
 
 
