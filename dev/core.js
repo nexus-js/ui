@@ -14,7 +14,7 @@ var somecode;
 
 	@class nx
 
-	@overview Central nexusUI manager with shared utility functions for all nexusUI objects
+	@description Central nexusUI manager with shared utility functions for all nexusUI objects
 
 */
 

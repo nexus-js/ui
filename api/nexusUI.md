@@ -4,7 +4,7 @@ NexusUI API
 
 **Author:** Ben Taylor, Jesse Allison, Yemin Oh, William Conlin
 
-**Overview:** Central nexusUI manager with shared utility functions for all nexusUI objects
+**Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
 nx
 ----
