@@ -4,14 +4,13 @@ NexusUI API
 
 **Author:** Ben Taylor, Jesse Allison, Yemin Oh, William Conlin
 
-**Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
+**Overview:** Central nexusUI manager with shared utility functions for all nexusUI objects
 
-
-nxtest
-------
+nx manager
+----------
 **Methods**
 
-###nx.colorize(\[aspect\], \[color\])###
+###nx manager.colorize(\[aspect\], \[color\])###
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
 
 ```js
