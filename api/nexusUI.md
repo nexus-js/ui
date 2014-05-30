@@ -27,8 +27,8 @@ nx.colorize("border", "#000000")
 **[color]**:  *hex or rgb color code*,  
 
 
-button
-------
+button      Simple touch button with 3 modes of interaction       <canvas nx="button"></canvas>
+-----------------------------------------------------------------------------------------------
 **Members**
 
 **property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *

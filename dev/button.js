@@ -1,15 +1,9 @@
 /** 
-	@class button  
+	@class button      Simple touch button with 3 modes of interaction       <canvas nx="button"></canvas> 
 */
 
 
 function button(target, transmitCommand) {
-
-	
-/**
- Simple touch button with 3 modes of interaction   
- <canvas nx="button"></canvas>
-*/
 
 	//self awareness
 	var self = this;
