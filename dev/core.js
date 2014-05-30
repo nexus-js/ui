@@ -10,7 +10,7 @@
 *****************************/
  
 /** 
-	@class nx
+	nx
 **/
 
 var nxManager = function() {
@@ -30,10 +30,16 @@ var nxManager = function() {
 	canvasgridx = 50;
 	
 
-	/** @method colorize 
+	/** 
+		### colorize 
 		@param {which part of ui to change, i.e. "accent" "fill", "border"} [aspect]
 		@param {hex or rgb color code} [color]
 		Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
+		
+		```js
+		nx.colorize("border", "#000000")
+		```
+
 	**/
 
 	this.colorize = function(aspect, newCol) {
