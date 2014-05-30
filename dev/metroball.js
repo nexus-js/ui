@@ -29,7 +29,8 @@ function metroball(target, transmitCommand) {
 	self.z;
 	var i;
     
-    /** Initialize Object **/
+    /** @ method init
+    Initialize Object **/
 	
 	this.init = function() {
 		self.createUISpaces();

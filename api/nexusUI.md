@@ -2,11 +2,14 @@
 
 **Author:** Ben Taylor, Jesse Allison, Yemin Oh
 
+**Overview:** NexusUI is a JS toolkit for making musical interfaces for mobile apps and the web.
+
 NexusUI - shared utility functions for javascript UI objects
 
 
 init()
 ------
+@ method init
 Initialize Object *
 
 pulse()
