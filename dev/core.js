@@ -7,12 +7,11 @@
  
 
 /** 
-	@class nxManager
-	@function nx
+	@class nx
 	Central nexusUI manager with shared utility functions for all nexusUI objects
 */
 
-var nxManager = function() {
+var nx = function() {
 
 	
 	var manager = this;
@@ -626,7 +625,7 @@ Object.prototype.getName = function() {
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
 ************************************************/
 
-var nx = new nxManager();
+var nx = new nx();
 nx.onload = function() {};
 
 /* this onload function turns canvases into nexus elements,
