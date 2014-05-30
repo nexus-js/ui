@@ -3,18 +3,14 @@
 ****************************/
 
 			
-function pixels(target, transmitCommand, uiIndex) {
+function pixels(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	self.dim = { x: 10, y: 10};
@@ -180,8 +176,6 @@ function pixels(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.screen[pixY][pixX]);
 		}
 	}
-
-	this.init();
 	
 }
 

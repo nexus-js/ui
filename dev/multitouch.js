@@ -1,17 +1,13 @@
 // Javascript multitouch
 
-function multitouch(target, transmitCommand, uiIndex) {
+function multitouch(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.nodeSize = self.width/10;
@@ -210,6 +206,4 @@ function multitouch(target, transmitCommand, uiIndex) {
 		}
 		self.nxTransmit(self.values);
 	}
-	
-	this.init();
 }

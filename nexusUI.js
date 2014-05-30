@@ -119,6 +119,8 @@ var nxManager = function() {
 		//console.log(this);
 		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
 		
+		data = manager.prune(data,3);
+
 		if (self.logOSC) {
 			if (Array.isArray(data)) {
 				data = data.join();
@@ -127,7 +129,6 @@ var nxManager = function() {
 			$("#debug").prepend(this.oscName+" "+data+"<br>");
 		}
 
-		data = manager.prune(data,3);
 		
 		if (this.transmissionProtocol == "none") {
 			
@@ -357,8 +358,15 @@ var nxManager = function() {
 		var scale = Math.pow(10,scale);
 		if (typeof data=="number") {
 			data = Math.round( data * scale ) / scale;
+		} else if (data instanceof Array) {
+			for (var i=0;i<data.length;i++) {
+				if (typeof data[i]=="number") {
+					data[i] = Math.round( data[i] * scale ) / scale;
+				}
+			}
 		}
 		return data;
+
 	}
 	
 	
@@ -4365,4 +4373,1092 @@ function string(target, transmitCommand, uiIndex) {
 	}
 	
 	this.init();
+}
+// Javascript drawing canvas
+
+				
+function draw(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 100, height: 100 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	
+	//define unique attributes
+	var gap = 5;
+	var color_height = 50;
+	var pencil_width = 50;
+	var color_table;
+	var saturation = 100;
+	var pos = [0,0], new_pos = [0,0], draw_pos = [0,0];
+	var which_pencil = [0,1,50], which_color = [0,0,0];
+	var clicked=false;
+	var pencil_div;
+	var div_pen_num = 6; // the number of pencil is divided by 4
+	var text = 10;
+	self.linePrev = false;
+	
+	this.init = function() {
+		
+		//prep color picker
+	 	color_table = new Array(self.canvas.width);
+		for (i=0;i<color_table.length;i++) {
+			color_table[i] = new Array(color_height);
+		}
+		
+		
+		for (i=0;i<self.canvas.width;i++) {
+			h = Math.round((255/self.canvas.width)*i);
+			for (j=0;j<color_height;j++) {
+					s = saturation;
+					l = Math.round((100/color_height)*j);
+				color_table[i][j] = [h, s, l];
+			}
+		}
+		
+		pencil_div = ((self.canvas.height-color_height-gap*div_pen_num)/div_pen_num);
+		with(self.context) {
+	 		clearRect(0,0, self.canvas.width, self.canvas.height);
+	 		strokeRect(0,0, self.canvas.width, color_height); // color selection canvas
+	
+			for (i=0; i<div_pen_num; i++) {
+				//draw pen containers
+				strokeRect(0, (i+1)*gap+color_height+(i*pencil_div), pencil_width, pencil_div); // pencil selection table
+			}
+	
+			//draw drawing space
+	 		strokeRect(pencil_width+gap,color_height+gap, self.canvas.width-pencil_width-gap, self.canvas.height-color_height-gap); // drawing canvas
+			
+		}
+	
+		self.draw_color_table();
+		self.draw_pen_table();
+		self.draw_shape();
+	}
+	
+	this.draw = function() {
+		self.draw_color_table();
+		self.draw_pen_table();
+	}
+	
+	this.draw_color_table = function() {
+		for (i=0;i<self.canvas.width;i++) {
+			for (j=0;j<color_height;j++) {
+				hue = color_table[i][j][0];
+				sat = color_table[i][j][1];
+				lum = color_table[i][j][2];
+					with(self.context) {
+	 					beginPath();
+	 					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
+	 					fillRect(i,j, 255/self.canvas.width, 100/color_height);
+	 					fill();
+	 					closePath();
+					}
+			}
+		}
+	}
+	
+	this.draw_pen_table = function() {
+		var pencil_div = ((self.canvas.height-color_height-gap*div_pen_num)/div_pen_num); // height of each pencil rectangle
+		hue = which_color[0];
+		sat = which_color[1];
+		lum = which_color[2];
+			with(self.context) {
+				clearRect(0,color_height, pencil_width, self.canvas.height);
+				//draw the number of boxes on pencil table
+				for (i=0; i<div_pen_num; i++) {
+					lineWidth = 1;
+					strokeStyle = '#000';
+					strokeRect(0, (i+1)*gap+color_height+(i*pencil_div), pencil_width, pencil_div); // pencil selection table
+				}
+				
+				for (i=0; i<5; i++) {
+					strokeStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)';				
+					lineCap = 'round';
+					lineWidth = i+1;
+					beginPath()
+					moveTo(gap, color_height+gap+((i+1)*(pencil_div/6)));
+					lineTo(pencil_width-gap, color_height+gap+((i+1)*(pencil_div/6)));
+					stroke();
+					closePath();
+	
+				}
+				
+				beginPath();
+				lineWidth = which_pencil[1];
+				moveTo(gap, color_height+2*gap+1*pencil_div+pencil_div/2);
+				lineTo(pencil_width-gap, color_height+2*gap+1*pencil_div+pencil_div/2);
+				stroke();
+				
+				beginPath();
+			   	fillStyle = "#000";
+				lineWidth = which_pencil[1];
+				fillText(which_pencil[2],pencil_width/2-8, 3*gap+color_height+2*pencil_div+pencil_div/2+4);
+				arc(pencil_width/2,3*gap+color_height+2*pencil_div+pencil_div/2,(self.canvas.height-color_height-(gap*div_pen_num))/(div_pen_num*2)-gap, 0,Math.PI*2,true);
+				stroke();
+				
+				beginPath();
+				fillStyle = "#000";
+				lineWidth = which_pencil[1];
+				fillText(which_pencil[2],pencil_width/2-8, 4*gap+color_height+3*pencil_div+pencil_div/2+4);	
+				strokeRect(gap, 4*gap+color_height+3*pencil_div+gap, pencil_width-2*gap, pencil_div-2*gap);
+				stroke();
+	
+				fillStyle = "#000";
+				fillText("CLEAR",pencil_width/2-17, 5*gap+color_height+4*pencil_div+pencil_div/2+4);
+				
+				fillStyle = "#000";
+				fillText("SEND",pencil_width/2-15, 6*gap+color_height+5*pencil_div+pencil_div/2+4);			
+	
+			}
+	}
+	
+	this.draw_shape = function(x, y) {
+		hue = which_color[0];
+		sat = which_color[1];
+		lum = which_color[2];	
+		self.context.lineWidth = which_pencil[1];
+		self.context.strokeStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)';	
+		if (which_pencil[0] == 0){
+			self.context.lineCap = 'round';
+			if (self.linePrev) {
+				self.context.moveTo(self.linePrev[0],self.linePrev[1]);
+			}
+			self.context.lineTo(x,y);
+			self.context.stroke();
+			self.linePrev = [x,y];
+		}
+		else if (which_pencil[0] == 1){	
+			self.context.moveTo(x+which_pencil[2],y);
+			self.context.arc(x,y,which_pencil[2], 0, Math.PI*2, true);
+			self.context.stroke();
+		//	self.context.clearRect(0,0,self.canvas.width,color_height+gap);
+			self.context.clearRect(0,color_height+gap, pencil_width+gap, self.canvas.height);		
+		}
+	 	else if (which_pencil[0] == 2){
+	 		self.context.moveTo(x,y);
+	 		self.context.strokeRect(x-which_pencil[2]/2,y-which_pencil[2]/2,which_pencil[2],which_pencil[2]);
+		//	self.context.clearRect(0,0,self.canvas.width,color_height+gap);
+			self.context.clearRect(0,color_height+gap, pencil_width+gap, self.canvas.height);
+		}
+	//	self.draw_color_table();
+		self.draw_pen_table();
+	}
+	
+	this.color_select = function(x, y) {
+		hue = color_table[x][y][0];
+		sat = color_table[x][y][1];
+		lum = color_table[x][y][2];
+		which_color.splice(0,3,hue,sat,lum);
+		self.draw_pen_table();	
+	}
+	
+	this.pencil_width_select = function(){
+		var k =  (pos[1] - color_height+gap)/10;
+		which_pencil.splice(1,1,k);
+		self.draw_pen_table();
+	}
+	
+	
+	this.click = function(e) {
+		//set color from color table
+		if (self.clickPos.y < color_height) {
+			self.color_select(self.clickPos.x, self.clickPos.y);
+			clicked=false;
+			return;
+		}
+		//set thickness of stroke
+		else if (self.clickPos.y < color_height+gap+pencil_div && self.clickPos.x < pencil_width) {
+			self.pencil_width_select();
+	 		clicked=false;
+			return;
+		}
+		//set pencil type to normal
+		else if (self.clickPos.y < color_height+2*gap+2*pencil_div && self.clickPos.x < pencil_width) {
+			which_pencil.splice(0,1,0);
+		}
+		//set pencil type to circle
+		else if (self.clickPos.y < color_height+3*gap+3*pencil_div && self.clickPos.x < pencil_width) {
+			which_pencil.splice(0,1,1);
+			size=true;
+			clicked=false;
+			return;
+		}
+		//set pencil type to square	
+		else if (self.clickPos.y < color_height+4*gap+4*pencil_div && self.clickPos.x < pencil_width) {
+			which_pencil.splice(0,1,2);
+			size=true;
+			cliched=false;
+		}
+		// clear canvas
+		else if (self.clickPos.y < color_height+5*gap+5*pencil_div && self.clickPos.x < pencil_width) {
+			self.context.strokeStyle = "#000";
+			self.context.lineWidth = 1;
+			self.context.clearRect(pencil_width+gap, color_height+gap, self.canvas.width-pencil_width-gap, self.canvas.height-color_height-gap);
+			self.context.strokeRect(pencil_width+gap, color_height+gap, self.canvas.width-pencil_width-gap, self.canvas.height-color_height-gap);
+		}
+		// send picture
+		else if (self.clickPos.y < color_height+6*gap+6*pencil_div && self.clickPos.x < pencil_width) {
+			self.send_pic();
+		}
+		
+		else if (self.clickPos.x > pencil_width+gap && self.clickPos.y > color_height+gap){
+			self.context.beginPath();
+			self.context.moveTo(self.clickPos.x,self.clickPos.y);
+			self.draw_shape(self.clickPos.x+1, self.clickPos.y+1);
+			clicked = true;
+		}
+	
+	}
+	
+	this.move = function(e) {
+		new_pos = [ self.clickPos.x, self.clickPos.y ];
+		if (new_pos[0] > pencil_width+gap && new_pos[1] > color_height+gap) {
+			pos = [ self.clickPos.x, self.clickPos.y ];
+			draw_pos = new_pos;
+		}
+		if(clicked==true) {
+			self.draw_shape(pos[0], pos[1]);
+			
+		}
+		if(which_pencil[0] == 1 && size ==true) {
+			which_pencil.splice(2,1,Math.min(100, Math.max(2, pos[1]-new_pos[1]+which_pencil[2])));
+			self.draw_pen_table();
+		}
+		if(which_pencil[0] == 2 && size == true) {
+			which_pencil.splice(2,1,Math.min(100, Math.max(2, pos[1]-new_pos[1]+which_pencil[2])));
+			self.draw_pen_table();
+		}
+	
+	}
+	
+	this.release = function(e) {
+		self.linePrev = false;
+		size = false;
+		clicked = false;
+	}
+	
+	this.send_pic = function() {
+		send_canvas = drawing_canvas
+		window.location = drawing_canvas.toDataURL("image/png");
+	}
+	
+	this.init();
+}
+
+/***********************
+* Javascript Mango Game *
+* @uthor Ben Taylor   *
+************************/
+	
+
+
+//function mango(SelfName, CanvasName, AjaxFunc) {
+function mango(target, transmitCommand, uiIndex) {
+
+/*	var self=this;
+	
+	this.SelfName = SelfName;
+	this.CanvasName = CanvasName;
+	this.AjaxFunc = AjaxFunc;
+	this.CurrentBalls = new Array();
+	this.CurrentBlocks = new Array();
+	this.UISpaces = new Array();
+	
+	this.canvas;
+	this.context;
+	
+	var canvas_height;
+	var canvas_width;
+	var offsetLeft;
+	var offsetTop;
+	
+	this.CurrentBalls = new Array();
+	this.CurrentBlocks = new Array();
+	this.UISpaces = new Array();
+	var ballPos = new Object();
+	var clickField = null;
+	
+	this.clicked = false;
+
+	*/
+
+	//self awareness
+	var self = this;
+	if (!isNaN(uiIndex)) {
+		self.uiIndex = uiIndex;
+	}
+	this.defaultSize = { width: 500, height: 300 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//define unique attributes
+	this.CurrentBalls = new Array();
+	this.CurrentBlocks = new Array();
+	this.UISpaces = new Array();
+	var ballPos = new Object();
+	var clickField = null;
+	
+	var globalMetro;
+	var tempo = 1;
+	var tempoMarker = 150;
+	var quantize = false;
+	var tilt = 0;
+	
+	this.bgReady = false;
+    
+    /** Initialize Object **/
+	
+	this.make = function() {
+	/*	this.canvas = document.getElementById(this.CanvasName);
+		this.context = this.canvas.getContext("2d");
+		canvas_height = this.canvas.height;
+		canvas_width = this.canvas.width;
+		
+		offsetLeft = this.canvas.offsetLeft;
+		offsetTop = this.canvas.offsetTop; */
+						
+		this.createUISpaces();
+		
+		this.addNewMB({"xpos": 100, "ypos": 100});
+		
+		this.addNewBlock({"xpos": 400, "ypos": 85});
+		this.addNewBlock({"xpos": 150, "ypos": 180});
+		this.addNewBlock({"xpos": 300, "ypos": 35});
+		this.addNewBlock({"xpos": 400, "ypos": 250});
+		
+		globalMetro = setInterval(this.canvasID+".pulse()", 20);
+
+	//	eval(this.canvasID+".pulse()");
+		
+	}
+	
+	this.createUISpaces = function() {
+		
+		this.UISpaces = [
+							{
+								field: "main",
+								xpos: 5,
+								ypos: 5,
+								wid: self.canvas.width-10,
+								hgt: self.canvas.height-10,
+								hint: "Mango"
+							}
+						]; 
+						
+		for (i=0;i<this.UISpaces.length;i++) {
+			this.UISpaces[i].xpos2 = this.UISpaces[i].xpos + this.UISpaces[i].wid;
+			this.UISpaces[i].ypos2 = this.UISpaces[i].ypos + this.UISpaces[i].hgt;
+			
+			this.UISpaces[i].centerx = this.UISpaces[i].xpos + (this.UISpaces[i].wid/2);
+			this.UISpaces[i].centery = this.UISpaces[i].ypos + (this.UISpaces[i].hgt/2);
+		}
+			
+	}
+	
+	/** Animation Pulse **/
+	
+	this.pulse = function() {
+		with (this.context) {
+			clearRect(0,0, self.canvas.width, self.canvas.height);
+		}
+		this.drawSpaces();
+		this.drawSling();
+		this.drawBalls();
+		this.drawBlocks();
+	}
+	
+	/** Draw framework of rounded rectangles **/
+	
+	this.drawSpaces = function() {
+		
+		with (this.context) {
+			
+			lineWidth = 3;
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			
+			for (i=0;i<this.UISpaces.length;i++) {
+				var space = this.UISpaces[i];
+				nx.makeRoundRect(this.context,space.xpos,space.ypos,space.wid,space.hgt);
+				stroke();
+				
+				if (space.field=="quantize" && quantize) {
+					fillStyle = self.colors.accent;
+					fill();
+					fillStyle = self.colors.fill;
+				} else {
+					fill();
+				}
+			}
+			
+			lineWidth=2;
+			fillStyle="#ddd";
+			lineStyle="#ffffff";
+			font="bold 14px courier";
+			textAlign = "center";
+			
+			for (i=0;i<this.UISpaces.length;i++) {
+				var space = this.UISpaces[i];
+				fillText(space.hint, space.centerx, space.centery+5);
+			}
+			
+			
+		}
+	}
+	
+	/** Draw functions **/
+	
+	this.drawBalls = function() {
+		with (this.context) {
+				if (self.moving) {
+					self.CurrentBalls[0].move();
+				}
+				self.CurrentBalls[0].draw();
+		}
+	}
+	
+	this.drawBlocks = function() {
+		with (this.context) {
+			for (i=0;i<self.CurrentBlocks.length;i++) {
+				self.CurrentBlocks[i].draw();
+			}
+		}
+	}
+	
+	/** Mouse functions **/
+	this.click = function(e) {
+		//ballPos = getPos(e);
+		ballPos = { xpos: self.clickPos.x, ypos: self.clickPos.y}
+		self.clicked = true;
+		for (i=0;i<self.UISpaces.length;i++) {
+			if (isInside(ballPos,self.UISpaces[i])) {
+				clickField = self.UISpaces[i].field;
+			} 
+		}
+		
+		self.sling = new Object();
+		self.sling.wid = self.CurrentBalls[0].radius * 2; 
+		self.sling.hgt = self.CurrentBalls[0].radius * 2; 
+		self.sling.xpos = self.CurrentBalls[0].xpos - self.CurrentBalls[0].radius; 
+		self.sling.ypos = self.CurrentBalls[0].ypos - self.CurrentBalls[0].radius; 
+		
+		if (isInside(ballPos,self.sling)) {
+			self.startSling();
+		} else {
+			//self.addNewMB(ballPos);
+		}
+	}
+	
+	this.move = function(e) {
+
+		if (self.clicked && self.slinging) {
+			ballPos = { xpos: self.clickPos.x, ypos: self.clickPos.y};
+			self.moveSling(ballPos);
+		}
+		
+	}
+	
+	this.release = function() {
+		if (self.slinging) {
+			self.startShot();
+		}
+				
+		clickField = null;
+		self.clicked = false;
+		self.slinging = false;
+	}
+	
+	/** Manage Sling **/
+	
+	this.slinging = false;
+	this.slingPos = new Object();
+	this.moving = false;
+	
+	this.startSling = function() {
+		self.slinging = true;
+	}
+	
+	this.moveSling = function(newPos) {
+		self.CurrentBalls[0].xpos = newPos.xpos;
+		self.CurrentBalls[0].ypos = newPos.ypos;
+		
+		self.CurrentBalls[0].deltax = (self.slingPos.xpos - newPos.xpos)/10;
+		self.CurrentBalls[0].deltay = (self.slingPos.ypos - newPos.ypos)/10;
+	}
+	
+	this.drawSling = function() {
+		with (self.context) {
+			globalAlpha = 1;
+			
+			//guide circle
+			beginPath();
+			strokeStyle = "#ddd";
+			lineWidth = 10;
+			arc(self.slingPos.xpos, self.slingPos.ypos, 30, 0, Math.PI*2, true);
+			stroke();
+			closePath();
+			
+			//guide inner circle
+			beginPath();
+			fillStyle = "#ddd";
+			arc(self.slingPos.xpos, self.slingPos.ypos, 10, 0, Math.PI*2, true);
+			fill();
+			closePath();
+			
+			if (self.slinging) {
+				//tether
+				beginPath();
+				moveTo(self.slingPos.xpos, self.slingPos.ypos);
+				lineTo(self.CurrentBalls[0].xpos, self.CurrentBalls[0].ypos);
+				stroke();
+				closePath();
+			}
+			
+			globalAlpha = 1;
+		}
+	}
+	
+	this.startShot = function() {
+		self.moving = true;
+	}
+	
+	/** Manage Mangos **/
+	
+	this.deleteMB = function(ballPos) {
+		//delete in reverse order
+		for (i=self.CurrentBalls.length-1;i>=0;i--) {
+			if (Math.abs(self.CurrentBalls[i].xpos-ballPos.xpos)<10) {
+				self.CurrentBalls[i].kill();
+			}
+		}
+		
+		//reset CurrentBalls
+		for (i=0;i<self.CurrentBalls.length;i++) {
+			self.CurrentBalls[i].SelfIndex=i;
+		}
+	}
+		
+	this.addNewMB = function(ballPos) {
+		var nextIndex = self.CurrentBalls.length;
+		self.CurrentBalls[nextIndex] = new self.Ball(nextIndex, ballPos.xpos, ballPos.ypos);
+		self.slingPos = {
+			"xpos" : self.CurrentBalls[0].xpos,
+			"ypos" : self.CurrentBalls[0].ypos
+		}
+	}
+	
+	/* Manage Blocks */
+	
+	this.addNewBlock = function(blockPos) {
+		var nextIndex = self.CurrentBlocks.length;
+		self.CurrentBlocks[nextIndex] = new self.Block(nextIndex, blockPos.xpos, blockPos.ypos);
+	}
+	
+	/* Quantize */
+	
+	this.toggleQuantization = function() {
+		if (!quantize) {
+			quantize = true;
+		} else {
+			quantize = false;
+		}
+	}
+	
+	/* Tilt */
+	
+	this.tilt = function(direction) {
+		tilt = tilt + direction;	
+		//this.canvas.style.border = "solid 4px red";
+		this.canvas.style.webkitTransform = "rotate("+tilt+"deg)";
+		this.canvas.style.MozTransform = "rotate("+tilt+"deg)";
+	}
+	
+	
+	/* Ball object */
+	
+	this.Ball = function(SelfIndex, SelfX, SelfY) {
+		
+		this.SelfIndex = SelfIndex;
+		this.space = self.UISpaces[0];
+		this.color = "#bbb";
+		this.radius = 15;
+		this.xpos = SelfX;
+		this.ypos = SelfY;
+		this.size = 10;
+		this.directionx = 1;
+		this.directiony = 1;
+		this.speed = 0;
+		this.speedQ = 5;
+		this.deltax = 1;
+		this.deltay = 1;
+		this.echoes = new Array();
+		this.echopace = 0;
+		
+		this.move = function() {
+			
+			//movement
+			this.xpos = this.xpos + this.deltax*this.directionx;
+			this.ypos = this.ypos + this.deltay*this.directiony;
+			
+			//bounce check (borders)
+			if (this.ypos>(this.space.ypos2-this.size-2) || this.ypos<(this.space.ypos+this.size+2) ) {
+				this.bounce("y");
+				this.echopace = 0;
+			}
+			
+			if (this.xpos>(this.space.xpos2-this.size-2) || this.xpos<(this.space.xpos+this.size+2) ) {
+				this.bounce("x");
+				this.echopace = 0;
+			}
+			
+			//bounce check (blocks)
+			for (i=0;i<self.CurrentBlocks.length;i++) {
+				
+					var pi2 = Math.PI*2/16;
+					for (j=0;j<16;j++) {
+						var breakcheck = false;
+						var thissine = (Math.floor(Math.sin(pi2*j)*100)/100)*17;
+						var thiscos = (Math.floor(Math.cos(pi2*j)*100)/100)*17;
+						var xtotest = this.xpos+thissine;
+						var ytotest = this.ypos+thiscos;
+						var testNode = {"xpos": xtotest, "ypos": ytotest};
+						if (isInside(testNode,self.CurrentBlocks[i])) {
+							//console.log(j);
+							switch (Math.floor((j+3)/4)) {
+								case 0: 
+									this.bounce("B");
+									break;
+								case 1: 
+									this.bounce("R");
+									break;
+								case 2: 
+									this.bounce("T");
+									break;
+								case 3: 
+									this.bounce("L");
+									break;
+							}
+							j=16;
+						}
+					/*	if (clickedNode.xpos > currObject.xpos && clickedNode.xpos < (currObject.xpos+currObject.wid) && clickedNode.ypos > currObject.ypos && clickedNode.ypos < (currObject.ypos+currObject.hgt)) {
+							return true;	
+						} else {
+							return false;	
+						} */
+					}
+				
+				
+				
+				
+			/*	
+				if (isInside3(this,self.CurrentBlocks[i])=="x") {
+					this.bounce("x");
+					this.echopace = 0;
+				} else if (isInside3(this,self.CurrentBlocks[i])=="y") {
+					this.bounce("y");
+					this.echopace = 0;
+				} */
+			}
+			
+			//add echo
+			this.echopace++;
+			if (this.echopace > 3) {
+				this.echoes.unshift({xpos: this.xpos, ypos: this.ypos});
+				if (this.echoes.length>10) {
+					this.echoes.length=10;
+				}
+				this.echopace = 0;
+			}
+			
+			
+		}
+		
+		this.bounce = function(axis) {
+			if (axis=="R") {
+				this.directionx = -1;
+			} else if (axis=="T") {
+				this.directiony = 1;
+			} else if (axis=="L") {
+				this.directionx = 1;
+			} else if (axis=="B") {
+				this.directiony = -1;
+			} else if (axis=="x") {
+				this.directionx = this.directionx * -1;
+			} else if (axis=="y") {
+				this.directiony = this.directiony * -1;
+			}
+			this.direction = this.direction * (-1);
+			var xMsg = this.xpos/this.space.wid;
+			/*window.location.href = "nexus://hipno/mb_xpos:"+xMsg;
+				side: (this.direction+1)/1;
+				speed: this.speed;
+			*/
+
+		}
+		
+		this.kill = function() {
+			self.CurrentBalls.splice(this.SelfIndex,1);
+		}
+		
+		this.draw = function() {
+			
+			with (self.context) {
+				beginPath();
+				fillStyle = this.color;
+				arc(this.xpos, this.ypos, this.radius, 0, Math.PI*2, true);
+				fill();
+				
+				for (i=0;i<this.echoes.length;i++) {
+					globalAlpha = (2.5-i/4)/10;
+					beginPath();
+					arc(this.echoes[i].xpos, this.echoes[i].ypos, this.radius, 0, Math.PI*2, true);
+					fill();
+				}
+				
+				globalAlpha = 1;
+				
+				
+			}
+			
+		
+		/*	var pi2 = Math.PI*2/16;
+			for (j=0;j<16;j++) {
+				var thissine = (Math.floor(Math.sin(pi2*j)*100)/100)*15;
+				var thiscos = (Math.floor(Math.cos(pi2*j)*100)/100)*15;
+				var xtotest = this.xpos+thissine;
+				var ytotest = this.ypos+thiscos;
+				with(self.context) {
+					globalAlpha = j/16;
+					beginPath();
+					arc(xtotest+100, ytotest, 3, 0, Math.PI*2, true);
+					fill();
+					closePath(); 
+				}
+			} */
+		 
+			
+		}
+		
+		
+	}
+	
+	
+	/* univ function library */
+	
+	function isInside(clickedNode,currObject) {
+		if (clickedNode.xpos > currObject.xpos && clickedNode.xpos < (currObject.xpos+currObject.wid) && clickedNode.ypos > currObject.ypos && clickedNode.ypos < (currObject.ypos+currObject.hgt)) {
+			return true;	
+		} else {
+			return false;	
+		}
+	}
+	
+	function isInside2(clickedNode,currObject) {
+		var xdiff = Math.abs(clickedNode.xpos - (currObject.xpos+currObject.wid/2));
+		var ydiff = Math.abs(clickedNode.ypos - (currObject.ypos+currObject.hgt/2));
+		if (xdiff <= clickedNode.radius+currObject.wid/2 && ydiff <= clickedNode.radius+currObject.hgt/2) {
+			if (xdiff>ydiff) {
+				return "x";	
+			} else {
+				return "y"
+			}
+		} else {
+			return false;	
+		}
+	}
+	
+	function isInside3(clickedNode,currObject) {
+		var pi2 = Math.PI*2/16;
+		for (i=0;i<16;i++) {
+			var thissine = Math.floor(Math.sin(pi2*i)*100)/100;
+			var thiscos = Math.floor(Math.cos(pi2*i)*100)/100;
+			var xtotest = clickedNode.xpos+thissine;
+			var ytotest = clickedNode.ypos+thiscos;
+			var testNode = {"xpos": xtotest, "ypos": ytotest};
+			if (isInside(testNode,currObject)) {
+				break;
+			}
+		}
+		
+	/*	
+		var xdiff = Math.abs(clickedNode.xpos - (currObject.xpos+currObject.wid/2));
+		var ydiff = Math.abs(clickedNode.ypos - (currObject.ypos+currObject.hgt/2));
+		if (xdiff <= clickedNode.radius+currObject.wid/2 && ydiff <= clickedNode.radius+currObject.hgt/2) {
+			if (xdiff>ydiff) {
+				return "x";	
+			} else {
+				return "y"
+			}
+		} else {
+			return false;	
+		} */
+	}
+
+
+	
+	
+	/* Block object */
+	
+	this.Block = function(SelfIndex, SelfX, SelfY) {
+		
+		this.SelfIndex = SelfIndex;
+		this.xpos = SelfX;
+		this.ypos = SelfY;
+		this.width = 30;
+		this.height = 30;
+		this.wid = this.width;
+		this.hgt = this.height;
+		
+		this.draw = function() {
+			with (self.context) {
+				fillRect(this.xpos, this.ypos, this.width, this.height);
+			}
+		}
+		
+	}
+	
+	this.make();
+	
+}
+
+
+	
+
+
+// Javascript Joints
+
+function ldmc(target, transmitCommand, uiIndex) {
+					
+	//self awareness
+	var self = this;
+	this.uiIndex = uiIndex;
+	this.defaultSize = { width: 900, height: 600 };
+	
+	//get common attributes and methods
+	this.getTemplate = getTemplate;
+	this.getTemplate(self, target, transmitCommand);
+	
+	//unique properties
+	this.nodeSize = 20;
+	this.values = [0,0];
+	this.nodePos = [self.width/2,self.height/2];
+	this.joints = [
+		{ x: 117, y: 410 }, { x: 241, y: 412 }, { x: 383, y: 416 }, { x: 510, y: 417 }, { x: 666, y: 418 }, { x: 796, y: 419 }, { x: 121, y: 472 }, { x: 208, y: 473 }, { x: 510, y: 473 }, { x: 634, y: 477 }, { x: 148, y: 514 }, { x: 208, y: 512 }, { x: 402, y: 514 }, { x: 458, y: 513 }, { x: 635, y: 514 }, { x: 704, y: 512 }, { x: 216, y: 126 }, { x: 300, y: 126 }, { x: 404, y: 127 }, { x: 497, y: 127 }, { x: 598, y: 126 }, { x: 686, y: 125 }, { x: 123, y: 236 }, { x: 253, y: 287 }, { x: 387, y: 293 }, { x: 502, y: 292 }, { x: 647, y: 290 }, { x: 781, y: 240 }, { x: 65, y: 237 }, { x: 120, y: 165 }, { x: 216, y: 83 }, { x: 314, y: 85 }, { x: 493, y: 84 }, { x: 558, y: 87 }, { x: 809, y: 162 }, { x: 860, y: 216 }, { x: 48, y: 522 }, { x: 40, y: 448 }, { x: 44, y: 366 }, { x: 57, y: 298 }, { x: 857, y: 298 }, { x: 856, y: 370 }, { x: 855, y: 440 }, { x: 851, y: 518 }, { x: 58, y: 560 }, { x: 306, y: 470 }, { x: 303, y: 291 }, { x: 166, y: 122 }, { x: 748, y: 120 }, { x: 592, y: 295 }, { x: 592, y: 474 }, { x: 839, y: 558 }, { x: 560, y: 33 }, { x: 468, y: 33 }, { x: 377, y: 31 }, { x: 349, y: 55 }, { x: 403, y: 55 }, { x: 445, y: 55 }, { x: 492, y: 56 }, { x: 536, y: 56 }, { x: 580, y: 58 }, { x: 802, y: 560 }, { x: 743, y: 561 }, { x: 670, y: 561 }, { x: 590, y: 561 }, { x: 526, y: 562 }, { x: 456, y: 560 }, { x: 368, y: 562 }, { x: 297, y: 562 }, { x: 208, y: 562 }, { x: 123, y: 559 }
+	]
+	this.connections = new Array();
+	this.threshold = self.width / 6;
+	this.threshold = 200;
+
+	this.mapsrc = "images/ldmc_crunch.png";
+	this.map = new Image();
+	this.mapisloaded = false;
+	this.pastConnections = new Array();
+	this.useEqualPower = false;
+	this.useImage = true;
+
+	this.allNodes = "";
+	this.useDB = true;
+	
+	
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		//draw standard bg
+		self.erase();
+		self.makeRoundedBG();
+		with (self.context) {
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			stroke();
+			fill();
+			//draw nodes and connections
+			self.connections = new Array();
+			fillStyle = self.colors.accent;
+			strokeStyle = self.colors.border;
+			lineWidth = self.lineWidth;
+			for (var i in self.joints) {
+				beginPath();
+					arc(self.joints[i].x, self.joints[i].y, self.nodeSize/2, 0, Math.PI*2, true);					
+					fill();
+				closePath();
+				var cnctX = Math.abs(self.joints[i].x-self.nodePos[0]);
+				var cnctY = Math.abs(self.joints[i].y-self.nodePos[1]);
+				var strength = cnctX + cnctY;
+				if (strength <= self.threshold) {
+					beginPath();
+						moveTo(self.joints[i].x, self.joints[i].y);
+						lineTo(self.nodePos[0],self.nodePos[1]);
+						strokeStyle = self.colors.accent;
+						lineWidth = nx.scale( strength, 0, self.threshold, self.nodeSize, 1 );
+						stroke();
+					closePath();
+					//define connection values
+					var scaledstrength = nx.clip(nx.scale( strength, 0, self.threshold, 1, -0.1),0,1);
+					
+					self.connections.push([parseInt(i)+1,scaledstrength]);
+				}
+			}
+
+			//manage connections
+			self.nodesOn = new Array();
+			self.totalPower = 0;
+			for (var i=0;i<self.connections.length;i++) {
+				self.nodesOn.push(self.connections[i][0]);
+				//get total power
+				self.totalPower += self.connections[i][1];
+			}
+			//scale for equal power (sum power should be 1)
+			if (self.useEqualPower) {
+				if (self.totalPower>1) {
+					self.powerRatio = 1/self.totalPower;
+				} else {
+					self.powerRatio = 1;
+				}
+				for (var i=0;i<self.connections.length;i++) {
+					self.connections[i][1] *= self.powerRatio;
+
+				}
+			}
+			//console.log(self.totalPower);
+			//set all abandoned nodes to 0
+			for (var i=0;i<self.pastConnections.length;i++) {
+				if (self.pastConnections[i][1]!=0) {
+					if (self.nodesOn.indexOf(self.pastConnections[i][0])==-1) {
+						self.connections.push([self.pastConnections[i][0],0]);
+					}
+				}
+			}
+
+			self.pastConnections = self.connections;
+
+			//draw bg image and control node
+			self.drawNode();
+			if (self.useImage) {
+				drawImage(self.map, 0, 0, self.width, self.height);
+			}
+		}
+		var htmlstr = "debug<br>(in amp)<br>";
+		var mypower = 0;
+		for (i=0;i<self.connections.length;i++) {
+			htmlstr += self.connections[i][0]+": "+nx.prune(self.connections[i][1],3)+"<br>";
+			mypower += self.connections[i][1];
+		}
+		htmlstr += "<br>power: "+nx.prune(mypower,3);
+		$("#debug").html(htmlstr);
+	}
+
+	this.drawNode = function() {
+		with (self.context) {
+			beginPath();
+				fillStyle = self.colors.accent;
+				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, false);					
+				fill();
+			closePath();
+		}
+	}
+	
+	this.scaleNode = function() {
+		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
+		return self.values;
+	}
+
+	this.ampToDB = function() {
+		self.connectionsInDB = new Array();
+		for (var i=0;i<self.connections.length;i++) {
+			self.connectionsInDB[i] = [ self.connections[i][0], null ];
+			self.connectionsInDB[i][1] = 20 * (Math.log(self.connections[i][1]) / Math.log(10));
+		}
+	}
+
+	this.click = function() {
+
+	//  for mapping nodes:
+	//	self.allNodes += "{ x: "+self.clickPos.x+", y: "+self.clickPos.y+" }, ";
+	//	console.log(self.allNodes)
+
+	//	for (var i=0;i<self.nodes.length)
+
+		self.nodePos[0] = self.clickPos.x;
+		self.nodePos[1] = self.clickPos.y;
+		self.draw();
+		if (self.useDB) {
+			self.ampToDB();
+			self.nxTransmit(self.connectionsInDB);
+		} else {
+			self.nxTransmit(self.connections);
+		}
+
+	//	self.pastConnections = self.connections;
+	//	self.connections = new Array();
+	    
+	}
+
+	this.move = function() {
+		if (self.clicked) {
+			self.click();
+		}
+	}
+	
+
+	this.release = function() {
+		
+	}
+	
+	this.touch = function() {
+		self.click();
+	}
+
+	this.touchMove = function() {
+		if (self.clicked) {
+			self.click();
+		}
+	}
+
+	this.touchRelease = function() {
+		
+	}
+	
+	this.animate = function(aniType) {
+		
+		switch (aniType) {
+			case "bounce":
+				nx.aniItems.push(self.aniBounce);
+				break;
+			case "none":
+				nx.aniItems.splice(nx.aniItems.indexOf(self.aniBounce));
+				break;
+		}
+		
+	}
+	
+	this.aniBounce = function() {
+		if (!self.clicked && self.nodePos[0]) {
+			self.nodePos[0] += (self.deltaMove.x/2);
+			self.nodePos[1] += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.draw();
+			self.nxTransmit(self.scaleNode());
+		}
+	}
+	
+	
+	self.map.onload = function() {
+		self.mapisloaded = true;
+		self.draw();
+	}
+	self.map.src = self.mapsrc;
 }

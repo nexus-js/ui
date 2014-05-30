@@ -4,18 +4,14 @@
 				
 
 
-function metroball(target, transmitCommand, uiIndex) {
+function metroball(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	
 	//define unique attributes
@@ -348,8 +344,6 @@ function metroball(target, transmitCommand, uiIndex) {
 		
 		
 	}
-	
-	this.init();
 	
 }
 

@@ -1,15 +1,10 @@
 <!doctype html>
-<html lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Slider</title>
-	<meta name="LSU EMDM" content="nexus">
-	
-	<link type="style/css" href="nexusUI.css" rel="stylesheet">
-	<script type="text/javascript" src="jquery.js"></script>
-	<script type="text/javascript" src="nexusUI.js"></script>
-	<script type="text/javascript" src="nexusSlider.js"></script>
-	<script>
+<html>
+	<head>
+		<title>Slider</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
 		
 		nx.onload = function() {
 
@@ -35,12 +30,7 @@
 			slider5.draw();
 			slider6.draw(); 
 
-			nx.setTransmissionProtocol("local");
-
-			slider1.localTransmit = function(data) {
-				console.log(data)
-			//	window.location.href = "nexus://hipno/ballinfo:"+data+":"+data+":"+data;
-			}
+			nx.printOSC()
 			
 		}
 		

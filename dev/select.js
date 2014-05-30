@@ -1,17 +1,13 @@
 // Javascript Select
 
-function select(target, transmitCommand, uiIndex) {
+function select(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 200, height: 30 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	self.choices = [ ];
@@ -46,5 +42,4 @@ function select(target, transmitCommand, uiIndex) {
 		self.nxTransmit(self.value);
 	}
 	
-	this.init();
 }

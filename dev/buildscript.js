@@ -70,7 +70,11 @@ var nxscripts = [
         'banner.js',
         'multitouch.js',
         'metroball.js',
-        'string.js'
+        'string.js',
+        "draw.js",
+        "mango.js",
+        "LDMC.js",
+        
     ]
 
 concat({

@@ -1,15 +1,13 @@
 // Javascript Joints
 
-function ldmc(target, transmitCommand, uiIndex) {
+function ldmc(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 900, height: 600 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique properties
 	this.nodeSize = 20;

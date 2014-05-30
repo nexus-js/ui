@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Matrix</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
+	
+			nx.onload = function() {
+				matrix1.row=4;
+				matrix1.col=4;
+				matrix1.init();
+
+				nx.printOSC();
+			}
+			
+		</script>
+	</head>
+	<body>
+		
+		<canvas nx="matrix" width="500px" height="500px">Matrix</canvas>
+		<canvas nx="matrix" width="200px" height="200px">Matrix</canvas>
+		<canvas nx="matrix" width="100px" height="100px">Matrix</canvas>
+
+	</body>
+</html>

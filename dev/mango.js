@@ -4,47 +4,14 @@
 ************************/
 	
 
-
-//function mango(SelfName, CanvasName, AjaxFunc) {
-function mango(target, transmitCommand, uiIndex) {
-
-/*	var self=this;
-	
-	this.SelfName = SelfName;
-	this.CanvasName = CanvasName;
-	this.AjaxFunc = AjaxFunc;
-	this.CurrentBalls = new Array();
-	this.CurrentBlocks = new Array();
-	this.UISpaces = new Array();
-	
-	this.canvas;
-	this.context;
-	
-	var canvas_height;
-	var canvas_width;
-	var offsetLeft;
-	var offsetTop;
-	
-	this.CurrentBalls = new Array();
-	this.CurrentBlocks = new Array();
-	this.UISpaces = new Array();
-	var ballPos = new Object();
-	var clickField = null;
-	
-	this.clicked = false;
-
-	*/
+function mango(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 500, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	this.CurrentBalls = new Array();
@@ -63,7 +30,7 @@ function mango(target, transmitCommand, uiIndex) {
     
     /** Initialize Object **/
 	
-	this.make = function() {
+	this.init = function() {
 	/*	this.canvas = document.getElementById(this.CanvasName);
 		this.context = this.canvas.getContext("2d");
 		canvas_height = this.canvas.height;
@@ -571,8 +538,6 @@ function mango(target, transmitCommand, uiIndex) {
 		}
 		
 	}
-	
-	this.make();
 	
 }
 

@@ -1,23 +1,19 @@
 // Javascript 2d_slider
 
-function slider(target, transmitCommand, uiIndex) {
+function slider(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.value = 0.7
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
 	this.sliderWidth = self.realSpace.x;
 		
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
 	this.label = self.oscName;
 
 	this.mode = "absolute";
@@ -150,23 +146,5 @@ function slider(target, transmitCommand, uiIndex) {
 		var scaledVal = ( self.value - 0.02 ) * (1/.97);
 		self.nxTransmit(scaledVal);
 	}
-	
 
-	this.release = function() {
-		
-	}
-
-	this.touch = function() {
-		self.move();
-	}
-
-	this.touchMove = function() {
-		self.move();
-	}
-
-	this.touchRelease = function() {
-		
-	}
-	
-	this.init();
 }

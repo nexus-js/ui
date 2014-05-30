@@ -1,16 +1,14 @@
 // Javascript Matrix slider
 
 
-function matrix(target, transmitCommand, uiIndex) {
+function matrix(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	var i;
 	
@@ -206,7 +204,5 @@ function matrix(target, transmitCommand, uiIndex) {
 
 	this.touchRelease = function(e) {
 	}
-	
-	this.init();
 	
 }

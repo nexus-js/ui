@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Keyboard</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
+		
+		nx.onload = function() {
+			
+			/* 
+			FIXME: key detection not accurate when different num of octaves!
+			 
+			keyboard1.octaves = 4;
+			keyboard1.init(); 
+			
+			*/
+
+			nx.printOSC()
+			
+		}
+		
+	</script>
+
+</head>
+<body>
+	
+
+	<canvas nx="keyboard"></canvas><br>
+	<canvas nx="keyboard" width="200px" height="50px"></canvas>
+	
+
+</body>
+</html>

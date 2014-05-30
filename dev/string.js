@@ -1,17 +1,13 @@
 // Javascript 2d_slider
 
-function string(target, transmitCommand, uiIndex) {
+function string(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;
@@ -22,9 +18,7 @@ function string(target, transmitCommand, uiIndex) {
 	this.rainbow = [ self.colors.accent, self.colors.black, self.colors.border ];
 	this.abovestring = new Array();
 	
-	this.default_text = "touch to control";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.default_text = "touch to control";
 	var stringdiv;
 	
 	
@@ -179,6 +173,4 @@ function string(target, transmitCommand, uiIndex) {
 		}
 		
 	}
-	
-	this.init();
 }

@@ -3,18 +3,14 @@
 //
 
 				
-function colors(target, transmitCommand, uiIndex) {
+function colors(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	var pencil_width = 50;
@@ -83,16 +79,6 @@ function colors(target, transmitCommand, uiIndex) {
 	this.move = function(e) {
 		self.click(e);
 	}
-	
-	this.touch = function(e) {
-		self.click(e);
-	}
-
-	this.touchMove = function(e) {
-		self.click(e);
-	}
-
-	this.init();
 	
 }
 

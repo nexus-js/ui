@@ -1,13 +1,15 @@
-/*
- *  2014 Ben Taylor, Jesse Allison, Yemin Oh
- *  Nexus - shared utility functions for javascript UI objects
+/** NexusUI - shared utility functions for javascript UI objects
+	@author Ben Taylor, Jesse Allison, Yemin Oh
+ 	@copyright 2014
  */ 
  
-
 /*****************************
 *     DEFINE NX MANAGER      *
 *****************************/
-
+ 
+/** NexusUI Manager, instantiated as nx
+	@constructor
+*/
 
 var nxManager = function() {
 	
@@ -96,6 +98,12 @@ var nxManager = function() {
 			this.nxObjects[i].transmissionProtocol = setting;
 		}	
 	}
+
+	this.sendsTo = function (setting) {
+		for (i=0;i<this.nxObjects.length;i++) {
+			this.nxObjects[i].transmissionProtocol = setting;
+		}	
+	}
 	
 		// Set Transmist Command for all nx objects
 	this.setTransmitCommand = function (setting) {
@@ -119,6 +127,8 @@ var nxManager = function() {
 		//console.log(this);
 		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
 		
+		data = manager.prune(data,3);
+
 		if (self.logOSC) {
 			if (Array.isArray(data)) {
 				data = data.join();
@@ -127,7 +137,6 @@ var nxManager = function() {
 			$("#debug").prepend(this.oscName+" "+data+"<br>");
 		}
 
-		data = manager.prune(data,3);
 		
 		if (this.transmissionProtocol == "none") {
 			
@@ -151,9 +160,10 @@ var nxManager = function() {
 			//document.location = 'http://google.com';
 		} else if (this.transmissionProtocol == "android") {
 			
-		} else if (this.transmissionProtocol == "local") {
+		} else if (this.transmissionProtocol == "local" || this.transmissionProtocol == "js" ) {
 				// sender, receiver, parameter, data //
 			this.localTransmit(data);
+			this.response(data);
 		}
 		
 	}
@@ -357,8 +367,15 @@ var nxManager = function() {
 		var scale = Math.pow(10,scale);
 		if (typeof data=="number") {
 			data = Math.round( data * scale ) / scale;
+		} else if (data instanceof Array) {
+			for (var i=0;i<data.length;i++) {
+				if (typeof data[i]=="number") {
+					data[i] = Math.round( data[i] * scale ) / scale;
+				}
+			}
 		}
 		return data;
+
 	}
 	
 	
@@ -737,6 +754,13 @@ function getTemplate(self, target, transmitCommand) {
 	self.localTransmit = function(data) {
 		nx.globalLocalTransmit(self.canvasID, self.localObject, self.localParameter, data);
 	};
+	self.response = function(data) {
+	};
+
+	self.sendsTo = function(data) {
+		self.transmissionProtocol = data;	
+	};
+
 	self.localObject = "dial1";
 	self.localParameter = "value";
 

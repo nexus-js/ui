@@ -3,18 +3,14 @@
 ***********************/
 
 			
-function sandbox(target, transmitCommand, uiIndex) {
+function sandbox(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 400, height: 300 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
 	var toySize = 60;
@@ -212,8 +208,6 @@ function sandbox(target, transmitCommand, uiIndex) {
 		
 		}
 	}
-	
-	this.init();
 	
 }	
 

@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Select</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
+		
+		nx.onload = function() {
+
+			select2.choices = ["javascript", "sets", "these", "options"];
+			select2.init();
+
+			nx.printOSC();
+			
+		}
+		
+	</script>
+	
+</head>
+<body>
+
+	<!-- the canvas below changes into an html select element with options of sine, saw, and triangle -->
+	
+	<canvas nx="select" choices="sine,saw,triangle" height="200px" width="300px">Select</canvas>
+	<canvas nx="select" height="100px" width="300px">Select</canvas>
+	<canvas nx="select">Select</canvas>
+	
+</body>
+</html>

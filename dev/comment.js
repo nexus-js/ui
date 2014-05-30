@@ -1,17 +1,13 @@
 // Javascript 2d_slider
 
-function comment(target, transmitCommand, uiIndex) {
+function comment(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	this.value = "comment";
 	this.size = 14;
@@ -52,6 +48,4 @@ function comment(target, transmitCommand, uiIndex) {
 		}
 		nx.wrapText(self.context, self.value, 6, 3+self.size, self.width-6, self.size);
 	}
-
-	this.init();
 }

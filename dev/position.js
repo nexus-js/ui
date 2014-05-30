@@ -1,27 +1,19 @@
 // Javascript XY slider
 
-function position(target, transmitCommand, uiIndex) {
+function position(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 15;
 	this.values = [0,0];
 	
-	this.default_text = "touch to control";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
-	
-	
+	this.default_text = "touch to control";
 
 	this.init = function() {
 		self.draw();
@@ -146,6 +138,4 @@ function position(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.scaleNode());
 		}
 	}
-	
-	this.init();
 }

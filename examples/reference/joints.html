@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Joints</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
+		
+			nx.onload = function() {
+				nx.colorize("#0af");
+				
+				nx.setTransmissionProtocol("ajax");
+  				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
+			
+				nx.printOSC()
+				
+			}
+		
+		</script>
+		
+	</head>
+	
+	<body>
+			
+		
+		<canvas nx="joints" width="600px" height="500px"></canvas>
+	
+	
+	</body>
+	
+</html>

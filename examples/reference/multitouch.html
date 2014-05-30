@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Multitouch</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
+		
+			nx.onload = function() {
+				nx.colorize("#0af");
+
+				multitouch2.mode = "matrix";
+				multitouch2.cols = 5;
+				multitouch2.rows = 10;
+				multitouch2.matrixLabels = [ "A", "B", "C" ];
+				multitouch2.draw();
+
+				nx.printOSC()
+			}
+
+		</script>
+
+
+		
+	</head>
+	
+	<body>
+		
+		<canvas nx="multitouch" style="width:450px;height:900px;"></canvas>
+		
+		<canvas nx="multitouch" style="width:450px;height:900px;"></canvas>
+
+
+	</body>
+	
+</html>

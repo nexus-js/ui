@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Dial</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
+		
+		nx.onload = function() {
+			
+			nx.colorize("red");
+			nx.colorize("border", "white");
+
+			dial2.animate("bounce");
+			nx.startPulse();
+			
+			dial3.value = 0.75;
+			dial3.draw();
+
+			nx.printOSC();
+			
+		}
+		
+		</script>
+
+	</head>
+	<body>
+
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial" width="200px" height="200px"></canvas>
+		<canvas nx="dial" width="250px" height="250px"></canvas>
+		
+	</body>
+</html>

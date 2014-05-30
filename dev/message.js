@@ -1,17 +1,13 @@
 // Javascript message
 
-function message(target, transmitCommand, uiIndex) {
+function message(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	this.value = "default";
 	this.size = 13;
@@ -68,5 +64,4 @@ function message(target, transmitCommand, uiIndex) {
 		self.draw();
 	}
 	
-	this.init();
 }

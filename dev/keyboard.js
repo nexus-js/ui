@@ -7,18 +7,14 @@
 
 // FIXME: key detection not accurate when changed num of octaves!
 
-function keyboard(target, transmitCommand, uiIndex) {
+function keyboard(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 400, height: 100 };
 	
 	//get common attributes and methods
-	self.getTemplate = getTemplate;
-	self.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 
 	// define unique attributes
 	self.octaves = 2;
@@ -306,8 +302,5 @@ function keyboard(target, transmitCommand, uiIndex) {
 			}
 		}	
 	}
-	
-
-	this.init();
 	
 }

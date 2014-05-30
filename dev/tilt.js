@@ -1,16 +1,14 @@
 // Nexus Tilt
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
-function tilt(target, transmitCommand, uiIndex) {
+function tilt(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique properties
 	this.tiltLR;
@@ -20,9 +18,7 @@ function tilt(target, transmitCommand, uiIndex) {
 	this.scaledY;
 	this.scaledZ;
 	
-	this.defaultText = "TILT";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.defaultText = "TILT";
 
 	
 	self.deviceOrientationHandler = function() {
@@ -77,25 +73,12 @@ function tilt(target, transmitCommand, uiIndex) {
 	     	grd.addColorStop(0, self.colors.white);
 	      	grd.addColorStop(1, self.colors.accent);
 			fillStyle = grd;
-			
-		/*    beginPath();
-		    arc(self.width/2, self.height/2, self.width/2, 0, 2 * Math.PI, false);
-		    fill();
-		    closePath(); */
 		   
 		    fillStyle = self.colors.fill;
 		    fillRect(0,0,self.width,self.height);
 		    strokeStyle = self.colors.border;
 		    lineWidth = 10;
-		    strokeRect(0,0,self.width,self.height);
-		    
-		/*    beginPath();
-		    	moveTo(0,self.height);
-		    	lineTo(self.width,self.height);
-		    	strokeStyle = self.colors.accent;
-		    	stroke();
-		    closePath();
-		 */  
+		    strokeRect(0,0,self.width,self.height);  
 		    
 		    globalAlpha = 0.4;
 		    fillStyle = self.colors.accent;
@@ -111,6 +94,4 @@ function tilt(target, transmitCommand, uiIndex) {
 		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
 		return self.values;
 	}
-	
-	this.init();
 }

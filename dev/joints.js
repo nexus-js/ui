@@ -1,15 +1,13 @@
 // Javascript Joints
 
-function joints(target, transmitCommand, uiIndex) {
+function joints(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 400, height: 400 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
 	this.nodeSize = 35;
@@ -199,6 +197,4 @@ function joints(target, transmitCommand, uiIndex) {
 			self.nxTransmit(self.scaleNode());
 		}
 	}
-	
-	this.init();
 }

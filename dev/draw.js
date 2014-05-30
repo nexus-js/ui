@@ -1,18 +1,14 @@
 // Javascript drawing canvas
 
 				
-function draw(target, transmitCommand, uiIndex) {
+function draw(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	
 	//define unique attributes
@@ -273,6 +269,5 @@ function draw(target, transmitCommand, uiIndex) {
 		send_canvas = drawing_canvas
 		window.location = drawing_canvas.toDataURL("image/png");
 	}
-	
-	this.init();
+
 }

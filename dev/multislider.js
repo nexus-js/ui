@@ -6,16 +6,14 @@
 // list values are useful for setting the multislider object in max, 
 // outputting only changed, values and their index should be better for iOS and local transmit
 // Working on a solution- WWC
-function multislider(target, transmitCommand, uiIndex) {
+function multislider(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.uiIndex = uiIndex;
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	this.sliders = 15;
@@ -31,11 +29,8 @@ function multislider(target, transmitCommand, uiIndex) {
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
 	
-	
 	// test
 	this.init = function() {
-		nx.getHandlers(self);
-
 		self.draw();
 	}
 
@@ -137,4 +132,5 @@ function multislider(target, transmitCommand, uiIndex) {
 		this.sliderWidth = self.realSpace.x/self.sliders;
 		this.init();
 	}
+	
 }

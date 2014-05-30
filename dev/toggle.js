@@ -1,17 +1,13 @@
 // nexus Toggle button
 
-function toggle(target, transmitCommand, uiIndex) {
+function toggle(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	if (!isNaN(uiIndex)) {
-		self.uiIndex = uiIndex;
-	}
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	this.getTemplate = getTemplate;
-	this.getTemplate(self, target, transmitCommand);
+	getTemplate(self, target, transmitCommand);
 	
 	var i;
 	this.on = false;
@@ -108,35 +104,5 @@ function toggle(target, transmitCommand, uiIndex) {
 		self.draw();
 		self.nxTransmit(nx.boolToVal(self.on));
 	}
-	
-	this.move = function() {
-		
-	}
-	
-	this.release = function() {
-		
-	}
-		
-	this.touch = function(e) {
-		if (!self.on) {
-			self.on = true;
-		}
-		else {
-			self.on = false;
-		}
-		self.draw();
-		self.nxTransmit(nx.boolToVal(self.on));
-	}
-
-
-	this.touchMove = function(e) {
-	}
-
-
-	this.touchRelease = function(e) {
-	}
-	
-	
-	this.init();
 	
 }
