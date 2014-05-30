@@ -6,8 +6,6 @@ NexusUI API
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
-module Global
-=============
 ###colorize(\[aspect\], \[color\])###
 ### colorize
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
@@ -26,47 +24,46 @@ nx.colorize("border", "#000000")
 **[color]**:  *hex or rgb color code*,  
 
 
-###button()###
-Simple touch button with 3 modes of interaction
-
-
-module button
-=============
-Simple touch button with 3 modes of interaction
-###button.init()###
+###init()###
 @ method init
 Initialize Object *
 
-###button.pulse()###
+###pulse()###
 Animation Pulse *
 
-###button.drawSpaces()###
+###drawSpaces()###
 Draw framework of rounded rectangles *
 
-###button.drawBalls()###
+###drawBalls()###
 Draw functions *
 
-###button.click()###
+###click()###
 Mouse functions *
 
-###button.deleteMB()###
+###deleteMB()###
 Manage MetroBalls *
 
-###button.init()###
+###init()###
 Initialize Object *
 
-###button.pulse()###
+###pulse()###
 Animation Pulse *
 
-###button.drawSpaces()###
+###drawSpaces()###
 Draw framework of rounded rectangles *
 
-###button.drawBalls()###
+###drawBalls()###
 Draw functions *
 
-###button.click()###
+###click()###
 Mouse functions *
 
-###button.deleteMB()###
+###deleteMB()###
 Manage Mangos *
+
+button
+------
+**Members**
+
+**property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
 

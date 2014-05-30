@@ -1,5 +1,5 @@
 /** 
-	@module button 
+	@class button 
 	Simple touch button with 3 modes of interaction 
 **/
 
