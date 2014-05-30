@@ -6,11 +6,6 @@ NexusUI API
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
-###button()###
-Simple touch button with 3 modes of interaction
-<canvas nx="button"></canvas>
-
-
 nx
 --
 **Methods**
