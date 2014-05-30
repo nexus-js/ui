@@ -1,6 +1,6 @@
 /***********************
 * Javascript Mango Game *
-* @uthor Ben Taylor   *
+* @author Ben Taylor   *
 ************************/
 	
 
@@ -28,7 +28,6 @@ function mango(target, transmitCommand) {
 	
 	this.bgReady = false;
     
-    /** Initialize Object **/
 	
 	this.init = function() {
 	/*	this.canvas = document.getElementById(this.CanvasName);
@@ -77,7 +76,6 @@ function mango(target, transmitCommand) {
 			
 	}
 	
-	/** Animation Pulse **/
 	
 	this.pulse = function() {
 		with (this.context) {
@@ -89,7 +87,6 @@ function mango(target, transmitCommand) {
 		this.drawBlocks();
 	}
 	
-	/** Draw framework of rounded rectangles **/
 	
 	this.drawSpaces = function() {
 		
@@ -128,7 +125,6 @@ function mango(target, transmitCommand) {
 		}
 	}
 	
-	/** Draw functions **/
 	
 	this.drawBalls = function() {
 		with (this.context) {
@@ -147,7 +143,6 @@ function mango(target, transmitCommand) {
 		}
 	}
 	
-	/** Mouse functions **/
 	this.click = function(e) {
 		//ballPos = getPos(e);
 		ballPos = { xpos: self.clickPos.x, ypos: self.clickPos.y}
@@ -190,7 +185,6 @@ function mango(target, transmitCommand) {
 		self.slinging = false;
 	}
 	
-	/** Manage Sling **/
 	
 	this.slinging = false;
 	this.slingPos = new Object();
@@ -244,7 +238,6 @@ function mango(target, transmitCommand) {
 		self.moving = true;
 	}
 	
-	/** Manage Mangos **/
 	
 	this.deleteMB = function(ballPos) {
 		//delete in reverse order
