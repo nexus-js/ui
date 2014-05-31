@@ -639,7 +639,25 @@ nx.onload = function() {};
  * using the canvas's id as its var name */
 
 $(document).ready(function() {
-	// get all canvases on the page
+
+	transformCanvases();
+	
+	if (nx.is_touch_device) {
+		document.addEventListener("touchmove", nx.blockMove, true);
+		document.addEventListener("touchstart", nx.blockMove, true);
+	}
+	
+	nx.addStylesheet();
+	
+	nx.onload();
+	
+});
+
+
+
+function transformCanvases() {
+
+		// get all canvases on the page
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
 		// if it has an nx attribute, store that in nxId
@@ -667,17 +685,8 @@ $(document).ready(function() {
 			eval(allcanvi[i].id + ".init()");
 		}
 	}
-	
-	if (nx.is_touch_device) {
-		document.addEventListener("touchmove", nx.blockMove, true);
-		document.addEventListener("touchstart", nx.blockMove, true);
-	}
-	
-	nx.addStylesheet();
-	
-	nx.onload();
-	
-});
+
+}
 	
 	
 	
@@ -1264,6 +1273,7 @@ function dial(target, transmitCommand) {
 /** 
 	@class button      
 	Simple touch button with 3 modes of interaction
+	<canvas nx="button"></canvas>
 */
 
 
@@ -1299,9 +1309,7 @@ function button(target, transmitCommand) {
 			imageButton = true;
 		}
 
-		this.colors.accent = "#5dd";
-		this.colors.highlight = "#5dd";
-		this.colors.border = "#eee";
+	//	this.colors.border = "#eee";
 		
 		self.draw();
 
@@ -2084,16 +2092,15 @@ function slider(target, transmitCommand) {
 	
 	//unique attributes
 	this.value = 0.7
-	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
-	this.sliderWidth = self.realSpace.x;
-		
 	this.label = self.oscName;
-
 	this.mode = "absolute";
 	
 	
 
 	this.init = function() {
+
+		this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
+		this.sliderWidth = self.realSpace.x;
 	
 		if (this.canvas.getAttribute("label")!=null) {
 			this.label = this.canvas.getAttribute("label");

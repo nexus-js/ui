@@ -2,24 +2,12 @@
 <html>
 	<head>
 
-	  	<title>:: Nexus Canvas View ::</title>
+	  	<title>:: Nexus Drag-And-Drop ::</title>
 
 		<!-- standard includes of nexusUI and jquery-->
-		<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+		<script type="text/javascript" src="../dev/jquery.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
-		<script type="text/javascript" src="../CurrentBuild/nexusUI.min.js"></script>
-	<!--	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusTilt.js"></script>
-		<script type="text/javascript" src="../nexusUI/nexusColors.js"></script> -->
-
-		
+		<script type="text/javascript" src="../nexusUI.min.js"></script>		
 
 		<!-- Make mobile display non scalable and fitting the viewport window -->
 		<meta name="viewport" content="width=device-width, user-scalable=no" />
@@ -33,8 +21,8 @@
 
 			nx.onload = function() {
 				nx.colorize("#0af");
-				nx.setTransmissionProtocol("ajax");
-				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
+				nx.setTransmissionProtocol("local");
+			//	nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
 
 
 				nx.editOn = function() {

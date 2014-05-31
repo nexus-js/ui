@@ -11,16 +11,15 @@ function slider(target, transmitCommand) {
 	
 	//unique attributes
 	this.value = 0.7
-	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
-	this.sliderWidth = self.realSpace.x;
-		
 	this.label = self.oscName;
-
 	this.mode = "absolute";
 	
 	
 
 	this.init = function() {
+
+		this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
+		this.sliderWidth = self.realSpace.x;
 	
 		if (this.canvas.getAttribute("label")!=null) {
 			this.label = this.canvas.getAttribute("label");

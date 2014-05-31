@@ -639,7 +639,25 @@ nx.onload = function() {};
  * using the canvas's id as its var name */
 
 $(document).ready(function() {
-	// get all canvases on the page
+
+	transformCanvases();
+	
+	if (nx.is_touch_device) {
+		document.addEventListener("touchmove", nx.blockMove, true);
+		document.addEventListener("touchstart", nx.blockMove, true);
+	}
+	
+	nx.addStylesheet();
+	
+	nx.onload();
+	
+});
+
+
+
+function transformCanvases() {
+
+		// get all canvases on the page
 	var allcanvi = document.getElementsByTagName("canvas");
 	for (i=0;i<allcanvi.length;i++) {
 		// if it has an nx attribute, store that in nxId
@@ -667,17 +685,8 @@ $(document).ready(function() {
 			eval(allcanvi[i].id + ".init()");
 		}
 	}
-	
-	if (nx.is_touch_device) {
-		document.addEventListener("touchmove", nx.blockMove, true);
-		document.addEventListener("touchstart", nx.blockMove, true);
-	}
-	
-	nx.addStylesheet();
-	
-	nx.onload();
-	
-});
+
+}
 	
 	
 	

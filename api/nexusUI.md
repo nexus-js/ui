@@ -33,6 +33,7 @@ nx.colorize("border", "#000000")
 button
 --------
 Simple touch button with 3 modes of interaction
+<canvas nx="button"></canvas>
 
 **Members**
 

@@ -1,6 +1,7 @@
 /** 
 	@class button      
 	Simple touch button with 3 modes of interaction
+	<canvas nx="button"></canvas>
 */
 
 
@@ -36,9 +37,7 @@ function button(target, transmitCommand) {
 			imageButton = true;
 		}
 
-		this.colors.accent = "#5dd";
-		this.colors.highlight = "#5dd";
-		this.colors.border = "#eee";
+	//	this.colors.border = "#eee";
 		
 		self.draw();
 

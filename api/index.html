@@ -41,6 +41,10 @@
     Flatdoc.run({
       fetcher: Flatdoc.github('taylorbf/NexusUI', 'api/nexusUI.md')
     });
+
+    $(document).on('flatdoc:ready', function() {
+      transformCanvases();
+    });
   </script>
 </head>
 <body role='flatdoc'>
