@@ -4,7 +4,7 @@
 	```js
 	<canvas nx="button"></canvas>
 	```
-	<canvas nx="button" style="margin:10px"></canvas>
+	<canvas nx="button" style="margin:30px"></canvas>
 */
 
 
@@ -22,7 +22,8 @@ function button(target, transmitCommand) {
 	this.value = 1;
 	
 	//set mode: impulse, toggle, node
-	/** @member {string}  mode A button accepts 3 modes: <br> "impulse"     (default) 1 (on) when clicked. <br> "toggle"     1 (on) when clicked, 0 (off) when released. <br> "position"      1/0, x touch position, y touch position  ```js button1.mode = "position" ```
+	/** @member {string}  mode 
+	A button accepts 3 modes: <br> "impulse"     (default) 1 (on) when clicked. <br> "toggle"     1 (on) when clicked, 0 (off) when released. <br> "position"      1/0, x touch position, y touch position  ```js button1.mode = "position" ```
 	*/
 	this.mode = "impulse";
 
