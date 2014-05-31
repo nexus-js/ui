@@ -2,7 +2,7 @@ NexusUI API
 ===========
 *(c) 2014*
 
-**Author:** Ben Taylor, Jesse Allison, Yemin Oh, William Conlin
+**Author:** Ben Taylor, Jesse Allison, Yemin Oh
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
@@ -33,11 +33,15 @@ nx.colorize("border", "#000000")
 button
 --------
 Simple touch button with 3 modes of interaction
+```js
+<canvas nx="button"></canvas>
+```
 <canvas nx="button"></canvas>
 
 **Members**
 
-**property**:  *mode*,  A button accepts 3 modes: impulse, toggle, and node *
+**mode**:  *string*,  
+
 
 metroball
 -----------

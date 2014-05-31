@@ -8,6 +8,11 @@
  * 
  * Code written with assist from http://blog.millermedeiros.com/node-js-as-a-build-script/
  * 
+ *
+ * This script also compiles correctly-syntaxed comments into markdown using js dox.
+ * The markdown file ends up in api/nexusUI.md
+ * When synced to github, this markdown file will auto-update the API website, with flatdoc.
+ *
  */
 
 
@@ -88,10 +93,10 @@ concat({
 
 
 
-
+// compile comments to markdown using jsdox
 
 function done() {
-    console.log('jsdox compiled api md into /api');
+    console.log('jsdox markdown compiled to /api/nexusUI.md');
 }
 
 jsdox = require("jsdox");
