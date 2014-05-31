@@ -1,4 +1,11 @@
-// Javascript 2d_slider
+/** 
+	@class slider      
+	Vertical slider
+	```html
+	<canvas nx="slider"></canvas>
+	```
+	<canvas nx="slider" style="margin-left:25px"></canvas>
+*/
 
 function slider(target, transmitCommand) {
 					

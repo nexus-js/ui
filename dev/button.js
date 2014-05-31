@@ -19,6 +19,8 @@ function button(target, transmitCommand) {
 
 	// Define Unique Attributes
 	// Value is the value to send when the button is clicked.  
+
+	/** @property {integer}  value  Current state and output (0=off, 1=on) */
 	this.value = 1;
 	
 	//set mode: impulse, toggle, node

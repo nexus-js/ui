@@ -1291,6 +1291,8 @@ function button(target, transmitCommand) {
 
 	// Define Unique Attributes
 	// Value is the value to send when the button is clicked.  
+
+	/** @property {integer}  value  Current state and output (0=off, 1=on) */
 	this.value = 1;
 	
 	//set mode: impulse, toggle, node
@@ -2089,7 +2091,14 @@ function matrix(target, transmitCommand) {
 	}
 	
 }
-// Javascript 2d_slider
+/** 
+	@class slider      
+	Vertical slider
+	```html
+	<canvas nx="slider"></canvas>
+	```
+	<canvas nx="slider" style="margin-left:25px"></canvas>
+*/
 
 function slider(target, transmitCommand) {
 					

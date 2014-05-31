@@ -40,6 +40,8 @@ Touch button with three modes of interaction
 
 **Properties**
 
+**value**:  *integer*,  Current state and output (0=off, 1=on)
+
 **mode**:  *string*,  Interaction mode of impulse, toggle, or position
 
 impulse &nbsp; 1 on click _(default)_<br>
@@ -48,6 +50,14 @@ position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
 ```js
 button1.mode = "position"
 ```
+slider
+--------
+Vertical slider
+```html
+<canvas nx="slider"></canvas>
+```
+<canvas nx="slider" style="margin-left:25px"></canvas>
+
 metroball
 -----------
 Bouncy-ball area with built-in tilt control
