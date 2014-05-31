@@ -38,7 +38,7 @@ Touch button with three modes of interaction
 ```
 <canvas nx="button" style="margin-left:25px"></canvas>
 
-**Members**
+**Properties**
 
 **mode**:  *string*,  Interaction mode of impulse, toggle, or position
 
