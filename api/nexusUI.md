@@ -44,7 +44,12 @@ Touch button with three modes of interaction
 
 
 
-  *A button accepts 3 modes: <br> "impulse"     (default) 1 (on) when clicked. <br> "toggle"     1 (on) when clicked, 0 (off) when released. <br> "position"      1/0, x touch position, y touch position  ```js button1.mode = "position" ```
+  *"impulse"     (default) 1 (on) when clicked.
+"toggle"     1 (on) when clicked, 0 (off) when released.
+"position"      1/0, x touch position, y touch position
+```js
+button1.mode = "position"
+```
 *metroball
 -----------
 Bouncy-ball area with built-in tilt control
