@@ -33,20 +33,19 @@ nx.colorize("border", "#000000")
 button
 --------
 Touch button with three modes of interaction
-```js
+```html
 <canvas nx="button"></canvas>
 ```
 <canvas nx="button" style="margin:30px"></canvas>
 
 **Members**
 
-**mode**:  *string*,  
+**mode**:  *string*,  Interaction mode
 
 
-
-  *"impulse"     (default) 1 (on) when clicked.
-"toggle"     1 (on) when clicked, 0 (off) when released.
-"position"      1/0, x touch position, y touch position
+  *- "impulse" (default) 1 (on) when clicked<br>
+- "toggle" 1 (on) when clicked, 0 (off) when released<br>
+- "position"  1/0, x touch position, y touch position <br>
 ```js
 button1.mode = "position"
 ```
