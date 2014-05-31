@@ -1276,7 +1276,7 @@ function dial(target, transmitCommand) {
 	```html
 	<canvas nx="button"></canvas>
 	```
-	<canvas nx="button" style="margin:30px"></canvas>
+	<canvas nx="button" style="margin-left:25px"></canvas>
 */
 
 
@@ -1295,9 +1295,9 @@ function button(target, transmitCommand) {
 	
 	//set mode: impulse, toggle, node
 	/** @member {string}  mode  Interaction mode
-	- "impulse" (default) 1 (on) when clicked<br>
-	- "toggle" 1 (on) when clicked, 0 (off) when released<br>
-	- "position"  1/0, x touch position, y touch position <br> 
+	• "impulse" (default) 1 (on) when clicked<br>
+	• "toggle" 1 (on) when clicked, 0 (off) when released<br>
+	• "position"  1/0, x touch position, y touch position <br> 
 	```js 
 	button1.mode = "position" 
 	```
