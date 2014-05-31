@@ -1295,7 +1295,7 @@ function button(target, transmitCommand) {
 	
 	//set mode: impulse, toggle, node
 	/** @member {string}  mode     
-		A button accepts 3 modes:
+		@description A button accepts 3 modes:
 		"impulse"     (default) 1 (on) when clicked.<br>
 		"toggle"     1 (on) when clicked, 0 (off) when released.<br>
 		"position"      1/0, x touch position, y touch position
