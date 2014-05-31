@@ -1,4 +1,11 @@
-// NexusUI Banner
+/** 
+	@class banner      
+	"Powered by NexusUI" tag with a link to our website.
+	```html
+	<canvas nx="banner"></canvas>
+	```
+	<canvas nx="banner" style="margin-left:25px"></canvas>
+*/
 
 function banner(target, transmitCommand) {
 					

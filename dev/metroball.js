@@ -1,6 +1,10 @@
 /** 
 	@class metroball
 	Bouncy-ball area with built-in tilt control
+	```html
+	<canvas nx="metroball"></canvas>
+	```
+	<canvas nx="metroball" style="margin-left:25px"></canvas>
 */
 
 

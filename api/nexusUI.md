@@ -58,9 +58,37 @@ Vertical slider
 ```
 <canvas nx="slider" style="margin-left:25px"></canvas>
 
+colors
+--------
+Color picker that outputs RBG values
+```html
+<canvas nx="colors"></canvas>
+```
+<canvas nx="colors" style="margin-left:25px"></canvas>
+
+comment
+---------
+Comment area with settable text
+```html
+<canvas nx="comment"></canvas>
+```
+<canvas nx="comment" style="margin-left:25px"></canvas>
+
+banner
+--------
+"Powered by NexusUI" tag with a link to our website.
+```html
+<canvas nx="banner"></canvas>
+```
+<canvas nx="banner" style="margin-left:25px"></canvas>
+
 metroball
 -----------
 Bouncy-ball area with built-in tilt control
+```html
+<canvas nx="metroball"></canvas>
+```
+<canvas nx="metroball" style="margin-left:25px"></canvas>
 
 **Methods**
 

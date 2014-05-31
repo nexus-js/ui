@@ -2942,10 +2942,14 @@ function joints(target, transmitCommand) {
 		}
 	}
 }
-// nexusUI - Color Picker
-//
-//
-
+/** 
+	@class colors      
+	Color picker that outputs RBG values
+	```html
+	<canvas nx="colors"></canvas>
+	```
+	<canvas nx="colors" style="margin-left:25px"></canvas>
+*/
 				
 function colors(target, transmitCommand) {
 					
@@ -3300,7 +3304,14 @@ function number(target, transmitCommand) {
 		}
 	}
 }
-// Javascript 2d_slider
+/** 
+	@class comment      
+	Comment area with settable text
+	```html
+	<canvas nx="comment"></canvas>
+	```
+	<canvas nx="comment" style="margin-left:25px"></canvas>
+*/
 
 function comment(target, transmitCommand) {
 					
@@ -3445,7 +3456,14 @@ function panel(target, transmitCommand) {
 		}
 	}
 }
-// NexusUI Banner
+/** 
+	@class banner      
+	"Powered by NexusUI" tag with a link to our website.
+	```html
+	<canvas nx="banner"></canvas>
+	```
+	<canvas nx="banner" style="margin-left:25px"></canvas>
+*/
 
 function banner(target, transmitCommand) {
 					
@@ -3729,6 +3747,10 @@ function multitouch(target, transmitCommand) {
 /** 
 	@class metroball
 	Bouncy-ball area with built-in tilt control
+	```html
+	<canvas nx="metroball"></canvas>
+	```
+	<canvas nx="metroball" style="margin-left:25px"></canvas>
 */
 
 

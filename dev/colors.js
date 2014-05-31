@@ -1,7 +1,11 @@
-// nexusUI - Color Picker
-//
-//
-
+/** 
+	@class colors      
+	Color picker that outputs RBG values
+	```html
+	<canvas nx="colors"></canvas>
+	```
+	<canvas nx="colors" style="margin-left:25px"></canvas>
+*/
 				
 function colors(target, transmitCommand) {
 					

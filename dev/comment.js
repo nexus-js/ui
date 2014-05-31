@@ -1,4 +1,11 @@
-// Javascript 2d_slider
+/** 
+	@class comment      
+	Comment area with settable text
+	```html
+	<canvas nx="comment"></canvas>
+	```
+	<canvas nx="comment" style="margin-left:25px"></canvas>
+*/
 
 function comment(target, transmitCommand) {
 					
