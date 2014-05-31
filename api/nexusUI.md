@@ -40,8 +40,7 @@ Simple touch button with 3 modes of interaction
 
 **Members**
 
-**mode**:  *string*,  
-
+**mode**:  *string*,  A button accepts 3 modes: \n "impulse"     (default) 1 (on) when clicked. \n "toggle"     1 (on) when clicked, 0 (off) when released. \n "position"      1/0, x touch position, y touch position
 
 metroball
 -----------
