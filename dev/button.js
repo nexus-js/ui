@@ -22,10 +22,10 @@ function button(target, transmitCommand) {
 	this.value = 1;
 	
 	//set mode: impulse, toggle, node
-	/** @member {string}  mode  Interaction mode
-	*impulse* (default) 1 (on) when clicked<br>
-	*toggle*  1 (on) when clicked, 0 (off) when released<br>
-	*position* 1/0, x touch position, y touch position <br> 
+	/** @member {string}  mode  Interaction mode of impulse, toggle, or position
+	impulse &nbsp; 1 on click _(default)_<br>
+	toggle &nbsp;  1 on click, 0 on release<br>
+	position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br> 
 	```js 
 	button1.mode = "position" 
 	```

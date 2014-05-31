@@ -40,11 +40,11 @@ Touch button with three modes of interaction
 
 **Members**
 
-**mode**:  *string*,  Interaction mode
+**mode**:  *string*,  Interaction mode of impulse, toggle, or position
 
-# *impulse* (default) 1 (on) when clicked<br>
-toggle*  1 (on) when clicked, 0 (off) when released<br>
-position* 1/0, x touch position, y touch position <br>
+# *impulse &nbsp; 1 on click _(default)_<br>
+toggle &nbsp;  1 on click, 0 on release<br>
+position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
 ```js
 button1.mode = "position"
 ```
