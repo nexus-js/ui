@@ -40,7 +40,7 @@ Touch button with three modes of interaction
 
 **Members**
 
-**mode**:  *string*,  A button accepts 3 modes: <br> "impulse"     (default) 1 (on) when clicked. <br> "toggle"     1 (on) when clicked, 0 (off) when released. <br> "position"      1/0, x touch position, y touch position
+**mode**:  *string*,  A button accepts 3 modes: <br> "impulse"     (default) 1 (on) when clicked. <br> "toggle"     1 (on) when clicked, 0 (off) when released. <br> "position"      1/0, x touch position, y touch position  ```js button1.mode = "position" ```
 
 metroball
 -----------
