@@ -37,7 +37,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 134.0, 196.0, 92.0, 21.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 134.0, 196.0, 92.0, 21.0 ],
+					"presentation_rect" : [ 129.0, 143.0, 92.0, 21.0 ],
 					"text" : "sendamessage!",
 					"varname" : "messagenx8830286"
 				}
@@ -55,7 +55,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 50.0, 174.0, 45.0, 39.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 50.0, 174.0, 150.0, 23.0 ],
+					"presentation_rect" : [ 129.0, 176.0, 92.0, 23.0 ],
 					"text" : "check check",
 					"varname" : "commentnx628315"
 				}
@@ -69,7 +69,9 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 12.0, 384.0, 316.0, 135.0 ]
+					"patching_rect" : [ 12.0, 384.0, 316.0, 135.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 12.0, 384.0, 316.0, 135.0 ]
 				}
 
 			}
@@ -83,7 +85,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 272.0, 19.0, 55.0, 198.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 378.0, 191.0, 55.0, 198.0 ],
+					"presentation_rect" : [ 255.0, 27.0, 55.0, 198.0 ],
 					"varname" : "slidernx4058360"
 				}
 
@@ -98,7 +100,7 @@
 					"parameter_enable" : 0,
 					"patching_rect" : [ 341.0, 19.0, 96.0, 96.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 54.0, 176.0, 96.0, 96.0 ],
+					"presentation_rect" : [ 12.0, 129.0, 96.0, 96.0 ],
 					"varname" : "togglenx5918670"
 				}
 

@@ -212,6 +212,7 @@ function generateHTML()
 	
 	for(var i=0;i<uiObjects.length;i++) 
 	{
+		post(uiObjects[i].presentation_pos)
 		var canvasString = '<canvas nx="' + nexusUISupportedObjects[uiObjects[i].maxclass] + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ (uiObjects[i].rect[1]+30) +'px; left: '+ uiObjects[i].rect[0] +'px;width:'+ (uiObjects[i].rect[2]-uiObjects[i].rect[0]) +'px;height:'+ (uiObjects[i].rect[3]-uiObjects[i].rect[1]) +'px;"></canvas>';
 		html += canvasString;
 	//	outlet(0, uiObjects[i].varname, uiObjects[i].maxclass, uiObjects[i].rect, uiObjects[i].fgcolor);
