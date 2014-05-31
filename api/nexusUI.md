@@ -30,6 +30,14 @@ nx.colorize("border", "#000000")
 **[color]**:  *hex or rgb color code*,  
 
 
+dial
+------
+Circular dial
+```html
+<canvas nx="dial"></canvas>
+```
+<canvas nx="dial" style="margin-left:25px"></canvas>
+
 button
 --------
 Touch button with three modes of interaction

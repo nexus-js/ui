@@ -1,8 +1,12 @@
-// nexusUI - Dial
-//
-//
+/** 
+	@class dial      
+	Circular dial
+	```html
+	<canvas nx="dial"></canvas>
+	```
+	<canvas nx="dial" style="margin-left:25px"></canvas>
+*/
 
-				
 function dial(target, transmitCommand) {
 					
 	//self awareness
@@ -115,8 +119,7 @@ function dial(target, transmitCommand) {
 
 	this.click = function(e) {
 		//clicked is now set to true, coords are in self.clickPos
-		// console.log("Dial nxTransmit", self.transmitCommand, self.oscName, self.uiIndex, self.clickPos);
-		self.nxTransmit(parseInt(self.value));
+		self.nxTransmit(self.value);
 		self.draw();
 		self.aniStart = self.value;
 	}
