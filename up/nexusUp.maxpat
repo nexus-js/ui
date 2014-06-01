@@ -7,7 +7,7 @@
 			"revision" : 8
 		}
 ,
-		"rect" : [ 38.0, 163.0, 1092.0, 566.0 ],
+		"rect" : [ 407.0, 256.0, 645.0, 372.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -27,6 +27,24 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 10.0,
+					"frgb" : 0.0,
+					"id" : "obj-5",
+					"linecount" : 6,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 179.0, 144.5, 128.0, 74.0 ],
+					"presentation" : 1,
+					"presentation_linecount" : 4,
+					"presentation_rect" : [ 70.0, 42.5, 242.0, 51.0 ],
+					"text" : "NOTES:\n- uses Presentation Mode layout\n- wait a few seconds after saving your maxpatch \n  to get correct UI"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Gill Sans",
 					"fontsize" : 12.0,
@@ -124,7 +142,7 @@
 					"patching_rect" : [ 164.0, 129.5, 141.0, 43.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 68.0, 23.5, 145.0, 31.0 ],
+					"presentation_rect" : [ 70.0, 12.0, 145.0, 31.0 ],
 					"text" : "GENERATE A NEXUS UI\nFROM YOUR MAX PATCH"
 				}
 
@@ -143,7 +161,7 @@
 					"patching_rect" : [ 147.0, 229.0, 150.0, 31.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 83.5, 81.0, 150.0, 31.0 ],
+					"presentation_rect" : [ 70.0, 101.0, 150.0, 31.0 ],
 					"text" : "recompile nexusUp.js javascript file after an edit"
 				}
 
@@ -280,7 +298,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 223.0, 263.0, 53.0, 21.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 16.0, 86.0, 53.0, 21.0 ],
+					"presentation_rect" : [ 9.0, 106.0, 53.0, 21.0 ],
 					"text" : "compile",
 					"varname" : "messagenx8639797"
 				}
@@ -381,7 +399,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 23.0, 9.5, 41.0, 36.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 2.0, 4.0, 313.0, 128.0 ],
+					"presentation_rect" : [ 2.0, 4.0, 313.0, 134.830139 ],
 					"rounded" : 18
 				}
 
