@@ -480,13 +480,15 @@ var nx = function() {
 	    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
 	}
 	
-	this.makeRoundRect = function(ctx,xpos,ypos,wid,hgt) {
+	this.makeRoundRect = function(ctx,xpos,ypos,wid,hgt,depth) {
 		var x1 = xpos;
 		var y1 = ypos;
 		var x2 = wid+x1;
 		var y2 = hgt+y1;
 		//var depth = 6;
-		var depth = 2; // prev 4
+		if (!depth) {
+			depth = 2; // prev 4
+		}
 		
 		ctx.beginPath();
 		ctx.moveTo(x1+depth, y1); //TOP LEFT
@@ -595,7 +597,7 @@ var nx = function() {
 	          }
 	        }
 	        context.fillText(line, x, y);
-			
+
 		}
       }
 

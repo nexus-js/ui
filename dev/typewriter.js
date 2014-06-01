@@ -9,8 +9,8 @@ function typewriter(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 
-	var rowLens = [ 14, 14, 13, 12, 11]
-
+	
+	this.letter = ""
 	this.keywid = self.width/14.5;
 
 	this.rows = [
@@ -45,6 +45,48 @@ function typewriter(target, transmitCommand) {
 			{ symbol: "[", value: 10, width: 1, on: false  },
 			{ symbol: "]", value: 10, width: 1, on: false  },
 			{ symbol: "\\", value: 10, width: 1, on: false  }
+		],
+		[
+			{ symbol: "caps", value: 10, width: 1.75, on: false  },
+			{ symbol: "a", value: 10, width: 1, on: false  },
+			{ symbol: "s", value: 10, width: 1, on: false  },
+			{ symbol: "d", value: 10, width: 1, on: false  },
+			{ symbol: "f", value: 10, width: 1, on: false  },
+			{ symbol: "g", value: 10, width: 1, on: false  },
+			{ symbol: "h", value: 10, width: 1, on: false  },
+			{ symbol: "j", value: 10, width: 1, on: false  },
+			{ symbol: "k", value: 10, width: 1, on: false  },
+			{ symbol: "l", value: 10, width: 1, on: false  },
+			{ symbol: ";", value: 10, width: 1, on: false  },
+			{ symbol: "'", value: 10, width: 1, on: false  },
+			{ symbol: "enter", value: 10, width: 1.75, on: false }
+		],
+		[
+			{ symbol: "shift", value: 10, width: 2.25, on: false  },
+			{ symbol: "z", value: 10, width: 1, on: false  },
+			{ symbol: "x", value: 10, width: 1, on: false  },
+			{ symbol: "c", value: 10, width: 1, on: false  },
+			{ symbol: "v", value: 10, width: 1, on: false  },
+			{ symbol: "b", value: 10, width: 1, on: false  },
+			{ symbol: "n", value: 10, width: 1, on: false  },
+			{ symbol: "m", value: 10, width: 1, on: false  },
+			{ symbol: ",", value: 10, width: 1, on: false  },
+			{ symbol: ".", value: 10, width: 1, on: false  },
+			{ symbol: "/", value: 10, width: 1, on: false  },
+			{ symbol: "shift", value: 10, width: 2.25, on: false }
+		],
+		[
+			{ symbol: "fn", value: 10, width: 1, on: false  },
+			{ symbol: "ctrl", value: 10, width: 1, on: false  },
+			{ symbol: "opt", value: 10, width: 1, on: false  },
+			{ symbol: "cmd", value: 10, width: 1.25, on: false  },
+			{ symbol: "space", value: 10, width: 5, on: false  },
+			{ symbol: "cmd", value: 10, width: 1, on: false  },
+			{ symbol: "opt", value: 10, width: 1, on: false  },
+			{ symbol: "<", value: 10, width: .81, on: false  },
+			{ symbol: "^", value: 10, width: .81, on: false  },
+			{ symbol: "v", value: 10, width: .81, on: false  },
+			{ symbol: ">", value: 10, width: .81, on: false  }
 		]
 	]
 		
@@ -70,20 +112,43 @@ function typewriter(target, transmitCommand) {
 			fill();
 
 			strokeStyle = self.colors.black 
-			fillStyle = self.colors.black 
+			fillStyle = self.colors.accent 
 			lineWidth = 1
 
 			for (var i=0;i<self.rows.length;i++) {
 				var currkeyL = 0;
 				for (var j=0;j<self.rows[i].length;j++) {
+
+					nx.makeRoundRect(self.context, currkeyL,i*30,self.keywid*self.rows[i][j].width,30,8);
+						
 					if (self.rows[i][j].on) {
-						fillRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
+						fill()
+						//fillRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
 					} else {
-						strokeRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
+						stroke()
+						//strokeRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
 					}
+
+			/*		fillStyle = self.colors.border;
+					font = self.keywid/2+"px courier";
+					textAlign = "center";
+					fillText(self.rows[i][j].symbol, currkeyL + self.keywid/2, i*30+15);
+			*/
+					
+
+		
 					currkeyL += self.keywid*self.rows[i][j].width;
+
 				}
 			}
+
+			globalAlpha = 0.3
+			fillStyle = self.colors.border;
+			font = self.height+"px courier";
+			textAlign = "center";
+			fillText(self.letter, self.width/2, self.height/1.25);
+			
+			globalAlpha = 1
 
 		}
 		self.drawLabel();
@@ -117,6 +182,7 @@ function typewriter(target, transmitCommand) {
 				if (currKey == self.rows[i][j].value) {
 					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = true;
+					self.letter = self.rows[i][j].symbol;
 					break;
 				}
 			}
