@@ -60,9 +60,13 @@ function findUIObjects()
 				if (!current_object.varname) {
 					current_object.varname = nexusUISupportedObjects[current_object.maxclass] + "nx" + Math.floor(Math.random()*10000000);
 				}
-				
+
+				//now loops through through to find the json to find the object with the correct varname and check to see if it's in presentation mode
 				for (var i=0; i<patchjson.patcher.boxes.length; i++) {
 			  		if (patchjson.patcher.boxes[i].box.varname==current_object.varname && patchjson.patcher.boxes[i].box.presentation) {
+			  			//append the object's json onto the js maxobj class,
+			  			//so that we can access it later (presentation_rect, min, max)
+			  			current_object.json = patchjson.patcher.boxes[i].box
 			  			uiObjects.push(current_object);
 				  	}
 			  	}	
@@ -96,12 +100,14 @@ function setElement(oscName, oscVal)
 	oscName = oscName.replace("/","");
 	var elemToSet = uipatch.getnamed(oscName);
 	var elemType = nexusUISupportedObjects[elemToSet.maxclass];
+	//very odd -- it works if i scale with size
+	//but not if i also scale with minimum (i.e. oscVal + elemToSet.getattr("min"))
 	switch (elemType) {
 		case "dial":
-			elemToSet.message("int",oscVal*128);
+			elemToSet.message("int",oscVal*elemToSet.getattr("size"));
 			break;
 		case "slider":
-			elemToSet.message("int",oscVal*128);
+			elemToSet.message("int",oscVal*elemToSet.getattr("size"));
 			break;
 		case "button":
 			if (oscVal==1)
@@ -125,16 +131,16 @@ function setElement(oscName, oscVal)
 			elemToSet.message("int",parseInt(oscVal));
 			break;
 		case "multislider":
-		//	oscVal = oscVal.replace(/\,/g," ");
-			oscVal = oscVal.split(",");
-			var evstr = 'elemToSet.message("list",'+oscVal[0];
-			for (var i=1;i<oscVal.length;i++) {
+			oscVal = oscVal.split(" ");
+			//setminmax attribute is an array of the min and max of the multislider
+			var minmax = elemToSet.getattr("setminmax");
+			var evstr = 'elemToSet.message("list"';
+			for (var i=0;i<oscVal.length;i++) {
+				oscVal[i] = oscVal[i]*(minmax[1]-minmax[0]) + minmax[0];
 				evstr += ','+oscVal[i];
 			}
 			evstr += ');';
 			eval(evstr);
-			//elemToSet.message("list", oscVal);
-		//	outlet(0,oscVal);
 			break;
 		case "tilt":
 			oscVal = oscVal.split(",");
@@ -213,7 +219,7 @@ function generateHTML()
 	for(var i=0;i<uiObjects.length;i++) 
 	{
 		post(uiObjects[i].presentation_pos)
-		var canvasString = '<canvas nx="' + nexusUISupportedObjects[uiObjects[i].maxclass] + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ (uiObjects[i].rect[1]+30) +'px; left: '+ uiObjects[i].rect[0] +'px;width:'+ (uiObjects[i].rect[2]-uiObjects[i].rect[0]) +'px;height:'+ (uiObjects[i].rect[3]-uiObjects[i].rect[1]) +'px;"></canvas>';
+		var canvasString = '<canvas nx="' + nexusUISupportedObjects[uiObjects[i].maxclass] + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ (uiObjects[i].json.presentation_rect[1]+30) +'px; left: '+ uiObjects[i].json.presentation_rect[0] +'px;width:'+ (uiObjects[i].json.presentation_rect[2]) +'px;height:'+ (uiObjects[i].json.presentation_rect[3]) +'px;"></canvas>';
 		html += canvasString;
 	//	outlet(0, uiObjects[i].varname, uiObjects[i].maxclass, uiObjects[i].rect, uiObjects[i].fgcolor);
 	}
