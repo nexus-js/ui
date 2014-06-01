@@ -1,12 +1,12 @@
 # Nexus UI
 
-*Authors:* Ben Taylor, Jesse Allison, Yemin Oh
+**Authors:** Ben Taylor, Jesse Allison, Yemin Oh
 
-*Overview:* NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping and integration with Max/MSP.
+**Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping and integration with Max/MSP.
 
-*Project Site:* http://nexusosc.com
+**Project Site:** http://nexusosc.com
 
-*License:* NexusUI is licensed as open source software under the terms of the "New BSD License", http://creativecommons.org/licenses/BSD/
+**License:** NexusUI is licensed as open source software under the terms of the "New BSD License", http://creativecommons.org/licenses/BSD/
 
 
 ### How to Use NexusUI
@@ -29,5 +29,5 @@ Add an HTML5 canvas to your page with a valid nx attribute.
 
  Valid Nexus objects include: dial, position, keyboard, button, toggle, slider, multislider, matrix, select, tilt, metroball, pixels, colors, sandbox, joints, comment, message, number, banner, multitouch.
 
- See [nexusosc.com](https://www.nexusosc.com) for examples and tutorials. 
+ See [nexusosc.com](http://www.nexusosc.com) for examples and tutorials. 
 
