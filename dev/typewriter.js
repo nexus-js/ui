@@ -26,67 +26,67 @@ function typewriter(target, transmitCommand) {
 			{ symbol: "8", value: 56, width: 1, on: false  },
 			{ symbol: "9", value: 57, width: 1, on: false  },
 			{ symbol: "0", value: 48, width: 1, on: false  },
-			{ symbol: "-", value: 59, width: 1, on: false  },
-			{ symbol: "=", value: 60, width: 1, on: false  },
-			{ symbol: "delete", value: 61, width: 1.5, on: false  }
+			{ symbol: "-", value: 189, width: 1, on: false  },
+			{ symbol: "=", value: 187, width: 1, on: false  },
+			{ symbol: "delete", value: 46, width: 1.5, on: false  }
 		],
 		[
 			{ symbol: "tab", value: 10, width: 1.5, on: false  },
-			{ symbol: "q", value: 10, width: 1, on: false  },
-			{ symbol: "w", value: 10, width: 1, on: false  },
-			{ symbol: "e", value: 10, width: 1, on: false  },
-			{ symbol: "r", value: 10, width: 1, on: false  },
-			{ symbol: "t", value: 10, width: 1, on: false  },
-			{ symbol: "y", value: 10, width: 1, on: false  },
-			{ symbol: "u", value: 10, width: 1, on: false  },
-			{ symbol: "i", value: 10, width: 1, on: false  },
-			{ symbol: "o", value: 10, width: 1, on: false  },
-			{ symbol: "p", value: 10, width: 1, on: false  },
-			{ symbol: "[", value: 10, width: 1, on: false  },
-			{ symbol: "]", value: 10, width: 1, on: false  },
-			{ symbol: "\\", value: 10, width: 1, on: false  }
+			{ symbol: "q", value: 81, width: 1, on: false  },
+			{ symbol: "w", value: 87, width: 1, on: false  },
+			{ symbol: "e", value: 69, width: 1, on: false  },
+			{ symbol: "r", value: 82, width: 1, on: false  },
+			{ symbol: "t", value: 84, width: 1, on: false  },
+			{ symbol: "y", value: 89, width: 1, on: false  },
+			{ symbol: "u", value: 85, width: 1, on: false  },
+			{ symbol: "i", value: 73, width: 1, on: false  },
+			{ symbol: "o", value: 79, width: 1, on: false  },
+			{ symbol: "p", value: 80, width: 1, on: false  },
+			{ symbol: "[", value: 219, width: 1, on: false  },
+			{ symbol: "]", value: 221, width: 1, on: false  },
+			{ symbol: "\\", value: 220, width: 1, on: false  }
 		],
 		[
-			{ symbol: "caps", value: 10, width: 1.75, on: false  },
-			{ symbol: "a", value: 10, width: 1, on: false  },
-			{ symbol: "s", value: 10, width: 1, on: false  },
-			{ symbol: "d", value: 10, width: 1, on: false  },
-			{ symbol: "f", value: 10, width: 1, on: false  },
-			{ symbol: "g", value: 10, width: 1, on: false  },
-			{ symbol: "h", value: 10, width: 1, on: false  },
-			{ symbol: "j", value: 10, width: 1, on: false  },
-			{ symbol: "k", value: 10, width: 1, on: false  },
-			{ symbol: "l", value: 10, width: 1, on: false  },
-			{ symbol: ";", value: 10, width: 1, on: false  },
-			{ symbol: "'", value: 10, width: 1, on: false  },
-			{ symbol: "enter", value: 10, width: 1.75, on: false }
+			{ symbol: "caps", value: 20, width: 1.75, on: false  },
+			{ symbol: "a", value: 65, width: 1, on: false  },
+			{ symbol: "s", value: 83, width: 1, on: false  },
+			{ symbol: "d", value: 68, width: 1, on: false  },
+			{ symbol: "f", value: 70, width: 1, on: false  },
+			{ symbol: "g", value: 71, width: 1, on: false  },
+			{ symbol: "h", value: 72, width: 1, on: false  },
+			{ symbol: "j", value: 74, width: 1, on: false  },
+			{ symbol: "k", value: 75, width: 1, on: false  },
+			{ symbol: "l", value: 76, width: 1, on: false  },
+			{ symbol: ";", value: 186, width: 1, on: false  },
+			{ symbol: "'", value: 222, width: 1, on: false  },
+			{ symbol: "enter", value: 13, width: 1.75, on: false }
 		],
 		[
-			{ symbol: "shift", value: 10, width: 2.25, on: false  },
-			{ symbol: "z", value: 10, width: 1, on: false  },
-			{ symbol: "x", value: 10, width: 1, on: false  },
-			{ symbol: "c", value: 10, width: 1, on: false  },
-			{ symbol: "v", value: 10, width: 1, on: false  },
-			{ symbol: "b", value: 10, width: 1, on: false  },
-			{ symbol: "n", value: 10, width: 1, on: false  },
-			{ symbol: "m", value: 10, width: 1, on: false  },
+			{ symbol: "shift", value: 16, width: 2.25, on: false  },
+			{ symbol: "z", value: 90, width: 1, on: false  },
+			{ symbol: "x", value: 88, width: 1, on: false  },
+			{ symbol: "c", value: 67, width: 1, on: false  },
+			{ symbol: "v", value: 86, width: 1, on: false  },
+			{ symbol: "b", value: 66, width: 1, on: false  },
+			{ symbol: "n", value: 78, width: 1, on: false  },
+			{ symbol: "m", value: 77, width: 1, on: false  },
 			{ symbol: ",", value: 10, width: 1, on: false  },
 			{ symbol: ".", value: 10, width: 1, on: false  },
 			{ symbol: "/", value: 10, width: 1, on: false  },
-			{ symbol: "shift", value: 10, width: 2.25, on: false }
+			{ symbol: "shift", value: 16, width: 2.25, on: false }
 		],
 		[
 			{ symbol: "fn", value: 10, width: 1, on: false  },
-			{ symbol: "ctrl", value: 10, width: 1, on: false  },
+			{ symbol: "ctrl", value: 17, width: 1, on: false  },
 			{ symbol: "opt", value: 10, width: 1, on: false  },
 			{ symbol: "cmd", value: 10, width: 1.25, on: false  },
-			{ symbol: "space", value: 10, width: 5, on: false  },
+			{ symbol: "space", value: 32, width: 5, on: false  },
 			{ symbol: "cmd", value: 10, width: 1, on: false  },
 			{ symbol: "opt", value: 10, width: 1, on: false  },
-			{ symbol: "<", value: 10, width: .81, on: false  },
-			{ symbol: "^", value: 10, width: .81, on: false  },
-			{ symbol: "v", value: 10, width: .81, on: false  },
-			{ symbol: ">", value: 10, width: .81, on: false  }
+			{ symbol: "<", value: 37, width: .81, on: false  },
+			{ symbol: "^", value: 38, width: .81, on: false  },
+			{ symbol: "v", value: 39, width: .81, on: false  },
+			{ symbol: ">", value: 40, width: .81, on: false  }
 		]
 	]
 		
@@ -108,10 +108,10 @@ function typewriter(target, transmitCommand) {
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
 			lineWidth = self.lineWidth;
-			stroke();
-			fill();
+		//	stroke();
+		//	fill();
 
-			strokeStyle = self.colors.black 
+			strokeStyle = self.colors.border 
 			fillStyle = self.colors.accent 
 			lineWidth = 1
 
@@ -122,9 +122,17 @@ function typewriter(target, transmitCommand) {
 					nx.makeRoundRect(self.context, currkeyL,i*30,self.keywid*self.rows[i][j].width,30,8);
 						
 					if (self.rows[i][j].on) {
+						fillStyle = self.colors.accent 
+						strokeStyle = self.colors.accent 
 						fill()
+						stroke()
 						//fillRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
+						
 					} else {
+						fillStyle = self.colors.fill 
+						strokeStyle = self.colors.border 
+
+						fill()
 						stroke()
 						//strokeRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
 					}
@@ -154,27 +162,14 @@ function typewriter(target, transmitCommand) {
 		self.drawLabel();
 	}
 
-
-	// 
+	//maybe click toggles typerwriter on/off?
+	//so that users can turn it off if they need to?
 	this.click = function(e) {
 	
 		self.nxTransmit(note);
 		self.draw();	
 	}
 
-	this.move = function(e) {
-		if (self.clicked) {
-			self.draw();
-		}
-	}
-
-	this.release = function(e) {
-	
-		self.nxTransmit([midi_note, 0]);
-		self.draw();
-	}
-
-	
 	this.type = function(e) {
 		var currKey = e.which;
 		for (var i=0;i<self.rows.length;i++) {
@@ -199,6 +194,7 @@ function typewriter(target, transmitCommand) {
 				if (currKey == self.rows[i][j].value) {
 					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = false;
+					self.letter = ""
 					break;
 				}
 			}

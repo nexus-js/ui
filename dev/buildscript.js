@@ -79,7 +79,8 @@ var nxscripts = [
         "draw.js",
         "mango.js",
         "LDMC.js",
-        "mouse.js"
+        "mouse.js",
+        "typewriter.js",
     ]
 
 concat({
