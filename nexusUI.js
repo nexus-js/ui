@@ -3482,7 +3482,7 @@ function banner(target, transmitCommand) {
 	
 	//unique attributes
 	this.message1 = "Powered by";
-	this.message2 = "• Nexus UI •";
+	this.message2 = "* Nexus UI *";
 	this.message3 = "nexusosc.com";
 	
 	
