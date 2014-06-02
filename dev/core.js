@@ -843,8 +843,8 @@ function getTemplate(self, target, transmitCommand) {
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";	
 			} else if (self.isBeingResized) {
-				self.canvas.width = self.clickPos.x;
-				self.canvas.height = self.clickPos.y;
+				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
+				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
 				self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
 				self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");

@@ -843,8 +843,8 @@ function getTemplate(self, target, transmitCommand) {
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";	
 			} else if (self.isBeingResized) {
-				self.canvas.width = self.clickPos.x;
-				self.canvas.height = self.clickPos.y;
+				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
+				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
 				self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
 				self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
@@ -2461,15 +2461,17 @@ function tilt(target, transmitCommand) {
 
 	
 	self.deviceOrientationHandler = function() {
-		document.getElementById(self.canvasID).style.webkitTransform = "rotate(" + 
-		  self.tiltLR + "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
-		document.getElementById(self.canvasID).style.MozTransform = "rotate(" + self.tiltLR + "deg)";
-		document.getElementById(self.canvasID).style.transform = "rotate(" + self.tiltLR + 
-		  "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
+	//	document.getElementById(self.canvasID).style.webkitTransform = "rotate(" + 
+	//	  self.tiltLR + "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
+	//	document.getElementById(self.canvasID).style.MozTransform = "rotate(" + self.tiltLR + "deg)";
+	//	document.getElementById(self.canvasID).style.transform = "rotate(" + self.tiltLR + 
+	//	  "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
 		  
 		self.scaledX = nx.prune(self.tiltLR/90,3);
 		self.scaledY = nx.prune(self.tiltFB/90,3);
 		self.scaledZ = nx.prune(self.z,3);
+
+
 		  
 		self.nxTransmit([self.scaledX, self.scaledY, self.scaledZ]);
 		
@@ -2484,6 +2486,7 @@ function tilt(target, transmitCommand) {
 			self.tiltFB = eventData.beta;
 			self.z = eventData.alpha
 		    self.deviceOrientationHandler();
+		    self.draw();
 		  }, false);
 		} else if (window.OrientationEvent) {
 		  window.addEventListener('MozOrientation', function(eventData) {
@@ -2494,6 +2497,7 @@ function tilt(target, transmitCommand) {
 		    self.tiltFB = eventData.y * -90;
 		    self.z = eventData.z;
 		    self.deviceOrientationHandler();
+		    self.draw();
 		  }, false);
 		} else {
 		  console.log("Not supported on your device or browser.")
@@ -2502,6 +2506,12 @@ function tilt(target, transmitCommand) {
 	}
 	
 	this.draw = function() {
+
+
+
+		self.scaledX = (nx.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
+		self.scaledY = (nx.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
+		self.scaledZ = nx.prune(self.z,3);
 		
 		self.erase();
 		with (self.context) {
@@ -2519,19 +2529,36 @@ function tilt(target, transmitCommand) {
 		    lineWidth = 10;
 		    strokeRect(0,0,self.width,self.height);  
 		    
+		    // save the context's co-ordinate system before 
+			// we screw with it
+			save(); 
+
+			translate(self.width/2,self.height/2)
+			 
+			// rotate around this point
+			rotate(-self.scaledX*Math.PI/2);
+
+			translate(-self.width/2,-self.height/2)
+
+
 		    globalAlpha = 0.4;
+
+		    fillStyle = self.colors.accent;
+			fillRect(-self.width,self.height*(self.scaledY/2)+self.height/2,self.width*3,self.height*2)
+
 		    fillStyle = self.colors.accent;
 			font = "bold "+self.height/5+"px gill sans";
 			textAlign = "center";
-			fillText(self.defaultText, self.width/2, self.height/2+self.height/15);
+			fillText(self.defaultText, self.width/2, self.height*(self.scaledY/2)+self.height/2+self.height/15);
 			globalAlpha = 1;
+
+
+			 
+			// and restore the co-ordinate system to its default
+			// top left origin with no rotation
+			restore();
 		}
 		self.drawLabel();
-	}
-	
-	this.scaleNode = function() {
-		self.values = [ nx.prune(self.nodePos[0]/self.width, 3), nx.prune(self.nodePos[1]/self.height, 3) ];
-		return self.values;
 	}
 }
 /***********************

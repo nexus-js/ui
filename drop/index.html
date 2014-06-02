@@ -8,6 +8,7 @@
 		<script type="text/javascript" src="../dev/jquery.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
 		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script type="text/javascript" src="FileSaver.js"></script>
 
 		<!-- Make mobile display non scalable and fitting the viewport window -->
 		<meta name="viewport" content="width=device-width, user-scalable=no" />
@@ -44,7 +45,10 @@
 			}
 
 			$(document).ready(function() {
-				$(".nxopt").mousedown(function(event) {
+				$(".nxopt").mousedown(function(e) {
+
+
+
 					// if it has an nx attribute, store that in nxId
 					var nxId = $(this).html();
 					var elemCount = 0;
@@ -62,7 +66,7 @@
 					var idNum = elemCount + 1;
 					var thisname = nxId + idNum;
 					if(nxId) {
-						$("body").append('<canvas id="'+thisname+'" style="position:absolute"></canvas>');
+						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+e.clientY+'px;left:'+e.clientX+'px;"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
@@ -126,6 +130,47 @@
 			function setcursor(e) {
 			}
 			
+			function saveUI() {
+
+			 	var html = '<!doctype html>\n'
+		    	+ '<html>   \n'
+				+ '<head>   \n'
+				+ '<title>NexusUP</title>\n' 
+				+ '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">\n'
+				+ '<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>\n'
+				+ '<link rel="icon" type="image/png" href="favicon.png" />\n'
+				+ '<script type="text/javascript" src="../dev/jquery.js"><\/script>\n'
+				+ '<script type="text/javascript" src="../nexusUI.js"><\/script>\n'
+				+ '</head>\n'                
+				+ '<body>\n'                
+				+ '<script>\n'
+				+ 'nx.onload = function() {\n'
+				+ '	nx.colorize("#0af");\n'
+				+ '	nx.setTransmissionProtocol("ajax");\n'
+				+ '	nx.setTransmitCommand("nexusOSCRelay.php");\n'
+				+ '}\n'
+				+ '<\/script>\n';
+
+				for (var i=0;i<nx.nxObjects.length;i++) {
+					html += '<canvas id="'+nx.nxObjects[i].canvasID+'" nx="'+document.getElementById(nx.nxObjects[i].canvasID).getAttribute("nx")+'" style="position:absolute;top:'+document.getElementById(nx.nxObjects[i].canvasID).style.top+';left:'+document.getElementById(nx.nxObjects[i].canvasID).style.left+';"></canvas>'
+				}
+
+				html += '</body>\n'
+				+ '</html>\n';
+	
+	/*
+	for(var i=0;i<uiObjects.length;i++) 
+	{
+		var canvasString = '<canvas nx="' + nexusUISupportedObjects[uiObjects[i].maxclass] + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ (uiObjects[i].json.presentation_rect[1]+30) +'px; left: '+ uiObjects[i].json.presentation_rect[0] +'px;width:'+ (uiObjects[i].json.presentation_rect[2]) +'px;height:'+ (uiObjects[i].json.presentation_rect[3]) +'px;"></canvas>';
+		html += canvasString;
+	} */
+				var blob = new Blob([html], {type: "text/html;charset=utf-8"});
+				saveAs(blob, "nexusdrop.html");
+				
+			}
+
+
+
 		</script>
 	</head>
 	<body>
@@ -134,36 +179,48 @@
 
 			.nxopt {
 				display:none;
-				padding:3px 10px;
+				padding:2px 10px;
 				border:solid 1px #ccc;
+				font-size:12pt;
 			}
 
 			body, input, button {
 				font-family:courier;
-				font-size: 15pt;
+				font-size: 12pt;
 			}
 
 		</style>
 
 		<!-- Layout all of the UI elements as canvas objects -->
-		<div style="position:fixed;left:0px;top:0px;border:solid 2px #ccc;background-color:#FFF">
-			<div class="editbutton" style="color:#0af;border:solid 1px #ccc;padding:10px;background-color:#f7f7f7">editing is off</div>
+		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF">
+			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt">editing is off</div>
 			<div class="nxopt">button</div>
-			<div class="nxopt">comment</div>
+			<div class="nxopt">colors</div>
+		<!--	<div class="nxopt">comment</div> -->
 			<div class="nxopt">dial</div>
-			<div class="nxopt">joints</div>
+		<!--	<div class="nxopt">joints</div> -->
 			<div class="nxopt">keyboard</div>
-			<div class="nxopt">matrix</div>
+		<!--	<div class="nxopt">matrix</div> -->
 			<div class="nxopt">metroball</div>
+			<div class="nxopt">mouse</div>
 			<div class="nxopt">multislider</div>
+			<div class="nxopt">multitouch</div>
+			<div class="nxopt">number</div>
 			<div class="nxopt">pixels</div>
 			<div class="nxopt">position</div>
-			<div class="nxopt">sandbox</div>
+		<!--	<div class="nxopt">sandbox</div> -->
 			<div class="nxopt">slider</div>
 			<div class="nxopt">string</div>
 			<div class="nxopt">tilt</div>
 			<div class="nxopt">toggle</div>
+			<div class="nxopt">typewriter</div>
 			
+		</div>
+
+
+		<div id="nxui">
+
+
 		</div>
 
 		<div style="position:fixed;left:0px;bottom:0px;width:100%;padding:10px;border:solid 2px #ccc;background-color:#FFF;display:none;" id="settings">
@@ -171,6 +228,7 @@
 			Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" value="127.0.0.1"></input><br>
 			Set OSCName:<input type="text" id="setoscname" onkeyup="setoscname(this.value)"></input><br>
 			<button onclick="deleteObject()">Delete</button>
+			<button onclick="saveUI()">Download</button>
 
 
 		</div>
