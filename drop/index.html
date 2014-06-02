@@ -152,7 +152,10 @@
 				+ '<\/script>\n';
 
 				for (var i=0;i<nx.nxObjects.length;i++) {
-					html += '<canvas id="'+nx.nxObjects[i].canvasID+'" nx="'+document.getElementById(nx.nxObjects[i].canvasID).getAttribute("nx")+'" style="position:absolute;top:'+document.getElementById(nx.nxObjects[i].canvasID).style.top+';left:'+document.getElementById(nx.nxObjects[i].canvasID).style.left+';"></canvas>'
+					var thisobj = document.getElementById(nx.nxObjects[i].canvasID);
+					var thisosc = nx.nxObjects[i].oscName;
+					thisosc = thisosc.replace("/","")
+					html += '<canvas id="'+thisosc+'" nx="'+thisobj.getAttribute("nx")+'" style="position:absolute;top:'+thisobj.style.top+';left:'+thisobj.style.left+';height:'+nx.nxObjects[i].height+'px;width:'+nx.nxObjects[i].width+'px"></canvas>\n'
 				}
 
 				html += '</body>\n'
