@@ -11,14 +11,16 @@ console.log(__dirname);
 io.sockets.on('connection', function (socket) {
 
     socket.on('nx', function (data) {
-      io.sockets.emit(data.oscName, data.value);
       client.send(data.oscName, data.value);
     });
 
-    socket.on('fromwebsite', function (data) {
-      io.sockets.emit('towebsite', data );
-      client.send('/test/123', data);
-      console.log(data);
+    socket.on('orcvis', function (data) {
+      console.log(data)
+      io.sockets.emit('tovispage', data);
+    });
+
+    socket.on('adduser', function (data) {
+      io.sockets.emit('addphone', data.gui);
     });
 
 });

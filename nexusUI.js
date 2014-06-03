@@ -157,17 +157,45 @@ var nx = function() {
 			$("#debug").prepend(this.oscName+" "+data+"<br>");
 		}
 
+
+		if (this.transmissionProtocol == "ajax") {
+
+			if (Array.isArray(data)) {
+				data = data.join();
+				data = data.replace(/\,/g," ");
+			}
+
+		}
+
 		
 		if (this.transmissionProtocol == "none") {
+			
+		} else if (this.transmissionProtocol == "node") {
+
+			for (var key in data) {
+
+				console.log(data[key])
+
+				var nodemsg = {}
+				nodemsg['oscName'] = this.oscName+"/"+key;
+				nodemsg['value'] = data[key]
+
+	    		socket.emit('nx', nodemsg);
+
+			}
+
+			var vismsg = {
+				'oscName': this.oscName,
+				'data': data
+			}
+
+			socket.emit('orcvis', vismsg);
 			
 		} else if (this.transmissionProtocol == "ajax") {
 			// transmitCommand is the ajax url to send to, oscName is the osc call, uiIndex is used if you have multiple buttons/dials/etc, data is data
 			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
-			if (Array.isArray(data)) {
-				data = data.join();
-				data = data.replace(/\,/g," ");
-			}
+			
 			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
 		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
@@ -622,14 +650,6 @@ var nx = function() {
 	
 }
 
-/* Modifies Object prototype to allow us to get the constructor function name programatically
-
-Object.prototype.getName = function() { 
-   var funcNameRegex = /function (.{1,})\(/;
-   var results = (funcNameRegex).exec((this).constructor.toString());
-   return (results && results.length > 1) ? results[1] : "";
-};*/
-	
 
 
 
@@ -786,9 +806,11 @@ function getTemplate(self, target, transmitCommand) {
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
 	self.localTransmit = function(data) {
-		nx.globalLocalTransmit(self.canvasID, self.localObject, self.localParameter, data);
+		nx.globalLocalTransmit(self.canvasID, self.localObject, self.localParameter, data);	
+	//	nx.allTraffic(self, data);
 	};
-	self.response = function(data) {
+	self.response = function(data) {	
+		nx.allTraffic(self, data);
 	};
 
 	self.sendsTo = function(data) {
@@ -968,6 +990,16 @@ function getTemplate(self, target, transmitCommand) {
 	self.showCursor = function() {
 		self.canvas.style.cursor = "auto";
 	};
+
+	// allow us to get the constructor function name programatically
+	//i.e. if element is a dial, this function will return "dial"
+
+	self.getName = function() { 
+	   	var funcNameRegex = /function (.{1,})\(/;
+	   	var results = (funcNameRegex).exec((this).constructor.toString());
+	   	return (results && results.length > 1) ? results[1] : "";
+	};
+	
 	
 	nx.getHandlers(self);
 };
@@ -1847,7 +1879,11 @@ function position(target, transmitCommand) {
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
 		var node = self.scaleNode();
-		self.nxTransmit([node[0], node[1], "click"]);
+		self.nxTransmit({
+			x: node[0], 
+			y: node[1], 
+			state: "click"
+		});
 	}
 
 	this.move = function() {
@@ -1856,16 +1892,31 @@ function position(target, transmitCommand) {
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
 			var node = self.scaleNode();
-			self.nxTransmit([node[0], node[1], "move"]);
+			self.nxTransmit({
+				x: node[0], 
+				y: node[1], 
+				state: "move"
+
+			});
 		}
 	}
-	
 
 	this.release = function() {
 		var node = self.scaleNode();
-		self.nxTransmit([node[0], node[1], "release"]);
+		self.nxTransmit({
+			x: node[0], 
+			y: node[1], 
+			state: "release"
+		});
 		
 	}
+
+	this.set = function(data) {
+		self.nodePos[0] = data.x*self.width;
+		self.nodePos[1] = data.y*self.height;
+		self.draw();
+	}
+
 	
 	this.animate = function(aniType) {
 		

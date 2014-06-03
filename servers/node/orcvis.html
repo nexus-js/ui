@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Mobile Orchestra Visualization</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="jquery.js"></script>
+    <script src="nexusUI.js"></script>
+  </head>
+  <body>
+
+        <script>
+
+            var socket = io.connect('http://localhost:8080');
+
+            socket.on('tovispage', function (data) {
+
+              console.log(data)
+              eval(data.oscName.replace("/","")+".set(data.data)")
+        
+            })
+
+
+            socket.on('addphone', function (data) {
+              console.log(data)
+              var html = '<div style="border:solid 3px black;height:600px;width:400px;position:relative">'
+
+              for (var i=0;i<data.length;i++) {
+                  html+= '<canvas nx="'+data[i].type+'" id="'+data[i].oscName+'" style="position:absolute;left:'+data[i].x+'px;top:'+data[i].y+'px;width:'+data[i].width+'px;height:'+data[i].height+'px;"></canvas>'
+              }
+
+              html += '</div>'
+
+              $("body").append(html);
+
+              transformCanvases()
+
+
+
+
+            })
+
+        </script>
+
+
+    
+  </body>
+</html>

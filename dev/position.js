@@ -95,7 +95,11 @@ function position(target, transmitCommand) {
 		self.nodePos[1] = self.clickPos.y;
 		self.draw();
 		var node = self.scaleNode();
-		self.nxTransmit([node[0], node[1], "click"]);
+		self.nxTransmit({
+			x: node[0], 
+			y: node[1], 
+			state: "click"
+		});
 	}
 
 	this.move = function() {
@@ -104,16 +108,31 @@ function position(target, transmitCommand) {
 			self.nodePos[1] = self.clickPos.y;
 			self.draw();
 			var node = self.scaleNode();
-			self.nxTransmit([node[0], node[1], "move"]);
+			self.nxTransmit({
+				x: node[0], 
+				y: node[1], 
+				state: "move"
+
+			});
 		}
 	}
-	
 
 	this.release = function() {
 		var node = self.scaleNode();
-		self.nxTransmit([node[0], node[1], "release"]);
+		self.nxTransmit({
+			x: node[0], 
+			y: node[1], 
+			state: "release"
+		});
 		
 	}
+
+	this.set = function(data) {
+		self.nodePos[0] = data.x*self.width;
+		self.nodePos[1] = data.y*self.height;
+		self.draw();
+	}
+
 	
 	this.animate = function(aniType) {
 		

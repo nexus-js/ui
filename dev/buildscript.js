@@ -91,6 +91,10 @@ concat({
     src : nxscripts,
     dest : '../examples/nexusUI.js'
 })
+concat({
+    src : nxscripts,
+    dest : '../servers/node/nexusUI.js'
+})
 
 
 

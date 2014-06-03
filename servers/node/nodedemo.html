@@ -1,7 +1,7 @@
 <!doctype html>
    	<html>
 	<head>
-		<title>Memory</title>
+		<title>NX Node Demo</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<script src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="jquery.js"></script>
@@ -11,23 +11,54 @@
 
 
 			var socket = io.connect('http://localhost:8080');
-			
-			socket.emit('fromwebsite', "check check");
 
-			socket.on('towebsite', function (data) {
-				console.log(data);
+			var thisUser = new Object();
+
+			// on connection to server
+			socket.on('connect', function() {
+
+				thisUser = {
+					name: 'benji',
+					gui: new Array()
+				}
+				for (var i=0;i<nx.nxObjects.length;i++) {
+					thisUser.gui.push({
+						type: nx.nxObjects[i].getName(),
+						x: nx.nxObjects[i].offset.left,
+						y: nx.nxObjects[i].offset.top,
+						width: nx.nxObjects[i].width,
+						height: nx.nxObjects[i].height,
+						oscName: nx.nxObjects[i].oscName
+					})
+					thisUser.gui[i].oscName = thisUser.gui[i].oscName.replace("/","")
+				}
+				console.log(nx.nxObjects)
+				socket.emit('adduser', thisUser);
 			});
 
 
 			nx.onload = function() {
 
-				nx.sendsTo("js")
-
-				dial1.localTransmit = function(data) {
-            		socket.emit('xy', data);
-				}
+				nx.sendsTo("node")
+			
 			}
 
+
+
+
+
+			/*	nx.allTraffic = function(element,data) {
+					if (Array.isArray(data)) {
+						data = data.join();
+						data = data.replace(/\,/g," ");
+					} 
+					var nodemsg = {
+						'oscName': element.oscName,
+						'value': data
+					}
+					console.log(data)
+            		socket.emit('nx', nodemsg);
+				} */
 		
 		</script>
 		
@@ -36,6 +67,8 @@
 	<body>
 	
 		<canvas nx="dial"></canvas>
+		<canvas nx="position"></canvas>
+		<canvas nx="slider"></canvas>
 	
 	</body>
 	
