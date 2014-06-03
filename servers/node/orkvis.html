@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+  <head>
+    <title>In Memory</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body onload="init()">
+  
+        <style>
+
+            body {
+              background-color:black;
+            }
+
+            canvas {
+                width:1200px;
+                height:1000px;
+            }
+
+            #canvas2 {
+              display:block;
+              margin:0px auto;
+            }
+
+        </style>
+
+
+        <canvas id="canvas1" style="display:none"> </canvas>
+
+        <canvas id="canvas2"> </canvas>
+
+        <video controls autoplay muted style="display:none">
+            <source src="crossroads1.mp4" type="video/mp4"></source>
+            <!-- birds.mp4 -->
+        </video>
+
+        <script>
+
+            // self awareness
+
+            var canvas = document.getElementById("canvas1");
+            var ctx = canvas.getContext("2d");
+
+            var canvas2 = document.getElementById("canvas2");
+            var ctx2 = canvas2.getContext("2d");
+
+            var video = document.querySelector("video");
+            video.playbackRate=.15
+            
+            document.querySelector("video").addEventListener('loadedmetadata', function() {
+           //   this.currentTime = 200;
+            }, false);
+
+            function init() {
+            }
+            
+
+            window.onmousemove = setRandomness;
+
+
+            var socket = io.connect('http://169.254.61.4:8080');
+
+            socket.on('visxy', function (data) {
+           //   randomness = data.x;
+           //   darkcut = data.y;
+              cropx = (((data.x-300) + cropx*3)/4) * -1
+              cropy = (((e.clientY/6 + 100)+cropy*3)/4) *1
+            })
+
+            socket.on('visz', function (data) {
+              darkcut = data.z;
+            })
+
+
+            var randomness = 0
+            var darkcut = 1000
+            var density = 10
+
+            var cropx = 200
+            var cropy = 200
+
+            var shape = "square"
+
+            function setRandomness(e) {
+        //      randomness = e.clientX/10 //40
+              darkcut = e.clientY
+         //     cropx = e.clientX-300
+        //      cropy = e.clientY/6 + 100
+            //  density = e.clientY/100 + 1;
+            }
+
+
+
+            canvas.width = 1200;
+            canvas.height = 1000;
+
+            canvas2.width = 1200;
+            canvas2.height = 1000;
+
+
+            // mov is 640w by 480h...
+            //1200 - 640 = 560, /2 = 280
+            //600 - 480 = 120, /2 = 60;
+
+            //vid is 1280 x 800
+            //vidx 1280/2 = 640
+            // 800 = 400
+
+            var displayX = 0
+            var displayY = 0
+
+            var pxdivision = 4
+            var vidwid = 1280
+            var vidhgt = 900
+
+
+            function drawVid() {
+
+              var cyclehgt = vidhgt / pxdivision
+              var cyclewid = vidwid / pxdivision
+
+
+              ctx.drawImage(video,cropx,cropy,vidwid,vidhgt,0,0,vidwid,vidhgt);
+              imgData = ctx.getImageData(0,0,vidwid,vidhgt);
+
+              ctx2.globalAlpha = 0.3;
+              ctx2.fillStyle = "white";
+              ctx2.fillRect(0,0,canvas2.width,canvas2.height);
+              ctx2.globalAlpha = 1;
+
+
+              for (var i=0;i<cyclehgt;i++) {
+                for (var j=0;j<cyclewid;j++) {
+                  // i means which row
+                  // j means which column
+                  //get data, avg, draw shape at right place
+                  var red = j*4*pxdivision + i*vidwid*4*pxdivision;
+                  var green = j*4*pxdivision + i*vidwid*4*pxdivision + 1;
+                  var blue = j*4*pxdivision + i*vidwid*4*pxdivision + 2;
+                  var placex = j*4;
+                  var placey = i*4;
+                  ctx2.fillStyle = "rgb("+imgData.data[red]+","+imgData.data[green]+","+imgData.data[blue]+")";
+               
+                  
+                  var darkness = imgData.data[red]+imgData.data[green]+imgData.data[blue];
+                  if (darkness<darkcut) {
+                      if (shape=="square") {
+                        ctx2.fillRect(placex*2+(Math.random()-0.5)*randomness + displayX,placey*2 + displayY,density,density);
+                      } else if (shape=="circle") {
+                            ctx2.beginPath();
+                            ctx2.arc(placex*2+(Math.random()-0.5)*randomness + displayX,placey*2 + displayY,density/2,0,Math.PI*2,false);
+                            ctx2.fill();
+                            ctx2.closePath();
+                      }
+                  }
+                }
+              }
+
+            }
+
+            setInterval("drawVid()",33);
+
+
+        function goFullScreen(){
+            var canvas = document.getElementById("canvas2");
+            if(canvas.requestFullScreen)
+                canvas.requestFullScreen();
+            else if(canvas.webkitRequestFullScreen)
+                canvas.webkitRequestFullScreen();
+            else if(canvas.mozRequestFullScreen)
+                canvas.mozRequestFullScreen();
+        }
+
+
+        function setSize(width) {
+          density = width;
+        }
+
+        </script>
+
+    <!--    <input type="text" onkeyup="setSize(this.value)"></input> -->
+
+ <!-- <button onclick="goFullScreen()">BIG</button> -->
+
+    
+  </body>
+</html>

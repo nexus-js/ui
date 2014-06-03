@@ -1,0 +1,42 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>Memory</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="nexusUI.js"></script>
+	
+		<script>
+
+
+			var socket = io.connect('http://localhost:8080');
+			
+			socket.emit('fromwebsite', "check check");
+
+			socket.on('towebsite', function (data) {
+				console.log(data);
+			});
+
+
+			nx.onload = function() {
+
+				nx.sendsTo("js")
+
+				dial1.localTransmit = function(data) {
+            		socket.emit('xy', data);
+				}
+			}
+
+		
+		</script>
+		
+	</head>
+	
+	<body>
+	
+		<canvas nx="dial"></canvas>
+	
+	</body>
+	
+</html>
