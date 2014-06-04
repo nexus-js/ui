@@ -34,7 +34,11 @@ function tilt(target, transmitCommand) {
 
 
 		  
-		self.nxTransmit([self.scaledX, self.scaledY, self.scaledZ]);
+		self.nxTransmit({
+			x: self.scaledX,
+			y: self.scaledY,
+			z: self.scaledZ
+		});
 		
 	}
 
