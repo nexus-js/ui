@@ -20,7 +20,12 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('adduser', function (data) {
-      io.sockets.emit('addphone', data.gui);
+      io.sockets.emit('addphone', data);
+    });
+
+    socket.on('tiltuser', function (data) {
+      console.log(data)
+      io.sockets.emit('tiltvis', data);
     });
 
 });

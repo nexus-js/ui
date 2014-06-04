@@ -12,15 +12,15 @@
 
 			var socket = io.connect('http://localhost:8080');
 
-			var thisUser = new Object();
+			var thisUser = {
+				name: 'benji'
+			}
 
 			// on connection to server
 			socket.on('connect', function() {
 
-				thisUser = {
-					name: 'benji',
-					gui: new Array()
-				}
+				thisUser.gui = new Array()
+
 				for (var i=0;i<nx.nxObjects.length;i++) {
 					thisUser.gui.push({
 						type: nx.nxObjects[i].getName(),
@@ -40,25 +40,15 @@
 			nx.onload = function() {
 
 				nx.sendsTo("node")
+
+				tilt1.sendsTo("js")
+
+				tilt1.response = function(data) {
+					data.name = thisUser.name;
+					socket.emit('tiltuser', data)
+				} 
 			
 			}
-
-
-
-
-
-			/*	nx.allTraffic = function(element,data) {
-					if (Array.isArray(data)) {
-						data = data.join();
-						data = data.replace(/\,/g," ");
-					} 
-					var nodemsg = {
-						'oscName': element.oscName,
-						'value': data
-					}
-					console.log(data)
-            		socket.emit('nx', nodemsg);
-				} */
 		
 		</script>
 		
@@ -69,6 +59,7 @@
 		<canvas nx="dial"></canvas>
 		<canvas nx="position"></canvas>
 		<canvas nx="slider"></canvas>
+		<canvas nx="tilt"></canvas>
 	
 	</body>
 	
