@@ -23,10 +23,10 @@
             socket.on('addphone', function (data) {
               console.log(data)
               var html = '<div id="'+data.name+'" class="phoneview">'
-                       + '<div style="background-color:white;height:600px;width:400px;position:relative">'
+                       + '<div style="background-color:white;height:400px;width:200px;position:relative">'
 
               for (var i=0;i<data.gui.length;i++) {
-                  html+= '<canvas nx="'+data.gui[i].type+'" id="'+data.gui[i].oscName+'" style="position:absolute;left:'+data.gui[i].x/2+'px;top:'+data.gui[i].y/2+'px;width:'+data.gui[i].width/2+'px;height:'+data.gui[i].height/2+'px;"></canvas>'
+                  html+= '<canvas nx="'+data.gui[i].type+'" id="'+data.gui[i].oscName+'" style="position:absolute;left:'+data.gui[i].x/4+'px;top:'+data.gui[i].y/4+'px;width:'+data.gui[i].width/4+'px;height:'+data.gui[i].height/4+'px;"></canvas>'
               }
 
               html += '</div></div>'
@@ -39,8 +39,8 @@
             })
 
             socket.on('tiltvis', function (data) {
-                console.log(data.name)
-                $("#"+data.name).css("-webkit-transform", 'rotateY('+data.x+'deg) rotateX('+data.y+'deg) rotateZ('+data.z+'deg)');
+              //  $("#"+data.name).css("-webkit-transform", 'rotateX('+data.y*200+'deg) rotateY('+data.z*200+'deg) rotateZ('+data.x*200+'deg)');
+                $("#"+data.name).css("-webkit-transform", 'rotateZ('+data.x*100+'deg) rotateX('+data.y*100+'deg)');
             })
 
             nx.onload = function() {

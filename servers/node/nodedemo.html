@@ -13,7 +13,7 @@
 			var socket = io.connect('http://localhost:8080');
 
 			var thisUser = {
-				name: 'benji'
+				name: "phone" + ~~(Math.random()*10000000000)
 			}
 
 			// on connection to server

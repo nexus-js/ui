@@ -2543,7 +2543,11 @@ function tilt(target, transmitCommand) {
 
 
 		  
-		self.nxTransmit([self.scaledX, self.scaledY, self.scaledZ]);
+		self.nxTransmit({
+			x: self.scaledX,
+			y: self.scaledY,
+			z: self.scaledZ
+		});
 		
 	}
 
@@ -2576,8 +2580,6 @@ function tilt(target, transmitCommand) {
 	}
 	
 	this.draw = function() {
-
-
 
 		self.scaledX = (nx.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
 		self.scaledY = (nx.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
