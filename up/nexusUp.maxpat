@@ -3,11 +3,12 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 8
+			"minor" : 1,
+			"revision" : 6,
+			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 407.0, 256.0, 645.0, 372.0 ],
+		"rect" : [ 412.0, 370.0, 852.0, 364.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -28,6 +29,40 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"fontface" : 1,
+					"fontname" : "Arial",
+					"fontsize" : 11.0,
+					"frgb" : 0.0,
+					"id" : "obj-8",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 389.0, 221.5, 141.0, 19.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 73.0, 89.0, 145.0, 19.0 ],
+					"text" : "transmission Protocol"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-7",
+					"items" : [ "ajax", ",", "ios", ",", "android", ",", "local" ],
+					"maxclass" : "umenu",
+					"numinlets" : 1,
+					"numoutlets" : 3,
+					"outlettype" : [ "int", "", "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 516.0, 221.5, 70.0, 20.0 ],
+					"presentation" : 1,
+					"presentation_rect" : [ 8.0, 89.0, 61.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 10.0,
 					"frgb" : 0.0,
@@ -36,10 +71,10 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 179.0, 144.5, 128.0, 74.0 ],
+					"patching_rect" : [ 133.0, 155.0, 128.0, 74.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 4,
-					"presentation_rect" : [ 70.0, 42.5, 242.0, 51.0 ],
+					"presentation_rect" : [ 73.0, 38.0, 242.0, 51.0 ],
 					"text" : "NOTES:\n- uses Presentation Mode layout\n- wait a few seconds after saving your maxpatch \n  to get correct UI"
 				}
 
@@ -121,9 +156,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 39.0, 17.0, 145.0, 21.0 ],
+					"patching_rect" : [ 93.0, 17.0, 145.0, 21.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 244.5, 12.0, 62.0, 21.0 ],
+					"presentation_rect" : [ 247.5, 7.0, 62.0, 21.0 ],
 					"text" : " nexusUP"
 				}
 
@@ -139,10 +174,10 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 164.0, 129.5, 141.0, 43.0 ],
+					"patching_rect" : [ 78.0, 101.5, 141.0, 43.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 70.0, 12.0, 145.0, 31.0 ],
+					"presentation_rect" : [ 73.0, 7.0, 145.0, 31.0 ],
 					"text" : "GENERATE A NEXUS UI\nFROM YOUR MAX PATCH"
 				}
 
@@ -158,10 +193,10 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 147.0, 229.0, 150.0, 31.0 ],
+					"patching_rect" : [ 73.5, 245.0, 150.0, 31.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 70.0, 101.0, 150.0, 31.0 ],
+					"presentation_rect" : [ 73.0, 109.0, 150.0, 31.0 ],
 					"text" : "recompile nexusUp.js javascript file after an edit"
 				}
 
@@ -268,7 +303,7 @@
 					"outlinecolor" : [ 0.75333, 0.753042, 0.796038, 1.0 ],
 					"patching_rect" : [ 314.0, 112.0, 78.0, 78.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 9.0, 12.0, 54.0, 54.0 ],
+					"presentation_rect" : [ 12.0, 0.5, 54.0, 54.0 ],
 					"varname" : "buttonnx9780599"
 				}
 
@@ -298,7 +333,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 223.0, 263.0, 53.0, 21.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 9.0, 106.0, 53.0, 21.0 ],
+					"presentation_rect" : [ 12.0, 114.0, 53.0, 21.0 ],
 					"text" : "compile",
 					"varname" : "messagenx8639797"
 				}
@@ -399,7 +434,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 23.0, 9.5, 41.0, 36.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 2.0, 4.0, 313.0, 134.830139 ],
+					"presentation_rect" : [ 0.0, -1.41507, 318.0, 150.245209 ],
 					"rounded" : 18
 				}
 
@@ -499,6 +534,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-42", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-7", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-73", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -554,8 +598,8 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "nexusUp.js",
-				"bootpath" : "/Library/WebServer/Documents/NexusUI/up/nexusUpDemo",
-				"patcherrelativepath" : "",
+				"bootpath" : "/Users/allison/Sites/NexusLatest/NexusUI/up",
+				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
