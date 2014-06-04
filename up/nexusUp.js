@@ -166,6 +166,14 @@ function setTransmitProtocol(protocol) {
 	
 }
 
+var transmitCommand="nexusOSCRelay.php";
+
+function setTransmitCommand(command) {
+	
+	transmitCommand = command.toString();
+	
+}
+
 function generateHTML()
 {
 	var html = '<!doctype html>                                                                      \
@@ -185,7 +193,7 @@ function generateHTML()
 		nx.onload = function() {                                                                          \
 			nx.colorize("#0af");                                                                             \
 			nx.setTransmissionProtocol("'+transmitProtocol+'");                                                                \
-  			nx.setTransmitCommand("nexusOSCRelay.php");'
+  			nx.setTransmitCommand("'+transmitCommand+'");'
 	html += 'urlIPAddress = "' + ipAddress + '";'
   	for(var i=0;i<uiObjects.length;i++) {
 	  	if (nexusUISupportedObjects[uiObjects[i].maxclass]=="comment" || nexusUISupportedObjects[uiObjects[i].maxclass]=="message") {

@@ -3,8 +3,9 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 8
+			"minor" : 1,
+			"revision" : 6,
+			"architecture" : "x86"
 		}
 ,
 		"rect" : [ 41.0, 53.0, 359.0, 566.0 ],
@@ -120,7 +121,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 12.0, 384.0, 316.0, 135.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 12.0, 384.0, 316.0, 135.0 ]
+					"presentation_rect" : [ 12.0, 384.0, 316.0, 150.0 ]
 				}
 
 			}
@@ -191,15 +192,15 @@
 		"lines" : [  ],
 		"dependency_cache" : [ 			{
 				"name" : "nexusUp.maxpat",
-				"bootpath" : "/Library/WebServer/Documents/NexusUI/up",
-				"patcherrelativepath" : "",
+				"bootpath" : "/Users/allison/Sites/NexusLatest/NexusUI/up",
+				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "nexusUp.js",
-				"bootpath" : "/Library/WebServer/Documents/NexusUI/up",
-				"patcherrelativepath" : "",
+				"bootpath" : "/Users/allison/Sites/NexusLatest/NexusUI/up",
+				"patcherrelativepath" : ".",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
