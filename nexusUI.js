@@ -1336,6 +1336,7 @@ function button(target, transmitCommand) {
 	this.value = 1;
 	
 	//set mode: impulse, toggle, node
+	
 	/** @property {string}  mode  Interaction mode of impulse, toggle, or position
 	impulse &nbsp; 1 on click _(default)_<br>
 	toggle &nbsp;  1 on click, 0 on release<br>
@@ -2327,18 +2328,18 @@ function multislider(target, transmitCommand) {
 	this.sliders = 15;
 	this.values = new Array();
 	for (var i=0;i<this.sliders;i++) {
-		this.values.push(0.7 - i*(0.3/this.sliders));
+	//	this.values.push(0.7 - i*(0.3/this.sliders));
+		this.values.push(0.7);
 	}
 	this.sliderClicked = 0;
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
 	this.sliderWidth = self.realSpace.x/self.sliders;
 	this.oldSliderToMove;
-		
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
 	
 	// test
 	this.init = function() {
+		self.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
+		self.sliderWidth = self.realSpace.x/self.sliders;
 		self.draw();
 	}
 
@@ -3136,15 +3137,17 @@ function pixels(target, transmitCommand) {
 	self.mode = "write";
 
 	this.init = function() {
+
+		self.dim = { x: ~~(self.width/20), y: ~~(self.height/20)};
 		self.px = {
 			wid: (self.width - self.padding*2) / self.dim.x,
 			hgt: (self.height - self.padding*2) / self.dim.y
 		}
 		self.screen = new Array();
 		for (var i=0;i<self.dim.y;i++) {
-			self.screen[i] = new Array();
+			self.screen[i] = new Array()
 			for (var j=0;j<self.dim.x;j++) {
-				self.screen[i][j] = [0,0,0];
+				self.screen[i][j] = [0,0,0]
 			}
 		}
 		self.draw();
@@ -3186,7 +3189,6 @@ function pixels(target, transmitCommand) {
 				fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
 				globalAlpha = 1;
 			}	
-		
 		
 			var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
 			self.screen[pixY][pixX] = [

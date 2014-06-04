@@ -19,18 +19,18 @@ function multislider(target, transmitCommand) {
 	this.sliders = 15;
 	this.values = new Array();
 	for (var i=0;i<this.sliders;i++) {
-		this.values.push(0.7 - i*(0.3/this.sliders));
+	//	this.values.push(0.7 - i*(0.3/this.sliders));
+		this.values.push(0.7);
 	}
 	this.sliderClicked = 0;
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
 	this.sliderWidth = self.realSpace.x/self.sliders;
 	this.oldSliderToMove;
-		
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
 	
 	// test
 	this.init = function() {
+		self.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
+		self.sliderWidth = self.realSpace.x/self.sliders;
 		self.draw();
 	}
 

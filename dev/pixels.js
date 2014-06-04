@@ -17,15 +17,17 @@ function pixels(target, transmitCommand) {
 	self.mode = "write";
 
 	this.init = function() {
+
+		self.dim = { x: ~~(self.width/20), y: ~~(self.height/20)};
 		self.px = {
 			wid: (self.width - self.padding*2) / self.dim.x,
 			hgt: (self.height - self.padding*2) / self.dim.y
 		}
 		self.screen = new Array();
 		for (var i=0;i<self.dim.y;i++) {
-			self.screen[i] = new Array();
+			self.screen[i] = new Array()
 			for (var j=0;j<self.dim.x;j++) {
-				self.screen[i][j] = [0,0,0];
+				self.screen[i][j] = [0,0,0]
 			}
 		}
 		self.draw();
@@ -67,7 +69,6 @@ function pixels(target, transmitCommand) {
 				fillRect(scaledX, scaledY, self.px.wid*2, self.px.hgt*2);
 				globalAlpha = 1;
 			}	
-		
 		
 			var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
 			self.screen[pixY][pixX] = [
