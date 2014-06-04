@@ -81,11 +81,11 @@
 					}
 					nx.onload();
 					document.addEventListener("mousemove", dragobj, true);
+					document.addEventListener("touchmove", touchdragobj, true);
 					$("#"+thisname).mousemove(function(e) {
 					  	console.log(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px","")));
 
 						if (nx.editmode && e.clientX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.clientY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
-							console.log("success!!")
 							document.body.style.cursor = "se-resize";
 						} else {
 							document.body.style.cursor = "pointer";
@@ -103,6 +103,8 @@
 
 				$(document).mouseup(function() {
 					document.removeEventListener("mousemove", dragobj, true)
+
+					document.removeEventListener("touchmove", touchdragobj, true);
 				});
 				$(".editbutton").toggle(function() {
 					$(this).html("editing is on")
@@ -117,6 +119,14 @@
 				var matrixy = ~~(e.clientY/50)*50;
 				var matrixx = ~~(e.clientX/50)*50;
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
+			}
+
+			function touchdragobj(e) {
+				if (e.changedTouches.length>0 && e.changedTouches[0].pageX!=0) {
+					var matrixy = ~~(e.changedTouches[0].pageY/50)*50;
+					var matrixx = ~~(e.changedTouches[0].pageX/50)*50;
+					$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
+				}
 			}
 
 			function showSettings() {
