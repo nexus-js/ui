@@ -185,6 +185,7 @@ var nx = function() {
 			}
 
 			var vismsg = {
+				'phone': thisUser.name
 				'oscName': this.oscName,
 				'data': data
 			}
