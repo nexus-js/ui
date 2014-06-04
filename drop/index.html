@@ -44,15 +44,19 @@
 				  	$("#addnew").hide(0);
 				  	$("#settings").hide(0);
 				}
+				addnew.sendsTo("js")
+				addnew.response = function(data) {
+					console.log(data)
+					createObject(data)
+				}
+
 			}
 
-			$(document).ready(function() {
-				$(".nxopt").mousedown(function(e) {
-
-
+			function createObject(data) {
 
 					// if it has an nx attribute, store that in nxId
-					var nxId = $(this).html();
+				//	var nxId = $(this).html();
+					var nxId = data;
 					var elemCount = 0;
 					// find out how many of the same elem type have come before
 					// i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
@@ -68,7 +72,7 @@
 					var idNum = elemCount + 1;
 					var thisname = nxId + idNum;
 					if(nxId) {
-						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+e.clientY+'px;left:'+e.clientX+'px;"></canvas>');
+						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:50px;left:50px;"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
@@ -87,6 +91,14 @@
 							document.body.style.cursor = "pointer";
 						}
 					}) 
+			}
+
+
+			$(document).ready(function() {
+				$(".nxopt").mousedown(function(e) {
+
+					createObject(this);
+
 				})
 
 				$(document).mouseup(function() {

@@ -12,6 +12,7 @@ function typewriter(target, transmitCommand) {
 	
 	this.letter = ""
 	this.keywid = self.width/14.5;
+	this.keyhgt = self.height/5
 
 	this.rows = [
 		[
@@ -93,6 +94,9 @@ function typewriter(target, transmitCommand) {
 	this.init = function() {
 		document.addEventListener("keydown", self.type);
 		document.addEventListener("keyup", self.untype);
+
+		this.keywid = self.width/14.5;
+		this.keyhgt = self.height/5
 		
 		self.draw();
 	}
@@ -100,16 +104,7 @@ function typewriter(target, transmitCommand) {
 	this.draw = function() {	// erase
 		self.erase();
 
-		//make background path
-		self.makeRoundedBG();
-
 		with (self.context) {
-			//fill in background path
-			strokeStyle = self.colors.border;
-			fillStyle = self.colors.fill;
-			lineWidth = self.lineWidth;
-		//	stroke();
-		//	fill();
 
 			strokeStyle = self.colors.border 
 			fillStyle = self.colors.accent 
@@ -119,22 +114,19 @@ function typewriter(target, transmitCommand) {
 				var currkeyL = 0;
 				for (var j=0;j<self.rows[i].length;j++) {
 
-					nx.makeRoundRect(self.context, currkeyL,i*30,self.keywid*self.rows[i][j].width,30,8);
+					nx.makeRoundRect(self.context, currkeyL , i*self.keyhgt,self.keywid*self.rows[i][j].width,self.keyhgt,8);
 						
 					if (self.rows[i][j].on) {
 						fillStyle = self.colors.accent 
 						strokeStyle = self.colors.accent 
 						fill()
 						stroke()
-						//fillRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
-						
 					} else {
 						fillStyle = self.colors.fill 
 						strokeStyle = self.colors.border 
 
 						fill()
 						stroke()
-						//strokeRect(currkeyL,i*30,self.keywid*self.rows[i][j].width,30);
 					}
 
 			/*		fillStyle = self.colors.border;
@@ -165,8 +157,6 @@ function typewriter(target, transmitCommand) {
 	//maybe click toggles typerwriter on/off?
 	//so that users can turn it off if they need to?
 	this.click = function(e) {
-	
-		self.nxTransmit(note);
 		self.draw();	
 	}
 
@@ -178,6 +168,10 @@ function typewriter(target, transmitCommand) {
 					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = true;
 					self.letter = self.rows[i][j].symbol;
+					self.nxTransmit({
+						value: self.letter,
+						on: 1,
+					});
 					break;
 				}
 			}
@@ -194,6 +188,10 @@ function typewriter(target, transmitCommand) {
 				if (currKey == self.rows[i][j].value) {
 					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = false;
+					self.nxTransmit({
+						value: self.rows[i][j].symbol,
+						on: 0,
+					});
 					self.letter = ""
 					break;
 				}
