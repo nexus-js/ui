@@ -15,7 +15,7 @@
             socket.on('tovispage', function (data) {
 
               console.log(data)
-              eval(data.oscName.replace("/","")+".set(data.data)")
+              eval(data.phone+data.oscName.replace("/","")+".set(data.data)")
         
             })
 
