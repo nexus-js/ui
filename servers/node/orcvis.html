@@ -22,24 +22,33 @@
 
             socket.on('addphone', function (data) {
               console.log(data)
-              var html = '<div style="border:solid 3px black;height:600px;width:400px;position:relative">'
+              var html = '<div class="phoneview" style="background-color:#333;position:relative;border-radius:30px;padding:40px 10px 30px 10px;display:inline-block">'
+                       + '<div style="background-color:white;height:600px;width:400px;position:relative">'
 
               for (var i=0;i<data.length;i++) {
-                  html+= '<canvas nx="'+data[i].type+'" id="'+data[i].oscName+'" style="position:absolute;left:'+data[i].x+'px;top:'+data[i].y+'px;width:'+data[i].width+'px;height:'+data[i].height+'px;"></canvas>'
+                  html+= '<canvas nx="'+data[i].type+'" id="'+data[i].oscName+'" style="position:absolute;left:'+data[i].x/2+'px;top:'+data[i].y/2+'px;width:'+data[i].width/2+'px;height:'+data[i].height/2+'px;"></canvas>'
               }
 
-              html += '</div>'
+              html += '</div></div>'
 
               $("body").append(html);
 
               transformCanvases()
 
-
-
-
             })
 
         </script>
+
+        <style>
+
+          .phoneview {
+              transition: all 0.85s cubic-bezier(0.175,0.885,0.320,1.275);
+              -webkit-perspective: 300px;
+              -webkit-transform: rotateY(20deg) rotateX(50deg);
+              -webkit-transform-style: preserve-3d;
+          }
+
+        </style>
 
 
     

@@ -1134,7 +1134,6 @@ function dial(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	
 	//define unique attributes
 	this.circle_size = 1;
 	this.dial_position_length = 6;
@@ -1278,6 +1277,14 @@ function dial(target, transmitCommand) {
 
 	this.touchRelease = function(e) {
 		self.aniStop = self.value;
+	}
+
+	this.set = function(data, transmit) {
+		self.value = data
+		self.draw();
+		if (transmit) {
+			//add transmit, but make sure it doesn't = stack overflow 
+		}
 	}
 
 	this.animate = function(aniType) {
@@ -1912,10 +1919,13 @@ function position(target, transmitCommand) {
 		
 	}
 
-	this.set = function(data) {
+	this.set = function(data, transmit) {
 		self.nodePos[0] = data.x*self.width;
 		self.nodePos[1] = data.y*self.height;
 		self.draw();
+		if (transmit) {
+			//add transmit, but make sure it doesn't = stack overflow 
+		}
 	}
 
 	
@@ -2288,6 +2298,14 @@ function slider(target, transmitCommand) {
 	
 	this.click = function() {
 		self.move();
+	}
+
+	this.set = function(data, transmit) {
+		self.value = data
+		self.draw();
+		if (transmit) {
+			//add transmit, but make sure it doesn't = stack overflow 
+		}
 	}
 
 	this.move = function() {

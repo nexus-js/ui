@@ -137,6 +137,14 @@ function slider(target, transmitCommand) {
 		self.move();
 	}
 
+	this.set = function(data, transmit) {
+		self.value = data
+		self.draw();
+		if (transmit) {
+			//add transmit, but make sure it doesn't = stack overflow 
+		}
+	}
+
 	this.move = function() {
 		if (self.mode=="absolute") {
 			if (self.clicked) {

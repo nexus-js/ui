@@ -127,10 +127,13 @@ function position(target, transmitCommand) {
 		
 	}
 
-	this.set = function(data) {
+	this.set = function(data, transmit) {
 		self.nodePos[0] = data.x*self.width;
 		self.nodePos[1] = data.y*self.height;
 		self.draw();
+		if (transmit) {
+			//add transmit, but make sure it doesn't = stack overflow 
+		}
 	}
 
 	
