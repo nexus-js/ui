@@ -74,6 +74,14 @@ Color picker that outputs RBG values
 ```
 <canvas nx="colors" style="margin-left:25px"></canvas>
 
+number
+--------
+number box
+```html
+<canvas nx="number"></canvas>
+```
+<canvas nx="number" style="margin-left:25px"></canvas>
+
 comment
 ---------
 Comment area with settable text

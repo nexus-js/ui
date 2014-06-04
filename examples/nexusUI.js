@@ -3321,7 +3321,14 @@ function pixels(target, transmitCommand) {
 }
 
 
-// Javascript 2d_slider
+/** 
+	@class number      
+	number box
+	```html
+	<canvas nx="number"></canvas>
+	```
+	<canvas nx="number" style="margin-left:25px"></canvas>
+*/
 
 function number(target, transmitCommand) {
 					

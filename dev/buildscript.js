@@ -104,7 +104,7 @@ function done() {
     console.log('jsdox markdown compiled to /api/nexusUI.md');
 }
 
-jsdox = require("jsdox");
+jsdox = require("../servers/node/node_modules/jsdox");
 
 jsdox.generateForDir("../nexusUI.js", "../api", done);
 
