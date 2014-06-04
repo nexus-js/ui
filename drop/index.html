@@ -32,6 +32,7 @@
 				  	$("canvas").css("border", "solid 1px #888");
 				  	$("body").css("background", "#eee");
 				  	$(".nxopt").show(0);
+				  	$("#addnew").show(0);
 				  	$("#settings").show(0);
 				}
 
@@ -40,6 +41,7 @@
 				  	$("canvas").css("border", "none");
 				  	$("body").css("background", "#fff");
 				  	$(".nxopt").hide();
+				  	$("#addnew").hide(0);
 				  	$("#settings").hide(0);
 				}
 			}
@@ -194,18 +196,21 @@
 				font-size: 12pt;
 			}
 
+			#addnew {
+				display:none;
+			}
+
 		</style>
 
 		<!-- Layout all of the UI elements as canvas objects -->
 		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF">
 			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt">editing is off</div>
-			<div class="nxopt">button</div>
+
+			<canvas id="addnew" nx="select" choices="+,button,dial,toggle,slider,position,tilt,multitouch,mouse,typewriter"></canvas>
+		<!--	<div class="nxopt">button</div>
 			<div class="nxopt">colors</div>
-		<!--	<div class="nxopt">comment</div> -->
 			<div class="nxopt">dial</div>
-		<!--	<div class="nxopt">joints</div> -->
 			<div class="nxopt">keyboard</div>
-		<!--	<div class="nxopt">matrix</div> -->
 			<div class="nxopt">metroball</div>
 			<div class="nxopt">mouse</div>
 			<div class="nxopt">multislider</div>
@@ -213,12 +218,15 @@
 			<div class="nxopt">number</div>
 			<div class="nxopt">pixels</div>
 			<div class="nxopt">position</div>
-		<!--	<div class="nxopt">sandbox</div> -->
 			<div class="nxopt">slider</div>
 			<div class="nxopt">string</div>
 			<div class="nxopt">tilt</div>
 			<div class="nxopt">toggle</div>
 			<div class="nxopt">typewriter</div>
+		<!--	<div class="nxopt">comment</div> -->
+		<!--	<div class="nxopt">sandbox</div> -->
+		<!--	<div class="nxopt">matrix</div> -->
+		<!--	<div class="nxopt">joints</div> -->
 			
 		</div>
 

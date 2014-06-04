@@ -2468,7 +2468,7 @@ function select(target, transmitCommand) {
 			self.choices = self.choices.split(",");
 		}
 	
-		var htmlstr = '<select id="'+self.canvasID+'" style="height:'+self.height+'px;width:'+self.width+'px;font-size:'+self.height/2+'px" onchange="'+self.canvasID+'.change(this)"></select><canvas height="1px" width="1px"></canvas>'                   
+		var htmlstr = '<select id="'+self.canvasID+'" style="height:'+self.height+'px;width:'+self.width+'px;font-size:'+self.height/2+'px" onchange="'+self.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 		$("#"+self.canvasID).replaceWith(htmlstr);
 		
 		self.canvas = document.getElementById(self.canvasID);
