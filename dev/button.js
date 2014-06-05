@@ -23,8 +23,6 @@ function button(target, transmitCommand) {
 	/** @property {integer}  value  Current state and output (0=off, 1=on) */
 	this.value = 1;
 	
-	//set mode: impulse, toggle, node
-	
 	/** @property {string}  mode  Interaction mode of impulse, toggle, or position
 	impulse &nbsp; 1 on click _(default)_<br>
 	toggle &nbsp;  1 on click, 0 on release<br>
@@ -49,8 +47,6 @@ function button(target, transmitCommand) {
 		if (this.image) {
 			imageButton = true;
 		}
-
-	//	this.colors.border = "#eee";
 		
 		self.draw();
 
@@ -64,7 +60,7 @@ function button(target, transmitCommand) {
 			
 			if (imageButton) {
 				// Image Button
-				if (!self.clicked) {
+				if (!self.state.press) {
 					// Draw Image if not touched
 					drawImage(self.image, 0, 0);
 				} else {
@@ -89,10 +85,10 @@ function button(target, transmitCommand) {
 			} else {
 		
 				// Regular Button
-				if (!self.clicked) {
+				if (!self.state.press) {
 					fillStyle = self.colors.fill;
 					strokeStyle = self.colors.border;
-				} else if (self.clicked) {
+				} else if (self.state.press) {
 					fillStyle = self.colors.accent;
 					strokeStyle = self.colors.accent;
 				}
@@ -107,7 +103,7 @@ function button(target, transmitCommand) {
 					globalAlpha = 0.2;
 					fillStyle = "#fff";
 					beginPath();
-						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
+						arc(self.state.x, self.state.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
 						fill();	  
 					closePath();
 
@@ -121,25 +117,29 @@ function button(target, transmitCommand) {
 	}
 
 	this.click = function(e) {
+		self.state["press"] = self.value * nx.boolToVal(self.clicked);
 		if (self.mode=="node") {
-			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
-		} else {
-			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
+			self.state["x"] = self.clickPos.x;
+			self.state["y"] = self.clickPos.y;
 		}
+		self.nxTransmit(self.state);
 		self.draw();
 	}
 	
 	this.move = function () {
-		// use to track movement on the button...
+		// use to track movement on the button
 		if (self.mode=="node") {
-			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
-			self.draw();
+			self.state["x"] = self.clickPos.x;
+			self.state["y"] = self.clickPos.y;
 		}
+		self.nxTransmit(self.state);
+		self.draw();
 	}
 
 	this.release = function() {
-		if (self.mode=="toggle") { 
-			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
+		if (self.mode=="toggle" || self.mode=="node") { 
+			self.state["press"] = self.value * nx.boolToVal(self.clicked);
+			self.nxTransmit(self.state);
 		}
 		self.draw();
 	}

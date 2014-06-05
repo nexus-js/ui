@@ -154,18 +154,17 @@ var nx = function() {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-			$("#debug").prepend(this.oscName+" "+data+"<br>");
-		}
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
 
-
-		if (this.transmissionProtocol == "ajax") {
-
-			if (Array.isArray(data)) {
-				data = data.join();
-				data = data.replace(/\,/g," ");
+					console.log(data[key])
+					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+		
+					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+				}
 			}
+		}	
 
-		}
 
 		
 		if (this.transmissionProtocol == "none") {
@@ -197,7 +196,17 @@ var nx = function() {
 			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			
-			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
+
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
+
+					console.log(data[key])
+					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+		
+				}
+			}
+
+			
 		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
 			//window.alert(data);
@@ -707,7 +716,7 @@ function transformCanvases() {
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
+			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
 			eval(allcanvi[i].id + ".init()");
 		}
 	}
@@ -773,6 +782,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.clickPos.touches = new Array();
 	self.clicked = false;
 	self.value = 0;
+	self.state = new Object();
 	self.nodePos = new Array();	
 	self.deltaMove = new Object();
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
@@ -1000,6 +1010,16 @@ function getTemplate(self, target, transmitCommand) {
 	   	var results = (funcNameRegex).exec((this).constructor.toString());
 	   	return (results && results.length > 1) ? results[1] : "";
 	};
+
+	self.set = function(data, transmit) {
+		for (var key in data) {
+			self.val[key] = data[key];
+		}
+		self.draw();
+		if (transmit) {
+			nx.transmit(self.val)
+		}
+	}
 	
 	
 	nx.getHandlers(self);

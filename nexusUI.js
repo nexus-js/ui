@@ -154,18 +154,17 @@ var nx = function() {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-			$("#debug").prepend(this.oscName+" "+data+"<br>");
-		}
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
 
-
-		if (this.transmissionProtocol == "ajax") {
-
-			if (Array.isArray(data)) {
-				data = data.join();
-				data = data.replace(/\,/g," ");
+					console.log(data[key])
+					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+		
+					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+				}
 			}
+		}	
 
-		}
 
 		
 		if (this.transmissionProtocol == "none") {
@@ -197,7 +196,17 @@ var nx = function() {
 			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
 			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
 			
-			this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
+
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
+
+					console.log(data[key])
+					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+		
+				}
+			}
+
+			
 		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
 		} else if (this.transmissionProtocol == "ios") {
 			//window.alert(data);
@@ -707,7 +716,7 @@ function transformCanvases() {
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
+			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
 			eval(allcanvi[i].id + ".init()");
 		}
 	}
@@ -773,6 +782,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.clickPos.touches = new Array();
 	self.clicked = false;
 	self.value = 0;
+	self.state = new Object();
 	self.nodePos = new Array();	
 	self.deltaMove = new Object();
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
@@ -1000,6 +1010,16 @@ function getTemplate(self, target, transmitCommand) {
 	   	var results = (funcNameRegex).exec((this).constructor.toString());
 	   	return (results && results.length > 1) ? results[1] : "";
 	};
+
+	self.set = function(data, transmit) {
+		for (var key in data) {
+			self.val[key] = data[key];
+		}
+		self.draw();
+		if (transmit) {
+			nx.transmit(self.val)
+		}
+	}
 	
 	
 	nx.getHandlers(self);
@@ -1343,8 +1363,6 @@ function button(target, transmitCommand) {
 	/** @property {integer}  value  Current state and output (0=off, 1=on) */
 	this.value = 1;
 	
-	//set mode: impulse, toggle, node
-	
 	/** @property {string}  mode  Interaction mode of impulse, toggle, or position
 	impulse &nbsp; 1 on click _(default)_<br>
 	toggle &nbsp;  1 on click, 0 on release<br>
@@ -1369,8 +1387,6 @@ function button(target, transmitCommand) {
 		if (this.image) {
 			imageButton = true;
 		}
-
-	//	this.colors.border = "#eee";
 		
 		self.draw();
 
@@ -1384,7 +1400,7 @@ function button(target, transmitCommand) {
 			
 			if (imageButton) {
 				// Image Button
-				if (!self.clicked) {
+				if (!self.state.press) {
 					// Draw Image if not touched
 					drawImage(self.image, 0, 0);
 				} else {
@@ -1409,10 +1425,10 @@ function button(target, transmitCommand) {
 			} else {
 		
 				// Regular Button
-				if (!self.clicked) {
+				if (!self.state.press) {
 					fillStyle = self.colors.fill;
 					strokeStyle = self.colors.border;
-				} else if (self.clicked) {
+				} else if (self.state.press) {
 					fillStyle = self.colors.accent;
 					strokeStyle = self.colors.accent;
 				}
@@ -1427,7 +1443,7 @@ function button(target, transmitCommand) {
 					globalAlpha = 0.2;
 					fillStyle = "#fff";
 					beginPath();
-						arc(self.clickPos.x, self.clickPos.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
+						arc(self.state.x, self.state.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
 						fill();	  
 					closePath();
 
@@ -1441,25 +1457,29 @@ function button(target, transmitCommand) {
 	}
 
 	this.click = function(e) {
+		self.state["press"] = self.value * nx.boolToVal(self.clicked);
 		if (self.mode=="node") {
-			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
-		} else {
-			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
+			self.state["x"] = self.clickPos.x;
+			self.state["y"] = self.clickPos.y;
 		}
+		self.nxTransmit(self.state);
 		self.draw();
 	}
 	
 	this.move = function () {
-		// use to track movement on the button...
+		// use to track movement on the button
 		if (self.mode=="node") {
-			self.nxTransmit([self.value * nx.boolToVal(self.clicked), self.clickPos.x, self.clickPos.y]);
-			self.draw();
+			self.state["x"] = self.clickPos.x;
+			self.state["y"] = self.clickPos.y;
 		}
+		self.nxTransmit(self.state);
+		self.draw();
 	}
 
 	this.release = function() {
-		if (self.mode=="toggle") { 
-			self.nxTransmit(self.value * nx.boolToVal(self.clicked));
+		if (self.mode=="toggle" || self.mode=="node") { 
+			self.state["press"] = self.value * nx.boolToVal(self.clicked);
+			self.nxTransmit(self.state);
 		}
 		self.draw();
 	}
