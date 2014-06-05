@@ -6,6 +6,12 @@ NexusUI API
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
+###init()###
+r &nbsp; red value 0-256<br>
+g &nbsp; green value 0-256<br>
+b &nbsp; blue value 0-256<br>
+
+
 nx
 ----
 Central nexusUI manager with shared utility functions for all nexusUI objects
@@ -78,8 +84,8 @@ Touch button with three modes of interaction
 
 **mode**:  *string*,  Interaction mode of impulse, toggle, or position
 
-impulse &nbsp; 1 on click _(default)_<br>
-toggle &nbsp;  1 on click, 0 on release<br>
+impulse &nbsp; 1 on click <br>
+toggle &nbsp;  1 on click, 0 on release _(default)_<br>
 position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
 ```js
 button1.mode = "position"
@@ -100,6 +106,13 @@ Color picker that outputs RBG values
 ```
 <canvas nx="colors" style="margin-left:25px"></canvas>
 
+**Properties**
+
+**val**:  *object*,  RBG color value at mouse position
+
+r &nbsp; red value 0-256<br>
+g &nbsp; green value 0-256<br>
+b &nbsp; blue value 0-256<br>
 number
 --------
 number box
