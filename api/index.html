@@ -1,3 +1,4 @@
+
 <!doctype html>
 <!--
 
@@ -20,8 +21,8 @@
 
   <title>NexusUI</title>
 
-  <script src="../dev/jquery.js"></script>
-  <script src="../nexusUI.js"></script>
+  <script src="https://rawgit.com/lsu-emdm/nexusUI/master/dev/jquery.js"></script>
+  <script src="https://rawgit.com/lsu-emdm/nexusUI/master/nexusUI.js"></script>
 
   <!-- Flatdoc -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -39,12 +40,20 @@
   <!-- Initializer -->
   <script>
     Flatdoc.run({
-      fetcher: Flatdoc.github('taylorbf/NexusUI', 'api/nexusUI.md')
+      fetcher: Flatdoc.github('lsu-emdm/nexusUI', 'api/nexusUI.md')
     });
 
     $(document).on('flatdoc:ready', function() {
       transformCanvases();
+      nx.onload();
     });
+
+    nx.onload = function() {
+        console.log("test")
+        nx.sendsTo("none")
+        nx.colorize("#1cb")
+    }
+
   </script>
 </head>
 <body role='flatdoc'>
@@ -53,13 +62,13 @@
     <div class='left'>
       <h1>NexusUI</h1>
       <ul>
-        <li><a href='https://github.com/taylorbf/NexusUI'>View on GitHub</a></li>
-        <li><a href='https://github.com/taylorbf/NexusUI/issues'>Issues</a></li>
+        <li><a href='https://github.com/lsu-emdm/nexusUI'>View on GitHub</a></li>
+        <li><a href='https://github.com/lsu-emdm/nexusUI/issues'>Issues</a></li>
       </ul>
     </div>
     <div class='right'>
       <!-- GitHub buttons: see http://ghbtns.com -->
-      <iframe src="http://ghbtns.com/github-btn.html?user=taylorbf&amp;repo=NexusUI&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+      <iframe src="http://ghbtns.com/github-btn.html?user=lsu-emdm&amp;repo=nexusUI&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
     </div>
   </div>
 

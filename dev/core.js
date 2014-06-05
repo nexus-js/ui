@@ -782,7 +782,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.clickPos.touches = new Array();
 	self.clicked = false;
 	self.value = 0;
-	self.state = new Object();
+	self.val = new Object();
 	self.nodePos = new Array();	
 	self.deltaMove = new Object();
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
