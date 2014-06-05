@@ -30,30 +30,30 @@ nx.colorize("border", "#000000")
 **[color]**:  *hex or rgb color code*,  
 
 
-###nx.set(, )###
+###nx.set(\[data\], \[transmit\])###
 Sets the value of an object.
 
 ```js
 position1.set({
-x: 100,
-y: 250
+&nbsp;	x: 100,
+&nbsp;	y: 250
 })
 ```
 
 An optional second argument decides whether the object then transmits its new value.
 ```js
 button1.set({
-press: 100
+&nbsp;	press: 100
 }, true)
 ```
 
 
 **Parameters**
 
-****:  *parameter] {parameter/value pairs in object notation*,  
+**[data]**:  *parameter/value pairs in object notation*,  
 
 
-****:  *transmit] {(optional) whether or not to transmit after setting*,  
+**[transmit]**:  *(optional) whether or not to transmit after setting*,  
 
 
 dial
