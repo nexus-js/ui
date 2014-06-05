@@ -1012,21 +1012,21 @@ function getTemplate(self, target, transmitCommand) {
 	};
 
 	/** @method set
-	@param [parameter] {parameter/value pairs in object notation}
-	@param [transmit] {(optional) whether or not to transmit after setting}
+	@param {parameter/value pairs in object notation} [data]
+	@param {(optional) whether or not to transmit after setting} [transmit] 
 	Sets the value of an object. 
 
 	```js
 		position1.set({
-			x: 100,
-			y: 250
+		&nbsp;	x: 100,
+		&nbsp;	y: 250
 		})
 	```
 
 	An optional second argument decides whether the object then transmits its new value.
 	```js
 		button1.set({
-			press: 100
+		&nbsp;	press: 100
 		}, true)
 	```
 	*/
