@@ -21,13 +21,11 @@ function dial(target, transmitCommand) {
 	this.dial_position_length = 6;
 	//this.lineWidth = 3;
 	if (this.width<101 || this.width<101) {
-	//	this.accentWidth = this.lineWidth * 1.2;
 		this.accentWidth = this.lineWidth * 1;
 	} else {
-	//	this.accentWidth = this.lineWidth * 2;
 		this.accentWidth = this.lineWidth * 2;
 	}
-	this.value = 0.5;
+	this.val.value = 0.5;
 	this.responsivity = 0.005;
 	this.toCartesian = nx.toCartesian;
 	this.throttle = nx.throttle;
@@ -36,6 +34,10 @@ function dial(target, transmitCommand) {
 	this.aniStart = 0;
 	this.aniStop = 1;
 	this.aniMove = 0.01;
+
+	/** @property {object}  val    RBG color value at mouse position
+	value: &nbsp; current dial float value 0-1<br>
+	*/
 
 	this.init = function() {
 	
@@ -54,12 +56,12 @@ function dial(target, transmitCommand) {
 
 	this.draw = function() {
 		//dial_line
-		var dial_angle = (((1.0 - self.value) * 2 * Math.PI) + (1.5 * Math.PI));
-		var dial_position = (self.value + 0.25) * 2 * Math.PI
+		var dial_angle = (((1.0 - self.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
+		var dial_position = (self.val.value + 0.25) * 2 * Math.PI
 		var point = self.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
-			self.recorder.write(self.tapeNum,self.value);
+			self.recorder.write(self.tapeNum,self.val.value);
 		}
 
 		with (self.context) {
@@ -117,10 +119,9 @@ function dial(target, transmitCommand) {
 	
 
 	this.click = function(e) {
-		//clicked is now set to true, coords are in self.clickPos
-		self.nxTransmit(self.value);
+		self.nxTransmit(self.val);
 		self.draw();
-		self.aniStart = self.value;
+		self.aniStart = self.val.value;
 	}
 
 
@@ -128,46 +129,17 @@ function dial(target, transmitCommand) {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
 		
-		self.value = self.clip((self.value - (self.deltaMove.y * self.responsivity)), 0, 1);
-		self.nxTransmit(self.value);
+		self.val.value = self.clip((self.val.value - (self.deltaMove.y * self.responsivity)), 0, 1);
+		self.nxTransmit(self.val);
 		
 		self.draw();
 	}
 
 
 	this.release = function() {
-		//self.clicked is now set to false
-		//mousemove handler is removed
-		self.aniStop = self.value;
-		
+		self.aniStop = self.val.value;
 	}
 	
-	
-	this.touch = function(e) {
-		self.nxTransmit(self.value);
-		self.draw();
-		self.aniStart = self.value;
-	}
-
-
-	this.touchMove = function(e) {
-		self.value = self.clip((self.value - (self.deltaMove.y * self.responsivity)), 0, 1);
-		self.nxTransmit(self.value);
-		self.draw();
-	}
-
-
-	this.touchRelease = function(e) {
-		self.aniStop = self.value;
-	}
-
-	this.set = function(data, transmit) {
-		self.value = data
-		self.draw();
-		if (transmit) {
-			//add transmit, but make sure it doesn't = stack overflow 
-		}
-	}
 
 	this.animate = function(aniType) {
 		
@@ -184,15 +156,15 @@ function dial(target, transmitCommand) {
 	
 	this.aniBounce = function() {
 		if (!self.clicked) {
-			self.value += self.aniMove;
+			self.val.value += self.aniMove;
 			if (self.aniStop < self.aniStart) {
 				self.stopPlaceholder = self.aniStop;
 				self.aniStop = self.aniStart;
 				self.aniStart = self.stopPlaceholder;
 			}
-			self.aniMove = nx.bounce(self.value, self.aniStart, self.aniStop, self.aniMove);	
+			self.aniMove = nx.bounce(self.val.value, self.aniStart, self.aniStop, self.aniMove);	
 			self.draw();
-			self.nxTransmit(self.value);
+			self.nxTransmit(self.val);
 		}
 	}
 	

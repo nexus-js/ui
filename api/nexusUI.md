@@ -7,6 +7,10 @@ NexusUI API
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
 ###init()###
+value: &nbsp; current dial float value 0-1<br>
+
+
+###init()###
 r &nbsp; red value 0-256<br>
 g &nbsp; green value 0-256<br>
 b &nbsp; blue value 0-256<br>
@@ -70,6 +74,11 @@ Circular dial
 ```
 <canvas nx="dial" style="margin-left:25px"></canvas>
 
+**Properties**
+
+**val**:  *object*,  RBG color value at mouse position
+
+value: &nbsp; current dial float value 0-1<br>
 button
 --------
 Touch button with three modes of interaction
@@ -98,6 +107,17 @@ Vertical slider
 ```
 <canvas nx="slider" style="margin-left:25px"></canvas>
 
+**Properties**
+
+**val**:  *object*,  
+
+
+x: &nbsp; x position of touch<br>
+y: &nbsp; y position of touch<br>
+node0: &nbsp; nearness to node0 if within range (float 0-1)<br>
+node1: &nbsp; nearness to node1 if within range (float 0-1)<br>
+node2: &nbsp; nearness to node2 if within range (float 0-1)<br>
+etc...
 colors
 --------
 Color picker that outputs RBG values

@@ -178,10 +178,11 @@ function keyboard(target, transmitCommand) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		var note = [midi_note, 1];
-	//	note = note[0] + " " + note[1]
-		self.nxTransmit(note);
-		console.log(note);
+		self.val = {
+			note: midi_note, 
+			on: 1
+		};
+		self.nxTransmit(self.val);
 		self.draw();	
 	}
 
@@ -193,9 +194,17 @@ function keyboard(target, transmitCommand) {
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
 			//	self.nxTransmit(midi_note+" "+1);
-				self.nxTransmit([midi_note, 1]);
+				self.val = {
+					note: midi_note, 
+					on: 1
+				};
+				self.nxTransmit(self.val);
 				midi_note = keys[note_old][5];
-				self.nxTransmit([midi_note, 0]);
+				self.val = {
+					note: midi_note, 
+					on: 0
+				};
+				self.nxTransmit(self.val);
 			//	self.nxTransmit(midi_note+" "+0);
 				self.draw();
 			}
@@ -211,54 +220,12 @@ function keyboard(target, transmitCommand) {
 			}
 		}
 		midi_note = keys[note_new][5];
-		self.nxTransmit([midi_note, 0]);
+		self.val = {
+			note: midi_note, 
+			on: 0
+		};
+		self.nxTransmit(self.val);
 	//	self.nxTransmit(midi_note+" "+0);
-		self.draw();
-	}
-	
-	this.touch = function(e) {
-		self.whichKey_pressed(self.clickPos.x, self.clickPos.y);
-		self.change_cell(note_new, 1);
-		note_old = note_new;
-		
-		midi_note = keys[note_new][5];
-		
-		// change the note_new --> midi_note_new (offset)
-		self.nxTransmit([midi_note, 1]);
-		//self.nxTransmit(midi_note+" "+1);
-		self.draw();
-	}
-
-	this.touchMove = function(e) {
-		if(self.clicked) {
-		self.clickPos = self.getTouchPosition(e, self.offset);;
-
-		self.whichKey_pressed(this.clickPos.x,this.clickPos.y);
-			if (note_old != note_new) {
-				self.change_cell(note_old, 0);
-				self.change_cell(note_new, 1);
-				midi_note = keys[note_new][5];
-				self.nxTransmit([midi_note, 1]);
-				//self.nxTransmit(midi_note+" "+1);
-				midi_note = keys[note_old][5];
-				self.nxTransmit([midi_note, 0]);
-				//self.nxTransmit(midi_note+" "+0);
-				self.draw();
-			}
-		}
-		note_old = note_new;
-	}
-
-	this.touchRelease = function(e) {
-		for (j=0;j<self.octaves;j++) {
-			for (i=0;i<12;i++) {
-				var d = j*12 + i;
-					self.change_cell(d, 0);
-			}
-		}
-		midi_note = keys[note_new][5];
-		self.nxTransmit([midi_note, 0]);
-		//self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
 	
