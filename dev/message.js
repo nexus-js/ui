@@ -9,11 +9,13 @@ function message(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	this.value = "default";
+	this.val = {
+		message: "default"
+	}
 	this.size = 13;
 	
 	this.init = function() {
-		this.value = self.canvas.getAttribute("label");
+		this.val.message = self.canvas.getAttribute("label");
 		self.draw();
 	}
 
@@ -42,25 +44,17 @@ function message(target, transmitCommand) {
 			fillStyle = self.colors.black;
 			textAlign = "left";
 			font = self.size+"px Gill Sans";
-		//	fillText(self.value, self.width/2, self.height/2+4);
+		//	fillText(self.val.message, self.width/2, self.height/2+4);
 		}
-		nx.wrapText(self.context, self.value, 5, 1+self.size, self.width-6, self.size);
+		nx.wrapText(self.context, self.val.message, 5, 1+self.size, self.width-6, self.size);
 	}
 
 	this.click = function(e) {
 		self.draw();
-		self.nxTransmit(self.value);
+		self.nxTransmit(self.val);
 	}
 	
 	this.release = function(e) {
-		self.draw();
-	}
-	
-	this.touch = function(e) {
-		self.click(e);
-	}
-	
-	this.touchRelease = function(e) {
 		self.draw();
 	}
 	

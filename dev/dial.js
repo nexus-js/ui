@@ -35,8 +35,8 @@ function dial(target, transmitCommand) {
 	this.aniStop = 1;
 	this.aniMove = 0.01;
 
-	/** @property {object}  val    RBG color value at mouse position
-	value: &nbsp; current dial float value 0-1<br>
+	/** @property {object}  val    Current position of dial
+	value: &nbsp; current dial value as float 0-1<br>
 	*/
 
 	this.init = function() {

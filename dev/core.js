@@ -156,10 +156,6 @@ var nx = function() {
 			}
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
-
-					console.log(data[key])
-					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
-		
 					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
 				}
 			}
@@ -172,8 +168,6 @@ var nx = function() {
 		} else if (this.transmissionProtocol == "node") {
 
 			for (var key in data) {
-
-				console.log(data[key])
 
 				var nodemsg = {}
 				nodemsg['oscName'] = this.oscName+"/"+key;
@@ -199,10 +193,7 @@ var nx = function() {
 
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
-
-					console.log(data[key])
 					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
-		
 				}
 			}
 

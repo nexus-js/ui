@@ -10,8 +10,12 @@ function mouse(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 
 	//create unique properties to this object
-	this.value = new nx.point(0,0);
-	this.delta = new nx.point(0,0);
+	this.val = {
+		x: 0,
+		y: 0,
+		deltax: 0, 
+		deltay: 0
+	}
 	self.inside = new Object();
 
 
@@ -42,10 +46,10 @@ function mouse(target, transmitCommand) {
 			stroke();
 			fill();
 
-			var scaledx = -(self.mousePos.x/window.innerWidth) * self.height;
-			var scaledy = -(self.mousePos.y/window.innerHeight) * self.height;
-			var scaleddx = -(self.mousePos.dx/window.innerWidth) * self.height*2 - self.height/2;
-			var scaleddy = -(self.mousePos.dy/window.innerHeight) * self.height*2 - self.height/2;
+			var scaledx = -(self.val.x) * self.height;
+			var scaledy = -(self.val.y) * self.height;
+			var scaleddx = -(self.val.deltax) * self.height - self.height/2;
+			var scaleddy = -(self.val.deltay) * self.height - self.height/2;
 
 			// draw something unique
 			fillStyle = self.colors.accent;
@@ -54,26 +58,30 @@ function mouse(target, transmitCommand) {
 			fillRect(self.inside.quarterwid*2, self.inside.height, self.inside.quarterwid, scaleddx);
 			fillRect(self.inside.quarterwid*3, self.inside.height, self.inside.quarterwid, scaleddy);
 
+			globalAlpha = 0.5;
+			fillStyle = self.colors.white;
+			textAlign = "center";
+			font = self.width/7+"px gill sans";
+			fillText("x", self.inside.quarterwid*0 + self.inside.quarterwid/2, self.height-7);
+			fillText("y", self.inside.quarterwid*1 + self.inside.quarterwid/2, self.height-7);
+			fillText("dx", self.inside.quarterwid*2 + self.inside.quarterwid/2, self.height-7);
+			fillText("dy", self.inside.quarterwid*3 + self.inside.quarterwid/2, self.height-7);
+
+			globalAlpha = 1;
 		}
 		
 		self.drawLabel();
 	}
 
-	self.mousePos = {
-		x: 200,
-		y: 200
-	}
-
 	this.move = function(e) {
-		console.log(e)
-		self.mousePos = {
-			dx: e.pageX - self.mousePos.x,
-			dy: e.pageY - self.mousePos.y,
-			x: e.pageX,
-			y: e.pageY
+		self.val = {
+			deltax: e.pageX/window.innerWidth - self.val.x,
+			deltay: e.pageY/window.innerHeight - self.val.y,
+			x: e.pageX/window.innerWidth,
+			y: e.pageY/window.innerHeight
 		}
 		self.draw();
-		self.nxTransmit([(self.mousePos.x/window.innerWidth), (self.mousePos.y/window.innerHeight), (self.mousePos.dx/window.innerWidth), (self.mousePos.dy/window.innerHeight)]);
+		self.nxTransmit(self.val);
 	
 	}
 

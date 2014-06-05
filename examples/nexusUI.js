@@ -156,10 +156,6 @@ var nx = function() {
 			}
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
-
-					console.log(data[key])
-					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
-		
 					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
 				}
 			}
@@ -172,8 +168,6 @@ var nx = function() {
 		} else if (this.transmissionProtocol == "node") {
 
 			for (var key in data) {
-
-				console.log(data[key])
 
 				var nodemsg = {}
 				nodemsg['oscName'] = this.oscName+"/"+key;
@@ -199,10 +193,7 @@ var nx = function() {
 
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
-
-					console.log(data[key])
 					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
-		
 				}
 			}
 
@@ -1194,8 +1185,8 @@ function dial(target, transmitCommand) {
 	this.aniStop = 1;
 	this.aniMove = 0.01;
 
-	/** @property {object}  val    RBG color value at mouse position
-	value: &nbsp; current dial float value 0-1<br>
+	/** @property {object}  val    Current position of dial
+	value: &nbsp; current dial value as float 0-1<br>
 	*/
 
 	this.init = function() {
@@ -3492,11 +3483,13 @@ function message(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	this.value = "default";
+	this.val = {
+		message: "default"
+	}
 	this.size = 13;
 	
 	this.init = function() {
-		this.value = self.canvas.getAttribute("label");
+		this.val.message = self.canvas.getAttribute("label");
 		self.draw();
 	}
 
@@ -3525,25 +3518,17 @@ function message(target, transmitCommand) {
 			fillStyle = self.colors.black;
 			textAlign = "left";
 			font = self.size+"px Gill Sans";
-		//	fillText(self.value, self.width/2, self.height/2+4);
+		//	fillText(self.val.message, self.width/2, self.height/2+4);
 		}
-		nx.wrapText(self.context, self.value, 5, 1+self.size, self.width-6, self.size);
+		nx.wrapText(self.context, self.val.message, 5, 1+self.size, self.width-6, self.size);
 	}
 
 	this.click = function(e) {
 		self.draw();
-		self.nxTransmit(self.value);
+		self.nxTransmit(self.val);
 	}
 	
 	this.release = function(e) {
-		self.draw();
-	}
-	
-	this.touch = function(e) {
-		self.click(e);
-	}
-	
-	this.touchRelease = function(e) {
 		self.draw();
 	}
 	
@@ -5433,8 +5418,12 @@ function mouse(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 
 	//create unique properties to this object
-	this.value = new nx.point(0,0);
-	this.delta = new nx.point(0,0);
+	this.val = {
+		x: 0,
+		y: 0,
+		deltax: 0, 
+		deltay: 0
+	}
 	self.inside = new Object();
 
 
@@ -5465,10 +5454,10 @@ function mouse(target, transmitCommand) {
 			stroke();
 			fill();
 
-			var scaledx = -(self.mousePos.x/window.innerWidth) * self.height;
-			var scaledy = -(self.mousePos.y/window.innerHeight) * self.height;
-			var scaleddx = -(self.mousePos.dx/window.innerWidth) * self.height*2 - self.height/2;
-			var scaleddy = -(self.mousePos.dy/window.innerHeight) * self.height*2 - self.height/2;
+			var scaledx = -(self.val.x) * self.height;
+			var scaledy = -(self.val.y) * self.height;
+			var scaleddx = -(self.val.deltax) * self.height - self.height/2;
+			var scaleddy = -(self.val.deltay) * self.height - self.height/2;
 
 			// draw something unique
 			fillStyle = self.colors.accent;
@@ -5477,26 +5466,30 @@ function mouse(target, transmitCommand) {
 			fillRect(self.inside.quarterwid*2, self.inside.height, self.inside.quarterwid, scaleddx);
 			fillRect(self.inside.quarterwid*3, self.inside.height, self.inside.quarterwid, scaleddy);
 
+			globalAlpha = 0.5;
+			fillStyle = self.colors.white;
+			textAlign = "center";
+			font = self.width/7+"px gill sans";
+			fillText("x", self.inside.quarterwid*0 + self.inside.quarterwid/2, self.height-7);
+			fillText("y", self.inside.quarterwid*1 + self.inside.quarterwid/2, self.height-7);
+			fillText("dx", self.inside.quarterwid*2 + self.inside.quarterwid/2, self.height-7);
+			fillText("dy", self.inside.quarterwid*3 + self.inside.quarterwid/2, self.height-7);
+
+			globalAlpha = 1;
 		}
 		
 		self.drawLabel();
 	}
 
-	self.mousePos = {
-		x: 200,
-		y: 200
-	}
-
 	this.move = function(e) {
-		console.log(e)
-		self.mousePos = {
-			dx: e.pageX - self.mousePos.x,
-			dy: e.pageY - self.mousePos.y,
-			x: e.pageX,
-			y: e.pageY
+		self.val = {
+			deltax: e.pageX/window.innerWidth - self.val.x,
+			deltay: e.pageY/window.innerHeight - self.val.y,
+			x: e.pageX/window.innerWidth,
+			y: e.pageY/window.innerHeight
 		}
 		self.draw();
-		self.nxTransmit([(self.mousePos.x/window.innerWidth), (self.mousePos.y/window.innerHeight), (self.mousePos.dx/window.innerWidth), (self.mousePos.dy/window.innerHeight)]);
+		self.nxTransmit(self.val);
 	
 	}
 
