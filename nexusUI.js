@@ -1011,6 +1011,26 @@ function getTemplate(self, target, transmitCommand) {
 	   	return (results && results.length > 1) ? results[1] : "";
 	};
 
+	/** @method set
+	@param [parameter] {parameter/value pairs in object notation}
+	@param [transmit] {(optional) whether or not to transmit after setting}
+	Sets the value of an object. 
+
+	```js
+		position1.set({
+			x: 100,
+			y: 250
+		})
+	```
+
+	An optional second argument decides whether the object then transmits its new value.
+	```js
+		button1.set({
+			press: 100
+		}, true)
+	```
+	*/
+
 	self.set = function(data, transmit) {
 		for (var key in data) {
 			self.val[key] = data[key];
