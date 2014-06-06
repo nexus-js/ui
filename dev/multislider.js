@@ -17,10 +17,9 @@ function multislider(target, transmitCommand) {
 	
 	//unique attributes
 	this.sliders = 15;
-	this.values = new Array();
+	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
-	//	this.values.push(0.7 - i*(0.3/this.sliders));
-		this.values.push(0.7);
+		this.val[i] = 0.7;
 	}
 	this.sliderClicked = 0;
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
@@ -51,8 +50,8 @@ function multislider(target, transmitCommand) {
 	    	
 			for(i=0; i<self.sliders; i++) {
 				beginPath();
-				moveTo(self.padding+i*self.sliderWidth, self.height-self.values[i]*self.height);
-				lineTo(self.padding+i*self.sliderWidth + self.sliderWidth, self.height-self.values[i]*self.height);
+				moveTo(self.padding+i*self.sliderWidth, self.height-self.val[i]*self.height);
+				lineTo(self.padding+i*self.sliderWidth + self.sliderWidth, self.height-self.val[i]*self.height);
 				stroke();
 				lineTo(self.padding+i*self.sliderWidth + self.sliderWidth, self.height-self.padding);
 				lineTo(self.padding+i*self.sliderWidth,  self.height-self.padding);
@@ -74,19 +73,19 @@ function multislider(target, transmitCommand) {
 		if (self.clicked) {
 			var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
 			sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
-			self.values[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
+			self.val[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
 			if (self.oldSliderToMove) {
 				var sliderJump = sliderToMove -  self.oldSliderToMove;
 				if (sliderJump>1) {
-					var sliderIncrement = ( self.values[sliderToMove] - self.values[self.oldSliderToMove] ) / sliderJump;
+					var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / sliderJump;
 					for (i=1;i<sliderJump;i++) {			
-						self.values[self.oldSliderToMove+i] = self.values[self.oldSliderToMove] + sliderIncrement * i;		
+						self.val[self.oldSliderToMove+i] = self.val[self.oldSliderToMove] + sliderIncrement * i;		
 					}
 				}
 				if (sliderJump<-1) {
-					var sliderIncrement = ( self.values[sliderToMove] - self.values[self.oldSliderToMove] ) / Math.abs(sliderJump);
+					var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / Math.abs(sliderJump);
 					for (i=-1;i>sliderJump;i--) {			
-						self.values[self.oldSliderToMove+i] = self.values[sliderToMove] + sliderIncrement * i;		
+						self.val[self.oldSliderToMove+i] = self.val[sliderToMove] + sliderIncrement * i;		
 					}
 				}
 				/*sliderToMove value = 100
@@ -101,25 +100,9 @@ function multislider(target, transmitCommand) {
 			self.oldSliderToMove = sliderToMove;
 			self.draw();
 		}
-		self.nxTransmit(self.values);
-		
-	}
-	
-
-	this.release = function() {
-		
-	}
-
-	this.touch = function() {
-		self.oldSliderToMove = false;
-		self.move();
-	}
-
-	this.touchMove = function() {
-		self.move();
-	}
-
-	this.touchRelease = function() {
+		var msg = new Object()
+		msg[sliderToMove] = self.val[sliderToMove]
+		self.nxTransmit(msg);
 		
 	}
 	

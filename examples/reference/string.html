@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Select</title>
+		<title>String</title>
 		<script type="text/javascript" src="../jquery.js"></script>
 		<script type="text/javascript" src="../nexusUI.js"></script>
 		<script type="text/javascript" src="../nexusWebAudio/js/gibberish_2.0.js"></script>
@@ -10,19 +10,20 @@
 		
 			nx.onload = function() {
 				nx.colorize("#0af");
-				nx.setTransmissionProtocol("local");
+				nx.sendsTo("local");
 
-				string1.setStrings(3);
+				string1.setStrings(10);
+				string2.setStrings(3);
 
 				string1.localTransmit = function(data) {
-					console.log("local: "+data)
-					b.note((data[0]+1)*50);
-					prefxBus.amp = data[1];
-					d.feedback = Math.abs(1-data[1])*0.7 + 0.3;
+				//	console.log("local: "+data)
+				//	b.note((data[0]+1)*50);
+				//	prefxBus.amp = data[1];
+				//	d.feedback = Math.abs(1-data[1])*0.7 + 0.3;
 				}
 
 				nx.startPulse();
-
+/*
 
 				Gibberish.init();
 				prefxBus = new Gibberish.Bus2();
@@ -31,7 +32,7 @@
 				b = new Gibberish.KarplusStrong({ damping:0 }).connect(prefxBus);
 			    d = new Gibberish.Delay(prefxBus).connect( Gibberish.out );
 			    d.time = 2000;
-			    d.feedback = 0.95;
+			    d.feedback = 0.95; */
 
 			    nx.printOSC()
 			}
@@ -43,7 +44,9 @@
 	
 	<body style="margin:20px">
 			
-		<canvas nx="string" style="width:800px;height:400px"></canvas>
+		<canvas nx="string" style="width:600px;height:400px"></canvas>
+
+		<canvas nx="string" style="width:300px;height:400px"></canvas>
 	
 	
 	</body>

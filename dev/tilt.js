@@ -14,11 +14,14 @@ function tilt(target, transmitCommand) {
 	this.tiltLR;
 	this.tiltFB;
 	this.z;
-	this.scaledX;
-	this.scaledY;
-	this.scaledZ;
+
+	this.val = {
+		x: 0,
+		y: 0,
+		z: 0
+	}
 	
-	this.defaultText = "TILT";
+	this.text = "TILT";
 
 	
 	self.deviceOrientationHandler = function() {
@@ -27,18 +30,14 @@ function tilt(target, transmitCommand) {
 	//	document.getElementById(self.canvasID).style.MozTransform = "rotate(" + self.tiltLR + "deg)";
 	//	document.getElementById(self.canvasID).style.transform = "rotate(" + self.tiltLR + 
 	//	  "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
-		  
-		self.scaledX = nx.prune(self.tiltLR/90,3);
-		self.scaledY = nx.prune(self.tiltFB/90,3);
-		self.scaledZ = nx.prune(self.z,3);
+		
+		self.val = {
+			x: nx.prune(self.tiltLR/90,3),
+			y: nx.prune(self.tiltFB/90,3),
+			z: nx.prune(self.z,3)
+		}
 
-
-		  
-		self.nxTransmit({
-			x: self.scaledX,
-			y: self.scaledY,
-			z: self.scaledZ
-		});
+		self.nxTransmit(self.val);
 		
 	}
 
@@ -72,9 +71,9 @@ function tilt(target, transmitCommand) {
 	
 	this.draw = function() {
 
-		self.scaledX = (nx.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
-		self.scaledY = (nx.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
-		self.scaledZ = nx.prune(self.z,3);
+	//	self.scaledX = (nx.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
+	//	self.scaledY = (nx.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
+	//	self.scaledZ = nx.prune(self.z,3);
 		
 		self.erase();
 		with (self.context) {
@@ -99,7 +98,7 @@ function tilt(target, transmitCommand) {
 			translate(self.width/2,self.height/2)
 			 
 			// rotate around this point
-			rotate(-self.scaledX*Math.PI/2);
+			rotate(-self.val.x*Math.PI/2);
 
 			translate(-self.width/2,-self.height/2)
 
@@ -107,12 +106,12 @@ function tilt(target, transmitCommand) {
 		    globalAlpha = 0.4;
 
 		    fillStyle = self.colors.accent;
-			fillRect(-self.width,self.height*(self.scaledY/2)+self.height/2,self.width*3,self.height*2)
+			fillRect(-self.width,self.height*(self.val.y/2)+self.height/2,self.width*3,self.height*2)
 
 		    fillStyle = self.colors.accent;
 			font = "bold "+self.height/5+"px gill sans";
 			textAlign = "center";
-			fillText(self.defaultText, self.width/2, self.height*(self.scaledY/2)+self.height/2+self.height/15);
+			fillText(self.text, self.width/2, self.height*(self.val.y/2)+self.height/2+self.height/15);
 			globalAlpha = 1;
 
 

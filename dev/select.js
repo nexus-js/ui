@@ -11,6 +11,7 @@ function select(target, transmitCommand) {
 	
 	//unique attributes
 	self.choices = [ ];
+	self.val = new Object();
 
 	this.init = function() {
 		
@@ -37,9 +38,11 @@ function select(target, transmitCommand) {
 		
 	}
 	
+	// should have a modified "set" function
+
 	this.change = function(thisselect) {
-		self.value = thisselect.value;
-		self.nxTransmit(self.value);
+		self.val.text = thisselect.value;
+		self.nxTransmit(self.val);
 	}
 	
 }

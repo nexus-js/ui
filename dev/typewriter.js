@@ -13,6 +13,11 @@ function typewriter(target, transmitCommand) {
 	this.letter = ""
 	this.keywid = self.width/14.5;
 	this.keyhgt = self.height/5
+	this.val = {
+		key: "",
+		ascii: 0,
+		on: 0
+	}
 
 	this.rows = [
 		[
@@ -146,7 +151,7 @@ function typewriter(target, transmitCommand) {
 			fillStyle = self.colors.border;
 			font = self.height+"px courier";
 			textAlign = "center";
-			fillText(self.letter, self.width/2, self.height/1.25);
+			fillText(self.val.key, self.width/2, self.height/1.25);
 			
 			globalAlpha = 1
 
@@ -167,11 +172,10 @@ function typewriter(target, transmitCommand) {
 				if (currKey == self.rows[i][j].value) {
 					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = true;
-					self.letter = self.rows[i][j].symbol;
-					self.nxTransmit({
-						value: self.letter,
-						on: 1,
-					});
+					self.val.key = self.rows[i][j].symbol;
+					self.val.on = 1;
+					self.val.ascii = e.which;
+					self.nxTransmit(self.val);
 					break;
 				}
 			}
@@ -186,13 +190,11 @@ function typewriter(target, transmitCommand) {
 		for (var i=0;i<self.rows.length;i++) {
 			for (var j=0;j<self.rows[i].length;j++) {
 				if (currKey == self.rows[i][j].value) {
-					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = false;
-					self.nxTransmit({
-						value: self.rows[i][j].symbol,
-						on: 0,
-					});
-					self.letter = ""
+					self.val.key = self.rows[i][j].symbol;
+					self.val.on = 0;
+					self.val.ascii = e.which;
+					self.nxTransmit(self.val);
 					break;
 				}
 			}

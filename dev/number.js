@@ -16,7 +16,9 @@ function number(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	this.value = 0;
+	this.val = {
+		value: 0
+	};
 	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
@@ -37,41 +39,22 @@ function number(target, transmitCommand) {
 			
 			fillStyle = self.colors.black;
 			textAlign = "left";
-			//font = (self.height)+"px courier";
 			font = self.height*.6+"px courier";
       		textBaseline = 'middle';
-		//	fillText(self.value, 10, self.height/2+self.height/4);
-			fillText(self.value, 10, self.height/2-1);
+			fillText(self.val.value, 10, self.height/2-1);
 		}
-	}
-
-	this.click = function() {
 	}
 
 	this.move = function(e) {
 		if (self.clicked) {
-			self.value += self.deltaMove.y*-1;
+			self.val.value += (self.deltaMove.y*-.1);
+			self.val.value = nx.prune(self.val.value,1);
 			self.draw();
-			self.nxTransmit(self.value);
+			self.nxTransmit(self.val);
 		}
 	}
 	
 
-	this.release = function() {
-		
-	}
-	
-	this.touch = function(e) {
-	}
-
-	this.touchMove = function(e) {
-		self.move(e);
-	}
-
-	this.touchRelease = function() {
-		
-	}
-	
 	this.animate = function(aniType) {
 		
 		switch (aniType) {

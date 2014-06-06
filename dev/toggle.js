@@ -10,11 +10,14 @@ function toggle(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	var i;
-	this.on = false;
 	if (this.width>=50) {
 		this.fontsize = 20;
 	} else {
 		this.fontsize = 11;
+	}
+
+	this.val = {
+		on: 0
 	}
 
 	this.init = function() {
@@ -34,7 +37,7 @@ function toggle(target, transmitCommand) {
 			if ( self.width > 40 && self.height > 40 ) {
 				fillStyle = self.colors.fill;
 			} else {
-				if (self.on) {
+				if (self.val.on) {
 					fillStyle = self.colors.accent;
 				} else {
 					fillStyle = self.colors.border;
@@ -47,7 +50,7 @@ function toggle(target, transmitCommand) {
 		
 		if (self.width > 40 && self.height > 40) {
 			
-			if (this.on) {
+			if (this.val.on) {
 				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 				with (this.context) {
 					fillStyle = self.colors.accent;
@@ -82,7 +85,7 @@ function toggle(target, transmitCommand) {
 				fillStyle = self.colors.white;
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
-				if (self.on) {
+				if (self.val.on) {
 					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {
 					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
@@ -95,14 +98,13 @@ function toggle(target, transmitCommand) {
 	}
 	
 	this.click = function() {
-		if (!self.on) {
-			self.on = true;
-		}
-		else {
-			self.on = false;
+		if (!self.val.on) {
+			self.val.on = 1;
+		} else {
+			self.val.on = 0;
 		}
 		self.draw();
-		self.nxTransmit(nx.boolToVal(self.on));
+		self.nxTransmit(self.val);
 	}
 	
 }

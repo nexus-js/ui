@@ -9,13 +9,17 @@ function position(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	//this.line_width = 3;
 	this.nodeSize = 15;
-	this.values = [0,0];
+	this.val = {
+		x: self.width/2,
+		y: self.height/2
+	}
 	
 	this.default_text = "touch to control";
 
 	this.init = function() {
+		self.actualWid = self.width - self.lineWidth*2 - self.nodeSize*2;
+		self.actualHgt = self.height - self.lineWidth*2 - self.nodeSize*2;
 		self.draw();
 	}
 
@@ -28,112 +32,87 @@ function position(target, transmitCommand) {
 			lineWidth = self.lineWidth;
 			stroke();
 			fill();
-			if (self.nodePos[0] != null) {
-				self.drawNode();
+
+			var drawingX = self.val.x * self.actualWid + self.nodeSize + self.lineWidth
+			var drawingY = self.val.y * self.actualHgt + self.nodeSize + self.lineWidth
+	
+			//stay within right/left bounds
+			if (drawingX<(self.bgLeft+self.nodeSize)) {
+				drawingX = self.bgLeft + self.nodeSize;
+			} else if (drawingX>(self.bgRight-self.nodeSize)) {
+				drawingX = self.bgRight - self.nodeSize;
 			}
-			else {
-				fillStyle = self.colors.border;
-				font = "14px courier";
-				fillText(self.default_text, 10, 20);
+			//stay within top/bottom bounds
+			if (drawingY<(self.bgTop+self.nodeSize)) {
+				drawingY = self.bgTop + self.nodeSize;
+			} else if (drawingY>(self.bgBottom-self.nodeSize)) {
+				drawingY = self.bgBottom - self.nodeSize;
+			}
+		
+			with (self.context) {
+				globalAlpha=0.2;
+				beginPath();
+					strokeStyle = self.colors.accent;
+					//lineWidth = self.lineWidth;
+					lineWidth = 2;
+					moveTo(drawingX,0+self.padding);
+					lineTo(drawingX,self.height-self.padding);
+					moveTo(0+self.padding,drawingY);
+					lineTo(self.width-self.padding,drawingY);					
+					stroke();
+				closePath();
+				globalAlpha=1;
+				beginPath();
+					fillStyle = self.colors.accent;
+					strokeStyle = self.colors.border;
+					lineWidth = self.lineWidth;
+					arc(drawingX, drawingY, self.nodeSize, 0, Math.PI*2, true);					
+					fill();
+				closePath();
 			}
 		}
 		
 		self.drawLabel();
 	}
 
-	this.drawNode = function() {
-		//stay within right/left bounds
-		if (self.nodePos[0]<(self.bgLeft+self.nodeSize)) {
-			self.nodePos[0] = self.bgLeft + self.nodeSize;
-		} else if (self.nodePos[0]>(self.bgRight-self.nodeSize)) {
-			self.nodePos[0] = self.bgRight - self.nodeSize;
-		}
-		//stay within top/bottom bounds
-		if (self.nodePos[1]<(self.bgTop+self.nodeSize)) {
-			self.nodePos[1] = self.bgTop + self.nodeSize;
-		} else if (self.nodePos[1]>(self.bgBottom-self.nodeSize)) {
-			self.nodePos[1] = self.bgBottom - self.nodeSize;
-		}
-	
-		with (self.context) {
-			globalAlpha=0.2;
-			beginPath();
-				strokeStyle = self.colors.accent;
-				//lineWidth = self.lineWidth;
-				lineWidth = 2;
-				moveTo(self.nodePos[0],0+self.padding);
-				lineTo(self.nodePos[0],self.height-self.padding);
-				moveTo(0+self.padding,self.nodePos[1]);
-				lineTo(self.width-self.padding,self.nodePos[1]);					
-				stroke();
-			closePath();
-			globalAlpha=1;
-			beginPath();
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.border;
-				lineWidth = self.lineWidth;
-				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, true);					
-				fill();
-			closePath();
-		}
-
-	}
 	
 	this.scaleNode = function() {
-		var actualWid = self.width - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualHgt = self.height - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualX = self.nodePos[0] - self.nodeSize - self.lineWidth - self.padding;
-		var actualY = self.nodePos[1] - self.nodeSize - self.lineWidth - self.padding;
-		var clippedX = nx.clip(actualX/actualWid, 0, 1);
-		var clippedY = nx.clip(actualY/actualHgt, 0, 1);
-		self.values = [ nx.prune(clippedX, 3), nx.prune(clippedY, 3) ];
-		return self.values;
+		var actualX = self.val.x - self.nodeSize - self.lineWidth;
+		var actualY = self.val.y - self.nodeSize - self.lineWidth;
+		var clippedX = nx.clip(actualX/self.actualWid, 0, 1);
+		var clippedY = nx.clip(actualY/self.actualHgt, 0, 1);
+		self.val.x = nx.prune(clippedX, 3)
+		self.val.y = nx.prune(clippedY, 3)
 	}
 
 	this.click = function() {
-		self.nodePos[0] = self.clickPos.x;
-		self.nodePos[1] = self.clickPos.y;
+		self.val.x = self.clickPos.x;
+		self.val.y = self.clickPos.y;
+		self.scaleNode();
+		self.val["state"] = "click"
+		self.nxTransmit(self.val);
 		self.draw();
-		var node = self.scaleNode();
-		self.nxTransmit({
-			x: node[0], 
-			y: node[1], 
-			state: "click"
-		});
 	}
 
 	this.move = function() {
 		if (self.clicked) {
-			self.nodePos[0] = self.clickPos.x;
-			self.nodePos[1] = self.clickPos.y;
+			self.val.x = self.clickPos.x;
+			self.val.y = self.clickPos.y;
+			self.scaleNode();
+			self.val["state"] = "move"
+			self.nxTransmit(self.val);
 			self.draw();
-			var node = self.scaleNode();
-			self.nxTransmit({
-				x: node[0], 
-				y: node[1], 
-				state: "move"
-
-			});
 		}
 	}
 
 	this.release = function() {
-		var node = self.scaleNode();
-		self.nxTransmit({
-			x: node[0], 
-			y: node[1], 
-			state: "release"
-		});
-		
-	}
-
-	this.set = function(data, transmit) {
-		self.nodePos[0] = data.x*self.width;
-		self.nodePos[1] = data.y*self.height;
+		self.val.x = self.clickPos.x;
+		self.val.y = self.clickPos.y;
+		self.scaleNode();
+		self.val["state"] = "release"
+		self.nxTransmit(self.val);
 		self.draw();
-		if (transmit) {
-			//add transmit, but make sure it doesn't = stack overflow 
-		}
+		
 	}
 
 	
@@ -151,11 +130,11 @@ function position(target, transmitCommand) {
 	}
 	
 	this.aniBounce = function() {
-		if (!self.clicked && self.nodePos[0]) {
-			self.nodePos[0] += (self.deltaMove.x/2);
-			self.nodePos[1] += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+		if (!self.clicked && self.val.x) {
+			self.val.x += (self.deltaMove.x/2);
+			self.val.y += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.val.x, self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.val.y, self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
 			self.draw();
 			self.nxTransmit(self.scaleNode());
 		}

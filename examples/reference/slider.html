@@ -9,26 +9,32 @@
 		nx.onload = function() {
 
 			slider1.mode = "relative";
+
+			// you could set their content like this
 			
 			slider1.colors.accent = "red";
-			slider1.value = 0.2;
+			slider1.set({ value: 0.2 })
 			slider2.colors.accent = "orange";
-			slider2.value = 0.3;
+			slider2.set({ value: 0.3 })
 			slider3.colors.accent = "yellow";
-			slider3.value = 0.4;
+			slider3.set({ value: 0.4 })
 			slider4.colors.accent = "green";
-			slider4.value = 0.5;
+			slider4.set({ value: 0.5 })
 			slider5.colors.accent = "blue";
-			slider5.value = 0.6;
+			slider5.set({ value: 0.6 })
 			slider6.colors.accent = "purple";
-			slider6.value = 0.7;
-			
-			slider1.draw();
-			slider2.draw();
-			slider3.draw();
-			slider4.draw();
-			slider5.draw();
-			slider6.draw(); 
+			slider6.set({ value: 0.7 })
+
+			//or you could do it programatically like this
+
+			for (var i=0;i<nx.nxObjects.length;i++) {
+				var allobjs = nx.nxObjects
+				if (allobjs[i].getName()=="slider") {
+					allobjs[i].colors.accent = "f0"+i;
+					allobjs[i].set({ value: (i+1)/6});
+
+				}
+			}
 
 			nx.printOSC()
 			

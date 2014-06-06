@@ -11,35 +11,29 @@ function multitouch(target, transmitCommand) {
 	
 	//unique attributes
 	this.nodeSize = self.width/10;
+	this.val = {
+		touch1: {
+			x: 0,
+			y: 0
+		}
+	}
 	this.nodes = new Array();
-	this.values = [0,0];
 	
-	this.default_text = "multi touch";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.default_text = "multitouch";	
 
 	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
-
 	
 	this.mode = "normal";
 	this.rows = 10;
 	this.cols = 10;
 
 	this.matrixLabels = false;
-
 	//EXAMPLE of a labelled matrix
 	//this.matrixLabels = [ "A", "B", "C" ]
-	
-	this.getHue = function(hue) {
-		var redval = ( hue < 256 ? hue : Math.max(512-hue,0) );
-		var greenval = ( hue > 256 ? hue-256 : 0 );
-		greenval = ( greenval < 256 ? greenval : Math.max(512-greenval,0) );
-		var blueval = ( hue > 512 ? hue-512 : 0 );
-		blueval = ( blueval < 256 ? blueval : Math.max(512-blueval,0) );
-		return "rgb("+redval+","+greenval+","+blueval+")";
-	}
+	// will repeat as a pattern
 
 	this.init = function() {
+		this.nodeSize = self.width/10;
 		self.draw();
 	}
 
@@ -75,21 +69,14 @@ function multitouch(target, transmitCommand) {
 								textAlign = "center";
 								textBaseline = "middle";
 								if (self.matrixLabels) {
-//<<<<<<< HEAD
-//<<<<<<< HEAD
-									fillText((10-j)*(i+1), circx, circy);
-									fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
-//=======
-//=======
-//>>>>>>> FETCH_HEAD
+
+								//	fillText((10-j)*(i+1), circx, circy);
+								//	fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
+
 									//fillText((10-j)*(i+1), circx, circy);
 									fillText(self.matrixLabels[count%self.matrixLabels.length], circx, circy);
 									//fillText(self.matrixLabels[(i*self.rows + j)%self.matrixLabels.length], circx, circy);
 									count++
-//<<<<<<< HEAD
-//>>>>>>> FETCH_HEAD
-//=======
-//>>>>>>> FETCH_HEAD
 								} 
 								var thisarea = {
 									xpos: i*self.width/self.cols,
@@ -168,7 +155,7 @@ function multitouch(target, transmitCommand) {
 	
 
 	this.release = function() {
-		if (self.clickPos.touches.length>1) {
+		if (self.clickPos.touches.length>0) {
 			self.clicked=true;
 		} else {
 			self.clickPos.touches = new Array();
@@ -196,14 +183,13 @@ function multitouch(target, transmitCommand) {
 	}
 
 	this.sendit = function() {
-		self.values = new Array();
+		self.val = new Object;
 		for (var i=0;i<self.clickPos.touches.length;i++) {
-			self.values.push(self.clickPos.touches[i].x/self.canvas.width);
-			self.values.push(nx.invert(self.clickPos.touches[i].y/self.canvas.height));
+			self.val["touch"+i] = {
+				x: self.clickPos.touches[i].x/self.canvas.width,
+				y: nx.invert(self.clickPos.touches[i].y/self.canvas.height)
+			}
 		}
-		for (var i=self.values.length;i<10;i++) {
-			self.values.push(0);
-		}
-		self.nxTransmit(self.values);
+		self.nxTransmit(self.val);
 	}
 }

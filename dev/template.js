@@ -10,8 +10,12 @@ function template(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 
 	//create unique properties to this object
-	this.value = new nx.point(0,0);
-	this.delta = new nx.point(0,0);
+	this.val = {
+		x: 0,
+		y: 0,
+		dx: 0,
+		dy: 0
+	}
 
 	this.init = function() {
 		self.draw();
@@ -36,20 +40,24 @@ function template(target, transmitCommand) {
 			fillStyle = self.colors.black;
 			textAlign = "center";
 			font = "12px Gill Sans";
-			fillText("x: " + self.value.x, self.width/2, 50);
-			fillText("y: " + self.value.y, self.width/2, 75);
-			fillText("x delta: " + self.delta.x, self.width/2, 100);
-			fillText("y delta: " + self.delta.y, self.width/2, 125);
+			fillText("x: " + self.val.x, self.width/2, 50);
+			fillText("y: " + self.val.y, self.width/2, 75);
+			fillText("x delta: " + self.val.dx, self.width/2, 100);
+			fillText("y delta: " + self.val.dy, self.width/2, 125);
 		}
 		
 		self.drawLabel();
 	}
 
 	this.click = function() {
-		self.value = self.clickPos;
-		self.delta = self.deltaMove;
+		self.val = {
+			x: self.clickPos.x,
+			y: self.clickPos.y,
+			dx: self.deltaMove.x,
+			dy: self.deltaMove.y
+		}
 		self.draw();
-		self.nxTransmit([self.value.x, self.value.y, self.delta.x, self.delta.y]);
+		self.nxTransmit(self.val);
 	}
 
 	this.move = function() {

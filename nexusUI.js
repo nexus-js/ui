@@ -154,9 +154,20 @@ var nx = function() {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-			if ((typeof data == "object") && (data !== null)) {
+		/*	if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
 					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+				}
+			} */
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
+					if ((typeof data[key] == "object") && (data[key] !== null)) {
+						for (var key2 in data[key]) {
+							$("#debug").prepend(this.oscName+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
+						}
+					} else {
+						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+					}
 				}
 			}
 		}	
@@ -193,7 +204,13 @@ var nx = function() {
 
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
-					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+					if ((typeof data[key] == "object") && (data[key] !== null)) {
+						for (var key2 in data[key]) {
+							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key+"/"+key2, this.uiIndex, data[key][key2], manager.oscIp);
+						}
+					} else {
+						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+					}
 				}
 			}
 
@@ -214,6 +231,11 @@ var nx = function() {
 			this.localTransmit(data);
 			this.response(data);
 		}
+		
+	}
+
+	this.allTraffic = function(obj, data) {
+
 		
 	}
 	
@@ -1052,11 +1074,14 @@ function toggle(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	var i;
-	this.on = false;
 	if (this.width>=50) {
 		this.fontsize = 20;
 	} else {
 		this.fontsize = 11;
+	}
+
+	this.val = {
+		on: 0
 	}
 
 	this.init = function() {
@@ -1076,7 +1101,7 @@ function toggle(target, transmitCommand) {
 			if ( self.width > 40 && self.height > 40 ) {
 				fillStyle = self.colors.fill;
 			} else {
-				if (self.on) {
+				if (self.val.on) {
 					fillStyle = self.colors.accent;
 				} else {
 					fillStyle = self.colors.border;
@@ -1089,7 +1114,7 @@ function toggle(target, transmitCommand) {
 		
 		if (self.width > 40 && self.height > 40) {
 			
-			if (this.on) {
+			if (this.val.on) {
 				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 				with (this.context) {
 					fillStyle = self.colors.accent;
@@ -1124,7 +1149,7 @@ function toggle(target, transmitCommand) {
 				fillStyle = self.colors.white;
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
-				if (self.on) {
+				if (self.val.on) {
 					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {
 					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
@@ -1137,14 +1162,13 @@ function toggle(target, transmitCommand) {
 	}
 	
 	this.click = function() {
-		if (!self.on) {
-			self.on = true;
-		}
-		else {
-			self.on = false;
+		if (!self.val.on) {
+			self.val.on = 1;
+		} else {
+			self.val.on = 0;
 		}
 		self.draw();
-		self.nxTransmit(nx.boolToVal(self.on));
+		self.nxTransmit(self.val);
 	}
 	
 }
@@ -1772,13 +1796,17 @@ function position(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	//this.line_width = 3;
 	this.nodeSize = 15;
-	this.values = [0,0];
+	this.val = {
+		x: self.width/2,
+		y: self.height/2
+	}
 	
 	this.default_text = "touch to control";
 
 	this.init = function() {
+		self.actualWid = self.width - self.lineWidth*2 - self.nodeSize*2;
+		self.actualHgt = self.height - self.lineWidth*2 - self.nodeSize*2;
 		self.draw();
 	}
 
@@ -1791,112 +1819,87 @@ function position(target, transmitCommand) {
 			lineWidth = self.lineWidth;
 			stroke();
 			fill();
-			if (self.nodePos[0] != null) {
-				self.drawNode();
+
+			var drawingX = self.val.x * self.actualWid + self.nodeSize + self.lineWidth
+			var drawingY = self.val.y * self.actualHgt + self.nodeSize + self.lineWidth
+	
+			//stay within right/left bounds
+			if (drawingX<(self.bgLeft+self.nodeSize)) {
+				drawingX = self.bgLeft + self.nodeSize;
+			} else if (drawingX>(self.bgRight-self.nodeSize)) {
+				drawingX = self.bgRight - self.nodeSize;
 			}
-			else {
-				fillStyle = self.colors.border;
-				font = "14px courier";
-				fillText(self.default_text, 10, 20);
+			//stay within top/bottom bounds
+			if (drawingY<(self.bgTop+self.nodeSize)) {
+				drawingY = self.bgTop + self.nodeSize;
+			} else if (drawingY>(self.bgBottom-self.nodeSize)) {
+				drawingY = self.bgBottom - self.nodeSize;
+			}
+		
+			with (self.context) {
+				globalAlpha=0.2;
+				beginPath();
+					strokeStyle = self.colors.accent;
+					//lineWidth = self.lineWidth;
+					lineWidth = 2;
+					moveTo(drawingX,0+self.padding);
+					lineTo(drawingX,self.height-self.padding);
+					moveTo(0+self.padding,drawingY);
+					lineTo(self.width-self.padding,drawingY);					
+					stroke();
+				closePath();
+				globalAlpha=1;
+				beginPath();
+					fillStyle = self.colors.accent;
+					strokeStyle = self.colors.border;
+					lineWidth = self.lineWidth;
+					arc(drawingX, drawingY, self.nodeSize, 0, Math.PI*2, true);					
+					fill();
+				closePath();
 			}
 		}
 		
 		self.drawLabel();
 	}
 
-	this.drawNode = function() {
-		//stay within right/left bounds
-		if (self.nodePos[0]<(self.bgLeft+self.nodeSize)) {
-			self.nodePos[0] = self.bgLeft + self.nodeSize;
-		} else if (self.nodePos[0]>(self.bgRight-self.nodeSize)) {
-			self.nodePos[0] = self.bgRight - self.nodeSize;
-		}
-		//stay within top/bottom bounds
-		if (self.nodePos[1]<(self.bgTop+self.nodeSize)) {
-			self.nodePos[1] = self.bgTop + self.nodeSize;
-		} else if (self.nodePos[1]>(self.bgBottom-self.nodeSize)) {
-			self.nodePos[1] = self.bgBottom - self.nodeSize;
-		}
-	
-		with (self.context) {
-			globalAlpha=0.2;
-			beginPath();
-				strokeStyle = self.colors.accent;
-				//lineWidth = self.lineWidth;
-				lineWidth = 2;
-				moveTo(self.nodePos[0],0+self.padding);
-				lineTo(self.nodePos[0],self.height-self.padding);
-				moveTo(0+self.padding,self.nodePos[1]);
-				lineTo(self.width-self.padding,self.nodePos[1]);					
-				stroke();
-			closePath();
-			globalAlpha=1;
-			beginPath();
-				fillStyle = self.colors.accent;
-				strokeStyle = self.colors.border;
-				lineWidth = self.lineWidth;
-				arc(self.nodePos[0], self.nodePos[1], self.nodeSize, 0, Math.PI*2, true);					
-				fill();
-			closePath();
-		}
-
-	}
 	
 	this.scaleNode = function() {
-		var actualWid = self.width - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualHgt = self.height - self.lineWidth*2 - self.padding*2 - self.nodeSize*2;
-		var actualX = self.nodePos[0] - self.nodeSize - self.lineWidth - self.padding;
-		var actualY = self.nodePos[1] - self.nodeSize - self.lineWidth - self.padding;
-		var clippedX = nx.clip(actualX/actualWid, 0, 1);
-		var clippedY = nx.clip(actualY/actualHgt, 0, 1);
-		self.values = [ nx.prune(clippedX, 3), nx.prune(clippedY, 3) ];
-		return self.values;
+		var actualX = self.val.x - self.nodeSize - self.lineWidth;
+		var actualY = self.val.y - self.nodeSize - self.lineWidth;
+		var clippedX = nx.clip(actualX/self.actualWid, 0, 1);
+		var clippedY = nx.clip(actualY/self.actualHgt, 0, 1);
+		self.val.x = nx.prune(clippedX, 3)
+		self.val.y = nx.prune(clippedY, 3)
 	}
 
 	this.click = function() {
-		self.nodePos[0] = self.clickPos.x;
-		self.nodePos[1] = self.clickPos.y;
+		self.val.x = self.clickPos.x;
+		self.val.y = self.clickPos.y;
+		self.scaleNode();
+		self.val["state"] = "click"
+		self.nxTransmit(self.val);
 		self.draw();
-		var node = self.scaleNode();
-		self.nxTransmit({
-			x: node[0], 
-			y: node[1], 
-			state: "click"
-		});
 	}
 
 	this.move = function() {
 		if (self.clicked) {
-			self.nodePos[0] = self.clickPos.x;
-			self.nodePos[1] = self.clickPos.y;
+			self.val.x = self.clickPos.x;
+			self.val.y = self.clickPos.y;
+			self.scaleNode();
+			self.val["state"] = "move"
+			self.nxTransmit(self.val);
 			self.draw();
-			var node = self.scaleNode();
-			self.nxTransmit({
-				x: node[0], 
-				y: node[1], 
-				state: "move"
-
-			});
 		}
 	}
 
 	this.release = function() {
-		var node = self.scaleNode();
-		self.nxTransmit({
-			x: node[0], 
-			y: node[1], 
-			state: "release"
-		});
-		
-	}
-
-	this.set = function(data, transmit) {
-		self.nodePos[0] = data.x*self.width;
-		self.nodePos[1] = data.y*self.height;
+		self.val.x = self.clickPos.x;
+		self.val.y = self.clickPos.y;
+		self.scaleNode();
+		self.val["state"] = "release"
+		self.nxTransmit(self.val);
 		self.draw();
-		if (transmit) {
-			//add transmit, but make sure it doesn't = stack overflow 
-		}
+		
 	}
 
 	
@@ -1914,11 +1917,11 @@ function position(target, transmitCommand) {
 	}
 	
 	this.aniBounce = function() {
-		if (!self.clicked && self.nodePos[0]) {
-			self.nodePos[0] += (self.deltaMove.x/2);
-			self.nodePos[1] += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+		if (!self.clicked && self.val.x) {
+			self.val.x += (self.deltaMove.x/2);
+			self.val.y += (self.deltaMove.y/2);
+			self.deltaMove.x = nx.bounce(self.val.x, self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = nx.bounce(self.val.y, self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
 			self.draw();
 			self.nxTransmit(self.scaleNode());
 		}
@@ -2151,7 +2154,7 @@ function slider(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
-	this.value = 0.7
+	this.val.value = 0.7
 	this.label = self.oscName;
 	this.mode = "absolute";
 	
@@ -2159,8 +2162,7 @@ function slider(target, transmitCommand) {
 
 	this.init = function() {
 
-		this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
-		this.sliderWidth = self.realSpace.x;
+		this.realSpace = { x: self.width-self.lineWidth*2, y: self.height-self.lineWidth*2 }
 	
 		if (this.canvas.getAttribute("label")!=null) {
 			this.label = this.canvas.getAttribute("label");
@@ -2173,13 +2175,12 @@ function slider(target, transmitCommand) {
 		self.erase();
 		self.makeRoundedBG();
 		
-		var level = self.value;
-		var x1 = self.padding;
-		var y1 = self.height-self.value*self.height;
-		var x2 = self.padding+self.sliderWidth;
-		var y2 = self.height-self.padding;
-		var depth = self.padding*2;
-		
+		var level = self.val.value * self.realSpace.y;
+		var x1 = self.lineWidth;
+		var y1 = self.height-self.val.value*self.height;
+		var x2 = self.lineWidth+self.realSpace.x;
+		var y2 = self.height-self.lineWidth;
+		var depth = 0;
 		
 		with (this.context) {
 			strokeStyle = self.colors.border;
@@ -2189,67 +2190,33 @@ function slider(target, transmitCommand) {
 			fill();
 			
 			
-			strokeStyle = this.colors.accent;
-			fillStyle = this.colors.border;
-			lineWidth = 5;
-	    	
-			globalAlpha = 0.4;
+			fillStyle = this.colors.accent;
+	   
 			beginPath();
-			if (self.value>0.97) {
+			if (self.val.value>0.97) {
 				moveTo(x1+depth, y1); //TOP LEFT
 				lineTo(x2-depth, y1); //TOP RIGHT
 				quadraticCurveTo(x2, y1, x2, y1+depth);
 			} else {
 				moveTo(x1, y1); //TOP LEFT
 				lineTo(x2, y1); //TOP RIGHT
-				//stroke();
 			}
 			lineTo(x2, y2-depth); //BOTTOM RIGHT
 			quadraticCurveTo(x2, y2, x2-depth, y2);
 			lineTo(x1+depth, y2); //BOTTOM LEFT
 			quadraticCurveTo(x1, y2, x1, y2-depth);
-			if (self.value>0.95) {
+			if (self.val.value>0.95) {
 				lineTo(x1, y1+depth); //TOP LEFT
 				quadraticCurveTo(x1, y1, x1+depth, y1);
 			} else {
 				lineTo(x1, y1); //TOP LEFT
 			}
-			if (self.value>0.03) {
-			//	globalAlpha = 0.3;
+			if (self.val.value>0.03) {
+				globalAlpha = 0.8;
 				fill();	
-			//	globalAlpha = 1;
+				globalAlpha = 1;
 			}
 			closePath();
-			
-			// knob
-			y1=y1-10;
-			if (y1<self.padding) {
-				y1=self.padding;
-			} else if (y1>self.height-self.padding-20) {
-				y1=self.height-self.padding-10;
-			}
-			globalAlpha = 0.8;
-			
-			beginPath();
-			nx.makeRoundRect(self.context,x1,y1,x2-self.padding,10);
-			fillStyle = self.colors.border;
-			fill();
-			strokeStyle = self.colors.white;
-			lineWidth=1;
-		//	stroke();
-			closePath();
-			//knob grips
-			globalAlpha = 1;
-			beginPath();
-			strokeStyle = self.colors.accent;
-			lineWidth = 3;
-			moveTo(x1+3,y1+7);
-			lineTo(x2-3,y1+7);
-		//	moveTo(x1+3,y1+13);
-		//	lineTo(x2-3,y1+13);
-			stroke();
-			closePath();
-			
 			
 			if (nx.showLabels) {
 
@@ -2271,27 +2238,19 @@ function slider(target, transmitCommand) {
 		self.move();
 	}
 
-	this.set = function(data, transmit) {
-		self.value = data
-		self.draw();
-		if (transmit) {
-			//add transmit, but make sure it doesn't = stack overflow 
-		}
-	}
-
 	this.move = function() {
 		if (self.mode=="absolute") {
 			if (self.clicked) {
-				self.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
+				self.val.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
-				self.value = nx.clip((self.value + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
+				self.val.value = nx.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
 				self.draw();
 			}
 		}
-		var scaledVal = ( self.value - 0.02 ) * (1/.97);
+		var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
 		self.nxTransmit(scaledVal);
 	}
 
@@ -2315,10 +2274,9 @@ function multislider(target, transmitCommand) {
 	
 	//unique attributes
 	this.sliders = 15;
-	this.values = new Array();
+	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
-	//	this.values.push(0.7 - i*(0.3/this.sliders));
-		this.values.push(0.7);
+		this.val[i] = 0.7;
 	}
 	this.sliderClicked = 0;
 	this.realSpace = { x: self.width-self.padding*2, y: self.height-self.padding*2 }
@@ -2349,8 +2307,8 @@ function multislider(target, transmitCommand) {
 	    	
 			for(i=0; i<self.sliders; i++) {
 				beginPath();
-				moveTo(self.padding+i*self.sliderWidth, self.height-self.values[i]*self.height);
-				lineTo(self.padding+i*self.sliderWidth + self.sliderWidth, self.height-self.values[i]*self.height);
+				moveTo(self.padding+i*self.sliderWidth, self.height-self.val[i]*self.height);
+				lineTo(self.padding+i*self.sliderWidth + self.sliderWidth, self.height-self.val[i]*self.height);
 				stroke();
 				lineTo(self.padding+i*self.sliderWidth + self.sliderWidth, self.height-self.padding);
 				lineTo(self.padding+i*self.sliderWidth,  self.height-self.padding);
@@ -2372,19 +2330,19 @@ function multislider(target, transmitCommand) {
 		if (self.clicked) {
 			var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
 			sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
-			self.values[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
+			self.val[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
 			if (self.oldSliderToMove) {
 				var sliderJump = sliderToMove -  self.oldSliderToMove;
 				if (sliderJump>1) {
-					var sliderIncrement = ( self.values[sliderToMove] - self.values[self.oldSliderToMove] ) / sliderJump;
+					var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / sliderJump;
 					for (i=1;i<sliderJump;i++) {			
-						self.values[self.oldSliderToMove+i] = self.values[self.oldSliderToMove] + sliderIncrement * i;		
+						self.val[self.oldSliderToMove+i] = self.val[self.oldSliderToMove] + sliderIncrement * i;		
 					}
 				}
 				if (sliderJump<-1) {
-					var sliderIncrement = ( self.values[sliderToMove] - self.values[self.oldSliderToMove] ) / Math.abs(sliderJump);
+					var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / Math.abs(sliderJump);
 					for (i=-1;i>sliderJump;i--) {			
-						self.values[self.oldSliderToMove+i] = self.values[sliderToMove] + sliderIncrement * i;		
+						self.val[self.oldSliderToMove+i] = self.val[sliderToMove] + sliderIncrement * i;		
 					}
 				}
 				/*sliderToMove value = 100
@@ -2399,25 +2357,9 @@ function multislider(target, transmitCommand) {
 			self.oldSliderToMove = sliderToMove;
 			self.draw();
 		}
-		self.nxTransmit(self.values);
-		
-	}
-	
-
-	this.release = function() {
-		
-	}
-
-	this.touch = function() {
-		self.oldSliderToMove = false;
-		self.move();
-	}
-
-	this.touchMove = function() {
-		self.move();
-	}
-
-	this.touchRelease = function() {
+		var msg = new Object()
+		msg[sliderToMove] = self.val[sliderToMove]
+		self.nxTransmit(msg);
 		
 	}
 	
@@ -2446,6 +2388,7 @@ function select(target, transmitCommand) {
 	
 	//unique attributes
 	self.choices = [ ];
+	self.val = new Object();
 
 	this.init = function() {
 		
@@ -2472,9 +2415,11 @@ function select(target, transmitCommand) {
 		
 	}
 	
+	// should have a modified "set" function
+
 	this.change = function(thisselect) {
-		self.value = thisselect.value;
-		self.nxTransmit(self.value);
+		self.val.text = thisselect.value;
+		self.nxTransmit(self.val);
 	}
 	
 }
@@ -2494,11 +2439,14 @@ function tilt(target, transmitCommand) {
 	this.tiltLR;
 	this.tiltFB;
 	this.z;
-	this.scaledX;
-	this.scaledY;
-	this.scaledZ;
+
+	this.val = {
+		x: 0,
+		y: 0,
+		z: 0
+	}
 	
-	this.defaultText = "TILT";
+	this.text = "TILT";
 
 	
 	self.deviceOrientationHandler = function() {
@@ -2507,18 +2455,14 @@ function tilt(target, transmitCommand) {
 	//	document.getElementById(self.canvasID).style.MozTransform = "rotate(" + self.tiltLR + "deg)";
 	//	document.getElementById(self.canvasID).style.transform = "rotate(" + self.tiltLR + 
 	//	  "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
-		  
-		self.scaledX = nx.prune(self.tiltLR/90,3);
-		self.scaledY = nx.prune(self.tiltFB/90,3);
-		self.scaledZ = nx.prune(self.z,3);
+		
+		self.val = {
+			x: nx.prune(self.tiltLR/90,3),
+			y: nx.prune(self.tiltFB/90,3),
+			z: nx.prune(self.z,3)
+		}
 
-
-		  
-		self.nxTransmit({
-			x: self.scaledX,
-			y: self.scaledY,
-			z: self.scaledZ
-		});
+		self.nxTransmit(self.val);
 		
 	}
 
@@ -2552,9 +2496,9 @@ function tilt(target, transmitCommand) {
 	
 	this.draw = function() {
 
-		self.scaledX = (nx.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
-		self.scaledY = (nx.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
-		self.scaledZ = nx.prune(self.z,3);
+	//	self.scaledX = (nx.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
+	//	self.scaledY = (nx.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
+	//	self.scaledZ = nx.prune(self.z,3);
 		
 		self.erase();
 		with (self.context) {
@@ -2579,7 +2523,7 @@ function tilt(target, transmitCommand) {
 			translate(self.width/2,self.height/2)
 			 
 			// rotate around this point
-			rotate(-self.scaledX*Math.PI/2);
+			rotate(-self.val.x*Math.PI/2);
 
 			translate(-self.width/2,-self.height/2)
 
@@ -2587,12 +2531,12 @@ function tilt(target, transmitCommand) {
 		    globalAlpha = 0.4;
 
 		    fillStyle = self.colors.accent;
-			fillRect(-self.width,self.height*(self.scaledY/2)+self.height/2,self.width*3,self.height*2)
+			fillRect(-self.width,self.height*(self.val.y/2)+self.height/2,self.width*3,self.height*2)
 
 		    fillStyle = self.colors.accent;
 			font = "bold "+self.height/5+"px gill sans";
 			textAlign = "center";
-			fillText(self.defaultText, self.width/2, self.height*(self.scaledY/2)+self.height/2+self.height/15);
+			fillText(self.text, self.width/2, self.height*(self.val.y/2)+self.height/2+self.height/15);
 			globalAlpha = 1;
 
 
@@ -3334,7 +3278,9 @@ function number(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	this.value = 0;
+	this.val = {
+		value: 0
+	};
 	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
@@ -3355,41 +3301,22 @@ function number(target, transmitCommand) {
 			
 			fillStyle = self.colors.black;
 			textAlign = "left";
-			//font = (self.height)+"px courier";
 			font = self.height*.6+"px courier";
       		textBaseline = 'middle';
-		//	fillText(self.value, 10, self.height/2+self.height/4);
-			fillText(self.value, 10, self.height/2-1);
+			fillText(self.val.value, 10, self.height/2-1);
 		}
-	}
-
-	this.click = function() {
 	}
 
 	this.move = function(e) {
 		if (self.clicked) {
-			self.value += self.deltaMove.y*-1;
+			self.val.value += (self.deltaMove.y*-.1);
+			self.val.value = nx.prune(self.val.value,1);
 			self.draw();
-			self.nxTransmit(self.value);
+			self.nxTransmit(self.val);
 		}
 	}
 	
 
-	this.release = function() {
-		
-	}
-	
-	this.touch = function(e) {
-	}
-
-	this.touchMove = function(e) {
-		self.move(e);
-	}
-
-	this.touchRelease = function() {
-		
-	}
-	
 	this.animate = function(aniType) {
 		
 		switch (aniType) {
@@ -3652,35 +3579,29 @@ function multitouch(target, transmitCommand) {
 	
 	//unique attributes
 	this.nodeSize = self.width/10;
+	this.val = {
+		touch1: {
+			x: 0,
+			y: 0
+		}
+	}
 	this.nodes = new Array();
-	this.values = [0,0];
 	
-	this.default_text = "multi touch";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.default_text = "multitouch";	
 
 	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
-
 	
 	this.mode = "normal";
 	this.rows = 10;
 	this.cols = 10;
 
 	this.matrixLabels = false;
-
 	//EXAMPLE of a labelled matrix
 	//this.matrixLabels = [ "A", "B", "C" ]
-	
-	this.getHue = function(hue) {
-		var redval = ( hue < 256 ? hue : Math.max(512-hue,0) );
-		var greenval = ( hue > 256 ? hue-256 : 0 );
-		greenval = ( greenval < 256 ? greenval : Math.max(512-greenval,0) );
-		var blueval = ( hue > 512 ? hue-512 : 0 );
-		blueval = ( blueval < 256 ? blueval : Math.max(512-blueval,0) );
-		return "rgb("+redval+","+greenval+","+blueval+")";
-	}
+	// will repeat as a pattern
 
 	this.init = function() {
+		this.nodeSize = self.width/10;
 		self.draw();
 	}
 
@@ -3716,21 +3637,14 @@ function multitouch(target, transmitCommand) {
 								textAlign = "center";
 								textBaseline = "middle";
 								if (self.matrixLabels) {
-//<<<<<<< HEAD
-//<<<<<<< HEAD
-									fillText((10-j)*(i+1), circx, circy);
-									fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
-//=======
-//=======
-//>>>>>>> FETCH_HEAD
+
+								//	fillText((10-j)*(i+1), circx, circy);
+								//	fillText(self.matrixLabels[(i*self.cols + j)%self.matrixLabels.length], circx, circy);
+
 									//fillText((10-j)*(i+1), circx, circy);
 									fillText(self.matrixLabels[count%self.matrixLabels.length], circx, circy);
 									//fillText(self.matrixLabels[(i*self.rows + j)%self.matrixLabels.length], circx, circy);
 									count++
-//<<<<<<< HEAD
-//>>>>>>> FETCH_HEAD
-//=======
-//>>>>>>> FETCH_HEAD
 								} 
 								var thisarea = {
 									xpos: i*self.width/self.cols,
@@ -3809,7 +3723,7 @@ function multitouch(target, transmitCommand) {
 	
 
 	this.release = function() {
-		if (self.clickPos.touches.length>1) {
+		if (self.clickPos.touches.length>0) {
 			self.clicked=true;
 		} else {
 			self.clickPos.touches = new Array();
@@ -3837,15 +3751,14 @@ function multitouch(target, transmitCommand) {
 	}
 
 	this.sendit = function() {
-		self.values = new Array();
+		self.val = new Object;
 		for (var i=0;i<self.clickPos.touches.length;i++) {
-			self.values.push(self.clickPos.touches[i].x/self.canvas.width);
-			self.values.push(nx.invert(self.clickPos.touches[i].y/self.canvas.height));
+			self.val["touch"+i] = {
+				x: self.clickPos.touches[i].x/self.canvas.width,
+				y: nx.invert(self.clickPos.touches[i].y/self.canvas.height)
+			}
 		}
-		for (var i=self.values.length;i<10;i++) {
-			self.values.push(0);
-		}
-		self.nxTransmit(self.values);
+		self.nxTransmit(self.val);
 	}
 }
 /** 
@@ -4202,31 +4115,30 @@ function string(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	//this.line_width = 3;
-	this.nodeSize = 15;
-	this.values = [0,0];
+	this.val = {
+		string: 0,
+		velocity: 0
+	}
 
 	this.numberofstrings = 8;
 	this.strings = new Array();
-	this.rainbow = [ self.colors.accent, self.colors.black, self.colors.border ];
 	this.abovestring = new Array();
+	this.friction = 2;
 	
-	this.default_text = "touch to control";
 	var stringdiv;
-	
 	
 
 	this.init = function() {
 		stringdiv = self.height/(self.numberofstrings + 1);
 		for (var i=0;i<self.numberofstrings;i++) {
 			self.strings[i] = {
-				x1: self.padding,
-				y1: stringdiv*(1+i), 
-				x2: self.width-self.padding, 
-				y2: stringdiv*(i+1), 
+				x1: self.lineWidth,
+				y1: stringdiv*(1+i),
+				x2: self.width - self.lineWidth,
+				y2: stringdiv*(i+1),
 				held: false, // whether or not it's gripped
 				vibrating: false, // whether or not its vibrating
-				force:0, // amount of force of pull on string
+				force: 0, // amount of force of pull on string
 				maxstretch: 0, // vibration cap (in Y domain)
 				stretch: 0, // current point vibrating in y domain
 				direction: 0, // which direction it's vibrating
@@ -4243,18 +4155,7 @@ function string(target, transmitCommand) {
 		self.init();
 	}
 
-	this.pluck = function(which) {
-		var i = which;
-		self.nxTransmit([i,self.clickPos.x/self.width]);
-		self.strings[i].force = self.clickPos.y - self.strings[i].y1;
-		self.strings[i].maxstretch = Math.abs(self.clickPos.y - self.strings[i].y1);
-		self.strings[i].stretch = self.clickPos.y - self.strings[i].y1;
-		self.strings[i].vibrating = true;
-		self.strings[i].direction = (self.clickPos.y - self.strings[i].y1)/Math.abs(self.clickPos.y - self.strings[i].y1) * ((self.clickPos.y - self.strings[i].y1)/-1.2);
-	}
-
 	this.draw = function() {
-		self.rainbow[0] = self.colors.accent;
 		self.erase();
 		self.makeRoundedBG();
 		with (self.context) {
@@ -4281,11 +4182,9 @@ function string(target, transmitCommand) {
 						//st.direction *= (-0.99);
 						st.direction *= -1;
 						st.stretch = st.stretch + st.direction;
-						st.maxstretch = st.maxstretch - 1
+						st.maxstretch = st.maxstretch - self.friction;
 
 						st.direction = (st.direction / Math.abs(st.direction)) * (st.maxstretch/1)
-						console.log(st.maxstretch)
-						console.log(Math.abs(st.stretch))
 					}
 
 					beginPath();
@@ -4344,12 +4243,14 @@ function string(target, transmitCommand) {
 				//if crosses string
 				if (self.strings[i].above != (self.clickPos.y<self.strings[i].y1) ) {
 					self.strings[i].held = true;
-					console.log(i);
+					self.strings[i].above ^= true;
 				}
 
-				//if mouse is within 20px or so of string
-				//if (Math.abs(self.clickPos.y-self.strings[i].y1)<stringdiv/2) {
-					//will draw rounded
+				if (self.strings[i].held && Math.abs(self.clickPos.y - self.strings[i].y1) > self.height/(self.strings.length*3)) {
+
+					self.pluck(i)
+					
+				}
 			}
 		}
 	}
@@ -4357,15 +4258,29 @@ function string(target, transmitCommand) {
 
 	this.release = function() {
 		for (var i = 0;i<self.strings.length;i++) {
-
 			if (self.strings[i].held) {
 				self.pluck(i);
-				console.log("1");
 			}
-			
-		}
-		
+		}	
 	}
+
+
+
+	this.pluck = function(which) {
+		var i = which;
+		self.val = {
+			string: i,
+			x: self.clickPos.x/self.width
+		}
+		self.nxTransmit(self.val);
+		self.strings[i].held = false;
+		self.strings[i].force = self.clickPos.y - self.strings[i].y1;
+		self.strings[i].maxstretch = Math.abs(self.clickPos.y - self.strings[i].y1);
+		self.strings[i].stretch = self.clickPos.y - self.strings[i].y1;
+		self.strings[i].vibrating = true;
+		self.strings[i].direction = (self.clickPos.y - self.strings[i].y1)/Math.abs(self.clickPos.y - self.strings[i].y1) * ((self.clickPos.y - self.strings[i].y1)/-1.2);
+	}
+
 }
 // Javascript drawing canvas
 
@@ -5509,6 +5424,11 @@ function typewriter(target, transmitCommand) {
 	this.letter = ""
 	this.keywid = self.width/14.5;
 	this.keyhgt = self.height/5
+	this.val = {
+		key: "",
+		ascii: 0,
+		on: 0
+	}
 
 	this.rows = [
 		[
@@ -5642,7 +5562,7 @@ function typewriter(target, transmitCommand) {
 			fillStyle = self.colors.border;
 			font = self.height+"px courier";
 			textAlign = "center";
-			fillText(self.letter, self.width/2, self.height/1.25);
+			fillText(self.val.key, self.width/2, self.height/1.25);
 			
 			globalAlpha = 1
 
@@ -5663,11 +5583,10 @@ function typewriter(target, transmitCommand) {
 				if (currKey == self.rows[i][j].value) {
 					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = true;
-					self.letter = self.rows[i][j].symbol;
-					self.nxTransmit({
-						value: self.letter,
-						on: 1,
-					});
+					self.val.key = self.rows[i][j].symbol;
+					self.val.on = 1;
+					self.val.ascii = e.which;
+					self.nxTransmit(self.val);
 					break;
 				}
 			}
@@ -5682,13 +5601,11 @@ function typewriter(target, transmitCommand) {
 		for (var i=0;i<self.rows.length;i++) {
 			for (var j=0;j<self.rows[i].length;j++) {
 				if (currKey == self.rows[i][j].value) {
-					console.log(self.rows[i][j].symbol)
 					self.rows[i][j].on = false;
-					self.nxTransmit({
-						value: self.rows[i][j].symbol,
-						on: 0,
-					});
-					self.letter = ""
+					self.val.key = self.rows[i][j].symbol;
+					self.val.on = 0;
+					self.val.ascii = e.which;
+					self.nxTransmit(self.val);
 					break;
 				}
 			}

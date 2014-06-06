@@ -154,9 +154,20 @@ var nx = function() {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-			if ((typeof data == "object") && (data !== null)) {
+		/*	if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
 					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+				}
+			} */
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
+					if ((typeof data[key] == "object") && (data[key] !== null)) {
+						for (var key2 in data[key]) {
+							$("#debug").prepend(this.oscName+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
+						}
+					} else {
+						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+					}
 				}
 			}
 		}	
@@ -193,7 +204,13 @@ var nx = function() {
 
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
-					this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+					if ((typeof data[key] == "object") && (data[key] !== null)) {
+						for (var key2 in data[key]) {
+							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key+"/"+key2, this.uiIndex, data[key][key2], manager.oscIp);
+						}
+					} else {
+						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+					}
 				}
 			}
 
@@ -214,6 +231,11 @@ var nx = function() {
 			this.localTransmit(data);
 			this.response(data);
 		}
+		
+	}
+
+	this.allTraffic = function(obj, data) {
+
 		
 	}
 	
