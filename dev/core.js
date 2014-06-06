@@ -178,13 +178,15 @@ var nx = function() {
 			
 		} else if (this.transmissionProtocol == "node") {
 
+			console.log(data)
+
 			for (var key in data) {
 
 				var nodemsg = {}
 				nodemsg['oscName'] = this.oscName+"/"+key;
 				nodemsg['value'] = data[key]
 
-	    		socket.emit('nx', nodemsg);
+	    		socket.emit('nx', nodemsg)
 
 			}
 
@@ -236,7 +238,7 @@ var nx = function() {
 
 	this.allTraffic = function(obj, data) {
 
-		
+
 	}
 	
 		// globalLocalTransmit (and localTransmit) is the function to send data to other js objects. 

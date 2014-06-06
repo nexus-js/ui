@@ -113,8 +113,8 @@ function slider(target, transmitCommand) {
 				self.draw();
 			}
 		}
-		var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
-		self.nxTransmit(scaledVal);
+	//	var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
+		self.nxTransmit(self.val);
 	}
 
 }

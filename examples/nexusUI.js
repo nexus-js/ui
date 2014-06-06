@@ -178,13 +178,15 @@ var nx = function() {
 			
 		} else if (this.transmissionProtocol == "node") {
 
+			console.log(data)
+
 			for (var key in data) {
 
 				var nodemsg = {}
 				nodemsg['oscName'] = this.oscName+"/"+key;
 				nodemsg['value'] = data[key]
 
-	    		socket.emit('nx', nodemsg);
+	    		socket.emit('nx', nodemsg)
 
 			}
 
@@ -236,7 +238,7 @@ var nx = function() {
 
 	this.allTraffic = function(obj, data) {
 
-		
+
 	}
 	
 		// globalLocalTransmit (and localTransmit) is the function to send data to other js objects. 
@@ -1282,7 +1284,7 @@ function dial(target, transmitCommand) {
 			//draw circle in center
 			beginPath();
 				fillStyle = self.colors.accent;
-				arc(self.center.x, self.center.y, self.circle_size/15+6, 0, Math.PI*2, false);
+				arc(self.center.x, self.center.y, self.circle_size/8, 0, Math.PI*2, false);
 				fill();
 			closePath(); 
 			
@@ -1805,6 +1807,7 @@ function position(target, transmitCommand) {
 	this.default_text = "touch to control";
 
 	this.init = function() {
+		this.nodeSize = self.width/15;
 		self.actualWid = self.width - self.lineWidth*2 - self.nodeSize*2;
 		self.actualHgt = self.height - self.lineWidth*2 - self.nodeSize*2;
 		self.draw();
@@ -2250,8 +2253,8 @@ function slider(target, transmitCommand) {
 				self.draw();
 			}
 		}
-		var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
-		self.nxTransmit(scaledVal);
+	//	var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
+		self.nxTransmit(self.val);
 	}
 
 }
@@ -2776,7 +2779,7 @@ function joints(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
-	this.nodeSize = 35;
+	this.nodeSize = self.width/14;
 	this.values = [0,0];
 
 	/** @property {object}  val
@@ -2808,11 +2811,6 @@ function joints(target, transmitCommand) {
 	]
 	this.threshold = self.width / 3;
 	
-	this.default_text = "click or touch to control a node";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
-	
-	
 
 	this.init = function() {
 		self.draw();
@@ -2821,6 +2819,10 @@ function joints(target, transmitCommand) {
 	this.draw = function() {
 		self.erase();
 		self.makeRoundedBG();
+
+		self.drawingX = self.val.x * self.width
+		self.drawingY = self.val.y * self.height
+
 		with (self.context) {
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
@@ -2843,13 +2845,13 @@ function joints(target, transmitCommand) {
 					arc(self.joints[i].x, self.joints[i].y, self.nodeSize/2, 0, Math.PI*2, true);					
 					fill();
 				closePath();
-				var cnctX = Math.abs(self.joints[i].x-self.val.x);
-				var cnctY = Math.abs(self.joints[i].y-self.val.y);
+				var cnctX = Math.abs(self.joints[i].x-self.drawingX);
+				var cnctY = Math.abs(self.joints[i].y-self.drawingY);
 				var strength = cnctX + cnctY;
 				if (strength < self.threshold) {
 					beginPath();
 						moveTo(self.joints[i].x, self.joints[i].y);
-						lineTo(self.val.x,self.val.y);
+						lineTo(self.drawingX,self.drawingY);
 						strokeStyle = self.colors.accent;
 						lineWidth = nx.scale( strength, 0, self.threshold, self.nodeSize/2, 5 );
 						stroke();
@@ -2866,16 +2868,16 @@ function joints(target, transmitCommand) {
 
 	this.drawNode = function() {
 		//stay within right/left bounds
-		if (self.val.x<(self.bgLeft+self.nodeSize)) {
-			self.val.x = self.bgLeft + self.nodeSize;
-		} else if (self.val.x>(self.bgRight-self.nodeSize)) {
-			self.val.x = self.bgRight - self.nodeSize;
+		if (self.drawingX<(self.bgLeft+self.nodeSize)) {
+			self.drawingX = self.bgLeft + self.nodeSize;
+		} else if (self.drawingX>(self.bgRight-self.nodeSize)) {
+			self.drawingX = self.bgRight - self.nodeSize;
 		}
 		//stay within top/bottom bounds
-		if (self.val.y<(self.bgTop+self.nodeSize)) {
-			self.val.y = self.bgTop + self.nodeSize;
-		} else if (self.val.y>(self.bgBottom-self.nodeSize)) {
-			self.val.y = self.bgBottom - self.nodeSize;
+		if (self.drawingY<(self.bgTop+self.nodeSize)) {
+			self.drawingY = self.bgTop + self.nodeSize;
+		} else if (self.drawingY>(self.bgBottom-self.nodeSize)) {
+			self.drawingY = self.bgBottom - self.nodeSize;
 		}
 	
 		with (self.context) {
@@ -2884,7 +2886,7 @@ function joints(target, transmitCommand) {
 				fillStyle = self.colors.accent;
 				strokeStyle = self.colors.border;
 				lineWidth = self.lineWidth;
-				arc(self.val.x, self.val.y, self.nodeSize, 0, Math.PI*2, true);					
+				arc(self.drawingX, self.drawingY, self.nodeSize, 0, Math.PI*2, true);					
 				fill();
 			closePath();
 		}
@@ -2897,25 +2899,19 @@ function joints(target, transmitCommand) {
 
 	this.click = function() {
 		self.val = new Object();
-		self.val.x = self.clickPos.x;
-		self.val.y = self.clickPos.y;
+		self.val.x = self.clickPos.x/self.width;
+		self.val.y = self.clickPos.y/self.height;
 		self.draw();
 		self.nxTransmit(self.val);
 		self.connections = new Array();
-		
-	/*	for future curved GUI
-	 	deltaY = self.joints[0].y - self.val.y;
-		deltaX = self.joints[0].x - self.val.x;
-		angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-	    console.log(angleInDegrees); */
 	    
 	}
 
 	this.move = function() {
 		self.val = new Object();
 		if (self.clicked) {
-			self.val.x = self.clickPos.x;
-			self.val.y = self.clickPos.y;
+			self.val.x = self.clickPos.x/self.width;
+			self.val.y = self.clickPos.y/self.height;
 			self.draw();
 			var help = {
 				"self.clickPos.x": self.clickPos.x,
@@ -2935,8 +2931,8 @@ function joints(target, transmitCommand) {
 	}
 	
 	this.touch = function() {
-		self.val.x = self.clickPos.x;
-		self.val.y = self.clickPos.y;
+		self.val.x = self.clickPos.x/self.width;
+		self.val.y = self.clickPos.y/self.height;
 		self.draw();
 		self.nxTransmit(self.val);
 		self.connections = new Array();
@@ -2944,8 +2940,8 @@ function joints(target, transmitCommand) {
 
 	this.touchMove = function() {
 		if (self.clicked) {
-			self.val.x = self.clickPos.x;
-			self.val.y = self.clickPos.y;
+			self.val.x = self.clickPos.x/self.width;
+			self.val.y = self.clickPos.y/self.height;
 			self.draw();
 			self.nxTransmit(self.val);
 			self.connections = new Array();
@@ -3411,12 +3407,15 @@ function message(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	this.val = {
-		message: "default"
+		message: "send a message"
 	}
-	this.size = 13;
+	this.size = 12;
 	
 	this.init = function() {
-		this.val.message = self.canvas.getAttribute("label");
+		if (self.canvas.getAttribute("label")) {
+			this.val.message = self.canvas.getAttribute("label");
+		}	
+		self.size =  Math.sqrt((self.width * self.height) / (self.val.message.length));
 		self.draw();
 	}
 
@@ -3442,9 +3441,12 @@ function message(target, transmitCommand) {
 			fill();
 			globalAlpha = 1;
 			
+
+
+		
 			fillStyle = self.colors.black;
 			textAlign = "left";
-			font = self.size+"px Gill Sans";
+			font = self.size+"px courier";
 		//	fillText(self.val.message, self.width/2, self.height/2+4);
 		}
 		nx.wrapText(self.context, self.val.message, 5, 1+self.size, self.width-6, self.size);
@@ -5530,6 +5532,14 @@ function typewriter(target, transmitCommand) {
 				var currkeyL = 0;
 				for (var j=0;j<self.rows[i].length;j++) {
 
+					if (self.val.key==self.rows[i][j].symbol) {
+						if (self.val.on) {
+							self.rows[i][j].on = true;
+						} else {
+							self.rows[i][j].on = false;
+						}
+					}
+
 					nx.makeRoundRect(self.context, currkeyL , i*self.keyhgt,self.keywid*self.rows[i][j].width,self.keyhgt,8);
 						
 					if (self.rows[i][j].on) {
@@ -5558,13 +5568,15 @@ function typewriter(target, transmitCommand) {
 				}
 			}
 
-			globalAlpha = 0.3
-			fillStyle = self.colors.border;
-			font = self.height+"px courier";
-			textAlign = "center";
-			fillText(self.val.key, self.width/2, self.height/1.25);
-			
-			globalAlpha = 1
+			if (self.val.on) {
+				globalAlpha = 0.3
+				fillStyle = self.colors.border;
+				font = self.height+"px courier";
+				textAlign = "center";
+				fillText(self.val.key, self.width/2, self.height/1.25);
+				
+				globalAlpha = 1
+			}
 
 		}
 		self.drawLabel();
@@ -5582,7 +5594,7 @@ function typewriter(target, transmitCommand) {
 			for (var j=0;j<self.rows[i].length;j++) {
 				if (currKey == self.rows[i][j].value) {
 					console.log(self.rows[i][j].symbol)
-					self.rows[i][j].on = true;
+				//	self.rows[i][j].on = true;
 					self.val.key = self.rows[i][j].symbol;
 					self.val.on = 1;
 					self.val.ascii = e.which;
@@ -5601,7 +5613,7 @@ function typewriter(target, transmitCommand) {
 		for (var i=0;i<self.rows.length;i++) {
 			for (var j=0;j<self.rows[i].length;j++) {
 				if (currKey == self.rows[i][j].value) {
-					self.rows[i][j].on = false;
+				//	self.rows[i][j].on = false;
 					self.val.key = self.rows[i][j].symbol;
 					self.val.on = 0;
 					self.val.ascii = e.which;

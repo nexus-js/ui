@@ -18,6 +18,7 @@ function position(target, transmitCommand) {
 	this.default_text = "touch to control";
 
 	this.init = function() {
+		this.nodeSize = self.width/15;
 		self.actualWid = self.width - self.lineWidth*2 - self.nodeSize*2;
 		self.actualHgt = self.height - self.lineWidth*2 - self.nodeSize*2;
 		self.draw();

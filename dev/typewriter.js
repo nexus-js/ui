@@ -119,6 +119,14 @@ function typewriter(target, transmitCommand) {
 				var currkeyL = 0;
 				for (var j=0;j<self.rows[i].length;j++) {
 
+					if (self.val.key==self.rows[i][j].symbol) {
+						if (self.val.on) {
+							self.rows[i][j].on = true;
+						} else {
+							self.rows[i][j].on = false;
+						}
+					}
+
 					nx.makeRoundRect(self.context, currkeyL , i*self.keyhgt,self.keywid*self.rows[i][j].width,self.keyhgt,8);
 						
 					if (self.rows[i][j].on) {
@@ -147,13 +155,15 @@ function typewriter(target, transmitCommand) {
 				}
 			}
 
-			globalAlpha = 0.3
-			fillStyle = self.colors.border;
-			font = self.height+"px courier";
-			textAlign = "center";
-			fillText(self.val.key, self.width/2, self.height/1.25);
-			
-			globalAlpha = 1
+			if (self.val.on) {
+				globalAlpha = 0.3
+				fillStyle = self.colors.border;
+				font = self.height+"px courier";
+				textAlign = "center";
+				fillText(self.val.key, self.width/2, self.height/1.25);
+				
+				globalAlpha = 1
+			}
 
 		}
 		self.drawLabel();
@@ -171,7 +181,7 @@ function typewriter(target, transmitCommand) {
 			for (var j=0;j<self.rows[i].length;j++) {
 				if (currKey == self.rows[i][j].value) {
 					console.log(self.rows[i][j].symbol)
-					self.rows[i][j].on = true;
+				//	self.rows[i][j].on = true;
 					self.val.key = self.rows[i][j].symbol;
 					self.val.on = 1;
 					self.val.ascii = e.which;
@@ -190,7 +200,7 @@ function typewriter(target, transmitCommand) {
 		for (var i=0;i<self.rows.length;i++) {
 			for (var j=0;j<self.rows[i].length;j++) {
 				if (currKey == self.rows[i][j].value) {
-					self.rows[i][j].on = false;
+				//	self.rows[i][j].on = false;
 					self.val.key = self.rows[i][j].symbol;
 					self.val.on = 0;
 					self.val.ascii = e.which;

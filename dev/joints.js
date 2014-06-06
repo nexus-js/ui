@@ -10,7 +10,7 @@ function joints(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//this.line_width = 3;
-	this.nodeSize = 35;
+	this.nodeSize = self.width/14;
 	this.values = [0,0];
 
 	/** @property {object}  val
@@ -42,11 +42,6 @@ function joints(target, transmitCommand) {
 	]
 	this.threshold = self.width / 3;
 	
-	this.default_text = "click or touch to control a node";	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
-	
-	
 
 	this.init = function() {
 		self.draw();
@@ -55,6 +50,10 @@ function joints(target, transmitCommand) {
 	this.draw = function() {
 		self.erase();
 		self.makeRoundedBG();
+
+		self.drawingX = self.val.x * self.width
+		self.drawingY = self.val.y * self.height
+
 		with (self.context) {
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
@@ -77,13 +76,13 @@ function joints(target, transmitCommand) {
 					arc(self.joints[i].x, self.joints[i].y, self.nodeSize/2, 0, Math.PI*2, true);					
 					fill();
 				closePath();
-				var cnctX = Math.abs(self.joints[i].x-self.val.x);
-				var cnctY = Math.abs(self.joints[i].y-self.val.y);
+				var cnctX = Math.abs(self.joints[i].x-self.drawingX);
+				var cnctY = Math.abs(self.joints[i].y-self.drawingY);
 				var strength = cnctX + cnctY;
 				if (strength < self.threshold) {
 					beginPath();
 						moveTo(self.joints[i].x, self.joints[i].y);
-						lineTo(self.val.x,self.val.y);
+						lineTo(self.drawingX,self.drawingY);
 						strokeStyle = self.colors.accent;
 						lineWidth = nx.scale( strength, 0, self.threshold, self.nodeSize/2, 5 );
 						stroke();
@@ -100,16 +99,16 @@ function joints(target, transmitCommand) {
 
 	this.drawNode = function() {
 		//stay within right/left bounds
-		if (self.val.x<(self.bgLeft+self.nodeSize)) {
-			self.val.x = self.bgLeft + self.nodeSize;
-		} else if (self.val.x>(self.bgRight-self.nodeSize)) {
-			self.val.x = self.bgRight - self.nodeSize;
+		if (self.drawingX<(self.bgLeft+self.nodeSize)) {
+			self.drawingX = self.bgLeft + self.nodeSize;
+		} else if (self.drawingX>(self.bgRight-self.nodeSize)) {
+			self.drawingX = self.bgRight - self.nodeSize;
 		}
 		//stay within top/bottom bounds
-		if (self.val.y<(self.bgTop+self.nodeSize)) {
-			self.val.y = self.bgTop + self.nodeSize;
-		} else if (self.val.y>(self.bgBottom-self.nodeSize)) {
-			self.val.y = self.bgBottom - self.nodeSize;
+		if (self.drawingY<(self.bgTop+self.nodeSize)) {
+			self.drawingY = self.bgTop + self.nodeSize;
+		} else if (self.drawingY>(self.bgBottom-self.nodeSize)) {
+			self.drawingY = self.bgBottom - self.nodeSize;
 		}
 	
 		with (self.context) {
@@ -118,7 +117,7 @@ function joints(target, transmitCommand) {
 				fillStyle = self.colors.accent;
 				strokeStyle = self.colors.border;
 				lineWidth = self.lineWidth;
-				arc(self.val.x, self.val.y, self.nodeSize, 0, Math.PI*2, true);					
+				arc(self.drawingX, self.drawingY, self.nodeSize, 0, Math.PI*2, true);					
 				fill();
 			closePath();
 		}
@@ -131,25 +130,19 @@ function joints(target, transmitCommand) {
 
 	this.click = function() {
 		self.val = new Object();
-		self.val.x = self.clickPos.x;
-		self.val.y = self.clickPos.y;
+		self.val.x = self.clickPos.x/self.width;
+		self.val.y = self.clickPos.y/self.height;
 		self.draw();
 		self.nxTransmit(self.val);
 		self.connections = new Array();
-		
-	/*	for future curved GUI
-	 	deltaY = self.joints[0].y - self.val.y;
-		deltaX = self.joints[0].x - self.val.x;
-		angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-	    console.log(angleInDegrees); */
 	    
 	}
 
 	this.move = function() {
 		self.val = new Object();
 		if (self.clicked) {
-			self.val.x = self.clickPos.x;
-			self.val.y = self.clickPos.y;
+			self.val.x = self.clickPos.x/self.width;
+			self.val.y = self.clickPos.y/self.height;
 			self.draw();
 			var help = {
 				"self.clickPos.x": self.clickPos.x,
@@ -169,8 +162,8 @@ function joints(target, transmitCommand) {
 	}
 	
 	this.touch = function() {
-		self.val.x = self.clickPos.x;
-		self.val.y = self.clickPos.y;
+		self.val.x = self.clickPos.x/self.width;
+		self.val.y = self.clickPos.y/self.height;
 		self.draw();
 		self.nxTransmit(self.val);
 		self.connections = new Array();
@@ -178,8 +171,8 @@ function joints(target, transmitCommand) {
 
 	this.touchMove = function() {
 		if (self.clicked) {
-			self.val.x = self.clickPos.x;
-			self.val.y = self.clickPos.y;
+			self.val.x = self.clickPos.x/self.width;
+			self.val.y = self.clickPos.y/self.height;
 			self.draw();
 			self.nxTransmit(self.val);
 			self.connections = new Array();

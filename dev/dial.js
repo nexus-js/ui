@@ -108,7 +108,7 @@ function dial(target, transmitCommand) {
 			//draw circle in center
 			beginPath();
 				fillStyle = self.colors.accent;
-				arc(self.center.x, self.center.y, self.circle_size/15+6, 0, Math.PI*2, false);
+				arc(self.center.x, self.center.y, self.circle_size/8, 0, Math.PI*2, false);
 				fill();
 			closePath(); 
 			

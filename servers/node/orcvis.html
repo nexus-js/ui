@@ -38,6 +38,11 @@
 
             })
 
+            socket.on('removephone', function (data) {
+              console.log("remove"+ data.name)
+              $("#"+data.name).remove();
+            })
+
             socket.on('tiltvis', function (data) {
               //  $("#"+data.name).css("-webkit-transform", 'rotateX('+data.y*200+'deg) rotateY('+data.z*200+'deg) rotateZ('+data.x*200+'deg)');
                 $("#"+data.name).css("-webkit-transform", 'rotateZ('+data.x*100+'deg) rotateX('+data.y*100+'deg)');

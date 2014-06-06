@@ -10,12 +10,15 @@ function message(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	this.val = {
-		message: "default"
+		message: "send a message"
 	}
-	this.size = 13;
+	this.size = 12;
 	
 	this.init = function() {
-		this.val.message = self.canvas.getAttribute("label");
+		if (self.canvas.getAttribute("label")) {
+			this.val.message = self.canvas.getAttribute("label");
+		}	
+		self.size =  Math.sqrt((self.width * self.height) / (self.val.message.length));
 		self.draw();
 	}
 
@@ -41,9 +44,12 @@ function message(target, transmitCommand) {
 			fill();
 			globalAlpha = 1;
 			
+
+
+		
 			fillStyle = self.colors.black;
 			textAlign = "left";
-			font = self.size+"px Gill Sans";
+			font = self.size+"px courier";
 		//	fillText(self.val.message, self.width/2, self.height/2+4);
 		}
 		nx.wrapText(self.context, self.val.message, 5, 1+self.size, self.width-6, self.size);

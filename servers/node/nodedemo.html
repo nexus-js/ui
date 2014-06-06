@@ -37,6 +37,10 @@
 				socket.emit('adduser', thisUser);
 			});
 
+			socket.on('disconnect', function() {
+				socket.emit('removeuser', thisUser);
+			})
+
 
 			nx.onload = function() {
 
@@ -56,11 +60,23 @@
 	</head>
 	
 	<body>
-	
+		<div>
 		<canvas nx="dial"></canvas>
 		<canvas nx="position"></canvas>
 		<canvas nx="slider"></canvas>
 		<canvas nx="tilt"></canvas>
+		</div>
+		<div>
+		<canvas nx="button"></canvas>
+		<canvas nx="message"></canvas>
+		<canvas nx="message"></canvas>
+		<canvas nx="multislider"></canvas>
+		<br>
+		<canvas nx="joints"></canvas>
+		<br>
+		<canvas nx="number"></canvas>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="typewriter"></canvas>
 	
 	</body>
 	

@@ -21,11 +21,21 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('adduser', function (data) {
       io.sockets.emit('addphone', data);
+      socket.name = data.name
+    });
+
+    socket.on('removeuser', function (data) {
+     
     });
 
     socket.on('tiltuser', function (data) {
       console.log(data)
       io.sockets.emit('tiltvis', data);
+    });
+
+
+    socket.on('disconnect', function() {
+      io.sockets.emit('removephone', {name: socket.name});
     });
 
 });
