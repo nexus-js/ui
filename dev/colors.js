@@ -18,17 +18,17 @@ function colors(target, transmitCommand) {
 	
 	//define unique attributes
 	var pencil_width = 50;
-	var color_width = self.canvas.width - self.padding*2;
-	var color_height = self.canvas.height - self.padding*2;
+	var color_width = self.canvas.width - self.lineWidth*2;
+	var color_height = self.canvas.height - self.lineWidth*2;
 	var color_table;
-	var saturation = 100;
+	var saturation = 240;
 	self.color = [0,0,0];
 	var i;
 
 	/** @property {object}  val    RBG color value at mouse position
-	r &nbsp; red value 0-256<br>
-	g &nbsp; green value 0-256<br>
-	b &nbsp; blue value 0-256<br> 
+	r: &nbsp; red value 0-256<br>
+	g: &nbsp; green value 0-256<br>
+	b: &nbsp; blue value 0-256<br> 
 	*/
 	
 	this.init = function() {
@@ -41,7 +41,7 @@ function colors(target, transmitCommand) {
 		
 		
 		for (i=0;i<color_width;i++) {
-			h = Math.round((255/color_width)*i);
+			h = Math.round((240/color_width)*i);
 			for (j=0;j<color_height;j++) {
 					s = saturation;
 					l = Math.round((100/color_height)*j);
@@ -68,13 +68,24 @@ function colors(target, transmitCommand) {
 				with(self.context) {
  					beginPath();
  					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
- 					fillRect(i+self.padding,j+self.padding, 255/color_width, 100/color_height);
+ 					fillRect(i+self.padding,j+self.padding, 240/color_width, 240/color_height);
  					fill();
  					closePath();
 				}
 			}
 		}
+
 		self.drawLabel();
+	}
+
+	this.drawColor = function() {
+		with(self.context) {
+			fillStyle = "rgb("+self.val.r+","+self.val.g+","+self.val.b+")";
+			beginPath()
+			arc(self.width/8,self.height-self.height/8,self.width/10,0,Math.PI*2)
+			fill()
+			closePath()
+		}
 	}
 
 	this.click = function(e) {
@@ -85,6 +96,7 @@ function colors(target, transmitCommand) {
 			b: imgData.data[2]
 		}
 		self.nxTransmit(self.val);
+		self.drawColor();
 	}
 
 

@@ -11,9 +11,9 @@ value: &nbsp; current dial value as float 0-1<br>
 
 
 ###init()###
-r &nbsp; red value 0-256<br>
-g &nbsp; green value 0-256<br>
-b &nbsp; blue value 0-256<br>
+r: &nbsp; red value 0-256<br>
+g: &nbsp; green value 0-256<br>
+b: &nbsp; blue value 0-256<br>
 
 
 nx
@@ -130,9 +130,9 @@ Color picker that outputs RBG values
 
 **val**:  *object*,  RBG color value at mouse position
 
-r &nbsp; red value 0-256<br>
-g &nbsp; green value 0-256<br>
-b &nbsp; blue value 0-256<br>
+r: &nbsp; red value 0-256<br>
+g: &nbsp; green value 0-256<br>
+b: &nbsp; blue value 0-256<br>
 number
 --------
 number box
