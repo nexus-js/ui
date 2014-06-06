@@ -144,21 +144,12 @@ var nx = function() {
 	}
 	
 	this.nxTransmit = function (data) {
-		//console.log(this);
-		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
-		
-		data = manager.prune(data,3);
 
 		if (self.logOSC) {
 			if (Array.isArray(data)) {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-		/*	if ((typeof data == "object") && (data !== null)) {
-				for (var key in data) {
-					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
-				}
-			} */
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
 					if ((typeof data[key] == "object") && (data[key] !== null)) {
@@ -169,6 +160,8 @@ var nx = function() {
 						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
 					}
 				}
+			} else if (typeof data == "number" || typeof data == "string") {
+				$("#debug").prepend(this.oscName+" "+data+"<br>");
 			}
 		}	
 
@@ -178,7 +171,7 @@ var nx = function() {
 			
 		} else if (this.transmissionProtocol == "node") {
 
-			console.log(data)
+
 
 			for (var key in data) {
 
@@ -214,6 +207,8 @@ var nx = function() {
 						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
 					}
 				}
+			} else if (typeof data == "number" || typeof data == "string") {
+				this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
 			}
 
 			
@@ -472,26 +467,6 @@ var nx = function() {
 	 * 		GUI
 	 */
 	
-	//replaces Colors
-/*	this.colors = { 
-			"accent": "#ff5500", 
-			"fill": "#f7f7f7", 
-			"border": "#ccc", 
-			"accentborder": "#aa2200",
-			"black": "#000",
-			"white": "#FFF"
-}; 
-	this.colors = { 
-			"accent": "#ff5500", 
-			"fill": "#f7f7f7", 
-			"border": "#bbb", 
-			"accentborder": "#aa2200",
-			"black": "#000",
-			"white": "#FFF",
-			"highlight": "rgba(255,85,0,0.5)"
-	};
-
-	*/
 	this.colors = { 
 			"accent": "#ff5500", 
 			"fill": "#f5f5f5", 
@@ -1047,8 +1022,20 @@ function getTemplate(self, target, transmitCommand) {
 	*/
 
 	self.set = function(data, transmit) {
-		for (var key in data) {
-			self.val[key] = data[key];
+
+		if (typeof self.val == "object" && self.val !== "null") {
+			if (typeof data == "object" && data !== "null") {
+				for (var key in data) {
+					self.val[key] = data[key];
+				}
+			}
+		} else if (typeof self.val == "string" || typeof self.val == "number") {
+			if (typeof data == "object" && data !== "null") {
+				self.val = data["value"];
+				self.draw();
+			} else if (typeof data == "string" || typeof data == "number") {
+				self.val = data;
+			}
 		}
 		self.draw();
 		if (transmit) {

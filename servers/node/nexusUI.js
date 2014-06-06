@@ -144,21 +144,12 @@ var nx = function() {
 	}
 	
 	this.nxTransmit = function (data) {
-		//console.log(this);
-		//console.log("nxTransmit data: ", this.transmissionProtocol, data);
-		
-		data = manager.prune(data,3);
 
 		if (self.logOSC) {
 			if (Array.isArray(data)) {
 				data = data.join();
 				data = data.replace(/\,/g," ");
 			}
-		/*	if ((typeof data == "object") && (data !== null)) {
-				for (var key in data) {
-					$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
-				}
-			} */
 			if ((typeof data == "object") && (data !== null)) {
 				for (var key in data) {
 					if ((typeof data[key] == "object") && (data[key] !== null)) {
@@ -169,6 +160,8 @@ var nx = function() {
 						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
 					}
 				}
+			} else if (typeof data == "number" || typeof data == "string") {
+				$("#debug").prepend(this.oscName+" "+data+"<br>");
 			}
 		}	
 
@@ -178,7 +171,7 @@ var nx = function() {
 			
 		} else if (this.transmissionProtocol == "node") {
 
-			console.log(data)
+
 
 			for (var key in data) {
 
@@ -214,6 +207,8 @@ var nx = function() {
 						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
 					}
 				}
+			} else if (typeof data == "number" || typeof data == "string") {
+				this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
 			}
 
 			
@@ -472,26 +467,6 @@ var nx = function() {
 	 * 		GUI
 	 */
 	
-	//replaces Colors
-/*	this.colors = { 
-			"accent": "#ff5500", 
-			"fill": "#f7f7f7", 
-			"border": "#ccc", 
-			"accentborder": "#aa2200",
-			"black": "#000",
-			"white": "#FFF"
-}; 
-	this.colors = { 
-			"accent": "#ff5500", 
-			"fill": "#f7f7f7", 
-			"border": "#bbb", 
-			"accentborder": "#aa2200",
-			"black": "#000",
-			"white": "#FFF",
-			"highlight": "rgba(255,85,0,0.5)"
-	};
-
-	*/
 	this.colors = { 
 			"accent": "#ff5500", 
 			"fill": "#f5f5f5", 
@@ -1047,8 +1022,20 @@ function getTemplate(self, target, transmitCommand) {
 	*/
 
 	self.set = function(data, transmit) {
-		for (var key in data) {
-			self.val[key] = data[key];
+
+		if (typeof self.val == "object" && self.val !== "null") {
+			if (typeof data == "object" && data !== "null") {
+				for (var key in data) {
+					self.val[key] = data[key];
+				}
+			}
+		} else if (typeof self.val == "string" || typeof self.val == "number") {
+			if (typeof data == "object" && data !== "null") {
+				self.val = data["value"];
+				self.draw();
+			} else if (typeof data == "string" || typeof data == "number") {
+				self.val = data;
+			}
 		}
 		self.draw();
 		if (transmit) {
@@ -1201,7 +1188,7 @@ function dial(target, transmitCommand) {
 	} else {
 		this.accentWidth = this.lineWidth * 2;
 	}
-	this.val.value = 0.5;
+	this.val = 0.5;
 	this.responsivity = 0.005;
 	this.toCartesian = nx.toCartesian;
 	this.throttle = nx.throttle;
@@ -1232,12 +1219,12 @@ function dial(target, transmitCommand) {
 
 	this.draw = function() {
 		//dial_line
-		var dial_angle = (((1.0 - self.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
-		var dial_position = (self.val.value + 0.25) * 2 * Math.PI
+		var dial_angle = (((1.0 - self.val) * 2 * Math.PI) + (1.5 * Math.PI));
+		var dial_position = (self.val + 0.25) * 2 * Math.PI
 		var point = self.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
-			self.recorder.write(self.tapeNum,self.val.value);
+			self.recorder.write(self.tapeNum,self.val);
 		}
 
 		with (self.context) {
@@ -1295,9 +1282,10 @@ function dial(target, transmitCommand) {
 	
 
 	this.click = function(e) {
+		self.val = nx.prune(self.val, 3)
 		self.nxTransmit(self.val);
 		self.draw();
-		self.aniStart = self.val.value;
+		self.aniStart = self.val;
 	}
 
 
@@ -1305,7 +1293,9 @@ function dial(target, transmitCommand) {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
 		
-		self.val.value = self.clip((self.val.value - (self.deltaMove.y * self.responsivity)), 0, 1);
+		self.val = self.clip((self.val - (self.deltaMove.y * self.responsivity)), 0, 1);
+		
+		self.val = nx.prune(self.val, 3)
 		self.nxTransmit(self.val);
 		
 		self.draw();
@@ -1313,9 +1303,8 @@ function dial(target, transmitCommand) {
 
 
 	this.release = function() {
-		self.aniStop = self.val.value;
+		self.aniStop = self.val;
 	}
-	
 
 	this.animate = function(aniType) {
 		
@@ -1332,14 +1321,15 @@ function dial(target, transmitCommand) {
 	
 	this.aniBounce = function() {
 		if (!self.clicked) {
-			self.val.value += self.aniMove;
+			self.val += self.aniMove;
 			if (self.aniStop < self.aniStart) {
 				self.stopPlaceholder = self.aniStop;
 				self.aniStop = self.aniStart;
 				self.aniStart = self.stopPlaceholder;
 			}
-			self.aniMove = nx.bounce(self.val.value, self.aniStart, self.aniStop, self.aniMove);	
+			self.aniMove = nx.bounce(self.val, self.aniStart, self.aniStop, self.aniMove);	
 			self.draw();
+			self.val = nx.prune(self.val, 3)
 			self.nxTransmit(self.val);
 		}
 	}
@@ -2984,6 +2974,11 @@ function joints(target, transmitCommand) {
 	```
 	<canvas nx="colors" style="margin-left:25px"></canvas>
 */
+
+
+// this object is poor when it is resized
+// because it calculates hsl based on
+// hsl max values / width of object...
 				
 function colors(target, transmitCommand) {
 					
@@ -3367,17 +3362,26 @@ function comment(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	this.value = "comment";
-	this.size = 14;
-	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.val = {
+		text: "comment"
+	}
+	this.sizeSet = false;
+
+	this.setSize = function(size) {
+		self.size = size;
+		self.sizeSet = true;
+		self.draw();
+	}
 	
 	this.init = function() {
 		self.draw();
 	}
 
 	this.draw = function() {
+		if (!self.sizeSet) {
+			self.size = Math.sqrt((self.width * self.height) / (self.val.text.length));
+		}
+	
 		self.erase();
 		with (self.context) {
 			globalAlpha = 1;
@@ -3387,7 +3391,8 @@ function comment(target, transmitCommand) {
 			
 			strokeStyle = self.colors.border;
 			lineWidth = 3;
-		//	strokeRect(0,0,self.width,self.height);
+			strokeStyle = self.colors.accent;
+			strokeRect(0,0,self.width,self.height);
 			
 			beginPath();
 			moveTo(0,self.height);
@@ -3402,9 +3407,8 @@ function comment(target, transmitCommand) {
 			fillStyle = self.colors.black;
 			textAlign = "left";
 			font = self.size+"px Gill Sans";
-		//	fillText(self.value, 3, self.height/2+self.height/4);
 		}
-		nx.wrapText(self.context, self.value, 6, 3+self.size, self.width-6, self.size);
+		nx.wrapText(self.context, self.val.text, 6, 3+self.size, self.width-6, self.size);
 	}
 }
 // Javascript message
@@ -3427,7 +3431,7 @@ function message(target, transmitCommand) {
 		if (self.canvas.getAttribute("label")) {
 			this.val.message = self.canvas.getAttribute("label");
 		}	
-		self.size =  Math.sqrt((self.width * self.height) / (self.val.message.length));
+		self.size = Math.sqrt((self.width * self.height) / (self.val.message.length));
 		self.draw();
 	}
 

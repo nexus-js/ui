@@ -17,7 +17,7 @@ function slider(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
-	this.val.value = 0.7
+	this.val = 0.7
 	this.label = self.oscName;
 	this.mode = "absolute";
 	
@@ -38,9 +38,9 @@ function slider(target, transmitCommand) {
 		self.erase();
 		self.makeRoundedBG();
 		
-		var level = self.val.value * self.realSpace.y;
+		var level = self.val * self.realSpace.y;
 		var x1 = self.lineWidth;
-		var y1 = self.height-self.val.value*self.height;
+		var y1 = self.height-self.val*self.height;
 		var x2 = self.lineWidth+self.realSpace.x;
 		var y2 = self.height-self.lineWidth;
 		var depth = 0;
@@ -56,7 +56,7 @@ function slider(target, transmitCommand) {
 			fillStyle = this.colors.accent;
 	   
 			beginPath();
-			if (self.val.value>0.97) {
+			if (self.val>0.97) {
 				moveTo(x1+depth, y1); //TOP LEFT
 				lineTo(x2-depth, y1); //TOP RIGHT
 				quadraticCurveTo(x2, y1, x2, y1+depth);
@@ -68,13 +68,13 @@ function slider(target, transmitCommand) {
 			quadraticCurveTo(x2, y2, x2-depth, y2);
 			lineTo(x1+depth, y2); //BOTTOM LEFT
 			quadraticCurveTo(x1, y2, x1, y2-depth);
-			if (self.val.value>0.95) {
+			if (self.val>0.95) {
 				lineTo(x1, y1+depth); //TOP LEFT
 				quadraticCurveTo(x1, y1, x1+depth, y1);
 			} else {
 				lineTo(x1, y1); //TOP LEFT
 			}
-			if (self.val.value>0.03) {
+			if (self.val>0.03) {
 				globalAlpha = 0.8;
 				fill();	
 				globalAlpha = 1;
@@ -104,16 +104,16 @@ function slider(target, transmitCommand) {
 	this.move = function() {
 		if (self.mode=="absolute") {
 			if (self.clicked) {
-				self.val.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
+				self.val = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
-				self.val.value = nx.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
+				self.val = nx.clip((self.val + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
 				self.draw();
 			}
 		}
-	//	var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
+	//	var scaledVal = ( self.val - 0.02 ) * (1/.97);
 		self.nxTransmit(self.val);
 	}
 

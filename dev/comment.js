@@ -16,17 +16,26 @@ function comment(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	this.value = "comment";
-	this.size = 14;
-	
-	this.throttle = nx.throttle;
-	this.clip = nx.clip;
+	this.val = {
+		text: "comment"
+	}
+	this.sizeSet = false;
+
+	this.setSize = function(size) {
+		self.size = size;
+		self.sizeSet = true;
+		self.draw();
+	}
 	
 	this.init = function() {
 		self.draw();
 	}
 
 	this.draw = function() {
+		if (!self.sizeSet) {
+			self.size = Math.sqrt((self.width * self.height) / (self.val.text.length));
+		}
+	
 		self.erase();
 		with (self.context) {
 			globalAlpha = 1;
@@ -36,7 +45,8 @@ function comment(target, transmitCommand) {
 			
 			strokeStyle = self.colors.border;
 			lineWidth = 3;
-		//	strokeRect(0,0,self.width,self.height);
+			strokeStyle = self.colors.accent;
+			strokeRect(0,0,self.width,self.height);
 			
 			beginPath();
 			moveTo(0,self.height);
@@ -51,8 +61,7 @@ function comment(target, transmitCommand) {
 			fillStyle = self.colors.black;
 			textAlign = "left";
 			font = self.size+"px Gill Sans";
-		//	fillText(self.value, 3, self.height/2+self.height/4);
 		}
-		nx.wrapText(self.context, self.value, 6, 3+self.size, self.width-6, self.size);
+		nx.wrapText(self.context, self.val.text, 6, 3+self.size, self.width-6, self.size);
 	}
 }

@@ -25,7 +25,7 @@ function dial(target, transmitCommand) {
 	} else {
 		this.accentWidth = this.lineWidth * 2;
 	}
-	this.val.value = 0.5;
+	this.val = 0.5;
 	this.responsivity = 0.005;
 	this.toCartesian = nx.toCartesian;
 	this.throttle = nx.throttle;
@@ -56,12 +56,12 @@ function dial(target, transmitCommand) {
 
 	this.draw = function() {
 		//dial_line
-		var dial_angle = (((1.0 - self.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
-		var dial_position = (self.val.value + 0.25) * 2 * Math.PI
+		var dial_angle = (((1.0 - self.val) * 2 * Math.PI) + (1.5 * Math.PI));
+		var dial_position = (self.val + 0.25) * 2 * Math.PI
 		var point = self.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
-			self.recorder.write(self.tapeNum,self.val.value);
+			self.recorder.write(self.tapeNum,self.val);
 		}
 
 		with (self.context) {
@@ -119,9 +119,10 @@ function dial(target, transmitCommand) {
 	
 
 	this.click = function(e) {
+		self.val = nx.prune(self.val, 3)
 		self.nxTransmit(self.val);
 		self.draw();
-		self.aniStart = self.val.value;
+		self.aniStart = self.val;
 	}
 
 
@@ -129,7 +130,9 @@ function dial(target, transmitCommand) {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
 		
-		self.val.value = self.clip((self.val.value - (self.deltaMove.y * self.responsivity)), 0, 1);
+		self.val = self.clip((self.val - (self.deltaMove.y * self.responsivity)), 0, 1);
+		
+		self.val = nx.prune(self.val, 3)
 		self.nxTransmit(self.val);
 		
 		self.draw();
@@ -137,9 +140,8 @@ function dial(target, transmitCommand) {
 
 
 	this.release = function() {
-		self.aniStop = self.val.value;
+		self.aniStop = self.val;
 	}
-	
 
 	this.animate = function(aniType) {
 		
@@ -156,14 +158,15 @@ function dial(target, transmitCommand) {
 	
 	this.aniBounce = function() {
 		if (!self.clicked) {
-			self.val.value += self.aniMove;
+			self.val += self.aniMove;
 			if (self.aniStop < self.aniStart) {
 				self.stopPlaceholder = self.aniStop;
 				self.aniStop = self.aniStart;
 				self.aniStart = self.stopPlaceholder;
 			}
-			self.aniMove = nx.bounce(self.val.value, self.aniStart, self.aniStop, self.aniMove);	
+			self.aniMove = nx.bounce(self.val, self.aniStart, self.aniStop, self.aniMove);	
 			self.draw();
+			self.val = nx.prune(self.val, 3)
 			self.nxTransmit(self.val);
 		}
 	}

@@ -6,6 +6,11 @@
 	```
 	<canvas nx="colors" style="margin-left:25px"></canvas>
 */
+
+
+// this object is poor when it is resized
+// because it calculates hsl based on
+// hsl max values / width of object...
 				
 function colors(target, transmitCommand) {
 					

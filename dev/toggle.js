@@ -16,9 +16,7 @@ function toggle(target, transmitCommand) {
 		this.fontsize = 11;
 	}
 
-	this.val = {
-		on: 0
-	}
+	this.val = 0
 
 	this.init = function() {
 		self.draw();
@@ -37,7 +35,7 @@ function toggle(target, transmitCommand) {
 			if ( self.width > 40 && self.height > 40 ) {
 				fillStyle = self.colors.fill;
 			} else {
-				if (self.val.on) {
+				if (self.val) {
 					fillStyle = self.colors.accent;
 				} else {
 					fillStyle = self.colors.border;
@@ -85,7 +83,7 @@ function toggle(target, transmitCommand) {
 				fillStyle = self.colors.white;
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
-				if (self.val.on) {
+				if (self.val) {
 					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {
 					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
@@ -98,10 +96,10 @@ function toggle(target, transmitCommand) {
 	}
 	
 	this.click = function() {
-		if (!self.val.on) {
-			self.val.on = 1;
+		if (!self.val) {
+			self.val = 1;
 		} else {
-			self.val.on = 0;
+			self.val = 0;
 		}
 		self.draw();
 		self.nxTransmit(self.val);

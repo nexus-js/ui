@@ -8,8 +8,10 @@
 		
 			nx.onload = function() {
 				nx.colorize("#0af");
-				comment1.value = "Volume for a Synth"
-				comment1.draw()
+				comment1.set({
+					text:  "Volume for a Synth"
+				});
+				comment2.setSize(40);
 
 				nx.printOSC()
 			}
@@ -22,6 +24,8 @@
 			
 		
 		<canvas nx="comment"></canvas>
+		
+		<canvas nx="comment" style="width:200px;height:100px"></canvas>
 	
 	
 	</body>

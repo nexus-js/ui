@@ -89,7 +89,6 @@ function joints(target, transmitCommand) {
 					closePath();
 					var scaledstrength = nx.scale( strength, 0, self.threshold, 1, 0 );
 					self.val["node"+i] = scaledstrength;
-
 				}
 			}
 		}
