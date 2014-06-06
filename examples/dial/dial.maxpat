@@ -7,7 +7,7 @@
 			"revision" : 8
 		}
 ,
-		"rect" : [ 454.0, 65.0, 826.0, 648.0 ],
+		"rect" : [ 512.0, 90.0, 826.0, 648.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -36,7 +36,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 352.0, 161.0, 50.0, 18.0 ],
-					"text" : "0.415"
+					"text" : "1."
 				}
 
 			}
@@ -50,7 +50,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 183.0, 161.0, 50.0, 18.0 ],
-					"text" : "0.135"
+					"text" : "0.21"
 				}
 
 			}
@@ -64,7 +64,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 35.0, 161.0, 50.0, 18.0 ],
-					"text" : "0.325"
+					"text" : "1."
 				}
 
 			}
@@ -242,7 +242,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 117.223137, 473.694183, 42.0, 20.0 ],
-					"text" : "*~ 0.2"
+					"text" : "*~ 0.8"
 				}
 
 			}

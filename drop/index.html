@@ -46,8 +46,8 @@
 				}
 				addnew.sendsTo("js")
 				addnew.response = function(data) {
-					console.log(data)
-					createObject(data)
+					console.log(data.text)
+					createObject(data.text)
 				}
 
 			}

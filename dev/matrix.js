@@ -17,7 +17,7 @@ function matrix(target, transmitCommand) {
 	
 	this.on = false;
 	this.off = 3;
-	this.matrix; 
+	this.matrix;
 	this.matrixLevels;
 	this.cellHgt;
 	this.cellWid;
@@ -26,17 +26,14 @@ function matrix(target, transmitCommand) {
 	this.init = function() {
 		
 		// generate 2D matrix array
-		self.matrix = new Array(self.row);
-		self.matrixLevels = new Array(self.row);
+		self.matrix = new Array(self.row)
 		for (i=0;i<self.matrix.length;i++) {
-			self.matrix[i] = new Array(self.col);
-			self.matrixLevels[i] = new Array(self.col);
+			self.matrix[i] = new Array(self.col)
 		}
 		
 		for (i=0;i<self.row;i++) {
 			for (j=0;j<self.col;j++) {
 				self.matrix[i][j] = 0; // set value of each matrix cell
-				self.matrixLevels[i][j] = 1; // set default matrix levels
 			}
 		}
 	
@@ -54,20 +51,18 @@ function matrix(target, transmitCommand) {
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
 			lineWidth = this.lineWidth;
-			stroke();
-			fill();
 		}
 		
 		for (i=0;i<this.row;i++){
 			for (j=0;j<this.col;j++) {
-				var st_x = j*this.cellWid+this.padding+this.lineWidth; // starting point(left)
-				var st_y = i*this.cellHgt+this.padding+this.lineWidth; // starting point(top)
+				var st_x = j*this.cellWid+this.lineWidth; // starting point(left)
+				var st_y = i*this.cellHgt+this.lineWidth; // starting point(top)
 				var mo_x = this.cellWid*this.matrix[i][j]; //dynamic changes of diagonal line
 				var mo_y = this.cellHgt*this.matrix[i][j]; //dynamic changes of diagonal line
 				var de_x = (j+1)*this.cellWid+this.off/2; // end point(right)
 				var de_y = (i+1)*this.cellHgt+this.off+this.off/2; // end point(bottom)
-				var boxwid = this.cellWid - this.padding - this.lineWidth;
-				var boxhgt = this.cellHgt - this.padding - this.lineWidth;
+				var boxwid = this.cellWid - this.lineWidth;
+				var boxhgt = this.cellHgt - this.lineWidth;
 	
 				nx.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
 				with (this.context) {
@@ -120,89 +115,27 @@ function matrix(target, transmitCommand) {
 	var whichCell;
 	
 	this.click = function(e) {
-		for (i=0; i<self.row; i++) {
-			for (j=0; j<self.col; j++) {
-				var cell_x = j*self.cellWid+self.off/2;
-				var cell_y = i*self.cellHgt+self.off+self.off/2;
-	
-				if(cell_x<self.clickPos.x && self.clickPos.x<cell_x+self.cellWid && cell_y<self.clickPos.y && self.clickPos.y<cell_y+self.cellHgt) {
-					if(e.shiftKey != 1) {
-					//	self.matrix[i][j] = (self.matrix[i][j]+1)%2;
-						if (self.matrix[i][j]>0) {
-							self.matrix[i][j]=0;
-						} else {
-							self.matrix[i][j] = self.matrixLevels[i][j];	
-						}
-					}
-					whichCell = [i,j];
-					break;
-				}
-			}
+
+		self.cur = {
+			col: ~~(self.clickPos.x/self.cellWid),
+			row: ~~(self.clickPos.y/self.cellHgt)
 		}
-		self.nxTransmit(self.matrix);
+
+		self.cur["value"] = self.clickPos.y-(self.cellHgt*self.cur.row)
+		self.cur["value"] = self.cur.value/self.cellHgt
+		self.cur["value"] = nx.invert(self.cur["value"])
+
+		self.matrix[self.cur.row][self.cur.col] = self.cur["value"];
+
+		self.nxTransmit(self.cur);
 		self.draw();
 	}
 	
 	this.move = function(e) {
-		if (self.clicked) {
-		//	if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
-				
-				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
-				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
-				self.matrixLevels[whichCell[0]][whichCell[1]] = delta_value;
-				self.nxTransmit(self.matrix);
-				self.draw();
-	
-		//	}
+		if (self.clicked && self.clickPos.y>=0) {
+			self.click(e)
 		}
 	}
-	
-	this.release = function() {
 		
-	}
-	
-		
-	this.touch = function(e) {
-		for (i=0; i<self.row; i++) {
-			for (j=0; j<self.col; j++) {
-				var cell_x = j*self.cellWid+self.off/2;
-				var cell_y = i*self.cellHgt+self.off+self.off/2;
-	
-				if(cell_x<self.clickPos.x && self.clickPos.x<cell_x+self.cellWid && cell_y<self.clickPos.y && self.clickPos.y<cell_y+self.cellHgt) {
-					if(e.shiftKey != 1) {
-					//	self.matrix[i][j] = (self.matrix[i][j]+1)%2;
-						if (self.matrix[i][j]>0) {
-							self.matrix[i][j]=0;
-						} else {
-							self.matrix[i][j] = self.matrixLevels[i][j];	
-						}
-					}
-					whichCell = [i,j];
-					break;
-				}
-			}
-		}
-		self.nxTransmit(self.matrix);
-		self.draw();
-	}
-
-
-	this.touchMove = function(e) {
-		if (self.clicked) {
-		//	if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
-				
-				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
-				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
-				self.matrixLevels[whichCell[0]][whichCell[1]] = delta_value;
-				self.draw();
-	
-		//	} 
-		}
-		self.nxTransmit(self.matrix);
-	}
-
-
-	this.touchRelease = function(e) {
-	}
 	
 }

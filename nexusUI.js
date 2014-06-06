@@ -1069,9 +1069,7 @@ function toggle(target, transmitCommand) {
 		this.fontsize = 11;
 	}
 
-	this.val = {
-		on: 0
-	}
+	this.val = 0
 
 	this.init = function() {
 		self.draw();
@@ -1090,7 +1088,7 @@ function toggle(target, transmitCommand) {
 			if ( self.width > 40 && self.height > 40 ) {
 				fillStyle = self.colors.fill;
 			} else {
-				if (self.val.on) {
+				if (self.val) {
 					fillStyle = self.colors.accent;
 				} else {
 					fillStyle = self.colors.border;
@@ -1138,7 +1136,7 @@ function toggle(target, transmitCommand) {
 				fillStyle = self.colors.white;
 				font = "bold "+self.fontsize+"px courier";
 				textAlign = "center";
-				if (self.val.on) {
+				if (self.val) {
 					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {
 					fillText("off", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );
@@ -1151,10 +1149,10 @@ function toggle(target, transmitCommand) {
 	}
 	
 	this.click = function() {
-		if (!self.val.on) {
-			self.val.on = 1;
+		if (!self.val) {
+			self.val = 1;
 		} else {
-			self.val.on = 0;
+			self.val = 0;
 		}
 		self.draw();
 		self.nxTransmit(self.val);
@@ -1683,9 +1681,10 @@ function keyboard(target, transmitCommand) {
 		midi_note = keys[note_new][5];
 		
 		// change the note_new --> midi_note_new (offset)
-		self.val = {
-			note: midi_note, 
-			on: 1
+		self.val = { 
+			on: 1,
+			note: midi_note,
+			midi: midi_note + " " + 1
 		};
 		self.nxTransmit(self.val);
 		self.draw();	
@@ -1699,15 +1698,17 @@ function keyboard(target, transmitCommand) {
 				self.change_cell(note_new, 1);
 				midi_note = keys[note_new][5];
 			//	self.nxTransmit(midi_note+" "+1);
-				self.val = {
-					note: midi_note, 
-					on: 1
+				self.val = { 
+					on: 1,
+					note: midi_note,
+					midi: midi_note + " " + 1
 				};
 				self.nxTransmit(self.val);
 				midi_note = keys[note_old][5];
-				self.val = {
-					note: midi_note, 
-					on: 0
+				self.val = { 
+					on: 0,
+					note: midi_note,
+					midi: midi_note + " " + 0
 				};
 				self.nxTransmit(self.val);
 			//	self.nxTransmit(midi_note+" "+0);
@@ -1726,14 +1727,14 @@ function keyboard(target, transmitCommand) {
 		}
 		midi_note = keys[note_new][5];
 		self.val = {
-			note: midi_note, 
-			on: 0
+			on: 0,
+			note: midi_note,
+			midi: midi_note + " " + 0
 		};
 		self.nxTransmit(self.val);
-	//	self.nxTransmit(midi_note+" "+0);
 		self.draw();
 	}
-	
+	/*
 	this.type = function(e) {
 		var currKey = e.which;
 		if (e.which>47 && e.which<91) {
@@ -1773,7 +1774,7 @@ function keyboard(target, transmitCommand) {
 				self.draw();
 			}
 		}	
-	}
+	} */
 	
 }
 
@@ -1939,7 +1940,7 @@ function matrix(target, transmitCommand) {
 	
 	this.on = false;
 	this.off = 3;
-	this.matrix; 
+	this.matrix;
 	this.matrixLevels;
 	this.cellHgt;
 	this.cellWid;
@@ -1948,17 +1949,14 @@ function matrix(target, transmitCommand) {
 	this.init = function() {
 		
 		// generate 2D matrix array
-		self.matrix = new Array(self.row);
-		self.matrixLevels = new Array(self.row);
+		self.matrix = new Array(self.row)
 		for (i=0;i<self.matrix.length;i++) {
-			self.matrix[i] = new Array(self.col);
-			self.matrixLevels[i] = new Array(self.col);
+			self.matrix[i] = new Array(self.col)
 		}
 		
 		for (i=0;i<self.row;i++) {
 			for (j=0;j<self.col;j++) {
 				self.matrix[i][j] = 0; // set value of each matrix cell
-				self.matrixLevels[i][j] = 1; // set default matrix levels
 			}
 		}
 	
@@ -1976,20 +1974,18 @@ function matrix(target, transmitCommand) {
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
 			lineWidth = this.lineWidth;
-			stroke();
-			fill();
 		}
 		
 		for (i=0;i<this.row;i++){
 			for (j=0;j<this.col;j++) {
-				var st_x = j*this.cellWid+this.padding+this.lineWidth; // starting point(left)
-				var st_y = i*this.cellHgt+this.padding+this.lineWidth; // starting point(top)
+				var st_x = j*this.cellWid+this.lineWidth; // starting point(left)
+				var st_y = i*this.cellHgt+this.lineWidth; // starting point(top)
 				var mo_x = this.cellWid*this.matrix[i][j]; //dynamic changes of diagonal line
 				var mo_y = this.cellHgt*this.matrix[i][j]; //dynamic changes of diagonal line
 				var de_x = (j+1)*this.cellWid+this.off/2; // end point(right)
 				var de_y = (i+1)*this.cellHgt+this.off+this.off/2; // end point(bottom)
-				var boxwid = this.cellWid - this.padding - this.lineWidth;
-				var boxhgt = this.cellHgt - this.padding - this.lineWidth;
+				var boxwid = this.cellWid - this.lineWidth;
+				var boxhgt = this.cellHgt - this.lineWidth;
 	
 				nx.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
 				with (this.context) {
@@ -2042,90 +2038,28 @@ function matrix(target, transmitCommand) {
 	var whichCell;
 	
 	this.click = function(e) {
-		for (i=0; i<self.row; i++) {
-			for (j=0; j<self.col; j++) {
-				var cell_x = j*self.cellWid+self.off/2;
-				var cell_y = i*self.cellHgt+self.off+self.off/2;
-	
-				if(cell_x<self.clickPos.x && self.clickPos.x<cell_x+self.cellWid && cell_y<self.clickPos.y && self.clickPos.y<cell_y+self.cellHgt) {
-					if(e.shiftKey != 1) {
-					//	self.matrix[i][j] = (self.matrix[i][j]+1)%2;
-						if (self.matrix[i][j]>0) {
-							self.matrix[i][j]=0;
-						} else {
-							self.matrix[i][j] = self.matrixLevels[i][j];	
-						}
-					}
-					whichCell = [i,j];
-					break;
-				}
-			}
+
+		self.cur = {
+			col: ~~(self.clickPos.x/self.cellWid),
+			row: ~~(self.clickPos.y/self.cellHgt)
 		}
-		self.nxTransmit(self.matrix);
+
+		self.cur["value"] = self.clickPos.y-(self.cellHgt*self.cur.row)
+		self.cur["value"] = self.cur.value/self.cellHgt
+		self.cur["value"] = nx.invert(self.cur["value"])
+
+		self.matrix[self.cur.row][self.cur.col] = self.cur["value"];
+
+		self.nxTransmit(self.cur);
 		self.draw();
 	}
 	
 	this.move = function(e) {
-		if (self.clicked) {
-		//	if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
-				
-				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
-				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
-				self.matrixLevels[whichCell[0]][whichCell[1]] = delta_value;
-				self.nxTransmit(self.matrix);
-				self.draw();
-	
-		//	}
+		if (self.clicked && self.clickPos.y>=0) {
+			self.click(e)
 		}
 	}
-	
-	this.release = function() {
 		
-	}
-	
-		
-	this.touch = function(e) {
-		for (i=0; i<self.row; i++) {
-			for (j=0; j<self.col; j++) {
-				var cell_x = j*self.cellWid+self.off/2;
-				var cell_y = i*self.cellHgt+self.off+self.off/2;
-	
-				if(cell_x<self.clickPos.x && self.clickPos.x<cell_x+self.cellWid && cell_y<self.clickPos.y && self.clickPos.y<cell_y+self.cellHgt) {
-					if(e.shiftKey != 1) {
-					//	self.matrix[i][j] = (self.matrix[i][j]+1)%2;
-						if (self.matrix[i][j]>0) {
-							self.matrix[i][j]=0;
-						} else {
-							self.matrix[i][j] = self.matrixLevels[i][j];	
-						}
-					}
-					whichCell = [i,j];
-					break;
-				}
-			}
-		}
-		self.nxTransmit(self.matrix);
-		self.draw();
-	}
-
-
-	this.touchMove = function(e) {
-		if (self.clicked) {
-		//	if (self.matrix[whichCell[0]][whichCell[1]] > 0) {
-				
-				delta_value = Math.min(1.0, Math.max(0.0, self.matrix[whichCell[0]][whichCell[1]]+(self.deltaMove.y*-1)*0.01));	
-				self.matrix[whichCell[0]][whichCell[1]] = delta_value;
-				self.matrixLevels[whichCell[0]][whichCell[1]] = delta_value;
-				self.draw();
-	
-		//	} 
-		}
-		self.nxTransmit(self.matrix);
-	}
-
-
-	this.touchRelease = function(e) {
-	}
 	
 }
 /** 
@@ -2147,7 +2081,7 @@ function slider(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
-	this.val.value = 0.7
+	this.val = 0.7
 	this.label = self.oscName;
 	this.mode = "absolute";
 	
@@ -2168,9 +2102,9 @@ function slider(target, transmitCommand) {
 		self.erase();
 		self.makeRoundedBG();
 		
-		var level = self.val.value * self.realSpace.y;
+		var level = self.val * self.realSpace.y;
 		var x1 = self.lineWidth;
-		var y1 = self.height-self.val.value*self.height;
+		var y1 = self.height-self.val*self.height;
 		var x2 = self.lineWidth+self.realSpace.x;
 		var y2 = self.height-self.lineWidth;
 		var depth = 0;
@@ -2186,7 +2120,7 @@ function slider(target, transmitCommand) {
 			fillStyle = this.colors.accent;
 	   
 			beginPath();
-			if (self.val.value>0.97) {
+			if (self.val>0.97) {
 				moveTo(x1+depth, y1); //TOP LEFT
 				lineTo(x2-depth, y1); //TOP RIGHT
 				quadraticCurveTo(x2, y1, x2, y1+depth);
@@ -2198,13 +2132,13 @@ function slider(target, transmitCommand) {
 			quadraticCurveTo(x2, y2, x2-depth, y2);
 			lineTo(x1+depth, y2); //BOTTOM LEFT
 			quadraticCurveTo(x1, y2, x1, y2-depth);
-			if (self.val.value>0.95) {
+			if (self.val>0.95) {
 				lineTo(x1, y1+depth); //TOP LEFT
 				quadraticCurveTo(x1, y1, x1+depth, y1);
 			} else {
 				lineTo(x1, y1); //TOP LEFT
 			}
-			if (self.val.value>0.03) {
+			if (self.val>0.03) {
 				globalAlpha = 0.8;
 				fill();	
 				globalAlpha = 1;
@@ -2234,16 +2168,16 @@ function slider(target, transmitCommand) {
 	this.move = function() {
 		if (self.mode=="absolute") {
 			if (self.clicked) {
-				self.val.value = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
+				self.val = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
-				self.val.value = nx.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
+				self.val = nx.clip((self.val + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
 				self.draw();
 			}
 		}
-	//	var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
+	//	var scaledVal = ( self.val - 0.02 ) * (1/.97);
 		self.nxTransmit(self.val);
 	}
 
@@ -2848,7 +2782,6 @@ function joints(target, transmitCommand) {
 					closePath();
 					var scaledstrength = nx.scale( strength, 0, self.threshold, 1, 0 );
 					self.val["node"+i] = scaledstrength;
-
 				}
 			}
 		}
@@ -3281,9 +3214,7 @@ function number(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
-	this.val = {
-		value: 0
-	};
+	this.val = 0
 	
 	this.throttle = nx.throttle;
 	this.clip = nx.clip;
@@ -3306,14 +3237,14 @@ function number(target, transmitCommand) {
 			textAlign = "left";
 			font = self.height*.6+"px courier";
       		textBaseline = 'middle';
-			fillText(self.val.value, 10, self.height/2-1);
+			fillText(self.val, 10, self.height/2-1);
 		}
 	}
 
 	this.move = function(e) {
 		if (self.clicked) {
-			self.val.value += (self.deltaMove.y*-.1);
-			self.val.value = nx.prune(self.val.value,1);
+			self.val += (self.deltaMove.y*-.1);
+			self.val = nx.prune(self.val,1);
 			self.draw();
 			self.nxTransmit(self.val);
 		}
