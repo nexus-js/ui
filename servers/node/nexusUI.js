@@ -2048,6 +2048,10 @@ function matrix(target, transmitCommand) {
 		self.cur["value"] = self.cur.value/self.cellHgt
 		self.cur["value"] = nx.invert(self.cur["value"])
 
+		if (self.cur["value"]<=0.3) {
+			self.cur.value = 0;
+		}
+
 		self.matrix[self.cur.row][self.cur.col] = self.cur["value"];
 
 		self.nxTransmit(self.cur);
