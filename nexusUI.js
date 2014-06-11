@@ -34,6 +34,7 @@ var nx = function() {
 	this.oscIp = "127.0.0.1";
 	canvasgridy = 50;
 	canvasgridx = 50;
+	this.starttime = new Date().getTime();
 	
 
 	/** 
@@ -647,8 +648,16 @@ var nx = function() {
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
 
+
 	
 }
+
+
+//var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+ //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+
+
 
 
 
@@ -1991,7 +2000,6 @@ function matrix(target, transmitCommand) {
 				with (this.context) {
 					strokeStyle = self.colors.border;
 					fillStyle = self.colors.fill;
-					lineWidth = this.lineWidth;
 					stroke();
 					fill();
 	
@@ -2029,6 +2037,17 @@ function matrix(target, transmitCommand) {
 						fillStyle = self.colors.accent;
 						fill();
 					}
+
+					nx.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
+				
+					// sequencer highlight
+					if (self.place != null && self.place == i*self.col+j) {
+						globalAlpha = 0.4;
+						fillStyle = self.colors.accent;
+						fill();
+						globalAlpha = 1;
+					}
+
 				}
 			} 
 		}
@@ -2048,7 +2067,7 @@ function matrix(target, transmitCommand) {
 		self.cur["value"] = self.cur.value/self.cellHgt
 		self.cur["value"] = nx.invert(self.cur["value"])
 
-		if (self.cur["value"]<=0.3) {
+		if (self.cur["value"]<=0.5) {
 			self.cur.value = 0;
 		}
 
@@ -2062,6 +2081,63 @@ function matrix(target, transmitCommand) {
 		if (self.clicked && self.clickPos.y>=0) {
 			self.click(e)
 		}
+	}
+
+
+	this.place = null;
+	this.starttime;
+	self.thisframe = 0;
+	self.lastframe = 0;
+
+	self.bpm = 120;
+	
+	this.sequence = function(bpm) {
+
+		if (bpm) {
+			self.bpm = bpm;
+		}	
+
+		requestAnimationFrame(self.seqStep);
+	 
+	}
+	
+	this.seqStep = function() {
+
+	    var now = new Date().getTime();
+	    var dt = now - nx.starttime;
+
+	    self.thisframe = ~~(dt/(60000/self.bpm));
+
+	    if (self.thisframe != self.lastframe) {
+			if (self.place==null) {
+				self.place = 0;
+			}
+			self.draw();
+
+			self.cur = {
+				row: ~~(self.place/self.col),
+				col: self.place%self.row
+			}
+
+			self.cur["value"] = self.matrix[self.cur.row][self.cur.col];
+
+			self.nxTransmit(self.cur);
+			self.place++;
+			if (self.place>=self.row*self.col) {
+				self.place = 0;
+			}
+
+
+
+	    }
+
+	    self.lastframe = self.thisframe;
+
+		requestAnimationFrame(self.seqStep);
+	 
+	 
+	/*	
+		*/
 	}
 		
 	

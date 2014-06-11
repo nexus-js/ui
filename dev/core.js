@@ -34,6 +34,7 @@ var nx = function() {
 	this.oscIp = "127.0.0.1";
 	canvasgridy = 50;
 	canvasgridx = 50;
+	this.starttime = new Date().getTime();
 	
 
 	/** 
@@ -647,8 +648,16 @@ var nx = function() {
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
 
+
 	
 }
+
+
+//var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+ //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+
+
 
 
 
