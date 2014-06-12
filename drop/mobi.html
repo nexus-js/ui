@@ -2,7 +2,7 @@
 <html>
 	<head>
 
-	  	<title>:: Nexus Canvas View ::</title>
+	  	<title>NxDrop</title>
 
 		<!-- standard includes of nexusUI and jquery-->
 		<script type="text/javascript" src="../dev/jquery.js"></script>
@@ -11,7 +11,9 @@
 		<script type="text/javascript" src="FileSaver.js"></script>
 
 		<!-- Make mobile display non-scalable and fitting the viewport window -->
-		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+  		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 		<script>
 			
@@ -31,22 +33,22 @@
 					nx.editmode = true;
 				//  	$("canvas").css("border", "solid 1px #888");
 				  	$("body").css("background", "#eee");
-				  	$(".nxopt").show(0);
-				  	$("#addnew").show(0);
-				  	if (!nx.is_touch_device) {
-				  		$("#settings").show(0);
-				  	}
+				//  	$(".nxopt").show(0);
+				//  	$("#addnew").show(0);
+				//  	if (!nx.is_touch_device) {
+				//  		$("#settings").show(0);
+				//  	}
 				}
 
 				nx.editOff = function() {
 				  	nx.editmode = false;
-				  	$("canvas").css("border", "none");
+				//  	$("canvas").css("border", "none");
 				  	$("body").css("background", "#fff");
-				  	$(".nxopt").hide();
-				  	$("#addnew").hide(0);
-				  	if (!nx.is_touch_device) {
-				  		$("#settings").hide(0);
-				  	}
+				//  	$(".nxopt").hide();
+				//  	$("#addnew").hide(0);
+				//  	if (!nx.is_touch_device) {
+				//  		$("#settings").hide(0);
+				//  	}
 				}
 				addnew.sendsTo("js")
 				addnew.response = function(data) {
@@ -98,10 +100,14 @@
 
 
 			$(document).ready(function() {
+
 				$(".nxopt").mousedown(function(e) {
-
 					createObject(this);
+				})
 
+				$(".nxbutt").mousedown(function(e) {
+					createObject($(this).html());
+					$(".overlay").hide(0);
 				})
 
 				$(document).mouseup(function() {
@@ -125,17 +131,6 @@
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
-	/*		function touchdragobj(e) {
-				if (e.targetTouches.length>0 && e.targetTouches[0].pageX) {
-					var matrixy = ~~(e.targetTouches[0].pageY/50)*50;
-					var matrixx = ~~(e.targetTouches[0].pageX/50)*50;
-					if (matrixx != 0 && matrixy != 0) {
-						$("#"+globaldragid).css("top",matrixy+"px").css("left",matrixx+"px");
-						$("#setoscname").attr("value", $("#"+globaldragid).css("top"));
-					}
-				}
-			}
-*/
 			function showSettings() {
 				$("#setoscname").attr("value", eval(globaldragid+".oscName"));
 			}
@@ -194,15 +189,41 @@
 				html += '</body>\n'
 				+ '</html>\n';
 	
-	/*
-	for(var i=0;i<uiObjects.length;i++) 
-	{
-		var canvasString = '<canvas nx="' + nexusUISupportedObjects[uiObjects[i].maxclass] + '" id="'+uiObjects[i].varname+'" style="position: absolute; top: '+ (uiObjects[i].json.presentation_rect[1]+30) +'px; left: '+ uiObjects[i].json.presentation_rect[0] +'px;width:'+ (uiObjects[i].json.presentation_rect[2]) +'px;height:'+ (uiObjects[i].json.presentation_rect[3]) +'px;"></canvas>';
-		html += canvasString;
-	} */
+	
 				var blob = new Blob([html], {type: "text/html;charset=utf-8"});
-		//		saveAs(blob, "nexusdrop.html");
+				saveAs(blob, "nexusdrop.html");
 				
+			}
+
+
+
+			// mobile specific stuff
+
+
+			function openAdd() {
+				$("#add").show();
+			}
+
+			function openEdit() {
+				$("#edit").show();
+			}
+
+			function perform() {
+				if (!nx.editmode) {
+					//turn editing on
+					$("#perfbutt").html("unlocked")
+					$("#perfbutt").css("background-color","#ddd")
+				//	$("#addbutt").show(0);
+				//	$("#editbutt").show(0);
+					nx.editOn();
+				} else {
+					$("#perfbutt").html("locked")
+				//	$("#addbutt").hide(0);
+				//	$("#editbutt").hide(0);
+					$("#perfbutt").css("background-color","#9df")
+					nx.editOff();
+				}
+
 			}
 
 
@@ -220,6 +241,18 @@
 				font-size:12pt;
 			}
 
+			.nxbutt {
+				float:left;
+				text-align:center;
+				width:45%;
+				box-sizing:border-box;
+				padding:10px 10px;
+				margin:10px 2%;
+				border:solid 1px #ccc;
+				font-size:12pt;
+				background-color:#ddd;
+			}
+
 			body, input, button {
 				font-family:courier;
 				font-size: 12pt;
@@ -232,14 +265,54 @@
 				float:left;
 			}
 
+			.overlay {
+				position:absolute;
+				left:0px;
+				top:0px;
+				width:100%;
+				height:100%;
+				box-sizing:border-box;
+				background-color:#eee;
+				display:none;
+				overflow:auto;
+				z-index:100;
+			}
+
 		</style>
 
 		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF;width:100%">
-			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33%;box-sizing:border-box;text-align:center;background-color:#afc;">add</div>
-			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33%;box-sizing:border-box;text-align:center;background-color:#ccc;">edit</div>
-			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33%;box-sizing:border-box;text-align:center;background-color:#ddd;">perform</div>
+
+			<div id="addbutt" onclick="openAdd()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33.33%;box-sizing:border-box;text-align:center;background-color:#afc;">add</div>
+			<div id="editbutt" onclick="openEdit()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#ccc;">edit</div>
+			<div id="perfbutt" onclick="perform()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#9df;">locked</div>
 			
 			
+		</div>
+
+		<div class="overlay" id="add">
+
+			<div class="nxbutt">button</div>
+			<div class="nxbutt">colors</div>
+			<div class="nxbutt">dial</div>
+			<div class="nxbutt">keyboard</div>
+			<div class="nxbutt">metroball</div>
+			<div class="nxbutt">mouse</div>
+			<div class="nxbutt">multislider</div>
+			<div class="nxbutt">multitouch</div>
+			<div class="nxbutt">number</div>
+			<div class="nxbutt">pixels</div>
+			<div class="nxbutt">position</div>
+			<div class="nxbutt">slider</div>
+			<div class="nxbutt">string</div>
+			<div class="nxbutt">tilt</div>
+			<div class="nxbutt">toggle</div>
+			<div class="nxbutt">typewriter</div>
+		<!--	<div class="nxopt">comment</div> -->
+		<!--	<div class="nxopt">sandbox</div> -->
+		<!--	<div class="nxopt">matrix</div> -->
+		<!--	<div class="nxopt">joints</div> -->
+			<div style="clear:both"></div>
+
 		</div>
 
 
@@ -251,7 +324,7 @@
 			<canvas id="addnew" nx="select" choices="+,button,dial,toggle,slider,position,tilt,multitouch,mouse,typewriter,pixels,multislider"></canvas>
 
 			<div style="clear:both"></div>
-		<!--	<div class="nxopt">button</div>
+			<div class="nxopt">button</div>
 			<div class="nxopt">colors</div>
 			<div class="nxopt">dial</div>
 			<div class="nxopt">keyboard</div>
