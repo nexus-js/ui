@@ -30,7 +30,7 @@ function toggle(target, transmitCommand) {
 		}
 		//make background
 		this.makeRoundedBG();
-		with (this.context) {	
+		with (this.context) {
 			strokeStyle = self.colors.border;
 			if ( self.width > 40 && self.height > 40 ) {
 				fillStyle = self.colors.fill;
@@ -48,7 +48,7 @@ function toggle(target, transmitCommand) {
 		
 		if (self.width > 40 && self.height > 40) {
 			
-			if (this.val.on) {
+			if (this.val) {
 				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 				with (this.context) {
 					fillStyle = self.colors.accent;

@@ -23,13 +23,13 @@
 			nx.onload = function() {
 				nx.colorize("#0af");
 				nx.setTransmissionProtocol("ajax");
-				nx.setTransmitCommand("../nexusPHP/nexusOSCRelay.php");
+				nx.setTransmitCommand("../servers/nexusPHP/nexusOSCRelay.php");
 				nx.showLabels = true;
 
 
 				nx.editOn = function() {
 					nx.editmode = true;
-				  	$("canvas").css("border", "solid 1px #888");
+				//  	$("canvas").css("border", "solid 1px #888");
 				  	$("body").css("background", "#eee");
 				  	$(".nxopt").show(0);
 				  	$("#addnew").show(0);
@@ -80,7 +80,6 @@
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
-						nx.highlightEditedObj();
 						showSettings();
 					}
 					nx.onload();
@@ -109,14 +108,6 @@
 					document.removeEventListener("mousemove", dragobj, true)
 
 				});
-
-		/*		document.addEventListener('touchend', function(e) {
-				    document.removeEventListener("touchmove", touchdragobj, true);
-				}, false);
-*/
-
-				//	
-
 
 
 				$(".editbutton").toggle(function() {
@@ -243,8 +234,18 @@
 
 		</style>
 
+		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF;width:100%">
+			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33%;box-sizing:border-box;text-align:center;background-color:#afc;">add</div>
+			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33%;box-sizing:border-box;text-align:center;background-color:#ccc;">edit</div>
+			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33%;box-sizing:border-box;text-align:center;background-color:#ddd;">perform</div>
+			
+			
+		</div>
+
+
+
 		<!-- Layout all of the UI elements as canvas objects -->
-		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF">
+		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF;display:none">
 			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left">editing is off</div>
 
 			<canvas id="addnew" nx="select" choices="+,button,dial,toggle,slider,position,tilt,multitouch,mouse,typewriter,pixels,multislider"></canvas>

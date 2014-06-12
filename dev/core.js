@@ -542,11 +542,8 @@ var nx = function() {
 	}
 	
 	
-	this.blockMove = function(e) {
-		/* enables touching on the nexusSelect but not on page drag */
-	    //  if (e.target.tagName != 'SELECT') {
-	    	
-	    // PREFERABLE -- enables page touch events unless touching a canvas	
+	this.blockMove = function(e) {	    	
+	    // enables page touch events unless touching a canvas	
 	  	if (e.target.tagName == 'CANVAS') {
 	        e.preventDefault();
 	    }
@@ -642,9 +639,9 @@ var nx = function() {
 
 
 	  this.highlightEditedObj = function() {
-	  	$("canvas").css("border", "solid 1px #ccc");
+	//  	$("canvas").css("border", "solid 1px #ccc");
 	  	$("canvas").css("z-index", 1);
-	  	$("#"+globaldragid).css("border", "solid 2px black");
+	 // 	$("#"+globaldragid).css("border", "solid 2px black");
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
 
@@ -810,7 +807,7 @@ function getTemplate(self, target, transmitCommand) {
 	self.iosTransmit = nx.iosTransmit;
 
 	if (nx.editmode) {
-		self.canvas.style.border = "solid 1px #888";
+	//	self.canvas.style.border = "solid 1px #888";
 	}
 	
 	
@@ -856,7 +853,7 @@ function getTemplate(self, target, transmitCommand) {
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;
-			nx.highlightEditedObj(self.canvasID);
+	//		nx.highlightEditedObj(self.canvasID);
 			showSettings();
 		} else {
 			self.click(e);
@@ -873,7 +870,8 @@ function getTemplate(self, target, transmitCommand) {
 				var matrixy = ~~(e.clientY/canvasgridy)*canvasgridy;
 				var matrixx = ~~(e.clientX/canvasgridx)*canvasgridx;
 				self.canvas.style.top = matrixy+"px";
-				self.canvas.style.left = matrixx+"px";	
+				self.canvas.style.left = matrixx+"px";
+				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
 			} else if (self.isBeingResized) {
 				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
 				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
@@ -922,7 +920,7 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			self.isBeingDragged = true;
 			globaldragid = self.canvasID;
-			nx.highlightEditedObj(self.canvasID);
+		//	nx.highlightEditedObj(self.canvasID);
 			showSettings();
 		} else {
 			self.touch(e);
@@ -936,10 +934,11 @@ function getTemplate(self, target, transmitCommand) {
 			self.clickPos = new_click_position;
 			if (nx.editmode) {
 				if (self.isBeingDragged) {
-					var matrixy = ~~(e.clientY/canvasgridy)*canvasgridy;
-					var matrixx = ~~(e.clientX/canvasgridx)*canvasgridx;
+					var matrixy = ~~(e.targetTouches[0].pageY/canvasgridy)*canvasgridy;
+					var matrixx = ~~(e.targetTouches[0].pageX/canvasgridx)*canvasgridx;
 					self.canvas.style.top = matrixy+"px";
 					self.canvas.style.left = matrixx+"px";	
+					self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
 				}
 			} else {
 				self.touchMove(e);
@@ -952,6 +951,7 @@ function getTemplate(self, target, transmitCommand) {
 		}
 		if (nx.editmode) {
 			self.isBeingDragged = false;
+			globaldragid = false;
 		} else {
 			self.touchRelease();
 		}
