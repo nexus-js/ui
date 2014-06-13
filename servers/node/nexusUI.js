@@ -32,8 +32,8 @@ var nx = function() {
 	this.editmode = false;
 	this.showLabels = false;
 	this.oscIp = "127.0.0.1";
-	canvasgridy = 50;
-	canvasgridx = 50;
+	canvasgridy = 10;
+	canvasgridx = 10;
 	this.starttime = new Date().getTime();
 	
 
@@ -867,8 +867,8 @@ function getTemplate(self, target, transmitCommand) {
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
 			if (self.isBeingDragged) {
-				var matrixy = ~~(e.clientY/canvasgridy)*canvasgridy;
-				var matrixx = ~~(e.clientX/canvasgridx)*canvasgridx;
+				var matrixy = ~~((e.clientY-self.height/2)/canvasgridy)*canvasgridy;
+				var matrixx = ~~((e.clientX-self.width/2)/canvasgridx)*canvasgridx;
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";
 				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
@@ -918,7 +918,12 @@ function getTemplate(self, target, transmitCommand) {
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
 		if (nx.editmode) {
-			self.isBeingDragged = true;
+			if (nx.isResizing) {
+				self.isBeingResized = true;
+			} else {
+				self.isBeingDragged = true;
+			}
+		//	self.isBeingDragged = true;
 			globaldragid = self.canvasID;
 		//	nx.highlightEditedObj(self.canvasID);
 			showSettings();
@@ -934,11 +939,36 @@ function getTemplate(self, target, transmitCommand) {
 			self.clickPos = new_click_position;
 			if (nx.editmode) {
 				if (self.isBeingDragged) {
-					var matrixy = ~~(e.targetTouches[0].pageY/canvasgridy)*canvasgridy;
-					var matrixx = ~~(e.targetTouches[0].pageX/canvasgridx)*canvasgridx;
+					var matrixy = ~~((e.targetTouches[0].pageY-self.height/2)/canvasgridy)*canvasgridy;
+					var matrixx = ~~((e.targetTouches[0].pageX-self.width/2)/canvasgridx)*canvasgridx;
 					self.canvas.style.top = matrixy+"px";
 					self.canvas.style.left = matrixx+"px";	
 					self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
+				} else if (self.isBeingResized) {
+					self.canvas.width = ~~(e.targetTouches[0].pageX/(canvasgridx/2))*(canvasgridx/2);
+					self.canvas.height = ~~(e.targetTouches[0].pageY/(canvasgridy/2))*(canvasgridy/2);
+
+					self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
+					self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
+					self.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
+					self.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+					self.center = {
+						x: self.width/2, 
+						y: self.height/2
+					};
+					self.corners = {
+							"TLx": 0,
+							"TLy": 0,
+							"TRx": this.width,
+							"TRy": 0,
+							"BRx": this.width,
+							"BRy": this.height,
+							"BLx": 0,
+							"BLy": this.height
+					};
+
+					self.init();
+					self.draw();
 				}
 			} else {
 				self.touchMove(e);

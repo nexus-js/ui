@@ -201,32 +201,40 @@
 
 
 			function openAdd() {
-				$("#add").show();
+				$("#add").show(0);
 			}
 
 			function openEdit() {
-				$("#edit").show();
+				$("#edit").show(0);
+			}
+
+			function closeAdd() {
+				$("#add").hide(0);
+			}
+
+			function closeEdit() {
+				$("#edit").hide(0);
 			}
 
 			function perform() {
 				if (!nx.editmode) {
 					//turn editing on
 					$("#perfbutt").html("unlocked")
-					$("#perfbutt").css("background-color","#ddd")
-				//	$("#addbutt").show(0);
-				//	$("#editbutt").show(0);
+				//	$("#perfbutt").css("background-color","#ddd")
+					$("#addbutt").show(0);
+					$("#editbutt").show(0);
 					nx.editOn();
 				} else {
 					$("#perfbutt").html("locked")
-				//	$("#addbutt").hide(0);
-				//	$("#editbutt").hide(0);
-					$("#perfbutt").css("background-color","#9df")
+					$("#addbutt").hide(0);
+					$("#editbutt").hide(0);
+				//	$("#perfbutt").css("background-color","#9df")
 					nx.editOff();
 				}
 
 			}
 
-			function storeUI() {
+			function storeUI(uiname) {
 
 				var jsonui = new Array();
 
@@ -242,12 +250,15 @@
 					}
 					console.log(jsonui)
 				}
-				localStorage["tester"] = JSON.stringify(jsonui);
+				localStorage[uiname] = JSON.stringify(jsonui);
+				$("#edit").hide(0);
+
 			}
 
 
-			function recallUI() {
-				var nxui = JSON.parse(localStorage["tester"])
+
+			function recallUI(uiname) {
+				var nxui = JSON.parse(localStorage[uiname])
 
 				$("#nxui").html("");
 				nx.nxObjects = new Array();
@@ -280,11 +291,50 @@
 					}
 				}
 				nx.onload();
-			//	document.addEventListener("mousemove", dragobj, true);
-
 				showSettings();
+				$("#edit").hide(0);
+			}
 
-				$(".overlay").hide(0);
+			nx.isErasing = false;
+
+			function toggleErase() {
+				if (nx.isErasing) {
+					nx.isErasing = false;
+					$("#erasebutt").css("background-color", "#ddd")
+					$("#erasebutt").html("Erasing is off")
+				} else {
+					nx.isErasing = true;
+					$("#erasebutt").css("background-color", "#8cf")
+					$("#erasebutt").html("Erasing is on")
+				}
+			}
+
+			function toggleResize() {
+				if (nx.isResizing) {
+					nx.isResizing = false;
+					$("#resizebutt").css("background-color", "#ddd")
+					$("#resizebutt").html("Resizing is off")
+				} else {
+					nx.isResizing = true;
+					$("#resizebutt").css("background-color", "#8cf")
+					$("#resizebutt").html("Resizing is on")
+				}
+			}
+
+
+			function askToStoreUI() {
+				var uiname = prompt("Please name your interface");
+				storeUI(uiname);
+			}
+
+			function findUIs() {
+				var htmlstr = ""
+				for (var key in localStorage) {
+					htmlstr += '<div class="butt" onclick="recallUI(\''+key+'\')">'+key+'</div>'
+				}
+
+				$("#loadeduis").html(htmlstr)
+
 			}
 
 
@@ -351,16 +401,18 @@
 
 		</style>
 
-		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF;width:100%">
+		<div style="position:fixed;left:0px;top:0px;width:100%">
 
-			<div id="addbutt" onclick="openAdd()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33.33%;box-sizing:border-box;text-align:center;background-color:#afc;">add</div>
-			<div id="editbutt" onclick="openEdit()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#ccc;">edit</div>
-			<div id="perfbutt" onclick="perform()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#9df;">locked</div>
+			<div id="perfbutt" onclick="perform()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#9df;">locked</div>
+			<div id="addbutt" onclick="openAdd()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.33%;box-sizing:border-box;text-align:center;background-color:#afc;display:none">add</div>
+			<div id="editbutt" onclick="openEdit()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#ccc;display:none">more</div>
 			
 			
 		</div>
 
 		<div class="overlay" id="add">
+
+			<div class="butt" style="background-color:#444;color:white" onclick="closeAdd()">close</div>
 
 			<div class="nxbutt">button</div>
 			<div class="nxbutt">colors</div>
@@ -390,25 +442,36 @@
 
 		<div class="overlay" id="edit">
 
-			<div class="butt">Erase</div>
+			<div class="butt" style="background-color:#444;color:white" onclick="closeEdit()">close</div>
 
-			<div class="butt">Resize</div>
+			<div class="butt" id="erasebutt" onclick="toggleErase()">Erasing is off</div>
 
-			<div class="butt" onclick="storeUI()">Save</div>
+			<div class="butt" id="resizebutt" onclick="toggleResize()">Resizing is off</div>
 
-			<div class="butt" onclick="recallUI()">Load</div>
+			<div class="butt">
+				Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" style="width:75%" value="127.0.0.1"></input>
+			</div>
 
-			Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" value="127.0.0.1"></input><br>
-			Set OSCName:<input type="text" id="setoscname" onkeyup="setoscname(this.value)"></input><br>
-			<button onclick="deleteObject()">Delete</button><br>
-			<button onclick="saveUI()">Download</button>
+			<div class="butt" onclick="askToStoreUI()">Save</div>
+
+			<div class="butt" onclick="findUIs()">Find UIs</div>
+
+			<div id="loadeduis" style="width:100%"></div>
+
+		<!--	<div class="butt">
+				Set OSCName:<input type="text" id="setoscname" onkeyup="setoscname(this.value)"></input>
+			</div> -->
+
+		
+		<!--	<button onclick="deleteObject()">Delete</button><br>
+			<button onclick="saveUI()">Download</button> -->
 
 		</div>
 
 
 
 
-
+<!-- OLD -->
 
 
 		<!-- Layout all of the UI elements as canvas objects -->
@@ -456,6 +519,9 @@
 
 
 		</div>
+
+
+<!-- OLD -->
 
 	</body>	
 </html>
