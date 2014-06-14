@@ -17,6 +17,7 @@ banner
 button
 --------
 Touch button with three modes of interaction
+<a href="../examples/button/">Demo</a>
 ```html
 <canvas nx="button"></canvas>
 ```
@@ -134,9 +135,9 @@ mouse
 -------
 Mouse tracker, relative to web browser window.
 ```html
-<canvas nx="button"></canvas>
+<canvas nx="mouse"></canvas>
 ```
-<canvas nx="button" style="margin-left:25px"></canvas>
+<canvas nx="mouse" style="margin-left:25px"></canvas>
 
 multislider
 -------------
@@ -190,9 +191,9 @@ select
 --------
 HTML-style option selector. Outputs the chosen text string.
 ```html
-<canvas nx="select"></canvas>
+<canvas nx="select" choices="sine,saw,square"></canvas>
 ```
-<canvas nx="select" style="margin-left:25px"></canvas>
+<canvas nx="select" choices="sine,saw,square" style="margin-left:25px"></canvas>
 
 slider
 --------

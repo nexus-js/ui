@@ -11,7 +11,7 @@ function typewriter(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 300, height: 125 };
+	this.defaultSize = { width: 300, height: 100 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
