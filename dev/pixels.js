@@ -1,6 +1,11 @@
-/****************************
-* Javascript Pixel Canvas   *
-****************************/
+/** 
+	@class pixels      
+	Drawable pixelated canvas. Can be drawn on with different colors (use with nexus 'colors' object). See 'read' and 'write' modes. Sequencer functionality forthcoming.
+	```html
+	<canvas nx="pixels"></canvas>
+	```
+	<canvas nx="pixels" style="margin-left:25px"></canvas>
+*/
 
 			
 function pixels(target, transmitCommand) {

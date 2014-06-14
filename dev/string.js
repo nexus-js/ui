@@ -1,4 +1,11 @@
-// Javascript 2d_slider
+/** 
+	@class string      
+	*In progress* Fun animated model of a plucked string interface.
+	```html
+	<canvas nx="string"></canvas>
+	```
+	<canvas nx="string" style="margin-left:25px"></canvas>
+*/
 
 function string(target, transmitCommand) {
 					

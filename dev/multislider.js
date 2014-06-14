@@ -1,11 +1,11 @@
-// Javascript Multislider
-// Nexus Multislider
-// Problem- for local transmit mode, outputs only numbers, not indexed, causing problems
-// Solution, make a local mode for multislider ie mode="local" or mode="ajax"
-// mode local will only output changed values, mode ajax will output list values
-// list values are useful for setting the multislider object in max, 
-// outputting only changed, values and their index should be better for iOS and local transmit
-// Working on a solution- WWC
+/** 
+	@class multislider      
+	Multiple vertical sliders in one object
+	```html
+	<canvas nx="multislider"></canvas>
+	```
+	<canvas nx="multislider" style="margin-left:25px"></canvas>
+*/
 function multislider(target, transmitCommand) {
 					
 	//self awareness

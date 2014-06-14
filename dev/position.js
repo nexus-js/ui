@@ -1,4 +1,11 @@
-// Javascript XY slider
+/** 
+	@class position      
+	Two-dimensional touch slider.
+	```html
+	<canvas nx="position"></canvas>
+	```
+	<canvas nx="position" style="margin-left:25px"></canvas>
+*/
 
 function position(target, transmitCommand) {
 					

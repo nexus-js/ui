@@ -1,4 +1,11 @@
-// nexus Toggle button
+/** 
+	@class toggle      
+	On/off toggle
+	```html
+	<canvas nx="toggle"></canvas>
+	```
+	<canvas nx="toggle" style="margin-left:25px"></canvas>
+*/
 
 function toggle(target, transmitCommand) {
 

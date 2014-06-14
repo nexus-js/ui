@@ -1,6 +1,11 @@
-/***********************
-* Javascript Sandbox   *
-***********************/
+/** 
+	@class sandbox      
+	Add and move around an unlimited number of 2D points.
+	```html
+	<canvas nx="sandbox"></canvas>
+	```
+	<canvas nx="sandbox" style="margin-left:25px"></canvas>
+*/
 
 			
 function sandbox(target, transmitCommand) {

@@ -1,4 +1,11 @@
-// Javascript Select
+/** 
+	@class select    
+	HTML-style option selector. Outputs the chosen text string.
+	```html
+	<canvas nx="select"></canvas>
+	```
+	<canvas nx="select" style="margin-left:25px"></canvas>
+*/
 
 function select(target, transmitCommand) {
 					

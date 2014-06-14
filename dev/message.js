@@ -1,4 +1,11 @@
-// Javascript message
+/** 
+	@class message      
+	Send a string of text.
+	```html
+	<canvas nx="message"></canvas>
+	```
+	<canvas nx="message" style="margin-left:25px"></canvas>
+*/
 
 function message(target, transmitCommand) {
 					

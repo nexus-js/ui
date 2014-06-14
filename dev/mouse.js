@@ -1,4 +1,11 @@
-// Nexus UI Object template
+/** 
+	@class mouse      
+	Mouse tracker, relative to web browser window.
+	```html
+	<canvas nx="button"></canvas>
+	```
+	<canvas nx="button" style="margin-left:25px"></canvas>
+*/
 
 function mouse(target, transmitCommand) {
 					

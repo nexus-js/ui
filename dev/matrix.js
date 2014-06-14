@@ -1,4 +1,11 @@
-// Javascript Matrix slider
+/** 
+	@class matrix      
+	Matrix with scalable values and sequencer functionality in several modes.
+	```html
+	<canvas nx="matrix"></canvas>
+	```
+	<canvas nx="matrix" style="margin-left:25px"></canvas>
+*/
 
 
 function matrix(target, transmitCommand) {

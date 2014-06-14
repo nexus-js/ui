@@ -1,4 +1,12 @@
-// nexusUI - Keyboard
+/** 
+	@class keyboard      
+	Piano keyboard which outputs midi pairs
+	```html
+	<canvas nx="keyboard"></canvas>
+	```
+	<canvas nx="keyboard" style="margin-left:25px"></canvas>
+*/
+
 //
 // nexusKeyboard transmits midi pair arrays of [ note number, on/off ]
 // Middle C "pressed" message will look like [12,1]

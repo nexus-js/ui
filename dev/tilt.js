@@ -1,4 +1,12 @@
-// Nexus Tilt
+/** 
+	@class tilt      
+	Mobile and Mac/Chrome compatible tilt sensor.
+	```html
+	<canvas nx="tilt"></canvas>
+	```
+	<canvas nx="tilt" style="margin-left:25px"></canvas>
+*/
+
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
 function tilt(target, transmitCommand) {

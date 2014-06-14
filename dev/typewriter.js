@@ -1,4 +1,11 @@
-// nexusUI - Typewriter (computer keyboard)
+/** 
+	@class typewriter      
+	Computer keyboard listener and visualization. (Desktop only)
+	```html
+	<canvas nx="typewriter"></canvas>
+	```
+	<canvas nx="typewriter" style="margin-left:25px"></canvas>
+*/
 
 function typewriter(target, transmitCommand) {
 

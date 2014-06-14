@@ -1,4 +1,4 @@
-// Javascript panel
+// panel for max duplication -- maybe this object is unnecessary.
 
 function panel(target, transmitCommand) {
 					

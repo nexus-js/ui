@@ -1,4 +1,11 @@
-// Javascript multitouch
+/** 
+	@class multitouch      
+	Multitouch 2d-slider with up to 5 points of touch.
+	```html
+	<canvas nx="multitouch"></canvas>
+	```
+	<canvas nx="multitouch" style="margin-left:25px"></canvas>
+*/
 
 function multitouch(target, transmitCommand) {
 					

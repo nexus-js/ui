@@ -1,4 +1,11 @@
-// Javascript Joints
+/** 
+	@class joints      
+	2D slider with connections to several points; a proximity-based multislider.
+	```html
+	<canvas nx="joints"></canvas>
+	```
+	<canvas nx="joints" style="margin-left:25px"></canvas>
+*/
 
 function joints(target, transmitCommand) {
 					

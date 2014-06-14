@@ -1,6 +1,6 @@
 /** 
 	@class banner      
-	"Powered by NexusUI" tag with a link to our website.
+	"Powered by NexusUI" tag with a link to our website. Use it if you want to share the positive vibes of NexusUI. Thanks for using!
 	```html
 	<canvas nx="banner"></canvas>
 	```

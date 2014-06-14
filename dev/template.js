@@ -1,4 +1,11 @@
-// Nexus UI Object template
+/** 
+	@class template      
+	Template to help you create your own NexusUI objects!
+	```html
+	<canvas nx="template"></canvas>
+	```
+	<canvas nx="template" style="margin-left:25px"></canvas>
+*/
 
 function template(target, transmitCommand) {
 					
