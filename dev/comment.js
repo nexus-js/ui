@@ -11,7 +11,7 @@ function comment(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 100, height: 50 };
+	this.defaultSize = { width: 100, height: 25 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);

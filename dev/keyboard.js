@@ -19,7 +19,7 @@ function keyboard(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 400, height: 100 };
+	this.defaultSize = { width: 300, height: 75 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);

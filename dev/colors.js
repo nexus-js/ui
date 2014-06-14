@@ -30,12 +30,6 @@ function colors(target, transmitCommand) {
 	self.color = [0,0,0];
 	var i;
 
-	/** @property {object}  val    RBG color value at mouse position
-	r: &nbsp; red value 0-256<br>
-	g: &nbsp; green value 0-256<br>
-	b: &nbsp; blue value 0-256<br> 
-	*/
-	
 	this.init = function() {
 		
 		//prep color picker
@@ -95,6 +89,15 @@ function colors(target, transmitCommand) {
 
 	this.click = function(e) {
 		var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
+		
+
+		/** @property {object}  val    RBG color value at mouse position
+		r: &nbsp; red value 0-256<br>
+		g: &nbsp; green value 0-256<br>
+		b: &nbsp; blue value 0-256<br> 
+		*/
+		
+
 		self.val = {
 			r: imgData.data[0], 
 			g: imgData.data[1], 

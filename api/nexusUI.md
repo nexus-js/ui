@@ -6,16 +6,6 @@ NexusUI API
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 
-###init()###
-value: &nbsp; current dial value as float 0-1<br>
-
-
-###init()###
-r: &nbsp; red value 0-256<br>
-g: &nbsp; green value 0-256<br>
-b: &nbsp; blue value 0-256<br>
-
-
 banner
 --------
 "Powered by NexusUI" tag with a link to our website. Use it if you want to share the positive vibes of NexusUI. Thanks for using!
@@ -54,7 +44,7 @@ Circular dial
 
 **Properties**
 
-**val**:  *object*,  Current position of dial
+**val**:  *float*,  Current position of dial
 
 value: &nbsp; current dial value as float 0-1<br>
 colors

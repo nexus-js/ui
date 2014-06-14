@@ -25,6 +25,10 @@ function dial(target, transmitCommand) {
 	} else {
 		this.accentWidth = this.lineWidth * 2;
 	}
+
+	/** @property {float}  val    Current position of dial
+	value: &nbsp; current dial value as float 0-1<br>
+	*/
 	this.val = 0.5;
 	this.responsivity = 0.005;
 	this.toCartesian = nx.toCartesian;
@@ -34,10 +38,6 @@ function dial(target, transmitCommand) {
 	this.aniStart = 0;
 	this.aniStop = 1;
 	this.aniMove = 0.01;
-
-	/** @property {object}  val    Current position of dial
-	value: &nbsp; current dial value as float 0-1<br>
-	*/
 
 	this.init = function() {
 	

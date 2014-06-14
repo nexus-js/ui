@@ -270,6 +270,10 @@ function dial(target, transmitCommand) {
 	} else {
 		this.accentWidth = this.lineWidth * 2;
 	}
+
+	/** @property {float}  val    Current position of dial
+	value: &nbsp; current dial value as float 0-1<br>
+	*/
 	this.val = 0.5;
 	this.responsivity = 0.005;
 	this.toCartesian = nx.toCartesian;
@@ -279,10 +283,6 @@ function dial(target, transmitCommand) {
 	this.aniStart = 0;
 	this.aniStop = 1;
 	this.aniMove = 0.01;
-
-	/** @property {object}  val    Current position of dial
-	value: &nbsp; current dial value as float 0-1<br>
-	*/
 
 	this.init = function() {
 	
@@ -451,12 +451,6 @@ function colors(target, transmitCommand) {
 	self.color = [0,0,0];
 	var i;
 
-	/** @property {object}  val    RBG color value at mouse position
-	r: &nbsp; red value 0-256<br>
-	g: &nbsp; green value 0-256<br>
-	b: &nbsp; blue value 0-256<br> 
-	*/
-	
 	this.init = function() {
 		
 		//prep color picker
@@ -516,6 +510,15 @@ function colors(target, transmitCommand) {
 
 	this.click = function(e) {
 		var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
+		
+
+		/** @property {object}  val    RBG color value at mouse position
+		r: &nbsp; red value 0-256<br>
+		g: &nbsp; green value 0-256<br>
+		b: &nbsp; blue value 0-256<br> 
+		*/
+		
+
 		self.val = {
 			r: imgData.data[0], 
 			g: imgData.data[1], 
@@ -546,7 +549,7 @@ function comment(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 100, height: 50 };
+	this.defaultSize = { width: 100, height: 25 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
@@ -836,7 +839,7 @@ function keyboard(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 400, height: 100 };
+	this.defaultSize = { width: 300, height: 75 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
@@ -3439,7 +3442,7 @@ function typewriter(target, transmitCommand) {
 
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 400, height: 150 };
+	this.defaultSize = { width: 300, height: 125 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
