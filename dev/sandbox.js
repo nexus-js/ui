@@ -12,7 +12,7 @@ function sandbox(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 400, height: 300 };
+	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
