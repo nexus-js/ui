@@ -16,6 +16,234 @@ g: &nbsp; green value 0-256<br>
 b: &nbsp; blue value 0-256<br>
 
 
+banner
+--------
+"Powered by NexusUI" tag with a link to our website. Use it if you want to share the positive vibes of NexusUI. Thanks for using!
+```html
+<canvas nx="banner"></canvas>
+```
+<canvas nx="banner" style="margin-left:25px"></canvas>
+
+button
+--------
+Touch button with three modes of interaction
+```html
+<canvas nx="button"></canvas>
+```
+<canvas nx="button" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**value**:  *integer*,  Current state and output (0=off, 1=on)
+
+**mode**:  *string*,  Interaction mode of impulse, toggle, or position
+
+impulse &nbsp; 1 on click <br>
+toggle &nbsp;  1 on click, 0 on release _(default)_<br>
+position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
+```js
+button1.mode = "position"
+```
+dial
+------
+Circular dial
+```html
+<canvas nx="dial"></canvas>
+```
+<canvas nx="dial" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *object*,  Current position of dial
+
+value: &nbsp; current dial value as float 0-1<br>
+colors
+--------
+Color picker that outputs RBG values
+```html
+<canvas nx="colors"></canvas>
+```
+<canvas nx="colors" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *object*,  RBG color value at mouse position
+
+r: &nbsp; red value 0-256<br>
+g: &nbsp; green value 0-256<br>
+b: &nbsp; blue value 0-256<br>
+comment
+---------
+Comment area with settable text
+```html
+<canvas nx="comment"></canvas>
+```
+<canvas nx="comment" style="margin-left:25px"></canvas>
+
+joints
+--------
+2D slider with connections to several points; a proximity-based multislider.
+```html
+<canvas nx="joints"></canvas>
+```
+<canvas nx="joints" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *object*,  
+
+
+x: &nbsp; x position of touch<br>
+y: &nbsp; y position of touch<br>
+node0: &nbsp; nearness to node0 if within range (float 0-1)<br>
+node1: &nbsp; nearness to node1 if within range (float 0-1)<br>
+node2: &nbsp; nearness to node2 if within range (float 0-1)<br>
+etc...
+keyboard
+----------
+Piano keyboard which outputs midi pairs
+```html
+<canvas nx="keyboard"></canvas>
+```
+<canvas nx="keyboard" style="margin-left:25px"></canvas>
+
+matrix
+--------
+Matrix with scalable values and sequencer functionality in several modes.
+```html
+<canvas nx="matrix"></canvas>
+```
+<canvas nx="matrix" style="margin-left:25px"></canvas>
+
+message
+---------
+Send a string of text.
+```html
+<canvas nx="message"></canvas>
+```
+<canvas nx="message" style="margin-left:25px"></canvas>
+
+metroball
+-----------
+Bouncy-ball area with built-in tilt control
+```html
+<canvas nx="metroball"></canvas>
+```
+<canvas nx="metroball" style="margin-left:25px"></canvas>
+
+**Methods**
+
+###metroball.pulse()###
+Animation pulse occuring each frame
+
+
+###metroball.deleteMB()###
+###metroball.addNewMB()###
+###metroball.toggleQuantization()###
+mouse
+-------
+Mouse tracker, relative to web browser window.
+```html
+<canvas nx="button"></canvas>
+```
+<canvas nx="button" style="margin-left:25px"></canvas>
+
+multislider
+-------------
+Multiple vertical sliders in one object
+```html
+<canvas nx="multislider"></canvas>
+```
+<canvas nx="multislider" style="margin-left:25px"></canvas>
+
+multitouch
+------------
+Multitouch 2d-slider with up to 5 points of touch.
+```html
+<canvas nx="multitouch"></canvas>
+```
+<canvas nx="multitouch" style="margin-left:25px"></canvas>
+
+number
+--------
+number box
+```html
+<canvas nx="number"></canvas>
+```
+<canvas nx="number" style="margin-left:25px"></canvas>
+
+pixels
+--------
+Drawable pixelated canvas. Can be drawn on with different colors (use with nexus 'colors' object). See 'read' and 'write' modes. Sequencer functionality forthcoming.
+```html
+<canvas nx="pixels"></canvas>
+```
+<canvas nx="pixels" style="margin-left:25px"></canvas>
+
+position
+----------
+Two-dimensional touch slider.
+```html
+<canvas nx="position"></canvas>
+```
+<canvas nx="position" style="margin-left:25px"></canvas>
+
+sandbox
+---------
+Add and move around an unlimited number of 2D points.
+```html
+<canvas nx="sandbox"></canvas>
+```
+<canvas nx="sandbox" style="margin-left:25px"></canvas>
+
+select
+--------
+HTML-style option selector. Outputs the chosen text string.
+```html
+<canvas nx="select"></canvas>
+```
+<canvas nx="select" style="margin-left:25px"></canvas>
+
+slider
+--------
+Vertical slider
+```html
+<canvas nx="slider"></canvas>
+```
+<canvas nx="slider" style="margin-left:25px"></canvas>
+
+string
+--------
+In progress* Fun animated model of a plucked string interface.
+```html
+<canvas nx="string"></canvas>
+```
+<canvas nx="string" style="margin-left:25px"></canvas>
+
+toggle
+--------
+On/off toggle
+```html
+<canvas nx="toggle"></canvas>
+```
+<canvas nx="toggle" style="margin-left:25px"></canvas>
+
+tilt
+------
+Mobile and Mac/Chrome compatible tilt sensor.
+```html
+<canvas nx="tilt"></canvas>
+```
+<canvas nx="tilt" style="margin-left:25px"></canvas>
+
+typewriter
+------------
+Computer keyboard listener and visualization. (Desktop only)
+```html
+<canvas nx="typewriter"></canvas>
+```
+<canvas nx="typewriter" style="margin-left:25px"></canvas>
+
 nx
 ----
 Central nexusUI manager with shared utility functions for all nexusUI objects
@@ -66,111 +294,3 @@ button1.set({
 **[transmit]**:  *(optional) whether or not to transmit after setting*,  
 
 
-dial
-------
-Circular dial
-```html
-<canvas nx="dial"></canvas>
-```
-<canvas nx="dial" style="margin-left:25px"></canvas>
-
-**Properties**
-
-**val**:  *object*,  Current position of dial
-
-value: &nbsp; current dial value as float 0-1<br>
-button
---------
-Touch button with three modes of interaction
-```html
-<canvas nx="button"></canvas>
-```
-<canvas nx="button" style="margin-left:25px"></canvas>
-
-**Properties**
-
-**value**:  *integer*,  Current state and output (0=off, 1=on)
-
-**mode**:  *string*,  Interaction mode of impulse, toggle, or position
-
-impulse &nbsp; 1 on click <br>
-toggle &nbsp;  1 on click, 0 on release _(default)_<br>
-position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
-```js
-button1.mode = "position"
-```
-slider
---------
-Vertical slider
-```html
-<canvas nx="slider"></canvas>
-```
-<canvas nx="slider" style="margin-left:25px"></canvas>
-
-**Properties**
-
-**val**:  *object*,  
-
-
-x: &nbsp; x position of touch<br>
-y: &nbsp; y position of touch<br>
-node0: &nbsp; nearness to node0 if within range (float 0-1)<br>
-node1: &nbsp; nearness to node1 if within range (float 0-1)<br>
-node2: &nbsp; nearness to node2 if within range (float 0-1)<br>
-etc...
-colors
---------
-Color picker that outputs RBG values
-```html
-<canvas nx="colors"></canvas>
-```
-<canvas nx="colors" style="margin-left:25px"></canvas>
-
-**Properties**
-
-**val**:  *object*,  RBG color value at mouse position
-
-r: &nbsp; red value 0-256<br>
-g: &nbsp; green value 0-256<br>
-b: &nbsp; blue value 0-256<br>
-number
---------
-number box
-```html
-<canvas nx="number"></canvas>
-```
-<canvas nx="number" style="margin-left:25px"></canvas>
-
-comment
----------
-Comment area with settable text
-```html
-<canvas nx="comment"></canvas>
-```
-<canvas nx="comment" style="margin-left:25px"></canvas>
-
-banner
---------
-"Powered by NexusUI" tag with a link to our website.
-```html
-<canvas nx="banner"></canvas>
-```
-<canvas nx="banner" style="margin-left:25px"></canvas>
-
-metroball
------------
-Bouncy-ball area with built-in tilt control
-```html
-<canvas nx="metroball"></canvas>
-```
-<canvas nx="metroball" style="margin-left:25px"></canvas>
-
-**Methods**
-
-###metroball.pulse()###
-Animation pulse occuring each frame
-
-
-###metroball.deleteMB()###
-###metroball.addNewMB()###
-###metroball.toggleQuantization()###
