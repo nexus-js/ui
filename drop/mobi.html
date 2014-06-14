@@ -16,6 +16,15 @@
   		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 		<script>
+
+			//being affected by cross-origin-policy
+			//we need jsonp?
+
+		/*	$.get( "http://nexus.cct.lsu.edu:8000/nexus_uis/1.json", function( data ) {
+			    // callback
+			    console.log(data);
+			});
+		*/
 			
 			// Setup all of the UI objects you want to use.
 			// This occurs after the page has loaded all of the canvas objects to draw into.
@@ -31,7 +40,7 @@
 
 				nx.editOn = function() {
 					nx.editmode = true;
-				//  	$("canvas").css("border", "solid 1px #888");
+				  	$("canvas").css("border", "solid 1px #ccc");
 				  	$("body").css("background", "#eee");
 				//  	$(".nxopt").show(0);
 				//  	$("#addnew").show(0);
@@ -42,7 +51,8 @@
 
 				nx.editOff = function() {
 				  	nx.editmode = false;
-				//  	$("canvas").css("border", "none");
+				  	document.body.style.cursor = "pointer";
+				  	$("canvas").css("border", "none");
 				  	$("body").css("background", "#fff");
 				//  	$(".nxopt").hide();
 				//  	$("#addnew").hide(0);
@@ -88,14 +98,14 @@
 					document.addEventListener("mousemove", dragobj, true);
 			//		document.addEventListener("touchmove", touchdragobj, true);
 					$("#"+thisname).mousemove(function(e) {
-					  	console.log(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px","")));
-
 						if (nx.editmode && e.clientX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.clientY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
 							document.body.style.cursor = "se-resize";
 						} else {
 							document.body.style.cursor = "pointer";
 						}
 					}) 
+
+				  	$("canvas").css("border", "solid 1px #ccc");
 			}
 
 
@@ -251,7 +261,8 @@
 					console.log(jsonui)
 				}
 				localStorage[uiname] = JSON.stringify(jsonui);
-				$("#edit").hide(0);
+				// $("#edit").hide(0);
+				findUIs();
 
 			}
 
@@ -283,16 +294,23 @@
 					var thisname = nxui[i].oscName;
 					thisname = thisname.replace("/","");
 					if(nxId) {
-						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;width:'+nxui[i].width+'px;height:'+nxui[i].height+'px;"></canvas>');
-						console.log(thisname + " = new "+nxId+"('"+thisname+"', '../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
+						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;" width='+nxui[i].width+'" height="'+nxui[i].height+'"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
+						$("#"+thisname).mousemove(function(e) {
+						if (nx.editmode && e.clientX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.clientY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+							document.body.style.cursor = "se-resize";
+						} else {
+							document.body.style.cursor = "pointer";
+						}
+					}) 
 					}
 				}
 				nx.onload();
 				showSettings();
 				$("#edit").hide(0);
+				$("canvas").css("border", "solid 1px #ccc");
 			}
 
 			nx.isErasing = false;
@@ -330,11 +348,19 @@
 			function findUIs() {
 				var htmlstr = ""
 				for (var key in localStorage) {
-					htmlstr += '<div class="butt" onclick="recallUI(\''+key+'\')">'+key+'</div>'
+					htmlstr += '<div class="butt" onclick="recallUI(\''+key+'\')" style="background-color:#cef;width:40%;margin-left:15%;margin-right:0px;float:left;">'+key+'</div>'
+					htmlstr += '<div class="butt" onclick="deleteUI(\''+key+'\')" style="background-color:#faa;width:20%;margin-left:5%;margin-right:0px;float:left">Delete</div>'
 				}
 
 				$("#loadeduis").html(htmlstr)
 
+			}
+
+			function deleteUI(uiname) {
+				if (confirm("Are you sure you want to delete "+uiname+"?")) {
+					delete localStorage[uiname];
+					findUIs();
+				}
 			}
 
 

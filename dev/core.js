@@ -30,6 +30,8 @@ var nx = function() {
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
 	this.editmode = false;
+	this.isErasing = false;
+	this.isResizing = false;
 	this.showLabels = false;
 	this.oscIp = "127.0.0.1";
 	canvasgridy = 10;
@@ -849,30 +851,29 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
 				self.isBeingResized = true;
+				console.log("isBeingResized")
 			} else {
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;
 	//		nx.highlightEditedObj(self.canvasID);
 			showSettings();
+			if (nx.isErasing) {
+				self.destroy();
+			}
 		} else {
 			self.click(e);
 		}
 	};
 	self.preMove = function(e) {
-		self.movehandle = 0;
+	//	self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
 		self.deltaMove.x = new_click_position.x - self.clickPos.x;
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
-			if (self.isBeingDragged) {
-				var matrixy = ~~((e.clientY-self.height/2)/canvasgridy)*canvasgridy;
-				var matrixx = ~~((e.clientX-self.width/2)/canvasgridx)*canvasgridx;
-				self.canvas.style.top = matrixy+"px";
-				self.canvas.style.left = matrixx+"px";
-				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
-			} else if (self.isBeingResized) {
+			if (self.isBeingResized) {
+				console.log("resizing...")
 				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
 				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
@@ -897,7 +898,13 @@ function getTemplate(self, target, transmitCommand) {
 
 				self.init();
 				self.draw();
-			}
+			} else if (self.isBeingDragged) {
+				var matrixy = ~~((e.clientY-self.height/2)/canvasgridy)*canvasgridy;
+				var matrixx = ~~((e.clientX-self.width/2)/canvasgridx)*canvasgridx;
+				self.canvas.style.top = matrixy+"px";
+				self.canvas.style.left = matrixx+"px";
+				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
+			} 
 		} else {
 			self.move(e);
 		}
@@ -927,6 +934,9 @@ function getTemplate(self, target, transmitCommand) {
 			globaldragid = self.canvasID;
 		//	nx.highlightEditedObj(self.canvasID);
 			showSettings();
+			if (nx.isErasing) {
+				self.destroy();
+			}
 		} else {
 			self.touch(e);
 		}
@@ -1080,6 +1090,34 @@ function getTemplate(self, target, transmitCommand) {
 		if (transmit) {
 			nx.transmit(self.val)
 		}
+	}
+
+	self.destroy = function() {
+		for (var i=0;i<nx.nxObjects.length;i++) {
+			if (nx.nxObjects[i].canvasID==self.canvasID) {
+				nx.nxObjects.splice(i,1)
+				break;
+			}
+		}
+		for (var i=0;i<nx.elemTypeArr.length;i++) {
+			if (nx.elemTypeArr[i]==self.getName()) {
+				nx.elemTypeArr.splice(i,1)
+				break;
+			}
+		}
+		self.canvas.ontouchmove = null;
+		self.canvas.ontouchend = null;
+		self.canvas.onclick = null;
+		self.canvas.onmousemove = null;
+		self.canvas.onmouseoff = null;
+		document.removeEventListener("mousemove", self.preMove, false);
+		
+		document.removeEventListener("mouseup", self.preRelease, false);
+
+		$("#"+self.canvasID).remove();
+		
+		eval("delete window."+self.canvasID);
+		self = null;
 	}
 	
 	
