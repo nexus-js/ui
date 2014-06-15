@@ -17,7 +17,7 @@ banner
 button
 --------
 Touch button with three modes of interaction
-<br><br><a href="../examples/button/" target="blank">Demo</a>
+<br><a href="../examples/button/" target="blank">Demo</a>
 ```html
 <canvas nx="button"></canvas>
 ```

@@ -80,7 +80,7 @@ function banner(target, transmitCommand) {
 /** 
 	@class button      
 	Touch button with three modes of interaction
-	<br><br><a href="../examples/button/" target="blank">Demo</a>
+	<br><a href="../examples/button/" target="blank">Demo</a>
 	```html
 	<canvas nx="button"></canvas>
 	```
@@ -550,7 +550,7 @@ function comment(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 100, height: 25 };
+	this.defaultSize = { width: 100, height: 35 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
@@ -1824,10 +1824,10 @@ function mouse(target, transmitCommand) {
 
 	this.move = function(e) {
 		self.val = {
-			deltax: e.pageX/window.innerWidth - self.val.x,
-			deltay: e.pageY/window.innerHeight - self.val.y,
-			x: e.pageX/window.innerWidth,
-			y: e.pageY/window.innerHeight
+			deltax: (e.pageX-document.body.scrollLeft)/window.innerWidth - self.val.x,
+			deltay: (e.pageY-document.body.scrollTop)/window.innerHeight - self.val.y,
+			x: (e.pageX-document.body.scrollLeft)/window.innerWidth,
+			y: (e.pageY-document.body.scrollTop)/window.innerHeight
 		}
 		self.draw();
 		self.nxTransmit(self.val);
