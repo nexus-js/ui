@@ -8,6 +8,8 @@
 		
 		nx.onload = function() {
 
+			nx.showLabels = true;
+
 			slider1.mode = "relative";
 
 			// you could set their content like this
@@ -31,7 +33,7 @@
 				var allobjs = nx.nxObjects
 				if (allobjs[i].getName()=="slider") {
 					allobjs[i].colors.accent = "f0"+i;
-					allobjs[i].set({ value: (i+1)/6});
+					allobjs[i].set({ value: (i+1)/7});
 
 				}
 			}
@@ -50,7 +52,7 @@
 	<canvas nx="slider">Slider</canvas>
 	<canvas nx="slider">Slider</canvas>
 	<canvas nx="slider">Slider</canvas>
-	<canvas nx="slider">Slider</canvas>
+	<canvas nx="slider" label="i am horiz!" style="width:200px;height:50px">Slider</canvas>
 	
 
 </body>

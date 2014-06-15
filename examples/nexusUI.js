@@ -2898,11 +2898,25 @@ function slider(target, transmitCommand) {
 	//unique attributes
 	this.val = 0.7
 	this.label = self.oscName;
+	this.label = this.label.replace("/","")
 	this.mode = "absolute";
+
+	// handling horiz possibility
+	this.hslider = false;
+	self.handle;
+	self.relhandle;
+	self.cap;
 	
 	
 
 	this.init = function() {
+
+		//decide if hslider or vslider
+		if (self.height>=self.width) {
+			self.hslider = false;
+		} else {
+			self.hslider = true;
+		}
 
 		this.realSpace = { x: self.width-self.lineWidth*2, y: self.height-self.lineWidth*2 }
 	
@@ -2916,14 +2930,7 @@ function slider(target, transmitCommand) {
 	this.draw = function() {
 		self.erase();
 		self.makeRoundedBG();
-		
-		var level = self.val * self.realSpace.y;
-		var x1 = self.lineWidth;
-		var y1 = self.height-self.val*self.height;
-		var x2 = self.lineWidth+self.realSpace.x;
-		var y2 = self.height-self.lineWidth;
-		var depth = 0;
-		
+			
 		with (this.context) {
 			strokeStyle = self.colors.border;
 			fillStyle = self.colors.fill;
@@ -2931,49 +2938,60 @@ function slider(target, transmitCommand) {
 			stroke();
 			fill();
 			
-			
 			fillStyle = this.colors.accent;
-	   
-			beginPath();
-			if (self.val>0.97) {
-				moveTo(x1+depth, y1); //TOP LEFT
-				lineTo(x2-depth, y1); //TOP RIGHT
-				quadraticCurveTo(x2, y1, x2, y1+depth);
-			} else {
-				moveTo(x1, y1); //TOP LEFT
-				lineTo(x2, y1); //TOP RIGHT
-			}
-			lineTo(x2, y2-depth); //BOTTOM RIGHT
-			quadraticCurveTo(x2, y2, x2-depth, y2);
-			lineTo(x1+depth, y2); //BOTTOM LEFT
-			quadraticCurveTo(x1, y2, x1, y2-depth);
-			if (self.val>0.95) {
-				lineTo(x1, y1+depth); //TOP LEFT
-				quadraticCurveTo(x1, y1, x1+depth, y1);
-			} else {
-				lineTo(x1, y1); //TOP LEFT
-			}
-			if (self.val>0.03) {
-				globalAlpha = 0.8;
-				fill();	
-				globalAlpha = 1;
-			}
-			closePath();
-			
-			if (nx.showLabels) {
+		
+			if (!self.hslider) {
 
-				save();
-	 			translate(self.width/2, 0);
-				rotate(Math.PI/2);
-				textAlign = "left";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = self.colors.border;
-				fillText(self.label, self.width/2, 0);
-				restore();
-			
+				var x1 = self.lineWidth;
+				var y1 = self.height-self.val*self.height;
+				var x2 = self.lineWidth+self.realSpace.x;
+				var y2 = self.height-self.lineWidth;
+				var depth = 0;
+
+				if (self.val>0.01) {
+					fillRect(x1,y1,x2-x1,y2-y1);
+				}
+				
+				if (nx.showLabels) {
+
+					save();
+		 			translate(self.width/2, 0);
+					rotate(Math.PI/2);
+					textAlign = "left";
+					textBaseline = "middle";
+					font = "bold 15px courier";
+					fillStyle = self.colors.accent;
+					globalAlpha = 0.3;
+					fillText(self.label, self.width/2, 0);
+					globalAlpha = 1;
+					restore();
+				
+				}
+			} else {
+
+				var x1 = self.lineWidth;
+				var y1 = self.lineWidth;
+				var x2 = self.lineWidth+self.val*self.realSpace.x;
+				var y2 = self.height-self.lineWidth;
+				var depth = 0;
+			   
+				if (self.val>0.01) {
+					fillRect(x1,y1,x2-x1,y2-y1);
+				}
+				
+				if (nx.showLabels) {
+
+					textAlign = "center";
+					textBaseline = "middle";
+					font = "bold 15px courier";
+					fillStyle = self.colors.accent;
+					globalAlpha = 0.3;
+					fillText(self.label, self.width/2, self.height/2);
+					globalAlpha = 1;
+				
+				}
 			}
-		} 
+		}
 	}
 	
 	this.click = function() {
@@ -2981,14 +2999,32 @@ function slider(target, transmitCommand) {
 	}
 
 	this.move = function() {
+		if (self.hslider) {
+			self.handle = self.clickPos.x;
+			self.relhandle = self.deltaMove.x;
+			self.cap = self.width;
+		} else {
+			self.handle = self.clickPos.y;
+			self.relhandle = self.deltaMove.y*-1;
+			self.cap = self.height
+		}
+
 		if (self.mode=="absolute") {
 			if (self.clicked) {
-				self.val = (Math.abs((nx.clip(self.clickPos.y / self.height, 0.01, 0.98)) - 1));
+				if (!self.hslider) {
+					self.val = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
+				} else {	
+					self.val = nx.clip(self.clickPos.x/self.width, 0, 1);
+				}
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
-				self.val = nx.clip((self.val + ((self.deltaMove.y*-1)/self.height)),0.01,0.98);
+				if (!self.hslider) {
+					self.val = nx.clip((self.val + ((self.deltaMove.y*-1)/self.height)),0,1);
+				} else {
+					self.val = nx.clip((self.val + ((self.deltaMove.x)/self.width)),0,1);
+				}
 				self.draw();
 			}
 		}
