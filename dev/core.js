@@ -327,12 +327,16 @@ var nx = function() {
 		x -= canvas_offset.left;
 	  	y -= canvas_offset.top;
 		var click_position = new nx.point(x,y);
+		console.log("touches="+e.touches.length);
+		console.log("target="+e.targetTouches.length);
+		console.log("changed="+e.changedTouches.length);
+
 	//	if (e.targetTouches.length>1) {
 		click_position.touches = new Array();
 		for (var i=0;i<e.targetTouches.length;i++) {
 			 click_position.touches.push({
-				x: e.targetTouches[i].pageX,
-				y: e.targetTouches[i].pageY
+				x: e.targetTouches[i].pageX - canvas_offset.left,
+				y: e.targetTouches[i].pageY - canvas_offset.top
 			});
 		/*	click_position.touches[i] = new Object();
 			click_position.touches[i].x = e.targetTouches[i].pageX;
@@ -679,6 +683,12 @@ $(document).ready(function() {
 		document.addEventListener("touchmove", nx.blockMove, true);
 		document.addEventListener("touchstart", nx.blockMove, true);
 	}
+
+	//block space key and delete key
+	window.onkeydown = function(e) { 
+	    return !(e.keyCode == 32 || e.keyCode == 46);
+	};
+
 	
 	nx.addStylesheet();
 	
@@ -899,8 +909,8 @@ function getTemplate(self, target, transmitCommand) {
 				self.init();
 				self.draw();
 			} else if (self.isBeingDragged) {
-				var matrixy = ~~((e.clientY-self.height/2)/canvasgridy)*canvasgridy;
-				var matrixx = ~~((e.clientX-self.width/2)/canvasgridx)*canvasgridx;
+				var matrixy = ~~((e.pageY-self.height/2)/canvasgridy)*canvasgridy;
+				var matrixx = ~~((e.pageX-self.width/2)/canvasgridx)*canvasgridx;
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";
 				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
@@ -910,6 +920,10 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	};
 	self.preRelease = function(e) {
+
+	//	var new_click_position = self.getCursorPosition(e, self.offset);
+	//	self.clickPos = new_click_position;
+
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = false;
 		if (nx.editmode) {
@@ -986,9 +1000,13 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	};
 	self.preTouchRelease = function(e) {
-		if (self.clicked) {
+		if (e.targetTouches.length>=1) {
+			var new_click_position = self.getTouchPosition(e, self.offset);
+			self.clickPos = new_click_position;
+		} else {
 			self.clicked = false;
 		}
+
 		if (nx.editmode) {
 			self.isBeingDragged = false;
 			globaldragid = false;

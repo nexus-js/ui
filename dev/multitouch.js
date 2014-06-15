@@ -156,15 +156,17 @@ function multitouch(target, transmitCommand) {
 	this.move = function() {
 		if (self.clicked) {
 			self.draw();
-			self.sendit()
+			self.sendit();
 		}
 	}
 	
 
 	this.release = function() {
-		if (self.clickPos.touches.length>0) {
-			self.clicked=true;
-		} else {
+	//	if (self.clickPos.touches.length > 1) {
+	//		self.clicked=true;
+	//	} else {
+
+		if(!self.clicked) {
 			self.clickPos.touches = new Array();
 		}
 		

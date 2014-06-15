@@ -98,7 +98,7 @@
 					document.addEventListener("mousemove", dragobj, true);
 			//		document.addEventListener("touchmove", touchdragobj, true);
 					$("#"+thisname).mousemove(function(e) {
-						if (nx.editmode && e.clientX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.clientY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
 							document.body.style.cursor = "se-resize";
 						} else {
 							document.body.style.cursor = "pointer";
@@ -136,8 +136,8 @@
 			})
 
 			function dragobj(e) {
-				var matrixy = ~~(e.clientY/50)*50;
-				var matrixx = ~~(e.clientX/50)*50;
+				var matrixy = ~~(e.pageY/50)*50;
+				var matrixx = ~~(e.pageX/50)*50;
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
@@ -299,7 +299,7 @@
 						eval(thisname+".init()");
 						globaldragid = thisname;
 						$("#"+thisname).mousemove(function(e) {
-						if (nx.editmode && e.clientX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.clientY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
 							document.body.style.cursor = "se-resize";
 						} else {
 							document.body.style.cursor = "pointer";
@@ -413,7 +413,7 @@
 			}
 
 			.overlay {
-				position:absolute;
+				position:fixed;
 				left:0px;
 				top:0px;
 				width:100%;
@@ -427,7 +427,7 @@
 
 		</style>
 
-		<div style="position:fixed;left:0px;top:0px;width:100%">
+		<div style="position:absolute;left:0px;top:0px;width:100%">
 
 			<div id="perfbutt" onclick="perform()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#9df;">locked</div>
 			<div id="addbutt" onclick="openAdd()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.33%;box-sizing:border-box;text-align:center;background-color:#afc;display:none">add</div>
@@ -443,7 +443,9 @@
 			<div class="nxbutt">button</div>
 			<div class="nxbutt">colors</div>
 			<div class="nxbutt">dial</div>
+			<div class="nxbutt">joints</div>
 			<div class="nxbutt">keyboard</div>
+			<div class="nxbutt">matrix</div>
 			<div class="nxbutt">metroball</div>
 			<div class="nxbutt">mouse</div>
 			<div class="nxbutt">multislider</div>
@@ -451,15 +453,17 @@
 			<div class="nxbutt">number</div>
 			<div class="nxbutt">pixels</div>
 			<div class="nxbutt">position</div>
+			<div class="nxbutt">sandbox</div>
 			<div class="nxbutt">slider</div>
 			<div class="nxbutt">string</div>
 			<div class="nxbutt">tilt</div>
 			<div class="nxbutt">toggle</div>
 			<div class="nxbutt">typewriter</div>
-		<!--	<div class="nxopt">comment</div> -->
-		<!--	<div class="nxopt">sandbox</div> -->
-		<!--	<div class="nxopt">matrix</div> -->
-		<!--	<div class="nxopt">joints</div> -->
+			<div class="nxbutt">typewriter</div>
+			<div class="nxbutt">typewriter</div>
+			<div class="nxbutt">typewriter</div>
+			<div class="nxbutt">typewriter</div>
+			<div class="nxbutt">typewriter</div>
 			<div style="clear:both"></div>
 
 		</div>
@@ -478,7 +482,9 @@
 				Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" style="width:75%" value="127.0.0.1"></input>
 			</div>
 
-			<div class="butt" onclick="askToStoreUI()">Save</div>
+			<div class="butt" onclick="askToStoreUI()">Save in Browser</div>
+
+			<div class="butt" onclick="saveUI()">Download HTML</div>
 
 			<div class="butt" onclick="findUIs()">Find UIs</div>
 
@@ -493,6 +499,20 @@
 			<button onclick="saveUI()">Download</button> -->
 
 		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

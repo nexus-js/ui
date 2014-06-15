@@ -89,7 +89,7 @@
 					$("#"+thisname).mousemove(function(e) {
 					  	console.log(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px","")));
 
-						if (nx.editmode && e.clientX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.clientY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
 							document.body.style.cursor = "se-resize";
 						} else {
 							document.body.style.cursor = "pointer";
@@ -129,8 +129,8 @@
 			})
 
 			function dragobj(e) {
-				var matrixy = ~~(e.clientY/50)*50;
-				var matrixx = ~~(e.clientX/50)*50;
+				var matrixy = ~~(e.pageY/50)*50;
+				var matrixx = ~~(e.pageX/50)*50;
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
