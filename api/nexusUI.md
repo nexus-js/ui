@@ -25,13 +25,13 @@ Touch button with three modes of interaction
 
 **Properties**
 
-**val**:  *object*,  
+**val**:  *object* 
 
 
 press: &nbsp; 0 (clicked) or 1 (unclicked)<br>
 x: &nbsp; 0-1 float of x-position of click ("node" mode only)<br>
 y: &nbsp; 0-1 float of y-position of click ("node" mode only)<br>
-<br>**mode**:  *string*,  Interaction mode of impulse, toggle, or position
+<br>**mode**:  *string* Interaction mode of impulse, toggle, or position
 
 impulse &nbsp; 1 on click <br>
 toggle &nbsp;  1 on click, 0 on release _(default)_<br>
@@ -49,7 +49,7 @@ Circular dial
 
 **Properties**
 
-**val**:  *float*,  Current position of dial
+**val**:  *float* Current position of dial
 
 value: &nbsp; current dial value as float 0-1<br>
 <br>colors
@@ -62,7 +62,7 @@ Color picker that outputs RBG values
 
 **Properties**
 
-**val**:  *object*,  RBG color value at mouse position
+**val**:  *object* RBG color value at mouse position
 
 r: &nbsp; red value 0-256<br>
 g: &nbsp; green value 0-256<br>
@@ -85,7 +85,7 @@ joints
 
 **Properties**
 
-**val**:  *object*,  
+**val**:  *object* 
 
 
 x: &nbsp; x position of touch<br>
