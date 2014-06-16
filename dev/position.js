@@ -139,12 +139,19 @@ function position(target, transmitCommand) {
 	
 	this.aniBounce = function() {
 		if (!self.clicked && self.val.x) {
-			self.val.x += (self.deltaMove.x/2);
-			self.val.y += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.val.x, self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.val.y, self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.val.x += (self.deltaMove.x/2)/self.width;
+			self.val.y += (self.deltaMove.y/2)/self.height;
+			self.val["state"] = "animated";
+			if (nx.bounce(self.val.x, 0, 1, self.deltaMove.x) != self.deltaMove.x) {
+				self.deltaMove.x = nx.bounce(self.val.x, 0, 1, self.deltaMove.x);
+				self.val["state"] = "bounce";
+			}
+			if (nx.bounce(self.val.y, 0, 1, self.deltaMove.y) != self.deltaMove.y) {
+				self.deltaMove.y = nx.bounce(self.val.y, 0, 1, self.deltaMove.y);
+				self.val["state"] = "bounce";
+			}
+			self.nxTransmit(self.val);
 			self.draw();
-			self.nxTransmit(self.scaleNode());
 		}
 	}
 }

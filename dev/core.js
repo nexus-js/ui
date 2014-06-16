@@ -134,6 +134,12 @@ var nx = function() {
 			this.nxObjects[i].transmitCommand = setting;
 		}	
 	}
+	
+	this.usesScript = function (setting) {
+		for (i=0;i<this.nxObjects.length;i++) {
+			this.nxObjects[i].transmitCommand = setting;
+		}	
+	}
 
 	this.logOSC = false
 

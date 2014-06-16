@@ -6,18 +6,9 @@
 	<title>Nexus Mobile Audio Interface Objects</title>
 	<meta name="LSU EMDM" content="nexus">
 	
-	<script type="text/javascript" src="../nexusUI/jquery.js"></script>
+	<script type="text/javascript" src="../../dev/jquery.js"></script>
+	<script type="text/javascript" src="../../nexusUI.js"></script>
 	<script type="text/javascript" src="js/gibberish_2.0.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusUI.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusDial.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusButton.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusToggle.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusPosition.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusMatrix.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusMultislider.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusSlider.js"></script>
-	<script type="text/javascript" src="../nexusUI/nexusKeyboard.js"></script>
-	<link type="style/css" href="../nexusUI/nexusUI.css" rel="stylesheet">
 	<script type="text/javascript" charset="utf-8">
 	
 		var rack, prefxBus, delay;
@@ -62,6 +53,7 @@
 				}
 				
 				rack[i].position1.localTransmit = function(data) {
+					console.log(data);
 					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
 					rack[i].osc.frequency = data[0] * 1000;
 					rack[i].osc.amp = nx.invert(data[1]) - 0.1;
