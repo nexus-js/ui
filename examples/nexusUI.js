@@ -102,10 +102,10 @@ function button(target, transmitCommand) {
 
 	this.value = 1;
 
-	/** @property {object}  val    
-		⋅⋅⋅*press* &nbsp; 0 (clicked) or 1 (unclicked)<br>
-		> *x* &nbsp; 0-1 float of x-position of click ("node" mode only)<br>
-		* *y* &nbsp; 0-1 float of y-position of click ("node" mode only)<br> 
+	/** @property {object}  val   with the following properties:
+		| *press* | 0 (clicked) or 1 (unclicked) |
+		| *x* | 0-1 float of x-position of click ("node" mode only) |
+		+ *y* &nbsp; 0-1 float of y-position of click ("node" mode only)<br> 
 		*/
 	this.val = {
 		press: 0
