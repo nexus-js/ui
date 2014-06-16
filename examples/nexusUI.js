@@ -102,12 +102,23 @@ function button(target, transmitCommand) {
 
 	this.value = 1;
 
-	/** @property {object}  val   with the following properties:
-		&nbsp; | data
+	/** @property {object}  val  Main value set and output, with sub-properties:
+		&nbsp; | data type
 		--- | ---
-		*press* | 0 (clicked) or 1 (unclicked)
-		*x* | 0-1 float of x-position of click ("node" mode only)
-		*y* | 0-1 float of y-position of click ("node" mode only)<br> 
+		| *press* | 0 (clicked) or 1 (unclicked)
+		| *x* | 0-1 float of x-position of click ("node" mode only)
+		| *y* | 0-1 float of y-position of click ("node" mode only)<br> 
+		```js 
+		button1.response = function(data) {
+			//some code using data.val.press and data.val.x
+		}
+		```
+		Or, as OSC:
+		```js 
+		/button1/press
+		/button1/x
+		/button1/y
+		```
 		*/
 	this.val = {
 		press: 0
