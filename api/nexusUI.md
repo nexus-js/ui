@@ -32,19 +32,12 @@ Touch button with three modes of interaction
 | *press* | 0 (clicked) or 1 (unclicked)
 | *x* | 0-1 float of x-position of click ("node" mode only)
 | *y* | 0-1 float of y-position of click ("node" mode only)
-```js
-button1.val.press = 1;
-```
 val appears as the argument of the JavaScript response function:
 ```js
 button1.response = function(data) {
-console.log(data.press)
+// some code using data.press, data.x, and data.y
 }
 ```
-Or, if transmitted as OSC to another application, the data will format as:<br>
-/button1/press<br>
-/button1/x<br>
-/button1/y<br>
 <br> **mode**:  *string* Interaction mode of impulse, toggle, or position
 
 impulse &nbsp; 1 on click <br>
@@ -53,7 +46,37 @@ position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
 ```js
 button1.mode = "position"
 ```
-<br> dial
+<br> colors
+--------
+Color picker that outputs RBG values
+```html
+<canvas nx="colors"></canvas>
+```
+<canvas nx="colors" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *object* Main output, RBG color value at mouse position
+
+| &nbsp; | data
+| --- | ---
+| *r* | red value 0-256
+| *g* | green value 0-256
+| *b* | blue value 0-256
+```js
+colors1.response = function(data) {
+// some code using data.r, data.g, and data.b
+}
+```
+<br> comment
+---------
+Comment area with settable text
+```html
+<canvas nx="comment"></canvas>
+```
+<canvas nx="comment" style="margin-left:25px"></canvas>
+
+dial
 ------
 Circular dial
 ```html
@@ -66,30 +89,7 @@ Circular dial
 **val**:  *float* Current position of dial
 
 value: &nbsp; current dial value as float 0-1<br>
-<br> colors
---------
-Color picker that outputs RBG values
-```html
-<canvas nx="colors"></canvas>
-```
-<canvas nx="colors" style="margin-left:25px"></canvas>
-
-**Properties**
-
-**val**:  *object* RBG color value at mouse position
-
-r: &nbsp; red value 0-256<br>
-g: &nbsp; green value 0-256<br>
-b: &nbsp; blue value 0-256<br>
-<br> comment
----------
-Comment area with settable text
-```html
-<canvas nx="comment"></canvas>
-```
-<canvas nx="comment" style="margin-left:25px"></canvas>
-
-joints
+<br> joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
 ```html

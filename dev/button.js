@@ -29,19 +29,12 @@ function button(target, transmitCommand) {
 		| *press* | 0 (clicked) or 1 (unclicked)
 		| *x* | 0-1 float of x-position of click ("node" mode only)
 		| *y* | 0-1 float of y-position of click ("node" mode only) 
-		```js 
-		button1.val.press = 1;
-		```
 		val appears as the argument of the JavaScript response function:
 		```js 
 		button1.response = function(data) {
-			console.log(data.press)
+			// some code using data.press, data.x, and data.y
 		}
 		```
-		Or, if transmitted as OSC to another application, the data will format as:<br>
-		/button1/press<br>
-		/button1/x<br>
-		/button1/y<br>
 		*/
 	this.val = {
 		press: 0

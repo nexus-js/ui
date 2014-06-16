@@ -55,9 +55,9 @@ function uglify(srcPath, distPath) {
 var nxscripts = [
         'banner.js',
         'button.js',
-        'dial.js',
         'colors.js',
         'comment.js',
+        'dial.js',
         'joints.js',
         'keyboard.js',
         'matrix.js',

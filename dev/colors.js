@@ -91,10 +91,17 @@ function colors(target, transmitCommand) {
 		var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
 		
 
-		/** @property {object}  val    RBG color value at mouse position
-		r: &nbsp; red value 0-256<br>
-		g: &nbsp; green value 0-256<br>
-		b: &nbsp; blue value 0-256<br> 
+		/** @property {object}  val   Main output, RBG color value at mouse position
+		| &nbsp; | data
+		| --- | ---
+		| *r* | red value 0-256
+		| *g* | green value 0-256
+		| *b* | blue value 0-256 
+		```js 
+		colors1.response = function(data) {
+			// some code using data.r, data.g, and data.b
+		}
+		```
 		*/
 		
 

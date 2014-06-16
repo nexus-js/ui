@@ -108,19 +108,12 @@ function button(target, transmitCommand) {
 		| *press* | 0 (clicked) or 1 (unclicked)
 		| *x* | 0-1 float of x-position of click ("node" mode only)
 		| *y* | 0-1 float of y-position of click ("node" mode only) 
-		```js 
-		button1.val.press = 1;
-		```
 		val appears as the argument of the JavaScript response function:
 		```js 
 		button1.response = function(data) {
-			console.log(data.press)
+			// some code using data.press, data.x, and data.y
 		}
 		```
-		Or, if transmitted as OSC to another application, the data will format as:<br>
-		/button1/press<br>
-		/button1/x<br>
-		/button1/y<br>
 		*/
 	this.val = {
 		press: 0
@@ -266,6 +259,197 @@ function button(target, transmitCommand) {
 		self.imageTouch.src = image;
 	}
 
+}
+/** 
+	@class colors      
+	Color picker that outputs RBG values
+	```html
+	<canvas nx="colors"></canvas>
+	```
+	<canvas nx="colors" style="margin-left:25px"></canvas>
+*/
+
+
+// this object is poor when it is resized
+// because it calculates hsl based on
+// hsl max values / width of object...
+				
+function colors(target, transmitCommand) {
+					
+	//self awareness
+	var self = this;
+	this.defaultSize = { width: 200, height: 200 };
+	
+	//get common attributes and methods
+	getTemplate(self, target, transmitCommand);
+	
+	//define unique attributes
+	var pencil_width = 50;
+	var color_width = self.canvas.width - self.lineWidth*2;
+	var color_height = self.canvas.height - self.lineWidth*2;
+	var color_table;
+	var saturation = 240;
+	self.color = [0,0,0];
+	var i;
+
+	this.init = function() {
+		
+		//prep color picker
+	 	color_table = new Array(color_width);
+		for (i=0;i<color_table.length;i++) {
+			color_table[i] = new Array(color_height);
+		}
+		
+		
+		for (i=0;i<color_width;i++) {
+			h = Math.round((240/color_width)*i);
+			for (j=0;j<color_height;j++) {
+					s = saturation;
+					l = Math.round((100/color_height)*j);
+				color_table[i][j] = [h, s, l];
+			}
+		}
+		self.draw();
+	}
+	
+	this.draw = function() {
+		self.erase();
+		self.makeRoundedBG();
+		with(self.context) {
+			fillStyle = self.colors.fill;
+			strokeStyle = self.colors.border;
+			fill();
+			stroke();
+		}
+		for (i=0;i<color_width;i++) {
+			for (j=0;j<color_height;j++) {
+				hue = color_table[i][j][0];
+				sat = color_table[i][j][1];
+				lum = color_table[i][j][2];
+				with(self.context) {
+ 					beginPath();
+ 					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
+ 					fillRect(i+self.padding,j+self.padding, 240/color_width, 240/color_height);
+ 					fill();
+ 					closePath();
+				}
+			}
+		}
+
+		self.drawLabel();
+	}
+
+	this.drawColor = function() {
+		with(self.context) {
+			fillStyle = "rgb("+self.val.r+","+self.val.g+","+self.val.b+")";
+			beginPath()
+			arc(self.width/8,self.height-self.height/8,self.width/10,0,Math.PI*2)
+			fill()
+			closePath()
+		}
+	}
+
+	this.click = function(e) {
+		var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
+		
+
+		/** @property {object}  val   Main output, RBG color value at mouse position
+		| &nbsp; | data
+		| --- | ---
+		| *r* | red value 0-256
+		| *g* | green value 0-256
+		| *b* | blue value 0-256 
+		```js 
+		colors1.response = function(data) {
+			// some code using data.r, data.g, and data.b
+		}
+		```
+		*/
+		
+
+		self.val = {
+			r: imgData.data[0], 
+			g: imgData.data[1], 
+			b: imgData.data[2]
+		}
+		self.nxTransmit(self.val);
+		self.drawColor();
+	}
+
+
+	this.move = function(e) {
+		self.click(e);
+	}
+	
+}
+
+
+/** 
+	@class comment      
+	Comment area with settable text
+	```html
+	<canvas nx="comment"></canvas>
+	```
+	<canvas nx="comment" style="margin-left:25px"></canvas>
+*/
+
+function comment(target, transmitCommand) {
+					
+	//self awareness
+	var self = this;
+	this.defaultSize = { width: 100, height: 35 };
+	
+	//get common attributes and methods
+	getTemplate(self, target, transmitCommand);
+	
+	this.val = {
+		text: "comment"
+	}
+	this.sizeSet = false;
+
+	this.setSize = function(size) {
+		self.size = size;
+		self.sizeSet = true;
+		self.draw();
+	}
+	
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		if (!self.sizeSet) {
+			self.size = Math.sqrt((self.width * self.height) / (self.val.text.length));
+		}
+	
+		self.erase();
+		with (self.context) {
+			globalAlpha = 1;
+			
+			fillStyle = self.colors.fill;
+			fillRect(0,0,self.width,self.height);
+			
+			strokeStyle = self.colors.border;
+			lineWidth = 3;
+			strokeStyle = self.colors.accent;
+			strokeRect(0,0,self.width,self.height);
+			
+			beginPath();
+			moveTo(0,self.height);
+			lineTo(self.width,self.height);
+			strokeStyle = self.colors.accent;
+			stroke();
+			closePath();
+		
+			globalAlpha = 1;
+			
+			
+			fillStyle = self.colors.black;
+			textAlign = "left";
+			font = self.size+"px Gill Sans";
+		}
+		nx.wrapText(self.context, self.val.text, 6, 3+self.size, self.width-6, self.size);
+	}
 }
 /** 
 	@class dial      
@@ -443,190 +627,6 @@ function dial(target, transmitCommand) {
 }
 
 
-/** 
-	@class colors      
-	Color picker that outputs RBG values
-	```html
-	<canvas nx="colors"></canvas>
-	```
-	<canvas nx="colors" style="margin-left:25px"></canvas>
-*/
-
-
-// this object is poor when it is resized
-// because it calculates hsl based on
-// hsl max values / width of object...
-				
-function colors(target, transmitCommand) {
-					
-	//self awareness
-	var self = this;
-	this.defaultSize = { width: 200, height: 200 };
-	
-	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
-	
-	//define unique attributes
-	var pencil_width = 50;
-	var color_width = self.canvas.width - self.lineWidth*2;
-	var color_height = self.canvas.height - self.lineWidth*2;
-	var color_table;
-	var saturation = 240;
-	self.color = [0,0,0];
-	var i;
-
-	this.init = function() {
-		
-		//prep color picker
-	 	color_table = new Array(color_width);
-		for (i=0;i<color_table.length;i++) {
-			color_table[i] = new Array(color_height);
-		}
-		
-		
-		for (i=0;i<color_width;i++) {
-			h = Math.round((240/color_width)*i);
-			for (j=0;j<color_height;j++) {
-					s = saturation;
-					l = Math.round((100/color_height)*j);
-				color_table[i][j] = [h, s, l];
-			}
-		}
-		self.draw();
-	}
-	
-	this.draw = function() {
-		self.erase();
-		self.makeRoundedBG();
-		with(self.context) {
-			fillStyle = self.colors.fill;
-			strokeStyle = self.colors.border;
-			fill();
-			stroke();
-		}
-		for (i=0;i<color_width;i++) {
-			for (j=0;j<color_height;j++) {
-				hue = color_table[i][j][0];
-				sat = color_table[i][j][1];
-				lum = color_table[i][j][2];
-				with(self.context) {
- 					beginPath();
- 					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
- 					fillRect(i+self.padding,j+self.padding, 240/color_width, 240/color_height);
- 					fill();
- 					closePath();
-				}
-			}
-		}
-
-		self.drawLabel();
-	}
-
-	this.drawColor = function() {
-		with(self.context) {
-			fillStyle = "rgb("+self.val.r+","+self.val.g+","+self.val.b+")";
-			beginPath()
-			arc(self.width/8,self.height-self.height/8,self.width/10,0,Math.PI*2)
-			fill()
-			closePath()
-		}
-	}
-
-	this.click = function(e) {
-		var imgData = self.context.getImageData(self.clickPos.x,self.clickPos.y,1,1);
-		
-
-		/** @property {object}  val    RBG color value at mouse position
-		r: &nbsp; red value 0-256<br>
-		g: &nbsp; green value 0-256<br>
-		b: &nbsp; blue value 0-256<br> 
-		*/
-		
-
-		self.val = {
-			r: imgData.data[0], 
-			g: imgData.data[1], 
-			b: imgData.data[2]
-		}
-		self.nxTransmit(self.val);
-		self.drawColor();
-	}
-
-
-	this.move = function(e) {
-		self.click(e);
-	}
-	
-}
-
-
-/** 
-	@class comment      
-	Comment area with settable text
-	```html
-	<canvas nx="comment"></canvas>
-	```
-	<canvas nx="comment" style="margin-left:25px"></canvas>
-*/
-
-function comment(target, transmitCommand) {
-					
-	//self awareness
-	var self = this;
-	this.defaultSize = { width: 100, height: 35 };
-	
-	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
-	
-	this.val = {
-		text: "comment"
-	}
-	this.sizeSet = false;
-
-	this.setSize = function(size) {
-		self.size = size;
-		self.sizeSet = true;
-		self.draw();
-	}
-	
-	this.init = function() {
-		self.draw();
-	}
-
-	this.draw = function() {
-		if (!self.sizeSet) {
-			self.size = Math.sqrt((self.width * self.height) / (self.val.text.length));
-		}
-	
-		self.erase();
-		with (self.context) {
-			globalAlpha = 1;
-			
-			fillStyle = self.colors.fill;
-			fillRect(0,0,self.width,self.height);
-			
-			strokeStyle = self.colors.border;
-			lineWidth = 3;
-			strokeStyle = self.colors.accent;
-			strokeRect(0,0,self.width,self.height);
-			
-			beginPath();
-			moveTo(0,self.height);
-			lineTo(self.width,self.height);
-			strokeStyle = self.colors.accent;
-			stroke();
-			closePath();
-		
-			globalAlpha = 1;
-			
-			
-			fillStyle = self.colors.black;
-			textAlign = "left";
-			font = self.size+"px Gill Sans";
-		}
-		nx.wrapText(self.context, self.val.text, 6, 3+self.size, self.width-6, self.size);
-	}
-}
 /** 
 	@class joints      
 	2D slider with connections to several points; a proximity-based multislider.
