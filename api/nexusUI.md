@@ -25,8 +25,12 @@ Touch button with three modes of interaction
 
 **Properties**
 
-**value**:  *integer*,  Current state and output (0=off, 1=on)
+**val**:  *object*,  
 
+
+press: &nbsp; 0 (clicked) or 1 (unclicked)<br>
+x: &nbsp; 0-1 float of x-position of click ("node" mode only)<br>
+y: &nbsp; 0-1 float of y-position of click ("node" mode only)<br>
 **mode**:  *string*,  Interaction mode of impulse, toggle, or position
 
 impulse &nbsp; 1 on click <br>

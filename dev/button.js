@@ -29,7 +29,7 @@ function button(target, transmitCommand) {
 		y: &nbsp; 0-1 float of y-position of click ("node" mode only)<br> 
 		*/
 	this.val = {
-		press:
+		press: 0
 	}
 	
 	/** @property {string}  mode  Interaction mode of impulse, toggle, or position
