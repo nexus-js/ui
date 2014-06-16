@@ -28,10 +28,10 @@ Touch button with three modes of interaction
 **val**:  *object* 
 
 
-+ *press* &nbsp; 0 (clicked) or 1 (unclicked)<br>
-+ *x* &nbsp; 0-1 float of x-position of click ("node" mode only)<br>
-+ *y* &nbsp; 0-1 float of y-position of click ("node" mode only)<br>
-<br>**mode**:  *string* Interaction mode of impulse, toggle, or position
+• *press* &nbsp; 0 (clicked) or 1 (unclicked)<br>
+• *x* &nbsp; 0-1 float of x-position of click ("node" mode only)<br>
+• *y* &nbsp; 0-1 float of y-position of click ("node" mode only)<br>
+<br> **mode**:  *string* Interaction mode of impulse, toggle, or position
 
 impulse &nbsp; 1 on click <br>
 toggle &nbsp;  1 on click, 0 on release _(default)_<br>
@@ -39,7 +39,7 @@ position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
 ```js
 button1.mode = "position"
 ```
-<br>dial
+<br> dial
 ------
 Circular dial
 ```html
@@ -52,7 +52,7 @@ Circular dial
 **val**:  *float* Current position of dial
 
 value: &nbsp; current dial value as float 0-1<br>
-<br>colors
+<br> colors
 --------
 Color picker that outputs RBG values
 ```html
@@ -67,7 +67,7 @@ Color picker that outputs RBG values
 r: &nbsp; red value 0-256<br>
 g: &nbsp; green value 0-256<br>
 b: &nbsp; blue value 0-256<br>
-<br>comment
+<br> comment
 ---------
 Comment area with settable text
 ```html
@@ -94,7 +94,7 @@ node0: &nbsp; nearness to node0 if within range (float 0-1)<br>
 node1: &nbsp; nearness to node1 if within range (float 0-1)<br>
 node2: &nbsp; nearness to node2 if within range (float 0-1)<br>
 etc...
-<br>keyboard
+<br> keyboard
 ----------
 Piano keyboard which outputs midi pairs
 ```html
