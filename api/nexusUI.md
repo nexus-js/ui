@@ -27,8 +27,8 @@ Touch button with three modes of interaction
 
 **val**:  *object* Main value set and output, with sub-properties:
 
-&nbsp; | data type
---- | ---
+| key | data type
+| --- | ---
 | *press* | 0 (clicked) or 1 (unclicked)
 | *x* | 0-1 float of x-position of click ("node" mode only)
 | *y* | 0-1 float of y-position of click ("node" mode only)<br>
