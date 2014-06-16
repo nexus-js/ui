@@ -15,12 +15,24 @@ function comment(target, transmitCommand) {
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *text* | text of comment area (as string)
+		```js 
+		comment1.val.text = "This is my comment"
+		```
+	*/
 	
 	this.val = {
 		text: "comment"
 	}
 	this.sizeSet = false;
 
+	/** @method setSize
+		text size in pixels
+	*/
 	this.setSize = function(size) {
 		self.size = size;
 		self.sizeSet = true;

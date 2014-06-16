@@ -20,14 +20,18 @@ function joints(target, transmitCommand) {
 	this.nodeSize = self.width/14;
 	this.values = [0,0];
 
-	/** @property {object}  val
-	x: &nbsp; x position of touch<br>
-	y: &nbsp; y position of touch<br>
-	node0: &nbsp; nearness to node0 if within range (float 0-1)<br>
-	node1: &nbsp; nearness to node1 if within range (float 0-1)<br>
-	node2: &nbsp; nearness to node2 if within range (float 0-1)<br>
-	etc...
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | x position of touch/mouse
+		| *y* | y position of touch/mouse
+		| *node0* | nearness to first node if within range (float 0-1)
+		| *node1* | nearness to second node if within range (float 0-1)
+		| *node2* | nearness to third node if within range (float 0-1)
+		| etc... | &nbsp;
+		
 	*/
+
 	this.val = {
 		x: 0,
 		y: 0,

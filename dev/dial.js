@@ -26,8 +26,7 @@ function dial(target, transmitCommand) {
 		this.accentWidth = this.lineWidth * 2;
 	}
 
-	/** @property {float}  val    Current position of dial
-	value: &nbsp; current dial value as float 0-1<br>
+	/** @property {float}  val    Current value of dial as float 0-1<br>
 	*/
 	this.val = 0.5;
 	this.responsivity = 0.005;

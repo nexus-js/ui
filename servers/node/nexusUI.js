@@ -401,12 +401,24 @@ function comment(target, transmitCommand) {
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *text* | text of comment area (as string)
+		```js 
+		comment1.val.text = "This is my comment"
+		```
+	*/
 	
 	this.val = {
 		text: "comment"
 	}
 	this.sizeSet = false;
 
+	/** @method setSize
+		text size in pixels
+	*/
 	this.setSize = function(size) {
 		self.size = size;
 		self.sizeSet = true;
@@ -479,8 +491,7 @@ function dial(target, transmitCommand) {
 		this.accentWidth = this.lineWidth * 2;
 	}
 
-	/** @property {float}  val    Current position of dial
-	value: &nbsp; current dial value as float 0-1<br>
+	/** @property {float}  val    Current value of dial as float 0-1<br>
 	*/
 	this.val = 0.5;
 	this.responsivity = 0.005;
@@ -649,14 +660,18 @@ function joints(target, transmitCommand) {
 	this.nodeSize = self.width/14;
 	this.values = [0,0];
 
-	/** @property {object}  val
-	x: &nbsp; x position of touch<br>
-	y: &nbsp; y position of touch<br>
-	node0: &nbsp; nearness to node0 if within range (float 0-1)<br>
-	node1: &nbsp; nearness to node1 if within range (float 0-1)<br>
-	node2: &nbsp; nearness to node2 if within range (float 0-1)<br>
-	etc...
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | x position of touch/mouse
+		| *y* | y position of touch/mouse
+		| *node0* | nearness to first node if within range (float 0-1)
+		| *node1* | nearness to second node if within range (float 0-1)
+		| *node2* | nearness to third node if within range (float 0-1)
+		| etc... | &nbsp;
+		
 	*/
+
 	this.val = {
 		x: 0,
 		y: 0,

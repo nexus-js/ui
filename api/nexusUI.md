@@ -76,6 +76,23 @@ Comment area with settable text
 ```
 <canvas nx="comment" style="margin-left:25px"></canvas>
 
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *text* | text of comment area (as string)
+```js
+comment1.val.text = "This is my comment"
+```
+<br> **Methods**
+
+###comment.setSize()###
+text size in pixels
+
+
 dial
 ------
 Circular dial
@@ -86,9 +103,8 @@ Circular dial
 
 **Properties**
 
-**val**:  *float* Current position of dial
+**val**:  *float* Current value of dial as float 0-1<br>
 
-value: &nbsp; current dial value as float 0-1<br>
 <br> joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
@@ -102,12 +118,15 @@ value: &nbsp; current dial value as float 0-1<br>
 **val**:  *object* 
 
 
-x: &nbsp; x position of touch<br>
-y: &nbsp; y position of touch<br>
-node0: &nbsp; nearness to node0 if within range (float 0-1)<br>
-node1: &nbsp; nearness to node1 if within range (float 0-1)<br>
-node2: &nbsp; nearness to node2 if within range (float 0-1)<br>
-etc...
+| &nbsp; | data
+| --- | ---
+| *x* | x position of touch/mouse
+| *y* | y position of touch/mouse
+| *node0* | nearness to first node if within range (float 0-1)
+| *node1* | nearness to second node if within range (float 0-1)
+| *node2* | nearness to third node if within range (float 0-1)
+| etc... | &nbsp;
+
 <br> keyboard
 ----------
 Piano keyboard which outputs midi pairs
