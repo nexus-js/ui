@@ -900,6 +900,18 @@ function keyboard(target, transmitCommand) {
 
 	var note_new;
 	var note_old;
+
+	/** @property {object}  val   Core values and data output
+		| --- | ---
+		| *on* | 0 if noteon, 1 if noteoff
+		| *note* | MIDI value of key pressed
+		| *midi* | (string) paired MIDI message, example "20 0"
+	*/
+	this.val = {
+		on: 0,
+		note: 0,
+		midi: "0 0"
+	};
 		
 	this.init = function() {
 		document.addEventListener("keydown", self.type);
