@@ -84,14 +84,14 @@
 			}
 			
 			eval("displayButton = button" + (stepNum+1));
-			displayButton.clicked = true;
+			displayButton.val.press = true;
 			displayButton.draw();
 			setTimeout("clearButton(displayButton);", 30);
 
 		}
 		
 		function clearButton(buttonObj) {
-			buttonObj.clicked = false;
+			buttonObj.val.press = false;
 			buttonObj.draw();
 		}
 		

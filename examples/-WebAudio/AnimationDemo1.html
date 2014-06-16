@@ -44,6 +44,7 @@
 				
 				//nx routing for each row
 				rack[i].toggle.localTransmit = function(data) {
+					console.log(data)
 					var i = this.canvasID.replace("toggle", "")-1;
 					if (data==1) {
 						rack[i].dec.connect(prefxBus);
@@ -53,23 +54,24 @@
 				}
 				
 				rack[i].position1.localTransmit = function(data) {
-					console.log(data);
+					
 					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
-					rack[i].osc.frequency = data[0] * 1000;
-					rack[i].osc.amp = nx.invert(data[1]) - 0.1;
+					rack[i].osc.frequency = data.x * 1000;
+					rack[i].osc.amp = nx.invert(data.y) - 0.1;
 					rack[i].osc.pan = rack[i].osc.pan;
+					console.log(rack[i].osc.amp)
 				}
 				
 				rack[i].position2.localTransmit = function(data) {
 					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
-					rack[i].mod.frequency = (Math.floor(data[0]*10)/10) * ( 1000 + 500*i) ;
-					rack[i].mod.amp = nx.scale(data[1], 1, 0, 0, 50);
+					rack[i].mod.frequency = (Math.floor(data.x*10)/10) * ( 1000 + 500*i) ;
+					rack[i].mod.amp = nx.scale(data.y, 1, 0, 0, 50);
 				}
 				
 				rack[i].position3.localTransmit = function(data) {
 					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
-					rack[i].osc.pan = nx.scale(data[0], 0, 1, -1, 1);
-					rack[i].osc.bitDepth = nx.scale(data[1], 0, 1, 0, 16);
+					rack[i].osc.pan = nx.scale(data.x, 0, 1, -1, 1);
+					rack[i].osc.bitDepth = nx.scale(data.y, 0, 1, 0, 16);
 				}
 				
 				//define animation
