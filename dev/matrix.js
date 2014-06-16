@@ -1,6 +1,6 @@
 /** 
 	@class matrix      
-	Matrix with scalable values and sequencer functionality in several modes.
+	Matrix with scalable values and sequencer functionality.
 	```html
 	<canvas nx="matrix"></canvas>
 	```
@@ -19,16 +19,51 @@ function matrix(target, transmitCommand) {
 	
 	var i;
 	
+
+	/** @property {integer}  row   Number of rows in the matrix
+	```js
+		matrix1.row = 2;
+		matrix1.draw()
+	```
+	*/
 	this.row = 3;
+
+	/** @property {integer}  col   Number of columns in the matrix
+	```js
+		matrix1.col = 10;
+		matrix1.draw()
+	```
+	*/
 	this.col = 3;
 	
-	this.on = false;
 	this.off = 3;
-	this.matrix;
-	this.matrixLevels;
 	this.cellHgt;
 	this.cellWid;
 	this.pos;
+
+	/** @property {array}  matrix   Nested array of matrix values.
+	```js
+		//change row 1 column 2 to value 0.5
+		matrix1.matrix[1][2] = 0.5
+		matrix1.draw()
+	```
+	*/
+	this.matrix;
+
+	/** @property {object}  val   Core values and data output
+		| &nbsp; | data
+		| --- | ---
+		| *row* | Current row being changed
+		| *col* | Current column being changed
+		| *value* | New value of matrix point (0-1 float)
+	*/
+	this.val = {
+		row: 0,
+		col: 0,
+		value: 0
+	}
+
+
 	
 	this.init = function() {
 		
@@ -158,13 +193,28 @@ function matrix(target, transmitCommand) {
 		}
 	}
 
-
 	this.place = null;
 	this.starttime;
 	self.thisframe = 0;
 	self.lastframe = 0;
 
+	/** @property {integer}  bpm   Beats per minute (if in sequence mode)
+	```js
+		matrix1.bpm = 120;
+	```
+	*/
 	self.bpm = 120;
+
+
+
+	/** @method sequence
+	@param {Beats per minute of the pulse} [bpm]
+	Turns the matrix into a sequencer.
+
+	```js
+		matrix1.sequence(240);
+	```
+	*/
 	
 	this.sequence = function(bpm) {
 

@@ -139,17 +139,66 @@ Piano keyboard which outputs midi pairs
 
 **val**:  *object* Core values and data output
 
+| &nbsp; | data
 | --- | ---
 | *on* | 0 if noteon, 1 if noteoff
 | *note* | MIDI value of key pressed
-| *midi* | (string) paired MIDI message, example "20 0"
+| *midi* | paired MIDI message as a string - example "20 0" - This is to allow for simultaneous arrival of the MIDI pair if sent as an OSC message.
 <br> matrix
 --------
-Matrix with scalable values and sequencer functionality in several modes.
+Matrix with scalable values and sequencer functionality.
 ```html
 <canvas nx="matrix"></canvas>
 ```
 <canvas nx="matrix" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**row**:  *integer* Number of rows in the matrix
+
+```js
+matrix1.row = 2;
+matrix1.draw()
+```
+<br> **col**:  *integer* Number of columns in the matrix
+
+```js
+matrix1.col = 10;
+matrix1.draw()
+```
+<br> **matrix**:  *array* Nested array of matrix values.
+
+```js
+//change row 1 column 2 to value 0.5
+matrix1.matrix[1][2] = 0.5
+matrix1.draw()
+```
+<br> **val**:  *object* Core values and data output
+
+| &nbsp; | data
+| --- | ---
+| *row* | Current row being changed
+| *col* | Current column being changed
+| *value* | New value of matrix point (0-1 float)
+<br> **bpm**:  *integer* Beats per minute (if in sequence mode)
+
+```js
+matrix1.bpm = 120;
+```
+<br> **Methods**
+
+###matrix.sequence(\[bpm\])###
+Turns the matrix into a sequencer.
+
+```js
+matrix1.sequence(240);
+```
+
+
+**Parameters**
+
+**[bpm]**:  *Beats per minute of the pulse*,  
+
 
 message
 ---------
