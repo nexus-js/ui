@@ -33,6 +33,15 @@ function metroball(target, transmitCommand) {
 	self.tiltFB;
 	self.z;
 	var i;
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *bounce* | forthcoming
+	*/
+	this.val = {
+		bounce: ""
+	}
 	
 	this.init = function() {
 		self.createUISpaces();

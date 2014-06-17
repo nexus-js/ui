@@ -16,9 +16,19 @@ function message(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *message* | Text of message, as string
+	*/
+
 	this.val = {
 		message: "send a message"
 	}
+
+
+
 	this.size = 12;
 	
 	this.init = function() {

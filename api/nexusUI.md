@@ -208,7 +208,15 @@ Send a string of text.
 ```
 <canvas nx="message" style="margin-left:25px"></canvas>
 
-metroball
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *message* | Text of message, as string
+<br> metroball
 -----------
 Bouncy-ball area with built-in tilt control
 ```html
@@ -216,7 +224,15 @@ Bouncy-ball area with built-in tilt control
 ```
 <canvas nx="metroball" style="margin-left:25px"></canvas>
 
-**Methods**
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *bounce* | forthcoming
+<br> **Methods**
 
 ###metroball.pulse()###
 Animation pulse occuring each frame
@@ -233,7 +249,18 @@ Mouse tracker, relative to web browser window.
 ```
 <canvas nx="mouse" style="margin-left:25px"></canvas>
 
-multislider
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *x* | x value of mouse relative to browser
+| *y* | y value of mouse relative to browser
+| *deltax* | x change in mouse from last position
+| *deltay* | y change in mouse from last position
+<br> multislider
 -------------
 Multiple vertical sliders in one object
 ```html
@@ -241,7 +268,15 @@ Multiple vertical sliders in one object
 ```
 <canvas nx="multislider" style="margin-left:25px"></canvas>
 
-multitouch
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *slider index* | slider value
+<br> multitouch
 ------------
 Multitouch 2d-slider with up to 5 points of touch.
 ```html

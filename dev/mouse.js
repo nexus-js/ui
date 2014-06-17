@@ -16,7 +16,14 @@ function mouse(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 
-	//create unique properties to this object
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | x value of mouse relative to browser
+		| *y* | y value of mouse relative to browser
+		| *deltax* | x change in mouse from last position
+		| *deltay* | y change in mouse from last position
+	*/
 	this.val = {
 		x: 0,
 		y: 0,

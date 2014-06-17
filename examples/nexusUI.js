@@ -1442,9 +1442,19 @@ function message(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *message* | Text of message, as string
+	*/
+
 	this.val = {
 		message: "send a message"
 	}
+
+
+
 	this.size = 12;
 	
 	this.init = function() {
@@ -1533,6 +1543,15 @@ function metroball(target, transmitCommand) {
 	self.tiltFB;
 	self.z;
 	var i;
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *bounce* | forthcoming
+	*/
+	this.val = {
+		bounce: ""
+	}
 	
 	this.init = function() {
 		self.createUISpaces();
@@ -1859,7 +1878,14 @@ function mouse(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 
-	//create unique properties to this object
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | x value of mouse relative to browser
+		| *y* | y value of mouse relative to browser
+		| *deltax* | x change in mouse from last position
+		| *deltay* | y change in mouse from last position
+	*/
 	this.val = {
 		x: 0,
 		y: 0,
@@ -1955,6 +1981,12 @@ function multislider(target, transmitCommand) {
 	
 	//unique attributes
 	this.sliders = 15;
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *slider index* | slider value
+	*/
 	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
 		this.val[i] = 0.7;
@@ -3936,7 +3968,7 @@ var nx = function() {
 			this.nxObjects[i].transmitCommand = setting;
 		}	
 	}
-	
+
 	this.usesScript = function (setting) {
 		for (i=0;i<this.nxObjects.length;i++) {
 			this.nxObjects[i].transmitCommand = setting;
@@ -4669,8 +4701,8 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
 				self.isBeingResized = true;
-				console.log("isBeingResized")
 			} else {
+				self.isBeingResized = false;
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;

@@ -134,7 +134,7 @@ var nx = function() {
 			this.nxObjects[i].transmitCommand = setting;
 		}	
 	}
-	
+
 	this.usesScript = function (setting) {
 		for (i=0;i<this.nxObjects.length;i++) {
 			this.nxObjects[i].transmitCommand = setting;
@@ -867,8 +867,8 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
 				self.isBeingResized = true;
-				console.log("isBeingResized")
 			} else {
+				self.isBeingResized = false;
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;

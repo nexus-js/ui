@@ -17,6 +17,12 @@ function multislider(target, transmitCommand) {
 	
 	//unique attributes
 	this.sliders = 15;
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *slider index* | slider value
+	*/
 	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
 		this.val[i] = 0.7;
