@@ -227,9 +227,9 @@ function button(target, transmitCommand) {
 		if (self.mode=="node") {
 			self.val["x"] = self.clickPos.x;
 			self.val["y"] = self.clickPos.y;
+			self.nxTransmit(self.val);
+			self.draw();
 		}
-		self.nxTransmit(self.val);
-		self.draw();
 	}
 
 	this.release = function() {
