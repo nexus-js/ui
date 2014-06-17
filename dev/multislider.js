@@ -77,33 +77,46 @@ function multislider(target, transmitCommand) {
 
 	this.move = function() {
 		if (self.clicked) {
-			var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
-			sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
-			self.val[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
-			if (self.oldSliderToMove) {
-				var sliderJump = sliderToMove -  self.oldSliderToMove;
-				if (sliderJump>1) {
-					var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / sliderJump;
-					for (i=1;i<sliderJump;i++) {			
-						self.val[self.oldSliderToMove+i] = self.val[self.oldSliderToMove] + sliderIncrement * i;		
-					}
+
+
+			if (self.clickPos.touches.length>1) {
+
+				for (var i=0;i<self.clickPos.touches.length;i++) {
+					var sliderToMove = Math.floor(self.clickPos.touches[i].x / self.sliderWidth);
+					sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
+					self.val[sliderToMove] = nx.clip(nx.invert((self.clickPos.touches[i].y / self.height)),0,1);
 				}
-				if (sliderJump<-1) {
-					var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / Math.abs(sliderJump);
-					for (i=-1;i>sliderJump;i--) {			
-						self.val[self.oldSliderToMove+i] = self.val[sliderToMove] + sliderIncrement * i;		
+
+			} else {
+
+
+				var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
+				sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
+				self.val[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
+			
+				//old, but may be useful for a "relative" mode?
+			/*	if (self.oldSliderToMove) {
+					var sliderJump = sliderToMove - self.oldSliderToMove;
+					if (sliderJump>1) {
+						var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / sliderJump;
+						for (i=1;i<sliderJump;i++) {			
+							self.val[self.oldSliderToMove+i] = self.val[self.oldSliderToMove] + sliderIncrement * i;		
+						}
 					}
-				}
-				/*sliderToMove value = 100
-				
-				* oldslidertomove value = 50
-				* slider increment = -25
-				* 
-				* 
-				* */
-				
+					if (sliderJump<-1) {
+						var sliderIncrement = ( self.val[sliderToMove] - self.val[self.oldSliderToMove] ) / Math.abs(sliderJump);
+						for (i=-1;i>sliderJump;i--) {			
+							self.val[self.oldSliderToMove+i] = self.val[sliderToMove] + sliderIncrement * i;		
+						}
+					}
+					//sliderToMove value = 100
+					
+					//oldslidertomove value = 50
+					//slider increment = -25
+					
+				} 
+				self.oldSliderToMove = sliderToMove; */
 			}
-			self.oldSliderToMove = sliderToMove;
 			self.draw();
 		}
 		var msg = new Object()

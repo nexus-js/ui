@@ -30,9 +30,10 @@
 			// This occurs after the page has loaded all of the canvas objects to draw into.
 			
 			var globaldragid = false;
+			var uicolor = "#0af"
 
 			nx.onload = function() {
-				nx.colorize("#0af");
+				nx.colorize(uicolor);
 				nx.setTransmissionProtocol("ajax");
 				nx.setTransmitCommand("../servers/nexusPHP/nexusOSCRelay.php");
 				nx.showLabels = true;
@@ -183,9 +184,9 @@
 				+ '<body>\n'                
 				+ '<script>\n'
 				+ 'nx.onload = function() {\n'
-				+ '	nx.colorize("#0af");\n'
-				+ '	nx.setTransmissionProtocol("ajax");\n'
-				+ '	nx.setTransmitCommand("nexusOSCRelay.php");\n'
+				+ '	nx.colorize("'+uicolor+'");\n'
+				+ '	nx.sendsTo("ajax");\n'
+				+ '	nx.usesScript("nexusOSCRelay.php");\n'
 				+ '}\n'
 				+ '<\/script>\n';
 
@@ -429,7 +430,7 @@
 
 		<div style="position:absolute;left:0px;top:0px;width:100%">
 
-			<div id="perfbutt" onclick="perform()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#9df;">locked</div>
+			<div id="perfbutt" onclick="perform()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#ccc;">locked</div>
 			<div id="addbutt" onclick="openAdd()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.33%;box-sizing:border-box;text-align:center;background-color:#afc;display:none">add</div>
 			<div id="editbutt" onclick="openEdit()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#ccc;display:none">more</div>
 			
@@ -476,6 +477,19 @@
 			<div class="butt">
 				Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" style="width:75%" value="127.0.0.1"></input>
 			</div>
+
+			<div class="butt">
+				Color: <input id="changecolor" style="width:50%" value="red" type="color"></input><button onclick="changeColor(document.getElementById('changecolor').value)">Set Color</button>
+			</div>
+
+			<script>
+
+			function changeColor(newcolor) {
+				uicolor = newcolor;
+				nx.colorize(newcolor);
+			}
+
+			</script>
 
 			<div class="butt" onclick="askToStoreUI()">Save in Browser</div>
 
