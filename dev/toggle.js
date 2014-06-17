@@ -17,12 +17,14 @@ function toggle(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	var i;
-	if (this.width>=50) {
+	if (this.width>50) {
 		this.fontsize = 20;
 	} else {
-		this.fontsize = 11;
+		this.fontsize = 10;
 	}
 
+	/** @property {integer}  val   0 if off, 1 if on
+	*/
 	this.val = 0
 
 	this.init = function() {

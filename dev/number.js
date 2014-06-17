@@ -16,6 +16,8 @@ function number(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
+	/** @property {float}  val   float value of number box
+	*/
 	this.val = 0
 	
 	this.throttle = nx.throttle;

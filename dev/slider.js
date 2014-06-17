@@ -17,9 +17,14 @@ function slider(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
+	/** @property {float}  val   Slider value (float 0-1)
+	*/
 	this.val = 0.7
 	this.label = self.oscName;
 	this.label = this.label.replace("/","")
+
+	/** @property {string}  mode   Set "absolute" or "relative" mode
+	*/
 	this.mode = "absolute";
 
 	// handling horiz possibility

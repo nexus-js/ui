@@ -23,11 +23,21 @@ function tilt(target, transmitCommand) {
 	this.tiltFB;
 	this.z;
 
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | X-axis rotation if supported (-1 to 1)
+		| *y* | Y-axis rotation if supported (-1 to 1)
+		| *z* | Z-axis rotation if supported (-1 to 1 or possible 0 to 360)
+	*/
 	this.val = {
 		x: 0,
 		y: 0,
 		z: 0
 	}
+
+	/** @property {string}  text   Text shown on tilt object
+	*/
 	
 	this.text = "TILT";
 

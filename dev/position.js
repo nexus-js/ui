@@ -17,6 +17,15 @@ function position(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	this.nodeSize = 15;
+
+	//define unique attributes
+	
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | x position of slider (float 0-1)
+		| *y* | y position of slider (float 0-1)
+	*/
 	this.val = {
 		x: self.width/2,
 		y: self.height/2

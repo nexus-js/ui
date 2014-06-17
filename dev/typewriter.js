@@ -20,6 +20,14 @@ function typewriter(target, transmitCommand) {
 	this.letter = ""
 	this.keywid = self.width/14.5;
 	this.keyhgt = self.height/5
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *key* | symbol of key pressed (example: "a")
+		| *ascii* | ascii value of key pressed (example: 48)
+		| *on* | 0 if key is being pressed, 1 if key is being released
+	*/
 	this.val = {
 		key: "",
 		ascii: 0,

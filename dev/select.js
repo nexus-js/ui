@@ -18,6 +18,12 @@ function select(target, transmitCommand) {
 	
 	//unique attributes
 	self.choices = [ ];
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *text* | Text string of option chosen
+	*/
 	self.val = new Object();
 
 	this.init = function() {

@@ -275,7 +275,7 @@ Multiple vertical sliders in one object
 
 | &nbsp; | data
 | --- | ---
-| *slider index* | slider value
+| *(slider index)* | slider value
 <br> multitouch
 ------------
 Multitouch 2d-slider with up to 5 points of touch.
@@ -284,7 +284,21 @@ Multitouch 2d-slider with up to 5 points of touch.
 ```
 <canvas nx="multitouch" style="margin-left:25px"></canvas>
 
-number
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *touch1.x* | x position of first touch
+| *touch1.y* | y position of first touch
+| *touch2.x* | x position of second touch (if 2 touches)
+| *touch2.y* | y position of second touch (if 2 touches)
+| *etc* | &nbsp;
+<br> **mode**:  *object* "normal" or "matrix"
+
+<br> number
 --------
 number box
 ```html
@@ -292,7 +306,11 @@ number box
 ```
 <canvas nx="number" style="margin-left:25px"></canvas>
 
-pixels
+**Properties**
+
+**val**:  *float* float value of number box
+
+<br> pixels
 --------
 Drawable pixelated canvas. Can be drawn on with different colors (use with nexus 'colors' object). See 'read' and 'write' modes. Sequencer functionality forthcoming.
 ```html
@@ -300,7 +318,21 @@ Drawable pixelated canvas. Can be drawn on with different colors (use with nexus
 ```
 <canvas nx="pixels" style="margin-left:25px"></canvas>
 
-position
+**Properties**
+
+**dim**:  *object* Dimension of pixel matrix.
+
+```js
+pixels1.dim = { x: 5, y: 4 }
+```
+<br> **mode**:  *string* Define the object's mode: "read" or "write" (default is "write")
+
+```js
+pixels1.mode = "read"
+```
+<br> **screen**:  *object* (default data output) If in write mode, outputs list of RGB values for entire pixel matrix as a list. If in read mode, outputs the RGB values of current touched pixel as a list.
+
+<br> position
 ----------
 Two-dimensional touch slider.
 ```html
@@ -308,7 +340,16 @@ Two-dimensional touch slider.
 ```
 <canvas nx="position" style="margin-left:25px"></canvas>
 
-sandbox
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *x* | x position of slider (float 0-1)
+| *y* | y position of slider (float 0-1)
+<br> sandbox
 ---------
 Add and move around an unlimited number of 2D points.
 ```html
@@ -324,7 +365,15 @@ HTML-style option selector. Outputs the chosen text string.
 ```
 <canvas nx="select" choices="sine,saw,square" style="margin-left:25px"></canvas>
 
-slider
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *text* | Text string of option chosen
+<br> slider
 --------
 Vertical slider
 ```html
@@ -332,7 +381,13 @@ Vertical slider
 ```
 <canvas nx="slider" style="margin-left:25px"></canvas>
 
-string
+**Properties**
+
+**val**:  *float* Slider value (float 0-1)
+
+<br> **mode**:  *string* Set "absolute" or "relative" mode
+
+<br> string
 --------
 In progress* Fun animated model of a plucked string interface.
 ```html
@@ -348,7 +403,11 @@ On/off toggle
 ```
 <canvas nx="toggle" style="margin-left:25px"></canvas>
 
-tilt
+**Properties**
+
+**val**:  *integer* 0 if off, 1 if on
+
+<br> tilt
 ------
 Mobile and Mac/Chrome compatible tilt sensor.
 ```html
@@ -356,7 +415,19 @@ Mobile and Mac/Chrome compatible tilt sensor.
 ```
 <canvas nx="tilt" style="margin-left:25px"></canvas>
 
-typewriter
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *x* | X-axis rotation if supported (-1 to 1)
+| *y* | Y-axis rotation if supported (-1 to 1)
+| *z* | Z-axis rotation if supported (-1 to 1 or possible 0 to 360)
+<br> **text**:  *string* Text shown on tilt object
+
+<br> typewriter
 ------------
 Computer keyboard listener and visualization. (Desktop only)
 ```html
@@ -364,7 +435,17 @@ Computer keyboard listener and visualization. (Desktop only)
 ```
 <canvas nx="typewriter" style="margin-left:25px"></canvas>
 
-nx
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *key* | symbol of key pressed (example: "a")
+| *ascii* | ascii value of key pressed (example: 48)
+| *on* | 0 if key is being pressed, 1 if key is being released
+<br> nx
 ----
 Central nexusUI manager with shared utility functions for all nexusUI objects
 

@@ -18,7 +18,19 @@ function pixels(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
+	/** @property {object}  dim   Dimension of pixel matrix.
+	```js
+		pixels1.dim = { x: 5, y: 4 }
+	```
+		*/
 	self.dim = { x: 10, y: 10};
+
+	//define unique attributes
+	/** @property {string}  mode   Define the object's mode: "read" or "write" (default is "write")
+	```js
+		pixels1.mode = "read"
+	```
+		*/
 	self.mode = "write";
 
 	this.init = function() {
@@ -28,6 +40,9 @@ function pixels(target, transmitCommand) {
 			wid: (self.width - self.padding*2) / self.dim.x,
 			hgt: (self.height - self.padding*2) / self.dim.y
 		}
+
+		/** @property {object}  screen   (default data output) If in write mode, outputs list of RGB values for entire pixel matrix as a list. If in read mode, outputs the RGB values of current touched pixel as a list.
+		*/
 		self.screen = new Array();
 		for (var i=0;i<self.dim.y;i++) {
 			self.screen[i] = new Array()

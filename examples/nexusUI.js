@@ -1985,7 +1985,7 @@ function multislider(target, transmitCommand) {
 	/** @property {object}  val   
 		| &nbsp; | data
 		| --- | ---
-		| *slider index* | slider value
+		| *(slider index)* | slider value
 	*/
 	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
@@ -2108,18 +2108,31 @@ function multitouch(target, transmitCommand) {
 	
 	//unique attributes
 	this.nodeSize = self.width/10;
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *touch1.x* | x position of first touch
+		| *touch1.y* | y position of first touch
+		| *touch2.x* | x position of second touch (if 2 touches)
+		| *touch2.y* | y position of second touch (if 2 touches)
+		| *etc* | &nbsp;
+	*/
 	this.val = {
 		touch1: {
 			x: 0,
 			y: 0
 		}
 	}
+	
 	this.nodes = new Array();
 	
 	this.default_text = "multitouch";	
 
 	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
 	
+	/** @property {object}  mode   "normal" or "matrix"
+	*/
 	this.mode = "normal";
 	this.rows = 10;
 	this.cols = 10;
@@ -2310,6 +2323,8 @@ function number(target, transmitCommand) {
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
 	
+	/** @property {float}  val   float value of number box
+	*/
 	this.val = 0
 	
 	this.throttle = nx.throttle;
@@ -2418,7 +2433,19 @@ function pixels(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//define unique attributes
+	/** @property {object}  dim   Dimension of pixel matrix.
+	```js
+		pixels1.dim = { x: 5, y: 4 }
+	```
+		*/
 	self.dim = { x: 10, y: 10};
+
+	//define unique attributes
+	/** @property {string}  mode   Define the object's mode: "read" or "write" (default is "write")
+	```js
+		pixels1.mode = "read"
+	```
+		*/
 	self.mode = "write";
 
 	this.init = function() {
@@ -2428,6 +2455,9 @@ function pixels(target, transmitCommand) {
 			wid: (self.width - self.padding*2) / self.dim.x,
 			hgt: (self.height - self.padding*2) / self.dim.y
 		}
+
+		/** @property {object}  screen   (default data output) If in write mode, outputs list of RGB values for entire pixel matrix as a list. If in read mode, outputs the RGB values of current touched pixel as a list.
+		*/
 		self.screen = new Array();
 		for (var i=0;i<self.dim.y;i++) {
 			self.screen[i] = new Array()
@@ -2605,6 +2635,15 @@ function position(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	this.nodeSize = 15;
+
+	//define unique attributes
+	
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | x position of slider (float 0-1)
+		| *y* | y position of slider (float 0-1)
+	*/
 	this.val = {
 		x: self.width/2,
 		y: self.height/2
@@ -2984,6 +3023,12 @@ function select(target, transmitCommand) {
 	
 	//unique attributes
 	self.choices = [ ];
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *text* | Text string of option chosen
+	*/
 	self.val = new Object();
 
 	this.init = function() {
@@ -3038,9 +3083,14 @@ function slider(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
+	/** @property {float}  val   Slider value (float 0-1)
+	*/
 	this.val = 0.7
 	this.label = self.oscName;
 	this.label = this.label.replace("/","")
+
+	/** @property {string}  mode   Set "absolute" or "relative" mode
+	*/
 	this.mode = "absolute";
 
 	// handling horiz possibility
@@ -3379,12 +3429,14 @@ function toggle(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	var i;
-	if (this.width>=50) {
+	if (this.width>50) {
 		this.fontsize = 20;
 	} else {
-		this.fontsize = 11;
+		this.fontsize = 10;
 	}
 
+	/** @property {integer}  val   0 if off, 1 if on
+	*/
 	this.val = 0
 
 	this.init = function() {
@@ -3500,11 +3552,21 @@ function tilt(target, transmitCommand) {
 	this.tiltFB;
 	this.z;
 
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *x* | X-axis rotation if supported (-1 to 1)
+		| *y* | Y-axis rotation if supported (-1 to 1)
+		| *z* | Z-axis rotation if supported (-1 to 1 or possible 0 to 360)
+	*/
 	this.val = {
 		x: 0,
 		y: 0,
 		z: 0
 	}
+
+	/** @property {string}  text   Text shown on tilt object
+	*/
 	
 	this.text = "TILT";
 
@@ -3630,6 +3692,14 @@ function typewriter(target, transmitCommand) {
 	this.letter = ""
 	this.keywid = self.width/14.5;
 	this.keyhgt = self.height/5
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *key* | symbol of key pressed (example: "a")
+		| *ascii* | ascii value of key pressed (example: 48)
+		| *on* | 0 if key is being pressed, 1 if key is being released
+	*/
 	this.val = {
 		key: "",
 		ascii: 0,

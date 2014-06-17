@@ -18,18 +18,31 @@ function multitouch(target, transmitCommand) {
 	
 	//unique attributes
 	this.nodeSize = self.width/10;
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *touch1.x* | x position of first touch
+		| *touch1.y* | y position of first touch
+		| *touch2.x* | x position of second touch (if 2 touches)
+		| *touch2.y* | y position of second touch (if 2 touches)
+		| *etc* | &nbsp;
+	*/
 	this.val = {
 		touch1: {
 			x: 0,
 			y: 0
 		}
 	}
+	
 	this.nodes = new Array();
 	
 	this.default_text = "multitouch";	
 
 	this.rainbow = ["#00f", "#04f", "#08F", "0AF", "0FF"];
 	
+	/** @property {object}  mode   "normal" or "matrix"
+	*/
 	this.mode = "normal";
 	this.rows = 10;
 	this.cols = 10;
