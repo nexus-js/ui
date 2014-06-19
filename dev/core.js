@@ -658,6 +658,15 @@ var nx = function() {
 	  }
 
 
+	  this.setLabels = function(onoff) {
+	  	if (onoff=="on") {
+	  		manager.showLabels = true;
+	  	} else {
+	  		manager.showLabels = false;
+	  	}
+	  }
+
+
 	
 }
 

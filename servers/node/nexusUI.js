@@ -1461,7 +1461,7 @@ function message(target, transmitCommand) {
 		if (self.canvas.getAttribute("label")) {
 			this.val.message = self.canvas.getAttribute("label");
 		}	
-		self.size = Math.sqrt((self.width * self.height) / (self.val.message.length));
+		//self.size = Math.sqrt((self.width * self.height) / (self.val.message.length));
 		self.draw();
 	}
 
@@ -4578,6 +4578,15 @@ var nx = function() {
 	  	$("canvas").css("z-index", 1);
 	 // 	$("#"+globaldragid).css("border", "solid 2px black");
 	  	$("#"+globaldragid).css("z-index", 2);
+	  }
+
+
+	  this.setLabels = function(onoff) {
+	  	if (onoff=="on") {
+	  		manager.showLabels = true;
+	  	} else {
+	  		manager.showLabels = false;
+	  	}
 	  }
 
 

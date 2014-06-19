@@ -7,7 +7,7 @@
 			"revision" : 8
 		}
 ,
-		"rect" : [ 341.0, 70.0, 826.0, 648.0 ],
+		"rect" : [ 435.0, 118.0, 826.0, 648.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -336,11 +336,12 @@
 					"fontsize" : 12.0,
 					"frgb" : 0.0,
 					"id" : "obj-14",
+					"linecount" : 2,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 302.206604, 5.644629, 244.0, 23.0 ],
-					"text" : "NexusUI      nexusosc.com"
+					"patching_rect" : [ 13.223137, 595.644653, 244.0, 39.0 ],
+					"text" : "NexusUI      nexusosc.com\nDemo: Ben Taylor"
 				}
 
 			}

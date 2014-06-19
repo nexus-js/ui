@@ -35,7 +35,7 @@ function message(target, transmitCommand) {
 		if (self.canvas.getAttribute("label")) {
 			this.val.message = self.canvas.getAttribute("label");
 		}	
-		self.size = Math.sqrt((self.width * self.height) / (self.val.message.length));
+		//self.size = Math.sqrt((self.width * self.height) / (self.val.message.length));
 		self.draw();
 	}
 
