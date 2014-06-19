@@ -3,11 +3,12 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 8
+			"minor" : 1,
+			"revision" : 6,
+			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 775.0, 60.0, 826.0, 648.0 ],
+		"rect" : [ 454.0, 60.0, 826.0, 648.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -27,6 +28,35 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-40",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 217.223145, 399.0, 304.0, 33.0 ],
+					"text" : "should we should sonify /col and /row parameters?\nshould we demonstrate in a non sequencer mode?"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-38",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 7,
+					"outlettype" : [ "", "", "", "", "", "", "" ],
+					"patching_rect" : [ 139.223145, 437.822296, 491.0, 20.0 ],
+					"text" : "OSC-route /matrix1/value /matrix2/value /matrix1/row /matrix1/col /matrix2/row /matrix2/col"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
@@ -51,7 +81,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 332.0, 222.0, 50.0, 31.0 ],
-					"text" : "57.319588"
+					"text" : "63.917526"
 				}
 
 			}
@@ -173,7 +203,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 283.223145, 286.0, 75.0, 20.0 ],
+					"patching_rect" : [ 283.223145, 286.0, 55.5, 20.0 ],
 					"text" : "saw~"
 				}
 
@@ -197,13 +227,12 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-12",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 62.0, 222.0, 50.0, 31.0 ],
-					"text" : "70.364372"
+					"patching_rect" : [ 62.0, 222.0, 50.0, 18.0 ],
+					"text" : "0."
 				}
 
 			}
@@ -279,13 +308,12 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-3",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 186.0, 174.0, 50.0, 31.0 ],
-					"text" : "0.639676"
+					"patching_rect" : [ 186.0, 174.0, 50.0, 18.0 ],
+					"text" : "0."
 				}
 
 			}

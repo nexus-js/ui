@@ -3,11 +3,12 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 8
+			"minor" : 1,
+			"revision" : 6,
+			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 654.0, 76.0, 826.0, 648.0 ],
+		"rect" : [ 454.0, 76.0, 826.0, 648.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -27,6 +28,21 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"frgb" : 0.0,
+					"id" : "obj-3",
+					"linecount" : 6,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 469.223145, 334.0, 154.0, 87.0 ],
+					"text" : "try playing a slow scale by clicking and dragging left or right, notice how the second keyboard is prone to error ocassionally it misses notes!"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Gill Sans",
 					"fontsize" : 14.0,
@@ -94,7 +110,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 310.723145, 192.0, 50.0, 18.0 ],
-					"text" : "11."
+					"text" : "10."
 				}
 
 			}
