@@ -67,6 +67,7 @@
 					document.getElementById("addnew").options[0].selected = true;
 				}
 			*/
+				nx.startPulse();
 			}
 
 			function createObject(data) {
@@ -177,9 +178,8 @@
 				+ '<title>NexusUP</title>\n' 
 				+ '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">\n'
 				+ '<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>\n'
-				+ '<link rel="icon" type="image/png" href="favicon.png" />\n'
-				+ '<script type="text/javascript" src="../dev/jquery.js"><\/script>\n'
-				+ '<script type="text/javascript" src="../nexusUI.js"><\/script>\n'
+				+ '<script type="text/javascript" src="jquery.js"><\/script>\n'
+				+ '<script type="text/javascript" src="nexusUI.js"><\/script>\n'
 				+ '</head>\n'                
 				+ '<body>\n'                
 				+ '<script>\n'
@@ -475,7 +475,7 @@
 			<div class="butt" id="resizebutt" onclick="toggleResize()">Resizing is off</div>
 
 			<div class="butt">
-				Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" style="width:75%" value="127.0.0.1"></input>
+				IP: <input type="text" id="setip" onkeyup="changeip(this.value)" style="width:75%" value="127.0.0.1"></input><br>Port: 7475
 			</div>
 
 			<div class="butt">
