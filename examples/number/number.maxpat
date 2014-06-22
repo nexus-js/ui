@@ -3,12 +3,11 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 1,
-			"revision" : 6,
-			"architecture" : "x86"
+			"minor" : 0,
+			"revision" : 8
 		}
 ,
-		"rect" : [ 341.0, 70.0, 826.0, 648.0 ],
+		"rect" : [ 701.0, 51.0, 826.0, 648.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -51,7 +50,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 163.0, 201.0, 34.0, 20.0 ],
-					"presentation_rect" : [ 160.223145, 201.0, 0.0, 0.0 ],
 					"text" : "mtof"
 				}
 
@@ -66,7 +64,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 163.0, 269.685944, 36.0, 20.0 ],
-					"presentation_rect" : [ 160.223145, 269.685944, 0.0, 0.0 ],
 					"text" : "*~ 0."
 				}
 
@@ -81,7 +78,6 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "signal", "bang" ],
 					"patching_rect" : [ 231.0, 239.27272, 36.0, 20.0 ],
-					"presentation_rect" : [ 228.223145, 239.27272, 0.0, 0.0 ],
 					"text" : "line~"
 				}
 
@@ -96,7 +92,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 231.0, 211.999985, 63.371902, 18.0 ],
-					"presentation_rect" : [ 228.223145, 211.999985, 0.0, 0.0 ],
 					"text" : "1 5 0 500"
 				}
 
@@ -111,7 +106,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 163.0, 229.999985, 68.0, 20.0 ],
-					"presentation_rect" : [ 160.223145, 229.999985, 0.0, 0.0 ],
 					"text" : "cycle~ 300"
 				}
 
@@ -249,7 +243,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 3.033059, 5.644629, 688.0, 56.0 ],
-					"text" : "button demo"
+					"text" : "number demo"
 				}
 
 			}

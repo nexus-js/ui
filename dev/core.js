@@ -278,9 +278,23 @@ var nx = function() {
 	
 	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
 	this.iosTransmit = function (command, osc_name, id, data) {
-		var osc_message = "nexus://" + id + "?" + osc_name + "=" + data;
-	//	console.log("ios Transmit: ", osc_message);
-		window.location.href = osc_message;
+		console.log(data)
+		if ((typeof data == "object") && (data !== null)) {
+			for (var key in data) {
+				if ((typeof data[key] == "object") && (data[key] !== null)) {
+					for (var key2 in data[key]) {
+						var osc_message = "nexus://default?" + this.oscName+"/"+key+"/"+key2 + "=" + data[key][key2];
+						window.location.href = osc_message;
+					}
+				} else {
+					var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
+					window.location.href = osc_message;
+				}
+			}
+		} else if (typeof data == "number" || typeof data == "string") {
+			var osc_message = "nexus://default?" + this.oscName + "=" + data;
+			window.location.href = osc_message;
+		}
 	}
 	
 	//androidTransmit is the function to send osc commands as urls to be captured by the browser.

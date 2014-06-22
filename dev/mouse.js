@@ -89,10 +89,10 @@ function mouse(target, transmitCommand) {
 
 	this.move = function(e) {
 		self.val = {
-			deltax: (e.pageX-document.body.scrollLeft)/window.innerWidth - self.val.x,
-			deltay: (e.pageY-document.body.scrollTop)/window.innerHeight - self.val.y,
-			x: (e.pageX-document.body.scrollLeft)/window.innerWidth,
-			y: (e.pageY-document.body.scrollTop)/window.innerHeight
+			deltax: (e.clientX-document.body.scrollLeft)/window.innerWidth - self.val.x,
+			deltay: (e.clientY-document.body.scrollTop)/window.innerHeight - self.val.y,
+			x: (e.clientX-document.body.scrollLeft)/window.innerWidth,
+			y: (e.clientY-document.body.scrollTop)/window.innerHeight
 		}
 		self.draw();
 		self.nxTransmit(self.val);

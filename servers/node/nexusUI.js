@@ -1460,7 +1460,7 @@ function message(target, transmitCommand) {
 	this.init = function() {
 		if (self.canvas.getAttribute("label")) {
 			this.val.message = self.canvas.getAttribute("label");
-		}	
+		}
 		//self.size = Math.sqrt((self.width * self.height) / (self.val.message.length));
 		self.draw();
 	}
@@ -1957,10 +1957,10 @@ function mouse(target, transmitCommand) {
 
 	this.move = function(e) {
 		self.val = {
-			deltax: (e.pageX-document.body.scrollLeft)/window.innerWidth - self.val.x,
-			deltay: (e.pageY-document.body.scrollTop)/window.innerHeight - self.val.y,
-			x: (e.pageX-document.body.scrollLeft)/window.innerWidth,
-			y: (e.pageY-document.body.scrollTop)/window.innerHeight
+			deltax: (e.clientX-document.body.scrollLeft)/window.innerWidth - self.val.x,
+			deltay: (e.clientY-document.body.scrollTop)/window.innerHeight - self.val.y,
+			x: (e.clientX-document.body.scrollLeft)/window.innerWidth,
+			y: (e.clientY-document.body.scrollTop)/window.innerHeight
 		}
 		self.draw();
 		self.nxTransmit(self.val);
@@ -4201,9 +4201,23 @@ var nx = function() {
 	
 	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
 	this.iosTransmit = function (command, osc_name, id, data) {
-		var osc_message = "nexus://" + id + "?" + osc_name + "=" + data;
-	//	console.log("ios Transmit: ", osc_message);
-		window.location.href = osc_message;
+		console.log(data)
+		if ((typeof data == "object") && (data !== null)) {
+			for (var key in data) {
+				if ((typeof data[key] == "object") && (data[key] !== null)) {
+					for (var key2 in data[key]) {
+						var osc_message = "nexus://default?" + this.oscName+"/"+key+"/"+key2 + "=" + data[key][key2];
+						window.location.href = osc_message;
+					}
+				} else {
+					var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
+					window.location.href = osc_message;
+				}
+			}
+		} else if (typeof data == "number" || typeof data == "string") {
+			var osc_message = "nexus://default?" + this.oscName + "=" + data;
+			window.location.href = osc_message;
+		}
 	}
 	
 	//androidTransmit is the function to send osc commands as urls to be captured by the browser.
