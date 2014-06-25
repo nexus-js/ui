@@ -2290,6 +2290,13 @@ function multitouch(target, transmitCommand) {
 
 		if(!self.clicked) {
 			self.clickPos.touches = new Array();
+			for (var i=0;i<5;i++) {
+				self.val["touch"+i] = {
+					x: 0,
+					y: 0
+				}
+			}
+			self.nxTransmit(self.val);
 		}
 		
 		self.draw();
@@ -2297,21 +2304,6 @@ function multitouch(target, transmitCommand) {
 		
 	}
 	
-	this.touch = function() {
-		self.draw();
-		self.sendit();
-	}
-
-	this.touchMove = function() {
-		if (self.clicked) {
-			self.draw();
-			self.sendit();
-		}
-	}
-
-	this.touchRelease = function() {
-		self.release();
-	}
 
 	this.sendit = function() {
 		self.val = new Object;
