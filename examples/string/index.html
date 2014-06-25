@@ -4,23 +4,23 @@
 		<title>String</title>
 		<script type="text/javascript" src="../jquery.js"></script>
 		<script type="text/javascript" src="../nexusUI.js"></script>
-		<script type="text/javascript" src="../nexusWebAudio/js/gibberish_2.0.js"></script>
+		<!--<script type="text/javascript" src="../nexusWebAudio/js/gibberish_2.0.js"></script> -->
 		
 		<script>
 		
 			nx.onload = function() {
 				nx.colorize("#0af");
 				nx.sendsTo("local");
-
+				nx.setTransmissionProtocol("ajax");
 				string1.setStrings(10);
 				string2.setStrings(3);
 
-				string1.localTransmit = function(data) {
+				//string1.localTransmit = function(data) {
 				//	console.log("local: "+data)
 				//	b.note((data[0]+1)*50);
 				//	prefxBus.amp = data[1];
 				//	d.feedback = Math.abs(1-data[1])*0.7 + 0.3;
-				}
+				//}
 
 				nx.startPulse();
 /*
