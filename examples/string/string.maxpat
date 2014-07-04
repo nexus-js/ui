@@ -3,11 +3,12 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 0,
-			"revision" : 8
+			"minor" : 1,
+			"revision" : 6,
+			"architecture" : "x86"
 		}
 ,
-		"rect" : [ 372.0, 68.0, 822.0, 466.0 ],
+		"rect" : [ 534.0, 50.0, 764.0, 466.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -27,6 +28,35 @@
 		"digest" : "",
 		"tags" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-4",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 384.276855, 269.0, 34.0, 18.0 ],
+					"presentation_rect" : [ 386.0, 270.0, 0.0, 0.0 ],
+					"text" : "128."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-3",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 63.0, 282.0, 34.0, 18.0 ],
+					"text" : "128."
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
@@ -588,6 +618,24 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-55", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-3", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-73", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-4", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-81", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -669,7 +717,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-55", 1 ],
+					"destination" : [ "obj-3", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-68", 0 ]
@@ -678,7 +726,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-73", 1 ],
+					"destination" : [ "obj-4", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-69", 0 ]
@@ -831,16 +879,9 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "scale.js",
-				"bootpath" : "/Users/ben/Documents/Desktop/MaxMSP",
-				"patcherrelativepath" : "../../../../../../Users/ben/Documents/Desktop/MaxMSP",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "scale2.js",
-				"bootpath" : "/Users/ben/Documents/Desktop/MaxMSP/ben_taylor_additive",
-				"patcherrelativepath" : "../../../../../../Users/ben/Documents/Desktop/MaxMSP/ben_taylor_additive",
+				"name" : "scale.maxref.xml",
+				"bootpath" : "/Applications/Max 6.1/patches/docs/refpages/max-ref",
+				"patcherrelativepath" : "../../../../../Applications/Max 6.1/patches/docs/refpages/max-ref",
 				"type" : "TEXT",
 				"implicit" : 1
 			}

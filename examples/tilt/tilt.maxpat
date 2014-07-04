@@ -31,6 +31,47 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
+					"id" : "obj-17",
+					"linecount" : 3,
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 149.0, 121.0, 50.0, 45.0 ],
+					"text" : "/z 336.843994"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"floatoutput" : 1,
+					"id" : "obj-12",
+					"maxclass" : "slider",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 211.5, 215.0, 20.0, 140.0 ],
+					"size" : 1.0
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
+					"id" : "obj-8",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 0,
+					"patching_rect" : [ 262.0, 335.0, 100.0, 20.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontname" : "Arial",
+					"fontsize" : 12.0,
 					"id" : "obj-11",
 					"maxclass" : "message",
 					"numinlets" : 2,
@@ -93,7 +134,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 132.223145, 159.0, 119.0, 20.0 ],
-					"presentation_rect" : [ 321.0, 141.0, 0.0, 0.0 ],
 					"text" : "scale 0. 1. 400. 800."
 				}
 
@@ -122,7 +162,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 81.223137, 254.685944, 42.0, 20.0 ],
-					"presentation_rect" : [ 62.223137, 262.685944, 0.0, 0.0 ],
 					"text" : "*~ 0.9"
 				}
 
@@ -137,7 +176,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 81.223137, 230.999985, 51.0, 20.0 ],
-					"presentation_rect" : [ 62.223137, 218.999985, 0.0, 0.0 ],
 					"text" : "tri~ 300"
 				}
 
@@ -233,7 +271,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 3.033059, 5.644629, 688.0, 56.0 ],
-					"text" : "button demo"
+					"text" : "Tilt demo"
 				}
 
 			}
@@ -246,7 +284,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 13.223137, 80.991737, 99.0, 20.0 ],
+					"patching_rect" : [ 13.223137, 65.991737, 99.0, 20.0 ],
 					"text" : "udpreceive 7475"
 				}
 
@@ -260,13 +298,22 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 13.223137, 100.991737, 93.0, 20.0 ],
+					"patching_rect" : [ 13.223137, 85.991737, 93.0, 20.0 ],
 					"text" : "OSC-route /tilt1"
 				}
 
 			}
  ],
 		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-17", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
 				"patchline" : 				{
 					"destination" : [ "obj-18", 0 ],
 					"disabled" : 0,
@@ -290,6 +337,15 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-11", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-26", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-12", 0 ]
 				}
 
 			}
