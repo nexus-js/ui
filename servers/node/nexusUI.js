@@ -2928,7 +2928,7 @@ function range(target, transmitCommand) {
 				self.firsttouch = "stop"
 			}
 		} else {
-			if (nx.invert(Math.abs(self.clickPos.y-self.val.start*self.height)) < nx.invert(Math.abs(self.clickPos.y-self.val.stop*self.height))) {
+			if (Math.abs(Math.abs(self.clickPos.y-self.height)-self.val.start*self.height) < Math.abs(Math.abs(self.clickPos.y-self.height)-self.val.stop*self.height)) {
 				self.firsttouch = "start"
 			} else {
 				self.firsttouch = "stop"
@@ -2974,7 +2974,7 @@ function range(target, transmitCommand) {
 				} else {
 					self.firsttouch = "start";
 				}
-			}
+			} 
 			self.val = {
 				start: nx.clip(self.val.start, 0, 1),
 				stop: nx.clip(self.val.stop, 0, 1),
