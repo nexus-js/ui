@@ -393,7 +393,7 @@ HTML-style option selector. Outputs the chosen text string.
 | *text* | Text string of option chosen
 <br> slider
 --------
-Vertical slider
+Slider (vertical or horizontal)
 ```html
 <canvas nx="slider"></canvas>
 ```
@@ -403,8 +403,26 @@ Vertical slider
 
 **val**:  *float* Slider value (float 0-1)
 
-<br> **mode**:  *string* Set "absolute" or "relative" mode
+<br> **mode**:  *string* Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
 
+```js
+nx.onload = function() {
+// Slider will not jump to touch position.
+slider1.mode = "relative"
+}
+```
+<br> **hslider**:  *boolean* Whether or not to the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
+
+```js
+nx.onload = function() {
+
+//forces horizontal slider
+slider1.hslider = true
+
+//forces vertical slider
+slider2.hslider = false
+}
+```
 <br> string
 --------
 In progress* Fun animated model of a plucked string interface.

@@ -3271,7 +3271,7 @@ function select(target, transmitCommand) {
 }
 /** 
 	@class slider      
-	Vertical slider
+	Slider (vertical or horizontal)
 	```html
 	<canvas nx="slider"></canvas>
 	```
@@ -3294,11 +3294,30 @@ function slider(target, transmitCommand) {
 	this.label = self.oscName;
 	this.label = this.label.replace("/","")
 
-	/** @property {string}  mode   Set "absolute" or "relative" mode
+	/** @property {string}  mode   Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
+	```js
+	nx.onload = function() {
+	    // Slider will not jump to touch position.
+	    slider1.mode = "relative" 
+	}
+	```
 	*/
 	this.mode = "absolute";
 
 	// handling horiz possibility
+	/** @property {boolean}  hslider   Whether or not to the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
+	
+	```js
+	nx.onload = function() {
+	
+		//forces horizontal slider 
+	    slider1.hslider = true
+	
+	    //forces vertical slider 
+	    slider2.hslider = false
+	}
+	```
+	*/
 	this.hslider = false;
 	self.handle;
 	self.relhandle;
