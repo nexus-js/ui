@@ -411,14 +411,12 @@ nx.onload = function() {
 slider1.mode = "relative"
 }
 ```
-<br> **hslider**:  *boolean* Whether or not to the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
+<br> **hslider**:  *boolean* Whether or not the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
 
 ```js
 nx.onload = function() {
-
 //forces horizontal slider
 slider1.hslider = true
-
 //forces vertical slider
 slider2.hslider = false
 }

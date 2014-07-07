@@ -730,6 +730,8 @@ $(document).ready(function() {
 	nx.addStylesheet();
 	
 	nx.onload();
+
+	nx.startPulse();
 	
 });
 

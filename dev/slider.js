@@ -34,14 +34,12 @@ function slider(target, transmitCommand) {
 	this.mode = "absolute";
 
 	// handling horiz possibility
-	/** @property {boolean}  hslider   Whether or not to the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
+	/** @property {boolean}  hslider   Whether or not the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
 	
 	```js
 	nx.onload = function() {
-	
 		//forces horizontal slider 
 	    slider1.hslider = true
-	
 	    //forces vertical slider 
 	    slider2.hslider = false
 	}
