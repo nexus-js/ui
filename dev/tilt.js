@@ -106,7 +106,7 @@ function tilt(target, transmitCommand) {
 		    fillStyle = self.colors.fill;
 		    fillRect(0,0,self.width,self.height);
 		    strokeStyle = self.colors.border;
-		    lineWidth = 10;
+		   // lineWidth = 10;
 		    strokeRect(0,0,self.width,self.height);  
 		    
 		    // save the context's co-ordinate system before 

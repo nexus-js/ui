@@ -7,7 +7,7 @@
 			"revision" : 8
 		}
 ,
-		"rect" : [ 71.0, 55.0, 733.0, 475.0 ],
+		"rect" : [ 116.0, 63.0, 733.0, 475.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -113,7 +113,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 392.0, 219.0, 69.0, 56.0 ],
+					"patching_rect" : [ 392.0, 219.0, 71.0, 56.0 ],
 					"text" : "changing symbols to values"
 				}
 
@@ -228,7 +228,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 437.0, 87.0, 239.0, 86.0 ],
+					"patching_rect" : [ 266.0, 125.0, 239.0, 86.0 ],
 					"text" : "/multislider1 \"0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1999305582046509 0.18993055820465088 0.15993055820465085 0.13993055820465083\""
 				}
 
@@ -263,7 +263,7 @@
 					"destination" : [ "obj-4", 1 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 25.5, 119.0, 398.0, 119.0, 398.0, 77.0, 666.5, 77.0 ],
+					"midpoints" : [ 25.5, 119.0, 398.0, 119.0, 398.0, 77.0, 495.5, 77.0 ],
 					"source" : [ "obj-1", 0 ]
 				}
 

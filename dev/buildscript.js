@@ -70,6 +70,7 @@ var nxscripts = [
         'panel.js',
         'pixels.js',
         'position.js',
+        "range.js",
         'sandbox.js',
         'select.js',
         'slider.js',

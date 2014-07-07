@@ -3,9 +3,8 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 6,
-			"minor" : 1,
-			"revision" : 6,
-			"architecture" : "x86"
+			"minor" : 0,
+			"revision" : 8
 		}
 ,
 		"rect" : [ 412.0, 370.0, 852.0, 364.0 ],
@@ -196,7 +195,7 @@
 					"patching_rect" : [ 73.5, 245.0, 150.0, 31.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 2,
-					"presentation_rect" : [ 73.0, 109.0, 150.0, 31.0 ],
+					"presentation_rect" : [ 73.0, 132.0, 150.0, 31.0 ],
 					"text" : "recompile nexusUp.js javascript file after an edit"
 				}
 
@@ -333,7 +332,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 223.0, 263.0, 53.0, 21.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 12.0, 114.0, 53.0, 21.0 ],
+					"presentation_rect" : [ 12.0, 137.0, 53.0, 21.0 ],
 					"text" : "compile",
 					"varname" : "messagenx8639797"
 				}
@@ -434,7 +433,7 @@
 					"numoutlets" : 0,
 					"patching_rect" : [ 23.0, 9.5, 41.0, 36.0 ],
 					"presentation" : 1,
-					"presentation_rect" : [ 0.0, -1.41507, 318.0, 150.245209 ],
+					"presentation_rect" : [ 0.0, -1.41507, 318.0, 120.245209 ],
 					"rounded" : 18
 				}
 
@@ -598,8 +597,8 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "nexusUp.js",
-				"bootpath" : "/Users/allison/Sites/NexusLatest/NexusUI/up",
-				"patcherrelativepath" : ".",
+				"bootpath" : "/Library/WebServer/Documents/nxui/up",
+				"patcherrelativepath" : "",
 				"type" : "TEXT",
 				"implicit" : 1
 			}

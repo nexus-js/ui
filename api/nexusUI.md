@@ -349,6 +349,24 @@ Two-dimensional touch slider.
 | --- | ---
 | *x* | x position of slider (float 0-1)
 | *y* | y position of slider (float 0-1)
+<br> range
+-------
+Range Slider
+```html
+<canvas nx="range"></canvas>
+```
+<canvas nx="range" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *object* 
+
+
+| &nbsp; | data
+| --- | ---
+| *start* | Range start value (float 0-1)
+| *stop* | Range end value (float 0-1)
+| *size* | Distance between ends (float 0-1)
 <br> sandbox
 ---------
 Add and move around an unlimited number of 2D points.

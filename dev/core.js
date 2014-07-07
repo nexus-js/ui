@@ -678,7 +678,15 @@ var nx = function() {
 	  	} else {
 	  		manager.showLabels = false;
 	  	}
+		for (var i=0;i<manager.nxObjects.length;i++) {
+			manager.nxObjects[i].draw()
+		}
 	  }
+
+	  this.saveCanv = function(ui) {
+		var data = ui.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+		window.location.href = data
+	  };
 
 
 	

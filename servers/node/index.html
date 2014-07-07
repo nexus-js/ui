@@ -11,7 +11,7 @@
 
 			//change LOCALHOST to your IP to enable connecting from other devices
 
-			var socket = io.connect('http://173.253.235.83:8080');
+			var socket = io.connect('http://localhost:8080');
 
 			var thisUser = {
 				name: "phone" + Math.floor(Math.random()*10000000000)
@@ -56,23 +56,36 @@
 	</head>
 	
 	<body>
+			<canvas nx="position" style="width:48%"></canvas>
+			<canvas nx="position" style="width:48%"></canvas>
+			<canvas nx="button" style="width:150px;height:150px"></canvas>
+			<canvas nx="button" style="width:150px;height:150px"></canvas>
+			<canvas nx="button" style="width:150px;height:150px"></canvas>
+			<canvas nx="button" style="width:150px;height:150px"></canvas>
+			<canvas nx="button" style="width:150px;height:150px"></canvas>
+			
+
+			<canvas nx="dial" style="width:150px;height:150px"></canvas>
+			<canvas nx="dial" style="width:150px;height:150px"></canvas>
+			<canvas nx="dial" style="width:150px;height:150px"></canvas>
+			<canvas nx="dial" style="width:150px;height:150px"></canvas>
+			<canvas nx="dial" style="width:150px;height:150px"></canvas>
+
+			<canvas nx="tilt" style="width:150px;height:150px"></canvas>
+			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
+			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
+			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
+			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
+		
 		<div>
-		<canvas nx="dial"></canvas>
-		<canvas nx="position"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="tilt"></canvas>
+			<canvas nx="slider"></canvas>
+			<canvas nx="slider"></canvas>
+			<canvas nx="slider"></canvas>
+			<canvas nx="multislider"></canvas>
+			<canvas nx="multislider"></canvas>
+
+			<canvas nx="joints" style="width:770px;height:715px"></canvas>
 		</div>
-		<div>
-		<canvas nx="button"></canvas>
-		<canvas nx="message"></canvas>
-		<canvas nx="message"></canvas>
-		<canvas nx="multislider"></canvas>
-		<br>
-		<canvas nx="joints"></canvas>
-		<br>
-		<canvas nx="number"></canvas>
-		<canvas nx="toggle"></canvas>
-		<canvas nx="typewriter"></canvas>
 	
 	</body>
 	

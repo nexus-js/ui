@@ -16,15 +16,36 @@
   		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 		<script>
+/*
+			var json = JSON.stringify({"x": "test", "hello": "test"});
+
+			$.ajax({
+			    type: 'POST',
+			    url: 'post2.php',
+			    data: json,
+			    dataType: 'json',
+			    success: function(data) {
+			    	console.log(data);
+			    },
+			    failure: function(errMsg) {
+			        console.log(errMsg);
+			    }
+			});
+			console.log(json)
+
+
+			$.ajax({
+			    url: "proxyget.php",
+			    data: {requrl: "http://nexus.cct.lsu.edu:8000/nexus_uis.json"},
+			    dataType: 'json',
+		        success: function (data) {
+		            console.log(data)
+		        }
+			})
 
 			//being affected by cross-origin-policy
 			//we need jsonp?
-
-		/*	$.get( "http://nexus.cct.lsu.edu:8000/nexus_uis/1.json", function( data ) {
-			    // callback
-			    console.log(data);
-			});
-		*/
+*/
 			
 			// Setup all of the UI objects you want to use.
 			// This occurs after the page has loaded all of the canvas objects to draw into.
@@ -45,9 +66,9 @@
 				  	$("body").css("background", "#eee");
 				//  	$(".nxopt").show(0);
 				//  	$("#addnew").show(0);
-				//  	if (!nx.is_touch_device) {
-				//  		$("#settings").show(0);
-				//  	}
+				  	if (!nx.is_touch_device) {
+				  		$("#settings").show(0);
+				  	}
 				}
 
 				nx.editOff = function() {
@@ -57,9 +78,9 @@
 				  	$("body").css("background", "#fff");
 				//  	$(".nxopt").hide();
 				//  	$("#addnew").hide(0);
-				//  	if (!nx.is_touch_device) {
-				//  		$("#settings").hide(0);
-				//  	}
+				  	if (!nx.is_touch_device) {
+				  		$("#settings").hide(0);
+				  	}
 				}
 			/*	addnew.sendsTo("js")
 				addnew.response = function(data) {
@@ -235,12 +256,14 @@
 					$("#addbutt").show(0);
 					$("#editbutt").show(0);
 					nx.editOn();
+					nx.setLabels("on")
 				} else {
 					$("#perfbutt").html("locked")
 					$("#addbutt").hide(0);
 					$("#editbutt").hide(0);
 				//	$("#perfbutt").css("background-color","#9df")
 					nx.editOff();
+					nx.setLabels("off")
 				}
 
 			}
@@ -565,12 +588,13 @@
 
 		</div>
 
-		<div style="position:fixed;left:0px;bottom:0px;width:100%;padding:10px;border:solid 2px #ccc;background-color:#FFF;display:none;" id="settings">
+		<div style="position:fixed;left:0px;bottom:0px;width:100%;padding:10px;border:solid 2px #ccc;background-color:#ddd;" id="settings">
 
 			Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" value="127.0.0.1"></input><br>
 			Set OSCName:<input type="text" id="setoscname" onkeyup="setoscname(this.value)"></input><br>
 			<button onclick="deleteObject()">Delete</button>
 			<button onclick="saveUI()">Download</button>
+			<button onclick="askToStoreUI()">Save in Browser</button>
 
 
 		</div>
