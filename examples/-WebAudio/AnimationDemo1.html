@@ -15,7 +15,7 @@
 		nx.onload = function() {
 			
 			nx.colorize("#08d");
-			nx.setTransmissionProtocol("local");
+			nx.sendsTo("js");
 			
 			
 			/* synth development */
@@ -43,7 +43,7 @@
 				rack[i].position3 = eval("position"+(i*3+3));
 				
 				//nx routing for each row
-				rack[i].toggle.localTransmit = function(data) {
+				rack[i].toggle.response = function(data) {
 					console.log(data)
 					var i = this.canvasID.replace("toggle", "")-1;
 					if (data==1) {
@@ -53,7 +53,7 @@
 					}
 				}
 				
-				rack[i].position1.localTransmit = function(data) {
+				rack[i].position1.response = function(data) {
 					
 					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
 					rack[i].osc.frequency = data.x * 1000;
@@ -62,13 +62,13 @@
 					console.log(rack[i].osc.amp)
 				}
 				
-				rack[i].position2.localTransmit = function(data) {
+				rack[i].position2.response = function(data) {
 					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
 					rack[i].mod.frequency = (Math.floor(data.x*10)/10) * ( 1000 + 500*i) ;
 					rack[i].mod.amp = nx.scale(data.y, 1, 0, 0, 50);
 				}
 				
-				rack[i].position3.localTransmit = function(data) {
+				rack[i].position3.response = function(data) {
 					var i = Math.floor((this.canvasID.replace("position", "")-1)/3);
 					rack[i].osc.pan = nx.scale(data.x, 0, 1, -1, 1);
 					rack[i].osc.bitDepth = nx.scale(data.y, 0, 1, 0, 16);

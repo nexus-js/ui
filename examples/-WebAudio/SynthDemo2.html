@@ -33,22 +33,22 @@
 			nx.colorize("#08d");
 			
 				// Sets the .transmissionProtocol of all of the nexus objects
-			nx.setTransmissionProtocol("local");
+			nx.sendsTo("js");
 			
 				// Sets the .transmissionProtocol for an individual nexus object
-			dial1.transmissionProtocol = "local";
+			dial1.sendsTo = ("js");
 			
 				// You can set the localObject to control and the localParameter within the object to set //
 			dial1.localObject = 'd';
 			dial1.localParameter = 'feedback';
 			
-				// localTransmit has been copied into every object in the template
+				// response has been copied into every object in the template
 				//   This means it can be overwritten individually for each object
-			dial2.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial2.response = function(localObjectFrom, localObject, localParameter, data) {
 				d.time = data * 80000;
 			}
 			
-			dial3.localTransmit = function(localObjectFrom, localObject, localParameter, data) {
+			dial3.response = function(localObjectFrom, localObject, localParameter, data) {
 				mod1.frequency = data * 2000;
 			}
 			

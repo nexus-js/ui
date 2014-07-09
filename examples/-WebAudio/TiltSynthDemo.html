@@ -17,9 +17,9 @@
 		nx.onload = function() {
 			
 			nx.colorize("#08d");
-			nx.setTransmissionProtocol("local");
+			nx.sendsTo("js");
 			
-			nx.globalLocalTransmit = function(oscName, localObject, localParameter, data) {
+			nx.allTraffic = function(oscName, localObject, localParameter, data) {
 				switch (oscName) {
 					case "keyboard1":
 						if (data[1]==1) {

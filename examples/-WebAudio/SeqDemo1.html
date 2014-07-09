@@ -25,7 +25,7 @@
 			matrix1.col = 8;
 			matrix1.init();
 			
-			nx.setTransmissionProtocol("local");
+			nx.sendsTo("js");
 			
 			
 			/* Synth */
@@ -39,7 +39,7 @@
 			
 			/* Object Routing */
 			
-			nx.globalLocalTransmit = function(oscName, localObject, localParameter, data) {
+			nx.allTraffic = function(oscName, localObject, localParameter, data) {
 				
 				switch (oscName) {
 					case "toggle1":

@@ -25,7 +25,7 @@
 			matrix1.col = 16;
 			matrix1.init();
 			
-			nx.setTransmissionProtocol("local");
+			nx.sendsTo("js");
 			
 			
 			/* Synth */
@@ -52,9 +52,9 @@
 			
 			/* Object Routing */
 			
-			toggle1.localTransmit = function(data) {toggleSeq(data);
-			slider1.localTransmit = function(data) {intervalSpeed=data*200+50; toggleSeq(0); toggleSeq(1)};};
-			slider2.localTransmit = function(data) {masterbus.amp = data};
+			toggle1.response = function(data) {toggleSeq(data);
+			slider1.response = function(data) {intervalSpeed=data*200+50; toggleSeq(0); toggleSeq(1)};};
+			slider2.response = function(data) {masterbus.amp = data};
 		
 		}
 		

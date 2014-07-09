@@ -17,47 +17,44 @@
 		nx.onload = function() {
 		
 				// Sets the .transmissionProtocol of all of the nexus objects
-			nx.setTransmissionProtocol("local");
-			
-				// Sets the .transmissionProtocol for an individual nexus object
-			dial1.transmissionProtocol = "local";
+			nx.sendsTo("js");
 			
 				// You can set the localObject to control and the localParameter within 
 				// the object to set Gibberish control parameters
 			dial1.localObject = 'osc';
 			dial1.localParameter = 'amp';	
 			
-				// localTransmit has been copied into every object in the template
+				// response has been copied into every object in the template
 				// This means it can be overwritten individually for each object
-			dial2.localTransmit = function(data) {
+			dial2.response = function(data) {
 				osc.frequency = data * 3000;
 			}
 			
-			dial3.localTransmit = function(data) {
+			dial3.response = function(data) {
 				reverb.roomSize = data;
 			}
 			
-			dial4.localTransmit = function(data) {
+			dial4.response = function(data) {
 				mod.amp = data * 30;
 			}
 			
-			dial5.localTransmit = function(data) {
+			dial5.response = function(data) {
 				mod.frequency = data * 500;
 			}
 			
-			dial6.localTransmit = function(data) {
+			dial6.response = function(data) {
 				reverb.wet = data;
 			}
 			
-			dial7.localTransmit = function(data) {
+			dial7.response = function(data) {
 				d.feedback = data;
 			}
 			
-			dial8.localTransmit = function(data) {
+			dial8.response = function(data) {
 				d.time = data * 80000;
 			}
 			
-			dial9.localTransmit = function(data) {
+			dial9.response = function(data) {
 				//dist.amount = data * 100;
 			}
 		
