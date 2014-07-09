@@ -11,7 +11,7 @@ function wheel(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 100, height: 100 };
+	this.defaultSize = { width: 150, height: 150 };
 	
 	//get common attributes and methods
 	getTemplate(self, target, transmitCommand);
@@ -31,7 +31,7 @@ function wheel(target, transmitCommand) {
 	this.responsivity = 0.005;
 	
 	this.speed = 0.05;
-	this.spokes = 8;
+	this.spokes = 10;
 	this.rotation = 0;
 	this.points = new Array();
 
@@ -66,18 +66,17 @@ function wheel(target, transmitCommand) {
 				var dot = nx.toCartesian(self.circleSize-5, ((i/self.spokes)*Math.PI*2)-self.rotation)
 				beginPath();
 					arc(dot.x+self.center.x, dot.y+self.center.y, 5, 0, Math.PI*2, false);
-					if (i==0) {
-						fillStyle = self.colors.black;	
-					} else {
-						fillStyle = self.colors.accent;	
-					}
+					fillStyle = self.colors.accent;	
 					fill();
 				closePath(); 
 				beginPath();
+					globalAlpha = 0.2
 					moveTo(self.center.x,self.center.y*1);
 					lineTo(dot.x+self.center.x,dot.y+self.center.y);
 					strokeStyle = self.colors.accent;
 					stroke();
+
+					globalAlpha = 1
 				closePath();
 			}
 
@@ -86,8 +85,23 @@ function wheel(target, transmitCommand) {
 			lineWidth = self.lineWidth*2
 			fillStyle = self.colors.fill;
 			strokeStyle = self.colors.accent;
-		//	strokeRect(self.center.x-3, 3, 6, self.circleSize)
-		//	fillRect(self.center.x-3, 3, 6, self.circleSize)
+	//		strokeRect(self.center.x-3, 3, 6, self.circleSize)
+	//		fillRect(self.center.x-3, 3, 6, self.circleSize)
+
+
+
+			//draw circle in center
+			beginPath();
+				fillStyle = self.colors.fill;
+				strokeStyle = self.colors.accent;
+				moveTo(self.center.x-8,self.center.y);
+				lineTo(self.center.x,self.center.y-15);
+				lineTo(self.center.x+8,self.center.y);
+				stroke();
+				fill()
+			closePath(); 
+
+
 
 			//draw circle in center
 			beginPath();
@@ -115,6 +129,7 @@ function wheel(target, transmitCommand) {
 
 	this.move = function() {
 
+		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
 		self.rotation = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
 		self.draw();
@@ -122,14 +137,25 @@ function wheel(target, transmitCommand) {
 
 
 	this.release = function() {
-		self.speed = self.rotation - self.lastRotation;
+		self.speed = ((self.rotation - self.lastRotation) + (self.lastRotation-self.lastRotation2))/2 ;
 	}
 	
+	this.friction = 0.995
+
 	this.spin = function() {
+		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
+
+		//console.log(self.rotation)
+
 		self.rotation += self.speed
+		self.speed *= self.friction
+
 		self.draw();
 		self.rotation = self.rotation % (Math.PI*2)
+
+		if (self.rotation < 0) { self.rotation += Math.PI*2 }
+
 		for (var i=0;i<self.spokes;i++) {
 			if (self.rotation - (i/self.spokes)*Math.PI*2 > 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 < 0) {
 				
@@ -138,8 +164,12 @@ function wheel(target, transmitCommand) {
 			}	
 		}
 		if (self.lastRotation > Math.PI*1.5 && self.rotation < Math.PI * 0.5) {
-			
-				self.val = i;
+				self.val = 0;
+				self.nxTransmit(self.val)
+		}
+
+		if (self.lastRotation < Math.PI*0.5 && self.rotation > Math.PI * 1.5) {
+				self.val = 0;
 				self.nxTransmit(self.val)
 		}
 	}
