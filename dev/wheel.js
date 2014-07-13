@@ -63,7 +63,7 @@ function wheel(target, transmitCommand) {
 
 			//draw points
 			for (var i=0;i<self.spokes;i++) {
-				var dot = nx.toCartesian(self.circleSize-5, ((i/self.spokes)*Math.PI*2)-self.rotation)
+				var dot = nx.toCartesian(self.circleSize-5, ((i/self.spokes)*Math.PI*2)-self.rotation + (Math.PI*2)/(self.spokes*2))
 				beginPath();
 					arc(dot.x+self.center.x, dot.y+self.center.y, 5, 0, Math.PI*2, false);
 					fillStyle = self.colors.accent;	
@@ -85,8 +85,8 @@ function wheel(target, transmitCommand) {
 			lineWidth = self.lineWidth*2
 			fillStyle = self.colors.fill;
 			strokeStyle = self.colors.accent;
-	//		strokeRect(self.center.x-3, 3, 6, self.circleSize)
-	//		fillRect(self.center.x-3, 3, 6, self.circleSize)
+			strokeRect(self.center.x-3, 3, 6, self.circleSize)
+			fillRect(self.center.x-3, 3, 6, self.circleSize)
 
 
 
@@ -94,9 +94,9 @@ function wheel(target, transmitCommand) {
 			beginPath();
 				fillStyle = self.colors.fill;
 				strokeStyle = self.colors.accent;
-				moveTo(self.center.x-8,self.center.y);
-				lineTo(self.center.x,self.center.y-15);
-				lineTo(self.center.x+8,self.center.y);
+		//		moveTo(self.center.x-8,self.center.y);
+		//		lineTo(self.center.x,self.center.y-15);
+		//		lineTo(self.center.x+8,self.center.y);
 				stroke();
 				fill()
 			closePath(); 
@@ -124,6 +124,7 @@ function wheel(target, transmitCommand) {
 		self.speed = 0;
 		self.grabAngle = self.rotation % (Math.PI*2)
 		self.grabPos = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y
+
 	}
 
 
@@ -131,8 +132,33 @@ function wheel(target, transmitCommand) {
 
 		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
+
 		self.rotation = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
 		self.draw();
+
+		if (self.rotation < 0) { self.rotation += Math.PI*2 }
+		if (self.rotation > Math.PI*2) { self.rotation -= Math.PI*2 }
+
+		if (self.lastRotation > Math.PI*1.5 && self.rotation < Math.PI * 0.5 && self.val != 0) {
+				self.val = 0;
+				self.nxTransmit(self.val)
+		} else if (self.lastRotation < Math.PI*0.5 && self.rotation > Math.PI * 1.5 && self.val != 0) {
+				self.val = 0;
+				self.nxTransmit(self.val)
+		} else {
+			for (var i=0;i<self.spokes;i++) {
+				console.log(self.rotation)
+				if (self.rotation - (i/self.spokes)*Math.PI*2 > 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 < 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+				if (self.rotation - (i/self.spokes)*Math.PI*2 < 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 > 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+			}
+		}
+
 	}
 
 
@@ -146,8 +172,6 @@ function wheel(target, transmitCommand) {
 		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
 
-		//console.log(self.rotation)
-
 		self.rotation += self.speed
 		self.speed *= self.friction
 
@@ -155,23 +179,28 @@ function wheel(target, transmitCommand) {
 		self.rotation = self.rotation % (Math.PI*2)
 
 		if (self.rotation < 0) { self.rotation += Math.PI*2 }
+		if (self.rotation > Math.PI*2) { self.rotation -= Math.PI*2 }
 
-		for (var i=0;i<self.spokes;i++) {
-			if (self.rotation - (i/self.spokes)*Math.PI*2 > 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 < 0) {
-				
-				self.val = i;
-				self.nxTransmit(self.val)
-			}	
-		}
 		if (self.lastRotation > Math.PI*1.5 && self.rotation < Math.PI * 0.5) {
 				self.val = 0;
 				self.nxTransmit(self.val)
-		}
-
-		if (self.lastRotation < Math.PI*0.5 && self.rotation > Math.PI * 1.5) {
+		} else if (self.lastRotation < Math.PI*0.5 && self.rotation > Math.PI * 1.5) {
 				self.val = 0;
 				self.nxTransmit(self.val)
+		} else {
+			for (var i=0;i<self.spokes;i++) {
+				if (self.rotation - (i/self.spokes)*Math.PI*2 > 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 < 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+				if (self.rotation - (i/self.spokes)*Math.PI*2 < 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 > 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+			}
 		}
+
+		
 	}
 	
 }
