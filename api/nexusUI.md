@@ -491,6 +491,18 @@ Circular wheel *in progress*
 
 **val**:  *float* Index of spoke that crosses threshold<br>
 
+<br> vinyl
+-------
+Record scratcher *in progress*
+```html
+<canvas nx="vinyl"></canvas>
+```
+<canvas nx="vinyl" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *float* forthcoming<br>
+
 <br> nx
 ----
 Central nexusUI manager with shared utility functions for all nexusUI objects

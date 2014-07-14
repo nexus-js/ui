@@ -79,6 +79,7 @@ var nxscripts = [
         'tilt.js',
         "typewriter.js",
         "wheel.js",
+        "vinyl.js",
      //   "draw.js",
      //   "mango.js",
      //   "LDMC.js",
