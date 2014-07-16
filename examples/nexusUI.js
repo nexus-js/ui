@@ -5213,9 +5213,9 @@ $(document).ready(function() {
 	}
 
 	//block space key and delete key
-	window.onkeydown = function(e) { 
-	    return !(e.keyCode == 32 || e.keyCode == 46);
-	};
+//	window.onkeydown = function(e) { 
+//	    return !(e.keyCode == 32 || e.keyCode == 46);
+//	};
 
 	
 	nx.addStylesheet();
