@@ -5112,11 +5112,13 @@ var nx = function() {
 		   			+ '}'
 		   			+ ''
 		   			+ 'body {'
-		   			+ 'user-select: none;'
-		   			+ '-moz-user-select: none;'
-		   			+ '-webkit-user-select: none;'
-		   			+ 'cursor:pointer;'
+		   		//	+ 'user-select: none;'
+		   		//	+ '-moz-user-select: none;'
+		   		//	+ '-webkit-user-select: none;'
+		   		//	+ 'cursor:pointer;'
 		   			+ '}'
+		   			+ ''
+		   			+ 'canvas { cursor:pointer; }'
 		   			+ '</style>';
 		$("body").append(htmlstr);
 	}
@@ -5404,6 +5406,13 @@ function getTemplate(self, target, transmitCommand) {
 		} else {
 			self.click(e);
 		}
+		document.body.style.userSelect = "none";
+		document.body.style.mozUserSelect = "none";
+		document.body.style.webkitUserSelect = "none";
+
+		   		//	+ 'user-select: none;'
+		   		//	+ '-moz-user-select: none;'
+		   		//	+ '-webkit-user-select: none;'
 	};
 	self.preMove = function(e) {
 	//	self.movehandle = 0;
@@ -5462,6 +5471,9 @@ function getTemplate(self, target, transmitCommand) {
 			self.release();
 		}
 		document.removeEventListener("mouseup", self.preRelease, false);
+		document.body.style.userSelect = "text";
+		document.body.style.mozUserSelect = "text";
+		document.body.style.webkitUserSelect = "text";
 	};
 	self.preTouch = function(e) {
 		self.clickPos = self.getTouchPosition(e, self.offset);
