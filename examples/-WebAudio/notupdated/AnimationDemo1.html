@@ -8,7 +8,7 @@
 	
 	<script type="text/javascript" src="../../dev/jquery.js"></script>
 	<script type="text/javascript" src="../../nexusUI.js"></script>
-	<script type="text/javascript" src="js/gibberish_2.0.js"></script>
+	<script type="text/javascript" src="js/gibberish_july2014.js"></script>
 	<script type="text/javascript" charset="utf-8">
 	
 		var rack, prefxBus, delay;
@@ -17,14 +17,15 @@
 			nx.colorize("#08d");
 			nx.sendsTo("js");
 			
-			
 			/* synth development */
 			
-			Gibberish.init(); 
-			prefxBus = new Gibberish.Bus2();
+			Gibberish.init()
+			Gibberish.Time.export()
+			Gibberish.Binops.export()
+		/*	prefxBus = new Gibberish.Bus2();
 			delay = new Gibberish.Delay({input: prefxBus, time: 10000, feedback: 0.85});      // create a delay effect and feed our sine wave into it
 			delay.connect();                        // connect delay to default master output
-			
+		/*	
 			rack = new Array();
 			
 			for (var i=0;i<3;i++) {
@@ -80,9 +81,9 @@
 				rack[i].position3.animate("bounce");
 			
 			}
-			
-			nx.startPulse();
-			
+
+			*/
+	
 		}
 		
 			
