@@ -135,7 +135,7 @@ var nx = function() {
 		}	
 	}
 
-	this.usesScript = function (setting) {
+	this.setAjaxPath = function (setting) {
 		for (i=0;i<this.nxObjects.length;i++) {
 			this.nxObjects[i].transmitCommand = setting;
 		}	

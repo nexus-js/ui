@@ -1,3 +1,12 @@
+/* This server enables nexusUI communication
+   over a node websocket using socket.io
+   
+   With node.js installed, 
+   start the server with the command:
+   node nxserver.js
+*/
+
+
 var connect = require('connect'),
     http = require('http'),
     app = connect().use(connect.static(__dirname)).listen(8080),

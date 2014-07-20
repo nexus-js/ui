@@ -479,18 +479,6 @@ Computer keyboard listener and visualization. (Desktop only)
 | *key* | symbol of key pressed (example: "a")
 | *ascii* | ascii value of key pressed (example: 48)
 | *on* | 0 if key is being pressed, 1 if key is being released
-<br> wheel
--------
-Circular wheel *in progress*
-```html
-<canvas nx="wheel"></canvas>
-```
-<canvas nx="wheel" style="margin-left:25px"></canvas>
-
-**Properties**
-
-**val**:  *float* Index of spoke that crosses threshold<br>
-
 <br> vinyl
 -------
 Record scratcher *in progress*
@@ -502,6 +490,18 @@ Record scratcher *in progress*
 **Properties**
 
 **val**:  *float* forthcoming<br>
+
+<br> wheel
+-------
+Circular wheel *in progress*
+```html
+<canvas nx="wheel"></canvas>
+```
+<canvas nx="wheel" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *float* Index of spoke that crosses threshold<br>
 
 <br> nx
 ----
