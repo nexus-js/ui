@@ -7,18 +7,19 @@
 		<script>
 		
 		nx.onload = function() {
-			//Should our examples all be with AJAX? or no?
-			nx.setTransmissionProtocol("local");
+
+			nx.sendsTo("ajax");
+			nx.setAjaxPath("../nexusOSCrelay.php");
+
+			colors1.sendsTo("js");
+			toggle1.sendsTo("js");
+			
 			
 			pixels1.dim = { x: 8, y: 8 };
 			pixels1.init();
 			
 			colors1.localTransmit = function(data) {
 				pixels1.colors.accent = "rgb("+data[0]+","+data[1]+","+data[2]+")"
-			}
-
-			pixels1.localTransmit = function(data) {
-				console.log(data);
 			}
 
 			toggle1.localTransmit = function(data) {
@@ -38,7 +39,7 @@
 </head>
 <body>
 
-	<canvas nx="pixels"></canvas> <!--the output on this function is a little wack-->
+	<canvas nx="pixels"></canvas>
 	<canvas nx="colors"></canvas>
 	<canvas nx="toggle"></canvas> read on/off
 	

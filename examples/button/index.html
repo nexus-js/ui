@@ -8,7 +8,9 @@
 		
 			nx.onload = function() {
 
-				nx.sendsTo("ios")
+				//send to ajax and devine php relay script path
+				nx.sendsTo("ajax");
+				nx.setAjaxPath("../nexusOSCrelay.php");
 				
 				// sets a mode for each button. default is toggle.
 				button1.mode = "impulse";
@@ -22,12 +24,12 @@
 				picbutton2.setImage("images/pippin.png");
 				picbutton2.setTouchImage("images/pippinTouch.png");
 
-				//add an OSC debugger for this example page
-				nx.printOSC()
-
 				button1.set({
 					"press": 1
 				})
+
+				//add an OSC debugger for this example page
+				nx.printOSC()
 				
 			}
 			

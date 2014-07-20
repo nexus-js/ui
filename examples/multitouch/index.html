@@ -7,8 +7,11 @@
 		<script>
 		
 			nx.onload = function() {
-				nx.setTransmissionProtocol("ajax");
 
+				nx.sendsTo("ajax");
+				nx.setAjaxPath("../nexusOSCrelay.php");
+
+				
 				nx.colorize("#0af");
 
 				multitouch2.mode = "matrix";

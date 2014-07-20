@@ -7,7 +7,7 @@
 			"revision" : 8
 		}
 ,
-		"rect" : [ 525.0, 44.0, 879.0, 674.0 ],
+		"rect" : [ 590.0, 47.0, 624.0, 666.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -49,7 +49,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 27.0, 150.0, 230.0, 21.0 ],
-					"text" : "/multislider1/11 0.38"
+					"text" : "/button3/press 0"
 				}
 
 			}
