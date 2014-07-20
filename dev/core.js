@@ -181,16 +181,25 @@ var nx = function() {
 		} else if (this.transmissionProtocol == "node") {
 
 
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
 
-			for (var key in data) {
+					var nodemsg = {}
+					nodemsg['oscName'] = this.oscName+"/"+key;
+					nodemsg['value'] = data[key]
 
+		    		socket.emit('nx', nodemsg)
+
+				}
+			} else if (typeof data == "number" || typeof data == "string") {
 				var nodemsg = {}
-				nodemsg['oscName'] = this.oscName+"/"+key;
-				nodemsg['value'] = data[key]
+				nodemsg['oscName'] = this.oscName;
+				nodemsg['value'] = data
 
-	    		socket.emit('nx', nodemsg)
-
+		    	socket.emit('nx', nodemsg);
 			}
+
+			
 
 			var vismsg = {
 				'phone': thisUser.name,
