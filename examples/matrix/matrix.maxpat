@@ -31,35 +31,6 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
-					"frgb" : 0.0,
-					"id" : "obj-40",
-					"linecount" : 2,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 217.223145, 399.0, 304.0, 33.0 ],
-					"text" : "should we should sonify /col and /row parameters?\nshould we demonstrate in a non sequencer mode?"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-38",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 7,
-					"outlettype" : [ "", "", "", "", "", "", "" ],
-					"patching_rect" : [ 139.223145, 437.822296, 491.0, 20.0 ],
-					"text" : "OSC-route /matrix1/value /matrix2/value /matrix1/row /matrix1/col /matrix2/row /matrix2/col"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
 					"id" : "obj-17",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
@@ -75,13 +46,12 @@
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-18",
-					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 332.0, 222.0, 50.0, 31.0 ],
-					"text" : "63.917526"
+					"patching_rect" : [ 332.0, 222.0, 50.0, 18.0 ],
+					"text" : "0."
 				}
 
 			}
@@ -406,8 +376,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 302.206604, 5.644629, 244.0, 23.0 ],
-					"text" : "NexusUI      nexusosc.com"
+					"patching_rect" : [ 302.206604, 5.644629, 244.0, 39.0 ],
+					"text" : "NexusUI      nexusosc.com\n"
 				}
 
 			}

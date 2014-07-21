@@ -7,8 +7,7 @@
 		<script>
 		
 		nx.onload = function() {
-			//Should our examples all be with AJAX? or no?
-			nx.setTransmissionProtocol("local");
+			nx.sendsTo("ios");
 			
 			pixels1.dim = { x: 8, y: 8 };
 			pixels1.init();
