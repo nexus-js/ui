@@ -17,11 +17,14 @@ function toggle(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	var i;
-	if (this.width>50) {
-		this.fontsize = 20;
+/*	if (this.width>50) {
+		this.fontsize = this.width/6;
 	} else {
-		this.fontsize = 10;
-	}
+		this.fontsize = this.width/6;
+	} */
+	var mindim = this.height>this.width ? this.width : this.height;
+	console.log(mindim)
+	this.fontsize = mindim/6;
 
 	/** @property {integer}  val   0 if off, 1 if on
 	*/
@@ -66,7 +69,7 @@ function toggle(target, transmitCommand) {
 					fill();
 					
 					fillStyle = self.colors.white;
-					font = "bold "+self.fontsize+"px courier";
+					font = "bold "+self.fontsize+"px gill sans";
 					textAlign = "center";
 					fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
 				}
@@ -80,7 +83,7 @@ function toggle(target, transmitCommand) {
 					stroke();
 					fill();
 					fillStyle = self.colors.white;
-					font = "bold "+self.fontsize+"px courier";
+					font = "bold "+self.fontsize+"px gill sans";
 					textAlign = "center";
 					fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
 				}
@@ -89,9 +92,9 @@ function toggle(target, transmitCommand) {
 			
 		} else {
 			with (this.context) {
-				fillStyle = self.colors.white;
-				font = "bold "+self.fontsize+"px courier";
-				textAlign = "center";
+				fillStyle = self.colors.white
+				font = "bold "+self.fontsize+"px gill sans"
+				textAlign = "center"
 				if (self.val) {
 					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {

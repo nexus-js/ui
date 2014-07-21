@@ -56,7 +56,7 @@
 			nx.onload = function() {
 				nx.colorize(uicolor);
 				nx.setTransmissionProtocol("ajax");
-				nx.setTransmitCommand("../servers/nexusPHP/nexusOSCRelay.php");
+				nx.setTransmitCommand("../servers/php/lib/nexusOSCRelay.php");
 				nx.showLabels = true;
 
 
@@ -112,7 +112,7 @@
 					var thisname = nxId + idNum;
 					if(nxId) {
 						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:50px;left:50px;"></canvas>');
-						eval(thisname + " = new "+nxId+"('"+thisname+"', '../nexusPHP/nexusOSCRelay.php', "+idNum+");");
+						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/php/lib/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
 						showSettings();
