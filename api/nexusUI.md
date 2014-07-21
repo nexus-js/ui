@@ -276,6 +276,7 @@ Multiple vertical sliders in one object
 | &nbsp; | data
 | --- | ---
 | *(slider index)* | slider value
+| list | all multislider values as list
 <br> multitouch
 ------------
 Multitouch 2d-slider with up to 5 points of touch.
@@ -479,6 +480,18 @@ Computer keyboard listener and visualization. (Desktop only)
 | *key* | symbol of key pressed (example: "a")
 | *ascii* | ascii value of key pressed (example: 48)
 | *on* | 0 if key is being pressed, 1 if key is being released
+<br> vinyl
+-------
+Record scratcher *in progress*
+```html
+<canvas nx="vinyl"></canvas>
+```
+<canvas nx="vinyl" style="margin-left:25px"></canvas>
+
+**Properties**
+
+**val**:  *float* forthcoming<br>
+
 <br> wheel
 -------
 Circular wheel *in progress*

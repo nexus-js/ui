@@ -1,32 +1,30 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Multislider</title>
+		<title>Vinyl</title>
 		<script type="text/javascript" src="../jquery.js"></script>
 		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script type="text/javascript" src="../../dev/vinyl.js"></script>
 		<script>
 		
 		nx.onload = function() {
 
 			nx.sendsTo("ajax");
 			nx.setAjaxPath("../nexusOSCrelay.php");
-			
-			nx.colorize("#08d");
-			
-			multislider2.setNumberOfSliders(8);
 
+			
+			nx.colorize("#0af")
 			nx.printOSC();
 			
 		}
 		
-	</script>
-	
-</head>
-<body>
-	
-	<canvas nx="multislider">Button</canvas>
-	<canvas nx="multislider">Button</canvas>
-	
+		</script>
 
-</body>
+	</head>
+	<body>
+
+		<canvas nx="vinyl" width="400px" height="400px"></canvas>
+		<canvas nx="vinyl" width="400px" height="400px"></canvas>
+		
+	</body>
 </html>

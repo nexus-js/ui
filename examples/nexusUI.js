@@ -1992,6 +1992,7 @@ function multislider(target, transmitCommand) {
 		| &nbsp; | data
 		| --- | ---
 		| *(slider index)* | slider value
+		| list | all multislider values as list
 	*/
 	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
@@ -2091,7 +2092,10 @@ function multislider(target, transmitCommand) {
 		}
 		var msg = new Object()
 		msg[sliderToMove] = self.val[sliderToMove]
+		msg["list"] = new String();
+		for (var key in self.val) { msg["list"] += self.val[key] + " " }
 		self.nxTransmit(msg);
+		console.log(msg);
 		
 	}
 	
@@ -2618,9 +2622,21 @@ function pixels(target, transmitCommand) {
 
 	this.send = function(pixX, pixY) {
 		if (self.mode=="write") {
-			self.nxTransmit(self.screen);
+			var screenstring = "";
+			for (var i=0;i<self.screen.length;i++) {
+				var rowstring = self.screen[i].join()
+				screenstring += rowstring.replace(/\,/g," ");
+				screenstring += " ";
+			}
+			var nxmsg = { matrix: screenstring }
+			self.nxTransmit(nxmsg);
 		} else if (self.mode=="read") {
-			self.nxTransmit(self.screen[pixY][pixX]);
+			var nxmsg = { 
+					r: self.screen[pixY][pixX][0],
+					g: self.screen[pixY][pixX][1],
+					b: self.screen[pixY][pixX][2]
+				}
+			self.nxTransmit(nxmsg);
 		}
 	}
 	
@@ -3651,11 +3667,14 @@ function toggle(target, transmitCommand) {
 	getTemplate(self, target, transmitCommand);
 	
 	var i;
-	if (this.width>50) {
-		this.fontsize = 20;
+/*	if (this.width>50) {
+		this.fontsize = this.width/6;
 	} else {
-		this.fontsize = 10;
-	}
+		this.fontsize = this.width/6;
+	} */
+	var mindim = this.height>this.width ? this.width : this.height;
+	console.log(mindim)
+	this.fontsize = mindim/6;
 
 	/** @property {integer}  val   0 if off, 1 if on
 	*/
@@ -3700,7 +3719,7 @@ function toggle(target, transmitCommand) {
 					fill();
 					
 					fillStyle = self.colors.white;
-					font = "bold "+self.fontsize+"px courier";
+					font = "bold "+self.fontsize+"px gill sans";
 					textAlign = "center";
 					fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
 				}
@@ -3714,7 +3733,7 @@ function toggle(target, transmitCommand) {
 					stroke();
 					fill();
 					fillStyle = self.colors.white;
-					font = "bold "+self.fontsize+"px courier";
+					font = "bold "+self.fontsize+"px gill sans";
 					textAlign = "center";
 					fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
 				}
@@ -3723,9 +3742,9 @@ function toggle(target, transmitCommand) {
 			
 		} else {
 			with (this.context) {
-				fillStyle = self.colors.white;
-				font = "bold "+self.fontsize+"px courier";
-				textAlign = "center";
+				fillStyle = self.colors.white
+				font = "bold "+self.fontsize+"px gill sans"
+				textAlign = "center"
 				if (self.val) {
 					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {
@@ -4125,6 +4144,163 @@ function typewriter(target, transmitCommand) {
 }
 
 /** 
+	@class vinyl      
+	Record scratcher *in progress*
+	```html
+	<canvas nx="vinyl"></canvas>
+	```
+	<canvas nx="vinyl" style="margin-left:25px"></canvas>
+*/
+
+function vinyl(target, transmitCommand) {
+					
+	//self awareness
+	var self = this;
+	this.defaultSize = { width: 150, height: 150 };
+	
+	//get common attributes and methods
+	getTemplate(self, target, transmitCommand);
+	
+	//define unique attributes
+	this.circleSize = 1;
+	this.dial_position_length = 6;
+	if (this.width<101 || this.width<101) {
+		this.accentWidth = this.lineWidth * 1;
+	} else {
+		this.accentWidth = this.lineWidth * 2;
+	}
+
+	/** @property {float}  val    forthcoming<br>
+	*/
+	this.val = 0.5;
+	this.responsivity = 0.005;
+	
+	this.speed = 0.05;
+	this.spokes = 10;
+	this.rotation = 0;
+	this.points = new Array();
+
+	this.init = function() {
+	
+		//adjust wheel to fit canvas
+		self.circleSize = (Math.min(self.center.x, self.center.y)-self.lineWidth);
+		
+		self.draw();
+		
+		nx.aniItems.push(self.spin);
+	}
+
+	this.draw = function() {
+		
+
+		with (self.context) {
+			clearRect(0,0, self.width, self.height);
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
+			lineWidth = self.lineWidth;
+			
+			//draw main circle
+			beginPath();
+				fillStyle = self.colors.black;
+				arc(self.center.x, self.center.y, self.circleSize-5, 0, Math.PI*2, true);
+				fill();
+			closePath();
+
+
+			//draw circle in center
+			beginPath();
+				fillStyle = self.colors.accent;
+				arc(self.center.x, self.center.y*1, self.circleSize/4, 0, Math.PI*2, false);
+				fill()
+			closePath();
+
+
+			//draw tint
+			beginPath();
+				globalAlpha = 0.5;
+				fillStyle = self.colors.fill;
+				arc(self.center.x, self.center.y, self.circleSize, self.rotation, self.rotation + 0.4, false);
+				lineTo(self.center.x, self.center.y);
+				arc(self.center.x, self.center.y, self.circleSize, self.rotation+Math.PI, self.rotation +Math.PI+ 0.4, false);
+				lineTo(self.center.x, self.center.y);
+				fill();
+				globalAlpha = 1;
+			closePath(); 
+
+
+			//draw circle in center
+			beginPath();
+				fillStyle = self.colors.white;
+				arc(self.center.x, self.center.y*1, self.circleSize/16, 0, Math.PI*2, false);
+				fill()
+			closePath(); 
+
+			lineWidth = 4;
+			strokeRect(0,0,self.width,self.height)
+
+		}
+
+		self.drawLabel();
+	}
+	
+
+	this.click = function(e) {
+
+		self.lastRotation = self.rotation
+		self.speed = 0;
+		self.grabAngle = self.rotation % (Math.PI*2)
+		self.grabPos = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y
+
+	}
+
+
+	this.move = function() {
+
+		self.lastRotation2 = self.lastRotation
+		self.lastRotation = self.rotation
+
+		self.rotation = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
+		self.draw();
+
+		self.val = self.rotation;
+
+		self.speed = ((self.rotation - self.lastRotation) + (self.lastRotation-self.lastRotation2))/2 ;
+	
+
+		self.nxTransmit(self.val)
+
+	}
+
+
+	this.release = function() {
+		self.speed = ((self.rotation - self.lastRotation) + (self.lastRotation-self.lastRotation2))/2 ;
+	}
+	
+	this.friction = 0.995
+
+	this.spin = function() {
+
+		self.lastRotation2 = self.lastRotation
+		self.lastRotation = self.rotation
+
+		self.rotation += self.speed
+
+		self.draw();
+		self.rotation = self.rotation % (Math.PI*2)
+
+		//if (self.rotation < 0) { self.rotation += Math.PI*2 }
+		//if (self.rotation > Math.PI*2) { self.rotation -= Math.PI*2 }
+
+		self.val = self.speed;
+
+		self.nxTransmit(self.val)
+		
+	}
+	
+}
+
+
+/** 
 	@class wheel      
 	Circular wheel *in progress*
 	```html
@@ -4189,7 +4365,7 @@ function wheel(target, transmitCommand) {
 
 			//draw points
 			for (var i=0;i<self.spokes;i++) {
-				var dot = nx.toCartesian(self.circleSize-5, ((i/self.spokes)*Math.PI*2)-self.rotation)
+				var dot = nx.toCartesian(self.circleSize-5, ((i/self.spokes)*Math.PI*2)-self.rotation + (Math.PI*2)/(self.spokes*2))
 				beginPath();
 					arc(dot.x+self.center.x, dot.y+self.center.y, 5, 0, Math.PI*2, false);
 					fillStyle = self.colors.accent;	
@@ -4211,8 +4387,8 @@ function wheel(target, transmitCommand) {
 			lineWidth = self.lineWidth*2
 			fillStyle = self.colors.fill;
 			strokeStyle = self.colors.accent;
-	//		strokeRect(self.center.x-3, 3, 6, self.circleSize)
-	//		fillRect(self.center.x-3, 3, 6, self.circleSize)
+			strokeRect(self.center.x-3, 3, 6, self.circleSize)
+			fillRect(self.center.x-3, 3, 6, self.circleSize)
 
 
 
@@ -4220,9 +4396,9 @@ function wheel(target, transmitCommand) {
 			beginPath();
 				fillStyle = self.colors.fill;
 				strokeStyle = self.colors.accent;
-				moveTo(self.center.x-8,self.center.y);
-				lineTo(self.center.x,self.center.y-15);
-				lineTo(self.center.x+8,self.center.y);
+		//		moveTo(self.center.x-8,self.center.y);
+		//		lineTo(self.center.x,self.center.y-15);
+		//		lineTo(self.center.x+8,self.center.y);
 				stroke();
 				fill()
 			closePath(); 
@@ -4250,6 +4426,7 @@ function wheel(target, transmitCommand) {
 		self.speed = 0;
 		self.grabAngle = self.rotation % (Math.PI*2)
 		self.grabPos = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y
+
 	}
 
 
@@ -4257,8 +4434,33 @@ function wheel(target, transmitCommand) {
 
 		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
+
 		self.rotation = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
 		self.draw();
+
+		if (self.rotation < 0) { self.rotation += Math.PI*2 }
+		if (self.rotation > Math.PI*2) { self.rotation -= Math.PI*2 }
+
+		if (self.lastRotation > Math.PI*1.5 && self.rotation < Math.PI * 0.5 && self.val != 0) {
+				self.val = 0;
+				self.nxTransmit(self.val)
+		} else if (self.lastRotation < Math.PI*0.5 && self.rotation > Math.PI * 1.5 && self.val != 0) {
+				self.val = 0;
+				self.nxTransmit(self.val)
+		} else {
+			for (var i=0;i<self.spokes;i++) {
+				console.log(self.rotation)
+				if (self.rotation - (i/self.spokes)*Math.PI*2 > 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 < 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+				if (self.rotation - (i/self.spokes)*Math.PI*2 < 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 > 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+			}
+		}
+
 	}
 
 
@@ -4272,8 +4474,6 @@ function wheel(target, transmitCommand) {
 		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
 
-		//console.log(self.rotation)
-
 		self.rotation += self.speed
 		self.speed *= self.friction
 
@@ -4281,23 +4481,28 @@ function wheel(target, transmitCommand) {
 		self.rotation = self.rotation % (Math.PI*2)
 
 		if (self.rotation < 0) { self.rotation += Math.PI*2 }
+		if (self.rotation > Math.PI*2) { self.rotation -= Math.PI*2 }
 
-		for (var i=0;i<self.spokes;i++) {
-			if (self.rotation - (i/self.spokes)*Math.PI*2 > 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 < 0) {
-				
-				self.val = i;
-				self.nxTransmit(self.val)
-			}	
-		}
 		if (self.lastRotation > Math.PI*1.5 && self.rotation < Math.PI * 0.5) {
 				self.val = 0;
 				self.nxTransmit(self.val)
-		}
-
-		if (self.lastRotation < Math.PI*0.5 && self.rotation > Math.PI * 1.5) {
+		} else if (self.lastRotation < Math.PI*0.5 && self.rotation > Math.PI * 1.5) {
 				self.val = 0;
 				self.nxTransmit(self.val)
+		} else {
+			for (var i=0;i<self.spokes;i++) {
+				if (self.rotation - (i/self.spokes)*Math.PI*2 > 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 < 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+				if (self.rotation - (i/self.spokes)*Math.PI*2 < 0 && self.lastRotation - (i/self.spokes)*Math.PI*2 > 0) {
+					self.val = i
+					self.nxTransmit(self.val)
+				}	
+			}
 		}
+
+		
 	}
 	
 }
@@ -4440,7 +4645,7 @@ var nx = function() {
 		}	
 	}
 
-	this.usesScript = function (setting) {
+	this.setAjaxPath = function (setting) {
 		for (i=0;i<this.nxObjects.length;i++) {
 			this.nxObjects[i].transmitCommand = setting;
 		}	
@@ -4486,16 +4691,25 @@ var nx = function() {
 		} else if (this.transmissionProtocol == "node") {
 
 
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
 
-			for (var key in data) {
+					var nodemsg = {}
+					nodemsg['oscName'] = this.oscName+"/"+key;
+					nodemsg['value'] = data[key]
 
+		    		socket.emit('nx', nodemsg)
+
+				}
+			} else if (typeof data == "number" || typeof data == "string") {
 				var nodemsg = {}
-				nodemsg['oscName'] = this.oscName+"/"+key;
-				nodemsg['value'] = data[key]
+				nodemsg['oscName'] = this.oscName;
+				nodemsg['value'] = data
 
-	    		socket.emit('nx', nodemsg)
-
+		    	socket.emit('nx', nodemsg);
 			}
+
+			
 
 			var vismsg = {
 				'phone': thisUser.name,
@@ -4926,11 +5140,13 @@ var nx = function() {
 		   			+ '}'
 		   			+ ''
 		   			+ 'body {'
-		   			+ 'user-select: none;'
-		   			+ '-moz-user-select: none;'
-		   			+ '-webkit-user-select: none;'
-		   			+ 'cursor:pointer;'
+		   		//	+ 'user-select: none;'
+		   		//	+ '-moz-user-select: none;'
+		   		//	+ '-webkit-user-select: none;'
+		   		//	+ 'cursor:pointer;'
 		   			+ '}'
+		   			+ ''
+		   			+ 'canvas { cursor:pointer; }'
 		   			+ '</style>';
 		$("body").append(htmlstr);
 	}
@@ -5027,9 +5243,9 @@ $(document).ready(function() {
 	}
 
 	//block space key and delete key
-	window.onkeydown = function(e) { 
-	    return !(e.keyCode == 32 || e.keyCode == 46);
-	};
+//	window.onkeydown = function(e) { 
+//	    return !(e.keyCode == 32 || e.keyCode == 46);
+//	};
 
 	
 	nx.addStylesheet();
@@ -5218,6 +5434,13 @@ function getTemplate(self, target, transmitCommand) {
 		} else {
 			self.click(e);
 		}
+		document.body.style.userSelect = "none";
+		document.body.style.mozUserSelect = "none";
+		document.body.style.webkitUserSelect = "none";
+
+		   		//	+ 'user-select: none;'
+		   		//	+ '-moz-user-select: none;'
+		   		//	+ '-webkit-user-select: none;'
 	};
 	self.preMove = function(e) {
 	//	self.movehandle = 0;
@@ -5276,6 +5499,9 @@ function getTemplate(self, target, transmitCommand) {
 			self.release();
 		}
 		document.removeEventListener("mouseup", self.preRelease, false);
+		document.body.style.userSelect = "text";
+		document.body.style.mozUserSelect = "text";
+		document.body.style.webkitUserSelect = "text";
 	};
 	self.preTouch = function(e) {
 		self.clickPos = self.getTouchPosition(e, self.offset);

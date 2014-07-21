@@ -192,9 +192,21 @@ function pixels(target, transmitCommand) {
 
 	this.send = function(pixX, pixY) {
 		if (self.mode=="write") {
-			self.nxTransmit(self.screen);
+			var screenstring = "";
+			for (var i=0;i<self.screen.length;i++) {
+				var rowstring = self.screen[i].join()
+				screenstring += rowstring.replace(/\,/g," ");
+				screenstring += " ";
+			}
+			var nxmsg = { matrix: screenstring }
+			self.nxTransmit(nxmsg);
 		} else if (self.mode=="read") {
-			self.nxTransmit(self.screen[pixY][pixX]);
+			var nxmsg = { 
+					r: self.screen[pixY][pixX][0],
+					g: self.screen[pixY][pixX][1],
+					b: self.screen[pixY][pixX][2]
+				}
+			self.nxTransmit(nxmsg);
 		}
 	}
 	

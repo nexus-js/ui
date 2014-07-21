@@ -9,12 +9,15 @@
 		nx.onload = function() {
 			
 			/* 
-			FIXME: key detection not accurate when different num of octaves!
+			KNOWN BUGS: key detection not accurate when different num of octaves!
 			 
 			keyboard1.octaves = 4;
 			keyboard1.init(); 
 			
 			*/
+
+			nx.sendsTo("ajax");
+			nx.setAjaxPath("../nexusOSCrelay.php");
 
 			nx.printOSC()
 			

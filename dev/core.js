@@ -135,7 +135,7 @@ var nx = function() {
 		}	
 	}
 
-	this.usesScript = function (setting) {
+	this.setAjaxPath = function (setting) {
 		for (i=0;i<this.nxObjects.length;i++) {
 			this.nxObjects[i].transmitCommand = setting;
 		}	
@@ -181,16 +181,25 @@ var nx = function() {
 		} else if (this.transmissionProtocol == "node") {
 
 
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
 
-			for (var key in data) {
+					var nodemsg = {}
+					nodemsg['oscName'] = this.oscName+"/"+key;
+					nodemsg['value'] = data[key]
 
+		    		socket.emit('nx', nodemsg)
+
+				}
+			} else if (typeof data == "number" || typeof data == "string") {
 				var nodemsg = {}
-				nodemsg['oscName'] = this.oscName+"/"+key;
-				nodemsg['value'] = data[key]
+				nodemsg['oscName'] = this.oscName;
+				nodemsg['value'] = data
 
-	    		socket.emit('nx', nodemsg)
-
+		    	socket.emit('nx', nodemsg);
 			}
+
+			
 
 			var vismsg = {
 				'phone': thisUser.name,
@@ -621,11 +630,13 @@ var nx = function() {
 		   			+ '}'
 		   			+ ''
 		   			+ 'body {'
-		   			+ 'user-select: none;'
-		   			+ '-moz-user-select: none;'
-		   			+ '-webkit-user-select: none;'
-		   			+ 'cursor:pointer;'
+		   		//	+ 'user-select: none;'
+		   		//	+ '-moz-user-select: none;'
+		   		//	+ '-webkit-user-select: none;'
+		   		//	+ 'cursor:pointer;'
 		   			+ '}'
+		   			+ ''
+		   			+ 'canvas { cursor:pointer; }'
 		   			+ '</style>';
 		$("body").append(htmlstr);
 	}
@@ -722,9 +733,9 @@ $(document).ready(function() {
 	}
 
 	//block space key and delete key
-	window.onkeydown = function(e) { 
-	    return !(e.keyCode == 32 || e.keyCode == 46);
-	};
+//	window.onkeydown = function(e) { 
+//	    return !(e.keyCode == 32 || e.keyCode == 46);
+//	};
 
 	
 	nx.addStylesheet();
@@ -913,6 +924,13 @@ function getTemplate(self, target, transmitCommand) {
 		} else {
 			self.click(e);
 		}
+		document.body.style.userSelect = "none";
+		document.body.style.mozUserSelect = "none";
+		document.body.style.webkitUserSelect = "none";
+
+		   		//	+ 'user-select: none;'
+		   		//	+ '-moz-user-select: none;'
+		   		//	+ '-webkit-user-select: none;'
 	};
 	self.preMove = function(e) {
 	//	self.movehandle = 0;
@@ -971,6 +989,9 @@ function getTemplate(self, target, transmitCommand) {
 			self.release();
 		}
 		document.removeEventListener("mouseup", self.preRelease, false);
+		document.body.style.userSelect = "text";
+		document.body.style.mozUserSelect = "text";
+		document.body.style.webkitUserSelect = "text";
 	};
 	self.preTouch = function(e) {
 		self.clickPos = self.getTouchPosition(e, self.offset);

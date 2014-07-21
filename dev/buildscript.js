@@ -2,7 +2,7 @@
  * Run:
  * node buildscript.js
  * in the nexus directory to create a basic build of nexusUI.js 
- * with supplrementary element files combined into one file.
+ * with supplementary element files combined into one file.
  * I've included a minify function but it is not working at the moment
  * so I commented out the function call.
  * 
@@ -78,6 +78,7 @@ var nxscripts = [
         'toggle.js',
         'tilt.js',
         "typewriter.js",
+        "vinyl.js",
         "wheel.js",
      //   "draw.js",
      //   "mango.js",
@@ -95,7 +96,11 @@ concat({
 })
 concat({
     src : nxscripts,
-    dest : '../servers/node/nexusUI.js'
+    dest : '../servers/node/lib/nexusUI.js'
+})
+concat({
+    src : nxscripts,
+    dest : '../servers/php/lib/nexusUI.js'
 })
 
 
@@ -120,7 +125,7 @@ jsdox.generateForDir("../nexusUI.js", "../api", done);
 /* Also - could auto-read files from dir as below, but how to choose only JS files and only those we want?
    better to just list it above, for now. ?
 
-var nexusfiles = _fs.readdirSync("nexusUI");
+var nexusfiles = _fs.readdirSync("dev");
 console.log(nexusfiles);
 */
 

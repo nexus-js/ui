@@ -7,6 +7,11 @@
 		<script>
 		
 			nx.onload = function() {
+
+				nx.sendsTo("ajax");
+				nx.setAjaxPath("../nexusOSCrelay.php");
+
+				
 				nx.colorize("#0af");
 				nx.printOSC();
 

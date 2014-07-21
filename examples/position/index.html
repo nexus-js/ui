@@ -7,28 +7,14 @@
 		<script>
 		
 			nx.onload = function() {
+
+				nx.sendsTo("ajax");
+				nx.setAjaxPath("../nexusOSCrelay.php");
+
+				
+
 				nx.colorize("#0af");
-
 				nx.printOSC();
-
-				/* other nomenclature options?
-
-					nx.setTransmissionProtocol("local")
-					->  nx.transmitTo("js")
-					->  nx.connectTo("js")
-					->  nx.sendDataTo("js")
-
-					position1.setTransmissionProtocol("local")
-					->  position1.transmitTo("js")
-
-					position1.localTransmit = function(data) { }
-					-> position1.rcv = function(data) { }
-					-> position1.callback = function(data) { }
-
-					nx.globalLocalTransmit = function(data) { }
-					-> nx.rcvAll = function(data) { }
-
-				*/
 
 			}
 		
