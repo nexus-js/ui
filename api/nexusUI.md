@@ -276,6 +276,7 @@ Multiple vertical sliders in one object
 | &nbsp; | data
 | --- | ---
 | *(slider index)* | slider value
+| list | all multislider values as list
 <br> multitouch
 ------------
 Multitouch 2d-slider with up to 5 points of touch.
