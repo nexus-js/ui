@@ -31,3 +31,19 @@ Add an HTML5 canvas to your page with a valid nx attribute.
 
  See [nexusosc.com](http://www.nexusosc.com) for examples and tutorials. 
 
+
+
+
+
+### NexusUI example with node.js
+
+Download and install node.js
+
+In terminal, navigate to your project directory and run:
+
+```command
+node nxserver.js
+```
+
+Navigate to localhost:8080/example/ in a web browser.
+
