@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Envelope</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script type="text/javascript" src="../../dev/envelope.js"></script>
+		<script>
+		
+			nx.onload = function() {
+
+				nx.sendsTo("ajax");
+				nx.setAjaxPath("../nexusOSCrelay.php");
+
+				nx.colorize("#0af");
+				nx.printOSC();
+
+				envelope2.start();
+
+			}
+		
+		</script>
+		
+	</head>
+	
+	<body>
+			
+		<canvas nx="envelope"></canvas>
+		<canvas nx="envelope" style="width:300px;height:300px"></canvas>
+	
+	</body>
+	
+</html>
