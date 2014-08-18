@@ -17,6 +17,17 @@
 
 				envelope2.start();
 
+				button1.sendsTo("js");
+				button1.mode = "impulse";
+				button1.response = function() {
+					envelope2.start();
+				}
+
+				dial1.sendsTo("js");
+				dial1.response = function(data) {
+					envelope2.duration = data*3;
+				}
+
 			}
 		
 		</script>
@@ -27,6 +38,14 @@
 			
 		<canvas nx="envelope"></canvas>
 		<canvas nx="envelope" style="width:300px;height:300px"></canvas>
+
+		<br><br>
+		<canvas nx="button"></canvas><br>
+		trigger envelope<br>
+		<br>
+		<canvas nx="dial"></canvas><br>
+		speed of envelope<br>
+
 	
 	</body>
 	

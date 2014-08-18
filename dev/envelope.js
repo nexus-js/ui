@@ -18,6 +18,7 @@ function envelope(target, transmitCommand) {
 	
 	this.nodeSize = 5;
 	this.on = false;
+	this.duration = 1;
 
 	//define unique attributes
 	
@@ -132,7 +133,6 @@ function envelope(target, transmitCommand) {
 			self.val.x = self.clickPos.x;
 			self.val.y = self.clickPos.y;
 			self.scaleNode();
-			self.val["state"] = "move"
 			self.nxTransmit(self.val);
 			self.draw();
 		}
@@ -142,8 +142,6 @@ function envelope(target, transmitCommand) {
 		self.val.x = self.clickPos.x;
 		self.val.y = self.clickPos.y;
 		self.scaleNode();
-		self.val["state"] = "release"
-		self.nxTransmit(self.val);
 		self.draw();
 		
 	}
@@ -151,12 +149,20 @@ function envelope(target, transmitCommand) {
 	
 	this.advance = function() {
 		if (self.on) {
-			self.val.index += 0.05;
+			self.val.index += ((33/self.width)/self.duration);
+
+			if (self.val.index < self.val.x) {
+				var guiy = (self.val.index/self.val.x) * (1-self.val.y);
+				self.val.amp = Math.abs(guiy - 1);
+			} else {
+				var guiy = ((1-self.val.index)/(1-self.val.x)) * (1-self.val.y);
+				self.val.amp = Math.abs(guiy - 1);
+			}
+		
 			self.nxTransmit(self.val);
 			self.draw();
 			if (self.val.index >= 1) {
 				self.stop();
-			//	self.val.index = 0;
 			}
 		}
 	}
