@@ -1,0 +1,16 @@
+{
+  "name": "nexusui",
+  "description": "JavaScript toolkit for music interfaces in mobile apps and web browsers",
+  "author": "Ben Taylor",
+  "dependencies": {},
+  "devDependencies": {
+    "jsdox": "0.4.x",
+    "gulp": "3.6.x",
+    "gulp-concat": "2.2.x",
+    "gulp-rename": "1.2.x",
+    "gulp-uglify": "0.2.x",
+    "gulp-less": "1.2.x",
+    "run-sequence": "0.3.x"
+  },
+  "engine": "node >= 0.10.0"
+}
