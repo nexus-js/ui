@@ -38,6 +38,16 @@
 			<canvas nx="joints" style="width:770px;height:715px"></canvas>
 		</div>
 	
+		<script>
+			$(function() {
+				nx.nxObjects.forEach(function(obj) {
+					obj.events.on('data', function(data) {
+						console.log(obj.canvasID, data)
+					})
+				})
+			})
+		</script>
+
 	</body>
 	
 </html>

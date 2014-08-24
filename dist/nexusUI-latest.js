@@ -1,4 +1,577 @@
-/** 
+/*!
+ * EventEmitter2
+ * https://github.com/hij1nx/EventEmitter2
+ *
+ * Copyright (c) 2013 hij1nx
+ * Licensed under the MIT license.
+ */
+;!function(undefined) {
+
+  var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
+    return Object.prototype.toString.call(obj) === "[object Array]";
+  };
+  var defaultMaxListeners = 10;
+
+  function init() {
+    this._events = {};
+    if (this._conf) {
+      configure.call(this, this._conf);
+    }
+  }
+
+  function configure(conf) {
+    if (conf) {
+
+      this._conf = conf;
+
+      conf.delimiter && (this.delimiter = conf.delimiter);
+      conf.maxListeners && (this._events.maxListeners = conf.maxListeners);
+      conf.wildcard && (this.wildcard = conf.wildcard);
+      conf.newListener && (this.newListener = conf.newListener);
+
+      if (this.wildcard) {
+        this.listenerTree = {};
+      }
+    }
+  }
+
+  function EventEmitter(conf) {
+    this._events = {};
+    this.newListener = false;
+    configure.call(this, conf);
+  }
+
+  //
+  // Attention, function return type now is array, always !
+  // It has zero elements if no any matches found and one or more
+  // elements (leafs) if there are matches
+  //
+  function searchListenerTree(handlers, type, tree, i) {
+    if (!tree) {
+      return [];
+    }
+    var listeners=[], leaf, len, branch, xTree, xxTree, isolatedBranch, endReached,
+        typeLength = type.length, currentType = type[i], nextType = type[i+1];
+    if (i === typeLength && tree._listeners) {
+      //
+      // If at the end of the event(s) list and the tree has listeners
+      // invoke those listeners.
+      //
+      if (typeof tree._listeners === 'function') {
+        handlers && handlers.push(tree._listeners);
+        return [tree];
+      } else {
+        for (leaf = 0, len = tree._listeners.length; leaf < len; leaf++) {
+          handlers && handlers.push(tree._listeners[leaf]);
+        }
+        return [tree];
+      }
+    }
+
+    if ((currentType === '*' || currentType === '**') || tree[currentType]) {
+      //
+      // If the event emitted is '*' at this part
+      // or there is a concrete match at this patch
+      //
+      if (currentType === '*') {
+        for (branch in tree) {
+          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
+            listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+1));
+          }
+        }
+        return listeners;
+      } else if(currentType === '**') {
+        endReached = (i+1 === typeLength || (i+2 === typeLength && nextType === '*'));
+        if(endReached && tree._listeners) {
+          // The next element has a _listeners, add it to the handlers.
+          listeners = listeners.concat(searchListenerTree(handlers, type, tree, typeLength));
+        }
+
+        for (branch in tree) {
+          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
+            if(branch === '*' || branch === '**') {
+              if(tree[branch]._listeners && !endReached) {
+                listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], typeLength));
+              }
+              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
+            } else if(branch === nextType) {
+              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i+2));
+            } else {
+              // No match on this one, shift into the tree but not in the type array.
+              listeners = listeners.concat(searchListenerTree(handlers, type, tree[branch], i));
+            }
+          }
+        }
+        return listeners;
+      }
+
+      listeners = listeners.concat(searchListenerTree(handlers, type, tree[currentType], i+1));
+    }
+
+    xTree = tree['*'];
+    if (xTree) {
+      //
+      // If the listener tree will allow any match for this part,
+      // then recursively explore all branches of the tree
+      //
+      searchListenerTree(handlers, type, xTree, i+1);
+    }
+
+    xxTree = tree['**'];
+    if(xxTree) {
+      if(i < typeLength) {
+        if(xxTree._listeners) {
+          // If we have a listener on a '**', it will catch all, so add its handler.
+          searchListenerTree(handlers, type, xxTree, typeLength);
+        }
+
+        // Build arrays of matching next branches and others.
+        for(branch in xxTree) {
+          if(branch !== '_listeners' && xxTree.hasOwnProperty(branch)) {
+            if(branch === nextType) {
+              // We know the next element will match, so jump twice.
+              searchListenerTree(handlers, type, xxTree[branch], i+2);
+            } else if(branch === currentType) {
+              // Current node matches, move into the tree.
+              searchListenerTree(handlers, type, xxTree[branch], i+1);
+            } else {
+              isolatedBranch = {};
+              isolatedBranch[branch] = xxTree[branch];
+              searchListenerTree(handlers, type, { '**': isolatedBranch }, i+1);
+            }
+          }
+        }
+      } else if(xxTree._listeners) {
+        // We have reached the end and still on a '**'
+        searchListenerTree(handlers, type, xxTree, typeLength);
+      } else if(xxTree['*'] && xxTree['*']._listeners) {
+        searchListenerTree(handlers, type, xxTree['*'], typeLength);
+      }
+    }
+
+    return listeners;
+  }
+
+  function growListenerTree(type, listener) {
+
+    type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+
+    //
+    // Looks for two consecutive '**', if so, don't add the event at all.
+    //
+    for(var i = 0, len = type.length; i+1 < len; i++) {
+      if(type[i] === '**' && type[i+1] === '**') {
+        return;
+      }
+    }
+
+    var tree = this.listenerTree;
+    var name = type.shift();
+
+    while (name) {
+
+      if (!tree[name]) {
+        tree[name] = {};
+      }
+
+      tree = tree[name];
+
+      if (type.length === 0) {
+
+        if (!tree._listeners) {
+          tree._listeners = listener;
+        }
+        else if(typeof tree._listeners === 'function') {
+          tree._listeners = [tree._listeners, listener];
+        }
+        else if (isArray(tree._listeners)) {
+
+          tree._listeners.push(listener);
+
+          if (!tree._listeners.warned) {
+
+            var m = defaultMaxListeners;
+
+            if (typeof this._events.maxListeners !== 'undefined') {
+              m = this._events.maxListeners;
+            }
+
+            if (m > 0 && tree._listeners.length > m) {
+
+              tree._listeners.warned = true;
+              console.error('(node) warning: possible EventEmitter memory ' +
+                            'leak detected. %d listeners added. ' +
+                            'Use emitter.setMaxListeners() to increase limit.',
+                            tree._listeners.length);
+              console.trace();
+            }
+          }
+        }
+        return true;
+      }
+      name = type.shift();
+    }
+    return true;
+  }
+
+  // By default EventEmitters will print a warning if more than
+  // 10 listeners are added to it. This is a useful default which
+  // helps finding memory leaks.
+  //
+  // Obviously not all Emitters should be limited to 10. This function allows
+  // that to be increased. Set to zero for unlimited.
+
+  EventEmitter.prototype.delimiter = '.';
+
+  EventEmitter.prototype.setMaxListeners = function(n) {
+    this._events || init.call(this);
+    this._events.maxListeners = n;
+    if (!this._conf) this._conf = {};
+    this._conf.maxListeners = n;
+  };
+
+  EventEmitter.prototype.event = '';
+
+  EventEmitter.prototype.once = function(event, fn) {
+    this.many(event, 1, fn);
+    return this;
+  };
+
+  EventEmitter.prototype.many = function(event, ttl, fn) {
+    var self = this;
+
+    if (typeof fn !== 'function') {
+      throw new Error('many only accepts instances of Function');
+    }
+
+    function listener() {
+      if (--ttl === 0) {
+        self.off(event, listener);
+      }
+      fn.apply(this, arguments);
+    }
+
+    listener._origin = fn;
+
+    this.on(event, listener);
+
+    return self;
+  };
+
+  EventEmitter.prototype.emit = function() {
+
+    this._events || init.call(this);
+
+    var type = arguments[0];
+
+    if (type === 'newListener' && !this.newListener) {
+      if (!this._events.newListener) { return false; }
+    }
+
+    // Loop through the *_all* functions and invoke them.
+    if (this._all) {
+      var l = arguments.length;
+      var args = new Array(l - 1);
+      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+      for (i = 0, l = this._all.length; i < l; i++) {
+        this.event = type;
+        this._all[i].apply(this, args);
+      }
+    }
+
+    // If there is no 'error' event listener then throw.
+    if (type === 'error') {
+
+      if (!this._all &&
+        !this._events.error &&
+        !(this.wildcard && this.listenerTree.error)) {
+
+        if (arguments[1] instanceof Error) {
+          throw arguments[1]; // Unhandled 'error' event
+        } else {
+          throw new Error("Uncaught, unspecified 'error' event.");
+        }
+        return false;
+      }
+    }
+
+    var handler;
+
+    if(this.wildcard) {
+      handler = [];
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      searchListenerTree.call(this, handler, ns, this.listenerTree, 0);
+    }
+    else {
+      handler = this._events[type];
+    }
+
+    if (typeof handler === 'function') {
+      this.event = type;
+      if (arguments.length === 1) {
+        handler.call(this);
+      }
+      else if (arguments.length > 1)
+        switch (arguments.length) {
+          case 2:
+            handler.call(this, arguments[1]);
+            break;
+          case 3:
+            handler.call(this, arguments[1], arguments[2]);
+            break;
+          // slower
+          default:
+            var l = arguments.length;
+            var args = new Array(l - 1);
+            for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+            handler.apply(this, args);
+        }
+      return true;
+    }
+    else if (handler) {
+      var l = arguments.length;
+      var args = new Array(l - 1);
+      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+
+      var listeners = handler.slice();
+      for (var i = 0, l = listeners.length; i < l; i++) {
+        this.event = type;
+        listeners[i].apply(this, args);
+      }
+      return (listeners.length > 0) || !!this._all;
+    }
+    else {
+      return !!this._all;
+    }
+
+  };
+
+  EventEmitter.prototype.on = function(type, listener) {
+
+    if (typeof type === 'function') {
+      this.onAny(type);
+      return this;
+    }
+
+    if (typeof listener !== 'function') {
+      throw new Error('on only accepts instances of Function');
+    }
+    this._events || init.call(this);
+
+    // To avoid recursion in the case that type == "newListeners"! Before
+    // adding it to the listeners, first emit "newListeners".
+    this.emit('newListener', type, listener);
+
+    if(this.wildcard) {
+      growListenerTree.call(this, type, listener);
+      return this;
+    }
+
+    if (!this._events[type]) {
+      // Optimize the case of one listener. Don't need the extra array object.
+      this._events[type] = listener;
+    }
+    else if(typeof this._events[type] === 'function') {
+      // Adding the second element, need to change to array.
+      this._events[type] = [this._events[type], listener];
+    }
+    else if (isArray(this._events[type])) {
+      // If we've already got an array, just append.
+      this._events[type].push(listener);
+
+      // Check for listener leak
+      if (!this._events[type].warned) {
+
+        var m = defaultMaxListeners;
+
+        if (typeof this._events.maxListeners !== 'undefined') {
+          m = this._events.maxListeners;
+        }
+
+        if (m > 0 && this._events[type].length > m) {
+
+          this._events[type].warned = true;
+          console.error('(node) warning: possible EventEmitter memory ' +
+                        'leak detected. %d listeners added. ' +
+                        'Use emitter.setMaxListeners() to increase limit.',
+                        this._events[type].length);
+          console.trace();
+        }
+      }
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.onAny = function(fn) {
+
+    if (typeof fn !== 'function') {
+      throw new Error('onAny only accepts instances of Function');
+    }
+
+    if(!this._all) {
+      this._all = [];
+    }
+
+    // Add the function to the event listener collection.
+    this._all.push(fn);
+    return this;
+  };
+
+  EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+  EventEmitter.prototype.off = function(type, listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('removeListener only takes instances of Function');
+    }
+
+    var handlers,leafs=[];
+
+    if(this.wildcard) {
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+    }
+    else {
+      // does not use listeners(), so no side effect of creating _events[type]
+      if (!this._events[type]) return this;
+      handlers = this._events[type];
+      leafs.push({_listeners:handlers});
+    }
+
+    for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
+      var leaf = leafs[iLeaf];
+      handlers = leaf._listeners;
+      if (isArray(handlers)) {
+
+        var position = -1;
+
+        for (var i = 0, length = handlers.length; i < length; i++) {
+          if (handlers[i] === listener ||
+            (handlers[i].listener && handlers[i].listener === listener) ||
+            (handlers[i]._origin && handlers[i]._origin === listener)) {
+            position = i;
+            break;
+          }
+        }
+
+        if (position < 0) {
+          continue;
+        }
+
+        if(this.wildcard) {
+          leaf._listeners.splice(position, 1);
+        }
+        else {
+          this._events[type].splice(position, 1);
+        }
+
+        if (handlers.length === 0) {
+          if(this.wildcard) {
+            delete leaf._listeners;
+          }
+          else {
+            delete this._events[type];
+          }
+        }
+        return this;
+      }
+      else if (handlers === listener ||
+        (handlers.listener && handlers.listener === listener) ||
+        (handlers._origin && handlers._origin === listener)) {
+        if(this.wildcard) {
+          delete leaf._listeners;
+        }
+        else {
+          delete this._events[type];
+        }
+      }
+    }
+
+    return this;
+  };
+
+  EventEmitter.prototype.offAny = function(fn) {
+    var i = 0, l = 0, fns;
+    if (fn && this._all && this._all.length > 0) {
+      fns = this._all;
+      for(i = 0, l = fns.length; i < l; i++) {
+        if(fn === fns[i]) {
+          fns.splice(i, 1);
+          return this;
+        }
+      }
+    } else {
+      this._all = [];
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.removeListener = EventEmitter.prototype.off;
+
+  EventEmitter.prototype.removeAllListeners = function(type) {
+    if (arguments.length === 0) {
+      !this._events || init.call(this);
+      return this;
+    }
+
+    if(this.wildcard) {
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      var leafs = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+
+      for (var iLeaf=0; iLeaf<leafs.length; iLeaf++) {
+        var leaf = leafs[iLeaf];
+        leaf._listeners = null;
+      }
+    }
+    else {
+      if (!this._events[type]) return this;
+      this._events[type] = null;
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.listeners = function(type) {
+    if(this.wildcard) {
+      var handlers = [];
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      searchListenerTree.call(this, handlers, ns, this.listenerTree, 0);
+      return handlers;
+    }
+
+    this._events || init.call(this);
+
+    if (!this._events[type]) this._events[type] = [];
+    if (!isArray(this._events[type])) {
+      this._events[type] = [this._events[type]];
+    }
+    return this._events[type];
+  };
+
+  EventEmitter.prototype.listenersAny = function() {
+
+    if(this._all) {
+      return this._all;
+    }
+    else {
+      return [];
+    }
+
+  };
+
+  if (typeof define === 'function' && define.amd) {
+     // AMD. Register as an anonymous module.
+    define(function() {
+      return EventEmitter;
+    });
+  } else if (typeof exports === 'object') {
+    // CommonJS
+    exports.EventEmitter2 = EventEmitter;
+  }
+  else {
+    // Browser global.
+    window.EventEmitter2 = EventEmitter;
+  }
+}();
+;/** 
 	@title NexusUI API
 	@overview NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
 	@author Ben Taylor, Jesse Allison, Yemin Oh
@@ -33,7 +606,6 @@ var nx = function() {
 	this.isErasing = false;
 	this.isResizing = false;
 	this.showLabels = false;
-	this.oscIp = "127.0.0.1";
 	canvasgridy = 10;
 	canvasgridx = 10;
 	this.starttime = new Date().getTime();
@@ -111,35 +683,6 @@ var nx = function() {
 	// *******************
 	//	nxTransmit
 	// *******************
-		
-	// Transmit code that sends ui data to various destinations set by the transmissionProtocol variable
-	// TODO: why does this work and not self unless self is passed in???  
-	
-		// Set Transmission Protocol for all nx objects
-	this.setTransmissionProtocol = function (setting) {
-		for (i=0;i<this.nxObjects.length;i++) {
-			this.nxObjects[i].transmissionProtocol = setting;
-		}	
-	}
-
-	this.sendsTo = function (setting) {
-		for (i=0;i<this.nxObjects.length;i++) {
-			this.nxObjects[i].transmissionProtocol = setting;
-		}	
-	}
-	
-		// Set Transmist Command for all nx objects
-	this.setTransmitCommand = function (setting) {
-		for (i=0;i<this.nxObjects.length;i++) {
-			this.nxObjects[i].transmitCommand = setting;
-		}	
-	}
-
-	this.setAjaxPath = function (setting) {
-		for (i=0;i<this.nxObjects.length;i++) {
-			this.nxObjects[i].transmitCommand = setting;
-		}
-	}
 
 	this.logOSC = false
 
@@ -147,168 +690,6 @@ var nx = function() {
 		$("body").append('<div style="background-color:#eee;padding:10px;margin-top:20px;font-family:courier;font-size:12pt">OSC Output <input type="button" value="View Code for this UI" onclick=\'window.open("view-source:" + window.location.href)\' style="font-size:12pt;float:right"></input></div>')
 		$("body").append('<div id="debug" style="padding:10px;clear:both;height:630px;font-size:15pt;background-color:#ddd;color:#777;overflow:hidden;font-family:courier"></div>')
 		self.logOSC = true;
-
-
-
-	}
-	
-	this.nxTransmit = function (data) {
-
-		if (self.logOSC) {
-			if (Array.isArray(data)) {
-				data = data.join();
-				data = data.replace(/\,/g," ");
-			}
-			if ((typeof data == "object") && (data !== null)) {
-				for (var key in data) {
-					if ((typeof data[key] == "object") && (data[key] !== null)) {
-						for (var key2 in data[key]) {
-							$("#debug").prepend(this.oscName+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
-						}
-					} else {
-						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
-					}
-				}
-			} else if (typeof data == "number" || typeof data == "string") {
-				$("#debug").prepend(this.oscName+" "+data+"<br>");
-			}
-		}	
-
-
-		
-		if (this.transmissionProtocol == "none") {
-			
-		} else if (this.transmissionProtocol == "node") {
-
-
-			if ((typeof data == "object") && (data !== null)) {
-				for (var key in data) {
-
-					var nodemsg = {}
-					nodemsg['oscName'] = this.oscName+"/"+key;
-					nodemsg['value'] = data[key]
-
-		    		socket.emit('nx', nodemsg)
-
-				}
-			} else if (typeof data == "number" || typeof data == "string") {
-				var nodemsg = {}
-				nodemsg['oscName'] = this.oscName;
-				nodemsg['value'] = data
-
-		    	socket.emit('nx', nodemsg);
-			}
-
-			
-
-			var vismsg = {
-				'phone': thisUser.name,
-				'oscName': this.oscName,
-				'data': data
-			}
-
-			socket.emit('orcvis', vismsg);
-			
-		} else if (this.transmissionProtocol == "ajax") {
-			// transmitCommand is the ajax url to send to, oscName is the osc call, uiIndex is used if you have multiple buttons/dials/etc, data is data
-			//   If you want to have a callback function to respond to the method, you could send that as a final parameter.
-			// console.log("nxTransmit: ", this.transmitCommand, this.oscName, this.uiIndex, data);
-			
-
-			if ((typeof data == "object") && (data !== null)) {
-				for (var key in data) {
-					if ((typeof data[key] == "object") && (data[key] !== null)) {
-						for (var key2 in data[key]) {
-							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key+"/"+key2, this.uiIndex, data[key][key2], manager.oscIp);
-						}
-					} else {
-						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
-					}
-				}
-			} else if (typeof data == "number" || typeof data == "string") {
-				this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data, manager.oscIp);
-			}
-
-			
-		//	console.log("transmitCommand="+this.transmitCommand+" oscName="+this.oscName+" uiIndex="+this.uiIndex+" data="+data);
-		} else if (this.transmissionProtocol == "ios") {
-			//window.alert(data);
-			this.iosTransmit(this.transmitCommand, this.oscName, this.uiIndex, data);
-			// nexus://hipno/data/1:x:2:y
-			// window.location.href = send_data;
-			// window.location.replace('nexus://hi');
-			//window.location = 'nexus://this/is/goofy';
-			//document.location = 'http://google.com';
-		} else if (this.transmissionProtocol == "android") {
-			
-		} else if (this.transmissionProtocol == "local" || this.transmissionProtocol == "js" ) {
-				// sender, receiver, parameter, data //
-			this.localTransmit(data);
-			this.response(data);
-		}
-		
-	}
-
-	this.allTraffic = function(obj, data) {
-
-
-	}
-	
-		// globalLocalTransmit (and localTransmit) is the function to send data to other js objects. 
-		//   it requires a localObjectFrom, localObject, localParameter and data
-	this.globalLocalTransmit = function (localObjectFrom, localObject, localParameter, data) {
-		// console.log("Global " + localObjectFrom + " to " + localObject, localParameter, data);
-		//eval(localObject + "."+ localParameter + "=" + data);
-	}
-	
-	/*
-		TODO Update to be globalAjaxTransmit which can be overwritten on an object by object basis.
-				Follow globalLocalTransmit as an example
-	*/
-	
-	// ajaxTransmit is the function to send info back to the server. 
-	// it requires a command and an osc_name (by default it is the name of the canvas id) and data
-	this.ajaxTransmit = function (ajaxCommand, oscName, uiIndex, data, oscIp, callbackFunction) {
-		if (this.ajaxRequestType == "post") {
-			//console.log(oscIp);
-			if (uiIndex) {
-				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, id: uiIndex, data: data});
-			} else {
-				$.post(ajaxCommand, {oscName: oscName, oscIp: oscIp, data: data});
-			}
-		} else if (this.ajaxRequestType == "get") {
-			if (uiIndex) {
-				$.ajax(ajaxCommand, {oscName: oscName, id: uiIndex, data: data});
-			} else {
-				$.ajax(ajaxCommand, {oscName: oscName, data: data});
-			}
-		}
-	}
-	
-	//iosTransmit is the function to send osc commands as urls to be captured by the browser.
-	this.iosTransmit = function (command, osc_name, id, data) {
-		console.log(data)
-		if ((typeof data == "object") && (data !== null)) {
-			for (var key in data) {
-				if ((typeof data[key] == "object") && (data[key] !== null)) {
-					for (var key2 in data[key]) {
-						var osc_message = "nexus://default?" + this.oscName+"/"+key+"/"+key2 + "=" + data[key][key2];
-						window.location.href = osc_message;
-					}
-				} else {
-					var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
-					window.location.href = osc_message;
-				}
-			}
-		} else if (typeof data == "number" || typeof data == "string") {
-			var osc_message = "nexus://default?" + this.oscName + "=" + data;
-			window.location.href = osc_message;
-		}
-	}
-	
-	//androidTransmit is the function to send osc commands as urls to be captured by the browser.
-	this.androidTransmit = function (command, osc_name, id, data) {
-		
 	}
 	
 	
@@ -452,7 +833,7 @@ var nx = function() {
 					fillStyle = this.colors.border;
 					font = "bold 15px courier";
 					textAlign = "center";
-					fillText(this.oscName,this.width-50,this.height-5);
+					fillText(this.canvasID,this.width-50,this.height-5);
 					textAlign = "left";
 				closePath();
 			}
@@ -790,7 +1171,7 @@ function transformCanvases() {
 *      OBJECT TEMPLATE       *
 *****************************/
 
-function getTemplate(self, target, transmitCommand) {
+function getTemplate(self, target) {
 //	self.nxtype = self.getName();
 	//canvas
 	self.canvasID = target;
@@ -853,38 +1234,10 @@ function getTemplate(self, target, transmitCommand) {
 	self.isRecording = false;
 	self.tapeNum = 0;
 	self.recorder = null;
-	//Transmission
-	self.nxTransmit = nx.nxTransmit;
-	self.transmissionProtocol = "ajax";  // transmissionProtocol = [none, local, ajax, ios, android]
-
-	self.ajaxRequestType = "post";	// ajaxRequestType = [post, get]
-	if (!transmitCommand) {
-		self.transmitCommand = "nexusTransmit";
-	} else {
-		self.transmitCommand = transmitCommand;
-	}
-	self.oscName = "/"+target;
-	
-	self.ajaxTransmit = nx.ajaxTransmit;
-	self.iosTransmit = nx.iosTransmit;
 
 	if (nx.editmode) {
 	//	self.canvas.style.border = "solid 1px #888";
 	}
-	
-	
-		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
-	self.localTransmit = function(data) {
-		nx.globalLocalTransmit(self.canvasID, self.localObject, self.localParameter, data);	
-	//	nx.allTraffic(self, data);
-	};
-	self.response = function(data) {	
-		nx.allTraffic(self, data);
-	};
-
-	self.sendsTo = function(data) {
-		self.transmissionProtocol = data;	
-	};
 
 	self.localObject = "dial1";
 	self.localParameter = "value";
@@ -895,6 +1248,31 @@ function getTemplate(self, target, transmitCommand) {
 	self.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
 	self.drawLabel = nx.drawLabel;
 	
+	self.events = new EventEmitter2() 
+	self.nxTransmit = function(data) {
+		if (self.logOSC) {
+			if (Array.isArray(data)) {
+				data = data.join();
+				data = data.replace(/\,/g," ");
+			}
+			if ((typeof data == "object") && (data !== null)) {
+				for (var key in data) {
+					if ((typeof data[key] == "object") && (data[key] !== null)) {
+						for (var key2 in data[key]) {
+							$("#debug").prepend(this.canvasID+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
+						}
+					} else {
+						$("#debug").prepend(this.canvasID+"/"+key+" "+data[key]+"<br>");
+					}
+				}
+			} else if (typeof data == "number" || typeof data == "string") {
+				$("#debug").prepend(this.canvasID+" "+data+"<br>");
+			}
+		}
+
+		self.events.emit('data', data)
+	}
+
 	self.preClick = function(e) {
 		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
 		//document.addEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
@@ -1165,6 +1543,7 @@ function getTemplate(self, target, transmitCommand) {
 			}
 		}
 		self.draw();
+
 		if (transmit) {
 			nx.transmit(self.val)
 		}
@@ -1197,8 +1576,7 @@ function getTemplate(self, target, transmitCommand) {
 		eval("delete window."+self.canvasID);
 		self = null;
 	}
-	
-	
+
 	nx.getHandlers(self);
 };
 
@@ -1216,14 +1594,14 @@ function getTemplate(self, target, transmitCommand) {
 */
 
 
-function button(target, transmitCommand) {
+function button(target) {
 
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 
 	// Define Unique Attributes
 	// Value is the value to send when the button is clicked.  
@@ -1401,14 +1779,14 @@ function button(target, transmitCommand) {
 // because it calculates hsl based on
 // hsl max values / width of object...
 				
-function colors(target, transmitCommand) {
+function colors(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//define unique attributes
 	var pencil_width = 50;
@@ -1519,14 +1897,14 @@ function colors(target, transmitCommand) {
 	<canvas nx="comment" style="margin-left:25px"></canvas>
 */
 
-function comment(target, transmitCommand) {
+function comment(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 35 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 
 	/** @property {object}  val   
 		| &nbsp; | data
@@ -1597,14 +1975,14 @@ function comment(target, transmitCommand) {
 	<canvas nx="dial" style="margin-left:25px"></canvas>
 */
 
-function dial(target, transmitCommand) {
+function dial(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//define unique attributes
 	this.circle_size = 1;
@@ -1771,14 +2149,14 @@ function dial(target, transmitCommand) {
 	<canvas nx="envelope" style="margin-left:25px"></canvas>
 */
 
-function envelope(target, transmitCommand) {
+function envelope(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	this.nodeSize = 5;
 	this.on = false;
@@ -1953,14 +2331,14 @@ function envelope(target, transmitCommand) {
 	<canvas nx="joints" style="margin-left:25px"></canvas>
 */
 
-function joints(target, transmitCommand) {
+function joints(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//this.line_width = 3;
 	this.nodeSize = self.width/14;
@@ -2179,14 +2557,14 @@ function joints(target, transmitCommand) {
 
 // FIXME: key detection not accurate when changed num of octaves!
 
-function keyboard(target, transmitCommand) {
+function keyboard(target) {
 
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 75 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 
 	// define unique attributes
 	self.octaves = 2;
@@ -2469,14 +2847,14 @@ function keyboard(target, transmitCommand) {
 */
 
 
-function matrix(target, transmitCommand) {
+function matrix(target) {
 
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	var i;
 	
@@ -2736,14 +3114,14 @@ function matrix(target, transmitCommand) {
 	<canvas nx="message" style="margin-left:25px"></canvas>
 */
 
-function message(target, transmitCommand) {
+function message(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 
 	/** @property {object}  val   
@@ -2821,14 +3199,14 @@ function message(target, transmitCommand) {
 
 
 
-function metroball(target, transmitCommand) {
+function metroball(target) {
 
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	
 	//define unique attributes
@@ -3176,14 +3554,14 @@ function metroball(target, transmitCommand) {
 	<canvas nx="mouse" style="margin-left:25px"></canvas>
 */
 
-function mouse(target, transmitCommand) {
+function mouse(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 98, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 
 	/** @property {object}  val   
 		| &nbsp; | data
@@ -3276,14 +3654,14 @@ function mouse(target, transmitCommand) {
 	```
 	<canvas nx="multislider" style="margin-left:25px"></canvas>
 */
-function multislider(target, transmitCommand) {
+function multislider(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//unique attributes
 	this.sliders = 15;
@@ -3419,14 +3797,14 @@ function multislider(target, transmitCommand) {
 	<canvas nx="multitouch" style="margin-left:25px"></canvas>
 */
 
-function multitouch(target, transmitCommand) {
+function multitouch(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//unique attributes
 	this.nodeSize = self.width/10;
@@ -3627,14 +4005,14 @@ function multitouch(target, transmitCommand) {
 	<canvas nx="number" style="margin-left:25px"></canvas>
 */
 
-function number(target, transmitCommand) {
+function number(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 50 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	/** @property {float}  val   float value of number box
 	*/
@@ -3700,14 +4078,14 @@ function number(target, transmitCommand) {
 	}
 };// panel for max duplication -- maybe this object is unnecessary.
 
-function panel(target, transmitCommand) {
+function panel(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	this.init = function() {
 		self.draw();
@@ -3734,14 +4112,14 @@ function panel(target, transmitCommand) {
 */
 
 			
-function pixels(target, transmitCommand) {
+function pixels(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//define unique attributes
 	/** @property {object}  dim   Dimension of pixel matrix.
@@ -3947,14 +4325,14 @@ function pixels(target, transmitCommand) {
 	<canvas nx="position" style="margin-left:25px"></canvas>
 */
 
-function position(target, transmitCommand) {
+function position(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	this.nodeSize = 15;
 
@@ -4112,14 +4490,14 @@ function position(target, transmitCommand) {
 	<canvas nx="range" style="margin-left:25px"></canvas>
 */
 
-function range(target, transmitCommand) {
+function range(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//unique attributes
 
@@ -4134,8 +4512,6 @@ function range(target, transmitCommand) {
 		start: 0.3,
 		stop: 0.7
 	}
-	this.label = self.oscName;
-	this.label = this.label.replace("/","")
 
 
 	// handling horiz possibility
@@ -4306,14 +4682,14 @@ function range(target, transmitCommand) {
 */
 
 			
-function sandbox(target, transmitCommand) {
+function sandbox(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 300 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//define unique attributes
 	var toySize = 60;
@@ -4525,14 +4901,14 @@ function sandbox(target, transmitCommand) {
 	<canvas nx="select" choices="sine,saw,square" style="margin-left:25px"></canvas>
 */
 
-function select(target, transmitCommand) {
+function select(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 200, height: 30 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//unique attributes
 	self.choices = [ ];
@@ -4585,21 +4961,19 @@ function select(target, transmitCommand) {
 	<canvas nx="slider" style="margin-left:25px"></canvas>
 */
 
-function slider(target, transmitCommand) {
+function slider(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//unique attributes
 	/** @property {float}  val   Slider value (float 0-1)
 	*/
 	this.val = 0.7
-	this.label = self.oscName;
-	this.label = this.label.replace("/","")
 
 	/** @property {string}  mode   Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
 	```js
@@ -4762,14 +5136,14 @@ function slider(target, transmitCommand) {
 	<canvas nx="string" style="margin-left:25px"></canvas>
 */
 
-function string(target, transmitCommand) {
+function string(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	this.val = {
 		string: 0,
@@ -4948,14 +5322,14 @@ function string(target, transmitCommand) {
 */
 
 
-function button(target, transmitCommand) {
+function button(target) {
 
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 
 	// Define Unique Attributes
 	// Value is the value to send when the button is clicked.  
@@ -5130,14 +5504,14 @@ function button(target, transmitCommand) {
 
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
-function tilt(target, transmitCommand) {
+function tilt(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//unique properties
 	this.tiltLR;
@@ -5270,14 +5644,14 @@ function tilt(target, transmitCommand) {
 	<canvas nx="toggle" style="margin-left:25px"></canvas>
 */
 
-function toggle(target, transmitCommand) {
+function toggle(target) {
 
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 100, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	var i;
 /*	if (this.width>50) {
@@ -5389,14 +5763,14 @@ function toggle(target, transmitCommand) {
 	<canvas nx="typewriter" style="margin-left:25px"></canvas>
 */
 
-function typewriter(target, transmitCommand) {
+function typewriter(target) {
 
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 300, height: 100 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 
 	
 	this.letter = ""
@@ -5620,14 +5994,14 @@ function typewriter(target, transmitCommand) {
 	<canvas nx="vinyl" style="margin-left:25px"></canvas>
 */
 
-function vinyl(target, transmitCommand) {
+function vinyl(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 150, height: 150 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//define unique attributes
 	this.circleSize = 1;
@@ -5776,14 +6150,14 @@ function vinyl(target, transmitCommand) {
 	<canvas nx="wheel" style="margin-left:25px"></canvas>
 */
 
-function wheel(target, transmitCommand) {
+function wheel(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 150, height: 150 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//define unique attributes
 	this.circleSize = 1;
