@@ -683,14 +683,6 @@ var nx = function() {
 	// *******************
 	//	nxTransmit
 	// *******************
-
-	this.logOSC = false
-
-	this.printOSC = function() {
-		$("body").append('<div style="background-color:#eee;padding:10px;margin-top:20px;font-family:courier;font-size:12pt">OSC Output <input type="button" value="View Code for this UI" onclick=\'window.open("view-source:" + window.location.href)\' style="font-size:12pt;float:right"></input></div>')
-		$("body").append('<div id="debug" style="padding:10px;clear:both;height:630px;font-size:15pt;background-color:#ddd;color:#777;overflow:hidden;font-family:courier"></div>')
-		self.logOSC = true;
-	}
 	
 	
 	
@@ -1019,7 +1011,9 @@ var nx = function() {
 		   			+ ''
 		   			+ 'canvas { cursor:pointer; }'
 		   			+ '</style>';
-		$("body").append(htmlstr);
+
+	//	$("body").append(htmlstr);
+		document.body.innerHTML = document.body.innerHTML + htmlstr
 	}
 	
 	this.wrapText = function(context, text, x, y, maxWidth, lineHeight) {
@@ -1057,10 +1051,12 @@ var nx = function() {
 
 
 	  this.highlightEditedObj = function() {
-	//  	$("canvas").css("border", "solid 1px #ccc");
-	  	$("canvas").css("z-index", 1);
-	 // 	$("#"+globaldragid).css("border", "solid 2px black");
-	  	$("#"+globaldragid).css("z-index", 2);
+		  	var elems = document.getElementsByTagName('canvas');
+			for (var i = 0; i < elems.length; i++) {
+			   elems[i].style.zindex += '1';
+			}
+			var gdo = document.getElementsByTagName(globaldragid);
+			gdo.style.zindex = 2;
 	  }
 
 
@@ -1104,7 +1100,9 @@ nx.onload = function() {};
 /* this onload function turns canvases into nexus elements,
  * using the canvas's id as its var name */
 
-$(document).ready(function() {
+function initNX() {
+
+	nx.addStylesheet();
 
 	transformCanvases();
 	
@@ -1112,21 +1110,15 @@ $(document).ready(function() {
 		document.addEventListener("touchmove", nx.blockMove, true);
 		document.addEventListener("touchstart", nx.blockMove, true);
 	}
-
-	//block space key and delete key
-//	window.onkeydown = function(e) { 
-//	    return !(e.keyCode == 32 || e.keyCode == 46);
-//	};
-
-	
-	nx.addStylesheet();
 	
 	nx.onload();
 
 	nx.startPulse();
 	
-});
+};
 
+
+window.onload = initNX;
 
 
 function transformCanvases() {
@@ -1250,26 +1242,6 @@ function getTemplate(self, target) {
 	
 	self.events = new EventEmitter2() 
 	self.nxTransmit = function(data) {
-		if (self.logOSC) {
-			if (Array.isArray(data)) {
-				data = data.join();
-				data = data.replace(/\,/g," ");
-			}
-			if ((typeof data == "object") && (data !== null)) {
-				for (var key in data) {
-					if ((typeof data[key] == "object") && (data[key] !== null)) {
-						for (var key2 in data[key]) {
-							$("#debug").prepend(this.canvasID+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
-						}
-					} else {
-						$("#debug").prepend(this.canvasID+"/"+key+" "+data[key]+"<br>");
-					}
-				}
-			} else if (typeof data == "number" || typeof data == "string") {
-				$("#debug").prepend(this.canvasID+" "+data+"<br>");
-			}
-		}
-
 		self.events.emit('data', data)
 	}
 
@@ -1571,7 +1543,9 @@ function getTemplate(self, target) {
 		
 		document.removeEventListener("mouseup", self.preRelease, false);
 
-		$("#"+self.canvasID).remove();
+		var elemToKill = document.getElementById(self.canvasID)
+		elemToKill.parentNode.removeChild(elemToKill);
+
 		
 		eval("delete window."+self.canvasID);
 		self = null;
@@ -5312,186 +5286,89 @@ function string(target) {
 	}
 
 };/** 
-	@class button      
-	Touch button with three modes of interaction
-	<br><a href="../examples/button/" target="blank">Demo</a>
+	@class template      
+	Template to help you create your own NexusUI objects!
 	```html
-	<canvas nx="button"></canvas>
+	<canvas nx="template"></canvas>
 	```
-	<canvas nx="button" style="margin-left:25px"></canvas>
+	<canvas nx="template" style="margin-left:25px"></canvas>
 */
 
-
-function button(target) {
-
+function template(target, transmitCommand) {
+					
 	//self awareness
 	var self = this;
-	this.defaultSize = { width: 100, height: 100 };
+	this.defaultSize = { width: 200, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target);
+	getTemplate(self, target, transmitCommand);
 
-	// Define Unique Attributes
-	// Value is the value to send when the button is clicked.  
-
-	this.value = 1;
-
-	/** @property {object}  val  Main value set and output, with sub-properties:
-		| &nbsp; | data
-		| --- | ---
-		| *press* | 0 (clicked) or 1 (unclicked)
-		| *x* | 0-1 float of x-position of click ("node" mode only)
-		| *y* | 0-1 float of y-position of click ("node" mode only) 
-		val appears as the argument of the JavaScript response function:
-		```js 
-		button1.response = function(data) {
-			// some code using data.press, data.x, and data.y
-		}
-		```
-		*/
+	//create unique properties to this object
 	this.val = {
-		press: 0
+		x: 0,
+		y: 0,
+		dx: 0,
+		dy: 0
 	}
-	
-	/** @property {string}  mode  Interaction mode of impulse, toggle, or position
-	impulse &nbsp; 1 on click <br>
-	toggle &nbsp;  1 on click, 0 on release _(default)_<br>
-	position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br> 
-	```js 
-	button1.mode = "position" 
-	```
-	*/
-	this.mode = "toggle";
-
-	// image button properties
-	var imageButton = false;	// by default, not an image button
-	this.image = null;
-	this.imageHover = null;
-	this.imageTouch = null;
 
 	this.init = function() {
-
-		self.width = self.canvas.width;
-		self.height = self.canvas.height;
-		
-		if (this.image) {
-			imageButton = true;
-		}
-		
 		self.draw();
-
 	}
-	
+
 	this.draw = function() {
-		
+		// erase
+		self.erase();
+
+		//make background path
+		self.makeRoundedBG();
+
 		with (self.context) {
-			clearRect(0, 0, self.width, self.height);
+			//fill in background path
+			strokeStyle = self.colors.border;
+			fillStyle = self.colors.fill;
 			lineWidth = self.lineWidth;
-			
-			if (imageButton) {
-				// Image Button
-				if (!self.val.press) {
-					// Draw Image if not touched
-					drawImage(self.image, 0, 0);
-				} else {
-					if (!self.imageTouch) {
-						// No touch image, apply highlighting
-						fillStyle = self.colors.highlight;
-						strokeStyle = self.colors.accent;
-						
-						drawImage(self.image, 0, 0);
+			stroke();
+			fill();
 
-						globalAlpha = 0.5;
-						fillRect (0, 0, self.width, self.height);
-						strokeRect (0, 0, self.width, self.height);
-						globalAlpha = 1;
-						
-					} else {
-						// Draw Touch Image
-						drawImage(self.imageTouch, 0, 0);
-					}
-				}
-				
-			} else {
+			// draw something unique
+			fillStyle = self.colors.black;
+			textAlign = "center";
+			font = "12px Gill Sans";
+			fillText("x: " + self.val.x, self.width/2, 50);
+			fillText("y: " + self.val.y, self.width/2, 75);
+			fillText("x delta: " + self.val.dx, self.width/2, 100);
+			fillText("y delta: " + self.val.dy, self.width/2, 125);
+		}
 		
-				// Regular Button
-				if (!self.val.press) {
-					fillStyle = self.colors.fill;
-					strokeStyle = self.colors.border;
-				} else if (self.val.press) {
-					fillStyle = self.colors.accent;
-					strokeStyle = self.colors.accent;
-				}
-			
-				beginPath();
-					arc(self.center.x, self.center.y, (Math.min(self.center.x, self.center.y)-self.lineWidth/2), 0, Math.PI*2, true);
-					fill();	  
-					stroke();
-				closePath();
-
-				if (self.clicked && self.mode=="node") {
-					globalAlpha = 0.2;
-					fillStyle = "#fff";
-					beginPath();
-						arc(self.val.x, self.val.y, (Math.min(self.center.x, self.center.y)/2), 0, Math.PI*2, true);
-						fill();	  
-					closePath();
-
-					globalAlpha = 1;
-				}
-			}
-
-			self.drawLabel();
-			
-		}
+		self.drawLabel();
 	}
 
-	this.click = function(e) {
-		self.val["press"] = self.value * nx.boolToVal(self.clicked);
-		if (self.mode=="node") {
-			self.val["x"] = self.clickPos.x;
-			self.val["y"] = self.clickPos.y;
+	this.click = function() {
+		self.val = {
+			x: self.clickPos.x,
+			y: self.clickPos.y,
+			dx: self.deltaMove.x,
+			dy: self.deltaMove.y
 		}
+		self.draw();
 		self.nxTransmit(self.val);
-		self.draw();
-	}
-	
-	this.move = function () {
-		// use to track movement on the button
-		if (self.mode=="node") {
-			self.val["x"] = self.clickPos.x;
-			self.val["y"] = self.clickPos.y;
-			self.nxTransmit(self.val);
-			self.draw();
-		}
 	}
 
-	this.release = function() {
-		self.val["press"] = self.value * nx.boolToVal(self.clicked);
-		if (self.mode=="toggle" || self.mode=="node") { 
-			self.nxTransmit(self.val);
+	this.move = function() {
+		// if mouse is down, perform same math/draw/transmit as in the .click function
+		if (self.clicked) {
+			self.click()
 		}
-		self.draw();
 	}
 	
-	this.setImage = function(image) {
-		self.image = new Image();
-		self.image.onload = function() { self.draw() }
-		self.image.src = image;
-		imageButton = true;
+	this.release = function() {
+		//perform same math/draw/transmit as in the .click function
+		self.click()
 	}
-	
-	this.setHoverImage = function(image) {
-		self.imageHover = new Image();
-		self.imageHover.onload = function() { self.draw() }
-		self.imageHover.src = image;
-	}
-	
-	this.setTouchImage = function(image) {
-		self.imageTouch = new Image();
-		self.imageTouch.onload = function() { self.draw() }
-		self.imageTouch.src = image;
-	}
+
+	//by default, touch, touchMove, and touchRelease 
+	// will execute .click, .move, and .release, respectively
+	// but with touch data instead of click data
 
 };/** 
 	@class tilt      

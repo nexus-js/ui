@@ -1,52 +1,48 @@
 <!doctype html>
    	<html>
 	<head>
-		<title>NX Node Demo</title>
-		<script type="text/javascript" src="./dependencies/jquery-2.1.1.min.js"></script>
+		<title>NexusUI Demo</title>
 		<script type="text/javascript" src="../dist/nexusUI-latest.js"></script>
-	</head>
-	
-	<body>
-			<canvas nx="position" style="width:48%"></canvas>
-			<canvas nx="position" style="width:48%"></canvas>
-			<canvas nx="button" style="width:150px;height:150px"></canvas>
-			<canvas nx="button" style="width:150px;height:150px"></canvas>
-			<canvas nx="button" style="width:150px;height:150px"></canvas>
-			<canvas nx="button" style="width:150px;height:150px"></canvas>
-			<canvas nx="button" style="width:150px;height:150px"></canvas>
-			
-
-			<canvas nx="dial" style="width:150px;height:150px"></canvas>
-			<canvas nx="dial" style="width:150px;height:150px"></canvas>
-			<canvas nx="dial" style="width:150px;height:150px"></canvas>
-			<canvas nx="dial" style="width:150px;height:150px"></canvas>
-			<canvas nx="dial" style="width:150px;height:150px"></canvas>
-
-			<canvas nx="tilt" style="width:150px;height:150px"></canvas>
-			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
-			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
-			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
-			<canvas nx="toggle" style="width:150px;height:150px"></canvas>
-		
-		<div>
-			<canvas nx="slider"></canvas>
-			<canvas nx="slider"></canvas>
-			<canvas nx="slider"></canvas>
-			<canvas nx="multislider"></canvas>
-			<canvas nx="multislider"></canvas>
-
-			<canvas nx="joints" style="width:770px;height:715px"></canvas>
-		</div>
-	
 		<script>
-			$(function() {
+
+			nx.onload = function() {
+
 				nx.nxObjects.forEach(function(obj) {
 					obj.events.on('data', function(data) {
 						console.log(obj.canvasID, data)
 					})
 				})
-			})
+
+			    nx.colorize("accent", "#347");
+			    nx.colorize("border", "#bbb");
+			    nx.colorize("fill", "#eee");
+
+			}
+
 		</script>
+	</head>
+
+	<body style="background-color:#ddd">
+
+		  <canvas nx="position"></canvas>
+		  <canvas nx="slider"></canvas>
+		  <canvas nx="slider"></canvas>
+		  <canvas nx="slider"></canvas>
+		  <canvas nx="slider"></canvas>
+		  <br>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <br>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+
+		  <!-- Try other nexusUI elements like toggle, button, position, multitouch, slider, tilt... see nexusosc.com for more. -->
 
 	</body>
 	

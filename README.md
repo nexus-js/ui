@@ -11,10 +11,9 @@
 
 ### How to Use NexusUI
 
-Download and link to nexusUI.js and jQuery.js in the head of your HTML document
+Download and link to nexusUI.js in the head of your HTML document
 
 ```html
-<script src="jquery.js"></script>
 <script src="nexusUI.js"></script>
 ```
 
@@ -33,27 +32,12 @@ Add an HTML5 canvas to your page with a valid nx attribute.
 
 
 
-
-
-### NexusUI example with node.js
-
-Download and install node.js
-
-In terminal, navigate to your project directory and run:
-
-```command
-node nxserver.js
-```
-
-Navigate to localhost:8080/example/ in a web browser.
-
-
 ### Build instructions
 
 To build nexusUI yourself, you need [node.js and npm](http://nodejs.org/).
 
 Then open your terminal, and in the root folder of nexusUI, type `npm install` to install the packages needed for the build script. 
 
-Now you need to install [gulp](http://gulpjs.com), which is the tool used to make the build. Type `npm install --global gulp`.
+Now you need to install [gulp](http://gulpjs.com), which is the tool used to make the build. Type `npm install --global gulp`. (If your node.js configuration does not allow for global installation, you can use 'sudo npm install --global gulp')
 
 Finally, you can build nexusUI by simply typing `gulp` in your terminal.
