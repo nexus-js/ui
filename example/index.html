@@ -2,56 +2,8 @@
    	<html>
 	<head>
 		<title>NX Node Demo</title>
-		<script src="/socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="../lib/jquery.js"></script>
-		<script type="text/javascript" src="../nexusUI.js"></script>
-	
-		<script>
-
-			//change LOCALHOST to your IP to enable connecting from other devices
-
-			var socket = io.connect('http://localhost:8080');
-
-			var thisUser = {
-				name: "phone" + Math.floor(Math.random()*10000000000)
-			}
-
-			// on connection to server
-			socket.on('connect', function() {
-
-				thisUser.gui = new Array()
-
-				for (var i=0;i<nx.nxObjects.length;i++) {
-					thisUser.gui.push({
-						type: nx.nxObjects[i].getName(),
-						x: nx.nxObjects[i].offset.left,
-						y: nx.nxObjects[i].offset.top,
-						width: nx.nxObjects[i].width,
-						height: nx.nxObjects[i].height,
-						oscName: nx.nxObjects[i].oscName
-					})
-					thisUser.gui[i].oscName = thisUser.gui[i].oscName.replace("/","")
-				}
-				console.log(thisUser)
-				socket.emit('adduser', thisUser);
-			});
-
-
-			nx.onload = function() {
-
-				nx.sendsTo("node")
-
-				tilt1.sendsTo("js")
-
-				tilt1.response = function(data) {
-					data.name = thisUser.name;
-					socket.emit('tiltuser', data)
-				} 
-			
-			}
-		
-		</script>
-		
+		<script type="text/javascript" src="./dependencies/jquery-2.1.1.min.js"></script>
+		<script type="text/javascript" src="../dist/nexusUI-latest.js"></script>
 	</head>
 	
 	<body>
