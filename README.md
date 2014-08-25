@@ -38,6 +38,6 @@ To build nexusUI yourself, you need [node.js and npm](http://nodejs.org/).
 
 Then open your terminal, and in the root folder of nexusUI, type `npm install` to install the packages needed for the build script. 
 
-Now you need to install [gulp](http://gulpjs.com), which is the tool used to make the build. Type `npm install --global gulp`. (If your node.js configuration does not allow for global installation, you can use 'sudo npm install --global gulp')
+Now you need to install [gulp](http://gulpjs.com), which is the tool used to make the build. Type `npm install --global gulp`. (If your node.js configuration does not allow for global installation, you can use `sudo npm install --global gulp`)
 
 Finally, you can build nexusUI by simply typing `gulp` in your terminal.

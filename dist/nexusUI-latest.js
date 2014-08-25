@@ -579,9 +579,7 @@
  	@license MIT
  */ 
  
-var somecode;
-
-
+var commentbuffer;
 
 /** 
 
@@ -697,8 +695,6 @@ var nx = function() {
 		}
 	}
 	
-	
-	//replaces Point
 	this.point = function(x,y){
 		this.x = x;
 		this.y = y;
@@ -733,25 +729,13 @@ var nx = function() {
 		console.log("target="+e.targetTouches.length);
 		console.log("changed="+e.changedTouches.length);
 
-	//	if (e.targetTouches.length>1) {
 		click_position.touches = new Array();
 		for (var i=0;i<e.targetTouches.length;i++) {
 			 click_position.touches.push({
 				x: e.targetTouches[i].pageX - canvas_offset.left,
 				y: e.targetTouches[i].pageY - canvas_offset.top
 			});
-		/*	click_position.touches[i] = new Object();
-			click_position.touches[i].x = e.targetTouches[i].pageX;
-			click_position.touches[i].y = e.targetTouches[i].pageY; */
 		}
-		// fill rest of touches array with 0s? debating doing this...
-	/*	for (var i=click_position.touches.length;i<5;i++) {
-			click_position.touches.push({
-				x: e.targetTouches[i].pageX,
-				y: e.targetTouches[i].pageY
-			});
-		} */
-	//	}
 		return click_position;
 	}
 
@@ -775,7 +759,6 @@ var nx = function() {
 	    }
 	}
 
-	//replaces to_cartesian
 	this.toCartesian = function(radius, angle){
 		var cos = Math.cos(angle);
 		var sin = Math.sin(angle);
@@ -783,7 +766,6 @@ var nx = function() {
 		return point;
 	}
 
-	//replaces to_polar
 	this.toPolar = function(x,y) {
 		var r = Math.sqrt(x*x + y*y);
 
@@ -807,7 +789,6 @@ var nx = function() {
 		}
 		with(context) {
 			beginPath();
-				// fillStyle = "#000";
 				font = "bold 12px sans-serif";
 				fillText(text,position[0],position[1]);
 			closePath();
@@ -1002,17 +983,9 @@ var nx = function() {
 		   			+ 'font-family:gill sans;'
 		   			+ '}'
 		   			+ ''
-		   			+ 'body {'
-		   		//	+ 'user-select: none;'
-		   		//	+ '-moz-user-select: none;'
-		   		//	+ '-webkit-user-select: none;'
-		   		//	+ 'cursor:pointer;'
-		   			+ '}'
-		   			+ ''
 		   			+ 'canvas { cursor:pointer; }'
 		   			+ '</style>';
 
-	//	$("body").append(htmlstr);
 		document.body.innerHTML = document.body.innerHTML + htmlstr
 	}
 	
@@ -1080,7 +1053,8 @@ var nx = function() {
 	
 }
 
-
+// Soon move to this -- better animation timing;
+// Or investigate Gibber.lib and see how he handles timing
 //var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
  //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
@@ -1164,7 +1138,6 @@ function transformCanvases() {
 *****************************/
 
 function getTemplate(self, target) {
-//	self.nxtype = self.getName();
 	//canvas
 	self.canvasID = target;
 	self.canvas = document.getElementById(target);
@@ -1198,7 +1171,6 @@ function getTemplate(self, target) {
 	//drawing
 	self.lineWidth = 2; // prev 3
 	self.padding = 2; // prev 2
-	//self.colors = nx.colors;
 	self.colors = new Object();
 	self.colors.accent = nx.colors.accent;
 	self.colors.fill = nx.colors.fill;
@@ -1242,7 +1214,24 @@ function getTemplate(self, target) {
 	
 	self.events = new EventEmitter2() 
 	self.nxTransmit = function(data) {
-		self.events.emit('data', data)
+	
+		//bundled data emit
+		//self.events.emit('data', data)
+
+		//indiv. OSC emit
+		if ((typeof data == "object") && (data !== null)) {
+			for (var key in data) {
+				if ((typeof data[key] == "object") && (data[key] !== null)) {
+					for (var key2 in data[key]) {
+						self.events.emit(key+"/"+key2, data[key][key2])
+					}
+				} else {
+					self.events.emit(key, data[key])
+				}
+			}
+		} else if (typeof data == "number" || typeof data == "string") {
+			self.events.emit('val', data)
+		}
 	}
 
 	self.preClick = function(e) {
@@ -1251,10 +1240,6 @@ function getTemplate(self, target) {
 		document.addEventListener("mousemove", self.preMove, false);
 		document.addEventListener("mouseup", self.preRelease, false);
 		self.clickPos = self.getCursorPosition(e, self.offset);
-		for (var i=0;i<self.clickPos.touches.length;i++) {
-			//self.clickPos.touches[i] == self.getCursorPosition(e, self.offset);
-			// NEEDS WORK
-		}
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
@@ -1277,13 +1262,8 @@ function getTemplate(self, target) {
 		document.body.style.userSelect = "none";
 		document.body.style.mozUserSelect = "none";
 		document.body.style.webkitUserSelect = "none";
-
-		   		//	+ 'user-select: none;'
-		   		//	+ '-moz-user-select: none;'
-		   		//	+ '-webkit-user-select: none;'
 	};
 	self.preMove = function(e) {
-	//	self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
 		self.deltaMove.x = new_click_position.x - self.clickPos.x;
@@ -1327,9 +1307,6 @@ function getTemplate(self, target) {
 		}
 	};
 	self.preRelease = function(e) {
-
-	//	var new_click_position = self.getCursorPosition(e, self.offset);
-	//	self.clickPos = new_click_position;
 
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = false;
@@ -1558,6 +1535,84 @@ function getTemplate(self, target) {
 	
 	
 ;/** 
+	@class banner      
+	"Powered by NexusUI" tag with a link to our website. Use it if you want to share the positive vibes of NexusUI. Thanks for using!
+	```html
+	<canvas nx="banner"></canvas>
+	```
+	<canvas nx="banner" style="margin-left:25px"></canvas>
+*/
+
+function banner(target) {
+					
+	//self awareness
+	var self = this;
+	this.defaultSize = { width: 125, height: 50 };
+	
+	//get common attributes and methods
+	getTemplate(self, target);
+	
+	//unique attributes
+	this.message1 = "Powered by";
+	this.message2 = "* Nexus UI *";
+	this.message3 = "nexusosc.com";
+	
+	
+	this.init = function() {
+		self.draw();
+	}
+
+	this.draw = function() {
+		with (self.context) {
+
+			globalAlpha = 0.1;
+			fillStyle = self.colors.accent;
+			beginPath();
+				moveTo(0,10);
+				lineTo(10,self.height/2+5);
+				lineTo(0,self.height);
+				lineTo(30,self.height);
+				lineTo(30,10);
+				fill();
+				moveTo(self.width-30,10);
+				lineTo(self.width-30,self.height);
+				lineTo(self.width,self.height);
+				lineTo(self.width-10,self.height/2+5);
+				lineTo(self.width,10);
+				fill();
+			closePath();
+			globalAlpha = 1;
+
+			fillStyle = self.colors.accent;
+			fillRect(15,0,self.width-30,self.height-10);
+			
+			fillStyle = self.colors.white;
+			font = self.height/5+"px courier";
+			textAlign = "center";
+			fillText(self.message1, self.width/2, self.height/3.3);
+			fillText(self.message2, self.width/2, (self.height/3.3)*2);
+
+			fillStyle = self.colors.black;
+			beginPath();
+				moveTo(15,self.height-10);
+				lineTo(30,self.height);
+				lineTo(30,self.height-10);
+				lineTo(15,self.height-10);
+				fill();
+				moveTo(self.width-15,self.height-10);
+				lineTo(self.width-30,self.height);
+				lineTo(self.width-30,self.height-10);
+				lineTo(self.width-15,self.height-10);
+				fill();
+			closePath();
+		
+		}
+
+		this.click = function() {
+			window.location = "http://www.nexusosc.com";
+		}
+	}
+};/** 
 	@class button      
 	Touch button with three modes of interaction
 	<br><a href="../examples/button/" target="blank">Demo</a>

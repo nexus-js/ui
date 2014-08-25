@@ -19,7 +19,8 @@
     "gulp-rename": "1.2.x",
     "gulp-uglify": "0.2.x",
     "gulp-less": "1.2.x",
-    "run-sequence": "0.3.x"
+    "run-sequence": "0.3.x",
+    "eventemitter2": "0.4.x"
   },
   "engine": "node >= 0.10.0"
 }
