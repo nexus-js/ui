@@ -7,15 +7,15 @@
 
 			nx.onload = function() {
 
-				slider1.events.on('val', function(data) {
+				slider1.on('val', function(data) {
 					console.log('slider1', data);
 				})
 
-				position1.events.on('x', function(data) {
+				position1.on('x', function(data) {
 					console.log('p1x', data);
 				})
 
-				position1.events.on('y', function(data) {
+				position1.on('y', function(data) {
 					console.log('p1y', data);
 				})
 

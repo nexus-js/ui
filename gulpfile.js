@@ -12,7 +12,6 @@ watcher.on('change', function(event) {
 
 gulp.task('concat', function() {
   return gulp.src([
-      './dependencies/eventemitter2.js',
       './lib/core.js',
       './lib/widgets/*.js'
     ])
