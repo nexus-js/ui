@@ -7,33 +7,27 @@
 
 			nx.onload = function() {
 
-				slider1.on('val', function(data) {
-					console.log('slider1', data);
+				nx.nxObjects.forEach(function(widget) {
+					for (var oscpath in widget.val) {
+						widget.on(oscpath, function(data) {
+							console.log(widget.canvasID, data)
+						})
+					}
 				})
-
-				position1.on('x', function(data) {
-					console.log('p1x', data);
-				})
-
-				position1.on('y', function(data) {
-					console.log('p1y', data);
-				})
-
-				/******
-
-				or is the following syntax preferable? in which case we could easily define our own global 'on' function that stores OSC/callback pairs and triggers them when widgets move
-
-				on('/position1/x', function() {
-
-
-				});
-
 				
-				our original callback syntax for general purpose web audio api work was this.
+				/* or set set individual event listeners like this 
 
-				position1.response = function(data) {
-	
-				}
+					slider1.on('value', function(data) {
+						console.log('slider1', data);
+					})
+
+					position1.on('x', function(data) {
+						console.log('p1x', data);
+					})
+
+					dial1.on('value', function(data) {
+						console.log('dial1', data)
+					})
 
 				*/
 

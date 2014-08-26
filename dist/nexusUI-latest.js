@@ -679,7 +679,7 @@ function getTemplate(self, target) {
 				}
 			}
 		} else if (typeof data == "number" || typeof data == "string") {
-			self.emit('val', data)
+			self.emit('value', data)
 		}
 	}
 
@@ -1474,7 +1474,9 @@ function dial(target) {
 
 	/** @property {float}  val    Current value of dial as float 0-1<br>
 	*/
-	this.val = 0.5;
+	this.val = {
+		value: 0
+	}
 	this.responsivity = 0.005;
 	this.toCartesian = nx.toCartesian;
 	this.throttle = nx.throttle;
@@ -1501,12 +1503,12 @@ function dial(target) {
 
 	this.draw = function() {
 		//dial_line
-		var dial_angle = (((1.0 - self.val) * 2 * Math.PI) + (1.5 * Math.PI));
-		var dial_position = (self.val + 0.25) * 2 * Math.PI
+		var dial_angle = (((1.0 - self.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
+		var dial_position = (self.val.value + 0.25) * 2 * Math.PI
 		var point = self.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
-			self.recorder.write(self.tapeNum,self.val);
+			self.recorder.write(self.tapeNum,self.val.value);
 		}
 
 		with (self.context) {
@@ -1564,10 +1566,10 @@ function dial(target) {
 	
 
 	this.click = function(e) {
-		self.val = nx.prune(self.val, 3)
+		self.val.value = nx.prune(self.val.value, 3)
 		self.nxTransmit(self.val);
 		self.draw();
-		self.aniStart = self.val;
+		self.aniStart = self.val.value;
 	}
 
 
@@ -1575,9 +1577,9 @@ function dial(target) {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
 		
-		self.val = self.clip((self.val - (self.deltaMove.y * self.responsivity)), 0, 1);
+		self.val.value = self.clip((self.val.value - (self.deltaMove.y * self.responsivity)), 0, 1);
 		
-		self.val = nx.prune(self.val, 3)
+		self.val.value = nx.prune(self.val.value, 3)
 		self.nxTransmit(self.val);
 		
 		self.draw();
@@ -1585,7 +1587,7 @@ function dial(target) {
 
 
 	this.release = function() {
-		self.aniStop = self.val;
+		self.aniStop = self.val.value;
 	}
 
 	this.animate = function(aniType) {
@@ -1603,15 +1605,15 @@ function dial(target) {
 	
 	this.aniBounce = function() {
 		if (!self.clicked) {
-			self.val += self.aniMove;
+			self.val.value += self.aniMove;
 			if (self.aniStop < self.aniStart) {
 				self.stopPlaceholder = self.aniStop;
 				self.aniStop = self.aniStart;
 				self.aniStart = self.stopPlaceholder;
 			}
-			self.aniMove = nx.bounce(self.val, self.aniStart, self.aniStop, self.aniMove);	
+			self.aniMove = nx.bounce(self.val.value, self.aniStart, self.aniStop, self.aniMove);	
 			self.draw();
-			self.val = nx.prune(self.val, 3)
+			self.val.value = nx.prune(self.val.value, 3)
 			self.nxTransmit(self.val);
 		}
 	}
@@ -4451,7 +4453,7 @@ function slider(target) {
 	//unique attributes
 	/** @property {float}  val   Slider value (float 0-1)
 	*/
-	this.val = 0.7
+	this.val.value = 0.7
 
 	/** @property {string}  mode   Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
 	```js
@@ -4516,12 +4518,12 @@ function slider(target) {
 			if (!self.hslider) {
 
 				var x1 = self.lineWidth;
-				var y1 = self.height-self.val*self.height;
+				var y1 = self.height-self.val.value*self.height;
 				var x2 = self.lineWidth+self.realSpace.x;
 				var y2 = self.height-self.lineWidth;
 				var depth = 0;
 
-				if (self.val>0.01) {
+				if (self.val.value>0.01) {
 					fillRect(x1,y1,x2-x1,y2-y1);
 				}
 				
@@ -4544,11 +4546,11 @@ function slider(target) {
 
 				var x1 = self.lineWidth;
 				var y1 = self.lineWidth;
-				var x2 = self.lineWidth+self.val*self.realSpace.x;
+				var x2 = self.lineWidth+self.val.value*self.realSpace.x;
 				var y2 = self.height-self.lineWidth;
 				var depth = 0;
 			   
-				if (self.val>0.01) {
+				if (self.val.value>0.01) {
 					fillRect(x1,y1,x2-x1,y2-y1);
 				}
 				
@@ -4585,23 +4587,23 @@ function slider(target) {
 		if (self.mode=="absolute") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
+					self.val.value = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
 				} else {	
-					self.val = nx.clip(self.clickPos.x/self.width, 0, 1);
+					self.val.value = nx.clip(self.clickPos.x/self.width, 0, 1);
 				}
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val = nx.clip((self.val + ((self.deltaMove.y*-1)/self.height)),0,1);
+					self.val.value = nx.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0,1);
 				} else {
-					self.val = nx.clip((self.val + ((self.deltaMove.x)/self.width)),0,1);
+					self.val.value = nx.clip((self.val.value + ((self.deltaMove.x)/self.width)),0,1);
 				}
 				self.draw();
 			}
 		}
-	//	var scaledVal = ( self.val - 0.02 ) * (1/.97);
+	//	var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
 		self.nxTransmit(self.val);
 	}
 
