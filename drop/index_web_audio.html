@@ -25,8 +25,8 @@
 
 			nx.onload = function() {
 				nx.colorize(uicolor);
-				nx.setTransmissionProtocol("ajax");
-				nx.setTransmitCommand("../servers/php/lib/nexusOSCRelay.php");
+				nx.setTransmissionProtocol("js");
+			//	nx.setTransmitCommand("../servers/php/lib/nexusOSCRelay.php");
 				nx.showLabels = true;
 
 
@@ -461,6 +461,12 @@
 
 
 
+			/* inline coding */
+
+			function saveCallback(callback) {
+				eval(globaldragid+".response = "+callback);
+			}
+
 
 
 		</script>
@@ -720,6 +726,7 @@
 				<img src="images/trash.png" id="dbtrash" onclick="">
 				<img src="images/more.png" id="moreoptions" onclick="openEdit()">
 				<img src="images/unlocked.png" id="locked" onclick="perform()">
+				<span style="font-size:30px;color:#aaa;font-family:arial;margin-top:-20px">&lt;&gt;</span>
 
 
 
@@ -730,11 +737,28 @@
 
 
 
+		<textarea id="guicallback" onkeyup="saveCallback(this.value)"></textarea>
 
 
 
 
+		<style>
 
+			#guicallback {
+				position:fixed;
+				bottom:0px;
+				left:0px;
+				width:40%;
+				height:200px;
+				outline:none;
+				border:solid 1px #aaa;
+				font-size:15pt;
+			}
+			#guicallback:focus {
+				outline:solid 1px #444;
+			}
+
+		</style>
 
 
 
