@@ -5614,6 +5614,7 @@ function getTemplate(self, target, transmitCommand) {
 			if (nx.isErasing) {
 				self.destroy();
 			}
+			showElementCallbackCode(self.canvasID);
 		} else {
 			self.click(e);
 		}
