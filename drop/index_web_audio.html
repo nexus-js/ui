@@ -112,7 +112,7 @@
 				  	$("canvas").css("border", "solid 1px #ccc");
 				  	nx.audioStrings[thisname] = ""
 				  	nx.audioFunctions[thisname] = new Function();
-				  	showElementCallbackCode(thisname);
+				  	showElementCallbackCode(eval(thisname));
 			}
 
 
@@ -551,8 +551,15 @@
 			}
 
 			function showElementCallbackCode(element) {
-				console.log(nx.audioStrings[element])
-				$("#guicallback").val(nx.audioStrings[element]);
+				console.log(nx.audioStrings[element.canvasID])
+				$("#guicallback").val(nx.audioStrings[element.canvasID]);
+				$("#perelement").html(element.oscName);
+				var dataprops = " &nbsp;[data] &nbsp;";
+				for (var key in element.val) {
+					dataprops += "data."+key+" &nbsp;"
+				}
+				if (dataprops.length >=100) { dataprops = dataprops.substring(0,100) + " ... "}
+				$("#dataprops").html("("+dataprops+")");
 			}
 
 			/* global */
@@ -852,12 +859,14 @@
 
 		<div id="codingarea">
 			<div id="L">
-				<div class="title">Global Web Audio</div>
+				<div class="title">global js</div>
 				<textarea id="guiglobalaudio"></textarea>
 				<button id="updateGlobalAudio" onclick="updateGlobalAudio()">Update</button>
 			</div>
 			<div id="R">
-				<div class="title"><span id="perelement">Element</span> Callback Function</div>
+				<div class="title"><span id="perelement">element</span> callback
+				<span id="dataprops"></span>
+				</div>
 				<textarea id="guicallback" onkeyup="saveCallback(this.value)"></textarea>
 			</div>
 		</div>

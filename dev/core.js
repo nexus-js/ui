@@ -921,7 +921,7 @@ function getTemplate(self, target, transmitCommand) {
 			if (nx.isErasing) {
 				self.destroy();
 			}
-			showElementCallbackCode(self.canvasID);
+			showElementCallbackCode(self);
 		} else {
 			self.click(e);
 		}
