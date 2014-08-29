@@ -18,21 +18,8 @@
 
 		<script>
 
-		// create web audio api context
-	/*		var sound = new (window.AudioContext || window.webkitAudioContext)();
 
-			// create Oscillator node
-			var oscillator = sound.createOscillator();
-			oscillator.type = 'square';
-			oscillator.connect(sound.destination)
-			oscillator.frequency.value = 100; // value in hertz
-			oscillator.start();
- */
-
-
-
-
-			/* init gibberish */
+			var jq = jQuery;
 
 			// Setup all of the UI objects you want to use.
 			// This occurs after the page has loaded all of the canvas objects to draw into.
@@ -43,7 +30,6 @@
 			nx.onload = function() {
 				nx.colorize(uicolor);
 				nx.setTransmissionProtocol("js");
-			//	nx.setTransmitCommand("../servers/php/lib/nexusOSCRelay.php");
 				nx.showLabels = true;
 
 				if (!nx.audioStrings) {
@@ -54,19 +40,19 @@
 
 				nx.editOn = function() {
 					nx.editmode = true;
-				  	$("canvas").css("border", "solid 1px #ccc");
-				  	$("body").css("background", "#eee");
-				    $("#locked").attr("src","images/unlocked.png");
-				    $("#sidebar").animate({"right": "0px"}, 400);
+				  	jq("canvas").css("border", "solid 1px #ccc");
+				  	jq("body").css("background", "#eee");
+				    jq("#locked").attr("src","images/unlocked.png");
+				    jq("#sidebar").animate({"right": "0px"}, 400);
 				}
 
 				nx.editOff = function() {
 				  	nx.editmode = false;
 				  	document.body.style.cursor = "pointer";
-				  	$("canvas").css("border", "none");
-				  	$("body").css("background", "#fff");
-				    $("#locked").attr("src","images/locked.png");
-				    $("#sidebar").animate({"right": "-200px"}, 400);
+				  	jq("canvas").css("border", "none");
+				  	jq("body").css("background", "#fff");
+				    jq("#locked").attr("src","images/locked.png");
+				    jq("#sidebar").animate({"right": "-200px"}, 400);
 				}
 				nx.editOn();
 				nx.startPulse();
@@ -75,7 +61,7 @@
 			function createObject(data,mousey) {
 
 					// if it has an nx attribute, store that in nxId
-				//	var nxId = $(this).html();
+				//	var nxId = jq(this).html();
 					var nxId = data;
 					var elemCount = 0;
 					// find out how many of the same elem type have come before
@@ -92,7 +78,7 @@
 					var idNum = elemCount + 1;
 					var thisname = nxId + idNum;
 					if(nxId) {
-						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+mousey+'px;right:200px;"></canvas>');
+						jq("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+mousey+'px;right:200px;"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/php/lib/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
@@ -101,71 +87,68 @@
 					nx.onload();
 					document.addEventListener("mousemove", dragobj, true);
 			//		document.addEventListener("touchmove", touchdragobj, true);
-					$("#"+thisname).mousemove(function(e) {
-						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+					jq("#"+thisname).mousemove(function(e) {
+						if (nx.editmode && e.pageX>(parseInt((jq(this).width()-20))+parseInt(jq(this).css("left").replace("px",""))) && e.pageY>(parseInt((jq(this).height()-20))+parseInt(jq(this).css("top").replace("px","")))) {
 							document.body.style.cursor = "se-resize";
 						} else {
 							document.body.style.cursor = "pointer";
 						}
 					}) 
 
-				  	$("canvas").css("border", "solid 1px #ccc");
+				  	jq("canvas").css("border", "solid 1px #ccc");
 				  	nx.audioStrings[thisname] = ""
 				  	nx.audioFunctions[thisname] = new Function();
 				  	showElementCallbackCode(eval(thisname));
 			}
 
 
-			$(document).ready(function() {
-
-
-			/*	Gibberish.init()
-				Gibberish.Time.export()
-				Gibberish.Binops.export()
-
-				var a = new Gibberish.PolyFM({ useADSR:true, requireReleaseTrigger:true }).connect()
-				a.note(440)
-				a.note(660)
-
+			jq(document).ready(function() {
 
 	 			Gibber.init() // REQUIRED!
 
-				Gibber.scale.root.seq( ['c4','eb4'], 2)
+			//	Gibber.scale.root.seq( ['C4','G3'], 2)
 
-				a = Mono('bass').note.seq( [0,7], 1/8 )
+			//	a = Mono('bass').note.seq( [0,7], 1/8 )
 
-				b = EDrums('xoxo')
-				b.snare.snappy = 1
+			//	b = EDrums('xxxo')
+			//	b.snare.snappy = 0
 
-				c = Mono('easyfx').note.seq( Rndi(0,12), [1/4,1/8,1/2,1,2].rnd( 1/8,4 ) );
-*/
+			//	c = Mono('easyfx').note('C4');
+
+			//	a = Synth2({ maxVoices:4, resonance:4 })
+
+			//	a.play( [440, 880, 1320], 1/4 )
+
+			//	a.note(100)
+
+			//	a = Cowbell().play( Rndf(5500, 44100), 1 );
 
 
-				$(".nxopt").mousedown(function(e) {
-					$("#sidebar").css("opacity",0.6);
+				jq(".nxopt").mousedown(function(e) {
+					jq("#sidebar").css("opacity",0.6);
 					document.body.style.userSelect = "none";
 					document.body.style.mozUserSelect = "none";
 					document.body.style.webkitUserSelect = "none";
 					createObject(e.currentTarget.innerHTML,e.pageY);
 				})
 
-				$(".nxbutt").mousedown(function(e) {
-					createObject($(this).html());
-					$(".overlay").hide(0);
+				jq(".nxbutt").mousedown(function(e) {
+					createObject(jq(this).html());
+					jq(".overlay").hide(0);
 				})
 
-				$(document).mouseup(function() {
+				jq(document).mouseup(function() {
 					document.removeEventListener("mousemove", dragobj, true)
-					$("#sidebar").css("opacity",1);
+					jq("#sidebar").css("opacity",1);
 
 				});
 
 
-				$(".editbutton").toggle(function() {
-					$(this).html("editing is on")
+				jq(".editbutton").toggle(function() {
+					jq(this).html("editing is on")
 					nx.editOn();
 				}, function() {
-					$(this).html("editing is off")
+					jq(this).html("editing is off")
 					nx.editOff();
 				});
 			})
@@ -173,15 +156,15 @@
 			function dragobj(e) {
 				var matrixy = ~~(e.pageY/50)*50;
 				var matrixx = ~~(e.pageX/50)*50;
-				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
+				jq("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
 			function showSettings() {
-				$("#oscpath").attr("value", eval(globaldragid+".oscName"));
+				jq("#oscpath").attr("value", eval(globaldragid+".oscName"));
 			}
 
 			function deleteObject() {
-				$("#"+globaldragid).remove();
+				jq("#"+globaldragid).remove();
 			//	nx.elemTypeArr.splice(nx.elemTypeArr.indexOf());
 			}
 
@@ -243,35 +226,35 @@
 
 
 			function openAdd() {
-				$("#add").show(0);
+				jq("#add").show(0);
 			}
 
 			function openEdit() {
-				$("#edit").show(0);
+				jq("#edit").show(0);
 			}
 
 			function closeAdd() {
-				$("#add").hide(0);
+				jq("#add").hide(0);
 			}
 
 			function closeEdit() {
-				$("#edit").hide(0);
+				jq("#edit").hide(0);
 			}
 
 			function perform() {
 				if (!nx.editmode) {
 					//turn editing on
-					$("#perfbutt").html("unlocked")
-				//	$("#perfbutt").css("background-color","#ddd")
-					$("#addbutt").show(0);
-					$("#editbutt").show(0);
+					jq("#perfbutt").html("unlocked")
+				//	jq("#perfbutt").css("background-color","#ddd")
+					jq("#addbutt").show(0);
+					jq("#editbutt").show(0);
 					nx.editOn();
 					nx.setLabels("on")
 				} else {
-					$("#perfbutt").html("locked")
-					$("#addbutt").hide(0);
-					$("#editbutt").hide(0);
-				//	$("#perfbutt").css("background-color","#9df")
+					jq("#perfbutt").html("locked")
+					jq("#addbutt").hide(0);
+					jq("#editbutt").hide(0);
+				//	jq("#perfbutt").css("background-color","#9df")
 					nx.editOff();
 					nx.setLabels("off")
 				}
@@ -315,7 +298,7 @@
 
 				var nxui = JSON.parse(uijson)
 
-				$("#nxui").html("");
+				jq("#nxui").html("");
 				nx.nxObjects = new Array();
 				nx.elemTypeArr = new Array();
 
@@ -346,13 +329,13 @@
 					var thisname = nxui[i].canvasID;
 					thisname = thisname.replace("/","");
 					if(nxId) {
-						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;" width='+nxui[i].width+'" height="'+nxui[i].height+'"></canvas>');
+						jq("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;" width='+nxui[i].width+'" height="'+nxui[i].height+'"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						eval(thisname+".oscName = '"+nxui[i].oscName+"'");
 						globaldragid = thisname;
-						$("#"+thisname).mousemove(function(e) {
-							if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+						jq("#"+thisname).mousemove(function(e) {
+							if (nx.editmode && e.pageX>(parseInt((jq(this).width()-20))+parseInt(jq(this).css("left").replace("px",""))) && e.pageY>(parseInt((jq(this).height()-20))+parseInt(jq(this).css("top").replace("px","")))) {
 								document.body.style.cursor = "se-resize";
 							} else {
 								document.body.style.cursor = "pointer";
@@ -364,8 +347,8 @@
 				}
 				nx.onload();
 				showSettings();
-				$("#edit").hide(0);
-				$("canvas").css("border", "solid 1px #ccc");
+				jq("#edit").hide(0);
+				jq("canvas").css("border", "solid 1px #ccc");
 			}
 
 			nx.isErasing = false;
@@ -373,24 +356,24 @@
 			function toggleErase() {
 				if (nx.isErasing) {
 					nx.isErasing = false;
-					$("#erasebutt").css("background-color", "#ddd")
-					$("#erasebutt").html("Erasing is off")
+					jq("#erasebutt").css("background-color", "#ddd")
+					jq("#erasebutt").html("Erasing is off")
 				} else {
 					nx.isErasing = true;
-					$("#erasebutt").css("background-color", "#8cf")
-					$("#erasebutt").html("Erasing is on")
+					jq("#erasebutt").css("background-color", "#8cf")
+					jq("#erasebutt").html("Erasing is on")
 				}
 			}
 
 			function toggleResize() {
 				if (nx.isResizing) {
 					nx.isResizing = false;
-					$("#resizebutt").css("background-color", "#ddd")
-					$("#resizebutt").html("Resizing is off")
+					jq("#resizebutt").css("background-color", "#ddd")
+					jq("#resizebutt").html("Resizing is off")
 				} else {
 					nx.isResizing = true;
-					$("#resizebutt").css("background-color", "#8cf")
-					$("#resizebutt").html("Resizing is on")
+					jq("#resizebutt").css("background-color", "#8cf")
+					jq("#resizebutt").html("Resizing is on")
 				}
 			}
 
@@ -407,7 +390,7 @@
 					htmlstr += '<div class="butt" onclick="deleteUI(\''+key+'\')" style="background-color:#faa;width:20%;margin-left:5%;margin-right:0px;float:left">Delete</div>'
 				}
 
-				$("#loadeduis").html(htmlstr)
+				jq("#loadeduis").html(htmlstr)
 
 			}
 
@@ -490,7 +473,7 @@
 
 			function loadDB(callback) {
 
-				$.ajax({
+				jq.ajax({
 				    url: "proxyget.php",
 				    data: {requrl: "http://nexus.cct.lsu.edu:8000/nexus_uis.json"},
 				    dataType: 'json',
@@ -534,10 +517,10 @@
 				nx.audioStrings[globaldragid] = callback.toString();
 
 				try {
-					$("#guicallback").css("background-color","#222");
+					jq("#guicallback").css("background-color","#222");
 					nx.audioFunctions[globaldragid] = new Function("data", callback.toString());
 				} catch(e) {
-					$("#guicallback").css("background-color","#500");
+					jq("#guicallback").css("background-color","#500");
 
 				}
 			}
@@ -547,26 +530,26 @@
 			}
 
 			function showGlobalAudioCode() {
-				$("#guiglobalaudio").val(nx.globalAudioString);
+				jq("#guiglobalaudio").val(nx.globalAudioString);
 			}
 
 			function showElementCallbackCode(element) {
 				console.log(nx.audioStrings[element.canvasID])
-				$("#guicallback").val(nx.audioStrings[element.canvasID]);
-				$("#perelement").html(element.oscName);
+				jq("#guicallback").val(nx.audioStrings[element.canvasID]);
+				jq("#perelement").html(element.oscName);
 				var dataprops = " &nbsp;[data] &nbsp;";
 				for (var key in element.val) {
 					dataprops += "data."+key+" &nbsp;"
 				}
 				if (dataprops.length >=100) { dataprops = dataprops.substring(0,100) + " ... "}
-				$("#dataprops").html("("+dataprops+")");
+				jq("#dataprops").html("("+dataprops+")");
 			}
 
 			/* global */
 
 			function updateGlobalAudio() {
-				nx.globalAudioString = $("#guiglobalaudio").val()
-				$.globalEval(nx.globalAudioString);
+				nx.globalAudioString = jq("#guiglobalaudio").val()
+				jq.globalEval(nx.globalAudioString);
 			}
 
 
@@ -574,11 +557,11 @@
 
 			function newPage() {
 				nx.nxObjects = new Array();
-				$("#nxui").html("");
-				$("#guiglobalaudio").html(defaultglobalaudio);
+				jq("#nxui").html("");
+				jq("#guiglobalaudio").html(defaultglobalaudio);
 				nx.globalAudioString = defaultglobalaudio;
 				updateGlobalAudio()
-				$("#guicallback").html("");
+				jq("#guicallback").html("");
 			}
 
 			var defaultglobalaudio = "var sound = new window.AudioContext \n ";
