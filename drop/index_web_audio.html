@@ -44,6 +44,7 @@
 				  	jq("body").css("background", "#eee");
 				    jq("#locked").attr("src","images/unlocked.png");
 				    jq("#sidebar").animate({"right": "0px"}, 400);
+				    jq("#codingarea").animate({"bottom": "0px"}, 400);
 				}
 
 				nx.editOff = function() {
@@ -53,6 +54,7 @@
 				  	jq("body").css("background", "#fff");
 				    jq("#locked").attr("src","images/locked.png");
 				    jq("#sidebar").animate({"right": "-200px"}, 400);
+				    jq("#codingarea").animate({"bottom": "-200px"}, 400);
 				}
 				nx.editOn();
 				nx.startPulse();
@@ -106,22 +108,30 @@
 
 	 			Gibber.init() // REQUIRED!
 
-			//	Gibber.scale.root.seq( ['C4','G3'], 2)
 
-			//	a = Mono('bass').note.seq( [0,7], 1/8 )
 
-			//	b = EDrums('xxxo')
-			//	b.snare.snappy = 0
+				Gibber.clear = function(callback) {
+					console.log(callback)
+					this.out ?	this.out.inputs.length=0 : null;
+					this.analysisUgens ? this.analysisUgens.length=0 : null;
+					this.sequencers ? this.sequencers.length=0 : null;
+					this.callbackArgs ? this.callbackArgs.length=2: null;
+					this.callbackObjects ? this.callbackObjects.length=1 : null;
+					if ("undefined"!=typeof this.out) { 
+						for (var t=!1,i=0;i<this.dirtied.length;i++) {
+							this.dirtied[i].variable===this.out.variable&&(t=!0);
+							t||(this.isDirty=!0,this.dirtied.push(this.out));
+						}
+					} else {
+					   this.isDirty=!0
+					}
 
-			//	c = Mono('easyfx').note('C4');
+					if (callback) { console.log(callback); callback() };
+				}
 
-			//	a = Synth2({ maxVoices:4, resonance:4 })
 
-			//	a.play( [440, 880, 1320], 1/4 )
 
-			//	a.note(100)
 
-			//	a = Cowbell().play( Rndf(5500, 44100), 1 );
 
 
 				jq(".nxopt").mousedown(function(e) {
@@ -548,8 +558,20 @@
 			/* global */
 
 			function updateGlobalAudio() {
+				if (Gibber.started) {
+					console.log("gib clear");
+					Gibber.clear(renderAudio);
+				} else {
+					renderAudio();
+				}
+			//	setTimeout(renderAudio, 1000);
+			}
+
+			function renderAudio() {
+					console.log("rend audio after clear");
 				nx.globalAudioString = jq("#guiglobalaudio").val()
 				jq.globalEval(nx.globalAudioString);
+				Gibber.started = true;
 			}
 
 
@@ -847,7 +869,7 @@
 				<button id="updateGlobalAudio" onclick="updateGlobalAudio()">Update</button>
 			</div>
 			<div id="R">
-				<div class="title"><span id="perelement">element</span> callback
+				<div class="title"><span id="perelement"></span> callback
 				<span id="dataprops"></span>
 				</div>
 				<textarea id="guicallback" onkeyup="saveCallback(this.value)"></textarea>
@@ -910,8 +932,19 @@
 				position:absolute;
 				bottom:3px;
 				right:3px;
-				background-color:#777;
+				background-color:#000;
+				color:#ccc;
+				border:solid 1px #ccc;
+				font-size:9pt;
+				padding:4px 12px;
+				outline:none;
+				cursor:pointer;
+			}
+
+			#updateGlobalAudio:hover {
+				border:solid 1px #fff;
 				color:#fff;
+
 			}
 
 		</style>
