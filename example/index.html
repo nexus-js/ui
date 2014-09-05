@@ -7,33 +7,39 @@
 
 			nx.onload = function() {
 
-				nx.nxObjects.forEach(function(widget) {
-					for (var oscpath in widget.val) {
-						widget.on(oscpath, function(data) {
-							console.log(widget.canvasID, data)
-						})
+				//log all events
+				for (var key in nx.nxObjects) {
+					with (nx.nxObjects[key]) {
+						for (var oscpath in val) {
+							on(oscpath, function(data) {
+								// code that will be executed
+								console.log(canvasID, data)
+							})
+						}
 					}
-				})
-				
-				/* or set set individual event listeners like this 
+				} 
 
-					slider1.on('value', function(data) {
-						console.log('slider1', data);
-					})
+				/* or set set individual event listeners like this
 
-					position1.on('x', function(data) {
-						console.log('p1x', data);
+					button1.on('press', function(data) {
+						// do something with data
 					})
 
 					dial1.on('value', function(data) {
-						console.log('dial1', data)
+						console.log('d1', data);
 					})
 
+					dial2.on('value', function(data) {
+						console.log('d2', data)
+					})
 				*/
+				
 
 			    nx.colorize("accent", "#347");
 			    nx.colorize("border", "#bbb");
 			    nx.colorize("fill", "#eee");
+
+			    button1.mode = "node";
 
 			}
 
@@ -42,23 +48,15 @@
 
 	<body style="background-color:#ddd">
 
-		  <canvas nx="position"></canvas>
+		  <canvas nx="button"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="dial"></canvas>
+		<!--  <canvas nx="position"></canvas>
+		  <canvas nx="multitouch"></canvas>
+		  <canvas nx="joints"></canvas>
+		  <canvas nx="metroball"></canvas>
 		  <canvas nx="slider"></canvas>
-		  <canvas nx="slider"></canvas>
-		  <canvas nx="slider"></canvas>
-		  <canvas nx="slider"></canvas>
-		  <br>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <br>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="dial"></canvas>
+		  <canvas nx="multislider"></canvas> -->
 
 		  <!-- Try other nexusUI elements like toggle, button, position, multitouch, slider, tilt... see nexusosc.com for more. -->
 

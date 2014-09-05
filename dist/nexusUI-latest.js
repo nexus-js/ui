@@ -23,7 +23,7 @@ var nx = function() {
 	
 	// new manager properties
 	
-	this.nxObjects = new Array();
+	this.nxObjects = new Object();
 	this.nxThrottlePeriod = 20;
 	this.elemTypeArr = new Array();
 	this.aniItems = new Array();
@@ -56,22 +56,22 @@ var nx = function() {
 			aspect = "accent";
 		}
 		
-		eval("manager.colors."+aspect+" = '"+newCol+"';");
+		manager.colors[aspect] = newCol;
 		
-		for (i=0;i<this.nxObjects.length;i++) {
-			eval("this.nxObjects[i].colors."+aspect+" = '"+newCol+"';");
-			this.nxObjects[i].draw();
+		for (var key in nx.nxObjects) {
+			nx.nxObjects[key].colors[aspect] = newCol;
+			nx.nxObjects[key].draw();
 		}
 	}
 	
 	this.addNxObject = function(newObj) {
-		this.nxObjects.push(newObj);
+		this.nxObjects[newObj.canvasID] = newObj;
 	}
 	
 	this.setNxThrottlePeriod = function(newThrottle) {
 		manager.nxThrottlePeriod = newThrottle;
-		for (i=0;i<manager.nxObjects.length;i++) {
-			manager.nxObjects[i].nxThrottlePeriod = manager.nxThrottlePeriod;
+		for (var key in manager.nxObjects) {
+			manager.nxObjects[key].nxThrottlePeriod = manager.nxThrottlePeriod;
 		}
 	}
 	
@@ -466,8 +466,8 @@ var nx = function() {
 	  	} else {
 	  		manager.showLabels = false;
 	  	}
-		for (var i=0;i<manager.nxObjects.length;i++) {
-			manager.nxObjects[i].draw()
+		for (var key in manager.nxObjects) {
+			manager.nxObjects[key].draw()
 		}
 	  }
 
@@ -548,8 +548,7 @@ function transformCanvases() {
 			allcanvi[i].id = nxId + idNum;
 		}
 		if(nxId) {
-			eval(allcanvi[i].id + " = new "+nxId+"('"+allcanvi[i].id+"', '../../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
-			eval(allcanvi[i].id + ".init()");
+			window[allcanvi[i].id] = new window[nxId](allcanvi[i].id);
 		}
 	}
 
@@ -567,6 +566,11 @@ function transformCanvases() {
 function getTemplate(self, target) {
 	//canvas
 	self.canvasID = target;
+	if (!document.getElementById(target)) {
+		var newcanv = document.createElement("canvas")
+		newcanv.id = target;
+		document.body.appendChild(newcanv)
+	}
 	self.canvas = document.getElementById(target);
 	self.context = self.canvas.getContext("2d");
 	self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
@@ -948,18 +952,10 @@ function getTemplate(self, target) {
 	}
 
 	self.destroy = function() {
-		for (var i=0;i<nx.nxObjects.length;i++) {
-			if (nx.nxObjects[i].canvasID==self.canvasID) {
-				nx.nxObjects.splice(i,1)
-				break;
-			}
-		}
-		for (var i=0;i<nx.elemTypeArr.length;i++) {
-			if (nx.elemTypeArr[i]==self.getName()) {
-				nx.elemTypeArr.splice(i,1)
-				break;
-			}
-		}
+		nx.nxObjects[self.canvasID] = null;
+		var type = nx.elemTypeArr.indexOf(this.getName())
+		nx.elemTypeArr.splice(type,1)
+
 		self.canvas.ontouchmove = null;
 		self.canvas.ontouchend = null;
 		self.canvas.onclick = null;
@@ -973,7 +969,7 @@ function getTemplate(self, target) {
 		elemToKill.parentNode.removeChild(elemToKill);
 
 		
-		eval("delete window."+self.canvasID);
+		delete window[self.canvasID];
 		self = null;
 	}
 
@@ -1242,6 +1238,8 @@ function button(target) {
 		self.imageTouch.onload = function() { self.draw() }
 		self.imageTouch.src = image;
 	}
+
+	this.init();
 
 };/** 
 	@class colors      
@@ -1617,6 +1615,7 @@ function dial(target) {
 			self.nxTransmit(self.val);
 		}
 	}
+	this.init();
 	
 }
 
