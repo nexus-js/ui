@@ -15,14 +15,14 @@ gulp.task('concat', function() {
       './lib/core.js',
       './lib/widgets/*.js'
     ])
-    .pipe(concat('./dist/nexusUI-latest.js', { newLine: ';' }))
+    .pipe(concat('./dist/nexusUI.js', { newLine: ';' }))
     .pipe(gulp.dest('.'))
 })
 
 gulp.task('uglify', function() {
-  return gulp.src('./dist/nexusUI-latest.js')
+  return gulp.src('./dist/nexusUI.js')
     .pipe(uglify())
-    .pipe(rename('nexusUI-latest.min.js'))
+    .pipe(rename('nexusUI.min.js'))
     .pipe(gulp.dest('./dist/'))
 })
 

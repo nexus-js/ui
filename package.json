@@ -22,5 +22,7 @@
     "run-sequence": "0.3.x",
     "eventemitter2": "0.4.x"
   },
-  "engine": "node >= 0.10.0"
+  "engine": "node >= 0.10.0",
+  "version": "0.1.0",
+  "license": "New BSD License"
 }

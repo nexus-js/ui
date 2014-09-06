@@ -16,7 +16,7 @@ var commentbuffer;
 
 */
 
-var nx = function() {
+nx = function() {
 
 	
 	var manager = this;
@@ -495,7 +495,7 @@ var nx = function() {
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
 ************************************************/
 
-var nx = new nx();
+nx = new nx();
 nx.onload = function() {};
 
 /* this onload function turns canvases into nexus elements,
@@ -1068,7 +1068,7 @@ function banner(target) {
 */
 
 
-function button(target) {
+var button = function(target) {
 
 	//self awareness
 	var self = this;
@@ -1451,7 +1451,7 @@ function comment(target) {
 	<canvas nx="dial" style="margin-left:25px"></canvas>
 */
 
-function dial(target) {
+var dial = function(target) {
 					
 	//self awareness
 	var self = this;
