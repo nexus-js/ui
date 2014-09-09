@@ -523,7 +523,9 @@
 
 			/* inline coding */
 
-			function saveCallback(callback) {
+			function saveCallback() {
+				var callback = callbackeditor.getValue()
+				console.log(callback)
 				nx.audioStrings[globaldragid] = callback.toString();
 
 				try {
@@ -532,7 +534,7 @@
 				} catch(e) {
 					jq("#guicallback").css("background-color","#500");
 
-				}
+				} 
 			}
 
 			nx.allTraffic = function(obj, data) {
@@ -540,12 +542,14 @@
 			}
 
 			function showGlobalAudioCode() {
-				jq("#guiglobalaudio").val(nx.globalAudioString);
+			//	jq("#guiglobalaudio").val(nx.globalAudioString);
+				globaleditor.setValue(nx.globalAudioString)
 			}
 
 			function showElementCallbackCode(element) {
 				console.log(nx.audioStrings[element.canvasID])
-				jq("#guicallback").val(nx.audioStrings[element.canvasID]);
+			//	jq("#guicallback").val(nx.audioStrings[element.canvasID]);
+				callbackeditor.setValue(nx.audioStrings[element.canvasID])
 				jq("#perelement").html(element.oscName);
 				var dataprops = " &nbsp;[data] &nbsp;";
 				for (var key in element.val) {
@@ -568,8 +572,10 @@
 			}
 
 			function renderAudio() {
-					console.log("rend audio after clear");
-				nx.globalAudioString = jq("#guiglobalaudio").val()
+				console.log("rend audio after clear");
+			//	nx.globalAudioString = jq("#guiglobalaudio").val()
+				nx.globalAudioString = globaleditor.getValue();
+
 				jq.globalEval(nx.globalAudioString);
 				Gibber.started = true;
 			}
@@ -580,13 +586,16 @@
 			function newPage() {
 				nx.nxObjects = new Array();
 				jq("#nxui").html("");
-				jq("#guiglobalaudio").html(defaultglobalaudio);
+			//	jq("#guiglobalaudio").html(defaultglobalaudio);
+				globaleditor.setValue(defaultglobalaudio)
 				nx.globalAudioString = defaultglobalaudio;
 				updateGlobalAudio()
-				jq("#guicallback").html("");
+			//	jq("#guicallback").html("");
+				callbackeditor.setValue("");
+
 			}
 
-			var defaultglobalaudio = "var sound = new window.AudioContext \n ";
+			var defaultglobalaudio = "var sound = new window.AudioContext()";
 
 
 		</script>
@@ -763,7 +772,6 @@
 				margin:2px 0px 2px 10px;
 				line-height:25px;
 			}
-
 		</style>
 
 
@@ -865,20 +873,32 @@
 		<div id="codingarea">
 			<div id="L">
 				<div class="title">global js</div>
-				<textarea id="guiglobalaudio"></textarea>
+				<div id="guiglobalaudio">bla</div>
 				<button id="updateGlobalAudio" onclick="updateGlobalAudio()">Update</button>
 			</div>
 			<div id="R">
 				<div class="title"><span id="perelement"></span> callback
 				<span id="dataprops"></span>
 				</div>
-				<textarea id="guicallback" onkeyup="saveCallback(this.value)"></textarea>
+				<div id="guicallback" onkeyup="saveCallback(this.value)"></div>
 			</div>
 		</div>
 
+<script src="ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    var globaleditor = ace.edit("guiglobalaudio");
+    globaleditor.setTheme("ace/theme/monokai");
+    globaleditor.getSession().setMode("ace/mode/javascript");
+ //   var sesh = new EditSession(globaleditor, "javascript")
+    var callbackeditor = ace.edit("guicallback");
+    callbackeditor.setTheme("ace/theme/monokai");
+    callbackeditor.getSession().setMode("ace/mode/javascript");
+    callbackeditor.on("change", saveCallback)
+</script>
 
 
-		<style>
+		<style> 
 
 			#codingarea {
 				position:fixed;
@@ -886,11 +906,11 @@
 				padding:0px;
 				bottom:0px;
 				left:0px;
-				height:150px;
+				height:200px;
 				width:100%;
 				display:block;
 				box-sizing:border-box;
-				padding-right:240px;
+				padding-right:220px;
 				z-index:0;
 			}
 
@@ -913,7 +933,7 @@
 				width:100%;
 				height:90%;
 				outline:none;
-				font-size:12pt;
+				font-size:10pt;
 				padding:0px;
 				border:none;
 				border-left:solid 1px #ccc;
@@ -921,7 +941,9 @@
 				box-sizing:border-box;
 				padding:10px;
 				font-family:lucida console;
+				font-weight:100;
 				color:#eee;
+				position:absolute;
 			}
 			#guicallback:focus, #guiglobalaudio:focus {
 			//	outline:solid 1px #444;
@@ -945,6 +967,10 @@
 				border:solid 1px #fff;
 				color:#fff;
 
+			}
+
+			#perelement {
+				color:#1ac;
 			}
 
 		</style>
