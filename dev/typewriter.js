@@ -121,6 +121,11 @@ function typewriter(target, transmitCommand) {
 		self.draw();
 	}
 
+	this.customDestroy = function() {
+		document.removeEventListener("keydown", self.type);
+		document.removeEventListener("keyup", self.untype);
+	}
+
 	this.draw = function() {	// erase
 		self.erase();
 

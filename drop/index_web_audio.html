@@ -5,9 +5,9 @@
 	  	<title>NxDrop</title>
 
 		<!-- standard includes of nexusUI and jquery-->
-		<script type="text/javascript" src="gibber.lib.js"></script>
 		<script type="text/javascript" src="../dev/jquery.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
+		<script type="text/javascript" src="gibber.lib.min.js"></script>
 		<script type="text/javascript" src="../nexusUI.js"></script>
 		<script type="text/javascript" src="FileSaver.js"></script>
 
@@ -19,7 +19,7 @@
 		<script>
 
 
-			var jq = jQuery;
+			//var jq = jQuery;
 
 			// Setup all of the UI objects you want to use.
 			// This occurs after the page has loaded all of the canvas objects to draw into.
@@ -40,21 +40,23 @@
 
 				nx.editOn = function() {
 					nx.editmode = true;
-				  	jq("canvas").css("border", "solid 1px #ccc");
-				  	jq("body").css("background", "#eee");
-				    jq("#locked").attr("src","images/unlocked.png");
-				    jq("#sidebar").animate({"right": "0px"}, 400);
-				    jq("#codingarea").animate({"bottom": "0px"}, 400);
+				  	$("canvas").css("border", "solid 1px #ccc");
+				  	$("body").css("background", "#eee");
+				    $("#locked").attr("src","images/unlocked.png");
+				    $("#sidebar").animate({"right": "0px"}, 400);
+				    if (IDEon) {
+				   		showIDE();
+				    }
 				}
 
 				nx.editOff = function() {
 				  	nx.editmode = false;
 				  	document.body.style.cursor = "pointer";
-				  	jq("canvas").css("border", "none");
-				  	jq("body").css("background", "#fff");
-				    jq("#locked").attr("src","images/locked.png");
-				    jq("#sidebar").animate({"right": "-200px"}, 400);
-				    jq("#codingarea").animate({"bottom": "-200px"}, 400);
+				  	$("canvas").css("border", "none");
+				  	$("body").css("background", "#fff");
+				    $("#locked").attr("src","images/locked.png");
+				    $("#sidebar").animate({"right": "-200px"}, 400);
+				    hideIDE();
 				}
 				nx.editOn();
 				nx.startPulse();
@@ -63,7 +65,7 @@
 			function createObject(data,mousey) {
 
 					// if it has an nx attribute, store that in nxId
-				//	var nxId = jq(this).html();
+				//	var nxId = $(this).html();
 					var nxId = data;
 					var elemCount = 0;
 					// find out how many of the same elem type have come before
@@ -80,7 +82,7 @@
 					var idNum = elemCount + 1;
 					var thisname = nxId + idNum;
 					if(nxId) {
-						jq("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+mousey+'px;right:200px;"></canvas>');
+						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+mousey+'px;right:200px;"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/php/lib/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
@@ -89,22 +91,23 @@
 					nx.onload();
 					document.addEventListener("mousemove", dragobj, true);
 			//		document.addEventListener("touchmove", touchdragobj, true);
-					jq("#"+thisname).mousemove(function(e) {
-						if (nx.editmode && e.pageX>(parseInt((jq(this).width()-20))+parseInt(jq(this).css("left").replace("px",""))) && e.pageY>(parseInt((jq(this).height()-20))+parseInt(jq(this).css("top").replace("px","")))) {
+					$("#"+thisname).mousemove(function(e) {
+						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
 							document.body.style.cursor = "se-resize";
 						} else {
 							document.body.style.cursor = "pointer";
 						}
 					}) 
 
-				  	jq("canvas").css("border", "solid 1px #ccc");
+				  //	$("canvas").css("border", "solid 1px "+nx.colors.accent);
+				  	nx.highlightEditedObj();
 				  	nx.audioStrings[thisname] = ""
 				  	nx.audioFunctions[thisname] = new Function();
 				  	showElementCallbackCode(eval(thisname));
 			}
 
 
-			jq(document).ready(function() {
+			$(document).ready(function() {
 
 	 			Gibber.init() // REQUIRED!
 
@@ -134,31 +137,31 @@
 
 
 
-				jq(".nxopt").mousedown(function(e) {
-					jq("#sidebar").css("opacity",0.6);
+				$(".nxopt").mousedown(function(e) {
+					$("#sidebar").css("opacity",0.6);
 					document.body.style.userSelect = "none";
 					document.body.style.mozUserSelect = "none";
 					document.body.style.webkitUserSelect = "none";
 					createObject(e.currentTarget.innerHTML,e.pageY);
 				})
 
-				jq(".nxbutt").mousedown(function(e) {
-					createObject(jq(this).html());
-					jq(".overlay").hide(0);
+				$(".nxbutt").mousedown(function(e) {
+					createObject($(this).html());
+					$(".overlay").hide(0);
 				})
 
-				jq(document).mouseup(function() {
+				$(document).mouseup(function() {
 					document.removeEventListener("mousemove", dragobj, true)
-					jq("#sidebar").css("opacity",1);
+					$("#sidebar").css("opacity",1);
 
 				});
 
 
-				jq(".editbutton").toggle(function() {
-					jq(this).html("editing is on")
+				$(".editbutton").toggle(function() {
+					$(this).html("editing is on")
 					nx.editOn();
 				}, function() {
-					jq(this).html("editing is off")
+					$(this).html("editing is off")
 					nx.editOff();
 				});
 			})
@@ -166,15 +169,16 @@
 			function dragobj(e) {
 				var matrixy = ~~(e.pageY/50)*50;
 				var matrixx = ~~(e.pageX/50)*50;
-				jq("#"+globaldragid).css("top",matrixy).css("left",matrixx);
+				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
 			function showSettings() {
-				jq("#oscpath").attr("value", eval(globaldragid+".oscName"));
+				$("#oscpath").attr("value", eval(globaldragid+".oscName"));
 			}
 
 			function deleteObject() {
-				jq("#"+globaldragid).remove();
+				window[globaldragid].destroy();
+			//	$("#"+globaldragid).remove();
 			//	nx.elemTypeArr.splice(nx.elemTypeArr.indexOf());
 			}
 
@@ -236,35 +240,35 @@
 
 
 			function openAdd() {
-				jq("#add").show(0);
+				$("#add").show(0);
 			}
 
 			function openEdit() {
-				jq("#edit").show(0);
+				$("#edit").show(0);
 			}
 
 			function closeAdd() {
-				jq("#add").hide(0);
+				$("#add").hide(0);
 			}
 
 			function closeEdit() {
-				jq("#edit").hide(0);
+				$("#edit").hide(0);
 			}
 
 			function perform() {
 				if (!nx.editmode) {
 					//turn editing on
-					jq("#perfbutt").html("unlocked")
-				//	jq("#perfbutt").css("background-color","#ddd")
-					jq("#addbutt").show(0);
-					jq("#editbutt").show(0);
+					$("#perfbutt").html("unlocked")
+				//	$("#perfbutt").css("background-color","#ddd")
+					$("#addbutt").show(0);
+					$("#editbutt").show(0);
 					nx.editOn();
 					nx.setLabels("on")
 				} else {
-					jq("#perfbutt").html("locked")
-					jq("#addbutt").hide(0);
-					jq("#editbutt").hide(0);
-				//	jq("#perfbutt").css("background-color","#9df")
+					$("#perfbutt").html("locked")
+					$("#addbutt").hide(0);
+					$("#editbutt").hide(0);
+				//	$("#perfbutt").css("background-color","#9df")
 					nx.editOff();
 					nx.setLabels("off")
 				}
@@ -308,7 +312,7 @@
 
 				var nxui = JSON.parse(uijson)
 
-				jq("#nxui").html("");
+				$("#nxui").html("");
 				nx.nxObjects = new Array();
 				nx.elemTypeArr = new Array();
 
@@ -339,13 +343,13 @@
 					var thisname = nxui[i].canvasID;
 					thisname = thisname.replace("/","");
 					if(nxId) {
-						jq("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;" width='+nxui[i].width+'" height="'+nxui[i].height+'"></canvas>');
+						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;" width='+nxui[i].width+'" height="'+nxui[i].height+'"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						eval(thisname+".oscName = '"+nxui[i].oscName+"'");
 						globaldragid = thisname;
-						jq("#"+thisname).mousemove(function(e) {
-							if (nx.editmode && e.pageX>(parseInt((jq(this).width()-20))+parseInt(jq(this).css("left").replace("px",""))) && e.pageY>(parseInt((jq(this).height()-20))+parseInt(jq(this).css("top").replace("px","")))) {
+						$("#"+thisname).mousemove(function(e) {
+							if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
 								document.body.style.cursor = "se-resize";
 							} else {
 								document.body.style.cursor = "pointer";
@@ -357,8 +361,8 @@
 				}
 				nx.onload();
 				showSettings();
-				jq("#edit").hide(0);
-				jq("canvas").css("border", "solid 1px #ccc");
+				$("#edit").hide(0);
+				$("canvas").css("border", "solid 1px #ccc");
 			}
 
 			nx.isErasing = false;
@@ -366,24 +370,24 @@
 			function toggleErase() {
 				if (nx.isErasing) {
 					nx.isErasing = false;
-					jq("#erasebutt").css("background-color", "#ddd")
-					jq("#erasebutt").html("Erasing is off")
+					$("#erasebutt").css("background-color", "#ddd")
+					$("#erasebutt").html("Erasing is off")
 				} else {
 					nx.isErasing = true;
-					jq("#erasebutt").css("background-color", "#8cf")
-					jq("#erasebutt").html("Erasing is on")
+					$("#erasebutt").css("background-color", "#8cf")
+					$("#erasebutt").html("Erasing is on")
 				}
 			}
 
 			function toggleResize() {
 				if (nx.isResizing) {
 					nx.isResizing = false;
-					jq("#resizebutt").css("background-color", "#ddd")
-					jq("#resizebutt").html("Resizing is off")
+					$("#resizebutt").css("background-color", "#ddd")
+					$("#resizebutt").html("Resizing is off")
 				} else {
 					nx.isResizing = true;
-					jq("#resizebutt").css("background-color", "#8cf")
-					jq("#resizebutt").html("Resizing is on")
+					$("#resizebutt").css("background-color", "#8cf")
+					$("#resizebutt").html("Resizing is on")
 				}
 			}
 
@@ -400,7 +404,7 @@
 					htmlstr += '<div class="butt" onclick="deleteUI(\''+key+'\')" style="background-color:#faa;width:20%;margin-left:5%;margin-right:0px;float:left">Delete</div>'
 				}
 
-				jq("#loadeduis").html(htmlstr)
+				$("#loadeduis").html(htmlstr)
 
 			}
 
@@ -483,7 +487,7 @@
 
 			function loadDB(callback) {
 
-				jq.ajax({
+				$.ajax({
 				    url: "proxyget.php",
 				    data: {requrl: "http://nexus.cct.lsu.edu:8000/nexus_uis.json"},
 				    dataType: 'json',
@@ -529,10 +533,10 @@
 				nx.audioStrings[globaldragid] = callback.toString();
 
 				try {
-					jq("#guicallback").css("background-color","#222");
+					$("#guicallback").css("background-color","#222");
 					nx.audioFunctions[globaldragid] = new Function("data", callback.toString());
 				} catch(e) {
-					jq("#guicallback").css("background-color","#500");
+					$("#guicallback").css("background-color","#500");
 
 				} 
 			}
@@ -542,21 +546,21 @@
 			}
 
 			function showGlobalAudioCode() {
-			//	jq("#guiglobalaudio").val(nx.globalAudioString);
+			//	$("#guiglobalaudio").val(nx.globalAudioString);
 				globaleditor.setValue(nx.globalAudioString)
 			}
 
 			function showElementCallbackCode(element) {
 				console.log(nx.audioStrings[element.canvasID])
-			//	jq("#guicallback").val(nx.audioStrings[element.canvasID]);
+			//	$("#guicallback").val(nx.audioStrings[element.canvasID]);
 				callbackeditor.setValue(nx.audioStrings[element.canvasID])
-				jq("#perelement").html(element.oscName);
+				$("#perelement").html(element.oscName);
 				var dataprops = " &nbsp;[data] &nbsp;";
 				for (var key in element.val) {
 					dataprops += "data."+key+" &nbsp;"
 				}
 				if (dataprops.length >=100) { dataprops = dataprops.substring(0,100) + " ... "}
-				jq("#dataprops").html("("+dataprops+")");
+				$("#dataprops").html("("+dataprops+")");
 			}
 
 			/* global */
@@ -573,10 +577,10 @@
 
 			function renderAudio() {
 				console.log("rend audio after clear");
-			//	nx.globalAudioString = jq("#guiglobalaudio").val()
+			//	nx.globalAudioString = $("#guiglobalaudio").val()
 				nx.globalAudioString = globaleditor.getValue();
 
-				jq.globalEval(nx.globalAudioString);
+				$.globalEval(nx.globalAudioString);
 				Gibber.started = true;
 			}
 
@@ -585,18 +589,40 @@
 
 			function newPage() {
 				nx.nxObjects = new Array();
-				jq("#nxui").html("");
-			//	jq("#guiglobalaudio").html(defaultglobalaudio);
+				$("#nxui").html("");
+			//	$("#guiglobalaudio").html(defaultglobalaudio);
 				globaleditor.setValue(defaultglobalaudio)
 				nx.globalAudioString = defaultglobalaudio;
 				updateGlobalAudio()
-			//	jq("#guicallback").html("");
+			//	$("#guicallback").html("");
 				callbackeditor.setValue("");
 
 			}
 
 			var defaultglobalaudio = "var sound = new window.AudioContext() || new webkitAudioContext()";
 			//var defaultglobalaudio = ""
+
+			var IDEon = true;
+
+			function toggleIDE() {
+				if (IDEon) {
+					IDEon = false;
+					hideIDE();
+					nx.sendsTo("ajax");
+				} else {
+					IDEon = true;
+					showIDE();
+					nx.sendsTo("js");
+				}
+			}
+
+			function showIDE() {
+				$("#codingarea").animate({"bottom": "0px"}, 400);
+			}
+
+			function hideIDE() {
+				$("#codingarea").animate({"bottom": "-300px"}, 400);
+			}
 
 		</script>
 	</head>
@@ -869,7 +895,7 @@
 				<img src="images/trash.png" id="dbtrash" onclick="newPage()">
 				<img src="images/more.png" id="moreoptions" onclick="openEdit()">
 				<img src="images/unlocked.png" id="locked" onclick="perform()">
-				<span style="font-size:30px;color:#aaa;font-family:trebuchet ms;margin-top:5px;margin-left:10px;float:left">&lt;&gt;</span>
+				<span style="font-size:30px;color:#aaa;font-family:trebuchet ms;margin-top:5px;margin-left:10px;float:left" onclick="toggleIDE()">&lt;&gt;</span>
 
 
 
@@ -912,7 +938,7 @@
 				position:fixed;
 				margin:0px;
 				padding:0px;
-				bottom:0px;
+				bottom:-300px;
 				left:0px;
 				height:200px;
 				width:100%;

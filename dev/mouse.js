@@ -34,6 +34,7 @@ function mouse(target, transmitCommand) {
 
 
 	this.init = function() {
+		console.log("mouse init");
 		self.mousing = window.addEventListener("mousemove",  self.preMove, false);
 		self.mousing = window.addEventListener("touchmove",  self.preTouchMove, false);
 
@@ -43,6 +44,11 @@ function mouse(target, transmitCommand) {
 		self.inside.top = self.lineWidth;
 		self.inside.quarterwid = (self.inside.width)/4
 		 
+	}
+
+	this.customDestroy = function() {
+		window.removeEventListener("mousemove",  self.preMove, false);
+		window.removeEventListener("touchmove",  self.preTouchMove, false);	
 	}
 
 	this.draw = function() {

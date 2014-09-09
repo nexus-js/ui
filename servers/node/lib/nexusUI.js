@@ -2085,6 +2085,7 @@ function mouse(target, transmitCommand) {
 
 
 	this.init = function() {
+		console.log("mouse init");
 		self.mousing = window.addEventListener("mousemove",  self.preMove, false);
 		self.mousing = window.addEventListener("touchmove",  self.preTouchMove, false);
 
@@ -2094,6 +2095,11 @@ function mouse(target, transmitCommand) {
 		self.inside.top = self.lineWidth;
 		self.inside.quarterwid = (self.inside.width)/4
 		 
+	}
+
+	this.customDestroy = function() {
+		window.removeEventListener("mousemove",  self.preMove, false);
+		window.removeEventListener("touchmove",  self.preTouchMove, false);	
 	}
 
 	this.draw = function() {
@@ -4217,6 +4223,11 @@ function typewriter(target, transmitCommand) {
 		self.draw();
 	}
 
+	this.customDestroy = function() {
+		document.removeEventListener("keydown", self.type);
+		document.removeEventListener("keyup", self.untype);
+	}
+
 	this.draw = function() {	// erase
 		self.erase();
 
@@ -5369,9 +5380,9 @@ var nx = function() {
 
 
 	  this.highlightEditedObj = function() {
-	//  	$("canvas").css("border", "solid 1px #ccc");
+	 	$("canvas").css("border", "solid 1px #ccc");
 	  	$("canvas").css("z-index", 1);
-	 // 	$("#"+globaldragid).css("border", "solid 2px black");
+	  	$("#"+globaldragid).css("border", "solid 1px "+nx.colors.accent);
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
 
@@ -5560,10 +5571,6 @@ function getTemplate(self, target, transmitCommand) {
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	self.iosTransmit = nx.iosTransmit;
-
-	if (nx.editmode) {
-	//	self.canvas.style.border = "solid 1px #888";
-	}
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
@@ -5609,7 +5616,7 @@ function getTemplate(self, target, transmitCommand) {
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;
-	//		nx.highlightEditedObj(self.canvasID);
+			nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
 				self.destroy();
@@ -5634,7 +5641,6 @@ function getTemplate(self, target, transmitCommand) {
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
 			if (self.isBeingResized) {
-				console.log("resizing...")
 				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
 				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
@@ -5700,7 +5706,7 @@ function getTemplate(self, target, transmitCommand) {
 			}
 		//	self.isBeingDragged = true;
 			globaldragid = self.canvasID;
-		//	nx.highlightEditedObj(self.canvasID);
+			nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
 				self.destroy();
@@ -5864,7 +5870,12 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	}
 
+	self.customDestroy = function() { console.log("dummy") }
+
 	self.destroy = function() {
+
+		self.customDestroy();
+
 		for (var i=0;i<nx.nxObjects.length;i++) {
 			if (nx.nxObjects[i].canvasID==self.canvasID) {
 				nx.nxObjects.splice(i,1)

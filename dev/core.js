@@ -676,9 +676,9 @@ var nx = function() {
 
 
 	  this.highlightEditedObj = function() {
-	//  	$("canvas").css("border", "solid 1px #ccc");
+	 	$("canvas").css("border", "solid 1px #ccc");
 	  	$("canvas").css("z-index", 1);
-	 // 	$("#"+globaldragid).css("border", "solid 2px black");
+	  	$("#"+globaldragid).css("border", "solid 1px "+nx.colors.accent);
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
 
@@ -867,10 +867,6 @@ function getTemplate(self, target, transmitCommand) {
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	self.iosTransmit = nx.iosTransmit;
-
-	if (nx.editmode) {
-	//	self.canvas.style.border = "solid 1px #888";
-	}
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
@@ -916,7 +912,7 @@ function getTemplate(self, target, transmitCommand) {
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;
-	//		nx.highlightEditedObj(self.canvasID);
+			nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
 				self.destroy();
@@ -941,7 +937,6 @@ function getTemplate(self, target, transmitCommand) {
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
 			if (self.isBeingResized) {
-				console.log("resizing...")
 				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
 				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
@@ -1007,7 +1002,7 @@ function getTemplate(self, target, transmitCommand) {
 			}
 		//	self.isBeingDragged = true;
 			globaldragid = self.canvasID;
-		//	nx.highlightEditedObj(self.canvasID);
+			nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
 				self.destroy();
@@ -1171,7 +1166,12 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	}
 
+	self.customDestroy = function() { console.log("dummy") }
+
 	self.destroy = function() {
+
+		self.customDestroy();
+
 		for (var i=0;i<nx.nxObjects.length;i++) {
 			if (nx.nxObjects[i].canvasID==self.canvasID) {
 				nx.nxObjects.splice(i,1)
