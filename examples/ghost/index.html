@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Dial</title>
+		<script type="text/javascript" src="../jquery.js"></script>
+		<script type="text/javascript" src="../nexusUI.js"></script>
+		<script>
+		
+		nx.onload = function() {
+
+
+			nx.sendsTo("ajax");
+			nx.setAjaxPath("../nexusOSCrelay.php");
+			
+			//add a ghost and tell it to record all dials
+			ghost1.bufferLength=1000;
+			ghost1.record(dial1);
+			ghost1.record(dial2);
+			ghost1.record(dial3);
+			ghost1.record(dial4);
+
+			nx.printOSC();
+			
+		}
+		
+		</script>
+
+	</head>
+	<body>
+
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="ghost"></canvas>
+		
+	</body>
+</html>

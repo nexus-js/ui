@@ -59,6 +59,7 @@ var nxscripts = [
         'comment.js',
         'dial.js',
         'envelope.js',
+        'ghost.js',
         'joints.js',
         'keyboard.js',
         'matrix.js',

@@ -60,7 +60,7 @@ function dial(target, transmitCommand) {
 		var point = self.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
-			self.recorder.write(self.tapeNum,self.val);
+		//	self.recorder.write(self.tapeNum,self.val);
 		}
 
 		with (self.context) {
