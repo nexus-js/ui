@@ -7,21 +7,19 @@
 	<canvas nx="slider" style="margin-left:25px"></canvas>
 */
 
-function slider(target, transmitCommand) {
+function slider(target) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
+	getTemplate(self, target);
 	
 	//unique attributes
 	/** @property {float}  val   Slider value (float 0-1)
 	*/
-	this.val = 0.7
-	this.label = self.oscName;
-	this.label = this.label.replace("/","")
+	this.val.value = 0.7
 
 	/** @property {string}  mode   Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
 	```js
@@ -86,12 +84,12 @@ function slider(target, transmitCommand) {
 			if (!self.hslider) {
 
 				var x1 = self.lineWidth;
-				var y1 = self.height-self.val*self.height;
+				var y1 = self.height-self.val.value*self.height;
 				var x2 = self.lineWidth+self.realSpace.x;
 				var y2 = self.height-self.lineWidth;
 				var depth = 0;
 
-				if (self.val>0.01) {
+				if (self.val.value>0.01) {
 					fillRect(x1,y1,x2-x1,y2-y1);
 				}
 				
@@ -114,11 +112,11 @@ function slider(target, transmitCommand) {
 
 				var x1 = self.lineWidth;
 				var y1 = self.lineWidth;
-				var x2 = self.lineWidth+self.val*self.realSpace.x;
+				var x2 = self.lineWidth+self.val.value*self.realSpace.x;
 				var y2 = self.height-self.lineWidth;
 				var depth = 0;
 			   
-				if (self.val>0.01) {
+				if (self.val.value>0.01) {
 					fillRect(x1,y1,x2-x1,y2-y1);
 				}
 				
@@ -155,23 +153,23 @@ function slider(target, transmitCommand) {
 		if (self.mode=="absolute") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
+					self.val.value = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
 				} else {	
-					self.val = nx.clip(self.clickPos.x/self.width, 0, 1);
+					self.val.value = nx.clip(self.clickPos.x/self.width, 0, 1);
 				}
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val = nx.clip((self.val + ((self.deltaMove.y*-1)/self.height)),0,1);
+					self.val.value = nx.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0,1);
 				} else {
-					self.val = nx.clip((self.val + ((self.deltaMove.x)/self.width)),0,1);
+					self.val.value = nx.clip((self.val.value + ((self.deltaMove.x)/self.width)),0,1);
 				}
 				self.draw();
 			}
 		}
-	//	var scaledVal = ( self.val - 0.02 ) * (1/.97);
+	//	var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
 		self.nxTransmit(self.val);
 	}
 

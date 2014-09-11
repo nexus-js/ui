@@ -166,7 +166,11 @@ var nx = function() {
 							$("#debug").prepend(this.oscName+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
 						}
 					} else {
-						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+						if (key=="value") {
+							$("#debug").prepend(this.oscName+" "+data[key]+"<br>");
+						} else {
+							$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
+						}
 					}
 				}
 			} else if (typeof data == "number" || typeof data == "string") {
@@ -222,7 +226,13 @@ var nx = function() {
 							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key+"/"+key2, this.uiIndex, data[key][key2], manager.oscIp);
 						}
 					} else {
-						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+
+						if (key=="value") {
+							this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data[key], manager.oscIp);
+						} else {
+							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
+						}
+
 					}
 				}
 			} else if (typeof data == "number" || typeof data == "string") {
@@ -296,8 +306,18 @@ var nx = function() {
 						window.location.href = osc_message;
 					}
 				} else {
-					var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
-					window.location.href = osc_message;
+
+
+
+					if (key=="value") {
+						var osc_message = "nexus://default?" + this.oscName + "=" + data[key];
+						window.location.href = osc_message;
+					} else {
+						var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
+						window.location.href = osc_message;
+					}
+
+					
 				}
 			}
 		} else if (typeof data == "number" || typeof data == "string") {
