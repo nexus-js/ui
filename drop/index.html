@@ -5,30 +5,40 @@
 	  	<title>NxDrop</title>
 
 		<!-- standard includes of nexusUI and jquery-->
-		<script type="text/javascript" src="../dev/jquery.js"></script>
-		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
-		<script type="text/javascript" src="../nexusUI.js"></script>
-		<script type="text/javascript" src="FileSaver.js"></script>
+		<script type="text/javascript" src="libraries/jquery.js"></script>
+		<script type="text/javascript" src="libraries/jquery-ui-1.8.2.custom.min.js"></script>
+		<script type="text/javascript" src="libraries/gibber.lib.min.js"></script>
+		<script type="text/javascript" src="libraries/nexusUI.js"></script>
+		<script type="text/javascript" src="libraries/FileSaver.js"></script>
 
-		<!-- Make mobile display non-scalable and fitting the viewport window -->
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-  		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+			<!-- Make mobile display non-scalable and fitting the viewport window -->
+			<meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui" />
+			<meta name="apple-mobile-web-app-capable" content="yes" />
+	  		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 		<script>
+
+		 // init web audio
+		 	var c = new window.AudioContext || new webkitAudioContext
+
 
 			// Setup all of the UI objects you want to use.
 			// This occurs after the page has loaded all of the canvas objects to draw into.
 			
 			var globaldragid = false;
-			var uicolor = "#0af"
+			var uicolor = "#0af";
 
 			nx.onload = function() {
+				nx.WAenv = true;
 				nx.colorize(uicolor);
-				nx.setTransmissionProtocol("ajax");
-				nx.setTransmitCommand("../servers/php/lib/nexusOSCRelay.php");
+				nx.setTransmissionProtocol("js");
 				nx.showLabels = true;
 
+				if (!nx.audioStrings) {
+					nx.audioStrings = new Object();
+					nx.globalAudioString = "";
+					newPage();
+				}
 
 				nx.editOn = function() {
 					nx.editmode = true;
@@ -36,6 +46,9 @@
 				  	$("body").css("background", "#eee");
 				    $("#locked").attr("src","images/unlocked.png");
 				    $("#sidebar").animate({"right": "0px"}, 400);
+				    if (IDEon) {
+				   		showIDE();
+				    }
 				}
 
 				nx.editOff = function() {
@@ -45,6 +58,7 @@
 				  	$("body").css("background", "#fff");
 				    $("#locked").attr("src","images/locked.png");
 				    $("#sidebar").animate({"right": "-200px"}, 400);
+				    hideIDE();
 				}
 				nx.editOn();
 				nx.startPulse();
@@ -80,37 +94,87 @@
 					document.addEventListener("mousemove", dragobj, true);
 			//		document.addEventListener("touchmove", touchdragobj, true);
 					$("#"+thisname).mousemove(function(e) {
-						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
-							document.body.style.cursor = "se-resize";
+						if (nx.editmode && e.pageX>(parseInt(($(this).width()-10))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-10))+parseInt($(this).css("top").replace("px","")))) {
+						//	document.body.style.cursor = "se-resize";
+							this.style.cursor = "se-resize"
 						} else {
-							document.body.style.cursor = "pointer";
+						//	document.body.style.cursor = "pointer";
+							this.style.cursor = "pointer"
 						}
 					}) 
 
-				  	$("canvas").css("border", "solid 1px #ccc");
+				  //	$("canvas").css("border", "solid 1px "+nx.colors.accent);
+				  	nx.highlightEditedObj();
+				  	nx.audioStrings[thisname] = ""
+				  	nx.audioFunctions[thisname] = new Function();
 			}
 
 
 			$(document).ready(function() {
 
-				$(".nxopt").mousedown(function(e) {
+	 			Gibber.init() // REQUIRED!
+
+
+
+				Gibber.clear = function(callback) {
+					this.out ?	this.out.inputs.length=0 : null;
+					this.analysisUgens ? this.analysisUgens.length=0 : null;
+					this.sequencers ? this.sequencers.length=0 : null;
+					this.callbackArgs ? this.callbackArgs.length=2: null;
+					this.callbackObjects ? this.callbackObjects.length=1 : null;
+					if ("undefined"!=typeof this.out) { 
+						for (var t=!1,i=0;i<this.dirtied.length;i++) {
+							this.dirtied[i].variable===this.out.variable&&(t=!0);
+							t||(this.isDirty=!0,this.dirtied.push(this.out));
+						}
+					} else {
+					   this.isDirty=!0
+					}
+
+					if (callback) { callback() };
+				}
+
+			/*	$(document).keydown(function (e) {
+				    if (e.metaKey == true) {
+				        alert('meta key yo!');
+				    }
+				});
+*/
+
+				
+
+				$(".nxoptimg").mousedown(function(e) {
 					$("#sidebar").css("opacity",0.6);
 					document.body.style.userSelect = "none";
 					document.body.style.mozUserSelect = "none";
 					document.body.style.webkitUserSelect = "none";
-					createObject(e.currentTarget.innerHTML,e.pageY);
+					createObject(e.currentTarget.title,e.pageY);
 				})
 
 				$(".nxbutt").mousedown(function(e) {
 					createObject($(this).html());
 					$(".overlay").hide(0);
 				})
+				$(document).mousedown(function(e) {
+					if (e.srcElement != $("div.ace_content")[0] && e.srcElement != $("div.ace_content")[1]) {
+						hideElementCallbackCode();
+					}
+
+			/*		if (e.srcElement = $("#nxui")[0]) {
+						startHighlighting(e);
+					} */
+				});
+
+			/*	$(document).mousemove(function(e) {
+					setHighlight(e);
+				});*/
 
 				$(document).mouseup(function() {
 					document.removeEventListener("mousemove", dragobj, true)
 					$("#sidebar").css("opacity",1);
-
+			//		stopHighlighting();
 				});
+
 
 
 				$(".editbutton").toggle(function() {
@@ -120,11 +184,39 @@
 					$(this).html("editing is off")
 					nx.editOff();
 				});
-			})
 
+			//	$("#roamingcode").draggable();
+			})
+/*
+			function startHighlighting(e) {
+				$("#highlight").show(0);
+				$("#highlight").css("left", e.clientX);
+				$("#highlight").css("top", e.clientY);
+				$("#highlight").css("width", 0);
+				$("#highlight").css("height", 0);
+			} 
+			function setHighlight(e) {
+				console.log($("#highlight").css("left"));
+				$("#highlight").css("width", e.clientX-parseInt($("#highlight").css("left")));
+				$("#highlight").css("height", e.clientY-parseInt($("#highlight").css("top")));
+			}
+			function stopHighlighting(e) {
+				$("#highlight").hide(0);
+			} 
+*/
 			function dragobj(e) {
-				var matrixy = e.pageY;
-				var matrixx = e.pageX;
+			//	var matrixy = ~~(e.pageY/50)*50;
+			//	var matrixx = ~~(e.pageX/50)*50;
+				var x1 = $("#"+globaldragid).css("width");
+				x1 = x1.replace("px","");
+				x1 /= 2;
+				var y1 = $("#"+globaldragid).css("width");
+				y1 = y1.replace("px","");
+				y1 /= 2;
+
+				var matrixy = e.pageY - y1;
+				var matrixx = e.pageX - x1;
+
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
@@ -133,7 +225,8 @@
 			}
 
 			function deleteObject() {
-				$("#"+globaldragid).remove();
+				window[globaldragid].destroy();
+			//	$("#"+globaldragid).remove();
 			//	nx.elemTypeArr.splice(nx.elemTypeArr.indexOf());
 			}
 
@@ -158,7 +251,7 @@
 			 	var html = '<!doctype html>\n'
 		    	+ '<html>   \n'
 				+ '<head>   \n'
-				+ '<title>NexusUP</title>\n' 
+				+ '<title>NexusDrop</title>\n' 
 				+ '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">\n'
 				+ '<meta name="viewport" content="initial-scale=0.5, user-scalable=no"/>\n'
 				+ '<script type="text/javascript" src="jquery.js"><\/script>\n'
@@ -238,7 +331,7 @@
 
 			function makeUIjson() {
 				var jsonui = {
-					"globalAudio": "",
+					"globalAudio": nx.globalAudioString,
 					"elements": new Array()
 				}
 
@@ -251,7 +344,7 @@
 						height: nx.nxObjects[i].height,
 						"top": nx.nxObjects[i].offset.top,
 						"left": nx.nxObjects[i].offset.left,
-						"audioString": ""
+						"audioString": nx.audioStrings[nx.nxObjects[i].canvasID]
 					}
 				}
 				return JSON.stringify(jsonui);
@@ -271,13 +364,19 @@
 				nx.nxObjects = new Array();
 				nx.elemTypeArr = new Array();
 
-				if (nxui.elements) {
-					nxui = nxui.elements;
-				}
+				// audio
+
+				nx.globalAudioString = nxui.globalAudio;
+				console.log(nxui);
+				showGlobalAudioCode();
+
+				updateGlobalAudio();
+
+
+				nxui = nxui.elements;
 
 				for (var i=0;i<nxui.length;i++) {
 
-					console.log(nxui[i])
 					// if it has an nx attribute, store that in nxId
 					var nxId = nxui[i].type;
 					var elemCount = 0;
@@ -289,20 +388,23 @@
 					// add your new nexus element type to the element list
 					nx.elemTypeArr.push(nxId);
 					var idNum = elemCount + 1;
-					var thisname = nxui[i].oscName;
+					var thisname = nxui[i].canvasID;
 					thisname = thisname.replace("/","");
 					if(nxId) {
 						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;" width='+nxui[i].width+'" height="'+nxui[i].height+'"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
+						eval(thisname+".oscName = '"+nxui[i].oscName+"'");
 						globaldragid = thisname;
 						$("#"+thisname).mousemove(function(e) {
-						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
-							document.body.style.cursor = "se-resize";
-						} else {
-							document.body.style.cursor = "pointer";
-						}
-					}) 
+							if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+								document.body.style.cursor = "se-resize";
+							} else {
+								document.body.style.cursor = "pointer";
+							}
+						}) 
+						nx.audioStrings[thisname] = nxui[i].audioString;
+						nx.audioFunctions[thisname] = new Function("data", nxui[i].audioString);
 					}
 				}
 				nx.onload();
@@ -458,7 +560,6 @@
 				if (name.length>0) {
 				    for(var i = 0; i < UIDB.length; i++) {
 				    	dbname = UIDB[i].name
-				    	console.log(dbname)
 				    	if (dbname) {
 					    	if (dbname.substring(0,name.length).toLowerCase()==name.toLowerCase()) {
 					    		options += '<a class="dbopt" href="javascript:searchDB(\''+UIDB[i].name+'\')">'+UIDB[i].name+'</a> ';
@@ -470,7 +571,148 @@
 
 			}
 
+			nx.audioFunctions = new Object();
 
+			/* inline coding */
+
+			function saveCallback() {
+				var callback = callbackeditor.getValue()
+				console.log(callback)
+				nx.audioStrings[globaldragid] = callback.toString();
+
+				try {
+					$("#guicallback").css("background-color","#222");
+					nx.audioFunctions[globaldragid] = new Function("data", callback.toString());
+				} catch(e) {
+					$("#guicallback").css("background-color","#500");
+
+				} 
+			}
+
+			nx.allTraffic = function(obj, data) {
+				nx.audioFunctions[obj.canvasID](data)
+			}
+
+			function showGlobalAudioCode() {
+			//	$("#guiglobalaudio").val(nx.globalAudioString);
+				globaleditor.setValue(nx.globalAudioString)
+
+						//To focus the ace editor
+						globaleditor.focus();
+						var session = globaleditor.getSession();
+						//Get the number of lines
+						var count = session.getLength();
+						//Go to end of the last line
+						globaleditor.gotoLine(count, session.getLine(count-1).length);
+						globaleditor.focus();
+	            	
+			}
+
+			function showElementCallbackCode(element) {
+				var al = document.getElementById("arrow-left")
+				var ar = document.getElementById("arrow-right")
+				$("#roamingcode").css("top", element.offset.top + "px");
+				if (element.offset.left <= window.innerWidth/2) {
+					$("#roamingcode").css("left", element.offset.left + element.width + 3 + "px");
+					al.style.display = "block";
+					ar.style.display = "none";
+				} else {
+					$("#roamingcode").css("left", element.offset.left - $("#roamingcode").width() + "px");
+					ar.style.display = "block";
+					al.style.display = "none";
+
+				}
+
+	            var e = $('#roamingcode');
+	            e.not(':animated').css({'opacity': 1 }).effect("scale", {origin:['middle','center'], from:{width:0,height:0}, percent: 100, direction: 'both', easing: "easeOutExpo" }, 300, function() {
+
+
+						callbackeditor.setValue(nx.audioStrings[element.canvasID])
+						//To focus the ace editor
+						callbackeditor.focus();
+						var session = callbackeditor.getSession();
+						//Get the number of lines
+						var count = session.getLength();
+						//Go to end of the last line
+						callbackeditor.gotoLine(count, session.getLine(count-1).length);
+						callbackeditor.focus();
+	            	
+
+
+	            });
+
+
+
+			//	$("#guicallback").val(nx.audioStrings[element.canvasID]);
+				$("#perelement").html(element.oscName);
+				var dataprops = " &nbsp;[data] &nbsp;";
+				for (var key in element.val) {
+					dataprops += "data."+key+" &nbsp;"
+				}
+				if (dataprops.length >=100) { dataprops = dataprops.substring(0,100) + " ... "}
+				$("#dataprops").html("("+dataprops+")");
+
+
+
+			}
+
+			function hideElementCallbackCode() {
+				$("#roamingcode").hide(0);
+			}
+
+			/* global */
+
+			function updateGlobalAudio() {
+				if (Gibber.started) {
+					Gibber.clear(renderAudio);
+				} else {
+					renderAudio();
+				}
+			//	setTimeout(renderAudio, 1000);
+			}
+
+			function renderAudio() {
+				nx.globalAudioString = globaleditor.getValue();
+
+				$.globalEval(nx.globalAudioString);
+				Gibber.started = true;
+			}
+
+
+			/* new page */
+
+			function newPage() {
+				nx.nxObjects = new Array();
+				$("#nxui").html("");
+				nx.globalAudioString = defaultglobalaudio;
+				showGlobalAudioCode();
+				updateGlobalAudio()
+				callbackeditor.setValue("");
+			}
+
+			var defaultglobalaudio = "\n// Welcome to Nexus's web audio environment!\n// AudioContext is initialized as variable c \n\n";
+
+			var IDEon = true;
+
+			function toggleIDE() {
+				if (IDEon) {
+					IDEon = false;
+					hideIDE();
+					nx.sendsTo("ajax");
+				} else {
+					IDEon = true;
+					showIDE();
+					nx.sendsTo("js");
+				}
+			}
+
+			function showIDE() {
+				$("#codingarea").animate({"bottom": "0px"}, 400);
+			}
+
+			function hideIDE() {
+				$("#codingarea").animate({"bottom": "-180px"}, 400);
+			}
 
 		</script>
 	</head>
@@ -546,10 +788,11 @@
 				position:fixed;
 				top:0px;
 				right:0px;
-				height:100%;;
+				height:100%;
 				background-color:#fafafa;
 				border-right:solid 1px #ccc;
 				width:200px;
+				z-index:2;
 
 			}
 
@@ -646,6 +889,14 @@
 				line-height:25px;
 			}
 
+			input {   
+			    -webkit-user-select: text;
+			    -khtml-user-select: text;
+			    -moz-user-select: text;
+			    -ms-user-select: text;
+			    user-select: text;
+			
+			}
 		</style>
 
 
@@ -654,7 +905,7 @@
 
 		<div id="sidebar">
 
-			<input id="title" type="text" value="nexus drop"></input>
+			<input id="title" type="text" value="DAISy"></input>
 
 
 
@@ -662,7 +913,7 @@
 				Load
 			</div>
 
-			<input id="searchdb" name="searchdb" type="text" placeholder="Search UI Database" list="searchresults" autocomplete="off" onkeyup="if (event.keyCode == 13) {searchDB(this.value)} else {sortDB(this.value)}">
+			<input id="searchdb" name="searchdb" type="text" placeholder="Search UI Database" onkeyup="if (event.keyCode == 13) {searchDB(this.value)} else {sortDB(this.value)}">
 			</input>
 
 			<div id="searchresults"></div>
@@ -672,8 +923,42 @@
 				Add
 			</div>
 
-			<div id="elemlist">
-				<div class="nxopt">banner</div>
+			<style>
+
+				.nxoptimg {
+					float:left;
+					width:45px;
+					height:45px;
+					margin:0px 0px 0px 0px;
+					padding:9px 10px 9px 9px;
+					//border-radius:3px;
+					//-webkit-border-radius:3px;
+					border:solid 1px #f7f7f7;
+				}
+
+			</style>
+
+			<div id="elemlist" style="background-color:white;padding-left:1px">
+
+				<img class="nxoptimg" title="banner" draggable="false" src="images/banner.png">
+				<img class="nxoptimg" src="images/button.png" title="button" draggable="false" >
+				<img class="nxoptimg" src="images/colors.png" title="colors" draggable="false" >
+				<img class="nxoptimg" src="images/dial.png" title="dial" draggable="false" >
+				<img class="nxoptimg" src="images/multitouch.png" title="multitouch" draggable="false" >
+				<img class="nxoptimg" src="images/envelope.png" title="envelope" draggable="false" >
+				<img class="nxoptimg" src="images/joints.png" title="joints" draggable="false" >
+				<img class="nxoptimg" src="images/keyboard.png" title="keyboard" draggable="false" >
+				<img class="nxoptimg" src="images/matrix.png" title="matrix" draggable="false" >
+				<img class="nxoptimg" src="images/mouse.png" title="mouse" draggable="false" >
+				<img class="nxoptimg" src="images/multislider.png" title="multislider" draggable="false" >
+				<img class="nxoptimg" src="images/number.png" title="number" draggable="false" >
+				<img class="nxoptimg" src="images/pixels.png" title="pixels" draggable="false" >
+				<img class="nxoptimg" src="images/position.png" title="position" draggable="false" >
+				<img class="nxoptimg" src="images/range.png" title="range" draggable="false" >
+				<img class="nxoptimg" src="images/slider.png" title="slider" draggable="false" >
+
+
+			<!--	<div class="nxopt">banner</div>
 				<div class="nxopt">button</div>
 				<div class="nxopt">dial</div>
 				<div class="nxopt">keyboard</div>
@@ -688,8 +973,13 @@
 				<div class="nxopt">string</div>
 				<div class="nxopt">tilt</div>
 				<div class="nxopt">toggle</div>
-				<div class="nxopt">typewriter</div>
+				<div class="nxopt">typewriter</div> -->
 
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
 				<br>
 				<br>
 				<br>
@@ -726,10 +1016,10 @@
 				</div>
 
 				<img src="images/disk.png" id="savetodb" onclick="askToSaveToDB()">
-				<img src="images/trash.png" id="dbtrash" onclick="">
-			<!--	<img src="images/more.png" id="moreoptions" onclick="openEdit()"> -->
+				<img src="images/trash.png" id="dbtrash" onclick="newPage()">
+				<img src="images/more.png" id="moreoptions" onclick="openEdit()">
 				<img src="images/unlocked.png" id="locked" onclick="perform()">
-			<!--	<span style="font-size:30px;color:#aaa;font-family:arial;margin-top:-20px">&lt;&gt;</span> -->
+				<span style="font-size:30px;color:#aaa;font-family:trebuchet ms;margin-top:5px;margin-left:10px;float:left" onclick="toggleIDE()">&lt;&gt;</span>
 
 
 
@@ -739,12 +1029,183 @@
 
 
 
+		<div id="codingarea">
+			<div id="L">
+				<div class="title" onclick="toggleIDE()">global js</div>
+				<div id="guiglobalaudio">bla</div>
+				<button id="updateGlobalAudio" onclick="updateGlobalAudio()">Update</button>
+			</div>
+		</div>
+
+
+		<div id="roamingcode">
+			<div id="arrow-left"></div>
+			<div id="arrow-right"></div>
+			<div id="R">
+				<div class="title"><span id="perelement"></span> callback
+				<span id="dataprops"></span>
+				</div>
+				<div id="guicallback" onkeyup="saveCallback(this.value)"></div>
+			</div>
+		</div>
+
+<script src="ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    var globaleditor = ace.edit("guiglobalaudio");
+    globaleditor.setTheme("ace/theme/monokai");
+    globaleditor.getSession().setMode("ace/mode/javascript");
+    var callbackeditor = ace.edit("guicallback");
+    callbackeditor.setTheme("ace/theme/monokai");
+    callbackeditor.getSession().setMode("ace/mode/javascript");
+    callbackeditor.on("change", saveCallback)
+</script>
+
+
+		<style> 
+
+			#codingarea {
+				position:fixed;
+				margin:0px;
+				padding:0px;
+				bottom:-300px;
+				left:0px;
+				height:200px;
+				width:100%;
+				max-width:920px;
+				display:block;
+				box-sizing:border-box;
+				padding-right:220px;
+				z-index:0;
+			}
+
+			#codingarea #L {
+				width:95%;
+				height:100%;
+				float:left;
+				background-color:#ddd;
+				position:relative;
+			} 
+
+			#R {
+				top:0px;
+				left:14px;
+				width:400px;
+				height:150px;
+				background-color:#ddd;
+				position:absolute;
+				border-radius:10px;
+				-webkit-border-radius:10px;
+				-moz-border-radius:10px;
+				overflow:hidden;
+			}
+
+			#roamingcode {
+				position:absolute;
+				display:none;
+				top:0px;
+				left:0px;
+				z-index:10;
+				width:430px;
+				height:150px;
+			}
+
+			#codingarea #L .title, #R .title {
+				color:#333;
+				font-weight:bold;
+				font-size:12px;
+				padding:3px 10px;
+				cursor:pointer;
+			}
+
+			#guicallback, #guiglobalaudio {
+				width:100%;
+				height:90%;
+				outline:none;
+				font-size:10pt;
+				padding:0px;
+				border:none;
+				/*border-left:solid 1px #ccc;*/
+				background-color:#000;
+				box-sizing:border-box;
+				padding:10px;
+				font-family:lucida console;
+				font-weight:100;
+				color:#eee;
+				position:absolute;
+			}
+			#guicallback:focus, #guiglobalaudio:focus {
+			/*	outline:solid 1px #444; */
+				background-color:#333;
+			}
+
+			#updateGlobalAudio {
+				position:absolute;
+				bottom:3px;
+				right:3px;
+				background-color:#000;
+				color:#ccc;
+				border:solid 1px #ccc;
+				font-size:9pt;
+				padding:4px 12px;
+				outline:none;
+				cursor:pointer;
+			}
+
+			#updateGlobalAudio:hover {
+				border:solid 1px #fff;
+				color:#fff;
+
+			}
+
+			#perelement {
+				color:#1ac;
+			}
+
+			#arrow-left {
+				position:absolute;
+				left:0px;
+				top:20px;
+				width: 0; 
+				height: 0; 
+				border-top: 15px solid transparent;
+				border-bottom: 15px solid transparent; 
+				border-right:15px solid #2F3129; 
+			}
+
+			#arrow-right {
+				display:none;
+				position:absolute;
+				right:0px;
+				top:20px;
+				width: 0; 
+				height: 0; 
+				border-top: 16px solid transparent;
+				border-bottom: 16px solid transparent;	
+				border-left: 16px solid #111;
+			}
+
+			.ace_gutter {
+				width:20px;
+			}
 
 
 
+			#highlight {
+				border:solid 1px #06a;
+				background-color:#0af;
+				opacity:0.2;
+				width:100px;
+				height:100px;
+				position:absolute;
+				z-index:20;
+				display:none;
+			}
+
+			</style>
 
 
-
+			<div id="highlight"></div>
 
 
 

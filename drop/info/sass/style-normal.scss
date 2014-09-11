@@ -1,0 +1,32 @@
+@import 'vars';
+@import 'mixins';
+
+/*
+	Alpha by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+/* Basic */
+
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+/* Header */
+
+	.dropotron {
+		&.level-0 {
+			font-size: 1em;
+		}
+	}
+
+/* Banner */
+
+	#banner {
+		background-attachment: scroll;
+
+		h2 {
+			font-size: 3.5em;
+		}
+	}

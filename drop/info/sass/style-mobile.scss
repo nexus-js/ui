@@ -1,0 +1,151 @@
+@import 'vars';
+@import 'mixins';
+
+/*
+	Alpha by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+/* Basic */
+
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+	h2 {
+		font-size: 1.75em;
+		line-height: 1.35em;
+		letter-spacing: -0.025em;
+	}
+
+	h3 {
+		font-size: 1.5em;
+	}
+
+	h4 {
+		font-size: 1em;
+	}
+
+/* Section/Article */
+
+	header {
+		&.major {
+			padding: 1em;
+			
+			h2, p {
+				padding-left: 0.5em;
+				padding-right: 0.5em;
+			}
+		}
+	}
+	
+/* Box */
+
+	$box-padding-vertical: 2em;
+	$box-padding-horizontal: 2em;
+
+	.box {
+		margin: ($size-element-margin * 0.5);
+		overflow-x: hidden;
+		padding: $box-padding-vertical $box-padding-horizontal !important;
+		
+		&.features {
+			.features-row {
+				border-top: 0;
+				padding: 0;
+				
+				section {
+					border: 0;
+					border-top: solid 1px $color-border !important;
+					float: none;
+					margin: $box-padding-vertical 0 0 0 !important;
+					padding: $box-padding-vertical 0 0 0 !important;
+					width: 100%;
+				}
+
+				&:first-child {
+					section {
+						&:first-child {
+							border-top: 0 !important;
+							margin-top: 0 !important;
+							padding-top: 0 !important;
+						}
+					}
+				}
+			}
+		}
+		
+		.image {
+			&.featured {
+				margin-left: ($box-padding-horizontal * -1);
+				width: calc(100% + #{$box-padding-horizontal * 2});
+			
+				&:first-child {
+					margin-bottom: $box-padding-vertical;
+					margin-top: $box-padding-vertical * -1;
+				}
+
+				&:last-child {
+					margin-bottom: $box-padding-vertical * -1;
+					margin-top: $box-padding-vertical;
+				}
+			}
+		}
+	}
+
+/* Banner */
+
+	#banner {
+		padding: 4em 0;
+		
+		h2 {
+			font-size: 2.25em;
+		}
+		
+		p {
+			font-size: 1.25em;
+		}
+	}
+
+/* Main */
+
+	#main {
+		padding: 4em 0 0 0;
+
+		> header {
+			margin: 0 2em 1.5em 2em;
+
+			h2 {
+				font-size: 2em;
+			}
+			
+			p {
+				font-size: 1em;
+				padding-bottom: 1em;
+			}
+		}
+	}
+	
+	body.landing {
+		#main {
+			padding: 0;
+			margin-top: 0;
+		}
+	}			
+	
+/* Footer */
+
+	#footer {
+		padding: 4em 0;
+		
+		.copyright {
+			li {
+				border-left: 0;
+				display: block;
+				line-height: 2em;
+				margin-left: 0;
+				padding-left: 0;
+			}
+		}
+	}

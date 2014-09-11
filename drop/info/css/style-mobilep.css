@@ -1,0 +1,107 @@
+/*
+	Alpha by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+/* Basic */
+
+	html, body {
+		min-width: 320px;
+	}
+
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+/* Section/Article */
+
+	header.major {
+		padding: 0;
+	}
+
+/* List */
+
+	ul.actions {
+		margin: 0 0 2em 0;
+	}
+
+		ul.actions li {
+			display: block;
+			padding: 1em 0 0 0;
+			text-align: center;
+			width: 100%;
+		}
+
+			ul.actions li:first-child {
+				padding-top: 0;
+			}
+
+			ul.actions li > * {
+				width: 100%;
+				margin: 0 !important;
+			}
+
+				ul.actions li > *.icon:before {
+					margin-left: -2em;
+				}
+
+		ul.actions.small li {
+			padding: 0.5em 0 0 0;
+		}
+
+			ul.actions.small li:first-child {
+				padding-top: 0;
+			}
+
+/* Box */
+
+	.box {
+		border-radius: 0;
+		box-shadow: none;
+		margin: 1em 0 0 0;
+		padding: 3em 1em !important;
+	}
+
+		.box.features .features-row section {
+			margin: 3em 0 0 0 !important;
+			padding: 3em 0 0 0 !important;
+		}
+
+		.box .image.featured {
+			border-radius: 0;
+			margin-left: -1em;
+			width: calc(100% + 2em);
+		}
+
+			.box .image.featured img {
+				border-radius: 0 !important;
+			}
+
+			.box .image.featured:first-child {
+				margin-bottom: 3em;
+				margin-top: -3em;
+			}
+
+			.box .image.featured:last-child {
+				margin-bottom: -3em;
+				margin-top: 3em;
+			}
+
+/* Banner */
+
+	#banner {
+		padding: 5em 1em 4em 1em;
+	}
+
+/* Main */
+
+	#main > .box:first-child {
+		margin-top: 0;
+	}
+
+/* CTA */
+
+	#cta {
+		padding: 2.5em 1em 3em 1em;
+	}

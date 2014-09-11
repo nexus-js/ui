@@ -37,6 +37,7 @@ var nx = function() {
 	canvasgridy = 10;
 	canvasgridx = 10;
 	this.starttime = new Date().getTime();
+	this.WAenv = false;
 	
 
 	/** 
@@ -930,7 +931,9 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
 				self.isBeingResized = true;
-		//		hideElementCallbackCode();
+				if (nx.WAenv) {
+					hideElementCallbackCode();
+				}
 			} else {
 				self.isBeingResized = false;
 				self.isBeingDragged = true;
@@ -988,7 +991,9 @@ function getTemplate(self, target, transmitCommand) {
 				self.init();
 				self.draw();
 			} else if (self.isBeingDragged) {
-			//	hideElementCallbackCode();
+				if (nx.WAenv) {
+					hideElementCallbackCode();
+				}
 			//	var matrixy = ~~((e.pageY-self.height/2)/canvasgridy)*canvasgridy;
 			//	var matrixx = ~~((e.pageX-self.width/2)/canvasgridx)*canvasgridx;
 			//	self.canvas.style.top = matrixy+"px";
@@ -1014,8 +1019,9 @@ function getTemplate(self, target, transmitCommand) {
 				document.body.style.cursor = "pointer";
 				self.canvas.style.cursor = "pointer"
 			}
-			if (!self.hasMoved) {
-			//	showElementCallbackCode(self);
+			console.log(nx.WAenv);
+			if (!self.hasMoved && nx.WAenv) {
+				showElementCallbackCode(self);
 			}
 			
 		} else {

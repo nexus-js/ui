@@ -6,7 +6,7 @@
 
 		<!-- standard includes of nexusUI and jquery-->
 		<script type="text/javascript" src="../dev/jquery.js"></script>
-	<!--	<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script> -->
+		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
 		<script type="text/javascript" src="../nexusUI.js"></script>
 		<script type="text/javascript" src="FileSaver.js"></script>
 
@@ -16,9 +16,7 @@
   		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 		<script>
-		
 
-			
 			// Setup all of the UI objects you want to use.
 			// This occurs after the page has loaded all of the canvas objects to draw into.
 			
@@ -27,8 +25,8 @@
 
 			nx.onload = function() {
 				nx.colorize(uicolor);
-				nx.sendsTo("ajax");
-				nx.setAjaxPath("../servers/php/lib/nexusOSCRelay.php");
+				nx.setTransmissionProtocol("ajax");
+				nx.setTransmitCommand("../servers/php/lib/nexusOSCRelay.php");
 				nx.showLabels = true;
 
 
@@ -36,11 +34,8 @@
 					nx.editmode = true;
 				  	$("canvas").css("border", "solid 1px #ccc");
 				  	$("body").css("background", "#eee");
-				//  	$(".nxopt").show(0);
-				//  	$("#addnew").show(0);
-				  	if (!nx.is_touch_device) {
-				  		$("#settings").show(0);
-				  	}
+				    $("#locked").attr("src","images/unlocked.png");
+				    $("#sidebar").animate({"right": "0px"}, 400);
 				}
 
 				nx.editOff = function() {
@@ -48,22 +43,14 @@
 				  	document.body.style.cursor = "pointer";
 				  	$("canvas").css("border", "none");
 				  	$("body").css("background", "#fff");
-				//  	$(".nxopt").hide();
-				//  	$("#addnew").hide(0);
-				  	if (!nx.is_touch_device) {
-				  		$("#settings").hide(0);
-				  	}
+				    $("#locked").attr("src","images/locked.png");
+				    $("#sidebar").animate({"right": "-200px"}, 400);
 				}
-			/*	addnew.sendsTo("js")
-				addnew.response = function(data) {
-					createObject(data.text)
-					document.getElementById("addnew").options[0].selected = true;
-				}
-			*/
+				nx.editOn();
 				nx.startPulse();
 			}
 
-			function createObject(data) {
+			function createObject(data,mousey) {
 
 					// if it has an nx attribute, store that in nxId
 				//	var nxId = $(this).html();
@@ -83,7 +70,7 @@
 					var idNum = elemCount + 1;
 					var thisname = nxId + idNum;
 					if(nxId) {
-						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:50px;left:50px;"></canvas>');
+						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+mousey+'px;right:200px;"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/php/lib/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
 						globaldragid = thisname;
@@ -107,7 +94,11 @@
 			$(document).ready(function() {
 
 				$(".nxopt").mousedown(function(e) {
-					createObject(this);
+					$("#sidebar").css("opacity",0.6);
+					document.body.style.userSelect = "none";
+					document.body.style.mozUserSelect = "none";
+					document.body.style.webkitUserSelect = "none";
+					createObject(e.currentTarget.innerHTML,e.pageY);
 				})
 
 				$(".nxbutt").mousedown(function(e) {
@@ -117,6 +108,7 @@
 
 				$(document).mouseup(function() {
 					document.removeEventListener("mousemove", dragobj, true)
+					$("#sidebar").css("opacity",1);
 
 				});
 
@@ -131,13 +123,13 @@
 			})
 
 			function dragobj(e) {
-				var matrixy = ~~(e.pageY/50)*50;
-				var matrixx = ~~(e.pageX/50)*50;
+				var matrixy = e.pageY;
+				var matrixx = e.pageX;
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
 			function showSettings() {
-				$("#setoscname").attr("value", eval(globaldragid+".oscName"));
+				$("#oscpath").attr("value", eval(globaldragid+".oscName"));
 			}
 
 			function deleteObject() {
@@ -162,8 +154,6 @@
 			}
 			
 			function saveUI() {
-
-			
 
 			 	var html = '<!doctype html>\n'
 		    	+ '<html>   \n'
@@ -241,37 +231,49 @@
 			}
 
 			function storeUI(uiname) {
+				localStorage[uiname] = makeUIjson
+				findUIs();
 
-				var jsonui = new Array();
+			}
+
+			function makeUIjson() {
+				var jsonui = {
+					"globalAudio": "",
+					"elements": new Array()
+				}
 
 				for (var i=0;i<nx.nxObjects.length;i++) {
-					jsonui[i] = {
+					jsonui.elements[i] = {
 						type: nx.nxObjects[i].getName(),
 						canvasID: nx.nxObjects[i].canvasID,
 						oscName: nx.nxObjects[i].oscName,
 						width: nx.nxObjects[i].width,
 						height: nx.nxObjects[i].height,
 						"top": nx.nxObjects[i].offset.top,
-						"left": nx.nxObjects[i].offset.left
+						"left": nx.nxObjects[i].offset.left,
+						"audioString": ""
 					}
-					console.log(jsonui)
 				}
-				localStorage[uiname] = JSON.stringify(jsonui);
-				// $("#edit").hide(0);
-				findUIs();
-
+				return JSON.stringify(jsonui);
 			}
 
 
 
-			function recallUI(uiname) {
-				var nxui = JSON.parse(localStorage[uiname])
+			function recallUILocally(uiname) {
+				buildUIfromJSON(localStorage[uiname])
+			}
+
+			function buildUIfromJSON(uijson) {
+
+				var nxui = JSON.parse(uijson)
 
 				$("#nxui").html("");
 				nx.nxObjects = new Array();
 				nx.elemTypeArr = new Array();
 
-				console.log(nxui)
+				if (nxui.elements) {
+					nxui = nxui.elements;
+				}
 
 				for (var i=0;i<nxui.length;i++) {
 
@@ -344,7 +346,7 @@
 			function findUIs() {
 				var htmlstr = ""
 				for (var key in localStorage) {
-					htmlstr += '<div class="butt" onclick="recallUI(\''+key+'\')" style="background-color:#cef;width:40%;margin-left:15%;margin-right:0px;float:left;">'+key+'</div>'
+					htmlstr += '<div class="butt" onclick="recallUILocally(\''+key+'\')" style="background-color:#cef;width:40%;margin-left:15%;margin-right:0px;float:left;">'+key+'</div>'
 					htmlstr += '<div class="butt" onclick="deleteUI(\''+key+'\')" style="background-color:#faa;width:20%;margin-left:5%;margin-right:0px;float:left">Delete</div>'
 				}
 
@@ -359,19 +361,122 @@
 				}
 			}
 
+			function changeColor(newcolor) {
+				uicolor = newcolor;
+				nx.colorize(newcolor);
+			}
+
+
+
+
+
+
+			/**** COMMUNICATE WITH DB ****/
+
+
+			function askToSaveToDB() {
+				var uiname = prompt("Please name your interface");
+				saveToDB(uiname);
+			}
+
+			function saveToDB(name) {
+
+				var mydata = {
+					"nexus_ui": {
+						"name": name,
+						"transmission": "test",
+						"uiJSON": makeUIjson()
+					}
+				}
+				
+				mydata = JSON.stringify(mydata);
+
+
+				jQuery.ajax({
+				    type: "POST",
+				    url: "http://nexus.cct.lsu.edu:8000/nexus_uis",
+				    data: mydata,
+				    crossDomain: true,
+	  				dataType: 'json',
+				    contentType: "application/json",
+				    success: function(data){
+				        loadDB(setUIDB);
+				    },
+				    failure: function(errorMsg) {
+				        console.log(errorMsg);
+				    }
+				}); 
+
+			}
+
+			var UItoLoad;
+
+			function searchDB(name) {
+
+				UItoLoad = name;
+
+				loadDB(function (data) {
+					setUIDB(data)
+		        	for (var i=0;i<data.length;i++) {
+		        		if (data[i].name) {
+			        		if (data[i].name.toLowerCase() == UItoLoad.toLowerCase()) {
+			           			buildUIfromJSON(data[i].uiJSON);
+			           			return;
+			           		}
+			           	}
+		        	}
+		        	alert("Could not find the UI: "+UItoLoad);
+			    })
+			}
+
+			var UIDB;
+
+			function loadDB(callback) {
+
+				$.ajax({
+				    url: "proxyget.php",
+				    data: {requrl: "http://nexus.cct.lsu.edu:8000/nexus_uis.json"},
+				    dataType: 'json',
+			        success: callback
+				})
+			}
+
+			loadDB(setUIDB);
+
+			function setUIDB(data) {
+				UIDB = data;
+		/*		var options = ""
+			    for(var i = 0; i < UIDB.length; i++) {
+			    	options += '<a class="dbopt" href="javascript:searchDB(\''+UIDB[i].name+'\')">'+UIDB[i].name+'</a> ';
+			    }
+
+			    document.getElementById('searchresults').innerHTML = options; */
+			}
+
+			function sortDB(name) {
+				var options = "";
+				if (name.length>0) {
+				    for(var i = 0; i < UIDB.length; i++) {
+				    	dbname = UIDB[i].name
+				    	console.log(dbname)
+				    	if (dbname) {
+					    	if (dbname.substring(0,name.length).toLowerCase()==name.toLowerCase()) {
+					    		options += '<a class="dbopt" href="javascript:searchDB(\''+UIDB[i].name+'\')">'+UIDB[i].name+'</a> ';
+					    	}
+					    }
+				    }
+				}
+			    document.getElementById('searchresults').innerHTML = options;
+
+			}
+
+
 
 		</script>
 	</head>
 	<body>
 
 		<style>
-
-			.nxopt {
-				display:none;
-				padding:2px 10px;
-				border:solid 1px #ccc;
-				font-size:12pt;
-			}
 
 			.butt {
 				text-align:center;
@@ -397,8 +502,12 @@
 			}
 
 			body, input, button {
-				font-family:courier;
+				font-family:helvetica;
 				font-size: 12pt;
+				font-weight:100;
+				user-select:none;
+				-moz-user-select:none;
+				-webkit-user-select:none;
 			}
 
 			#addnew {
@@ -421,86 +530,210 @@
 				z-index:100;
 			}
 
-		</style>
+			/* new */
 
-		<div style="position:absolute;left:0px;top:0px;width:100%">
+			/* ui page */
 
-			<div id="perfbutt" onclick="perform()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#ccc;">locked</div>
-			<div id="addbutt" onclick="openAdd()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.33%;box-sizing:border-box;text-align:center;background-color:#afc;display:none">add</div>
-			<div id="editbutt" onclick="openEdit()" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:10pt;float:left;width:33.333%;box-sizing:border-box;text-align:center;background-color:#ccc;display:none">more</div>
-			
-			
-		</div>
-
-		<div class="overlay" id="add">
-
-			<div class="butt" style="background-color:#444;color:white" onclick="closeAdd()">close</div>
-
-			<div class="nxbutt">button</div>
-			<div class="nxbutt">colors</div>
-			<div class="nxbutt">dial</div>
-			<div class="nxbutt">joints</div>
-			<div class="nxbutt">keyboard</div>
-			<div class="nxbutt">matrix</div>
-			<div class="nxbutt">metroball</div>
-			<div class="nxbutt">mouse</div>
-			<div class="nxbutt">multislider</div>
-			<div class="nxbutt">multitouch</div>
-			<div class="nxbutt">number</div>
-			<div class="nxbutt">pixels</div>
-			<div class="nxbutt">position</div>
-			<div class="nxbutt">sandbox</div>
-			<div class="nxbutt">slider</div>
-			<div class="nxbutt">string</div>
-			<div class="nxbutt">tilt</div>
-			<div class="nxbutt">toggle</div>
-			<div class="nxbutt">typewriter</div>
-			<div style="clear:both"></div>
-
-		</div>
-
-
-
-		<div class="overlay" id="edit">
-
-			<div class="butt" style="background-color:#444;color:white" onclick="closeEdit()">close</div>
-
-			<div class="butt" id="erasebutt" onclick="toggleErase()">Erasing is off</div>
-
-			<div class="butt" id="resizebutt" onclick="toggleResize()">Resizing is off</div>
-
-			<div class="butt">
-				IP: <input type="text" id="setip" onkeyup="changeip(this.value)" style="width:75%" value="127.0.0.1"></input><br>Port: 7475
-			</div>
-
-			<div class="butt">
-				Color: <input id="changecolor" style="width:50%" value="red" type="color"></input><button onclick="changeColor(document.getElementById('changecolor').value)">Set Color</button>
-			</div>
-
-			<script>
-
-			function changeColor(newcolor) {
-				uicolor = newcolor;
-				nx.colorize(newcolor);
+			#nxui {
+				position:absolute;
+				width:100%;
+				height:100%;
 			}
 
-			</script>
+			/* sidebar */
 
-			<div class="butt" onclick="askToStoreUI()">Save in Browser</div>
+			#sidebar {
+				position:fixed;
+				top:0px;
+				right:0px;
+				height:100%;;
+				background-color:#fafafa;
+				border-right:solid 1px #ccc;
+				width:200px;
 
-			<div class="butt" onclick="saveUI()">Download HTML</div>
+			}
 
-			<div class="butt" onclick="findUIs()">Find UIs</div>
+			#sidebar input {
+				padding:4px 10px;
+				box-sizing:border-box;
+				outline:solid 0px;
+			}
 
-			<div id="loadeduis" style="width:100%"></div>
+			#sidebar #title {
+				width:100%;
+				font-size:20px;
+				border:none;
+				font-weight:normal;
+				color:#ccc;
+				padding:10px;
+				letter-spacing:1px;
+			}
 
-		<!--	<div class="butt">
-				Set OSCName:<input type="text" id="setoscname" onkeyup="setoscname(this.value)"></input>
-			</div> -->
+			#sidebar .header {
+				width:100%;
+				padding:5px 10px;
+				font-size:13px;
+				color:#333;
+				box-sizing:border-box;
+				background-color:#e3e3e3;
+			}
 
+			#searchdb:focus, #oscpath:focus {
+				outline:solid 1px #444;
+			}
+
+			#searchdb, #oscpath {
+				color:#555;
+				font-size:13px;
+				margin:3px;
+				display:block;
+				box-sizing:border-box;
+				width:194px;
+			}
+
+			#elemlist {
+				height:100%;
+				width:100%;
+				overflow:auto;
+			}
+
+			.nxopt {
+				padding:4px 10px;
+				font-size:14px;
+				color:#444;
+				border:solid 1px #eee;
+			}
+
+			#footer {
+				position:absolute;
+				bottom:0px;
+				display:block;
+				width:100%;
+				background-color:#f7f7f7;
+			}
+
+			#oscpath {
+				width:150px;
+				float:left;
+			}
+
+			#elemtrash, #savetodb, #dbtrash, #moreoptions, #locked {
+				opacity:0.7;
+				margin-left:5px;
+				cursor:pointer;
+			}
+
+			#savetodb, #dbtrash, #moreoptions, #locked {
+				margin-top:6px;
+				margin-bottom:6px;
+			}
+
+
+
+			#savetodb {
+				margin-left:10px;
+			}
+
+			#locked {
+				position:absolute;
+				right:205px;
+			}
+
+			.dbopt {
+				font-size:13px;
+				color:#0af;
+				margin:2px 0px 2px 10px;
+				line-height:25px;
+			}
+
+		</style>
+
+
+		<div id="nxui"></div>
 		
-		<!--	<button onclick="deleteObject()">Delete</button><br>
-			<button onclick="saveUI()">Download</button> -->
+
+		<div id="sidebar">
+
+			<input id="title" type="text" value="nexus drop"></input>
+
+
+
+			<div class="header">
+				Load
+			</div>
+
+			<input id="searchdb" name="searchdb" type="text" placeholder="Search UI Database" list="searchresults" autocomplete="off" onkeyup="if (event.keyCode == 13) {searchDB(this.value)} else {sortDB(this.value)}">
+			</input>
+
+			<div id="searchresults"></div>
+
+
+			<div class="header">
+				Add
+			</div>
+
+			<div id="elemlist">
+				<div class="nxopt">banner</div>
+				<div class="nxopt">button</div>
+				<div class="nxopt">dial</div>
+				<div class="nxopt">keyboard</div>
+				<div class="nxopt">metroball</div>
+				<div class="nxopt">mouse</div>
+				<div class="nxopt">multislider</div>
+				<div class="nxopt">multitouch</div>
+				<div class="nxopt">number</div>
+				<div class="nxopt">pixels</div>
+				<div class="nxopt">position</div>
+				<div class="nxopt">slider</div>
+				<div class="nxopt">string</div>
+				<div class="nxopt">tilt</div>
+				<div class="nxopt">toggle</div>
+				<div class="nxopt">typewriter</div>
+
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+			</div>
+
+
+
+
+			<div id="footer">
+
+				<div class="header">
+					Element
+				</div>
+
+				<input id="oscpath" type="text" placeholder="/OSCpath" onkeyup="setoscname(this.value)"></input>
+				<img src="images/trash.png" id="elemtrash" onclick="deleteObject()">
+				<div style="clear:both"></div>
+
+
+
+
+				<div class="header">
+					Interface
+				</div>
+
+				<img src="images/disk.png" id="savetodb" onclick="askToSaveToDB()">
+				<img src="images/trash.png" id="dbtrash" onclick="">
+			<!--	<img src="images/more.png" id="moreoptions" onclick="openEdit()"> -->
+				<img src="images/unlocked.png" id="locked" onclick="perform()">
+			<!--	<span style="font-size:30px;color:#aaa;font-family:arial;margin-top:-20px">&lt;&gt;</span> -->
+
+
+
+			</div>
 
 		</div>
 
@@ -516,63 +749,6 @@
 
 
 
-
-
-
-
-
-<!-- OLD -->
-
-
-		<!-- Layout all of the UI elements as canvas objects -->
-		<div style="position:fixed;left:0px;top:0px;border:solid 1px #ccc;background-color:#FFF;display:none">
-			<div class="editbutton" style="color:#333;border:solid 0px #ccc;padding:10px;background-color:#f7f7f7;font-size:11pt;float:left">editing is off</div>
-
-	<!--		<canvas id="addnew" nx="select" choices="+,button,dial,toggle,slider,position,tilt,multitouch,mouse,typewriter,pixels,multislider"></canvas> -->
-
-			<div style="clear:both"></div>
-			<div class="nxopt">button</div>
-			<div class="nxopt">colors</div>
-			<div class="nxopt">dial</div>
-			<div class="nxopt">keyboard</div>
-			<div class="nxopt">metroball</div>
-			<div class="nxopt">mouse</div>
-			<div class="nxopt">multislider</div>
-			<div class="nxopt">multitouch</div>
-			<div class="nxopt">number</div>
-			<div class="nxopt">pixels</div>
-			<div class="nxopt">position</div>
-			<div class="nxopt">slider</div>
-			<div class="nxopt">string</div>
-			<div class="nxopt">tilt</div>
-			<div class="nxopt">toggle</div>
-			<div class="nxopt">typewriter</div>
-		<!--	<div class="nxopt">comment</div> -->
-		<!--	<div class="nxopt">sandbox</div> -->
-		<!--	<div class="nxopt">matrix</div> -->
-		<!--	<div class="nxopt">joints</div> -->
-			
-		</div>
-
-
-		<div id="nxui">
-
-
-		</div>
-
-		<div style="position:fixed;left:0px;bottom:0px;width:100%;padding:10px;border:solid 2px #ccc;background-color:#ddd;" id="settings">
-
-			Set IP: <input type="text" id="setip" onkeyup="changeip(this.value)" value="127.0.0.1"></input><br>
-			Set OSCName:<input type="text" id="setoscname" onkeyup="setoscname(this.value)"></input><br>
-			<button onclick="deleteObject()">Delete</button>
-			<button onclick="saveUI()">Download</button>
-			<button onclick="askToStoreUI()">Save in Browser</button>
-
-
-		</div>
-
-
-<!-- OLD -->
 
 	</body>	
 </html>

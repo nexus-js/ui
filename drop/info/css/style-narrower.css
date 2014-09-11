@@ -1,0 +1,147 @@
+/*
+	Alpha by HTML5 UP
+	html5up.net | @n33co
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+/* Basic */
+
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+	h2 br, h3 br, h4 br, h5 br, h6 br {
+		display: none;
+	}
+
+/* Section/Article */
+
+	header br {
+		display: none;
+	}
+
+	header.major {
+		padding: 0 4em;
+	}
+
+/* Box */
+
+	.box {
+		padding: 3em 2em;
+	}
+
+		.box.features > section {
+			padding: 3em 2em;
+		}
+
+		.box .image.featured {
+			margin-left: -2em;
+			width: calc(100% + 4em);
+		}
+
+			.box .image.featured:first-child {
+				margin-bottom: 3em;
+				margin-top: -3em;
+			}
+
+			.box .image.featured:last-child {
+				margin-bottom: -3em;
+				margin-top: 3em;
+			}
+
+/* Header */
+
+	#skel-layers-wrapper {
+		padding-top: 0;
+	}
+
+	#header {
+		display: none;
+	}
+
+/* Banner */
+
+/* Layers */
+
+	#navButton .toggle {
+		text-decoration: none;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+	}
+
+		#navButton .toggle:before {
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-font-smoothing: antialiased;
+			font-family: FontAwesome;
+			font-style: normal;
+			font-weight: normal;
+			text-transform: none !important;
+		}
+
+		#navButton .toggle:before {
+			background: rgba(192, 192, 192, 0.75);
+			border-radius: 6px;
+			color: #fff;
+			content: '\f0c9';
+			display: block;
+			font-size: 16px;
+			height: 2.25em;
+			left: 0.5em;
+			line-height: 2.25em;
+			position: absolute;
+			text-align: center;
+			top: 0.5em;
+			width: 3.5em;
+		}
+
+	#navPanel {
+		background: #2b2b2b;
+		color: #bbb;
+	}
+
+		#navPanel .link {
+			border-bottom: 0;
+			border-top: solid 1px rgba(255, 255, 255, 0.05);
+			color: #bbb;
+			display: block;
+			height: 44px;
+			line-height: 44px;
+			padding: 0 1em 0 1em;
+			text-decoration: none;
+		}
+
+			#navPanel .link:first-child {
+				border-top: 0;
+			}
+
+			#navPanel .link.depth-0 {
+				color: #fff;
+			}
+
+			#navPanel .link .indent-1 {
+				display: inline-block;
+				width: 1em;
+			}
+
+			#navPanel .link .indent-2 {
+				display: inline-block;
+				width: 2em;
+			}
+
+			#navPanel .link .indent-3 {
+				display: inline-block;
+				width: 3em;
+			}
+
+			#navPanel .link .indent-4 {
+				display: inline-block;
+				width: 4em;
+			}
+
+			#navPanel .link .indent-5 {
+				display: inline-block;
+				width: 5em;
+			}
