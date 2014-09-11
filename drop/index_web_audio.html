@@ -7,6 +7,7 @@
 		<!-- standard includes of nexusUI and jquery-->
 		<script type="text/javascript" src="../dev/jquery.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.2.custom.min.js"></script>
+		<script type="text/javascript" src="gibber.lib.min.js"></script>
 		<script type="text/javascript" src="../nexusUI.js"></script>
 		<script type="text/javascript" src="FileSaver.js"></script>
 
@@ -17,18 +18,25 @@
 
 		<script>
 
+
+			//var jq = jQuery;
+
 			// Setup all of the UI objects you want to use.
 			// This occurs after the page has loaded all of the canvas objects to draw into.
 			
 			var globaldragid = false;
-			var uicolor = "#0af"
+			var uicolor = "#0af";
 
 			nx.onload = function() {
 				nx.colorize(uicolor);
-				nx.setTransmissionProtocol("ajax");
-				nx.setTransmitCommand("../servers/php/lib/nexusOSCRelay.php");
+				nx.setTransmissionProtocol("js");
 				nx.showLabels = true;
 
+				if (!nx.audioStrings) {
+					nx.audioStrings = new Object();
+					nx.globalAudioString = "";
+					newPage();
+				}
 
 				nx.editOn = function() {
 					nx.editmode = true;
@@ -36,6 +44,9 @@
 				  	$("body").css("background", "#eee");
 				    $("#locked").attr("src","images/unlocked.png");
 				    $("#sidebar").animate({"right": "0px"}, 400);
+				    if (IDEon) {
+				   		showIDE();
+				    }
 				}
 
 				nx.editOff = function() {
@@ -45,6 +56,7 @@
 				  	$("body").css("background", "#fff");
 				    $("#locked").attr("src","images/locked.png");
 				    $("#sidebar").animate({"right": "-200px"}, 400);
+				    hideIDE();
 				}
 				nx.editOn();
 				nx.startPulse();
@@ -87,11 +99,43 @@
 						}
 					}) 
 
-				  	$("canvas").css("border", "solid 1px #ccc");
+				  //	$("canvas").css("border", "solid 1px "+nx.colors.accent);
+				  	nx.highlightEditedObj();
+				  	nx.audioStrings[thisname] = ""
+				  	nx.audioFunctions[thisname] = new Function();
+				  	showElementCallbackCode(eval(thisname));
 			}
 
 
 			$(document).ready(function() {
+
+	 			Gibber.init() // REQUIRED!
+
+
+
+				Gibber.clear = function(callback) {
+					console.log(callback)
+					this.out ?	this.out.inputs.length=0 : null;
+					this.analysisUgens ? this.analysisUgens.length=0 : null;
+					this.sequencers ? this.sequencers.length=0 : null;
+					this.callbackArgs ? this.callbackArgs.length=2: null;
+					this.callbackObjects ? this.callbackObjects.length=1 : null;
+					if ("undefined"!=typeof this.out) { 
+						for (var t=!1,i=0;i<this.dirtied.length;i++) {
+							this.dirtied[i].variable===this.out.variable&&(t=!0);
+							t||(this.isDirty=!0,this.dirtied.push(this.out));
+						}
+					} else {
+					   this.isDirty=!0
+					}
+
+					if (callback) { console.log(callback); callback() };
+				}
+
+
+
+
+
 
 				$(".nxopt").mousedown(function(e) {
 					$("#sidebar").css("opacity",0.6);
@@ -123,8 +167,8 @@
 			})
 
 			function dragobj(e) {
-				var matrixy = e.pageY;
-				var matrixx = e.pageX;
+				var matrixy = ~~(e.pageY/50)*50;
+				var matrixx = ~~(e.pageX/50)*50;
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
@@ -133,7 +177,8 @@
 			}
 
 			function deleteObject() {
-				$("#"+globaldragid).remove();
+				window[globaldragid].destroy();
+			//	$("#"+globaldragid).remove();
 			//	nx.elemTypeArr.splice(nx.elemTypeArr.indexOf());
 			}
 
@@ -238,7 +283,7 @@
 
 			function makeUIjson() {
 				var jsonui = {
-					"globalAudio": "",
+					"globalAudio": nx.globalAudioString,
 					"elements": new Array()
 				}
 
@@ -251,7 +296,7 @@
 						height: nx.nxObjects[i].height,
 						"top": nx.nxObjects[i].offset.top,
 						"left": nx.nxObjects[i].offset.left,
-						"audioString": ""
+						"audioString": nx.audioStrings[nx.nxObjects[i].canvasID]
 					}
 				}
 				return JSON.stringify(jsonui);
@@ -271,13 +316,19 @@
 				nx.nxObjects = new Array();
 				nx.elemTypeArr = new Array();
 
-				if (nxui.elements) {
-					nxui = nxui.elements;
-				}
+				// audio
+
+				nx.globalAudioString = nxui.globalAudio;
+				console.log(nxui);
+				showGlobalAudioCode();
+
+				updateGlobalAudio();
+
+
+				nxui = nxui.elements;
 
 				for (var i=0;i<nxui.length;i++) {
 
-					console.log(nxui[i])
 					// if it has an nx attribute, store that in nxId
 					var nxId = nxui[i].type;
 					var elemCount = 0;
@@ -289,20 +340,23 @@
 					// add your new nexus element type to the element list
 					nx.elemTypeArr.push(nxId);
 					var idNum = elemCount + 1;
-					var thisname = nxui[i].oscName;
+					var thisname = nxui[i].canvasID;
 					thisname = thisname.replace("/","");
 					if(nxId) {
 						$("#nxui").append('<canvas id="'+thisname+'" nx="'+nxId+'" style="position:absolute;top:'+nxui[i].top+'px;left:'+nxui[i].left+'px;" width='+nxui[i].width+'" height="'+nxui[i].height+'"></canvas>');
 						eval(thisname + " = new "+nxId+"('"+thisname+"', '../servers/nexusPHP/nexusOSCRelay.php', "+idNum+");");
 						eval(thisname+".init()");
+						eval(thisname+".oscName = '"+nxui[i].oscName+"'");
 						globaldragid = thisname;
 						$("#"+thisname).mousemove(function(e) {
-						if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
-							document.body.style.cursor = "se-resize";
-						} else {
-							document.body.style.cursor = "pointer";
-						}
-					}) 
+							if (nx.editmode && e.pageX>(parseInt(($(this).width()-20))+parseInt($(this).css("left").replace("px",""))) && e.pageY>(parseInt(($(this).height()-20))+parseInt($(this).css("top").replace("px","")))) {
+								document.body.style.cursor = "se-resize";
+							} else {
+								document.body.style.cursor = "pointer";
+							}
+						}) 
+						nx.audioStrings[thisname] = nxui[i].audioString;
+						nx.audioFunctions[thisname] = new Function("data", nxui[i].audioString);
 					}
 				}
 				nx.onload();
@@ -458,7 +512,6 @@
 				if (name.length>0) {
 				    for(var i = 0; i < UIDB.length; i++) {
 				    	dbname = UIDB[i].name
-				    	console.log(dbname)
 				    	if (dbname) {
 					    	if (dbname.substring(0,name.length).toLowerCase()==name.toLowerCase()) {
 					    		options += '<a class="dbopt" href="javascript:searchDB(\''+UIDB[i].name+'\')">'+UIDB[i].name+'</a> ';
@@ -470,7 +523,106 @@
 
 			}
 
+			nx.audioFunctions = new Object();
 
+			/* inline coding */
+
+			function saveCallback() {
+				var callback = callbackeditor.getValue()
+				console.log(callback)
+				nx.audioStrings[globaldragid] = callback.toString();
+
+				try {
+					$("#guicallback").css("background-color","#222");
+					nx.audioFunctions[globaldragid] = new Function("data", callback.toString());
+				} catch(e) {
+					$("#guicallback").css("background-color","#500");
+
+				} 
+			}
+
+			nx.allTraffic = function(obj, data) {
+				nx.audioFunctions[obj.canvasID](data)
+			}
+
+			function showGlobalAudioCode() {
+			//	$("#guiglobalaudio").val(nx.globalAudioString);
+				globaleditor.setValue(nx.globalAudioString)
+			}
+
+			function showElementCallbackCode(element) {
+				console.log(nx.audioStrings[element.canvasID])
+			//	$("#guicallback").val(nx.audioStrings[element.canvasID]);
+				callbackeditor.setValue(nx.audioStrings[element.canvasID])
+				$("#perelement").html(element.oscName);
+				var dataprops = " &nbsp;[data] &nbsp;";
+				for (var key in element.val) {
+					dataprops += "data."+key+" &nbsp;"
+				}
+				if (dataprops.length >=100) { dataprops = dataprops.substring(0,100) + " ... "}
+				$("#dataprops").html("("+dataprops+")");
+			}
+
+			/* global */
+
+			function updateGlobalAudio() {
+				if (Gibber.started) {
+					console.log("gib clear");
+					Gibber.clear(renderAudio);
+				} else {
+					renderAudio();
+				}
+			//	setTimeout(renderAudio, 1000);
+			}
+
+			function renderAudio() {
+				console.log("rend audio after clear");
+			//	nx.globalAudioString = $("#guiglobalaudio").val()
+				nx.globalAudioString = globaleditor.getValue();
+
+				$.globalEval(nx.globalAudioString);
+				Gibber.started = true;
+			}
+
+
+			/* new page */
+
+			function newPage() {
+				nx.nxObjects = new Array();
+				$("#nxui").html("");
+			//	$("#guiglobalaudio").html(defaultglobalaudio);
+				globaleditor.setValue(defaultglobalaudio)
+				nx.globalAudioString = defaultglobalaudio;
+				updateGlobalAudio()
+			//	$("#guicallback").html("");
+				callbackeditor.setValue("");
+
+			}
+
+			var defaultglobalaudio = "var sound = new window.AudioContext() || new webkitAudioContext()";
+			//var defaultglobalaudio = ""
+
+			var IDEon = true;
+
+			function toggleIDE() {
+				if (IDEon) {
+					IDEon = false;
+					hideIDE();
+					nx.sendsTo("ajax");
+				} else {
+					IDEon = true;
+					showIDE();
+					nx.sendsTo("js");
+				}
+			}
+
+			function showIDE() {
+				$("#codingarea").animate({"bottom": "0px"}, 400);
+			}
+
+			function hideIDE() {
+				$("#codingarea").animate({"bottom": "-300px"}, 400);
+			}
 
 		</script>
 	</head>
@@ -546,10 +698,11 @@
 				position:fixed;
 				top:0px;
 				right:0px;
-				height:100%;;
+				height:100%;
 				background-color:#fafafa;
 				border-right:solid 1px #ccc;
 				width:200px;
+				z-index:2;
 
 			}
 
@@ -646,6 +799,14 @@
 				line-height:25px;
 			}
 
+			input {   
+			    -webkit-user-select: text;
+			    -khtml-user-select: text;
+			    -moz-user-select: text;
+			    -ms-user-select: text;
+			    user-select: text;
+			
+			}
 		</style>
 
 
@@ -662,7 +823,7 @@
 				Load
 			</div>
 
-			<input id="searchdb" name="searchdb" type="text" placeholder="Search UI Database" list="searchresults" autocomplete="off" onkeyup="if (event.keyCode == 13) {searchDB(this.value)} else {sortDB(this.value)}">
+			<input id="searchdb" name="searchdb" type="text" placeholder="Search UI Database" onkeyup="if (event.keyCode == 13) {searchDB(this.value)} else {sortDB(this.value)}">
 			</input>
 
 			<div id="searchresults"></div>
@@ -703,6 +864,11 @@
 				<br>
 				<br>
 				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
 			</div>
 
 
@@ -726,16 +892,124 @@
 				</div>
 
 				<img src="images/disk.png" id="savetodb" onclick="askToSaveToDB()">
-				<img src="images/trash.png" id="dbtrash" onclick="">
-			<!--	<img src="images/more.png" id="moreoptions" onclick="openEdit()"> -->
+				<img src="images/trash.png" id="dbtrash" onclick="newPage()">
+				<img src="images/more.png" id="moreoptions" onclick="openEdit()">
 				<img src="images/unlocked.png" id="locked" onclick="perform()">
-			<!--	<span style="font-size:30px;color:#aaa;font-family:arial;margin-top:-20px">&lt;&gt;</span> -->
+				<span style="font-size:30px;color:#aaa;font-family:trebuchet ms;margin-top:5px;margin-left:10px;float:left" onclick="toggleIDE()">&lt;&gt;</span>
 
 
 
 			</div>
 
 		</div>
+
+
+
+		<div id="codingarea">
+			<div id="L">
+				<div class="title">global js</div>
+				<div id="guiglobalaudio">bla</div>
+				<button id="updateGlobalAudio" onclick="updateGlobalAudio()">Update</button>
+			</div>
+			<div id="R">
+				<div class="title"><span id="perelement"></span> callback
+				<span id="dataprops"></span>
+				</div>
+				<div id="guicallback" onkeyup="saveCallback(this.value)"></div>
+			</div>
+		</div>
+
+<script src="ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    var globaleditor = ace.edit("guiglobalaudio");
+    globaleditor.setTheme("ace/theme/monokai");
+    globaleditor.getSession().setMode("ace/mode/javascript");
+    var callbackeditor = ace.edit("guicallback");
+    callbackeditor.setTheme("ace/theme/monokai");
+    callbackeditor.getSession().setMode("ace/mode/javascript");
+    callbackeditor.on("change", saveCallback)
+</script>
+
+
+		<style> 
+
+			#codingarea {
+				position:fixed;
+				margin:0px;
+				padding:0px;
+				bottom:-300px;
+				left:0px;
+				height:200px;
+				width:100%;
+				display:block;
+				box-sizing:border-box;
+				padding-right:220px;
+				z-index:0;
+			}
+
+			#codingarea #L, #codingarea #R {
+				width:49%;
+				height:100%;
+				float:left;
+				background-color:#ddd;
+				position:relative;
+			}
+
+			#codingarea #L .title, #codingarea #R .title {
+				color:#333;
+				font-weight:bold;
+				font-size:12px;
+				padding:3px 10px;
+			}
+
+			#guicallback, #guiglobalaudio {
+				width:100%;
+				height:90%;
+				outline:none;
+				font-size:10pt;
+				padding:0px;
+				border:none;
+				border-left:solid 1px #ccc;
+				background-color:#000;
+				box-sizing:border-box;
+				padding:10px;
+				font-family:lucida console;
+				font-weight:100;
+				color:#eee;
+				position:absolute;
+			}
+			#guicallback:focus, #guiglobalaudio:focus {
+			/*	outline:solid 1px #444; */
+				background-color:#333;
+			}
+
+			#updateGlobalAudio {
+				position:absolute;
+				bottom:3px;
+				right:3px;
+				background-color:#000;
+				color:#ccc;
+				border:solid 1px #ccc;
+				font-size:9pt;
+				padding:4px 12px;
+				outline:none;
+				cursor:pointer;
+			}
+
+			#updateGlobalAudio:hover {
+				border:solid 1px #fff;
+				color:#fff;
+
+			}
+
+			#perelement {
+				color:#1ac;
+			}
+
+		</style>
+
+
 
 
 

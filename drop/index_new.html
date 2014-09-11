@@ -123,8 +123,8 @@
 			})
 
 			function dragobj(e) {
-				var matrixy = e.pageY;
-				var matrixx = e.pageX;
+				var matrixy = ~~(e.pageY/50)*50;
+				var matrixx = ~~(e.pageX/50)*50;
 				$("#"+globaldragid).css("top",matrixy).css("left",matrixx);
 			}
 
@@ -237,21 +237,17 @@
 			}
 
 			function makeUIjson() {
-				var jsonui = {
-					"globalAudio": "",
-					"elements": new Array()
-				}
+				var jsonui = new Array();
 
 				for (var i=0;i<nx.nxObjects.length;i++) {
-					jsonui.elements[i] = {
+					jsonui[i] = {
 						type: nx.nxObjects[i].getName(),
 						canvasID: nx.nxObjects[i].canvasID,
 						oscName: nx.nxObjects[i].oscName,
 						width: nx.nxObjects[i].width,
 						height: nx.nxObjects[i].height,
 						"top": nx.nxObjects[i].offset.top,
-						"left": nx.nxObjects[i].offset.left,
-						"audioString": ""
+						"left": nx.nxObjects[i].offset.left
 					}
 				}
 				return JSON.stringify(jsonui);
@@ -271,9 +267,7 @@
 				nx.nxObjects = new Array();
 				nx.elemTypeArr = new Array();
 
-				if (nxui.elements) {
-					nxui = nxui.elements;
-				}
+				console.log(nxui)
 
 				for (var i=0;i<nxui.length;i++) {
 
@@ -418,12 +412,10 @@
 				loadDB(function (data) {
 					setUIDB(data)
 		        	for (var i=0;i<data.length;i++) {
-		        		if (data[i].name) {
-			        		if (data[i].name.toLowerCase() == UItoLoad.toLowerCase()) {
-			           			buildUIfromJSON(data[i].uiJSON);
-			           			return;
-			           		}
-			           	}
+		        		if (data[i].name.toLowerCase() == UItoLoad.toLowerCase()) {
+		           			buildUIfromJSON(data[i].uiJSON);
+		           			return;
+		           		}
 		        	}
 		        	alert("Could not find the UI: "+UItoLoad);
 			    })
@@ -458,17 +450,16 @@
 				if (name.length>0) {
 				    for(var i = 0; i < UIDB.length; i++) {
 				    	dbname = UIDB[i].name
-				    	console.log(dbname)
-				    	if (dbname) {
-					    	if (dbname.substring(0,name.length).toLowerCase()==name.toLowerCase()) {
-					    		options += '<a class="dbopt" href="javascript:searchDB(\''+UIDB[i].name+'\')">'+UIDB[i].name+'</a> ';
-					    	}
-					    }
+				    	if (dbname.substring(0,name.length).toLowerCase()==name.toLowerCase()) {
+				    		options += '<a class="dbopt" href="javascript:searchDB(\''+UIDB[i].name+'\')">'+UIDB[i].name+'</a> ';
+				    	}
 				    }
 				}
 			    document.getElementById('searchresults').innerHTML = options;
 
 			}
+
+
 
 
 
@@ -727,15 +718,25 @@
 
 				<img src="images/disk.png" id="savetodb" onclick="askToSaveToDB()">
 				<img src="images/trash.png" id="dbtrash" onclick="">
-			<!--	<img src="images/more.png" id="moreoptions" onclick="openEdit()"> -->
+				<img src="images/more.png" id="moreoptions" onclick="openEdit()">
 				<img src="images/unlocked.png" id="locked" onclick="perform()">
-			<!--	<span style="font-size:30px;color:#aaa;font-family:arial;margin-top:-20px">&lt;&gt;</span> -->
 
 
 
 			</div>
 
 		</div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
