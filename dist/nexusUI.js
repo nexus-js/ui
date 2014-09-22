@@ -1,569 +1,69 @@
-/** 
-	@title NexusUI API
-	@overview NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
-	@author Ben Taylor, Jesse Allison, Yemin Oh
- 	@copyright (c) 2014
- 	@license MIT
- */ 
- 
-var commentbuffer;
-
-/** 
-
-	@class nx
-
-	Central nexusUI manager with shared utility functions for all nexusUI objects
-
-*/
-
-nx = function() {
-
-	
-	var manager = this;
-	
-	// new manager properties
-	
-	this.nxObjects = new Object();
-	this.nxThrottlePeriod = 20;
-	this.elemTypeArr = new Array();
-	this.aniItems = new Array();
-	this.editmode = false;
-	this.isErasing = false;
-	this.isResizing = false;
-	this.showLabels = false;
-	canvasgridy = 10;
-	canvasgridx = 10;
-	this.starttime = new Date().getTime();
-	
-
-	/** 
-		@method colorize
-		@param {which part of ui to change, i.e. "accent" "fill", "border"} [aspect]
-		@param {hex or rgb color code} [color]
-		Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
-		
-		```js
-		nx.colorize("border", "#000000")
-		```
-
-	**/
-
-	this.colorize = function(aspect, newCol) {
-		
-		if (!newCol) {
-			// just sending in a color value colorizes the accent
-			newCol = aspect;
-			aspect = "accent";
-		}
-		
-		manager.colors[aspect] = newCol;
-		
-		for (var key in nx.nxObjects) {
-			nx.nxObjects[key].colors[aspect] = newCol;
-			nx.nxObjects[key].draw();
-		}
-	}
-	
-	this.addNxObject = function(newObj) {
-		this.nxObjects[newObj.canvasID] = newObj;
-	}
-	
-	this.setNxThrottlePeriod = function(newThrottle) {
-		manager.nxThrottlePeriod = newThrottle;
-		for (var key in manager.nxObjects) {
-			manager.nxObjects[key].nxThrottlePeriod = manager.nxThrottlePeriod;
-		}
-	}
-	
-	
-	/* old manager properties and methods */
-
-	this.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
-
-	this.canvasOffset = function(left, top) {
-		this.left = left;
-		this.top = top;
-	}
-
-	this.findPosition = function(element) {
-	    var body = document.body,
-	        win = document.defaultView,
-	        docElem = document.documentElement,
-	        box = document.createElement('div');
-	    box.style.paddingLeft = box.style.width = "1px";
-	    body.appendChild(box);
-	    var isBoxModel = box.offsetWidth == 2;
-	    body.removeChild(box);
-	    box = element.getBoundingClientRect();
-	    var clientTop  = docElem.clientTop  || body.clientTop  || 0,
-	        clientLeft = docElem.clientLeft || body.clientLeft || 0,
-	        scrollTop  = win.pageYOffset || isBoxModel && docElem.scrollTop  || body.scrollTop,
-	        scrollLeft = win.pageXOffset || isBoxModel && docElem.scrollLeft || body.scrollLeft;
-	    return {
-	        top : box.top  + scrollTop  - clientTop,
-	        left: box.left + scrollLeft - clientLeft
-	  	};
-	}
-
-	// *******************
-	//	nxTransmit
-	// *******************
-	
-	
-	
-	//event listeners
-	this.getHandlers = function(self) {
-		if (manager.is_touch_device) {
-			 self.canvas.ontouchstart = self.preTouch;
-			 self.canvas.ontouchmove = self.nxThrottle(self.preTouchMove, self.nxThrottlePeriod);
-			 self.canvas.ontouchend = self.preTouchRelease;
-		} else {
-			 self.canvas.addEventListener("mousedown", self.preClick, false);
-		}
-	}
-	
-	this.point = function(x,y){
-		this.x = x;
-		this.y = y;
-	}
-
-	this.getCursorPosition = function(e, canvas_offset) {
-		var x;
-	  var y;
-	  if (e.pageX != undefined && e.pageY != undefined) {
-			x = e.pageX;
-			y = e.pageY;
-	  } else {
-			x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-			y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-	  }
-		x -= canvas_offset.left;
-	  	y -= canvas_offset.top;
-		var click_position = new nx.point(x,y);
-		click_position.touches = [ {x: x, y: y }];
-		return click_position;
-	}
-
-	this.getTouchPosition = function(e, canvas_offset) {
-		var x;
-		var y;
-		x = e.targetTouches[0].pageX;
-		y = e.targetTouches[0].pageY;
-		x -= canvas_offset.left;
-	  	y -= canvas_offset.top;
-		var click_position = new nx.point(x,y);
-		console.log("touches="+e.touches.length);
-		console.log("target="+e.targetTouches.length);
-		console.log("changed="+e.changedTouches.length);
-
-		click_position.touches = new Array();
-		for (var i=0;i<e.targetTouches.length;i++) {
-			 click_position.touches.push({
-				x: e.targetTouches[i].pageX - canvas_offset.left,
-				y: e.targetTouches[i].pageY - canvas_offset.top
-			});
-		}
-		return click_position;
-	}
-
-	this.nxThrottle = function(func, wait) {
-	    var timeout;
-	    return function() {
-	        var context = this, args = arguments;
-	        if (!timeout) {
-	            // the first time the event fires, we setup a timer, which 
-	            // is used as a guard to block subsequent calls; once the 
-	            // timer's handler fires, we reset it and create a new one
-	            timeout = setTimeout(function() {
-	                timeout = null;
-	                try {
-	               		func.apply(context, args);
-	               	} catch (err) {
-	               		console.log(err);
-	               	}
-	            }, wait);
-	        }
-	    }
-	}
-
-	this.toCartesian = function(radius, angle){
-		var cos = Math.cos(angle);
-		var sin = Math.sin(angle);
-		var point = new nx.point(radius*cos, radius*sin*-1);
-		return point;
-	}
-
-	this.toPolar = function(x,y) {
-		var r = Math.sqrt(x*x + y*y);
-
-		var theta = Math.atan2(y,x);
-		if (theta < 0.) {
-			theta = theta + (2 * Math.PI);
-		}
-		var polar = new nx.point(r, theta);
-
-		return polar;
-	}
-
-	this.clip = function(value, low, high) {
-		var clipped_value = Math.min(high, Math.max(low, value));
-		return clipped_value;
-	}
-
-	this.text = function(context, text, position) {
-		if (!position) {
-			position = [10 , 10];
-		}
-		with(context) {
-			beginPath();
-				font = "bold 12px sans-serif";
-				fillText(text,position[0],position[1]);
-			closePath();
-		}
-	}
-
-	this.drawLabel = function() {
-		if (manager.showLabels) {
-			with(this.context) {
-				globalAlpha = 0.9;
-				fillStyle = this.colors.fill;
-				fillRect(this.width-100,this.height-20,100,20);
-				globalAlpha = 1;
-				beginPath();
-					fillStyle = this.colors.border;
-					font = "bold 15px courier";
-					textAlign = "center";
-					fillText(this.canvasID,this.width-50,this.height-5);
-					textAlign = "left";
-				closePath();
-			}
-		}
-	}
-	
-	this.boolToVal = function(somebool) {
-		if (somebool) {
-			return 1;
-		} else {
-			return 0;
-		}
-	}
-	
-	this.prune = function(data, scale) {
-		var scale = Math.pow(10,scale);
-		if (typeof data=="number") {
-			data = Math.round( data * scale ) / scale;
-		} else if (data instanceof Array) {
-			for (var i=0;i<data.length;i++) {
-				if (typeof data[i]=="number") {
-					data[i] = Math.round( data[i] * scale ) / scale;
-				}
-			}
-		}
-		return data;
-
-	}
-	
-	
-	this.scale = function(inNum, inMin, inMax, outMin, outMax) {
-		outNum = (((inNum - inMin) * (outMax - outMin)) / (inMax - inMin)) + outMin;
-		return outNum;	
-	}
-		
-	this.invert = function (inNum) {
-		return manager.scale(inNum, 1, 0, 0, 1);
-	}
-	
-	this.mtof = function(midi) {
-		var freq = Math.pow(2, ((midi-69)/12)) * 440;
-		return freq;
-	}
-
-
-
-	/*  
-	 * 		GUI
-	 */
-	
-	this.colors = { 
-			"accent": "#ff5500", 
-			"fill": "#f5f5f5", 
-			"border": "#999", //aaa 
-			"accentborder": "#aa2200",
-			"black": "#000",
-			"white": "#FFF",
-			"highlight": "rgba(255,85,0,0.5)"
-	};
-	
-	/* Global GUI Function Library*/
-		
-	this.randomNum = function(scale) {
-		var randNum = Math.floor(Math.random() * scale);
-		return randNum;
-	} 
-	
-	this.randomColor = function() {
-		var randCol = "rgb(" + this.randomNum(250) + "," + this.randomNum(250) + "," + this.randomNum(250) + ")";
-		return randCol;
-	}
-	
-	this.hexToRgb = function(hex, a) {
-		// Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-	    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-	        return r + r + g + g + b + b;
-	    });
-	
-		var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-		if (!a) {
-			a = 0.5;
-		}
-		
-		    var r = parseInt(result[1], 16);
-		    var g = parseInt(result[2], 16);
-		    var b = parseInt(result[3], 16);
-
-	    return "rgba(" + r + "," + g + "," + b + "," + a + ")";
-	}
-	
-	this.makeRoundRect = function(ctx,xpos,ypos,wid,hgt,depth) {
-		var x1 = xpos;
-		var y1 = ypos;
-		var x2 = wid+x1;
-		var y2 = hgt+y1;
-		//var depth = 6;
-		if (!depth) {
-			depth = 2; // prev 4
-		}
-		
-		ctx.beginPath();
-		ctx.moveTo(x1+depth, y1); //TOP LEFT
-		ctx.lineTo(x2-depth, y1); //TOP RIGHT
-		ctx.quadraticCurveTo(x2, y1, x2, y1+depth);
-		ctx.lineTo(x2, y2-depth); //BOTTOM RIGHT
-		ctx.quadraticCurveTo(x2, y2, x2-depth, y2);
-		ctx.lineTo(x1+depth, y2); //BOTTOM LEFT
-		ctx.quadraticCurveTo(x1, y2, x1, y2-depth);
-		ctx.lineTo(x1, y1+depth); //TOP LEFT
-		ctx.quadraticCurveTo(x1, y1, x1+depth, y1);
-		ctx.closePath();
-	}
-	
-	
-	this.isInside = function(clickedNode,currObject) {
-		if (clickedNode.x > currObject.xpos && clickedNode.x < (currObject.xpos+currObject.wid) && clickedNode.y > currObject.ypos && clickedNode.y < (currObject.ypos+currObject.hgt)) {
-			return true;	
-		} else {
-			return false;	
-		}
-	}
-	
-	
-	this.blockMove = function(e) {	    	
-	    // enables page touch events unless touching a canvas	
-	  	if (e.target.tagName == 'CANVAS') {
-	        e.preventDefault();
-	    }
-	}
-	
-	
-	/* animation functions */
-	
-	this.startPulse = function() {
-		manager.pulseInt = setInterval("nx.pulse()", 30);
-	}
-	
-	this.stopPulse = function() {
-		clearInterval(manager.pulseInt);
-	}
-	
-	this.pulse = function() {
-		for (var i=0;i<manager.aniItems.length;i++) {
-			manager.aniItems[i]();
-		}
-	}
-	
-	this.bounce = function(posIn, borderMin, borderMax, delta) {
-		if (posIn > borderMin && posIn < borderMax) {
-			return delta;
-		} else if (posIn <= borderMin) {
-			return Math.abs(delta);	
-		} else if (posIn >= borderMax) {
-			return Math.abs(delta) * (-1);
-		}
-	}
-	
-	
-	this.addStylesheet = function() {
-		var htmlstr = '<style>'
-					+ 'select {'
-					+ 'background: transparent;'
-		   			+ '-webkit-appearance: none;'
-		   			+ 'width: 150px;'
-		   			+ 'padding: 5px 5px;'
-		   			+ 'font-size: 16px;'
-		   			+ 'color:#888;'
-		   			+ 'border: solid 2px #CCC;'
-		   			+ 'border-radius: 6;'
-		   			+ 'outline: black;'
-		   			+ 'cursor:pointer;'
-		   			+ 'background-color:#F7F7F7;'
-		   			+ 'font-family:gill sans;'
-		   			+ '}'
-		   			+ ''
-		   			+ 'canvas { cursor:pointer; }'
-		   			+ '</style>';
-
-		document.body.innerHTML = document.body.innerHTML + htmlstr
-	}
-	
-	this.wrapText = function(context, text, x, y, maxWidth, lineHeight) {
-		if (text) {
-	        var words = text.split(' ');
-	        var line = '';
-
-	        for(var n = 0; n < words.length; n++) {
-	          var testLine = line + words[n] + ' ';
-	          var metrics = context.measureText(testLine);
-	          var testWidth = metrics.width;
-	          if (testWidth > maxWidth && n > 0) {
-	            context.fillText(line, x, y);
-	            line = words[n] + ' ';
-	            y += lineHeight;
-	          }
-	          else {
-	            line = testLine;
-	          }
-	        }
-	        context.fillText(line, x, y);
-
-		}
-      }
-
-      this.metas = document.getElementsByTagName('meta');
-
-	  this.setViewport = function(scale) {
-	    for (i=0; i<manager.metas.length; i++) {
-	      if (manager.metas[i].name == "viewport") {
-	        manager.metas[i].content = "minimum-scale="+scale+", maximum-scale="+scale;
-	      }
-	    }
-	  }
-
-
-	  this.highlightEditedObj = function() {
-		  	var elems = document.getElementsByTagName('canvas');
-			for (var i = 0; i < elems.length; i++) {
-			   elems[i].style.zindex += '1';
-			}
-			var gdo = document.getElementsByTagName(globaldragid);
-			gdo.style.zindex = 2;
-	  }
-
-
-	  this.setLabels = function(onoff) {
-	  	if (onoff=="on") {
-	  		manager.showLabels = true;
-	  	} else {
-	  		manager.showLabels = false;
-	  	}
-		for (var key in manager.nxObjects) {
-			manager.nxObjects[key].draw()
-		}
-	  }
-
-	  this.saveCanv = function(ui) {
-		var data = ui.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-		window.location.href = data
-	  };
-
-
-	
-}
-
-// Soon move to this -- better animation timing;
-// Or investigate Gibber.lib and see how he handles timing
-//var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
- //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-
-
-
-
-
-
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var manager = require('./lib/core/manager');
+var widgets = require('./lib/widgets');
 
 /************************************************
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
 ************************************************/
 
-nx = new nx();
-nx.onload = function() {};
+window.nx = new manager();
+window.nx.onload = function() {};
 
 /* this onload function turns canvases into nexus elements,
  * using the canvas's id as its var name */
 
-function initNX() {
+window.onload = function() {
 
-	nx.addStylesheet();
+  nx.addStylesheet();
 
-	transformCanvases();
-	
-	if (nx.is_touch_device) {
-		document.addEventListener("touchmove", nx.blockMove, true);
-		document.addEventListener("touchstart", nx.blockMove, true);
-	}
-	
-	nx.onload();
+  // get all canvases on the page and add them to the manager
+  var allcanvi = document.getElementsByTagName("canvas");
+  for (i=0;i<allcanvi.length;i++) {
+    // if it has an nx attribute, store that in nxType
+    var nxType = allcanvi[i].getAttribute("nx");
+    var elemCount = 0;
+    // find out how many of the same elem type have come before
+    // i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+    // allowing you to count how many dials already exist on the page
+    // and give your new dial the appropriate index and id: dial3
+    for (j=0;j<nx.elemTypeArr.length;j++) {
+      if (nx.elemTypeArr[j] === nxType) {
+        elemCount++;
+      }
+    }
+    // add your new nexus element type to the element list
+    nx.elemTypeArr.push(nxType);
+    // check to see if it has a pre-given ID
+    // and use that as its id if so
+    if (!allcanvi[i].id) {
+      var idNum = elemCount + 1;
+      allcanvi[i].id = nxType + idNum;
+    }
+    if(nxType) {
+      new require('./lib/widgets')[nxType](allcanvi[i].id);
+    }
+  }
 
-	nx.startPulse();
-	
+  if (nx.is_touch_device) {
+    document.addEventListener("touchmove", nx.blockMove, true);
+    document.addEventListener("touchstart", nx.blockMove, true);
+  }
+  
+  nx.onload();
+
+  nx.startPulse();
+  
 };
-
-
-window.onload = initNX;
-
-
-function transformCanvases() {
-
-		// get all canvases on the page
-	var allcanvi = document.getElementsByTagName("canvas");
-	for (i=0;i<allcanvi.length;i++) {
-		// if it has an nx attribute, store that in nxId
-		var nxId = allcanvi[i].getAttribute("nx");
-		var elemCount = 0;
-		// find out how many of the same elem type have come before
-		// i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
-		// allowing you to count how many dials already exist on the page
-		// and give your new dial the appropriate index and id: dial3
-		for (j=0;j<nx.elemTypeArr.length;j++) {
-			if (nx.elemTypeArr[j]==nxId) {
-				elemCount++;
-			}
-		}
-		// add your new nexus element type to the element list
-		nx.elemTypeArr.push(nxId);
-		// check to see if it has a pre-given ID
-		// and use that as its id if so
-		if (!allcanvi[i].id) {
-			var idNum = elemCount + 1;
-			allcanvi[i].id = nxId + idNum;
-		}
-		if(nxId) {
-			window[allcanvi[i].id] = new window[nxId](allcanvi[i].id);
-		}
-	}
-
-}
-	
-	
-	
-	
-	
+},{"./lib/core/manager":3,"./lib/widgets":14}],2:[function(require,module,exports){
+var domUtils = require('./utils/dom');
+var drawingUtils = require('./utils/drawing');
+var timingUtils = require('./utils/timing');
 
 /*****************************
 *      OBJECT TEMPLATE       *
 *****************************/
 
-function getTemplate(self, target) {
+exports.getTemplate = function (self, target) {
 	//canvas
 	self.canvasID = target;
 	if (!document.getElementById(target)) {
@@ -583,22 +83,25 @@ function getTemplate(self, target) {
 		self.width = self.defaultSize.width;
 		self.height = self.defaultSize.height;
 	}
-	self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
+	self.offset = {
+		left: domUtils.findPosition(self.canvas).left,
+		top: domUtils.findPosition(self.canvas).top
+	};
 	self.center = {
-					x: self.width/2, 
-					y: self.height/2
-				};
+		x: self.width/2, 
+		y: self.height/2
+	};
 	//dimensions
 	self.corners = {
-						"TLx": 0,
-						"TLy": 0,
-						"TRx": this.width,
-						"TRy": 0,
-						"BRx": this.width,
-						"BRy": this.height,
-						"BLx": 0,
-						"BLy": this.height
-				};
+		"TLx": 0,
+		"TLy": 0,
+		"TRx": this.width,
+		"TRy": 0,
+		"BRx": this.width,
+		"BRy": this.height,
+		"BLx": 0,
+		"BLy": this.height
+	};
 	//drawing
 	self.lineWidth = 2; // prev 3
 	self.padding = 2; // prev 2
@@ -610,9 +113,8 @@ function getTemplate(self, target) {
 	self.colors.black = nx.colors.black;
 	self.colors.white = nx.colors.white; 
 	self.colors.highlight = nx.colors.highlight;
-	self.hexToRgb = nx.hexToRgb;
 	//interaction
-	self.clickPos = new nx.point(0,0);
+	self.clickPos = {x: 0, y: 0};
 	self.clickPos.touches = new Array();
 	self.clicked = false;
 	self.value = 0;
@@ -620,7 +122,6 @@ function getTemplate(self, target) {
 	self.nodePos = new Array();	
 	self.deltaMove = new Object();
 	self.nxThrottlePeriod = nx.nxThrottlePeriod;
-	self.nxThrottle = nx.nxThrottle;
 	self.isBeingDragged = false;
 	self.isBeingResized = false;
 	self.label = false;
@@ -638,10 +139,7 @@ function getTemplate(self, target) {
 	self.localParameter = "value";
 
 	//built-in methods
-	self.getCursorPosition = nx.getCursorPosition;
-	self.getTouchPosition = nx.getTouchPosition;
-	self.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
-	self.drawLabel = nx.drawLabel;
+	self.is_touch_device = ('ontouchstart' in document.documentElement)? true:false;
 	
 	//self.events = new EventEmitter2() 
 
@@ -688,11 +186,14 @@ function getTemplate(self, target) {
 	}
 
 	self.preClick = function(e) {
-		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
-		//document.addEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
+		self.offset = {
+			left: domUtils.findPosition(self.canvas).left,
+			top: domUtils.findPosition(self.canvas).top
+		};
+		//document.addEventListener("mousemove", timingUtils.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
 		document.addEventListener("mousemove", self.preMove, false);
 		document.addEventListener("mouseup", self.preRelease, false);
-		self.clickPos = self.getCursorPosition(e, self.offset);
+		self.clickPos = domUtils.getCursorPosition(e, self.offset);
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
@@ -717,7 +218,7 @@ function getTemplate(self, target) {
 		document.body.style.webkitUserSelect = "none";
 	};
 	self.preMove = function(e) {
-		var new_click_position = self.getCursorPosition(e, self.offset);
+		var new_click_position = domUtils.getCursorPosition(e, self.offset);
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
 		self.deltaMove.x = new_click_position.x - self.clickPos.x;
 		self.clickPos = new_click_position;
@@ -753,7 +254,10 @@ function getTemplate(self, target) {
 				var matrixx = ~~((e.pageX-self.width/2)/canvasgridx)*canvasgridx;
 				self.canvas.style.top = matrixy+"px";
 				self.canvas.style.left = matrixx+"px";
-				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
+				self.offset = {
+					left: domUtils.findPosition(self.canvas).left,
+					top: domUtils.findPosition(self.canvas).top
+				};	
 			} 
 		} else {
 			self.move(e);
@@ -774,7 +278,7 @@ function getTemplate(self, target) {
 		document.body.style.webkitUserSelect = "text";
 	};
 	self.preTouch = function(e) {
-		self.clickPos = self.getTouchPosition(e, self.offset);
+		self.clickPos = domUtils.getTouchPosition(e, self.offset);
 		self.clicked = true;
 		self.deltaMove.x = 0;
 		self.deltaMove.y = 0;
@@ -797,7 +301,7 @@ function getTemplate(self, target) {
 	};
 	self.preTouchMove = function(e) {
 		if (self.clicked) {
-			var new_click_position = self.getTouchPosition(e, self.offset);
+			var new_click_position = domUtils.getTouchPosition(e, self.offset);
 			self.deltaMove.y = new_click_position.y - self.clickPos.y;
 			self.deltaMove.x = new_click_position.x - self.clickPos.x;
 			self.clickPos = new_click_position;
@@ -807,7 +311,10 @@ function getTemplate(self, target) {
 					var matrixx = ~~((e.targetTouches[0].pageX-self.width/2)/canvasgridx)*canvasgridx;
 					self.canvas.style.top = matrixy+"px";
 					self.canvas.style.left = matrixx+"px";	
-					self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
+					self.offset = {
+						left: domUtils.findPosition(self.canvas).left,
+						top: domUtils.findPosition(self.canvas).top
+					};
 				} else if (self.isBeingResized) {
 					self.canvas.width = ~~(e.targetTouches[0].pageX/(canvasgridx/2))*(canvasgridx/2);
 					self.canvas.height = ~~(e.targetTouches[0].pageY/(canvasgridy/2))*(canvasgridy/2);
@@ -841,7 +348,7 @@ function getTemplate(self, target) {
 	};
 	self.preTouchRelease = function(e) {
 		if (e.targetTouches.length>=1) {
-			var new_click_position = self.getTouchPosition(e, self.offset);
+			var new_click_position = domUtils.getTouchPosition(e, self.offset);
 			self.clickPos = new_click_position;
 		} else {
 			self.clicked = false;
@@ -887,7 +394,7 @@ function getTemplate(self, target) {
 		this.bgHeight = this.bgBottom - this.lineWidth;
 		this.bgWidth = this.bgRight - this.lineWidth;	
 		
-		nx.makeRoundRect(self.context, self.bgLeft, self.bgTop, self.bgWidth, self.bgHeight);
+		drawingUtils.makeRoundRect(self.context, self.bgLeft, self.bgTop, self.bgWidth, self.bgHeight);
 	};
 	self.erase = function() {
 		self.context.clearRect(0,0,self.width,self.height);
@@ -973,13 +480,444 @@ function getTemplate(self, target) {
 		self = null;
 	}
 
-	nx.getHandlers(self);
-};
+	self.wrapText = function(text, x, y, maxWidth, lineHeight) {
+		if (text) {
+	    var words = text.split(' ');
+	    var line = '';
 
-	
-	
-	
-;/** 
+	    for(var n = 0; n < words.length; n++) {
+	      var testLine = line + words[n] + ' ';
+	      var metrics = this.context.measureText(testLine);
+	      var testWidth = metrics.width;
+	      if (testWidth > maxWidth && n > 0) {
+	        this.context.fillText(line, x, y);
+	        line = words[n] + ' ';
+	        y += lineHeight;
+	      }
+	      else {
+	        line = testLine;
+	      }
+	    }
+	    this.context.fillText(line, x, y);
+
+		}
+	}
+
+	self.drawLabel = function() {
+	  if (this.showLabels) {
+	    with(this.context) {
+	      globalAlpha = 0.9;
+	      fillStyle = this.colors.fill;
+	      fillRect(this.width-100,this.height-20,100,20);
+	      globalAlpha = 1;
+	      beginPath();
+	      fillStyle = this.colors.border;
+	      font = "bold 15px courier";
+	      textAlign = "center";
+	      fillText(this.canvasID,this.width-50,this.height-5);
+	      textAlign = "left";
+	      closePath();
+	    }
+	  }
+	}
+
+	self.saveCanv = function() {
+	  var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+	  window.location.href = data
+	}
+
+	// Setup interaction
+  if (this.is_touch_device) {
+    self.canvas.ontouchstart = self.preTouch;
+    self.canvas.ontouchmove = timingUtils.nxThrottle(self.preTouchMove, self.nxThrottlePeriod);
+    self.canvas.ontouchend = self.preTouchRelease;
+  } else {
+    self.canvas.addEventListener("mousedown", self.preClick, false);
+  }
+
+};
+},{"./utils/dom":4,"./utils/drawing":5,"./utils/timing":7}],3:[function(require,module,exports){
+var timingUtils = require('../utils/timing');
+
+/** 
+  @title NexusUI API
+  @overview NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
+  @author Ben Taylor, Jesse Allison, Yemin Oh
+  @copyright (c) 2014
+  @license MIT
+ */ 
+ 
+
+/** 
+
+  @class manager
+
+  Central nexusUI manager with shared utility functions for all nexusUI objects
+
+*/
+
+var manager = module.exports = function() {
+  this.nxObjects = new Object();
+  this.nxThrottlePeriod = 20;
+  this.elemTypeArr = new Array();
+  this.aniItems = new Array();
+  this.editmode = false;
+  this.isErasing = false;
+  this.isResizing = false;
+  this.showLabels = false;
+  canvasgridy = 10;
+  canvasgridx = 10;
+  this.starttime = new Date().getTime();
+
+
+  /* old manager properties and methods */
+  this.is_touch_device = ('ontouchstart' in document.documentElement)? true:false;
+
+  this.metas = document.getElementsByTagName('meta');
+
+}
+  
+
+/** 
+  @method colorize
+  @param {which part of ui to change, i.e. "accent" "fill", "border"} [aspect]
+  @param {hex or rgb color code} [color]
+  Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
+  
+  ```js
+  manager.colorize("border", "#000000")
+  ```
+
+**/
+manager.prototype.colorize = function(aspect, newCol) {
+  
+  if (!newCol) {
+    // just sending in a color value colorizes the accent
+    newCol = aspect;
+    aspect = "accent";
+  }
+  
+  this.colors[aspect] = newCol;
+  
+  for (var key in this.nxObjects) {
+    this.nxObjects[key].colors[aspect] = newCol;
+    this.nxObjects[key].draw();
+  }
+}
+  
+manager.prototype.addNxObject = function(newObj) {
+  this.nxObjects[newObj.canvasID] = newObj;
+}
+  
+manager.prototype.setNxThrottlePeriod = function(newThrottle) {
+  this.nxThrottlePeriod = newThrottle;
+  for (var key in this.nxObjects) {
+    this.nxObjects[key].nxThrottlePeriod = this.nxThrottlePeriod;
+  }
+}
+
+
+
+  /*  
+   *    GUI
+   */
+  
+manager.prototype.colors = { 
+  "accent": "#ff5500", 
+  "fill": "#f5f5f5", 
+  "border": "#999", //aaa 
+  "accentborder": "#aa2200",
+  "black": "#000",
+  "white": "#FFF",
+  "highlight": "rgba(255,85,0,0.5)"
+};
+  
+  /* Global GUI Function Library*/
+  
+/* animation functions */ 
+// TODO : ugly
+manager.prototype.startPulse = function() {
+  this.pulseInt = setInterval("nx.pulse()", 30);
+}
+  
+manager.prototype.stopPulse = function() {
+  clearInterval(this.pulseInt);
+}
+  
+manager.prototype.pulse = function() {
+  for (var i=0;i<this.aniItems.length;i++) {
+    this.aniItems[i]();
+  }
+} 
+  
+manager.prototype.addStylesheet = function() {
+  var htmlstr = '<style>'
+    + 'select {'
+    + 'background: transparent;'
+    + '-webkit-appearance: none;'
+    + 'width: 150px;'
+    + 'padding: 5px 5px;'
+    + 'font-size: 16px;'
+    + 'color:#888;'
+    + 'border: solid 2px #CCC;'
+    + 'border-radius: 6;'
+    + 'outline: black;'
+    + 'cursor:pointer;'
+    + 'background-color:#F7F7F7;'
+    + 'font-family:gill sans;'
+    + '}'
+    + ''
+    + 'canvas { cursor:pointer; }'
+    + '</style>';
+
+  document.body.innerHTML = document.body.innerHTML + htmlstr
+}
+
+manager.prototype.setViewport = function(scale) {
+  for (i=0; i<this.metas.length; i++) {
+    if (this.metas[i].name == "viewport") {
+      this.metas[i].content = "minimum-scale="+scale+", maximum-scale="+scale;
+    }
+  }
+}
+
+manager.prototype.highlightEditedObj = function() {
+  var elems = document.getElementsByTagName('canvas');
+  for (var i = 0; i < elems.length; i++) {
+    elems[i].style.zindex += '1';
+  }
+  var gdo = document.getElementsByTagName(globaldragid);
+  gdo.style.zindex = 2;
+}
+
+manager.prototype.setLabels = function(onoff) {
+  if (onoff=="on") {
+    this.showLabels = true;
+  } else {
+    this.showLabels = false;
+  }
+  for (var key in this.nxObjects) {
+    this.nxObjects[key].draw()
+  }
+}
+
+
+// Soon move to this -- better animation timing;
+// Or investigate Gibber.lib and see how he handles timing
+//var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+ //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+},{"../utils/timing":7}],4:[function(require,module,exports){
+
+exports.findPosition = function(element) {
+  var body = document.body,
+      win = document.defaultView,
+      docElem = document.documentElement,
+      box = document.createElement('div');
+  box.style.paddingLeft = box.style.width = "1px";
+  body.appendChild(box);
+  var isBoxModel = box.offsetWidth == 2;
+  body.removeChild(box);
+  box = element.getBoundingClientRect();
+  var clientTop  = docElem.clientTop  || body.clientTop  || 0,
+      clientLeft = docElem.clientLeft || body.clientLeft || 0,
+      scrollTop  = win.pageYOffset || isBoxModel && docElem.scrollTop  || body.scrollTop,
+      scrollLeft = win.pageXOffset || isBoxModel && docElem.scrollLeft || body.scrollLeft;
+  return {
+    top : box.top  + scrollTop  - clientTop,
+    left: box.left + scrollLeft - clientLeft
+  };
+}
+
+exports.getCursorPosition = function(e, canvas_offset) {
+  var x;
+  var y;
+  if (e.pageX != undefined && e.pageY != undefined) {
+    x = e.pageX;
+    y = e.pageY;
+  } else {
+    x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+    y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+  }
+  x -= canvas_offset.left;
+    y -= canvas_offset.top;
+  var click_position = {x: x, y: y};
+  click_position.touches = [ {x: x, y: y } ];
+  return click_position;
+}
+
+exports.getTouchPosition = function(e, canvas_offset) {
+  var x;
+  var y;
+  x = e.targetTouches[0].pageX;
+  y = e.targetTouches[0].pageY;
+  x -= canvas_offset.left;
+    y -= canvas_offset.top;
+  var click_position = {x: x, y: y};
+  console.log("touches="+e.touches.length);
+  console.log("target="+e.targetTouches.length);
+  console.log("changed="+e.changedTouches.length);
+
+  click_position.touches = new Array();
+  for (var i=0;i<e.targetTouches.length;i++) {
+     click_position.touches.push({
+      x: e.targetTouches[i].pageX - canvas_offset.left,
+      y: e.targetTouches[i].pageY - canvas_offset.top
+    });
+  }
+  return click_position;
+}
+},{}],5:[function(require,module,exports){
+var math = require('./math')
+
+exports.randomColor = function() {
+  return "rgb(" + math.randomNum(250) + "," + math.randomNum(250) + "," + math.randomNum(250) + ")";
+}
+
+exports.hexToRgb = function(hex, a) {
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+      return r + r + g + g + b + b;
+  });
+
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!a) {
+    a = 0.5;
+  }
+  
+  var r = parseInt(result[1], 16);
+  var g = parseInt(result[2], 16);
+  var b = parseInt(result[3], 16);
+
+  return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+}
+
+exports.isInside = function(clickedNode,currObject) {
+  if (clickedNode.x > currObject.xpos && clickedNode.x < (currObject.xpos+currObject.wid) && clickedNode.y > currObject.ypos && clickedNode.y < (currObject.ypos+currObject.hgt)) {
+    return true;  
+  } else {
+    return false; 
+  }
+}
+
+exports.makeRoundRect = function(ctx,xpos,ypos,wid,hgt,depth) {
+  var x1 = xpos;
+  var y1 = ypos;
+  var x2 = wid+x1;
+  var y2 = hgt+y1;
+  //var depth = 6;
+  if (!depth) {
+    depth = 2; // prev 4
+  }
+  
+  ctx.beginPath();
+  ctx.moveTo(x1+depth, y1); //TOP LEFT
+  ctx.lineTo(x2-depth, y1); //TOP RIGHT
+  ctx.quadraticCurveTo(x2, y1, x2, y1+depth);
+  ctx.lineTo(x2, y2-depth); //BOTTOM RIGHT
+  ctx.quadraticCurveTo(x2, y2, x2-depth, y2);
+  ctx.lineTo(x1+depth, y2); //BOTTOM LEFT
+  ctx.quadraticCurveTo(x1, y2, x1, y2-depth);
+  ctx.lineTo(x1, y1+depth); //TOP LEFT
+  ctx.quadraticCurveTo(x1, y1, x1+depth, y1);
+  ctx.closePath();
+}
+
+exports.text = function(context, text, position) {
+  if (!position) {
+    position = [10 , 10];
+  }
+  with(context) {
+    beginPath();
+    font = "bold 12px sans-serif";
+    fillText(text,position[0],position[1]);
+    closePath();
+  }
+}
+},{"./math":6}],6:[function(require,module,exports){
+exports.toPolar = function(x,y) {
+  var r = Math.sqrt(x*x + y*y);
+
+  var theta = Math.atan2(y,x);
+  if (theta < 0.) {
+    theta = theta + (2 * Math.PI);
+  }
+  return {x: r, y: theta};
+}
+
+exports.toCartesian = function(radius, angle){
+  var cos = Math.cos(angle);
+  var sin = Math.sin(angle);
+  return {x: radius*cos, y: radius*sin*-1};
+}
+
+exports.clip = function(value, low, high) {
+  return Math.min(high, Math.max(low, value));
+}
+
+exports.prune = function(data, scale) {
+  var scale = Math.pow(10,scale);
+  if (typeof data === "number") {
+    data = Math.round( data * scale ) / scale;
+  } else if (data instanceof Array) {
+    for (var i=0;i<data.length;i++) {
+      if (typeof data[i]=="number") {
+        data[i] = Math.round( data[i] * scale ) / scale;
+      }
+    }
+  }
+  return data;
+}
+
+exports.scale = function(inNum, inMin, inMax, outMin, outMax) {
+  return (((inNum - inMin) * (outMax - outMin)) / (inMax - inMin)) + outMin;  
+}
+
+exports.invert = function (inNum) {
+  return exports.scale(inNum, 1, 0, 0, 1);
+}
+
+exports.bounce = function(posIn, borderMin, borderMax, delta) {
+  if (posIn > borderMin && posIn < borderMax) {
+    return delta;
+  } else if (posIn <= borderMin) {
+    return Math.abs(delta); 
+  } else if (posIn >= borderMax) {
+    return Math.abs(delta) * (-1);
+  }
+}
+
+exports.mtof = function(midi) {
+  return Math.pow(2, ((midi-69)/12)) * 440;
+}
+
+exports.randomNum = function(scale) {
+  return Math.floor(Math.random() * scale);
+}
+},{}],7:[function(require,module,exports){
+exports.nxThrottle = function(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    if (!timeout) {
+      // the first time the event fires, we setup a timer, which 
+      // is used as a guard to block subsequent calls; once the 
+      // timer's handler fires, we reset it and create a new one
+      timeout = setTimeout(function() {
+        timeout = null;
+        try {
+          func.apply(context, args);
+        } catch (err) {
+          console.log(err);
+        }
+      }, wait);
+    }
+  }
+}
+},{}],8:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate
+
+/** 
 	@class banner      
 	"Powered by NexusUI" tag with a link to our website. Use it if you want to share the positive vibes of NexusUI. Thanks for using!
 	```html
@@ -988,7 +926,7 @@ function getTemplate(self, target) {
 	<canvas nx="banner" style="margin-left:25px"></canvas>
 */
 
-function banner(target) {
+var banner = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -1057,7 +995,11 @@ function banner(target) {
 			window.location = "http://www.nexusosc.com";
 		}
 	}
-};/** 
+}
+},{"../core":2}],9:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate
+
+/** 
 	@class button      
 	Touch button with three modes of interaction
 	<br><a href="../examples/button/" target="blank">Demo</a>
@@ -1068,7 +1010,7 @@ function banner(target) {
 */
 
 
-var button = function(target) {
+var button = module.exports = function(target) {
 
 	//self awareness
 	var self = this;
@@ -1193,7 +1135,7 @@ var button = function(target) {
 	}
 
 	this.click = function(e) {
-		self.val["press"] = self.value * nx.boolToVal(self.clicked);
+		self.val["press"] = self.value * self.clicked;
 		if (self.mode=="node") {
 			self.val["x"] = self.clickPos.x;
 			self.val["y"] = self.clickPos.y;
@@ -1213,7 +1155,7 @@ var button = function(target) {
 	}
 
 	this.release = function() {
-		self.val["press"] = self.value * nx.boolToVal(self.clicked);
+		self.val["press"] = self.value * self.clicked;
 		if (self.mode=="toggle" || self.mode=="node") { 
 			self.nxTransmit(self.val);
 		}
@@ -1241,7 +1183,11 @@ var button = function(target) {
 
 	this.init();
 
-};/** 
+}
+},{"../core":2}],10:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate
+
+/** 
 	@class colors      
 	Color picker that outputs RBG values
 	```html
@@ -1255,7 +1201,7 @@ var button = function(target) {
 // because it calculates hsl based on
 // hsl max values / width of object...
 				
-function colors(target) {
+var colors = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -1364,7 +1310,11 @@ function colors(target) {
 	
 }
 
-;/** 
+
+},{"../core":2}],11:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate
+
+/** 
 	@class comment      
 	Comment area with settable text
 	```html
@@ -1373,7 +1323,7 @@ function colors(target) {
 	<canvas nx="comment" style="margin-left:25px"></canvas>
 */
 
-function comment(target) {
+var comment = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -1440,9 +1390,14 @@ function comment(target) {
 			textAlign = "left";
 			font = self.size+"px Gill Sans";
 		}
-		nx.wrapText(self.context, self.val.text, 6, 3+self.size, self.width-6, self.size);
+		self.wrapText(self.context, self.val.text, 6, 3+self.size, self.width-6, self.size);
 	}
-};/** 
+}
+},{"../core":2}],12:[function(require,module,exports){
+var math = require('../utils/math');
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class dial      
 	Circular dial
 	```html
@@ -1451,7 +1406,7 @@ function comment(target) {
 	<canvas nx="dial" style="margin-left:25px"></canvas>
 */
 
-var dial = function(target) {
+var dial = module.exports = function(target) {
 					
 	//self awareness
 	var self = this;
@@ -1476,9 +1431,7 @@ var dial = function(target) {
 		value: 0
 	}
 	this.responsivity = 0.005;
-	this.toCartesian = nx.toCartesian;
 	this.throttle = nx.throttle;
-	this.clip = nx.clip;
 	
 	this.aniStart = 0;
 	this.aniStop = 1;
@@ -1503,7 +1456,7 @@ var dial = function(target) {
 		//dial_line
 		var dial_angle = (((1.0 - self.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
 		var dial_position = (self.val.value + 0.25) * 2 * Math.PI
-		var point = self.toCartesian(self.dial_position_length, dial_angle);
+		var point = math.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
 			self.recorder.write(self.tapeNum,self.val.value);
@@ -1564,7 +1517,7 @@ var dial = function(target) {
 	
 
 	this.click = function(e) {
-		self.val.value = nx.prune(self.val.value, 3)
+		self.val.value = math.prune(self.val.value, 3)
 		self.nxTransmit(self.val);
 		self.draw();
 		self.aniStart = self.val.value;
@@ -1575,9 +1528,9 @@ var dial = function(target) {
 		//self.delta_move is set to difference between curr and prev pos
 		//self.clickPos is now newest mouse position in [x,y]
 		
-		self.val.value = self.clip((self.val.value - (self.deltaMove.y * self.responsivity)), 0, 1);
+		self.val.value = math.clip((self.val.value - (self.deltaMove.y * self.responsivity)), 0, 1);
 		
-		self.val.value = nx.prune(self.val.value, 3)
+		self.val.value = math.prune(self.val.value, 3)
 		self.nxTransmit(self.val);
 		
 		self.draw();
@@ -1609,9 +1562,9 @@ var dial = function(target) {
 				self.aniStop = self.aniStart;
 				self.aniStart = self.stopPlaceholder;
 			}
-			self.aniMove = nx.bounce(self.val.value, self.aniStart, self.aniStop, self.aniMove);	
+			self.aniMove = math.bounce(self.val.value, self.aniStart, self.aniStop, self.aniMove);	
 			self.draw();
-			self.val.value = nx.prune(self.val.value, 3)
+			self.val.value = math.prune(self.val.value, 3)
 			self.nxTransmit(self.val);
 		}
 	}
@@ -1619,7 +1572,12 @@ var dial = function(target) {
 	
 }
 
-;/** 
+
+},{"../core":2,"../utils/math":6}],13:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class envelope      
 	Three-point line ramp generator
 	```html
@@ -1628,7 +1586,7 @@ var dial = function(target) {
 	<canvas nx="envelope" style="margin-left:25px"></canvas>
 */
 
-function envelope(target) {
+var envelope = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -1734,10 +1692,10 @@ function envelope(target) {
 	this.scaleNode = function() {
 		var actualX = self.val.x - self.nodeSize - self.lineWidth;
 		var actualY = self.val.y - self.nodeSize - self.lineWidth;
-		var clippedX = nx.clip(actualX/self.actualWid, 0, 1);
-		var clippedY = nx.clip(actualY/self.actualHgt, 0, 1);
-		self.val.x = nx.prune(clippedX, 3)
-		self.val.y = nx.prune(clippedY, 3)
+		var clippedX = math.clip(actualX/self.actualWid, 0, 1);
+		var clippedY = math.clip(actualY/self.actualHgt, 0, 1);
+		self.val.x = math.prune(clippedX, 3)
+		self.val.y = math.prune(clippedY, 3)
 	}
 
 	this.click = function() {
@@ -1801,7 +1759,43 @@ function envelope(target) {
 	this.continue = function() {
 
 	}
-};/** 
+}
+},{"../core":2,"../utils/math":6}],14:[function(require,module,exports){
+module.exports = {
+  banner: require('./banner'),
+  button: require('./button'),
+  colors: require('./colors'),
+  comment: require('./comment'),
+  dial: require('./dial'),
+  envelope: require('./envelope'),
+  joints: require('./joints'),
+  keyboard: require('./keyboard'),
+  matrix: require('./matrix'),
+  message: require('./message'),
+  metroball: require('./metroball'),
+  mouse: require('./mouse'),
+  multislider: require('./multislider'),
+  multitouch: require('./multitouch'),
+  number: require('./number'),
+  panel: require('./panel'),
+  pixels: require('./pixels'),
+  position: require('./position'),
+  range: require('./range'),
+  sandbox: require('./sandbox'),
+  select: require('./select'),
+  slider: require('./slider'),
+  string: require('./string'),
+  tilt: require('./tilt'),
+  toggle: require('./toggle'),
+  typewriter: require('./typewriter'),
+  vinyl: require('./vinyl'),
+  wheel: require('./wheel')
+}
+},{"./banner":8,"./button":9,"./colors":10,"./comment":11,"./dial":12,"./envelope":13,"./joints":15,"./keyboard":16,"./matrix":17,"./message":18,"./metroball":19,"./mouse":20,"./multislider":21,"./multitouch":22,"./number":23,"./panel":24,"./pixels":25,"./position":26,"./range":27,"./sandbox":28,"./select":29,"./slider":30,"./string":31,"./tilt":32,"./toggle":33,"./typewriter":34,"./vinyl":35,"./wheel":36}],15:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class joints      
 	2D slider with connections to several points; a proximity-based multislider.
 	```html
@@ -1810,7 +1804,7 @@ function envelope(target) {
 	<canvas nx="joints" style="margin-left:25px"></canvas>
 */
 
-function joints(target) {
+var joints = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -1898,10 +1892,10 @@ function joints(target) {
 						moveTo(self.joints[i].x, self.joints[i].y);
 						lineTo(self.drawingX,self.drawingY);
 						strokeStyle = self.colors.accent;
-						lineWidth = nx.scale( strength, 0, self.threshold, self.nodeSize/2, 5 );
+						lineWidth = math.scale( strength, 0, self.threshold, self.nodeSize/2, 5 );
 						stroke();
 					closePath();
-					var scaledstrength = nx.scale( strength, 0, self.threshold, 1, 0 );
+					var scaledstrength = math.scale( strength, 0, self.threshold, 1, 0 );
 					self.val["node"+i] = scaledstrength;
 				}
 			}
@@ -1937,7 +1931,7 @@ function joints(target) {
 	}
 	
 	this.scaleNode = function() {
-		self.values = [ nx.prune(self.val.x/self.width, 3), nx.prune(self.val.y/self.height, 3) ];
+		self.values = [ math.prune(self.val.x/self.width, 3), math.prune(self.val.y/self.height, 3) ];
 		return self.values;
 	}
 
@@ -2013,13 +2007,17 @@ function joints(target) {
 		if (!self.clicked && self.val.x) {
 			self.val.x += (self.deltaMove.x/2);
 			self.val.y += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.val.x, self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.val.y, self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.deltaMove.x = math.bounce(self.val.x, self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = math.bounce(self.val.y, self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
 			self.draw();
 			self.nxTransmit(self.scaleNode());
 		}
 	}
-};/** 
+}
+},{"../core":2,"../utils/math":6}],16:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class keyboard      
 	Piano keyboard which outputs midi pairs
 	```html
@@ -2036,7 +2034,7 @@ function joints(target) {
 
 // FIXME: key detection not accurate when changed num of octaves!
 
-function keyboard(target) {
+var keyboard = module.exports = function (target) {
 
 	//self awareness
 	var self = this;
@@ -2316,7 +2314,13 @@ function keyboard(target) {
 	} */
 	
 }
-;/** 
+
+},{"../core":2}],17:[function(require,module,exports){
+var math = require('../utils/math');
+var drawing = require('../utils/drawing');
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class matrix      
 	Matrix with scalable values and sequencer functionality.
 	```html
@@ -2326,7 +2330,7 @@ function keyboard(target) {
 */
 
 
-function matrix(target) {
+var matrix = module.exports = function (target) {
 
 	//self awareness
 	var self = this;
@@ -2424,7 +2428,7 @@ function matrix(target) {
 				var boxwid = this.cellWid - this.lineWidth;
 				var boxhgt = this.cellHgt - this.lineWidth;
 	
-				nx.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
+				drawing.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
 				with (this.context) {
 					strokeStyle = self.colors.border;
 					fillStyle = self.colors.fill;
@@ -2466,7 +2470,7 @@ function matrix(target) {
 						fill();
 					}
 
-					nx.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
+					drawing.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
 				
 					// sequencer highlight
 					if (self.place != null && self.place == i*self.col+j) {
@@ -2493,7 +2497,7 @@ function matrix(target) {
 
 		self.cur["value"] = self.clickPos.y-(self.cellHgt*self.cur.row)
 		self.cur["value"] = self.cur.value/self.cellHgt
-		self.cur["value"] = nx.invert(self.cur["value"])
+		self.cur["value"] = math.invert(self.cur["value"])
 
 		if (self.cur["value"]<=0.5) {
 			self.cur.value = 0;
@@ -2584,7 +2588,11 @@ function matrix(target) {
 	}
 		
 	
-};/** 
+}
+},{"../core":2,"../utils/drawing":5,"../utils/math":6}],18:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class message      
 	Send a string of text.
 	```html
@@ -2593,7 +2601,7 @@ function matrix(target) {
 	<canvas nx="message" style="margin-left:25px"></canvas>
 */
 
-function message(target) {
+var message = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -2655,7 +2663,7 @@ function message(target) {
 			font = self.size+"px courier";
 		//	fillText(self.val.message, self.width/2, self.height/2+4);
 		}
-		nx.wrapText(self.context, self.val.message, 5, 1+self.size, self.width-6, self.size);
+		self.wrapText(self.val.message, 5, 1+self.size, self.width-6, self.size);
 	}
 
 	this.click = function(e) {
@@ -2667,7 +2675,13 @@ function message(target) {
 		self.draw();
 	}
 	
-};/** 
+}
+},{"../core":2}],19:[function(require,module,exports){
+var math = require('../utils/math');
+var drawing = require('../utils/drawing');
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class metroball
 	Bouncy-ball area with built-in tilt control
 	```html
@@ -2678,7 +2692,7 @@ function message(target) {
 
 
 
-function metroball(target) {
+var metroball = module.exports = function (target) {
 
 	//self awareness
 	var self = this;
@@ -2801,7 +2815,7 @@ function metroball(target) {
 			
 			for (i=0;i<self.UISpaces.length;i++) {
 				var space = self.UISpaces[i];
-				nx.makeRoundRect(self.context,space.xpos,space.ypos,space.wid,space.hgt);
+				drawing.makeRoundRect(self.context,space.xpos,space.ypos,space.wid,space.hgt);
 				stroke();
 				
 				if (space.field=="quantize" && quantize) {
@@ -2839,7 +2853,7 @@ function metroball(target) {
 	this.click = function(e) {
 		ballPos = self.clickPos;
 		for (i=0;i<self.UISpaces.length;i++) {
-			if (nx.isInside(ballPos,self.UISpaces[i])) {
+			if (drawing.isInside(ballPos,self.UISpaces[i])) {
 				clickField = self.UISpaces[i].field;
 			} 
 		}
@@ -2922,9 +2936,9 @@ function metroball(target) {
 	
 	this.tilt = function(direction) {
 		
-		var scaledX = nx.prune(self.tiltLR/90,3);
-		var scaledY = nx.prune(self.tiltFB/90,3);
-		var scaledZ = nx.prune(self.z,3);
+		var scaledX = math.prune(self.tiltLR/90,3);
+		var scaledY = math.prune(self.tiltFB/90,3);
+		var scaledZ = math.prune(self.z,3);
 		tilt = scaledX * 10;
 		tempo = Math.pow(scaledY+1,3);
 	}
@@ -2977,7 +2991,7 @@ function metroball(target) {
 			var dirMsg = this.direction/2+1;
 			this.bounceside = (this.direction+1)/2;
 			this.direction = this.direction * (-1);
-			var xMsg = nx.prune(this.xpos/this.space.wid, 3);
+			var xMsg = math.prune(this.xpos/this.space.wid, 3);
 			this.val = {
 				x: xMsg,
 				side: this.bounceside,
@@ -3024,7 +3038,11 @@ function metroball(target) {
 	}
 }
 
-;/** 
+
+},{"../core":2,"../utils/drawing":5,"../utils/math":6}],20:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class mouse      
 	Mouse tracker, relative to web browser window.
 	```html
@@ -3033,7 +3051,7 @@ function metroball(target) {
 	<canvas nx="mouse" style="margin-left:25px"></canvas>
 */
 
-function mouse(target) {
+var mouse = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -3125,7 +3143,12 @@ function mouse(target) {
 	
 	}
 
-};/** 
+}
+},{"../core":2}],21:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class multislider      
 	Multiple vertical sliders in one object
 	```html
@@ -3133,7 +3156,7 @@ function mouse(target) {
 	```
 	<canvas nx="multislider" style="margin-left:25px"></canvas>
 */
-function multislider(target) {
+var multislider = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -3211,16 +3234,16 @@ function multislider(target) {
 
 				for (var i=0;i<self.clickPos.touches.length;i++) {
 					var sliderToMove = Math.floor(self.clickPos.touches[i].x / self.sliderWidth);
-					sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
-					self.val[sliderToMove] = nx.clip(nx.invert((self.clickPos.touches[i].y / self.height)),0,1);
+					sliderToMove = math.clip(sliderToMove,0,self.sliders-1);
+					self.val[sliderToMove] = math.clip(math.invert((self.clickPos.touches[i].y / self.height)),0,1);
 				}
 
 			} else {
 
 
 				var sliderToMove = Math.floor(self.clickPos.x / self.sliderWidth);
-				sliderToMove = nx.clip(sliderToMove,0,self.sliders-1);
-				self.val[sliderToMove] = nx.clip(nx.invert((self.clickPos.y / self.height)),0,1);
+				sliderToMove = math.clip(sliderToMove,0,self.sliders-1);
+				self.val[sliderToMove] = math.clip(math.invert((self.clickPos.y / self.height)),0,1);
 			
 				//old, but may be useful for a "relative" mode?
 			/*	if (self.oldSliderToMove) {
@@ -3267,7 +3290,13 @@ function multislider(target) {
 	}
 	
 }
-;/** 
+
+},{"../core":2,"../utils/math":6}],22:[function(require,module,exports){
+var math = require('../utils/math');
+var drawing = require('../utils/drawing');
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class multitouch      
 	Multitouch 2d-slider with up to 5 points of touch.
 	```html
@@ -3276,7 +3305,7 @@ function multislider(target) {
 	<canvas nx="multitouch" style="margin-left:25px"></canvas>
 */
 
-function multitouch(target) {
+var multitouch = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -3375,7 +3404,7 @@ function multitouch(target) {
 								}
 								if (self.clickPos.touches.length>=1) {
 									for (var k=0;k<self.clickPos.touches.length;k++) {
-										if (nx.isInside(self.clickPos.touches[k],thisarea)) {
+										if (drawing.isInside(self.clickPos.touches[k],thisarea)) {
 											globalAlpha=0.5;
 											fillStyle = self.colors.accent;
 											fill();
@@ -3470,12 +3499,17 @@ function multitouch(target) {
 		for (var i=0;i<self.clickPos.touches.length;i++) {
 			self.val["touch"+i] = {
 				x: self.clickPos.touches[i].x/self.canvas.width,
-				y: nx.invert(self.clickPos.touches[i].y/self.canvas.height)
+				y: math.invert(self.clickPos.touches[i].y/self.canvas.height)
 			}
 		}
 		self.nxTransmit(self.val);
 	}
-};/** 
+}
+},{"../core":2,"../utils/drawing":5,"../utils/math":6}],23:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class number      
 	number box
 	```html
@@ -3484,7 +3518,7 @@ function multitouch(target) {
 	<canvas nx="number" style="margin-left:25px"></canvas>
 */
 
-function number(target) {
+var number = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -3498,7 +3532,6 @@ function number(target) {
 	this.val = 0
 	
 	this.throttle = nx.throttle;
-	this.clip = nx.clip;
 	
 	this.init = function() {
 		self.draw();
@@ -3525,7 +3558,7 @@ function number(target) {
 	this.move = function(e) {
 		if (self.clicked) {
 			self.val += (self.deltaMove.y*-.1);
-			self.val = nx.prune(self.val,1);
+			self.val = math.prune(self.val,1);
 			self.draw();
 			self.nxTransmit(self.val);
 		}
@@ -3549,15 +3582,19 @@ function number(target) {
 		if (!self.clicked && self.nodePos[0]) {
 			self.nodePos[0] += (self.deltaMove.x/2);
 			self.nodePos[1] += (self.deltaMove.y/2);
-			self.deltaMove.x = nx.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
-			self.deltaMove.y = nx.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
+			self.deltaMove.x = math.bounce(self.nodePos[0], self.bgLeft + self.nodeSize, self.width - self.bgLeft- self.nodeSize, self.deltaMove.x);
+			self.deltaMove.y = math.bounce(self.nodePos[1], self.bgTop + self.nodeSize, self.height - self.bgTop - self.nodeSize, self.deltaMove.y);
 			self.draw();
 			self.nxTransmit(self.value);
 		}
 	}
-};// panel for max duplication -- maybe this object is unnecessary.
+}
+},{"../core":2,"../utils/math":6}],24:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate;
 
-function panel(target) {
+// panel for max duplication -- maybe this object is unnecessary.
+
+var panel = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -3581,7 +3618,12 @@ function panel(target) {
 			fill();
 		}
 	}
-};/** 
+}
+},{"../core":2}],25:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class pixels      
 	Drawable pixelated canvas. Can be drawn on with different colors (use with nexus 'colors' object). See 'read' and 'write' modes. Sequencer functionality forthcoming.
 	```html
@@ -3591,7 +3633,7 @@ function panel(target) {
 */
 
 			
-function pixels(target) {
+var pixels = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -3703,10 +3745,10 @@ function pixels(target) {
 	this.move = function() {
 		
 		var pixX = ~~(self.clickPos.x/self.px.wid);
-		pixX = nx.clip(pixX,0,self.dim.x-2);
+		pixX = math.clip(pixX,0,self.dim.x-2);
 		var scaledX = pixX*self.px.wid+self.padding;
 		var pixY = ~~(self.clickPos.y/self.px.hgt);
-		pixY = nx.clip(pixY,0,self.dim.y-2);
+		pixY = math.clip(pixY,0,self.dim.y-2);
 		var scaledY = pixY*self.px.hgt+self.padding;
 		
 		if (scaledX!=self.lastpx.x || scaledY!=self.lastpx.y) {
@@ -3795,7 +3837,12 @@ function pixels(target) {
 	
 }
 
-;/** 
+
+},{"../core":2,"../utils/math":6}],26:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class position      
 	Two-dimensional touch slider.
 	```html
@@ -3804,7 +3851,7 @@ function pixels(target) {
 	<canvas nx="position" style="margin-left:25px"></canvas>
 */
 
-function position(target) {
+var position = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -3893,10 +3940,10 @@ function position(target) {
 	this.scaleNode = function() {
 		var actualX = self.val.x - self.nodeSize - self.lineWidth;
 		var actualY = self.val.y - self.nodeSize - self.lineWidth;
-		var clippedX = nx.clip(actualX/self.actualWid, 0, 1);
-		var clippedY = nx.clip(actualY/self.actualHgt, 0, 1);
-		self.val.x = nx.prune(clippedX, 3)
-		self.val.y = nx.prune(clippedY, 3)
+		var clippedX = math.clip(actualX/self.actualWid, 0, 1);
+		var clippedY = math.clip(actualY/self.actualHgt, 0, 1);
+		self.val.x = math.prune(clippedX, 3)
+		self.val.y = math.prune(clippedY, 3)
 	}
 
 	this.click = function() {
@@ -3948,19 +3995,24 @@ function position(target) {
 			self.val.x += (self.deltaMove.x/2)/self.width;
 			self.val.y += (self.deltaMove.y/2)/self.height;
 			self.val["state"] = "animated";
-			if (nx.bounce(self.val.x, 0, 1, self.deltaMove.x) != self.deltaMove.x) {
-				self.deltaMove.x = nx.bounce(self.val.x, 0, 1, self.deltaMove.x);
+			if (math.bounce(self.val.x, 0, 1, self.deltaMove.x) != self.deltaMove.x) {
+				self.deltaMove.x = math.bounce(self.val.x, 0, 1, self.deltaMove.x);
 				self.val["state"] = "bounce";
 			}
-			if (nx.bounce(self.val.y, 0, 1, self.deltaMove.y) != self.deltaMove.y) {
-				self.deltaMove.y = nx.bounce(self.val.y, 0, 1, self.deltaMove.y);
+			if (math.bounce(self.val.y, 0, 1, self.deltaMove.y) != self.deltaMove.y) {
+				self.deltaMove.y = math.bounce(self.val.y, 0, 1, self.deltaMove.y);
 				self.val["state"] = "bounce";
 			}
 			self.nxTransmit(self.val);
 			self.draw();
 		}
 	}
-};/** 
+}
+},{"../core":2,"../utils/math":6}],27:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate;
+var math = require('../utils/math')
+
+/** 
 	@class range      
 	Range Slider
 	```html
@@ -3969,7 +4021,7 @@ function position(target) {
 	<canvas nx="range" style="margin-left:25px"></canvas>
 */
 
-function range(target) {
+var range = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -4117,14 +4169,14 @@ function range(target) {
 			}
 		} else {
 			if (self.firsttouch=="start") {
-				self.val.start = nx.invert(self.clickPos.y/self.height);
+				self.val.start = math.invert(self.clickPos.y/self.height);
 				if (self.clickPos.touches.length>1) {
-					self.val.stop = nx.invert(self.clickPos.touches[1].y/self.height);
+					self.val.stop = math.invert(self.clickPos.touches[1].y/self.height);
 				}
 			} else {
-				self.val.stop = nx.invert(self.clickPos.y/self.height);
+				self.val.stop = math.invert(self.clickPos.y/self.height);
 				if (self.clickPos.touches.length>1) {
-					self.val.start = nx.invert(self.clickPos.touches[1].y/self.height);
+					self.val.start = math.invert(self.clickPos.touches[1].y/self.height);
 				}
 			}
 		}
@@ -4141,17 +4193,22 @@ function range(target) {
 				}
 			} 
 			self.val = {
-				start: nx.clip(self.val.start, 0, 1),
-				stop: nx.clip(self.val.stop, 0, 1),
+				start: math.clip(self.val.start, 0, 1),
+				stop: math.clip(self.val.stop, 0, 1),
 			} 
-			self.val['size'] = nx.prune(nx.clip(Math.abs(self.val.stop - self.val.start), 0, 1), 3)
+			self.val['size'] = math.prune(math.clip(Math.abs(self.val.stop - self.val.start), 0, 1), 3)
 		
 			self.draw();
 		}
 		self.nxTransmit(self.val);
 	}
 
-};/** 
+}
+},{"../core":2,"../utils/math":6}],28:[function(require,module,exports){
+var drawing = require('../utils/drawing');
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class sandbox      
 	Add and move around an unlimited number of 2D points.
 	```html
@@ -4161,7 +4218,7 @@ function range(target) {
 */
 
 			
-function sandbox(target) {
+var sandbox = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -4359,7 +4416,7 @@ function sandbox(target) {
 			fillStyle = self.colors.fill;
 			for (i=0;i<self.UISpaces.length;i++) {
 				var space = self.UISpaces[i];
-				nx.makeRoundRect(self.context,space.xpos,space.ypos,space.wid,space.hgt);
+				drawing.makeRoundRect(self.context,space.xpos,space.ypos,space.wid,space.hgt);
 				stroke();
 				fill();
 			}
@@ -4371,7 +4428,11 @@ function sandbox(target) {
 
 
 
-;/** 
+
+},{"../core":2,"../utils/drawing":5}],29:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class select    
 	HTML-style option selector. Outputs the chosen text string.
 	```html
@@ -4380,7 +4441,7 @@ function sandbox(target) {
 	<canvas nx="select" choices="sine,saw,square" style="margin-left:25px"></canvas>
 */
 
-function select(target) {
+var select = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -4431,7 +4492,12 @@ function select(target) {
 		self.nxTransmit(self.val);
 	}
 	
-};/** 
+}
+},{"../core":2}],30:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class slider      
 	Slider (vertical or horizontal)
 	```html
@@ -4440,7 +4506,7 @@ function select(target) {
 	<canvas nx="slider" style="margin-left:25px"></canvas>
 */
 
-function slider(target) {
+var slider = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -4586,18 +4652,18 @@ function slider(target) {
 		if (self.mode=="absolute") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val.value = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
+					self.val.value = (Math.abs((math.clip(self.clickPos.y/self.height, 0, 1)) - 1));
 				} else {	
-					self.val.value = nx.clip(self.clickPos.x/self.width, 0, 1);
+					self.val.value = math.clip(self.clickPos.x/self.width, 0, 1);
 				}
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val.value = nx.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0,1);
+					self.val.value = math.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0,1);
 				} else {
-					self.val.value = nx.clip((self.val.value + ((self.deltaMove.x)/self.width)),0,1);
+					self.val.value = math.clip((self.val.value + ((self.deltaMove.x)/self.width)),0,1);
 				}
 				self.draw();
 			}
@@ -4606,7 +4672,11 @@ function slider(target) {
 		self.nxTransmit(self.val);
 	}
 
-};/** 
+}
+},{"../core":2,"../utils/math":6}],31:[function(require,module,exports){
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class string      
 	*In progress* Fun animated model of a plucked string interface.
 	```html
@@ -4615,7 +4685,7 @@ function slider(target) {
 	<canvas nx="string" style="margin-left:25px"></canvas>
 */
 
-function string(target) {
+var string = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -4790,92 +4860,12 @@ function string(target) {
 		self.strings[i].direction = (self.clickPos.y - self.strings[i].y1)/Math.abs(self.clickPos.y - self.strings[i].y1) * ((self.clickPos.y - self.strings[i].y1)/-1.2);
 	}
 
-};/** 
-	@class template      
-	Template to help you create your own NexusUI objects!
-	```html
-	<canvas nx="template"></canvas>
-	```
-	<canvas nx="template" style="margin-left:25px"></canvas>
-*/
+}
+},{"../core":2}],32:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
 
-function template(target, transmitCommand) {
-					
-	//self awareness
-	var self = this;
-	this.defaultSize = { width: 200, height: 200 };
-	
-	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
-
-	//create unique properties to this object
-	this.val = {
-		x: 0,
-		y: 0,
-		dx: 0,
-		dy: 0
-	}
-
-	this.init = function() {
-		self.draw();
-	}
-
-	this.draw = function() {
-		// erase
-		self.erase();
-
-		//make background path
-		self.makeRoundedBG();
-
-		with (self.context) {
-			//fill in background path
-			strokeStyle = self.colors.border;
-			fillStyle = self.colors.fill;
-			lineWidth = self.lineWidth;
-			stroke();
-			fill();
-
-			// draw something unique
-			fillStyle = self.colors.black;
-			textAlign = "center";
-			font = "12px Gill Sans";
-			fillText("x: " + self.val.x, self.width/2, 50);
-			fillText("y: " + self.val.y, self.width/2, 75);
-			fillText("x delta: " + self.val.dx, self.width/2, 100);
-			fillText("y delta: " + self.val.dy, self.width/2, 125);
-		}
-		
-		self.drawLabel();
-	}
-
-	this.click = function() {
-		self.val = {
-			x: self.clickPos.x,
-			y: self.clickPos.y,
-			dx: self.deltaMove.x,
-			dy: self.deltaMove.y
-		}
-		self.draw();
-		self.nxTransmit(self.val);
-	}
-
-	this.move = function() {
-		// if mouse is down, perform same math/draw/transmit as in the .click function
-		if (self.clicked) {
-			self.click()
-		}
-	}
-	
-	this.release = function() {
-		//perform same math/draw/transmit as in the .click function
-		self.click()
-	}
-
-	//by default, touch, touchMove, and touchRelease 
-	// will execute .click, .move, and .release, respectively
-	// but with touch data instead of click data
-
-};/** 
+/** 
 	@class tilt      
 	Mobile and Mac/Chrome compatible tilt sensor.
 	```html
@@ -4886,7 +4876,7 @@ function template(target, transmitCommand) {
 
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
-function tilt(target) {
+var tilt = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -4927,9 +4917,9 @@ function tilt(target) {
 	//	  "deg) rotate3d(1,0,0, " + (self.tiltFB * -1) + "deg)";
 		
 		self.val = {
-			x: nx.prune(self.tiltLR/90,3),
-			y: nx.prune(self.tiltFB/90,3),
-			z: nx.prune(self.z,3)
+			x: math.prune(self.tiltLR/90,3),
+			y: math.prune(self.tiltFB/90,3),
+			z: math.prune(self.z,3)
 		}
 
 		self.nxTransmit(self.val);
@@ -4966,9 +4956,9 @@ function tilt(target) {
 	
 	this.draw = function() {
 
-	//	self.scaledX = (nx.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
-	//	self.scaledY = (nx.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
-	//	self.scaledZ = nx.prune(self.z,3);
+	//	self.scaledX = (math.prune(self.tiltLR/90,3)+self.scaledX*9)/10;
+	//	self.scaledY = (math.prune(self.tiltFB/90,3)+self.scaledY*9)/10;
+	//	self.scaledZ = math.prune(self.z,3);
 		
 		self.erase();
 		with (self.context) {
@@ -5017,7 +5007,12 @@ function tilt(target) {
 		}
 		self.drawLabel();
 	}
-};/** 
+}
+},{"../core":2,"../utils/math":6}],33:[function(require,module,exports){
+var drawing = require('../utils/drawing');
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class toggle      
 	On/off toggle
 	```html
@@ -5026,7 +5021,7 @@ function tilt(target) {
 	<canvas nx="toggle" style="margin-left:25px"></canvas>
 */
 
-function toggle(target) {
+var toggle = module.exports = function (target) {
 
 	//self awareness
 	var self = this;
@@ -5080,7 +5075,7 @@ function toggle(target) {
 		if (self.width > 40 && self.height > 40) {
 			
 			if (this.val) {
-				nx.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+				drawing.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 				with (this.context) {
 					fillStyle = self.colors.accent;
 					strokeStyle = self.colors.accent;
@@ -5095,7 +5090,7 @@ function toggle(target) {
 			}
 			
 			else {
-				nx.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
+				drawing.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
 				with (this.context) {
 					fillStyle = self.colors.border;
 					strokeStyle = self.colors.border;
@@ -5136,7 +5131,12 @@ function toggle(target) {
 		self.nxTransmit(self.val);
 	}
 	
-};/** 
+}
+},{"../core":2,"../utils/drawing":5}],34:[function(require,module,exports){
+var drawing = require('../utils/drawing');
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class typewriter      
 	Computer keyboard listener and visualization. (Desktop only)
 	```html
@@ -5145,7 +5145,7 @@ function toggle(target) {
 	<canvas nx="typewriter" style="margin-left:25px"></canvas>
 */
 
-function typewriter(target) {
+var typewriter = module.exports = function (target) {
 
 	//self awareness
 	var self = this;
@@ -5280,7 +5280,7 @@ function typewriter(target) {
 						}
 					}
 
-					nx.makeRoundRect(self.context, currkeyL , i*self.keyhgt,self.keywid*self.rows[i][j].width,self.keyhgt,8);
+					drawing.makeRoundRect(self.context, currkeyL , i*self.keyhgt,self.keywid*self.rows[i][j].width,self.keyhgt,8);
 						
 					if (self.rows[i][j].on) {
 						fillStyle = self.colors.accent 
@@ -5367,7 +5367,12 @@ function typewriter(target) {
 	}
 	
 }
-;/** 
+
+},{"../core":2,"../utils/drawing":5}],35:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class vinyl      
 	Record scratcher *in progress*
 	```html
@@ -5376,7 +5381,7 @@ function typewriter(target) {
 	<canvas nx="vinyl" style="margin-left:25px"></canvas>
 */
 
-function vinyl(target) {
+var vinyl = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -5473,7 +5478,7 @@ function vinyl(target) {
 		self.lastRotation = self.rotation
 		self.speed = 0;
 		self.grabAngle = self.rotation % (Math.PI*2)
-		self.grabPos = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y
+		self.grabPos = math.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y
 
 	}
 
@@ -5483,7 +5488,7 @@ function vinyl(target) {
 		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
 
-		self.rotation = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
+		self.rotation = math.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
 		self.draw();
 
 		self.val = self.rotation;
@@ -5523,7 +5528,12 @@ function vinyl(target) {
 	
 }
 
-;/** 
+
+},{"../core":2,"../utils/math":6}],36:[function(require,module,exports){
+var math = require('../utils/math')
+var getTemplate = require('../core').getTemplate;
+
+/** 
 	@class wheel      
 	Circular wheel *in progress*
 	```html
@@ -5532,7 +5542,7 @@ function vinyl(target) {
 	<canvas nx="wheel" style="margin-left:25px"></canvas>
 */
 
-function wheel(target) {
+var wheel = module.exports = function (target) {
 					
 	//self awareness
 	var self = this;
@@ -5588,7 +5598,7 @@ function wheel(target) {
 
 			//draw points
 			for (var i=0;i<self.spokes;i++) {
-				var dot = nx.toCartesian(self.circleSize-5, ((i/self.spokes)*Math.PI*2)-self.rotation + (Math.PI*2)/(self.spokes*2))
+				var dot = math.toCartesian(self.circleSize-5, ((i/self.spokes)*Math.PI*2)-self.rotation + (Math.PI*2)/(self.spokes*2))
 				beginPath();
 					arc(dot.x+self.center.x, dot.y+self.center.y, 5, 0, Math.PI*2, false);
 					fillStyle = self.colors.accent;	
@@ -5648,7 +5658,7 @@ function wheel(target) {
 		self.lastRotation = self.rotation
 		self.speed = 0;
 		self.grabAngle = self.rotation % (Math.PI*2)
-		self.grabPos = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y
+		self.grabPos = math.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y
 
 	}
 
@@ -5658,7 +5668,7 @@ function wheel(target) {
 		self.lastRotation2 = self.lastRotation
 		self.lastRotation = self.rotation
 
-		self.rotation = nx.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
+		self.rotation = math.toPolar(self.clickPos.x-self.center.x,self.clickPos.y-self.center.y).y + self.grabAngle - self.grabPos	
 		self.draw();
 
 		if (self.rotation < 0) { self.rotation += Math.PI*2 }
@@ -5730,3 +5740,5 @@ function wheel(target) {
 	
 }
 
+
+},{"../core":2,"../utils/math":6}]},{},[1]);

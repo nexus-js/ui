@@ -1,22 +1,25 @@
 var gulp = require('gulp')
   , rename = require('gulp-rename')
-  , concat = require('gulp-concat')
+
+  , gutil = require('gulp-util')
+  , browserify = require('browserify')
+  , source = require('vinyl-source-stream')
+
   , uglify = require('gulp-uglify')
   , runSequence = require('run-sequence')
 var path = require('path');
 
-var watcher = gulp.watch(['lib/**/*.js'], ['default'])
+var watcher = gulp.watch(['./lib/**/*.js', './lib/*.js'], ['default'])
 watcher.on('change', function(event) {
   console.log('File '+event.path+' was '+event.type+', running tasks...')
 })
 
-gulp.task('concat', function() {
-  return gulp.src([
-      './lib/core.js',
-      './lib/widgets/*.js'
-    ])
-    .pipe(concat('./dist/nexusUI.js', { newLine: ';' }))
-    .pipe(gulp.dest('.'))
+gulp.task('browserify', function() {
+  return browserify({ entries: './index.js' })
+    .bundle()
+    .on('error', gutil.log)
+    .pipe(source('nexusUI.js'))
+    .pipe(gulp.dest('./dist/'))
 })
 
 gulp.task('uglify', function() {
@@ -27,5 +30,5 @@ gulp.task('uglify', function() {
 })
 
 gulp.task('default', function(done) {
-  runSequence('concat', 'uglify', done)
+  runSequence('browserify', 'uglify', done)
 })
