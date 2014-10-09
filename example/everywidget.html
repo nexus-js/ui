@@ -1,0 +1,72 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script>
+
+			nx.onload = function() {
+
+				//log all events
+				for (var key in nx.nxObjects) {
+					with (nx.nxObjects[key]) {
+						for (var oscpath in val) {
+							on(oscpath, function(data) {
+								// code that will be executed
+								console.log(canvasID, data)
+							})
+						}
+					}
+				} 
+
+			    nx.colorize("accent", "#347");
+			    nx.colorize("border", "#bbb");
+			    nx.colorize("fill", "#eee");
+
+			}
+
+		</script>
+	</head>
+
+	<body style="background-color:#fff">
+
+		<style>
+			canvas {
+				width:100px;
+				height:100px;
+			}
+		</style>
+
+		  <canvas nx="banner" style="height:40px"></canvas>
+		  <canvas nx="button"></canvas>
+		  <canvas nx="colors"></canvas>
+		  <canvas nx="comment"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="envelope"></canvas>
+		  <canvas nx="joints"></canvas>
+		  <canvas nx="keyboard"></canvas>
+		  <canvas nx="matrix"></canvas>	  
+		  <canvas nx="message"></canvas>
+		  <canvas nx="mouse"></canvas>
+		  <canvas nx="multislider"></canvas>
+		  <canvas nx="multitouch"></canvas> 
+
+		  <canvas nx="number"></canvas>
+		  <canvas nx="pixels"></canvas>
+		  <canvas nx="position"></canvas>
+		  <canvas nx="range"></canvas>
+		  <!-- need to be redone: metroball, sandbox -->
+		<!--  <canvas nx="select"></canvas> -->
+		  <canvas nx="slider"></canvas>
+		  <canvas nx="string"></canvas>
+		  <canvas nx="tilt"></canvas>
+		  <canvas nx="toggle"></canvas>
+		  <canvas nx="typewriter"></canvas>
+		  <canvas nx="vinyl"></canvas>
+		  <canvas nx="wheel"></canvas>
+
+		  <!-- Try other nexusUI elements like toggle, button, position, multitouch, slider, tilt... see nexusosc.com for more. -->
+
+	</body>
+	
+</html>

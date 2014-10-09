@@ -39,7 +39,11 @@ window.onload = function() {
       allcanvi[i].id = nxType + idNum;
     }
     if(nxType) {
-      new (require('./lib/widgets')[nxType])(allcanvi[i].id);
+      try {
+        new (require('./lib/widgets')[nxType])(allcanvi[i].id);
+      } catch (err) {
+        console.log(nxType)
+      }
     }
   }
 
