@@ -167,9 +167,17 @@ manager.prototype.stopPulse = function() {
 }
   
 manager.prototype.pulse = function() {
+  // FIXME: uses incorrect context! but much faster than currently active method.
   for (var i=0;i<this.aniItems.length;i++) {
     this.aniItems[i]();
+   // or
+   // eval(this.aniItems[i]);
   }
+  /*for (var key in nx.nxObjects) {
+      if (nx.nxObjects[key].pulse){
+          nx.nxObjects[key].pulse();
+      }
+  }  */
 } 
   
 manager.prototype.addStylesheet = function() {
@@ -243,6 +251,7 @@ var widget = module.exports = function (target) {
 
   //canvas
   this.canvasID = target;
+  this.varname = target;
   if (!document.getElementById(target)) {
     var newcanv = document.createElement("canvas")
     newcanv.id = target;
@@ -311,9 +320,6 @@ var widget = module.exports = function (target) {
   if (nx.editmode) {
   //  this.canvas.style.border = "solid 1px #888";
   }
-
-  this.localObject = "dial1";
-  this.localParameter = "value";
 
   //built-in methods
   this.is_touch_device = ('ontouchstart' in document.documentElement)? true:false;
@@ -945,7 +951,7 @@ var widget = require('../core/widget');
 */
 
 var banner = module.exports = function (target) {
-	this.defaultSize = { width: 125, height: 50 };
+	this.defaultSize = { width: 100, height: 40 };
 	widget.call(this, target);
 	
 	//unique attributes
@@ -1024,7 +1030,7 @@ var widget = require('../core/widget');
 */
 var button = module.exports = function(target) {
 
-	this.defaultSize = { width: 100, height: 100 };
+	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
 
 	// Define Unique Attributes
@@ -1203,7 +1209,7 @@ var widget = require('../core/widget');
 				
 var colors = module.exports = function (target) {
 	
-	this.defaultSize = { width: 200, height: 200 };	
+	this.defaultSize = { width: 100, height: 100 };	
 	widget.call(this, target);
 	
 	//define unique attributes
@@ -1322,7 +1328,7 @@ var widget = require('../core/widget');
 
 var comment = module.exports = function (target) {
 	
-	this.defaultSize = { width: 100, height: 35 };
+	this.defaultSize = { width: 75, height: 25 };
 	widget.call(this, target);
 
 	/** @property {object}  val   
@@ -1405,7 +1411,7 @@ var widget = require('../core/widget');
 
 var dial = module.exports = function(target) {
 	
-	this.defaultSize = { width: 100, height: 100 };
+	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
 	
 	//define unique attributes
@@ -1433,6 +1439,7 @@ var dial = module.exports = function(target) {
 	this.init();
 	
 }
+
 util.inherits(dial, widget);
 
 dial.prototype.init = function() {
@@ -1543,7 +1550,7 @@ dial.prototype.animate = function(aniType) {
 	
 	switch (aniType) {
 		case "bounce":
-			nx.aniItems.push(this.aniBounce);
+			nx.aniItems.push(this.aniBounce.bind(this));
 			break;
 		case "none":
 			nx.aniItems.splice(nx.aniItems.indexOf(this.aniBounce));
@@ -1584,7 +1591,7 @@ var widget = require('../core/widget');
 
 var envelope = module.exports = function (target) {
 	
-	this.defaultSize = { width: 100, height: 100 };
+	this.defaultSize = { width: 75, height: 75 };
 	widget.call(this, target);
 	
 	this.nodeSize = 5;
@@ -1799,7 +1806,7 @@ var widget = require('../core/widget');
 */
 
 var joints = module.exports = function (target) {
-	this.defaultSize = { width: 300, height: 300 };
+	this.defaultSize = { width: 150, height: 150 };
 	widget.call(this, target);
 	
 	//this.line_width = 3;
@@ -2585,7 +2592,7 @@ var widget = require('../core/widget');
 
 var message = module.exports = function (target) {
 	
-	this.defaultSize = { width: 100, height: 50 };
+	this.defaultSize = { width: 100, height: 30 };
 	widget.call(this, target);
 	
 
@@ -2770,7 +2777,7 @@ var widget = require('../core/widget');
 */
 var multislider = module.exports = function (target) {
 	
-	this.defaultSize = { width: 200, height: 100 };
+	this.defaultSize = { width: 100, height: 75 };
 	widget.call(this, target);
 	
 	//unique attributes
@@ -2914,7 +2921,7 @@ var multitouch = module.exports = function (target) {
 
 	console.log("test")
 	
-	this.defaultSize = { width: 300, height: 300 };
+	this.defaultSize = { width: 200, height: 200 };
 	widget.call(this, target);
 	
 	//unique attributes
@@ -3209,7 +3216,7 @@ var widget = require('../core/widget');
 
 			
 var pixels = module.exports = function (target) {
-	this.defaultSize = { width: 300, height: 300 };
+	this.defaultSize = { width: 150, height: 150 };
 	widget.call(this, target);
 	
 	//define unique attributes
@@ -3413,7 +3420,7 @@ var widget = require('../core/widget');
 */
 
 var position = module.exports = function (target) {
-	this.defaultSize = { width: 300, height: 200 };
+	this.defaultSize = { width: 150, height: 100 };
 	widget.call(this, target);
 	
 	this.nodeSize = 15;
@@ -3538,7 +3545,7 @@ position.prototype.animate = function(aniType) {
 	
 	switch (aniType) {
 		case "bounce":
-			nx.aniItems.push(this.aniBounce);
+			nx.aniItems.push(this.aniBounce.bind(this));
 			break;
 		case "none":
 			nx.aniItems.splice(nx.aniItems.indexOf(this.aniBounce));
@@ -3579,7 +3586,7 @@ var math = require('../utils/math')
 */
 
 var range = module.exports = function (target) {
-	this.defaultSize = { width: 50, height: 200 };
+	this.defaultSize = { width: 30, height: 100 };
 	widget.call(this, target);
 	
 	//unique attributes
@@ -3828,7 +3835,7 @@ var widget = require('../core/widget');
 */
 
 var slider = module.exports = function (target) {
-	this.defaultSize = { width: 50, height: 200 };
+	this.defaultSize = { width: 30, height: 100 };
 	widget.call(this, target);
 	
 	//unique attributes
@@ -4002,7 +4009,7 @@ var widget = require('../core/widget');
 */
 
 var string = module.exports = function (target) {
-	this.defaultSize = { width: 300, height: 200 };
+	this.defaultSize = { width: 100, height: 150 };
 	widget.call(this, target);
 	
 	this.val = {
@@ -4038,7 +4045,13 @@ string.prototype.init = function() {
 		};
 	}
 	this.draw();
-	nx.aniItems.push(this.draw);
+	//console.log(this.varname+".draw()")
+	//nx.aniItems.push("nx.nxObjects."+this.varname+".draw()");
+	nx.aniItems.push(this.draw.bind(this));
+}
+
+string.prototype.pulse = function() {
+	this.draw();
 }
 
 string.prototype.setStrings = function(val) {
@@ -4185,7 +4198,7 @@ var widget = require('../core/widget');
 // with an assist from http://www.html5rocks.com/en/tutorials/device/orientation/
 
 var tilt = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 100 };
+	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
 	
 	//unique properties
@@ -4328,7 +4341,7 @@ var widget = require('../core/widget');
 */
 
 var toggle = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 100 };
+	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
 	
 	var i;
@@ -4449,7 +4462,7 @@ var widget = require('../core/widget');
 */
 
 var typewriter = module.exports = function (target) {
-	this.defaultSize = { width: 300, height: 100 };
+	this.defaultSize = { width: 175, height: 75 };
 	widget.call(this, target);
 
 	
@@ -4546,12 +4559,14 @@ var typewriter = module.exports = function (target) {
 			{ symbol: ">", value: 40, width: .81, on: false  }
 		]
 	]
+
+
+	document.addEventListener("keydown", this.type.bind(this));
+	document.addEventListener("keyup", this.untype.bind(this));
 }
 util.inherits(typewriter, widget);
 	
 typewriter.prototype.init = function() {
-//	document.addEventListener("keydown", this.type.bind(this));
-//	document.addEventListener("keyup", this.untype.bind(this));
 
 	this.keywid = this.width/14.5;
 	this.keyhgt = this.height/5
@@ -4680,7 +4695,7 @@ var widget = require('../core/widget');
 */
 
 var vinyl = module.exports = function (target) {
-	this.defaultSize = { width: 150, height: 150 };
+	this.defaultSize = { width: 100, height: 100 };
 	widget.call(this, target);
 	
 	//define unique attributes
@@ -4713,7 +4728,7 @@ vinyl.prototype.init = function() {
 	
 	this.draw();
 	
-	nx.aniItems.push(this.spin);
+	nx.aniItems.push(this.spin.bind(this));
 }
 
 vinyl.prototype.draw = function() {
@@ -4832,7 +4847,7 @@ var widget = require('../core/widget');
 */
 
 var wheel = module.exports = function (target) {
-	this.defaultSize = { width: 150, height: 150 };
+	this.defaultSize = { width: 100, height: 100 };
 	widget.call(this, target);
 	
 	//define unique attributes
@@ -4865,7 +4880,7 @@ wheel.prototype.init = function() {
 	
 	this.draw();
 	
-	nx.aniItems.push(this.spin);
+	nx.aniItems.push(this.spin.bind(this));
 }
 
 wheel.prototype.draw = function() {
@@ -4906,13 +4921,13 @@ wheel.prototype.draw = function() {
 
 
 
-		lineWidth = this.lineWidth*2
+	/*	lineWidth = this.lineWidth*2
 		fillStyle = this.colors.fill;
 		strokeStyle = this.colors.accent;
 		strokeRect(this.center.x-3, 3, 6, this.circleSize)
 		fillRect(this.center.x-3, 3, 6, this.circleSize)
 
-
+*/
 
 		//draw circle in center
 		beginPath();
