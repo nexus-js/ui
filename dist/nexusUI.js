@@ -2695,7 +2695,7 @@ var metro = module.exports = function (target) {
 	this.x = 0;
 	this.y = 0;
 	this.nodeSize = 10;
-	this.sides = 7;
+	this.sides = 8;
 	this.size = 20;
 	this.Xcenter = 25;
 	this.Ycenter = 25;
