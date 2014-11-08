@@ -1,6 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var manager = require('./lib/core/manager');
-var widgets = require('./lib/widgets');
 
 /************************************************
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
@@ -18,35 +17,7 @@ window.onload = function() {
 
   // get all canvases on the page and add them to the manager
   var allcanvi = document.getElementsByTagName("canvas");
-  for (i=0;i<allcanvi.length;i++) {
-    // if it has an nx attribute, store that in nxType
-    var nxType = allcanvi[i].getAttribute("nx");
-    var elemCount = 0;
-    // find out how many of the same elem type have come before
-    // i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
-    // allowing you to count how many dials already exist on the page
-    // and give your new dial the appropriate index and id: dial3
-    for (j=0;j<nx.elemTypeArr.length;j++) {
-      if (nx.elemTypeArr[j] === nxType) {
-        elemCount++;
-      }
-    }
-    // add your new nexus element type to the element list
-    nx.elemTypeArr.push(nxType);
-    // check to see if it has a pre-given ID
-    // and use that as its id if so
-    if (!allcanvi[i].id) {
-      var idNum = elemCount + 1;
-      allcanvi[i].id = nxType + idNum;
-    }
-    if(nxType) {
-      try {
-        new (require('./lib/widgets')[nxType])(allcanvi[i].id);
-      } catch (err) {
-        console.log(nxType)
-      }
-    }
-  }
+  for (i=0;i<allcanvi.length;i++) nx.createNxObject(allcanvi[i]);
 
   if (nx.is_touch_device) {
     document.addEventListener("touchmove", nx.blockMove, true);
@@ -58,7 +29,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/widgets":14}],2:[function(require,module,exports){
+},{"./lib/core/manager":2}],2:[function(require,module,exports){
 var timingUtils = require('../utils/timing');
 
 /** 
@@ -98,7 +69,39 @@ var manager = module.exports = function() {
   this.metas = document.getElementsByTagName('meta');
 
 }
-  
+
+manager.prototype.createNxObject = function(canvas) {
+  // if it has an nx attribute, store that in nxType
+  var nxType = canvas.getAttribute("nx");
+  var elemCount = 0;
+  var newObj;
+  // find out how many of the same elem type have come before
+  // i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+  // allowing you to count how many dials already exist on the page
+  // and give your new dial the appropriate index and id: dial3
+  for (j=0;j<this.elemTypeArr.length;j++) {
+    if (this.elemTypeArr[j] === nxType) {
+      elemCount++;
+    }
+  }
+  // add your new nexus element type to the element list
+  this.elemTypeArr.push(nxType);
+  // check to see if it has a pre-given ID
+  // and use that as its id if so
+  if (!canvas.id) {
+    var idNum = elemCount + 1;
+    canvas.id = nxType + idNum;
+  }
+  if(nxType) {
+    try {
+      newObj = new (require('../widgets')[nxType])(canvas.id);
+    } catch (err) {
+      console.log(nxType);
+    }
+  }
+  this.nxObjects[newObj.canvasID] = newObj;
+  return newObj;
+}
 
 /** 
   @method colorize
@@ -125,10 +128,6 @@ manager.prototype.colorize = function(aspect, newCol) {
     this.nxObjects[key].colors[aspect] = newCol;
     this.nxObjects[key].draw();
   }
-}
-  
-manager.prototype.addNxObject = function(newObj) {
-  this.nxObjects[newObj.canvasID] = newObj;
 }
   
 manager.prototype.setNxThrottlePeriod = function(newThrottle) {
@@ -236,7 +235,7 @@ manager.prototype.setLabels = function(onoff) {
 // Or investigate Gibber.lib and see how he handles timing
 //var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
  //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-},{"../utils/timing":7}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../widgets":14}],3:[function(require,module,exports){
 var domUtils = require('../utils/dom');
 var drawingUtils = require('../utils/drawing');
 var timingUtils = require('../utils/timing');
@@ -312,7 +311,6 @@ var widget = module.exports = function (target) {
   this.isBeingResized = false;
   this.label = false;
   //recording
-  nx.addNxObject(this);
   this.isRecording = false;
   this.tapeNum = 0;
   this.recorder = null;
