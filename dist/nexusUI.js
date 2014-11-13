@@ -1,6 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var manager = require('./lib/core/manager');
-var widgets = require('./lib/widgets');
 
 /************************************************
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
@@ -18,35 +17,7 @@ window.onload = function() {
 
   // get all canvases on the page and add them to the manager
   var allcanvi = document.getElementsByTagName("canvas");
-  for (i=0;i<allcanvi.length;i++) {
-    // if it has an nx attribute, store that in nxType
-    var nxType = allcanvi[i].getAttribute("nx");
-    var elemCount = 0;
-    // find out how many of the same elem type have come before
-    // i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
-    // allowing you to count how many dials already exist on the page
-    // and give your new dial the appropriate index and id: dial3
-    for (j=0;j<nx.elemTypeArr.length;j++) {
-      if (nx.elemTypeArr[j] === nxType) {
-        elemCount++;
-      }
-    }
-    // add your new nexus element type to the element list
-    nx.elemTypeArr.push(nxType);
-    // check to see if it has a pre-given ID
-    // and use that as its id if so
-    if (!allcanvi[i].id) {
-      var idNum = elemCount + 1;
-      allcanvi[i].id = nxType + idNum;
-    }
-    if(nxType) {
-      try {
-        new (require('./lib/widgets')[nxType])(allcanvi[i].id);
-      } catch (err) {
-        console.log(nxType)
-      }
-    }
-  }
+  for (i=0;i<allcanvi.length;i++) nx.createNxObject(allcanvi[i]);
 
   if (nx.is_touch_device) {
     document.addEventListener("touchmove", nx.blockMove, true);
@@ -58,7 +29,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/widgets":14}],2:[function(require,module,exports){
+},{"./lib/core/manager":2}],2:[function(require,module,exports){
 var timingUtils = require('../utils/timing');
 
 /** 
@@ -98,7 +69,39 @@ var manager = module.exports = function() {
   this.metas = document.getElementsByTagName('meta');
 
 }
-  
+
+manager.prototype.createNxObject = function(canvas) {
+  // if it has an nx attribute, store that in nxType
+  var nxType = canvas.getAttribute("nx");
+  var elemCount = 0;
+  var newObj;
+  // find out how many of the same elem type have come before
+  // i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+  // allowing you to count how many dials already exist on the page
+  // and give your new dial the appropriate index and id: dial3
+  for (j=0;j<this.elemTypeArr.length;j++) {
+    if (this.elemTypeArr[j] === nxType) {
+      elemCount++;
+    }
+  }
+  // add your new nexus element type to the element list
+  this.elemTypeArr.push(nxType);
+  // check to see if it has a pre-given ID
+  // and use that as its id if so
+  if (!canvas.id) {
+    var idNum = elemCount + 1;
+    canvas.id = nxType + idNum;
+  }
+  if(nxType) {
+    try {
+      newObj = new (require('../widgets')[nxType])(canvas.id);
+    } catch (err) {
+      console.log(nxType);
+    }
+  }
+  this.nxObjects[newObj.canvasID] = newObj;
+  return newObj;
+}
 
 /** 
   @method colorize
@@ -125,10 +128,6 @@ manager.prototype.colorize = function(aspect, newCol) {
     this.nxObjects[key].colors[aspect] = newCol;
     this.nxObjects[key].draw();
   }
-}
-  
-manager.prototype.addNxObject = function(newObj) {
-  this.nxObjects[newObj.canvasID] = newObj;
 }
   
 manager.prototype.setNxThrottlePeriod = function(newThrottle) {
@@ -236,12 +235,15 @@ manager.prototype.setLabels = function(onoff) {
 // Or investigate Gibber.lib and see how he handles timing
 //var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
  //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-},{"../utils/timing":7}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../widgets":14}],3:[function(require,module,exports){
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
 var domUtils = require('../utils/dom');
 var drawingUtils = require('../utils/drawing');
 var timingUtils = require('../utils/timing');
 
 var widget = module.exports = function (target) {
+  EventEmitter.apply(this)
   this.preClick = this.preClick.bind(this)
   this.preMove = this.preMove.bind(this)
   this.preRelease = this.preRelease.bind(this)
@@ -312,7 +314,6 @@ var widget = module.exports = function (target) {
   this.isBeingResized = false;
   this.label = false;
   //recording
-  nx.addNxObject(this);
   this.isRecording = false;
   this.tapeNum = 0;
   this.recorder = null;
@@ -335,24 +336,7 @@ var widget = module.exports = function (target) {
   }
 
 }
-
-widget.prototype.on = function(path,command) {
-  this.events[path] = command;
-}
-
-// custom event emitter
-widget.prototype.emit = function(path,value) {
-  if (this.events[path]) {
-    this.events[path](value);
-  }
-}
-
-// remove event listener
-widget.prototype.off = function(path) {
-  if (this.events[path]) {
-    this.events[path] = null;
-  }
-}
+util.inherits(widget, EventEmitter)
 
 widget.prototype.nxTransmit = function(data) {
 
@@ -729,7 +713,7 @@ widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"events":36,"util":40}],4:[function(require,module,exports){
 
 exports.findPosition = function(element) {
   var body = document.body,
@@ -1015,7 +999,7 @@ banner.prototype.draw = function() {
 banner.prototype.click = function() {
 	window.location = "http://www.nexusosc.com";
 }
-},{"../core/widget":3,"util":39}],9:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],9:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1189,7 +1173,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"util":39}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1313,7 +1297,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":39}],11:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1395,7 +1379,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":39}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],12:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -1575,7 +1559,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":39}],13:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1762,7 +1746,7 @@ envelope.prototype.stop = function() {
 envelope.prototype.continue = function() {
 
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],14:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2012,7 +1996,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":39}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],16:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -2312,7 +2296,7 @@ keyboard.prototype.untype = function(e) {
 		}
 	}	
 } */
-},{"../core/widget":3,"util":39}],17:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],17:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -2578,7 +2562,7 @@ matrix.prototype.seqStep = function() {
 	/*	
 	*/
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":39}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":40}],18:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -2661,7 +2645,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":39}],19:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],19:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2831,7 +2815,7 @@ metro.prototype.advance = function() {
 	//}
 	
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -2933,7 +2917,7 @@ mouse.prototype.move = function(e) {
 	this.nxTransmit(this.val);
 
 }
-},{"../core/widget":3,"util":39}],21:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],21:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3073,7 +3057,7 @@ multislider.prototype.setNumberOfSliders = function(numOfSliders) {
 	this.init();
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":39}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],22:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3287,7 +3271,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.nxTransmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":39}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":40}],23:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3344,7 +3328,7 @@ number.prototype.move = function(e) {
 		this.nxTransmit(this.val);
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],24:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3371,7 +3355,7 @@ panel.prototype.draw = function() {
 		fill();
 	}
 }
-},{"../core/widget":3,"util":39}],25:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3576,7 +3560,7 @@ pixels.prototype.send = function(pixX, pixY) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":39}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3742,7 +3726,7 @@ position.prototype.aniBounce = function() {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],27:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -3932,7 +3916,7 @@ range.prototype.move = function() {
 	}
 	this.nxTransmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],28:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3991,7 +3975,7 @@ select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
 	this.nxTransmit(this.val);
 }
-},{"../core/widget":3,"util":39}],29:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4166,7 +4150,7 @@ slider.prototype.move = function() {
 	//	var scaledVal = ( this.val.value - 0.02 ) * (1/.97);
 	this.nxTransmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],30:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4352,7 +4336,7 @@ string.prototype.pluck = function(which) {
 	this.strings[i].vibrating = true;
 	this.strings[i].direction = (this.clickPos.y - this.strings[i].y1)/Math.abs(this.clickPos.y - this.strings[i].y1) * ((this.clickPos.y - this.strings[i].y1)/-1.2);
 }
-},{"../core/widget":3,"util":39}],31:[function(require,module,exports){
+},{"../core/widget":3,"util":40}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4497,7 +4481,7 @@ tilt.prototype.draw = function() {
 	}
 	this.drawLabel();
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],32:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -4618,7 +4602,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.nxTransmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":39}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":40}],33:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -4851,7 +4835,7 @@ typewriter.prototype.untype = function(e) {
 	//this.nxTransmit();
 	this.draw();
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":39}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":40}],34:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5003,7 +4987,7 @@ vinyl.prototype.spin = function() {
 	this.nxTransmit(this.val)
 	
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5207,7 +5191,310 @@ wheel.prototype.spin = function() {
 
 	
 }
-},{"../core/widget":3,"../utils/math":6,"util":39}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":40}],36:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      }
+      throw TypeError('Uncaught, unspecified "error" event.');
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        len = arguments.length;
+        args = new Array(len - 1);
+        for (i = 1; i < len; i++)
+          args[i - 1] = arguments[i];
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    len = arguments.length;
+    args = new Array(len - 1);
+    for (i = 1; i < len; i++)
+      args[i - 1] = arguments[i];
+
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    var m;
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  var ret;
+  if (!emitter._events || !emitter._events[type])
+    ret = 0;
+  else if (isFunction(emitter._events[type]))
+    ret = 1;
+  else
+    ret = emitter._events[type].length;
+  return ret;
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],37:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -5232,7 +5519,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5297,14 +5584,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -5894,4 +6181,4 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":38,"_process":37,"inherits":36}]},{},[1]);
+},{"./support/isBuffer":39,"_process":38,"inherits":37}]},{},[1]);
