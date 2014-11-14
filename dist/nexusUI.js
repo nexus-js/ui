@@ -61,6 +61,8 @@ var manager = module.exports = function() {
   canvasgridy = 10;
   canvasgridx = 10;
   this.starttime = new Date().getTime();
+  this.transmissionProtocol = "js";
+  this.ajaxPath = "lib/nexusOSCRelay.php";
 
 
   /* old manager properties and methods */
@@ -135,6 +137,18 @@ manager.prototype.setNxThrottlePeriod = function(newThrottle) {
   for (var key in this.nxObjects) {
     this.nxObjects[key].nxThrottlePeriod = this.nxThrottlePeriod;
   }
+}
+
+manager.prototype.sendsTo = function(protocol) {
+  this.transmissionProtocol = protocol;
+  for (var key in this.nxObjects) {
+    this.nxObjects[key].transmissionProtocol = protocol;
+  }
+
+}
+
+manager.prototype.setAjaxPath = function(path) {
+  this.ajaxPath = path;
 }
 
 
@@ -253,7 +267,7 @@ var widget = module.exports = function (target) {
 
   //canvas
   this.canvasID = target;
-  this.varname = target;
+  this.oscPath = "/"+target;
   if (!document.getElementById(target)) {
     var newcanv = document.createElement("canvas")
     newcanv.id = target;
@@ -340,23 +354,45 @@ util.inherits(widget, EventEmitter)
 
 widget.prototype.nxTransmit = function(data) {
 
-  //bundled data emit
-  //this.events.emit('data', data)
+  // to javascript callback
+  if (this.transmissionProtocol=="js") {
+    this.makeOSC(this.emit, data);
 
-  //indiv. OSC emit
-  if ((typeof data == "object") && (data !== null)) {
-    for (var key in data) {
-      if ((typeof data[key] == "object") && (data[key] !== null)) {
-        for (var key2 in data[key]) {
-          this.emit(key+"/"+key2, data[key][key2])
-        }
-      } else {
-        this.emit(key, data[key])
-      }
-    }
-  } else if (typeof data == "number" || typeof data == "string") {
-    this.emit('value', data)
+  // ajax to php file
+  } else if (this.transmissionProtocol=="ajax") {
+    this.makeOSC(this.ajaxTransmit, data);
+
   }
+}
+
+widget.prototype.makeOSC = function(action, data) {
+    this.action = action;
+    //indiv. OSC emit
+    if ((typeof data == "object") && (data !== null)) {
+      for (var key in data) {
+        if ((typeof data[key] == "object") && (data[key] !== null)) {
+          for (var key2 in data[key]) {
+            this.action(key+"/"+key2, data[key][key2])
+          }
+        } else {
+          this.action(key, data[key])
+        }
+      }
+    } else if (typeof data == "number" || typeof data == "string") {
+      this.action('value', data)
+    }
+}
+
+
+widget.prototype.ajaxTransmit = function(subPath, data) {
+
+    var oscPath = this.oscPath+"/"+subPath;
+     
+    xmlhttp=new XMLHttpRequest();
+    xmlhttp.open("POST",nx.ajaxPath,true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.send('oscName='+oscPath+'&data='+data);
+
 }
 
 widget.prototype.preClick = function(e) {

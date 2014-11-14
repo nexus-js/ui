@@ -1,6 +1,7 @@
 # Nexus UI
 
-**Authors:** Ben Taylor, Jesse Allison, Yemin Oh
+**Author:** Ben Taylor
+**Contributors:** Jesse Allison, Yemin Oh, Sébastien Piquemal
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping and integration with Max/MSP.
 
@@ -11,7 +12,7 @@
 
 ### How to Use NexusUI
 
-Download and link to nexusUI.js in the head of your HTML document
+Download nexusUI.js and link to it in the head of your HTML document
 
 ```html
 <script src="nexusUI.js"></script>
@@ -24,12 +25,37 @@ Add an HTML5 canvas to your page with a valid nx attribute.
 <canvas nx="dial"></canvas>
 ```
 
- It will automatically be converted into a touch-compatible dial that outputs OSC. Several server options are included with NexusUI (see Servers folder), or OSC can be used in the browser to control Web Audio.
+It will automatically convert into a touch-compatible dial interface. 
 
- Valid Nexus objects include: dial, position, keyboard, button, toggle, slider, multislider, matrix, select, tilt, metroball, pixels, colors, sandbox, joints, comment, message, number, banner, multitouch.
+Valid Nexus objects include: dial, position, keyboard, button, toggle, slider, multislider, matrix, select, tilt, metroball, pixels, colors, sandbox, joints, comment, message, number, banner, multitouch.
 
- See [nexusosc.com](http://www.nexusosc.com) for examples and tutorials. 
 
+### Accessing Interface Data
+
+By default, interface event data can be accessed by adding JavaScript event listeners, which can be used to control web audio.
+
+```js
+button1.on('press', function(data) {
+	// do something musical with event data
+})
+```
+
+In addition, the interface can send OSC data through a network to other audio applications (or anything that understands OSC). Templates for server interaction can be found at:
+
+[nx-AjaxDemo](http://www.github.com/lsu-emdm) offers a template for sending OSC via AJAX through a basic Apache server (Macs have one built-in, Windows users can use WAMP).
+
+[nx-NodeDemo](http://www.github.com/lsu-emdm) offers a socket.io template for users of node.js.
+
+See [nexusosc.com](http://www.nexusosc.com) for examples and tutorials. 
+
+
+### Additional NexusUI Tools
+
+[nexusDrop](http://www.github.com/lsu-emdm) offers a drag-and-drop interface for creating Nexus Interfaces.
+
+[nexusUp](http://www.github.com/lsu-emdm) offers a Max/MSP bpatcher for generating NexusUI interfaces from existing Max interfaces.
+
+[Braid](http://www.github.com/lsu-emdm) offers a drag-and-drop interface for creating web audio instruments using Gibber.lib.
 
 
 ### Build instructions
