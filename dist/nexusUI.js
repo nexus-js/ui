@@ -362,6 +362,10 @@ widget.prototype.nxTransmit = function(data) {
   } else if (this.transmissionProtocol=="ajax") {
     this.makeOSC(this.ajaxTransmit, data);
 
+  // to node socket
+  } else if (this.transmissionProtocol=="node") {
+    this.makeOSC(this.nodeTransmit, data);
+
   }
 }
 
@@ -386,7 +390,9 @@ widget.prototype.makeOSC = function(action, data) {
 
 widget.prototype.ajaxTransmit = function(subPath, data) {
 
-    var oscPath = this.oscPath+"/"+subPath;
+    var oscPath = subPath=='value' ? this.oscPath : this.oscPath+"/"+subPath;
+
+    //var oscPath = this.oscPath+"/"+subPath;
      
     xmlhttp=new XMLHttpRequest();
     xmlhttp.open("POST",nx.ajaxPath,true);
@@ -394,6 +400,19 @@ widget.prototype.ajaxTransmit = function(subPath, data) {
     xmlhttp.send('oscName='+oscPath+'&data='+data);
 
 }
+
+
+widget.prototype.nodeTransmit = function(subPath, data) {
+   
+    var msg = {
+      oscName: subPath=='value' ? this.oscPath : this.oscPath+"/"+subPath,
+      value: data
+    }
+    socket.emit('nx', msg)
+
+}
+
+
 
 widget.prototype.preClick = function(e) {
   this.offset = {
