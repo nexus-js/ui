@@ -7,26 +7,62 @@
 
 			nx.onload = function() {
 
-				//log all events
+
+				/* event listening  options */
+
+				/*
+				 this is the default anyway!
+				*/
+				nx.sendsTo("js");
+
+
+				/* 
+				 NEW: receives grouped output from dial when anything changes.   
+				      data here will be a js object.
+				*/
+				dial1.on('*', function(data){
+					console.log(data);
+				});
+
+
+				/* 
+				 NEW: receives only the data of slider #2 (third from left)
+				      executes ONLY when slider #2 is changed
+				      this is equivalent to listening for /multislider1/2 in OSC
+				*/
+				multislider1.on('2', function(data){
+					console.log(data);
+				});
+				
+
+				/*  
+				this code can be useful for logging any interface events
+				
 				for (var key in nx.nxObjects) {
 					with (nx.nxObjects[key]) {
-						for (var oscpath in val) {
-							on(oscpath, function(data) {
-								// code that will be executed
-								console.log(canvasID, data)
-							})
-						}
+						on('*', function(data) {
+							// code that will be executed
+							console.log(canvasID, data)
+						})
 					}
-				} 
+				}  
+				*/
 
-				with(nx) {
-			    	colorize("accent", "#347");
-			    	colorize("border", "#bbb");
-			    	colorize("fill", "#eee");
-				}
+
+
+				/* styles */
+
+			    nx.colorize("accent", "#347");
+			    nx.colorize("border", "#bbb");
+			    nx.colorize("fill", "#eee");
+
+
+
+			    /* matrix settings */
 
 				//a widget can be accessed with its name
 				matrix1.row = 6;
+
 				//or as a property of nx.nxObjects
 				nx.nxObjects["matrix1"].col = 6;
 				
@@ -34,8 +70,7 @@
 
 				matrix1.sequence(400);
 				matrix1.jumpTo({row:1,col:2});
-				matrix1.sequenceMode = "random";
-
+				matrix1.sequenceMode = "random"; // default is "linear"
 
 			}
 

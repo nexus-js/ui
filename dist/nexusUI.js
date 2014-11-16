@@ -31,6 +31,8 @@ window.onload = function() {
 };
 },{"./lib/core/manager":2}],2:[function(require,module,exports){
 var timingUtils = require('../utils/timing');
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
 
 /** 
   @title NexusUI API
@@ -50,6 +52,8 @@ var timingUtils = require('../utils/timing');
 */
 
 var manager = module.exports = function() {
+  EventEmitter.apply(this)
+  console.log("1 "+this.on)
   this.nxObjects = new Object();
   this.nxThrottlePeriod = 20;
   this.elemTypeArr = new Array();
@@ -71,6 +75,7 @@ var manager = module.exports = function() {
   this.metas = document.getElementsByTagName('meta');
 
 }
+util.inherits(manager, EventEmitter)
 
 manager.prototype.createNxObject = function(canvas) {
   // if it has an nx attribute, store that in nxType
@@ -250,7 +255,7 @@ manager.prototype.setLabels = function(onoff) {
 // Or investigate Gibber.lib and see how he handles timing
 //var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
  //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-},{"../utils/timing":7,"../widgets":14}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../widgets":14,"events":36,"util":40}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -358,6 +363,7 @@ widget.prototype.nxTransmit = function(data) {
   // to javascript callback
   if (this.transmissionProtocol=="js") {
     this.makeOSC(this.emit, data);
+    this.emit('*',data);
 
   // ajax to php file
   } else if (this.transmissionProtocol=="ajax") {
@@ -366,6 +372,10 @@ widget.prototype.nxTransmit = function(data) {
   // to node socket
   } else if (this.transmissionProtocol=="node") {
     this.makeOSC(this.nodeTransmit, data);
+
+  // to javascript dump function
+  } else if (this.transmissionProtocol=="jsdump") {
+    nx.emit(this.canvasID, data);
 
   }
 }
