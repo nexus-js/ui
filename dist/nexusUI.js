@@ -102,6 +102,7 @@ manager.prototype.createNxObject = function(canvas) {
     }
   }
   this.nxObjects[newObj.canvasID] = newObj;
+  window[newObj.canvasID] = this.nxObjects[newObj.canvasID]
   return newObj;
 }
 
@@ -2378,7 +2379,7 @@ var matrix = module.exports = function (target) {
 		matrix1.draw()
 	```
 	*/
-	this.row = 3;
+	this.row = 4;
 
 	/** @property {integer}  col   Number of columns in the matrix
 	```js
@@ -2386,12 +2387,10 @@ var matrix = module.exports = function (target) {
 		matrix1.draw()
 	```
 	*/
-	this.col = 3;
+	this.col = 4;
 	
-	this.off = 3;
 	this.cellHgt;
 	this.cellWid;
-	this.pos;
 
 	/** @property {array}  matrix   Nested array of matrix values.
 	```js
@@ -2414,13 +2413,21 @@ var matrix = module.exports = function (target) {
 		col: 0,
 		value: 0
 	}
-	
-	var whichCell;
 
+	//for mouse logic
+	this.cur;
+	this.prev;
+	this.erasing = false;
+
+	// current spot in sequence
 	this.place = null;
+
 	this.starttime;
 	this.thisframe = 0;
 	this.lastframe = 0;
+
+	// randomize
+	this.sequenceMode = "linear";
 
 	/** @property {integer}  bpm   Beats per minute (if in sequence mode)
 	```js
@@ -2436,6 +2443,8 @@ util.inherits(matrix, widget);
 
 
 matrix.prototype.init = function() {
+
+	this.lineWidth = 1;
 	
 	// generate 2D matrix array
 	this.matrix = new Array(this.row)
@@ -2455,75 +2464,35 @@ matrix.prototype.init = function() {
 
 matrix.prototype.draw = function() {
 
-	this.cellWid = (this.canvas.width-(this.off*2))/this.col;
-	this.cellHgt = (this.canvas.height-(this.off*2))/this.row;
-	this.makeRoundedBG();
-	with (this.context) {
-		strokeStyle = this.colors.border;
-		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-	}
+	this.cellWid = this.canvas.width/this.col;
+	this.cellHgt = this.canvas.height/this.row;
 	
 	for (var i=0;i<this.row;i++){
 		for (var j=0;j<this.col;j++) {
-			var st_x = j*this.cellWid+this.lineWidth; // starting point(left)
-			var st_y = i*this.cellHgt+this.lineWidth; // starting point(top)
-			var mo_x = this.cellWid*this.matrix[i][j]; //dynamic changes of diagonal line
-			var mo_y = this.cellHgt*this.matrix[i][j]; //dynamic changes of diagonal line
-			var de_x = (j+1)*this.cellWid+this.off/2; // end point(right)
-			var de_y = (i+1)*this.cellHgt+this.off+this.off/2; // end point(bottom)
-			var boxwid = this.cellWid - this.lineWidth;
-			var boxhgt = this.cellHgt - this.lineWidth;
+			var st_x = j*this.cellWid // starting point(left)
+			j==0 ? st_x += 0 : null;
+			var st_y = i*this.cellHgt; // starting point(top)
+			i==0 ? st_y += 0 : null;
+			var boxwid = this.cellWid;
+			var boxhgt = this.cellHgt;
 
-			drawing.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
+			
 			with (this.context) {
 				strokeStyle = this.colors.border;
-				fillStyle = this.colors.fill;
-				stroke();
-				fill();
-
-				//if on
+				lineWidth = this.lineWidth;
 				if (this.matrix[i][j] > 0) {
-					
-					var level = Math.abs(this.matrix[i][j]-1);
-					var x1 = st_x;
-					var y1 = st_y+this.cellHgt*level-(5*level);
-					var x2 = boxwid+x1;
-					var y2 = (boxhgt*this.matrix[i][j])+y1;
-					var depth = 6;
-					
-					beginPath();
-					if (this.matrix[i][j]>0.95) {
-						moveTo(x1+depth, y1); //TOP LEFT
-						lineTo(x2-depth, y1); //TOP RIGHT
-						quadraticCurveTo(x2, y1, x2, y1+depth);
-					} else {
-						moveTo(x1, y1); //TOP LEFT
-						lineTo(x2, y1); //TOP RIGHT
-					}
-					lineTo(x2, y2-depth); //BOTTOM RIGHT
-					quadraticCurveTo(x2, y2, x2-depth, y2);
-					lineTo(x1+depth, y2); //BOTTOM LEFT
-					quadraticCurveTo(x1, y2, x1, y2-depth);
-					if (this.matrix[i][j]>0.95) {
-						lineTo(x1, y1+depth); //TOP LEFT
-						quadraticCurveTo(x1, y1, x1+depth, y1);
-					} else {
-						lineTo(x1, y1); //TOP LEFT
-					}
-					closePath();
-					
 					fillStyle = this.colors.accent;
-					fill();
+				} else {
+					fillStyle = this.colors.fill;
 				}
-
-				drawing.makeRoundRect(this.context, st_x, st_y, boxwid, boxhgt);
+				fillRect(st_x, st_y, boxwid, boxhgt);
+				strokeRect(st_x, st_y, boxwid, boxhgt);
 			
 				// sequencer highlight
 				if (this.place != null && this.place == i*this.col+j) {
 					globalAlpha = 0.4;
-					fillStyle = this.colors.accent;
-					fill();
+					fillStyle = this.colors.border;
+					fillRect(st_x, st_y, boxwid, boxhgt);
 					globalAlpha = 1;
 				}
 
@@ -2542,23 +2511,44 @@ matrix.prototype.click = function(e) {
 		row: ~~(this.clickPos.y/this.cellHgt)
 	}
 
-	this.cur["value"] = this.clickPos.y-(this.cellHgt*this.cur.row)
-	this.cur["value"] = this.cur.value/this.cellHgt
-	this.cur["value"] = math.invert(this.cur["value"])
-
-	if (this.cur["value"]<=0.5) {
-		this.cur.value = 0;
+	if (this.matrix[this.cur.row][this.cur.col]) {
+		this.matrix[this.cur.row][this.cur.col] = 0;
+		this.erasing = true;
+	} else {
+		this.matrix[this.cur.row][this.cur.col] = 1;
+		this.erasing = false;
 	}
 
-	this.matrix[this.cur.row][this.cur.col] = this.cur["value"];
+	this.cur["value"] = this.matrix[this.cur.row][this.cur.col]
+	this.prev = this.cur;
 
 	this.nxTransmit(this.cur);
 	this.draw();
 }
 
 matrix.prototype.move = function(e) {
-	if (this.clicked && this.clickPos.y>=0) {
-		this.click(e)
+	if (this.clicked) {
+		
+		this.cur = {
+			col: ~~(this.clickPos.x/this.cellWid),
+			row: ~~(this.clickPos.y/this.cellHgt)
+		}
+
+		if (this.cur.row < this.row && this.cur.col < this.col && this.cur.row >= 0 && this.cur.col >=0) {
+			if (this.cur.col!=this.prev.col || this.cur.row != this.row.col) {
+				if (this.erasing) {
+					this.matrix[this.cur.row][this.cur.col] = 0;
+				} else {
+					this.matrix[this.cur.row][this.cur.col] = 1;
+				}
+				this.cur["value"] = this.matrix[this.cur.row][this.cur.col]
+				this.prev = this.cur;
+
+				this.nxTransmit(this.cur);
+				this.draw();
+			}
+		}
+
 	}
 }
 
@@ -2576,7 +2566,7 @@ matrix.prototype.sequence = function(bpm) {
 		this.bpm = bpm;
 	}	
 
-	requestAnimationFrame(this.seqStep);
+	requestAnimationFrame(this.seqStep.bind(this));
  
 }
 
@@ -2601,22 +2591,46 @@ matrix.prototype.seqStep = function() {
 		this.cur["value"] = this.matrix[this.cur.row][this.cur.col];
 
 		this.nxTransmit(this.cur);
-		this.place++;
+		if (this.sequenceMode=="linear") {
+			this.place++;
+		} else if (this.sequenceMode=="random") {
+			this.place = math.randomNum(this.row*this.col);
+		}
 		if (this.place>=this.row*this.col) {
 			this.place = 0;
 		}
 
-
-
     }
 
     this.lastframe = this.thisframe;
-
-		requestAnimationFrame(this.seqStep);
- 
-	/*	
-	*/
+	requestAnimationFrame(this.seqStep.bind(this));
 }
+
+matrix.prototype.jumpTo = function(loc) {
+
+	this.cur = {
+		row: ~~((this.place)/this.col),
+		col: (this.place)%this.row
+	}
+
+	if (loc && loc.row && loc.row < this.row) {
+		this.cur.row = loc.row;
+	}
+	if (loc && loc.col && loc.col < this.col) {
+		this.cur.col = loc.col;
+	}
+
+	this.place = this.cur.row * this.col + this.cur.row
+
+	this.cur["value"] = this.matrix[this.cur.row][this.cur.col];
+
+	this.nxTransmit(this.cur);
+	if (this.place>=this.row*this.col) {
+		this.place = 0;
+	}
+
+}
+
 },{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":40}],18:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');

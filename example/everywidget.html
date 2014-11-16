@@ -19,9 +19,23 @@
 					}
 				} 
 
-			    nx.colorize("accent", "#347");
-			    nx.colorize("border", "#bbb");
-			    nx.colorize("fill", "#eee");
+				with(nx) {
+			    	colorize("accent", "#347");
+			    	colorize("border", "#bbb");
+			    	colorize("fill", "#eee");
+				}
+
+				//a widget can be accessed with its name
+				matrix1.row = 6;
+				//or as a property of nx.nxObjects
+				nx.nxObjects["matrix1"].col = 6;
+				
+				matrix1.init();
+
+				matrix1.sequence(400);
+				matrix1.jumpTo({row:1,col:2});
+				matrix1.sequenceMode = "random";
+
 
 			}
 
