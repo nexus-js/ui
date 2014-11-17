@@ -70,7 +70,7 @@
 
 				matrix1.sequence(400);
 				matrix1.jumpTo({row:1,col:2});
-				matrix1.sequenceMode = "random"; // default is "linear"
+				matrix1.sequenceMode = "linear"; // default. you can also use 'random'
 
 			}
 
@@ -80,9 +80,10 @@
 	<body style="background-color:#f7f7f7">
 
 		<style>
-		canvas {margin:30px 50px 0px 5px}
+		canvas {display:block; margin:0px 0px 50px}
 		body {color:#bbb;font-family:gill sans;font-size:14pt;}
 		</style>
+
 
 		  banner
 		  <canvas nx="banner"></canvas>
@@ -130,7 +131,7 @@
 		  <canvas nx="toggle"></canvas>
 		  typewriter
 		  <canvas nx="typewriter"></canvas>
-		  vinyl
+		<!--  vinyl
 		  <canvas nx="vinyl"></canvas>
 		  wheel
 		  <canvas nx="wheel"></canvas>

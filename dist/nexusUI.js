@@ -243,6 +243,15 @@ manager.prototype.setLabels = function(onoff) {
 }
 
 
+  
+manager.prototype.blockMove = function(e) {
+  if (e.target.tagName == 'CANVAS') {
+     e.preventDefault();
+  }
+}
+
+
+
 // Soon move to this -- better animation timing;
 // Or investigate Gibber.lib and see how he handles timing
 //var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
@@ -818,6 +827,14 @@ exports.hexToRgb = function(hex, a) {
 
 exports.isInside = function(clickedNode,currObject) {
   if (clickedNode.x > currObject.xpos && clickedNode.x < (currObject.xpos+currObject.wid) && clickedNode.y > currObject.ypos && clickedNode.y < (currObject.ypos+currObject.hgt)) {
+    return true;  
+  } else {
+    return false; 
+  }
+}
+
+exports.isInside2 = function(clickedNode,currObject) {
+  if (clickedNode.x > currObject.x && clickedNode.x < (currObject.x+currObject.w) && clickedNode.y > currObject.y && clickedNode.y < (currObject.y+currObject.h)) {
     return true;  
   } else {
     return false; 
@@ -2090,6 +2107,7 @@ joints.prototype.aniBounce = function() {
 },{"../core/widget":3,"../utils/math":6,"util":41}],17:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
+var drawing = require('../utils/drawing');
 
 /** 
 	@class keyboard      
@@ -2114,22 +2132,29 @@ var keyboard = module.exports = function (target) {
 	widget.call(this, target);
 
 	// define unique attributes
-	this.octaves = 2;
-	//	var width = (this.canvas.width/(this.octaves*12))/3;
-	this.keywidth = (this.canvas.width/(this.octaves*12))/1.75;
-	this.w_height = this.height;
-	this.b_height = this.w_height*4/7;
-	this.w_width = this.keywidth*3;
-	this.b_width = this.keywidth*2;
-	// [On/Off, this.order of white or black, white(0) or black(1), start_position of X, end_position of X]
-	this.black_dis = [0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 5];
-	this.white_dis = [[0, 2], [4, 5], [7, 9], [9, 11], [13, 14], [16, 17], [19, 21]];
-	this.order = [0, 2, 4, 5, 7, 9, 11, 1, 3, 6, 8, 10];
+	this.octaves = 3;
+	this.white = {
+		width:0,
+		height:0
+	}
+	this.black = {
+		width:0,
+		height:0
+	}
+	this.wkeys = new Array();
+	this.bkeys = new Array();
+
+	this.keypattern = ['w','b','w','b','w','w','b','w','b','w','b','w']
 	this.keys = new Array();
+	this.midibase = 40;
 	this.lineWidth = 1;
 
-	this.note_new;
-	this.note_old;
+	//for multitouch
+	this.finger = new Array();
+
+	this.mode = "button" // other option would be "toggle" or "aftertouch" (button-like)
+
+	// for each key: x, y, w, h, color, on, note
 
 	/** @property {object}  val   Core values and data output
 		| &nbsp; | data
@@ -2150,244 +2175,131 @@ var keyboard = module.exports = function (target) {
 util.inherits(keyboard, widget);
 
 keyboard.prototype.init = function() {
-	//document.addEventListener("keydown", this.type.bind(this));
-	//document.addEventListener("keyup", this.untype.bind(this));
-	
-	this.keywidth = (this.canvas.width/(this.octaves*12))/1.75;
-	this.w_height = this.height;
-	this.b_height = this.w_height*4/7;
-	this.w_width = this.keywidth*3;
-	this.b_width = this.keywidth*2;
-	
-	
-	var o,j,i;
-	for (j=0;j<this.octaves;j++) {
-		for (i=0; i<12; i++) {
-			o = this.order[i]+j*12;
-			if (i<7) {
-				var u1 = this.w_width*(i + j*7);
-				var y = i + 1;
-				var u2 = this.w_width*(y + j*7);
-				this.keys.push([0, i, 0, u1, u2, o]);
-			}
-			else {
-				var k = this.black_dis[i];
-				var t1 = this.b_width*(1 + k + k/2) + 7*j*this.w_width;
-				var r = k + 1;
-				var t2 = this.b_width*(1 + r + k/2) + 7*j*this.w_width;
-				this.keys.push([0, k, 1, t1, t2, o]);
-			}
+
+	this.white.num = 0;
+	for (var i=0;i<this.keypattern.length;i++) {
+		this.keypattern[i]=='w' ? this.white.num++ : null;
+	}
+	this.white.num *= this.octaves;
+
+	this.white.width = this.width/this.white.num
+	this.white.height = this.height
+
+	this.black.width = this.white.width*0.6
+	this.black.height = this.height*0.6
+
+	for (var i=0;i<this.keypattern.length*this.octaves;i++) {
+		this.keys[i] = {
+			note: i+this.midibase,
+			on: false
+		}
+		switch (this.keypattern[i%this.keypattern.length]) {
+			case 'w':
+				this.keys[i].x =  this.wkeys.length*this.white.width,
+				this.keys[i].y = 0,
+				this.keys[i].w = this.white.width,
+				this.keys[i].h = this.white.height,
+				this.keys[i].type = 'w';
+				this.wkeys.push(this.keys[i]);
+
+				break;
+			case 'b':
+				this.keys[i].x = this.wkeys.length*this.white.width - this.black.width/2,
+				this.keys[i].y = 0,
+				this.keys[i].w = this.black.width,
+				this.keys[i].h = this.black.height,
+				this.keys[i].type = 'b';
+				this.bkeys.push(this.keys[i]);
+				break;
 		}
 	}
-	
+
+
 	this.draw();
-	
-	return 1;
 }
 
 keyboard.prototype.draw = function() {
-	var m,i,d,xx, dis;
 
-	for(m=0;m<this.octaves;m++) {
-		for (i=0;i<12;i++){
-			d = m*12 + i;
-			if (this.keys[d][2] == 0) {
-				var k = this.keys[d][1];
-				var x = k*this.w_width + (m*this.w_width*7);
-				with (this.context) {
-					lineWidth = this.lineWidth;
-					if (this.keys[d][0] == 0){
-						fillStyle = this.colors.fill;
-						fillRect(x, 0, this.w_width, this.w_height);
-						strokeStyle = this.colors.border;
-						strokeRect(x , 0, this.w_width, this.w_height);
-
-					}
-					else {
-						fillStyle = this.colors.accent;
-						fillRect(x, 0, this.w_width, this.w_height);
-					}
-
-				}
-			}
-			else {
-				dis = this.keys[d][1];
-				xx = dis*(this.b_width+this.b_width/2) + this.b_width + (m*this.w_width*7);	
-				with (this.context) {
-					lineWidth = this.lineWidth;
-					if (this.keys[d][0] == 0){
-						fillStyle = this.colors.black;
-					}	
-					else {
-						fillStyle = this.colors.accent;
-					}
-					fillRect(xx, 0, this.b_width, this.b_height);	
-				}
-			}	
-		}
-	}
 	with (this.context) {
+		for (var i in this.wkeys) {
+			strokeStyle = this.wkeys[i].on ? this.colors.white : this.colors.border
+			fillStyle = this.wkeys[i].on ? this.colors.border : this.colors.fill
+			lineWidth = this.lineWidth
+			strokeRect(this.wkeys[i].x,0,this.white.width,this.white.height);
+			fillRect(this.wkeys[i].x,0,this.white.width,this.white.height);
+		}
+		for (var i in this.bkeys) {
+			fillStyle = this.bkeys[i].on ? this.colors.accent : this.colors.black
+			fillRect(this.bkeys[i].x,0,this.black.width,this.black.height);
+		}
+
 		strokeStyle = this.colors.border;
-		lineWidth = 3;
+		lineWidth = this.lineWidth;
 		strokeRect(0,0,this.width,this.height);
 	}
 	this.drawLabel();
 }
 
 keyboard.prototype.change_cell = function(whichCell, number) {
-	if(whichCell != null){
-		this.keys[whichCell].splice(0,1,number);
-	}
+
 }
 
-// "WhichKey_pressed" find out the key, and changes the cell of the array(this.keys[]) and pass it into variable "this.note_new"
 keyboard.prototype.whichKey_pressed = function (x, y){
-	var found_click = 0;
-	var j,i,k;
-
-	if (y < this.b_height){
-		for (j=0; j<this.octaves; j++){
-			for (i=7; i<12; i++) {
-				var d = j*12 + i;
-				if (x > this.keys[d][3] && x <= this.keys[d][4]) {
-					this.note_new = d;
-					found_click = 1;
-					break;
-				}
-			}
-			if (found_click == 0) {
-				for (k=0; k<7; k++) {
-					var sp = (this.white_dis[k][0]+(21*j))*this.keywidth;
-					var ep = (this.white_dis[k][1]+(21*j))*this.keywidth;
-					if (x > sp && x <= ep) {
-						var o = j*12 + k;
-						this.note_new = o;
-						break;
-					}					
-				}
-			}
-		}
-
+	if (this.currentkey) {
+		this.pastkey = this.currentkey;
 	}
-	else if (y > this.b_height && y < this.w_height) {
-		for (j=0; j<this.octaves; j++){
-			for (i=0; i<7; i++) {
-				var d = j*12 + i;
-				if (x > this.keys[d][3] && x < this.keys[d][4]) {
-					this.note_new = d;
-				}
-			}
+	for (var i in this.bkeys) {
+		if (drawing.isInside2({"x":x,"y":y}, this.bkeys[i])) {
+			this.bkeys[i].on;
+			return this.bkeys[i]
 		}
 	}
-	else {
-		this.note_new = null;
-	}
+
+	var keyx = ~~(x/this.white.width);
+
+	return this.wkeys[keyx];
 }
 
-// 
 keyboard.prototype.click = function(e) {
-	this.whichKey_pressed(this.clickPos.x, this.clickPos.y);
-	this.change_cell(this.note_new, 1);
-	this.note_old = this.note_new;
-	
-	midi_note = this.keys[this.note_new][5];
+	this.currentkey = this.whichKey_pressed(this.clickPos.x, this.clickPos.y);
+	this.currentkey.on = true;
+	this.draw();
 	
 	// change the this.note_new --> midi_this.note_new (offset)
-	this.val = { 
+	/*this.val = { 
 		on: 1,
 		note: midi_note,
 		midi: midi_note + " " + 1
 	};
 	this.nxTransmit(this.val);
-	this.draw();	
+	this.draw(); */
 }
 
 keyboard.prototype.move = function(e) {
-	if (this.clicked) {
-		this.whichKey_pressed(this.clickPos.x,this.clickPos.y);
-		if (this.note_old != this.note_new) {
-			this.change_cell(this.note_old, 0);
-			this.change_cell(this.note_new, 1);
-			midi_note = this.keys[this.note_new][5];
-			//	this.nxTransmit(midi_note+" "+1);
-			this.val = { 
-				on: 1,
-				note: midi_note,
-				midi: midi_note + " " + 1
-			};
-			this.nxTransmit(this.val);
-			midi_note = this.keys[this.note_old][5];
-			this.val = { 
-				on: 0,
-				note: midi_note,
-				midi: midi_note + " " + 0
-			};
-			this.nxTransmit(this.val);
-			//	this.nxTransmit(midi_note+" "+0);
-			this.draw();
-		}
+	this.currentkey = this.whichKey_pressed(this.clickPos.x, this.clickPos.y);
+	if (this.currentkey.note != this.pastkey.note) {
+		this.currentkey.on = true;
+		this.pastkey.on = false;
+		this.draw();
 	}
-	this.note_old = this.note_new;
+	
 }
 
 keyboard.prototype.release = function(e) {
-	for (j=0;j<this.octaves;j++) {
-		for (i=0;i<12;i++) {
-			var note_released = j*12 + i;
-			this.change_cell(note_released, 0);
-		}
-	}
-	midi_note = this.keys[this.note_new][5];
-	this.val = {
-		on: 0,
-		note: midi_note,
-		midi: midi_note + " " + 0
-	};
-	this.nxTransmit(this.val);
-	this.draw();
-}
-/*
-keyboard.prototype.type = function(e) {
-	var currKey = e.which;
-	if (e.which>47 && e.which<91) {
-		var asciis = [81,50,87,51,69,82,53,84,54,89,55,85];
-		var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
-		var keyAsciiIndex = asciis.indexOf(currKey);
-		if (keyAsciiIndex!=-1) {
-			this.note_new = keyIndex[keyAsciiIndex];
-			this.change_cell(this.note_new, 1);
-			this.note_old = this.note_new;
-			
-			midi_note = this.keys[this.note_new][5];
-			
-			// change the this.note_new --> midi_this.note_new (offset)
-			this.nxTransmit(midi_note);
-		//	this.nxTransmit(midi_note+" "+1);
-			this.draw();	
-		}
+	if (this.mode=="button") {
+		this.currentkey.on = false;
+		this.draw();
 	}
 }
 
-keyboard.prototype.untype = function(e) {
-	var currKey = e.which;
-	if (e.which>47 && e.which<91) {
-		var asciis = [  81,50,87,51,69,82,53,84,54,89,55,85];
-		var keyIndex = [0,7,1,8,2,3,9,4,10,5,11,6 ];
-		var keyAsciiIndex = asciis.indexOf(currKey);
-		if (keyAsciiIndex!=-1) {
-			this.note_old = keyIndex[keyAsciiIndex];
-			this.change_cell(this.note_old, 0);
-			
-			midi_note = this.keys[this.note_new][5];
-			
-			// change the this.note_new --> midi_this.note_new (offset)
-			this.nxTransmit(midi_note);
-		//	this.nxTransmit(midi_note+" "+0);
-			this.draw();
-		}
-	}	
-} */
-},{"../core/widget":3,"util":41}],18:[function(require,module,exports){
+
+
+
+
+
+
+
+},{"../core/widget":3,"../utils/drawing":5,"util":41}],18:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
