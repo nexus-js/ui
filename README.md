@@ -39,9 +39,29 @@ By default, interface event data can be accessed by adding JavaScript event list
 
 ```js
 button1.on('press', function(data) {
-	// do something musical with event data
+	// do something musical with the event data
 })
 ```
+
+You can write listeners for individual parameters of a widget
+
+```js
+position1.on('x', function(data) {
+	// data will be a float equal to the x coordinate of the 2D Position widget.
+})
+```
+
+Or you can receive a widget's data grouped as a js object
+
+```js
+position1.on('*', function(data) {
+	// data will be an object with x and y properties (data.x and data.y)
+})
+```
+
+
+
+##### OSC Communication Templates
 
 In addition, the interface can send OSC data through a network to other audio applications (or anything that understands OSC). We offer templates for several server paradigms:
 

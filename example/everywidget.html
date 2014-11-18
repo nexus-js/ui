@@ -20,7 +20,7 @@
 				 NEW: receives grouped output from dial when anything changes.   
 				      data here will be a js object.
 				*/
-				dial1.on('*', function(data){
+				keyboard1.on('*', function(data){
 					console.log(data);
 				});
 
@@ -71,6 +71,7 @@
 				matrix1.sequence(400);
 				matrix1.jumpTo({row:1,col:2});
 				matrix1.sequenceMode = "linear"; // default. you can also use 'random'
+
 
 			}
 

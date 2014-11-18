@@ -786,15 +786,22 @@ exports.getTouchPosition = function(e, canvas_offset) {
   x -= canvas_offset.left;
     y -= canvas_offset.top;
   var click_position = {x: x, y: y};
-  console.log("touches="+e.touches.length);
-  console.log("target="+e.targetTouches.length);
-  console.log("changed="+e.changedTouches.length);
+ // console.log("touches="+e.touches.length);
+ // console.log("target="+e.targetTouches.length);
+ // console.log("changed="+e.changedTouches.length);
 
   click_position.touches = new Array();
   for (var i=0;i<e.targetTouches.length;i++) {
      click_position.touches.push({
       x: e.targetTouches[i].pageX - canvas_offset.left,
       y: e.targetTouches[i].pageY - canvas_offset.top
+    });
+  }
+  click_position.changed = new Array();
+  for (var i=0;i<e.changedTouches.length;i++) {
+     click_position.changed.push({
+      x: e.changedTouches[i].pageX - canvas_offset.left,
+      y: e.changedTouches[i].pageY - canvas_offset.top
     });
   }
   return click_position;
@@ -2149,8 +2156,16 @@ var keyboard = module.exports = function (target) {
 	this.midibase = 40;
 	this.lineWidth = 1;
 
-	//for multitouch
-	this.finger = new Array();
+	//to enable multitouch
+	this.fingers = [
+		{ 
+			key: -1,
+			pkey: -1
+
+		}
+	]
+	this.multitouch = false; // will auto switch to true if experiences 2 simultaneous touches
+	this.oneleft = false;
 
 	this.mode = "button" // other option would be "toggle" or "aftertouch" (button-like)
 
@@ -2200,6 +2215,7 @@ keyboard.prototype.init = function() {
 				this.keys[i].w = this.white.width,
 				this.keys[i].h = this.white.height,
 				this.keys[i].type = 'w';
+				this.keys[i].index = i;
 				this.wkeys.push(this.keys[i]);
 
 				break;
@@ -2209,6 +2225,7 @@ keyboard.prototype.init = function() {
 				this.keys[i].w = this.black.width,
 				this.keys[i].h = this.black.height,
 				this.keys[i].type = 'b';
+				this.keys[i].index = i;
 				this.bkeys.push(this.keys[i]);
 				break;
 		}
@@ -2240,55 +2257,110 @@ keyboard.prototype.draw = function() {
 	this.drawLabel();
 }
 
-keyboard.prototype.change_cell = function(whichCell, number) {
+keyboard.prototype.toggle = function(key, data) {
+	if (key) {
+		if (data) {
+			key.on = data;
+		} else {
+			key.on = !key.on;
+		}
+	}
+
+	var on = key.on ? 1 : 0;
+
+	this.val = { 
+		on: on,
+		note: key.note,
+		midi: key.note + " " + on
+	};
+	this.nxTransmit(this.val);
+	this.draw();
 
 }
 
-keyboard.prototype.whichKey_pressed = function (x, y){
-	if (this.currentkey) {
-		this.pastkey = this.currentkey;
-	}
+keyboard.prototype.whichKey = function (x, y){
+
 	for (var i in this.bkeys) {
 		if (drawing.isInside2({"x":x,"y":y}, this.bkeys[i])) {
-			this.bkeys[i].on;
 			return this.bkeys[i]
 		}
 	}
 
 	var keyx = ~~(x/this.white.width);
-
 	return this.wkeys[keyx];
 }
 
 keyboard.prototype.click = function(e) {
-	this.currentkey = this.whichKey_pressed(this.clickPos.x, this.clickPos.y);
-	this.currentkey.on = true;
-	this.draw();
-	
-	// change the this.note_new --> midi_this.note_new (offset)
-	/*this.val = { 
-		on: 1,
-		note: midi_note,
-		midi: midi_note + " " + 1
-	};
-	this.nxTransmit(this.val);
-	this.draw(); */
+	if (this.clickPos.touches.length>1 || this.multitouch) {
+		if (this.clickPos.touches.length>=2 && this.oneleft) {
+			this.oneleft = false;
+		}
+		for (var j=0;j<this.clickPos.touches.length;j++) {
+			this.multitouch = true;
+			this.fingers[j] = {
+				key: this.whichKey(this.clickPos.touches[j].x, this.clickPos.touches[j].y)
+			}
+			if (!this.fingers[j].key.on) {
+				this.fingers[j].key.on = true;
+			}
+		}
+	} else {
+		this.fingers[0].pkey = this.fingers[0].key;
+		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
+		this.toggle(this.fingers[0].key, true)
+	}
 }
 
 keyboard.prototype.move = function(e) {
-	this.currentkey = this.whichKey_pressed(this.clickPos.x, this.clickPos.y);
-	if (this.currentkey.note != this.pastkey.note) {
-		this.currentkey.on = true;
-		this.pastkey.on = false;
-		this.draw();
+	var debug = document.getElementById("debug");
+	if (this.clickPos.touches.length>1 || this.multitouch) {
+		this.keysinuse = new Array();
+		for (var j=0;j<this.clickPos.touches.length;j++) {
+			this.fingers[j] = {
+				key: this.whichKey(this.clickPos.touches[j].x, this.clickPos.touches[j].y)
+			}
+			if (!this.fingers[j].key.on) {
+				this.toggle(this.fingers[j].key, true)
+			}
+			this.keysinuse.push(this.fingers[j].key.index)
+		}
+		for (var j=0;j<this.keys.length;j++) {
+			if (this.keys[j].on  && this.keysinuse.indexOf(this.keys[j].index)<0) {
+				this.toggle(this.keys[j], false);
+			}
+		}
+	} else {
+		this.fingers[0].pkey = this.fingers[0].key;
+		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
+		if (this.fingers[0].key.index != this.fingers[0].pkey.index) {
+			this.toggle(this.fingers[0].key, true);
+			this.toggle(this.fingers[0].pkey, false);
+		}
 	}
-	
 }
 
 keyboard.prototype.release = function(e) {
-	if (this.mode=="button") {
-		this.currentkey.on = false;
-		this.draw();
+	if (this.clickPos.touches.length>1 || this.multitouch) {
+		this.keysinuse = new Array();
+		for (var j=0;j<this.clickPos.touches.length;j++) { 
+			if (this.oneleft && this.clickPos.touches.length==1) {
+				break;
+			}
+			this.fingers[j] = {
+				key: this.whichKey(this.clickPos.touches[j].x, this.clickPos.touches[j].y)
+			}
+			this.keysinuse.push(this.fingers[j].key.index)
+		}
+		for (var j=0;j<this.keys.length;j++) {
+			if (this.keys[j].on  && this.keysinuse.indexOf(this.keys[j].index)<0) {
+				this.toggle(this.keys[j], false);
+			}
+		}
+		if (this.clickPos.touches.length==1) { this.oneleft = true }
+	} else {
+		if (this.mode=="button") {
+			this.toggle(this.fingers[0].key, false);
+		}
 	}
 }
 
