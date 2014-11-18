@@ -17,7 +17,7 @@ window.onload = function() {
 
   // get all canvases on the page and add them to the manager
   var allcanvi = document.getElementsByTagName("canvas");
-  for (i=0;i<allcanvi.length;i++) nx.createNxObject(allcanvi[i]);
+  for (i=0;i<allcanvi.length;i++) nx.transform(allcanvi[i]);
 
   if (nx.is_touch_device) {
     document.addEventListener("touchmove", nx.blockMove, true);
@@ -81,15 +81,60 @@ var manager = module.exports = function() {
 }
 util.inherits(manager, EventEmitter)
 
-manager.prototype.createNxObject = function(canvas) {
-  // if it has an nx attribute, store that in nxType
-  var nxType = canvas.getAttribute("nx");
+manager.prototype.add = function(type, args) {
+  //args may have optional properties: x, y, w, h, name, parent
+
+  if(type) {
+      var canv = document.createElement("canvas");
+      canv.setAttribute('nx', type);
+      if (args) {
+        if (args.x || args.y) {
+           canv.style.position = "absolute";
+        }
+        if (args.x) {
+           canv.style.left = args.x + "px";
+        }
+        if (args.y) {
+           canv.style.top = args.y + "px";
+        }
+        if (args.w) {
+           canv.style.width = args.w + "px";
+        }
+        if (args.h) {
+           canv.style.height = args.h + "px";
+        }
+        if (args.parent) {
+           var parent = document.getElementById(args.parent)
+        }
+        if (args.name) {
+           canv.id = args.name
+        }
+      }
+      if (!parent) {
+        var parent = document.body
+      }
+      parent.appendChild(canv);
+      return this.transform(canv);
+  }
+}
+
+manager.prototype.transform = function(canvas, type) {
+  if (type) {
+    var nxType = type;
+  } else {
+    var nxType = canvas.getAttribute("nx");
+  }
+  if (!nxType) {
+    return;
+  }
   var elemCount = 0;
   var newObj;
-  // find out how many of the same elem type have come before
-  // i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
-  // allowing you to count how many dials already exist on the page
-  // and give your new dial the appropriate index and id: dial3
+
+      /* find out how many of the same elem type have come before
+      i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+      allowing you to count how many dials already exist on the page
+      and give your new dial the appropriate index and id: dial3 */
+
   for (j=0;j<this.elemTypeArr.length;j++) {
     if (this.elemTypeArr[j] === nxType) {
       elemCount++;
@@ -112,6 +157,7 @@ manager.prototype.createNxObject = function(canvas) {
   }
   this.nxObjects[newObj.canvasID] = newObj;
   window[newObj.canvasID] = this.nxObjects[newObj.canvasID]
+  newObj.init();
   return newObj;
 }
 
@@ -227,7 +273,7 @@ manager.prototype.highlightEditedObj = function() {
   for (var i = 0; i < elems.length; i++) {
     elems[i].style.zindex += '1';
   }
-  var gdo = document.getElementsByTagName(globaldragid);
+  var gdo = document.getElementById(globaldragid);
   gdo.style.zindex = 2;
 }
 
@@ -425,14 +471,13 @@ widget.prototype.preMove = function(e) {
   this.clickPos = new_click_position;
   if (nx.editmode) {
     if (this.isBeingResized) {
-      console.log("resizing...")
       this.canvas.width = ~~(this.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
       this.canvas.height = ~~(this.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
-      this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
-      this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
-      this.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
-      this.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+      this.canvas.height = window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px","");
+      this.canvas.width = window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px","");
+      this.height = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px",""));
+      this.width = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px",""));
       this.center = {
         x: this.width/2, 
         y: this.height/2
@@ -523,10 +568,10 @@ widget.prototype.preTouchMove = function(e) {
         this.canvas.width = ~~(e.targetTouches[0].pageX/(canvasgridx/2))*(canvasgridx/2);
         this.canvas.height = ~~(e.targetTouches[0].pageY/(canvasgridy/2))*(canvasgridy/2);
 
-        this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
-        this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
-        this.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
-        this.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+        this.canvas.height = window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px","");
+        this.canvas.width = window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px","");
+        this.height = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px",""));
+        this.width = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px",""));
         this.center = {
           x: this.width/2, 
           y: this.height/2
@@ -3045,6 +3090,7 @@ util.inherits(multislider, widget);
 multislider.prototype.init = function() {
 	this.realSpace = { x: this.width-this.padding*2, y: this.height-this.padding*2 }
 	this.sliderWidth = this.realSpace.x/this.sliders;
+	this.draw();
 }
 
 multislider.prototype.draw = function() {
@@ -3151,8 +3197,6 @@ var widget = require('../core/widget');
 */
 
 var multitouch = module.exports = function (target) {
-
-	console.log("test")
 	
 	this.defaultSize = { width: 200, height: 200 };
 	widget.call(this, target);
@@ -3192,12 +3236,12 @@ var multitouch = module.exports = function (target) {
 	//EXAMPLE of a labelled matrix
 	//this.matrixLabels = [ "A", "B", "C" ]
 	//will repeat as a pattern
+
 	this.init();
 }
 util.inherits(multitouch, widget);
 
 multitouch.prototype.init = function() {
-	console.log("test")
 	this.nodeSize = this.width/10;
 	this.draw();
 }
@@ -3234,13 +3278,7 @@ multitouch.prototype.draw = function() {
 							textAlign = "center";
 							textBaseline = "middle";
 							if (this.matrixLabels) {
-
-							//	fillText((10-j)*(i+1), circx, circy);
-							//	fillText(this.matrixLabels[(i*this.cols + j)%this.matrixLabels.length], circx, circy);
-
-								//fillText((10-j)*(i+1), circx, circy);
 								fillText(this.matrixLabels[count%this.matrixLabels.length], circx, circy);
-								//fillText(this.matrixLabels[(i*this.rows + j)%this.matrixLabels.length], circx, circy);
 								count++
 							} 
 							var thisarea = {
@@ -3319,9 +3357,6 @@ multitouch.prototype.move = function() {
 }
 
 multitouch.prototype.release = function() {
-	//	if (this.clickPos.touches.length > 1) {
-	//		this.clicked=true;
-	//	} else {
 
 	if(!this.clicked) {
 		this.clickPos.touches = new Array();

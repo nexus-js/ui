@@ -16,7 +16,7 @@ window.onload = function() {
 
   // get all canvases on the page and add them to the manager
   var allcanvi = document.getElementsByTagName("canvas");
-  for (i=0;i<allcanvi.length;i++) nx.createNxObject(allcanvi[i]);
+  for (i=0;i<allcanvi.length;i++) nx.transform(allcanvi[i]);
 
   if (nx.is_touch_device) {
     document.addEventListener("touchmove", nx.blockMove, true);
