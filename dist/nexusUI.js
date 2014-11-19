@@ -124,6 +124,7 @@ manager.prototype.transform = function(canvas, type) {
   } else {
     var nxType = canvas.getAttribute("nx");
   }
+
   if (!nxType) {
     return;
   }
@@ -150,7 +151,7 @@ manager.prototype.transform = function(canvas, type) {
   }
   if(nxType) {
     try {
-      newObj = new (require('../widgets')[nxType])(canvas.id);
+      var newObj = new (require('../widgets')[nxType])(canvas.id);
     } catch (err) {
       console.log(nxType);
     }
@@ -159,6 +160,11 @@ manager.prototype.transform = function(canvas, type) {
   window[newObj.canvasID] = this.nxObjects[newObj.canvasID]
   newObj.init();
   return newObj;
+}
+
+manager.prototype.nxTransmit = function(data) {
+    this.makeOSC(this.emit, data);
+    this.emit('*',data);
 }
 
 /** 
@@ -381,6 +387,7 @@ var widget = module.exports = function (target) {
   this.isBeingDragged = false;
   this.isBeingResized = false;
   this.label = false;
+  this.hasMoved = false;
   //recording
   this.isRecording = false;
   this.tapeNum = 0;
@@ -430,8 +437,15 @@ widget.prototype.makeOSC = function(action, data) {
     }
 }
 
+widget.prototype.getOffset = function() {
+  this.offset = {
+    left: domUtils.findPosition(this.canvas).left,
+    top: domUtils.findPosition(this.canvas).top
+  };
+}
 
 widget.prototype.preClick = function(e) {
+  this.hasMoved = false;
   this.offset = {
     left: domUtils.findPosition(this.canvas).left,
     top: domUtils.findPosition(this.canvas).top
@@ -444,14 +458,17 @@ widget.prototype.preClick = function(e) {
   this.deltaMove.x = 0;
   this.deltaMove.y = 0;
   if (nx.editmode) {
-    if (this.clickPos.x>this.width-20 && this.clickPos.y>this.height-20) {
+    if (this.clickPos.x>this.width-20 && this.clickPos.y>this.height-20 && this.getName()!="mouse") {
       this.isBeingResized = true;
+      if (nx.WAenv) {
+        hideElementCallbackCode();
+      }
     } else {
       this.isBeingResized = false;
       this.isBeingDragged = true;
     }
     globaldragid = this.canvasID;
-    //    nx.highlightEditedObj(this.canvasID);
+    nx.highlightEditedObj(this.canvasID);
     showSettings();
     if (nx.isErasing) {
       this.destroy();
@@ -465,14 +482,25 @@ widget.prototype.preClick = function(e) {
 }
 
 widget.prototype.preMove = function(e) {
+  this.hasMoved = true;
   var new_click_position = domUtils.getCursorPosition(e, this.offset);
   this.deltaMove.y = new_click_position.y - this.clickPos.y;
   this.deltaMove.x = new_click_position.x - this.clickPos.x;
   this.clickPos = new_click_position;
   if (nx.editmode) {
     if (this.isBeingResized) {
-      this.canvas.width = ~~(this.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
-      this.canvas.height = ~~(this.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
+      
+      var newWid = ~~(this.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
+      var newHgt = ~~(this.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
+      
+      if (this.defaultSize.width == this.defaultSize.height) {
+        this.canvas.style.width = newWid+"px"
+        this.canvas.style.height = newWid+"px"
+      } else {
+        this.canvas.style.width = newWid+"px"
+        this.canvas.style.height = newHgt+"px"
+      }
+      
 
       this.canvas.height = window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px","");
       this.canvas.width = window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px","");
@@ -496,6 +524,9 @@ widget.prototype.preMove = function(e) {
       this.init();
       this.draw();
     } else if (this.isBeingDragged) {
+      if (nx.WAenv) {
+        hideElementCallbackCode();
+      }
       var matrixy = ~~((e.pageY-this.height/2)/canvasgridy)*canvasgridy;
       var matrixx = ~~((e.pageX-this.width/2)/canvasgridx)*canvasgridx;
       this.canvas.style.top = matrixy+"px";
@@ -515,7 +546,14 @@ widget.prototype.preRelease = function(e) {
   document.removeEventListener("mousemove", this.preMove, false);
   this.clicked = false;
   if (nx.editmode) {
-    this.isBeingDragged = false;
+    if (this.isBeingDragged) {
+        this.isBeingDragged = false;
+        document.body.style.cursor = "pointer";
+        this.canvas.style.cursor = "pointer"
+    }
+    if (!this.hasMoved && nx.WAenv) {
+      showElementCallbackCode(this);
+    }
   } else {
     this.release();
   }
@@ -1008,8 +1046,7 @@ exports.nxThrottle = function(func, wait) {
   }
 }
 },{}],8:[function(require,module,exports){
-exports.setGlobalTransmit = function(protocol) {
-
+exports.defineTransmit = function(protocol) {
   var newTransmit;
 
   switch (protocol) {
@@ -1018,29 +1055,32 @@ exports.setGlobalTransmit = function(protocol) {
         this.makeOSC(this.emit, data);
         this.emit('*',data);
       }
-      break;
+      return newTransmit
     
     case 'ajax':
       newTransmit = function(data) {
         this.makeOSC(exports.ajaxTransmit, data);
       }
-      break;
+      return newTransmit
     
     case 'node':
       newTransmit = function(data) {
         this.makeOSC(exports.nodeTransmit, data);
       }
-      break;
+      return newTransmit
     
     case 'ios':
       newTransmit = function(data) {
         
       }
-      break;
-
+      return newTransmit
   }
-  this.nxtransmit = newTransmit;
-  this.transmissionProtocol = protocol;
+}
+
+exports.setGlobalTransmit = function(protocol) {
+  var newTransmit = exports.defineTransmit(protocol)
+  this.nxTransmit = newTransmit
+  this.transmissionProtocol = protocol
   for (var key in nx.nxObjects) {
     this.nxObjects[key].nxTransmit = newTransmit;
     this.nxObjects[key].transmissionProtocol = protocol;
@@ -1048,8 +1088,9 @@ exports.setGlobalTransmit = function(protocol) {
 }
 
 exports.setWidgetTransmit = function(protocol) {
-    this.nxTransmit = newTransmit;
-    this.transmissionProtocol = protocol;
+  var newTransmit = exports.defineTransmit(protocol)
+  this.nxTransmit = newTransmit
+  this.transmissionProtocol = protocol
 }
 
 
