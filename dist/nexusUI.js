@@ -2910,7 +2910,8 @@ metro.prototype.advance = function() {
 		this.loc += this.speed * this.direction;
 	}
 	if (this.loc-this.nodeSize<0 || this.loc+this.nodeSize>this.boundary) {
-		this.nxTransmit(math.scale(this.direction,-1,1,0,1));
+		this.val.beat = math.scale(this.direction,-1,1,0,1)
+		this.nxTransmit(this.val);
 		this.direction *= -1
 	}
 	if (this.orientation == "vertical") {
@@ -4936,6 +4937,9 @@ var vinyl = module.exports = function (target) {
 	this.rotation = 0;
 	this.friction = 0.995;
 	this.hasMovedOnce = false;
+	this.val = {
+		speed: 0
+	}
 	this.init();
 }
 util.inherits(vinyl, widget);
@@ -5028,12 +5032,13 @@ vinyl.prototype.release = function() {
 vinyl.prototype.spin = function() {
 
 	if (this.clicked) {
+		//var friction = (Math.abs(this.clickPos.x-(this.width/2))/this.width) + 
 		this.speed /= 1.1;
 	} else {
 		this.speed = this.speed*0.9 + this.defaultspeed*0.1
 	}
 
-	this.val = this.rotation - this.lastRotation;
+	this.val.speed = (this.rotation - this.lastRotation) * 20; // normalizes it to 1
 
 	this.lastRotation2 = this.lastRotation
 	this.lastRotation = this.rotation
