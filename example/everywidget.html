@@ -19,25 +19,25 @@
 				/* 
 				 NEW: receives grouped output from dial when anything changes.   
 				      data here will be a js object.
-				*/
+				
 				keyboard1.on('*', function(data){
 					console.log(data);
 				});
-
+*/
 
 				/* 
 				 NEW: receives only the data of slider #2 (third from left)
 				      executes ONLY when slider #2 is changed
 				      this is equivalent to listening for /multislider1/2 in OSC
-				*/
+				
 				multislider1.on('2', function(data){
 					console.log(data);
 				});
 				
-
-				/*  
+*/
+				/* 
 				this code can be useful for logging any interface events
-				
+				*/
 				for (var key in nx.nxObjects) {
 					with (nx.nxObjects[key]) {
 						on('*', function(data) {
@@ -45,8 +45,8 @@
 							console.log(canvasID, data)
 						})
 					}
-				}  
-				*/
+				} 
+				
 
 
 
@@ -58,7 +58,7 @@
 
 
 
-			    /* matrix settings */
+			    /* matrix settings
 
 				//a widget can be accessed with its name
 				matrix1.row = 6;
@@ -71,7 +71,7 @@
 				matrix1.sequence(400);
 				matrix1.jumpTo({row:1,col:2});
 				matrix1.sequenceMode = "linear"; // default. you can also use 'random'
-
+				*/
 
 			}
 
@@ -116,8 +116,8 @@
 		  <canvas nx="multitouch"></canvas> 
 		  number
 		  <canvas nx="number"></canvas>
-		  pixels
-		  <canvas nx="pixels"></canvas>
+		<!--  pixels
+		  <canvas nx="pixels"></canvas> -->
 		  position
 		  <canvas nx="position"></canvas>
 		  range
@@ -132,10 +132,10 @@
 		  <canvas nx="toggle"></canvas>
 		  typewriter
 		  <canvas nx="typewriter"></canvas>
-		<!--  vinyl
+		  vinyl
 		  <canvas nx="vinyl"></canvas>
-		  wheel
-		  <canvas nx="wheel"></canvas>
+		<!--  wheel
+		  <canvas nx="wheel"></canvas> -->
 		  <!-- need to be redone: metroball, sandbox, select -->
 		
 
