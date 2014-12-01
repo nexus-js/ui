@@ -423,22 +423,22 @@ widget.prototype.makeOSC = function(action, data) {
       for (var key in data) {
         if ((typeof data[key] == "object") && (data[key] !== null)) {
           for (var key2 in data[key]) {
-            if (this.pval[key] && data[key][key2] != this.pval[key][key2]) {
+        //    if (this.pval[key] && data[key][key2] != this.pval[key][key2]) {
               this.action(key+"/"+key2, data[key][key2])
-            }
+        //    }
           }
         } else {
-          if (data[key] != this.pval[key]) {
+     //     if (data[key] != this.pval[key]) {
             this.action(key, data[key])
-          }
+      //    }
         }
       }
     } else if (typeof data == "number" || typeof data == "string") {
-      if (data.value != this.pval.value) {
+  //    if (data.value != this.pval.value) {
         this.action('value', data)
-      }
+  //    }
     }
-    for(var k in data) this.pval[k]=data[k];
+ //   for(var k in data) this.pval[k]=data[k];
 }
 
 widget.prototype.getOffset = function() {
@@ -2218,8 +2218,6 @@ var drawing = require('../utils/drawing');
 // Middle C "unpressed" message will look like [12,0]
 // If sent to Max, these will show up as two-number lists.
 
-// FIXME: key detection not accurate when changed num of octaves!
-
 var keyboard = module.exports = function (target) {
 
 	this.defaultSize = { width: 300, height: 75 };
@@ -2254,7 +2252,7 @@ var keyboard = module.exports = function (target) {
 	this.multitouch = false; // will auto switch to true if experiences 2 simultaneous touches
 	this.oneleft = false;
 
-	this.mode = "button" // other option would be "toggle" or "aftertouch" (button-like)
+	this.mode = "button" // other option would be "toggle" or, in future, "aftertouch" (button-like)
 
 	// for each key: x, y, w, h, color, on, note
 
@@ -2278,6 +2276,21 @@ util.inherits(keyboard, widget);
 
 keyboard.prototype.init = function() {
 
+	//recap from header
+	this.white = {
+		width:0,
+		height:0
+	}
+	this.black = {
+		width:0,
+		height:0
+	}
+	this.wkeys = new Array();
+	this.bkeys = new Array();
+
+	this.keys = new Array();
+
+	//new stuff
 	this.white.num = 0;
 	for (var i=0;i<this.keypattern.length;i++) {
 		this.keypattern[i]=='w' ? this.white.num++ : null;
@@ -4043,7 +4056,11 @@ select.prototype.init = function() {
 	}
 
 	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
-	$("#"+this.canvasID).replaceWith(htmlstr);
+	var canv = this.canvas
+	var parent = canv.parentNode;
+	var newdiv = document.createElement("div");
+	newdiv.innerHTML = htmlstr;
+	parent.replaceChild(newdiv,canv)
 	
 	this.canvas = document.getElementById(this.canvasID);
 	
@@ -4615,66 +4632,23 @@ toggle.prototype.draw = function() {
 	//make background
 	this.makeRoundedBG();
 	with (this.context) {
-		strokeStyle = this.colors.border;
-		if ( this.width > 400 && this.height > 400 ) {
-			fillStyle = this.colors.fill;
-		} else {
-			if (this.val.value) {
-				fillStyle = this.colors.accent;
-			} else {
-				fillStyle = this.colors.border;
-			}
-		}
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
-	}
-	
-	if (this.width > 400 && this.height > 400) {
-		
 		if (this.val.value) {
-			drawing.makeRoundRect(this.context, this.bgLeft+this.padding, this.bgTop+this.padding, this.bgWidth-this.padding*2, this.bgHeight/2.1);
-			with (this.context) {
-				fillStyle = this.colors.accent;
-				strokeStyle = this.colors.accent;
-				stroke();
-				fill();
-				
-				fillStyle = this.colors.white;
-				font = "bold "+this.fontsize+"px gill sans";
-				textAlign = "center";
-				fillText("on", this.canvas.width/2, this.bgHeight/4.5+this.lineWidth+this.padding+5);
-			}
+			fillStyle = this.colors.accent;
+		} else {
+			fillStyle = this.colors.fill;
 		}
-		
-		else {
-			drawing.makeRoundRect(this.context, this.bgLeft+ this.padding, this.bgBottom-this.padding-this.bgHeight/2.1, this.bgWidth-this.padding*2, this.bgHeight/2.1);
-			with (this.context) {
-				fillStyle = this.colors.border;
-				strokeStyle = this.colors.border;
-				stroke();
-				fill();
-				fillStyle = this.colors.white;
-				font = "bold "+this.fontsize+"px gill sans";
-				textAlign = "center";
-				fillText("off", this.canvas.width/2, this.bgBottom-this.padding-this.bgHeight/4.5+5);
-			}
-		}
-		
-		
-	} else {
-		with (this.context) {
+		fill();
+		font = "bold "+this.fontsize+"px gill sans"
+		textAlign = "center"
+		if (this.val.value) {
 			fillStyle = this.colors.white
-			font = "bold "+this.fontsize+"px gill sans"
-			textAlign = "center"
-			if (this.val.value) {
-				fillText("on", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );	
-			} else {
-				fillText("off", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );
-			}
+			fillText("on", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );	
+		} else {
+			fillStyle = this.colors.border
+			fillText("off", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );
 		}
 	}
-	
+
 	this.drawLabel();
 	
 }
@@ -5040,6 +5014,7 @@ vinyl.prototype.spin = function() {
 		this.speed = this.speed*0.9 + this.defaultspeed*0.1
 	}
 
+	// may need to math.clip(this.val.speed,-10,10);
 	this.val.speed = (this.rotation - this.lastRotation) * 20; // normalizes it to 1
 
 	this.lastRotation2 = this.lastRotation
