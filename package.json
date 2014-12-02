@@ -22,7 +22,8 @@
     "browserify": "5.12.x",
     "run-sequence": "0.3.x",
     "eventemitter2": "0.4.x",
-    "vinyl-source-stream": "1.0.x"
+    "vinyl-source-stream": "1.0.x",
+    "jsdox": "0.2.x"
   },
   "engine": "node >= 0.10.0",
   "version": "0.1.0",

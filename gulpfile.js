@@ -8,6 +8,7 @@ var gulp = require('gulp')
   , uglify = require('gulp-uglify')
   , runSequence = require('run-sequence')
 var path = require('path');
+var jsdox = require("jsdox");
 
 var watcher = gulp.watch(['./lib/**/*.js', './lib/*.js'], ['default'])
 watcher.on('change', function(event) {
@@ -29,6 +30,13 @@ gulp.task('uglify', function() {
     .pipe(gulp.dest('./dist/'))
 })
 
-gulp.task('default', function(done) {
-  runSequence('browserify', 'uglify', done)
+var logdox = function(err) { err ? console.log(err) : null }
+gulp.task('jsdox', function() {
+  jsdox.generateForDir("dist/nexusUI.js", "./api/", logdox);
 })
+
+gulp.task('default', function(done) {
+  runSequence('browserify', 'uglify', 'jsdox', done)
+})
+
+
