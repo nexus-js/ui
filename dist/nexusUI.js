@@ -1988,6 +1988,7 @@ joints.prototype.aniBounce = function() {
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
+var math = require('../utils/math');
 
 /** 
 	@class keyboard      
@@ -1999,7 +2000,7 @@ var drawing = require('../utils/drawing');
 */
 
 //
-// nexusKeyboard transmits midi pair arrays of [ note number, on/off ]
+// nexusKeyboard transmits midi pair arrays of [ note number, amplitude ]
 // Middle C "pressed" message will look like [12,1]
 // Middle C "unpressed" message will look like [12,0]
 // If sent to Max, these will show up as two-number lists.
@@ -2026,6 +2027,7 @@ var keyboard = module.exports = function (target) {
 	this.keys = new Array();
 	this.midibase = 40;
 	this.lineWidth = 1;
+	this.erasing = false;
 
 	//to enable multitouch
 	this.fingers = [
@@ -2038,7 +2040,7 @@ var keyboard = module.exports = function (target) {
 	this.multitouch = false; // will auto switch to true if experiences 2 simultaneous touches
 	this.oneleft = false;
 
-	this.mode = "button" // other option would be "toggle" or, in future, "aftertouch" (button-like)
+	this.mode = "button" // modes: "button", "sustain" and, possibly in future, "aftertouch"
 
 	// for each key: x, y, w, h, color, on, note
 
@@ -2144,23 +2146,48 @@ keyboard.prototype.draw = function() {
 }
 
 keyboard.prototype.toggle = function(key, data) {
-	if (key) {
-		if (data) {
-			key.on = data;
-		} else {
-			key.on = !key.on;
+	if (this.mode=="button") {
+		if (key) {
+			if (data) {
+				key.on = data;
+			} else {
+				key.on = !key.on;
+			}
+
+			var on = key.on ? 1 : 0;
+			var amp = math.invert(this.clickPos.y/this.height) * 128;
+			amp = math.prune(math.clip(amp,5,128),0);
+
+			this.val = { 
+				on: on*amp,
+				note: key.note,
+				midi: key.note + " " + on
+			};
+			this.transmit(this.val);
+			this.draw();
 		}
+	} else if (this.mode=="sustain") {
+		if (key) {
+			if (data) {
+				key.on = data;
+			} else {
+				key.on = !key.on;
+			}
+
+			var on = key.on ? 1 : 0;
+			var amp = math.invert(this.clickPos.y/this.height) * 128;
+			amp = math.prune(math.clip(amp,5,128),0);
+
+			this.val = { 
+				on: on*amp,
+				note: key.note,
+				midi: key.note + " " + on
+			};
+			this.transmit(this.val);
+			this.draw();
+		}
+
 	}
-
-	var on = key.on ? 1 : 0;
-
-	this.val = { 
-		on: on,
-		note: key.note,
-		midi: key.note + " " + on
-	};
-	this.transmit(this.val);
-	this.draw();
 
 }
 
@@ -2173,6 +2200,8 @@ keyboard.prototype.whichKey = function (x, y){
 	}
 
 	var keyx = ~~(x/this.white.width);
+	if (keyx>=this.wkeys.length) { keyx = this.wkeys.length-1 }
+	if (keyx<0) { keyx = 0 }
 	return this.wkeys[keyx];
 }
 
@@ -2193,7 +2222,7 @@ keyboard.prototype.click = function(e) {
 	} else {
 		this.fingers[0].pkey = this.fingers[0].key;
 		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
-		this.toggle(this.fingers[0].key, true)
+		this.toggle(this.fingers[0].key)
 	}
 }
 
@@ -2218,7 +2247,7 @@ keyboard.prototype.move = function(e) {
 	} else {
 		this.fingers[0].pkey = this.fingers[0].key;
 		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
-		if (this.fingers[0].key.index != this.fingers[0].pkey.index) {
+		if (this.fingers[0].key && this.fingers[0].key.index != this.fingers[0].pkey.index) {
 			this.toggle(this.fingers[0].key, true);
 			this.toggle(this.fingers[0].pkey, false);
 		}
@@ -2257,7 +2286,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"util":38}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":38}],18:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3398,6 +3427,8 @@ var range = module.exports = function (target) {
 	this.relhandle;
 	this.cap;
 	this.firsttouch = "start";
+	this.mode = "area" // modes: "edge", "area"
+	this.touchdown = new Object();
 	this.init();
 }
 util.inherits(range, widget);
@@ -3485,50 +3516,61 @@ range.prototype.draw = function() {
 }
 
 range.prototype.click = function() {
-	if (this.hslider) {
-		if (Math.abs(this.clickPos.x-this.val.start*this.width) < Math.abs(this.clickPos.x-this.val.stop*this.width)) {
-			this.firsttouch = "start"
+	if (this.mode=="edge") {
+		if (this.hslider) {
+			if (Math.abs(this.clickPos.x-this.val.start*this.width) < Math.abs(this.clickPos.x-this.val.stop*this.width)) {
+				this.firsttouch = "start"
+			} else {
+				this.firsttouch = "stop"
+			}
 		} else {
-			this.firsttouch = "stop"
+			if (Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.start*this.height) < Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.stop*this.height)) {
+				this.firsttouch = "start"
+			} else {
+				this.firsttouch = "stop"
+			}
 		}
-	} else {
-		if (Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.start*this.height) < Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.stop*this.height)) {
-			this.firsttouch = "start"
-		} else {
-			this.firsttouch = "stop"
+	} else if (this.mode=="area") {
+		this.touchdown = {
+			x: this.clickPos.x,
+			y: this.clickPos.y
 		}
+		this.startval = new Object();
+		this.startval.size = this.val.stop - this.val.start;
+		this.startval.loc = this.val.start + this.startval.size/2;
 	}
 	this.move();
 }
 
 range.prototype.move = function() {
-	if (this.hslider) {
-		if (this.firsttouch=="start") {
-			this.val.start = this.clickPos.x/this.width;
-			if (this.clickPos.touches.length>1) {
-				this.val.stop = this.clickPos.touches[1].x/this.width;
-			}
-		} else {
-			this.val.stop = this.clickPos.x/this.width;
-			if (this.clickPos.touches.length>1) {
-				this.val.start = this.clickPos.touches[1].x/this.width;
-			}
-		}
-	} else {
-		if (this.firsttouch=="start") {
-			this.val.start = math.invert(this.clickPos.y/this.height);
-			if (this.clickPos.touches.length>1) {
-				this.val.stop = math.invert(this.clickPos.touches[1].y/this.height);
-			}
-		} else {
-			this.val.stop = math.invert(this.clickPos.y/this.height);
-			if (this.clickPos.touches.length>1) {
-				this.val.start = math.invert(this.clickPos.touches[1].y/this.height);
-			}
-		}
-	}
 
-	if (this.clicked) {
+	if (this.mode=="edge") {
+		if (this.hslider) {
+			if (this.firsttouch=="start") {
+				this.val.start = this.clickPos.x/this.width;
+				if (this.clickPos.touches.length>1) {
+					this.val.stop = this.clickPos.touches[1].x/this.width;
+				}
+			} else {
+				this.val.stop = this.clickPos.x/this.width;
+				if (this.clickPos.touches.length>1) {
+					this.val.start = this.clickPos.touches[1].x/this.width;
+				}
+			}
+		} else {
+			if (this.firsttouch=="start") {
+				this.val.start = math.invert(this.clickPos.y/this.height);
+				if (this.clickPos.touches.length>1) {
+					this.val.stop = math.invert(this.clickPos.touches[1].y/this.height);
+				}
+			} else {
+				this.val.stop = math.invert(this.clickPos.y/this.height);
+				if (this.clickPos.touches.length>1) {
+					this.val.start = math.invert(this.clickPos.touches[1].y/this.height);
+				}
+			}
+		}
+
 		if (this.val.stop < this.val.start) {
 			this.tempstart = this.val.start;
 			this.val.start = this.val.stop;
@@ -3546,8 +3588,33 @@ range.prototype.move = function() {
 		this.val['size'] = math.prune(math.clip(Math.abs(this.val.stop - this.val.start), 0, 1), 3)
 	
 		this.draw();
+
+		this.transmit(this.val);
+
+	} else if (this.mode=="area") {
+
+		var movex = (this.clickPos.x - this.touchdown.x)/this.width;
+		movex /= 1.5;
+		var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
+		movesize /= 3;
+
+		var size = this.startval.size + movesize;
+		var newloc = this.startval.loc + movex;
+		size = math.clip(size,0.001,1);
+
+		this.val = {
+			start: newloc - size/2,
+			stop: newloc + size/2
+		}
+
+		this.val.start = math.clip(this.val.start,0,1);
+		this.val.stop = math.clip(this.val.stop,0,1);
+
+		this.draw();
+
+		this.transmit(this.val);
+
 	}
-	this.transmit(this.val);
 }
 },{"../core/widget":3,"../utils/math":6,"util":38}],27:[function(require,module,exports){
 var util = require('util');
