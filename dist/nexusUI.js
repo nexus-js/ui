@@ -1,5 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var manager = require('./lib/core/manager');
+var domUtils = require('./lib/utils/dom');
+var drawingUtils = require('./lib/utils/drawing');
+var mathUtils = require('./lib/utils/math');
+var extend = require('extend');
 
 /************************************************
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
@@ -7,6 +11,9 @@ var manager = require('./lib/core/manager');
 
 window.nx = new manager();
 window.nx.onload = function() {};
+window.nx = extend(window.nx,domUtils)
+window.nx = extend(window.nx,drawingUtils)
+window.nx = extend(window.nx,mathUtils)
 
 /* this onload function turns canvases into nexus elements,
  * using the canvas's id as its var name */
@@ -19,7 +26,7 @@ window.onload = function() {
   var allcanvi = document.getElementsByTagName("canvas");
   for (i=0;i<allcanvi.length;i++) nx.transform(allcanvi[i]);
 
-  if (nx.is_touch_device) {
+  if (nx.isTouchDevice) {
     document.addEventListener("touchmove", nx.blockMove, true);
     document.addEventListener("touchstart", nx.blockMove, true);
   }
@@ -29,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":39}],2:[function(require,module,exports){
 var timingUtils = require('../utils/timing');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
@@ -37,8 +44,8 @@ var transmit = require('../utils/transmit');
 
 /** 
   @title NexusUI API
-  @overview NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
-  @author Ben Taylor, Jesse Allison, Yemin Oh
+  @overview NexusUI is a JavaScript toolkit for easily creating musical interfaces in web browsers. Interfaces are rendered on HTML5 canvases and are ideal for web audio projects, mobile apps, or for sending OSC to external audio applications like Max.
+  @author Ben Taylor, Jesse Allison, Yemin Oh, Sebastien Piquemal
   @copyright (c) 2014
   @license MIT
  */ 
@@ -54,16 +61,11 @@ var transmit = require('../utils/transmit');
 
 var manager = module.exports = function() {
   EventEmitter.apply(this)
-  this.nxObjects = new Object();
-  this.nxThrottlePeriod = 20;
+  this.widgets = new Object();
+  this.throttlePeriod = 20;
   this.elemTypeArr = new Array();
   this.aniItems = new Array();
-  this.editmode = false;
-  this.isErasing = false;
-  this.isResizing = false;
   this.showLabels = false;
-  canvasgridy = 10;
-  canvasgridx = 10;
   this.starttime = new Date().getTime();
   if (transmit) {
     this.sendsTo = transmit.setGlobalTransmit;
@@ -71,14 +73,11 @@ var manager = module.exports = function() {
     this.transmissionProtocol = "js";
     this.ajaxPath = "lib/nexusOSCRelay.php";
   }
-
-
-  /* old manager properties and methods */
-  this.is_touch_device = ('ontouchstart' in document.documentElement)? true:false;
-
+  this.isTouchDevice = ('ontouchstart' in document.documentElement)? true:false;
   this.metas = document.getElementsByTagName('meta');
-
+  this.globalWidgets=true;
 }
+
 util.inherits(manager, EventEmitter)
 
 manager.prototype.add = function(type, args) {
@@ -131,24 +130,27 @@ manager.prototype.transform = function(canvas, type) {
   var elemCount = 0;
   var newObj;
 
-      /* find out how many of the same elem type have come before
-      i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
-      allowing you to count how many dials already exist on the page
-      and give your new dial the appropriate index and id: dial3 */
+  /* find out how many of the same elem type have come before
+    i.e. nx.elemTypeArr will look like [ dial, dial, toggle, toggle ]
+    allowing you to count how many dials already exist on the page
+    and give your new dial the appropriate index and id: dial3 */
 
   for (j=0;j<this.elemTypeArr.length;j++) {
     if (this.elemTypeArr[j] === nxType) {
       elemCount++;
     }
   }
+
   // add your new nexus element type to the element list
   this.elemTypeArr.push(nxType);
+
   // check to see if it has a pre-given ID
   // and use that as its id if so
   if (!canvas.id) {
     var idNum = elemCount + 1;
     canvas.id = nxType + idNum;
   }
+
   if(nxType) {
     try {
       var newObj = new (require('../widgets')[nxType])(canvas.id);
@@ -156,13 +158,17 @@ manager.prototype.transform = function(canvas, type) {
       console.log(nxType);
     }
   }
-  this.nxObjects[newObj.canvasID] = newObj;
-  window[newObj.canvasID] = this.nxObjects[newObj.canvasID]
+
+  this.widgets[newObj.canvasID] = newObj;
+  if (this.globalWidgets) {
+    window[newObj.canvasID] = this.widgets[newObj.canvasID]
+  }
+
   newObj.init();
   return newObj;
 }
 
-manager.prototype.nxTransmit = function(data) {
+manager.prototype.transmit = function(data) {
     this.makeOSC(this.emit, data);
     this.emit('*',data);
 }
@@ -188,16 +194,16 @@ manager.prototype.colorize = function(aspect, newCol) {
   
   this.colors[aspect] = newCol;
   
-  for (var key in this.nxObjects) {
-    this.nxObjects[key].colors[aspect] = newCol;
-    this.nxObjects[key].draw();
+  for (var key in this.widgets) {
+    this.widgets[key].colors[aspect] = newCol;
+    this.widgets[key].draw();
   }
 }
   
-manager.prototype.setNxThrottlePeriod = function(newThrottle) {
-  this.nxThrottlePeriod = newThrottle;
-  for (var key in this.nxObjects) {
-    this.nxObjects[key].nxThrottlePeriod = this.nxThrottlePeriod;
+manager.prototype.setThrottlePeriod = function(newThrottle) {
+  this.throttlePeriod = newThrottle;
+  for (var key in this.widgets) {
+    this.widgets[key].throttlePeriod = this.throttlePeriod;
   }
 }
 
@@ -210,17 +216,14 @@ manager.prototype.setNxThrottlePeriod = function(newThrottle) {
 manager.prototype.colors = { 
   "accent": "#ff5500", 
   "fill": "#f5f5f5", 
-  "border": "#999", //aaa 
+  "border": "#999",
   "accentborder": "#aa2200",
   "black": "#000",
   "white": "#FFF",
   "highlight": "rgba(255,85,0,0.5)"
 };
   
-  /* Global GUI Function Library*/
-  
-/* animation functions */ 
-// TODO : ugly
+/* animation functions */
 manager.prototype.startPulse = function() {
   this.pulseInt = setInterval("nx.pulse()", 30);
 }
@@ -233,11 +236,6 @@ manager.prototype.pulse = function() {
   for (var i=0;i<this.aniItems.length;i++) {
     this.aniItems[i]();
   }
-  /*for (var key in nx.nxObjects) {
-      if (nx.nxObjects[key].pulse){
-          nx.nxObjects[key].pulse();
-      }
-  }  */
 } 
   
 manager.prototype.addStylesheet = function() {
@@ -271,41 +269,23 @@ manager.prototype.setViewport = function(scale) {
   }
 }
 
-manager.prototype.highlightEditedObj = function() {
-  var elems = document.getElementsByTagName('canvas');
-  for (var i = 0; i < elems.length; i++) {
-    elems[i].style.zindex += '1';
-  }
-  var gdo = document.getElementById(globaldragid);
-  gdo.style.zindex = 2;
-}
-
 manager.prototype.setLabels = function(onoff) {
   if (onoff=="on") {
     this.showLabels = true;
   } else {
     this.showLabels = false;
   }
-  for (var key in this.nxObjects) {
-    this.nxObjects[key].draw()
+  for (var key in this.widgets) {
+    this.widgets[key].draw()
   }
 }
-
-
   
 manager.prototype.blockMove = function(e) {
   if (e.target.tagName == 'CANVAS') {
      e.preventDefault();
   }
 }
-
-
-
-// Soon move to this -- better animation timing;
-// Or investigate Gibber.lib and see how he handles timing
-//var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
- //                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":15,"events":37,"util":41}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":15,"events":34,"util":38}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -342,29 +322,16 @@ var widget = module.exports = function (target) {
     this.width = this.defaultSize.width;
     this.height = this.defaultSize.height;
   }
-  this.offset = {
-    left: domUtils.findPosition(this.canvas).left,
-    top: domUtils.findPosition(this.canvas).top
-  };
+  this.offset = domUtils.findPosition(this.canvas);
   this.center = {
     x: this.width/2, 
     y: this.height/2
   };
-  //dimensions
-  this.corners = {
-    "TLx": 0,
-    "TLy": 0,
-    "TRx": this.width,
-    "TRy": 0,
-    "BRx": this.width,
-    "BRy": this.height,
-    "BLx": 0,
-    "BLy": this.height
-  };
   //drawing
-  this.lineWidth = 2; // prev 3
-  this.padding = 2; // prev 2
+  this.lineWidth = 2;
   this.colors = new Object();
+  // define colors individually so they are not pointers to nx.colors
+  // this way each object can have its own color scheme
   this.colors.accent = nx.colors.accent;
   this.colors.fill = nx.colors.fill;
   this.colors.border = nx.colors.border;
@@ -379,11 +346,9 @@ var widget = module.exports = function (target) {
   this.value = 0;
   this.val = new Object();
   this.pval = new Object();
-  this.nodePos = new Array(); 
+  this.nodePos = new Array();
   this.deltaMove = new Object();
-  this.nxThrottlePeriod = nx.nxThrottlePeriod;
-  this.isBeingDragged = false;
-  this.isBeingResized = false;
+  this.throttlePeriod = nx.throttlePeriod;
   this.label = false;
   this.hasMoved = false;
   //recording
@@ -395,15 +360,12 @@ var widget = module.exports = function (target) {
     this.sendsTo = transmit.setWidgetTransmit;
     this.transmissionProtocol = "js";
   }
-
-  //built-in methods
-  this.is_touch_device = ('ontouchstart' in document.documentElement)? true:false;
   this.events = new Object();
 
   // Setup interaction
-  if (this.is_touch_device) {
+  if (nx.isTouchDevice) {
     this.canvas.ontouchstart = this.preTouch;
-    this.canvas.ontouchmove = timingUtils.nxThrottle(this.preTouchMove, this.nxThrottlePeriod);
+    this.canvas.ontouchmove = this.preTouchMove;
     this.canvas.ontouchend = this.preTouchRelease;
   } else {
     this.canvas.addEventListener('mousedown', this.preClick, false);
@@ -412,7 +374,7 @@ var widget = module.exports = function (target) {
 }
 util.inherits(widget, EventEmitter)
 
-widget.prototype.nxTransmit = function(data) {
+widget.prototype.transmit = function(data) {
     this.makeOSC(this.emit, data);
     this.emit('*',data);
 }
@@ -423,145 +385,54 @@ widget.prototype.makeOSC = function(action, data) {
       for (var key in data) {
         if ((typeof data[key] == "object") && (data[key] !== null)) {
           for (var key2 in data[key]) {
-        //    if (this.pval[key] && data[key][key2] != this.pval[key][key2]) {
               this.action(key+"/"+key2, data[key][key2])
-        //    }
           }
         } else {
-     //     if (data[key] != this.pval[key]) {
             this.action(key, data[key])
-      //    }
         }
       }
     } else if (typeof data == "number" || typeof data == "string") {
-  //    if (data.value != this.pval.value) {
         this.action('value', data)
-  //    }
     }
- //   for(var k in data) this.pval[k]=data[k];
 }
 
+// getoffset is useful as an API for others
+// otherwise they would have to write
+// dial1.offset = utils.findPosition()
+// now it is simply:
+// dial1.getOffset()
 widget.prototype.getOffset = function() {
-  this.offset = {
-    left: domUtils.findPosition(this.canvas).left,
-    top: domUtils.findPosition(this.canvas).top
-  };
+  this.offset = domUtils.findPosition(this.canvas)
 }
 
 widget.prototype.preClick = function(e) {
-  this.hasMoved = false;
-  this.offset = {
-    left: domUtils.findPosition(this.canvas).left,
-    top: domUtils.findPosition(this.canvas).top
-  };
-  //document.addEventListener("mousemove", timingUtils.nxThrottle(this.preMove, this.nxThrottlePeriod), false);
+  this.offset = domUtils.findPosition(this.canvas)
   document.addEventListener("mousemove", this.preMove, false);
   document.addEventListener("mouseup", this.preRelease, false);
   this.clickPos = domUtils.getCursorPosition(e, this.offset);
   this.clicked = true;
   this.deltaMove.x = 0;
   this.deltaMove.y = 0;
-  if (nx.editmode) {
-    if (this.clickPos.x>this.width-20 && this.clickPos.y>this.height-20 && this.getName()!="mouse") {
-      this.isBeingResized = true;
-      if (nx.WAenv) {
-        hideElementCallbackCode();
-      }
-    } else {
-      this.isBeingResized = false;
-      this.isBeingDragged = true;
-    }
-    globaldragid = this.canvasID;
-    nx.highlightEditedObj(this.canvasID);
-    showSettings();
-    if (nx.isErasing) {
-      this.destroy();
-    }
-  } else {
-    this.click(e);
-  }
+  this.click(e);
   document.body.style.userSelect = "none";
   document.body.style.mozUserSelect = "none";
   document.body.style.webkitUserSelect = "none";
 }
 
 widget.prototype.preMove = function(e) {
-  this.hasMoved = true;
-  var new_click_position = domUtils.getCursorPosition(e, this.offset);
-  this.deltaMove.y = new_click_position.y - this.clickPos.y;
-  this.deltaMove.x = new_click_position.x - this.clickPos.x;
-  this.clickPos = new_click_position;
-  if (nx.editmode) {
-    if (this.isBeingResized) {
-      
-      var newWid = ~~(this.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
-      var newHgt = ~~(this.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
-      
-      if (this.defaultSize.width == this.defaultSize.height) {
-        this.canvas.style.width = newWid+"px"
-        this.canvas.style.height = newWid+"px"
-      } else {
-        this.canvas.style.width = newWid+"px"
-        this.canvas.style.height = newHgt+"px"
-      }
-      
-
-      this.canvas.height = window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px","");
-      this.canvas.width = window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px","");
-      this.height = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px",""));
-      this.width = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px",""));
-      this.center = {
-        x: this.width/2, 
-        y: this.height/2
-      };
-      this.corners = {
-          "TLx": 0,
-          "TLy": 0,
-          "TRx": this.width,
-          "TRy": 0,
-          "BRx": this.width,
-          "BRy": this.height,
-          "BLx": 0,
-          "BLy": this.height
-      };
-
-      this.init();
-      this.draw();
-    } else if (this.isBeingDragged) {
-      if (nx.WAenv) {
-        hideElementCallbackCode();
-      }
-      var matrixy = ~~((e.pageY-this.height/2)/canvasgridy)*canvasgridy;
-      var matrixx = ~~((e.pageX-this.width/2)/canvasgridx)*canvasgridx;
-      this.canvas.style.top = matrixy+"px";
-      this.canvas.style.left = matrixx+"px";
-      this.offset = {
-        left: domUtils.findPosition(this.canvas).left,
-        top: domUtils.findPosition(this.canvas).top
-      };  
-    } 
-  } else {
-    this.move(e);
-  }
+  var newClickPos = domUtils.getCursorPosition(e, this.offset);
+  this.deltaMove.y = newClickPos.y - this.clickPos.y;
+  this.deltaMove.x = newClickPos.x - this.clickPos.x;
+  this.clickPos = newClickPos;
+  this.move(e);
 }
 
 widget.prototype.preRelease = function(e) {
 
   document.removeEventListener("mousemove", this.preMove, false);
-  this.clicked = false;
-  if (nx.editmode) {
-    if (this.isBeingDragged) {
-        this.isBeingDragged = false;
-        document.body.style.cursor = "pointer";
-        this.canvas.style.cursor = "pointer"
-    }
-    if (!this.hasMoved && nx.WAenv) {
-      showElementCallbackCode(this);
-    }
-  } else {
-    this.release();
-  }
   document.removeEventListener("mouseup", this.preRelease, false);
+  this.clicked = false;
+  this.release();
   document.body.style.userSelect = "text";
   document.body.style.mozUserSelect = "text";
   document.body.style.webkitUserSelect = "text";
@@ -572,86 +443,27 @@ widget.prototype.preTouch = function(e) {
   this.clicked = true;
   this.deltaMove.x = 0;
   this.deltaMove.y = 0;
-  if (nx.editmode) {
-    if (nx.isResizing) {
-      this.isBeingResized = true;
-    } else {
-      this.isBeingDragged = true;
-    }
-  //  this.isBeingDragged = true;
-    globaldragid = this.canvasID;
-  //  nx.highlightEditedObj(this.canvasID);
-    showSettings();
-    if (nx.isErasing) {
-      this.destroy();
-    }
-  } else {
-    this.touch(e);
-  }
+  this.touch(e);
 }
 
 widget.prototype.preTouchMove = function(e) {
   if (this.clicked) {
-    var new_click_position = domUtils.getTouchPosition(e, this.offset);
-    this.deltaMove.y = new_click_position.y - this.clickPos.y;
-    this.deltaMove.x = new_click_position.x - this.clickPos.x;
-    this.clickPos = new_click_position;
-    if (nx.editmode) {
-      if (this.isBeingDragged) {
-        var matrixy = ~~((e.targetTouches[0].pageY-this.height/2)/canvasgridy)*canvasgridy;
-        var matrixx = ~~((e.targetTouches[0].pageX-this.width/2)/canvasgridx)*canvasgridx;
-        this.canvas.style.top = matrixy+"px";
-        this.canvas.style.left = matrixx+"px";  
-        this.offset = {
-          left: domUtils.findPosition(this.canvas).left,
-          top: domUtils.findPosition(this.canvas).top
-        };
-      } else if (this.isBeingResized) {
-        this.canvas.width = ~~(e.targetTouches[0].pageX/(canvasgridx/2))*(canvasgridx/2);
-        this.canvas.height = ~~(e.targetTouches[0].pageY/(canvasgridy/2))*(canvasgridy/2);
-
-        this.canvas.height = window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px","");
-        this.canvas.width = window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px","");
-        this.height = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("height").replace("px",""));
-        this.width = parseInt(window.getComputedStyle(this.canvas, null).getPropertyValue("width").replace("px",""));
-        this.center = {
-          x: this.width/2, 
-          y: this.height/2
-        };
-        this.corners = {
-            "TLx": 0,
-            "TLy": 0,
-            "TRx": this.width,
-            "TRy": 0,
-            "BRx": this.width,
-            "BRy": this.height,
-            "BLx": 0,
-            "BLy": this.height
-        };
-
-        this.init();
-        this.draw();
-      }
-    } else {
-      this.touchMove(e);
-    }
+    var newClickPos = domUtils.getTouchPosition(e, this.offset);
+    this.deltaMove.y = newClickPos.y - this.clickPos.y;
+    this.deltaMove.x = newClickPos.x - this.clickPos.x;
+    this.clickPos = newClickPos;
+    this.touchMove(e);
   }
 }
 
 widget.prototype.preTouchRelease = function(e) {
   if (e.targetTouches.length>=1) {
-    var new_click_position = domUtils.getTouchPosition(e, this.offset);
-    this.clickPos = new_click_position;
+    var newClickPos = domUtils.getTouchPosition(e, this.offset);
+    this.clickPos = newClickPos;
   } else {
     this.clicked = false;
   }
-
-  if (nx.editmode) {
-    this.isBeingDragged = false;
-    globaldragid = false;
-  } else {
-    this.touchRelease();
-  }
+  this.touchRelease();
 }
 
 widget.prototype.draw = function() {
@@ -761,7 +573,7 @@ widget.prototype.set = function(data, transmit) {
 }
 
 widget.prototype.destroy = function() {
-  nx.nxObjects[this.canvasID] = null;
+  nx.widgets[this.canvasID] = null;
   var type = nx.elemTypeArr.indexOf(this.getName())
   nx.elemTypeArr.splice(type,1)
 
@@ -771,13 +583,11 @@ widget.prototype.destroy = function() {
   this.canvas.onmousemove = null;
   this.canvas.onmouseoff = null;
   document.removeEventListener("mousemove", this.preMove, false);
-  
   document.removeEventListener("mouseup", this.preRelease, false);
 
   var elemToKill = document.getElementById(this.canvasID)
   elemToKill.parentNode.removeChild(elemToKill);
 
-  
   delete window[this.canvasID];
 }
 
@@ -800,7 +610,6 @@ widget.prototype.wrapText = function(text, x, y, maxWidth, lineHeight) {
       }
     }
     this.context.fillText(line, x, y);
-
   }
 }
 
@@ -815,7 +624,7 @@ widget.prototype.drawLabel = function() {
       fillStyle = this.colors.border;
       font = "bold 15px courier";
       textAlign = "center";
-      fillText(this.canvasID,this.width-50,this.height-5);
+      fillText(this.oscPath,this.width-50,this.height-5);
       textAlign = "left";
       closePath();
     }
@@ -826,7 +635,7 @@ widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":37,"util":41}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":34,"util":38}],4:[function(require,module,exports){
 
 exports.findPosition = function(element) {
   var body = document.body,
@@ -873,9 +682,6 @@ exports.getTouchPosition = function(e, canvas_offset) {
   x -= canvas_offset.left;
     y -= canvas_offset.top;
   var click_position = {x: x, y: y};
- // console.log("touches="+e.touches.length);
- // console.log("target="+e.targetTouches.length);
- // console.log("changed="+e.changedTouches.length);
 
   click_position.touches = new Array();
   for (var i=0;i<e.targetTouches.length;i++) {
@@ -920,16 +726,8 @@ exports.hexToRgb = function(hex, a) {
 }
 
 exports.isInside = function(clickedNode,currObject) {
-  if (clickedNode.x > currObject.xpos && clickedNode.x < (currObject.xpos+currObject.wid) && clickedNode.y > currObject.ypos && clickedNode.y < (currObject.ypos+currObject.hgt)) {
-    return true;  
-  } else {
-    return false; 
-  }
-}
-
-exports.isInside2 = function(clickedNode,currObject) {
   if (clickedNode.x > currObject.x && clickedNode.x < (currObject.x+currObject.w) && clickedNode.y > currObject.y && clickedNode.y < (currObject.y+currObject.h)) {
-    return true;  
+    return true;
   } else {
     return false; 
   }
@@ -940,9 +738,8 @@ exports.makeRoundRect = function(ctx,xpos,ypos,wid,hgt,depth) {
   var y1 = ypos;
   var x2 = wid+x1;
   var y2 = hgt+y1;
-  //var depth = 6;
   if (!depth) {
-    depth = 2; // prev 4
+    depth = 2;
   }
   
   ctx.beginPath();
@@ -1030,7 +827,7 @@ exports.randomNum = function(scale) {
   return Math.floor(Math.random() * scale);
 }
 },{}],7:[function(require,module,exports){
-exports.nxThrottle = function(func, wait) {
+exports.throttle = function(func, wait) {
   var timeout;
   return function() {
     var context = this, args = arguments;
@@ -1083,17 +880,17 @@ exports.defineTransmit = function(protocol) {
 
 exports.setGlobalTransmit = function(protocol) {
   var newTransmit = exports.defineTransmit(protocol)
-  this.nxTransmit = newTransmit
+  this.transmit = newTransmit
   this.transmissionProtocol = protocol
-  for (var key in nx.nxObjects) {
-    this.nxObjects[key].nxTransmit = newTransmit;
-    this.nxObjects[key].transmissionProtocol = protocol;
+  for (var key in nx.widgets) {
+    this.widgets[key].transmit = newTransmit;
+    this.widgets[key].transmissionProtocol = protocol;
   }
 }
 
 exports.setWidgetTransmit = function(protocol) {
   var newTransmit = exports.defineTransmit(protocol)
-  this.nxTransmit = newTransmit
+  this.transmit = newTransmit
   this.transmissionProtocol = protocol
 }
 
@@ -1101,8 +898,6 @@ exports.setWidgetTransmit = function(protocol) {
 exports.ajaxTransmit = function(subPath, data) {
 
     var oscPath = subPath=='value' ? this.oscPath : this.oscPath+"/"+subPath;
-
-    //var oscPath = this.oscPath+"/"+subPath;
      
     xmlhttp=new XMLHttpRequest();
     xmlhttp.open("POST",nx.ajaxPath,true);
@@ -1144,8 +939,8 @@ var banner = module.exports = function (target) {
 	widget.call(this, target);
 	
 	//unique attributes
-	this.message1 = "Powered by";
-	this.message2 = "* Nexus UI *";
+	this.message1 = "Powered By";
+	this.message2 = "NexusUI";
 	this.message3 = "nexusosc.com";
 }
 util.inherits(banner, widget);
@@ -1179,7 +974,7 @@ banner.prototype.draw = function() {
 		fillRect(15,0,this.width-30,this.height-10);
 		
 		fillStyle = this.colors.white;
-		font = this.height/5+"px courier";
+		font = this.height/5+"px gill sans";
 		textAlign = "center";
 		fillText(this.message1, this.width/2, this.height/3.3);
 		fillText(this.message2, this.width/2, (this.height/3.3)*2);
@@ -1204,7 +999,7 @@ banner.prototype.draw = function() {
 banner.prototype.click = function() {
 	window.location = "http://www.nexusosc.com";
 }
-},{"../core/widget":3,"util":41}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1277,7 +1072,7 @@ button.prototype.draw = function() {
 		
 		if (this.image !== null) {
 			// Image Button
-			if (!this.val.press) {
+			if (!this.clicked) {
 				// Draw Image if not touched
 				drawImage(this.image, 0, 0);
 			} else {
@@ -1302,10 +1097,10 @@ button.prototype.draw = function() {
 		} else {
 	
 			// Regular Button
-			if (!this.val.press) {
+			if (!this.clicked) {
 				fillStyle = this.colors.fill;
 				strokeStyle = this.colors.border;
-			} else if (this.val.press) {
+			} else if (this.clicked) {
 				fillStyle = this.colors.accent;
 				strokeStyle = this.colors.accent;
 			}
@@ -1339,16 +1134,18 @@ button.prototype.click = function(e) {
 		this.val["x"] = this.clickPos.x;
 		this.val["y"] = this.clickPos.y;
 	}
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.draw();
 }
 
 button.prototype.move = function () {
 	// use to track movement on the button
 	if (this.mode=="node") {
-		this.val["x"] = this.clickPos.x;
-		this.val["y"] = this.clickPos.y;
-		this.nxTransmit(this.val);
+		this.val = {
+			x: this.clickPos.x,
+			y: this.clickPos.y
+		}
+		this.transmit(this.val);
 		this.draw();
 	}
 }
@@ -1356,7 +1153,7 @@ button.prototype.move = function () {
 button.prototype.release = function() {
 	this.val["press"] = this.value * this.clicked;
 	if (this.mode=="toggle" || this.mode=="node") { 
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 	}
 	this.draw();
 }
@@ -1378,7 +1175,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"util":41}],11:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1416,6 +1213,13 @@ util.inherits(colors, widget);
 
 colors.prototype.init = function() {
 	
+	var pencil_width = 50;
+	this.color_width = this.canvas.width - this.lineWidth*2;
+	this.color_height = this.canvas.height - this.lineWidth*2;
+	this.color_table = new Array();
+	this.saturation = 240;
+	this.color = [0,0,0];
+	
 	//prep color picker
  	this.color_table = new Array(this.color_width);
 	for (var i=0;i<this.color_table.length;i++) {
@@ -1451,7 +1255,7 @@ colors.prototype.draw = function() {
 			with(this.context) {
 					beginPath();
 					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
-					fillRect(i+this.padding,j+this.padding, 240/this.color_width, 240/this.color_height);
+					fillRect(i+this.lineWidth,j+this.lineWidth, 240/this.color_width, 240/this.color_height);
 					fill();
 					closePath();
 			}
@@ -1466,16 +1270,6 @@ colors.prototype.drawColor = function() {
 
 		fillStyle = "rgb("+this.val.r+","+this.val.g+","+this.val.b+")"
 		fillRect(2,this.height-2,this.width-2,2)
-		
-	/*	fillStyle = this.colors.white;
-		fillRect(0,this.height-this.width/4,this.width/4,this.width/4)
-
-		fillStyle = "rgb("+this.val.r+","+this.val.g+","+this.val.b+")";
-		beginPath()
-		arc(this.width/8,this.height-this.height/8,this.width/10,0,Math.PI*2)
-		fill()
-		closePath()
-		*/
 		
 	}
 }
@@ -1507,7 +1301,7 @@ colors.prototype.click = function(e) {
 		g: imgData.data[1], 
 		b: imgData.data[2]
 	}
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.drawColor();
 }
 
@@ -1515,7 +1309,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":41}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1590,7 +1384,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":41}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],13:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -1612,7 +1406,6 @@ var dial = module.exports = function(target) {
 	//define unique attributes
 	this.circle_size = 1;
 	this.dial_position_length = 6;
-	//this.lineWidth = 3;
 	if (this.width<101 || this.width<101) {
 		this.accentWidth = this.lineWidth * 1;
 	} else {
@@ -1718,20 +1511,16 @@ dial.prototype.draw = function() {
 
 dial.prototype.click = function(e) {
 	this.val.value = math.prune(this.val.value, 3)
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.draw();
 	this.aniStart = this.val.value;
 }
 
 
-dial.prototype.move = function() {
-	//this.delta_move is set to difference between curr and prev pos
-	//this.clickPos is now newest mouse position in [x,y]
-	
+dial.prototype.move = function() {	
 	this.val.value = math.clip((this.val.value - (this.deltaMove.y * this.responsivity)), 0, 1);
-	
 	this.val.value = math.prune(this.val.value, 3)
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	
 	this.draw();
 }
@@ -1765,12 +1554,12 @@ dial.prototype.aniBounce = function() {
 		this.aniMove = math.bounce(this.val.value, this.aniStart, this.aniStop, this.aniMove);	
 		this.draw();
 		this.val.value = math.prune(this.val.value, 3)
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 	}
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],14:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1850,9 +1639,9 @@ envelope.prototype.draw = function() {
 			beginPath();
 				strokeStyle = this.colors.accent;
 				lineWidth = 1.5;
-				moveTo(this.padding,this.height-this.padding);
+				moveTo(this.lineWidth,this.height-this.lineWidth);
 				lineTo(drawingX,drawingY);
-				lineTo(this.width-this.padding,this.height-this.padding);					
+				lineTo(this.width-this.lineWidth,this.height-this.lineWidth);					
 				stroke();
 				globalAlpha = 0.2;
 				fillStyle = this.colors.accent;
@@ -1888,7 +1677,7 @@ envelope.prototype.click = function() {
 	this.val.x = this.clickPos.x;
 	this.val.y = this.clickPos.y;
 	this.scaleNode();
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.draw();
 }
 
@@ -1897,7 +1686,7 @@ envelope.prototype.move = function() {
 		this.val.x = this.clickPos.x;
 		this.val.y = this.clickPos.y;
 		this.scaleNode();
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 		this.draw();
 	}
 }
@@ -1922,7 +1711,7 @@ envelope.prototype.pulse = function() {
 			this.val.amp = math.clip(guiy, 0, 1)
 		}
 	
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 		this.draw();
 		if (this.val.index >= 1) {
 			if (this.looping) {
@@ -1948,7 +1737,7 @@ envelope.prototype.stop = function() {
 envelope.prototype.continue = function() {
 
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],15:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -1965,8 +1754,6 @@ module.exports = {
   multislider: require('./multislider'),
   multitouch: require('./multitouch'),
   number: require('./number'),
-  panel: require('./panel'),
-  pixels: require('./pixels'),
   position: require('./position'),
   range: require('./range'),
   select: require('./select'),
@@ -1975,10 +1762,9 @@ module.exports = {
   tilt: require('./tilt'),
   toggle: require('./toggle'),
   typewriter: require('./typewriter'),
-  vinyl: require('./vinyl'),
-  wheel: require('./wheel')
+  vinyl: require('./vinyl')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./joints":16,"./keyboard":17,"./matrix":18,"./message":19,"./metro":20,"./mouse":21,"./multislider":22,"./multitouch":23,"./number":24,"./panel":25,"./pixels":26,"./position":27,"./range":28,"./select":29,"./slider":30,"./string":31,"./tilt":32,"./toggle":33,"./typewriter":34,"./vinyl":35,"./wheel":36}],16:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./joints":16,"./keyboard":17,"./matrix":18,"./message":19,"./metro":20,"./mouse":21,"./multislider":22,"./multitouch":23,"./number":24,"./position":25,"./range":26,"./select":27,"./slider":28,"./string":29,"./tilt":30,"./toggle":31,"./typewriter":32,"./vinyl":33}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2124,7 +1910,7 @@ joints.prototype.click = function() {
 	this.val.x = this.clickPos.x/this.width;
 	this.val.y = this.clickPos.y/this.height;
 	this.draw();
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.connections = new Array();
     
 }
@@ -2142,7 +1928,7 @@ joints.prototype.move = function() {
 			"this.val.y": this.val.y,
 			"this.offset": this.offset
 		}
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 		this.connections = new Array();
 	}
 }
@@ -2156,7 +1942,7 @@ joints.prototype.touch = function() {
 	this.val.x = this.clickPos.x/this.width;
 	this.val.y = this.clickPos.y/this.height;
 	this.draw();
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.connections = new Array();
 }
 
@@ -2165,7 +1951,7 @@ joints.prototype.touchMove = function() {
 		this.val.x = this.clickPos.x/this.width;
 		this.val.y = this.clickPos.y/this.height;
 		this.draw();
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 		this.connections = new Array();
 	}
 }
@@ -2194,11 +1980,11 @@ joints.prototype.aniBounce = function() {
 		this.deltaMove.x = math.bounce(this.val.x, this.bgLeft + this.nodeSize, this.width - this.bgLeft- this.nodeSize, this.deltaMove.x);
 		this.deltaMove.y = math.bounce(this.val.y, this.bgTop + this.nodeSize, this.height - this.bgTop - this.nodeSize, this.deltaMove.y);
 		this.draw();
-		this.nxTransmit(this.scaleNode());
+		this.transmit(this.scaleNode());
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],17:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -2373,7 +2159,7 @@ keyboard.prototype.toggle = function(key, data) {
 		note: key.note,
 		midi: key.note + " " + on
 	};
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.draw();
 
 }
@@ -2381,7 +2167,7 @@ keyboard.prototype.toggle = function(key, data) {
 keyboard.prototype.whichKey = function (x, y){
 
 	for (var i in this.bkeys) {
-		if (drawing.isInside2({"x":x,"y":y}, this.bkeys[i])) {
+		if (drawing.isInside({"x":x,"y":y}, this.bkeys[i])) {
 			return this.bkeys[i]
 		}
 	}
@@ -2471,7 +2257,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":38}],18:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -2530,7 +2316,8 @@ var matrix = module.exports = function (target) {
 	this.val = {
 		row: 0,
 		col: 0,
-		value: 0
+		level: 0,
+		list: new Array()
 	}
 
 	//for mouse logic
@@ -2546,7 +2333,7 @@ var matrix = module.exports = function (target) {
 	this.lastframe = 0;
 
 	// randomize
-	this.sequenceMode = "linear";
+	this.sequenceMode = "linear"; // other option would be "wander" or "random"
 
 	/** @property {integer}  bpm   Beats per minute (if in sequence mode)
 	```js
@@ -2565,17 +2352,16 @@ matrix.prototype.init = function() {
 
 	this.lineWidth = 1;
 	
+	this.matrix = null;
 	// generate 2D matrix array
-	this.matrix = new Array(this.row)
-	for (var i=0;i<this.matrix.length;i++) {
-		this.matrix[i] = new Array(this.col)
-	}
-	
-	for (var i=0;i<this.row;i++) {
-		for (j=0;j<this.col;j++) {
+	this.matrix = new Array(this.col)
+	for (var i=0;i<this.col;i++) {
+		this.matrix[i] = new Array(this.row)
+		for (var j=0;j<this.row;j++) {
 			this.matrix[i][j] = 0; // set value of each matrix cell
 		}
 	}
+
 
 	this.draw();
 	
@@ -2599,7 +2385,7 @@ matrix.prototype.draw = function() {
 			with (this.context) {
 				strokeStyle = this.colors.border;
 				lineWidth = this.lineWidth;
-				if (this.matrix[i][j] > 0) {
+				if (this.matrix[j][i] > 0) {
 					fillStyle = this.colors.accent;
 				} else {
 					fillStyle = this.colors.fill;
@@ -2608,7 +2394,7 @@ matrix.prototype.draw = function() {
 				strokeRect(st_x, st_y, boxwid, boxhgt);
 			
 				// sequencer highlight
-				if (this.place != null && this.place == i*this.col+j) {
+				if (this.place == j) {
 					globalAlpha = 0.4;
 					fillStyle = this.colors.border;
 					fillRect(st_x, st_y, boxwid, boxhgt);
@@ -2630,18 +2416,28 @@ matrix.prototype.click = function(e) {
 		row: ~~(this.clickPos.y/this.cellHgt)
 	}
 
-	if (this.matrix[this.cur.row][this.cur.col]) {
-		this.matrix[this.cur.row][this.cur.col] = 0;
+	if (this.matrix[this.cur.col][this.cur.row]) {
+		this.matrix[this.cur.col][this.cur.row] = 0;
 		this.erasing = true;
 	} else {
-		this.matrix[this.cur.row][this.cur.col] = 1;
+		this.matrix[this.cur.col][this.cur.row] = 1;
 		this.erasing = false;
 	}
 
-	this.cur["value"] = this.matrix[this.cur.row][this.cur.col]
+	this.cur.value = this.matrix[this.cur.col][this.cur.row]
 	this.prev = this.cur;
 
-	this.nxTransmit(this.cur);
+//	var data = this.matrix[this.cur.col];
+//	data = data.join();
+//	data = data.replace(/\,/g," ");
+
+	this.val = {
+		row: this.cur.row,
+		col: this.cur.col,
+		level: this.cur.value
+	}
+
+	this.transmit(this.val);
 	this.draw();
 }
 
@@ -2654,16 +2450,16 @@ matrix.prototype.move = function(e) {
 		}
 
 		if (this.cur.row < this.row && this.cur.col < this.col && this.cur.row >= 0 && this.cur.col >=0) {
-			if (this.cur.col!=this.prev.col || this.cur.row != this.row.col) {
+			if (this.cur.col!=this.prev.col || this.cur.row != this.prev.row) {
 				if (this.erasing) {
-					this.matrix[this.cur.row][this.cur.col] = 0;
+					this.matrix[this.cur.col][this.cur.row] = 0;
 				} else {
-					this.matrix[this.cur.row][this.cur.col] = 1;
+					this.matrix[this.cur.col][this.cur.row] = 1;
 				}
-				this.cur["value"] = this.matrix[this.cur.row][this.cur.col]
+
+				this.cur.value = this.matrix[this.cur.col][this.cur.row]
 				this.prev = this.cur;
 
-				this.nxTransmit(this.cur);
 				this.draw();
 			}
 		}
@@ -2702,20 +2498,19 @@ matrix.prototype.seqStep = function() {
 		}
 		this.draw();
 
-		this.cur = {
-			row: ~~(this.place/this.col),
-			col: this.place%this.row
-		}
+	//	var data = this.matrix[this.place]
+	//	data = data.join();
+	//	data = data.replace(/\,/g," ");
+		this.val.list = this.matrix[this.place];
 
-		this.cur["value"] = this.matrix[this.cur.row][this.cur.col];
+		this.transmit(this.val);
 
-		this.nxTransmit(this.cur);
 		if (this.sequenceMode=="linear") {
 			this.place++;
 		} else if (this.sequenceMode=="random") {
-			this.place = math.randomNum(this.row*this.col);
+			this.place = math.randomNum(this.col);
 		}
-		if (this.place>=this.row*this.col) {
+		if (this.place>=this.col) {
 			this.place = 0;
 		}
 
@@ -2725,32 +2520,7 @@ matrix.prototype.seqStep = function() {
 	requestAnimationFrame(this.seqStep.bind(this));
 }
 
-matrix.prototype.jumpTo = function(loc) {
-
-	this.cur = {
-		row: ~~((this.place)/this.col),
-		col: (this.place)%this.row
-	}
-
-	if (loc && loc.row && loc.row < this.row) {
-		this.cur.row = loc.row;
-	}
-	if (loc && loc.col && loc.col < this.col) {
-		this.cur.col = loc.col;
-	}
-
-	this.place = this.cur.row * this.col + this.cur.row
-
-	this.cur["value"] = this.matrix[this.cur.row][this.cur.col];
-
-	this.nxTransmit(this.cur);
-	if (this.place>=this.row*this.col) {
-		this.place = 0;
-	}
-
-}
-
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":38}],19:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -2815,13 +2585,13 @@ message.prototype.draw = function() {
 
 message.prototype.click = function(e) {
 	this.draw();
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 }
 
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":41}],20:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],20:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2924,7 +2694,7 @@ metro.prototype.advance = function() {
 	}
 	if (this.loc-this.nodeSize<0 || this.loc+this.nodeSize>this.boundary) {
 		this.val.beat = math.scale(this.direction,-1,1,0,1)
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 		this.direction *= -1
 	}
 	if (this.orientation == "vertical") {
@@ -2934,7 +2704,7 @@ metro.prototype.advance = function() {
 	}
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3033,10 +2803,10 @@ mouse.prototype.move = function(e) {
 		y: (e.clientY-document.body.scrollTop)/window.innerHeight
 	}
 	this.draw();
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 
 }
-},{"../core/widget":3,"util":41}],22:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],22:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3074,7 +2844,7 @@ var multislider = module.exports = function (target) {
 util.inherits(multislider, widget);
 
 multislider.prototype.init = function() {
-	this.realSpace = { x: this.width-this.padding*2, y: this.height-this.padding*2 }
+	this.realSpace = { x: this.width-this.lineWidth*2, y: this.height-this.lineWidth*2 }
 	this.sliderWidth = this.realSpace.x/this.sliders;
 	this.draw();
 }
@@ -3096,11 +2866,11 @@ multislider.prototype.draw = function() {
     	
 		for(var i=0; i<this.sliders; i++) {
 			beginPath();
-			moveTo(this.padding+i*this.sliderWidth, this.height-this.val[i]*this.height);
-			lineTo(this.padding+i*this.sliderWidth + this.sliderWidth, this.height-this.val[i]*this.height);
+			moveTo(this.lineWidth+i*this.sliderWidth, this.height-this.val[i]*this.height);
+			lineTo(this.lineWidth+i*this.sliderWidth + this.sliderWidth, this.height-this.val[i]*this.height);
 			stroke();
-			lineTo(this.padding+i*this.sliderWidth + this.sliderWidth, this.height-this.padding);
-			lineTo(this.padding+i*this.sliderWidth,  this.height-this.padding);
+			lineTo(this.lineWidth+i*this.sliderWidth + this.sliderWidth, this.height-this.lineWidth);
+			lineTo(this.lineWidth+i*this.sliderWidth,  this.height-this.lineWidth);
 			globalAlpha = 0.3 - (i%3)*0.1;
 			fill();
 			closePath();
@@ -3152,7 +2922,7 @@ multislider.prototype.move = function(firstclick) {
 	msg[sliderToMove] = this.val[sliderToMove]
 	msg["list"] = new String();
 	for (var key in this.val) { msg["list"] += this.val[key] + " " }
-	this.nxTransmit(msg);
+	this.transmit(msg);
 	this.oldSliderToMove = sliderToMove;
 	
 }
@@ -3167,7 +2937,7 @@ multislider.prototype.setNumberOfSliders = function(numOfSliders) {
 	this.init();
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],23:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3251,15 +3021,11 @@ multitouch.prototype.draw = function() {
 						beginPath();
 							fillStyle = this.colors.accent;
 							strokeStyle = this.colors.border;
-							//var mytint = (10-j)*(i+1)*2+100;
-							//fillStyle = this.getHue(mytint);
 							lineWidth = 1;
 							var circx = i*this.width/this.cols + (this.width/this.cols)/2;
 							var circy = j*this.height/this.rows + (this.height/this.rows)/2;
 							arc(circx, circy, (this.height/this.rows)/2, 0, Math.PI*2, true);					
 							stroke();
-							//globalAlpha = 0.8;
-							//fill();
 							fillStyle = this.colors.border;
 							textAlign = "center";
 							textBaseline = "middle";
@@ -3268,10 +3034,10 @@ multitouch.prototype.draw = function() {
 								count++
 							} 
 							var thisarea = {
-								xpos: i*this.width/this.cols,
-								ypos: j*this.height/this.rows,
-								wid: this.width/this.cols,
-								hgt: this.height/this.rows
+								x: i*this.width/this.cols,
+								y: j*this.height/this.rows,
+								w: this.width/this.cols,
+								h: this.height/this.rows
 							}
 							if (this.clickPos.touches.length>=1) {
 								for (var k=0;k<this.clickPos.touches.length;k++) {
@@ -3352,7 +3118,7 @@ multitouch.prototype.release = function() {
 				y: 0
 			}
 		}
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 	}
 	
 	this.draw();
@@ -3368,9 +3134,9 @@ multitouch.prototype.sendit = function() {
 			y: math.invert(this.clickPos.touches[i].y/this.canvas.height)
 		}
 	}
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":38}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3424,242 +3190,10 @@ number.prototype.move = function(e) {
 		this.val.value += (this.deltaMove.y*-.1);
 		this.val.value = math.prune(this.val.value,1);
 		this.draw();
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],25:[function(require,module,exports){
-var util = require('util');
-var widget = require('../core/widget');
-
-// panel for max duplication -- maybe this object is unnecessary.
-
-var panel = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 100 };
-	widget.call(this, target);
-}
-util.inherits(panel, widget);
-
-panel.prototype.init = function() {
-	this.draw();
-}
-
-panel.prototype.draw = function() {
-	this.erase();
-	this.makeRoundedBG();
-	with (this.context) {
-		strokeStyle = this.colors.border;
-		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
-	}
-}
-},{"../core/widget":3,"util":41}],26:[function(require,module,exports){
-var math = require('../utils/math')
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class pixels      
-	Drawable pixelated canvas. Can be drawn on with different colors (use with nexus 'colors' object). See 'read' and 'write' modes. Sequencer functionality forthcoming.
-	```html
-	<canvas nx="pixels"></canvas>
-	```
-	<canvas nx="pixels" style="margin-left:25px"></canvas>
-*/
-
-			
-var pixels = module.exports = function (target) {
-	this.defaultSize = { width: 150, height: 150 };
-	widget.call(this, target);
-	
-	//define unique attributes
-	/** @property {object}  dim   Dimension of pixel matrix.
-	```js
-		pixels1.dim = { x: 5, y: 4 }
-	```
-		*/
-	this.dim = { x: 10, y: 10};
-
-	//define unique attributes
-	/** @property {string}  mode   Define the object's mode: "read" or "write" (default is "write")
-	```js
-		pixels1.mode = "read"
-	```
-		*/
-	this.mode = "write";
-	this.init();
-}
-util.inherits(pixels, widget);
-
-pixels.prototype.init = function() {
-
-	this.dim = { x: ~~(this.width/20), y: ~~(this.height/20)};
-	this.px = {
-		wid: (this.width - this.padding*2) / this.dim.x,
-		hgt: (this.height - this.padding*2) / this.dim.y
-	}
-
-	/** @property {object}  screen   (default data output) If in write mode, outputs list of RGB values for entire pixel matrix as a list. If in read mode, outputs the RGB values of current touched pixel as a list.
-	*/
-	this.screen = new Array();
-	for (var i=0;i<this.dim.y;i++) {
-		this.screen[i] = new Array()
-		for (var j=0;j<this.dim.x;j++) {
-			this.screen[i][j] = [0,0,0]
-		}
-	}
-	this.draw();
-}
-
-pixels.prototype.draw = function() {
-	this.erase();
-	this.makeRoundedBG();
-	with (this.context) {
-		fillStyle = this.colors.fill;
-		strokeStyle = this.colors.border;
-		fill();
-		stroke();
-	}
-	this.drawLabel();
-}
-
-pixels.prototype.reset = function() {
-	this.draw();
-}
-
-pixels.prototype.click = function(e) {
-	
-	var pixX = ~~(this.clickPos.x/this.px.wid);
-	var scaledX = pixX*this.px.wid+this.padding;
-	var pixY = ~~(this.clickPos.y/this.px.hgt);
-	var scaledY = pixY*this.px.hgt+this.padding;
-	
-	this.lastpx = {
-		x: scaledX,
-		y: scaledY
-	};
-		
-	if (this.mode=="write") {
-		with (this.context) {
-			globalAlpha = 0.3;
-			fillStyle = this.colors.accent;
-			fillRect(scaledX, scaledY, this.px.wid*2, this.px.hgt*2);
-			globalAlpha = 1;
-		}	
-	
-		var imgData = this.context.getImageData(this.clickPos.x,this.clickPos.y,1,1);
-		this.screen[pixY][pixX] = [
-			imgData.data[0], imgData.data[1], imgData.data[2]
-		]
-	
-		var imgData = this.context.getImageData(this.clickPos.x+this.px.wid,this.clickPos.y,1,1);
-		this.screen[pixY][pixX+1] = [
-			imgData.data[0], imgData.data[1], imgData.data[2]
-		]
-	
-		var imgData = this.context.getImageData(this.clickPos.x,this.clickPos.y+this.px.hgt,1,1);
-		this.screen[pixY+1][pixX] = [
-			imgData.data[0], imgData.data[1], imgData.data[2]
-		]
-	
-		var imgData = this.context.getImageData(this.clickPos.x+this.px.wid,this.clickPos.y+this.px.hgt,1,1);
-		this.screen[pixY+1][pixX+1] = [
-			imgData.data[0], imgData.data[1], imgData.data[2]
-		]
-
-	}
-	
-	this.send(pixX, pixY);
-	
-}
-
-pixels.prototype.move = function() {
-	
-	var pixX = ~~(this.clickPos.x/this.px.wid);
-	pixX = math.clip(pixX,0,this.dim.x-2);
-	var scaledX = pixX*this.px.wid+this.padding;
-	var pixY = ~~(this.clickPos.y/this.px.hgt);
-	pixY = math.clip(pixY,0,this.dim.y-2);
-	var scaledY = pixY*this.px.hgt+this.padding;
-	
-	if (scaledX!=this.lastpx.x || scaledY!=this.lastpx.y) {
-	
-		this.lastpx = {
-			x: scaledX,
-			y: scaledY
-		};
-		
-
-		if (this.mode=="write") {
-			with (this.context) {
-				globalAlpha = 0.1;
-				fillStyle = this.colors.accent;
-				fillRect(scaledX, scaledY, this.px.wid*2, this.px.hgt*2);
-				globalAlpha = 1;
-			}
-
-		
-			var imgData = this.context.getImageData(this.clickPos.x,this.clickPos.y,1,1);
-			this.screen[pixY][pixX] = [
-				imgData.data[0], imgData.data[1], imgData.data[2]
-			]
-		
-			var imgData = this.context.getImageData(this.clickPos.x+this.px.wid,this.clickPos.y,1,1);
-			this.screen[pixY][pixX+1] = [
-				imgData.data[0], imgData.data[1], imgData.data[2]
-			]
-		
-			var imgData = this.context.getImageData(this.clickPos.x,this.clickPos.y+this.px.hgt,1,1);
-			this.screen[pixY+1][pixX] = [
-				imgData.data[0], imgData.data[1], imgData.data[2]
-			]
-		
-			var imgData = this.context.getImageData(this.clickPos.x+this.px.wid,this.clickPos.y+this.px.hgt,1,1);
-			this.screen[pixY+1][pixX+1] = [
-				imgData.data[0], imgData.data[1], imgData.data[2]
-			]
-		}
-		this.send(pixX,pixY);
-	}
-
-}
-
-pixels.prototype.release = function() {}
-
-pixels.prototype.touch = function(e) {
-	this.click(e);
-}
-
-pixels.prototype.touchMove = function(e) {
-	this.move(e);
-}
-
-pixels.prototype.touchRelease = function(e) {
-	this.release(e);
-}
-
-pixels.prototype.send = function(pixX, pixY) {
-	if (this.mode=="write") {
-		var screenstring = "";
-		for (var i=0;i<this.screen.length;i++) {
-			var rowstring = this.screen[i].join()
-			screenstring += rowstring.replace(/\,/g," ");
-			screenstring += " ";
-		}
-		var nxmsg = { matrix: screenstring }
-		this.nxTransmit(nxmsg);
-	} else if (this.mode=="read") {
-		var nxmsg = { 
-				r: this.screen[pixY][pixX][0],
-				g: this.screen[pixY][pixX][1],
-				b: this.screen[pixY][pixX][2]
-			}
-		this.nxTransmit(nxmsg);
-	}
-}
-
-},{"../core/widget":3,"../utils/math":6,"util":41}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3736,10 +3270,10 @@ position.prototype.draw = function() {
 			strokeStyle = this.colors.accent;
 			//lineWidth = this.lineWidth;
 			lineWidth = 2;
-			moveTo(drawingX,0+this.padding);
-			lineTo(drawingX,this.height-this.padding);
-			moveTo(0+this.padding,drawingY);
-			lineTo(this.width-this.padding,drawingY);					
+			moveTo(drawingX,0+this.lineWidth);
+			lineTo(drawingX,this.height-this.lineWidth);
+			moveTo(0+this.lineWidth,drawingY);
+			lineTo(this.width-this.lineWidth,drawingY);					
 			stroke();
 			closePath();
 			globalAlpha=1;
@@ -3770,7 +3304,7 @@ position.prototype.click = function() {
 	this.val.y = this.clickPos.y;
 	this.scaleNode();
 	this.val["state"] = "click"
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.draw();
 }
 
@@ -3780,7 +3314,7 @@ position.prototype.move = function() {
 		this.val.y = this.clickPos.y;
 		this.scaleNode();
 		this.val["state"] = "move"
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 		this.draw();
 	}
 }
@@ -3790,7 +3324,7 @@ position.prototype.release = function() {
 	this.val.y = this.clickPos.y;
 	this.scaleNode();
 	this.val["state"] = "release"
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.draw();
 	
 }
@@ -3821,11 +3355,11 @@ position.prototype.aniBounce = function() {
 			this.deltaMove.y = math.bounce(this.val.y, 0, 1, this.deltaMove.y);
 			this.val["state"] = "bounce";
 		}
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],26:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -4013,9 +3547,9 @@ range.prototype.move = function() {
 	
 		this.draw();
 	}
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],27:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4076,9 +3610,9 @@ select.prototype.init = function() {
 // should have a modified "set" function
 select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 }
-},{"../core/widget":3,"util":41}],30:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4251,9 +3785,9 @@ slider.prototype.move = function() {
 		}
 	}
 	//	var scaledVal = ( this.val.value - 0.02 ) * (1/.97);
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],29:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4304,7 +3838,7 @@ string.prototype.init = function() {
 	}
 	this.draw();
 	//console.log(this.varname+".draw()")
-	//nx.aniItems.push("nx.nxObjects."+this.varname+".draw()");
+	//nx.aniItems.push("nx.widgets."+this.varname+".draw()");
 	nx.aniItems.push(this.draw.bind(this));
 }
 
@@ -4431,7 +3965,7 @@ string.prototype.pluck = function(which) {
 		string: i,
 		x: this.clickPos.x/this.width
 	}
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 	this.strings[i].held = false;
 	this.strings[i].force = this.clickPos.y - this.strings[i].y1;
 	this.strings[i].maxstretch = Math.abs(this.clickPos.y - this.strings[i].y1);
@@ -4439,7 +3973,7 @@ string.prototype.pluck = function(which) {
 	this.strings[i].vibrating = true;
 	this.strings[i].direction = (this.clickPos.y - this.strings[i].y1)/Math.abs(this.clickPos.y - this.strings[i].y1) * ((this.clickPos.y - this.strings[i].y1)/-1.2);
 }
-},{"../core/widget":3,"util":41}],32:[function(require,module,exports){
+},{"../core/widget":3,"util":38}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4500,7 +4034,7 @@ tilt.prototype.deviceOrientationHandler = function() {
 	}
 
 	if (this.active) {
-		this.nxTransmit(this.val);
+		this.transmit(this.val);
 	}
 	
 }
@@ -4589,7 +4123,7 @@ tilt.prototype.draw = function() {
 tilt.prototype.click = function() {
 	this.active = !this.active;
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],31:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -4660,9 +4194,9 @@ toggle.prototype.click = function() {
 		this.val.value = 0;
 	}
 	this.draw();
-	this.nxTransmit(this.val);
+	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":38}],32:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -4858,7 +4392,7 @@ typewriter.prototype.type = function(e) {
 				this.val.key = this.rows[i][j].symbol;
 				this.val.on = 1;
 				this.val.ascii = e.which;
-				this.nxTransmit(this.val);
+				this.transmit(this.val);
 				break;
 			}
 		}
@@ -4876,14 +4410,14 @@ typewriter.prototype.untype = function(e) {
 				this.val.key = this.rows[i][j].symbol;
 				this.val.on = 0;
 				this.val.ascii = e.which;
-				this.nxTransmit(this.val);
+				this.transmit(this.val);
 				break;
 			}
 		}
 	}
 	this.draw();
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":38}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5024,214 +4558,10 @@ vinyl.prototype.spin = function() {
 
 	this.draw();
 
-	this.nxTransmit(this.val)
+	this.transmit(this.val)
 	
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],36:[function(require,module,exports){
-var math = require('../utils/math')
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class wheel      
-	Circular wheel *in progress*
-	```html
-	<canvas nx="wheel"></canvas>
-	```
-	<canvas nx="wheel" style="margin-left:25px"></canvas>
-*/
-
-var wheel = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 100 };
-	widget.call(this, target);
-	
-	//define unique attributes
-	this.circleSize = 1;
-	this.dial_position_length = 6;
-	if (this.width<101 || this.width<101) {
-		this.accentWidth = this.lineWidth * 1;
-	} else {
-		this.accentWidth = this.lineWidth * 2;
-	}
-
-	/** @property {float}  val    Index of spoke that crosses threshold<br>
-	*/
-	this.val = 0.5;
-	this.responsivity = 0.005;
-	
-	this.speed = 0.05;
-	this.spokes = 10;
-	this.rotation = 0;
-	this.points = new Array();	
-	this.friction = 0.995;
-	this.init();
-}
-util.inherits(wheel, widget);
-
-wheel.prototype.init = function() {
-
-	//adjust wheel to fit canvas
-	this.circleSize = (Math.min(this.center.x, this.center.y)-this.lineWidth);
-	
-	this.draw();
-	
-	nx.aniItems.push(this.spin.bind(this));
-}
-
-wheel.prototype.draw = function() {
-	
-
-	with (this.context) {
-		clearRect(0,0, this.width, this.height);
-		strokeStyle = this.colors.border;
-		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		
-		//draw main circle
-		beginPath();
-		arc(this.center.x, this.center.y, this.circleSize-5, 0, Math.PI*2, true);
-		fill();
-		closePath();
-
-
-		//draw points
-		for (var i=0;i<this.spokes;i++) {
-			var dot = math.toCartesian(this.circleSize-5, ((i/this.spokes)*Math.PI*2)-this.rotation + (Math.PI*2)/(this.spokes*2))
-			beginPath();
-			arc(dot.x+this.center.x, dot.y+this.center.y, 5, 0, Math.PI*2, false);
-			fillStyle = this.colors.accent;	
-			fill();
-			closePath();
-
-			beginPath();
-			globalAlpha = 0.2
-			moveTo(this.center.x,this.center.y*1);
-			lineTo(dot.x+this.center.x,dot.y+this.center.y);
-			strokeStyle = this.colors.accent;
-			stroke();
-
-			globalAlpha = 1
-			closePath();
-		}
-
-
-
-	/*	lineWidth = this.lineWidth*2
-		fillStyle = this.colors.fill;
-		strokeStyle = this.colors.accent;
-		strokeRect(this.center.x-3, 3, 6, this.circleSize)
-		fillRect(this.center.x-3, 3, 6, this.circleSize)
-
-*/
-
-		//draw circle in center
-		beginPath();
-		fillStyle = this.colors.fill;
-		strokeStyle = this.colors.accent;
-		//		moveTo(this.center.x-8,this.center.y);
-		//		lineTo(this.center.x,this.center.y-15);
-		//		lineTo(this.center.x+8,this.center.y);
-		stroke();
-		fill()
-		closePath(); 
-
-
-
-		//draw circle in center
-		beginPath();
-		fillStyle = this.colors.fill;
-		arc(this.center.x, this.center.y*1, this.circleSize/12, 0, Math.PI*2, false);
-		stroke();
-		fill()
-		closePath(); 
-
-		
-	}
-
-	this.drawLabel();
-}
-
-wheel.prototype.click = function(e) {
-
-	this.lastRotation = this.rotation
-	this.speed = 0;
-	this.grabAngle = this.rotation % (Math.PI*2)
-	this.grabPos = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).y
-
-}
-
-wheel.prototype.move = function() {
-
-	this.lastRotation2 = this.lastRotation
-	this.lastRotation = this.rotation
-
-	this.rotation = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).y + this.grabAngle - this.grabPos	
-	this.draw();
-
-	if (this.rotation < 0) { this.rotation += Math.PI*2 }
-	if (this.rotation > Math.PI*2) { this.rotation -= Math.PI*2 }
-
-	if (this.lastRotation > Math.PI*1.5 && this.rotation < Math.PI * 0.5 && this.val != 0) {
-			this.val = 0;
-			this.nxTransmit(this.val)
-	} else if (this.lastRotation < Math.PI*0.5 && this.rotation > Math.PI * 1.5 && this.val != 0) {
-			this.val = 0;
-			this.nxTransmit(this.val)
-	} else {
-		for (var i=0;i<this.spokes;i++) {
-			console.log(this.rotation)
-			if (this.rotation - (i/this.spokes)*Math.PI*2 > 0 && this.lastRotation - (i/this.spokes)*Math.PI*2 < 0) {
-				this.val = i
-				this.nxTransmit(this.val)
-			}	
-			if (this.rotation - (i/this.spokes)*Math.PI*2 < 0 && this.lastRotation - (i/this.spokes)*Math.PI*2 > 0) {
-				this.val = i
-				this.nxTransmit(this.val)
-			}	
-		}
-	}
-
-}
-
-wheel.prototype.release = function() {
-	this.speed = ((this.rotation - this.lastRotation) + (this.lastRotation-this.lastRotation2))/2 ;
-}
-
-wheel.prototype.spin = function() {
-	this.lastRotation2 = this.lastRotation
-	this.lastRotation = this.rotation
-
-	this.rotation += this.speed
-	this.speed *= this.friction
-
-	this.draw();
-	this.rotation = this.rotation % (Math.PI*2)
-
-	if (this.rotation < 0) { this.rotation += Math.PI*2 }
-	if (this.rotation > Math.PI*2) { this.rotation -= Math.PI*2 }
-
-	if (this.lastRotation > Math.PI*1.5 && this.rotation < Math.PI * 0.5) {
-			this.val = 0;
-			this.nxTransmit(this.val)
-	} else if (this.lastRotation < Math.PI*0.5 && this.rotation > Math.PI * 1.5) {
-			this.val = 0;
-			this.nxTransmit(this.val)
-	} else {
-		for (var i=0;i<this.spokes;i++) {
-			if (this.rotation - (i/this.spokes)*Math.PI*2 > 0 && this.lastRotation - (i/this.spokes)*Math.PI*2 < 0) {
-				this.val = i
-				this.nxTransmit(this.val)
-			}	
-			if (this.rotation - (i/this.spokes)*Math.PI*2 < 0 && this.lastRotation - (i/this.spokes)*Math.PI*2 > 0) {
-				this.val = i
-				this.nxTransmit(this.val)
-			}	
-		}
-	}
-
-	
-}
-},{"../core/widget":3,"../utils/math":6,"util":41}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":38}],34:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5534,7 +4864,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],38:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -5559,7 +4889,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],39:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5624,14 +4954,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],40:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],41:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6221,4 +5551,87 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":40,"_process":39,"inherits":38}]},{},[1]);
+},{"./support/isBuffer":37,"_process":36,"inherits":35}],39:[function(require,module,exports){
+var hasOwn = Object.prototype.hasOwnProperty;
+var toString = Object.prototype.toString;
+var undefined;
+
+var isPlainObject = function isPlainObject(obj) {
+	'use strict';
+	if (!obj || toString.call(obj) !== '[object Object]') {
+		return false;
+	}
+
+	var has_own_constructor = hasOwn.call(obj, 'constructor');
+	var has_is_property_of_method = obj.constructor && obj.constructor.prototype && hasOwn.call(obj.constructor.prototype, 'isPrototypeOf');
+	// Not own constructor property must be Object
+	if (obj.constructor && !has_own_constructor && !has_is_property_of_method) {
+		return false;
+	}
+
+	// Own properties are enumerated firstly, so to speed up,
+	// if last one is own, then all properties are own.
+	var key;
+	for (key in obj) {}
+
+	return key === undefined || hasOwn.call(obj, key);
+};
+
+module.exports = function extend() {
+	'use strict';
+	var options, name, src, copy, copyIsArray, clone,
+		target = arguments[0],
+		i = 1,
+		length = arguments.length,
+		deep = false;
+
+	// Handle a deep copy situation
+	if (typeof target === 'boolean') {
+		deep = target;
+		target = arguments[1] || {};
+		// skip the boolean and the target
+		i = 2;
+	} else if ((typeof target !== 'object' && typeof target !== 'function') || target == null) {
+		target = {};
+	}
+
+	for (; i < length; ++i) {
+		options = arguments[i];
+		// Only deal with non-null/undefined values
+		if (options != null) {
+			// Extend the base object
+			for (name in options) {
+				src = target[name];
+				copy = options[name];
+
+				// Prevent never-ending loop
+				if (target === copy) {
+					continue;
+				}
+
+				// Recurse if we're merging plain objects or arrays
+				if (deep && copy && (isPlainObject(copy) || (copyIsArray = Array.isArray(copy)))) {
+					if (copyIsArray) {
+						copyIsArray = false;
+						clone = src && Array.isArray(src) ? src : [];
+					} else {
+						clone = src && isPlainObject(src) ? src : {};
+					}
+
+					// Never move original objects, clone them
+					target[name] = extend(deep, clone, copy);
+
+				// Don't bring in undefined values
+				} else if (copy !== undefined) {
+					target[name] = copy;
+				}
+			}
+		}
+	}
+
+	// Return the modified object
+	return target;
+};
+
+
+},{}]},{},[1]);

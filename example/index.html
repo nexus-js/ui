@@ -8,14 +8,12 @@
 			nx.onload = function() {
 
 				//log all events
-				for (var key in nx.nxObjects) {
-					with (nx.nxObjects[key]) {
-						for (var oscpath in val) {
-							on(oscpath, function(data) {
-								// code that will be executed
-								console.log(canvasID, data)
-							})
-						}
+				for (var key in nx.widgets) {
+					with (nx.widgets[key]) {
+						on('*', function(data) {
+							// code that will be executed
+							console.log(canvasID, data)
+						})
 					}
 				} 
 
@@ -23,14 +21,21 @@
 
 					button1.on('press', function(data) {
 						// do something with data
+						// data will be 1 if the button is pressed
+						// data will be 0 if the button is unpressed
+						console.log('b1press', data)
+					})
+
+					button1.on('*', function(data) {
+						// data will now be a js object with several properties relating to the button's state.
+						//data.press will be the press state
+						//data.x will be the x location of the interaction
+						//data.y will by the y location of the interaction
+						console.log('b1all', data)
 					})
 
 					dial1.on('value', function(data) {
 						console.log('d1', data);
-					})
-
-					dial2.on('value', function(data) {
-						console.log('d2', data)
 					})
 				*/
 				
@@ -51,7 +56,6 @@
 		  <canvas nx="button"></canvas>
 		  <canvas nx="dial"></canvas>
 		  <canvas nx="toggle"></canvas>
-		  <canvas nx="tilt"></canvas>
 		  <canvas nx="multislider" style="height:100px;width:100px"></canvas>
 
 		  <!-- Try other nexusUI elements like toggle, button, position, multitouch, slider, tilt... see nexusosc.com for more. -->

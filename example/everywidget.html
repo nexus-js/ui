@@ -8,38 +8,42 @@
 			nx.onload = function() {
 
 
-				/* event listening  options */
+				/* Event listening  options */
 
 				/*
-				 this is the default anyway!
+				 This is the default anyway!
 				*/
 				nx.sendsTo("js");
 
 
 				/* 
-				 NEW: receives grouped output from dial when anything changes.   
-				      data here will be a js object.
+
+				 Receives grouped output from dial when anything changes.   
+				 'data' here will be a js object.
 				
 				keyboard1.on('*', function(data){
 					console.log(data);
 				});
-*/
+
+				*/
 
 				/* 
-				 NEW: receives only the data of slider #2 (third from left)
-				      executes ONLY when slider #2 is changed
-				      this is equivalent to listening for /multislider1/2 in OSC
+
+				 Receives only the data of slider #2 (third from left)
+				 Executes ONLY when slider #2 is changed
+				 This is equivalent to listening for /multislider1/2 in OSC
 				
 				multislider1.on('2', function(data){
 					console.log(data);
 				});
 				
-*/
+				*/
+
 				/* 
 				this code can be useful for logging any interface events
 				*/
-				for (var key in nx.nxObjects) {
-					with (nx.nxObjects[key]) {
+				for (var key in nx.widgets) {
+					with (nx.widgets[key]) {
 						on('*', function(data) {
 							// code that will be executed
 							console.log(canvasID, data)
@@ -116,8 +120,6 @@
 		  <canvas nx="multitouch"></canvas> 
 		  number
 		  <canvas nx="number"></canvas>
-		<!--  pixels
-		  <canvas nx="pixels"></canvas> -->
 		  position
 		  <canvas nx="position"></canvas>
 		  range
@@ -134,9 +136,6 @@
 		  <canvas nx="typewriter"></canvas>
 		  vinyl
 		  <canvas nx="vinyl"></canvas>
-		<!--  wheel
-		  <canvas nx="wheel"></canvas> -->
-		  <!-- need to be redone: metroball, sandbox, select -->
 		
 
 	</body>

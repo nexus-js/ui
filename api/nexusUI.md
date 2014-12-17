@@ -2,9 +2,9 @@ NexusUI API
 ===========
 *(c) 2014*
 
-**Author:** Ben Taylor, Jesse Allison, Yemin Oh
+**Author:** Ben Taylor, Jesse Allison, Yemin Oh, Sebastien Piquemal
 
-**Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping (nexusDrop) and integration with Max/MSP (nexusUp).
+**Overview:** NexusUI is a JavaScript toolkit for easily creating musical interfaces in web browsers. Interfaces are rendered on HTML5 canvases and are ideal for web audio projects, mobile apps, or for sending OSC to external audio applications like Max.
 
 class manager
 -------------
@@ -116,8 +116,6 @@ class multitouch
 ----------------
 class number
 ------------
-class pixels
-------------
 class position
 --------------
 class range
@@ -135,6 +133,4 @@ class toggle
 class typewriter
 ----------------
 class vinyl
------------
-class wheel
 -----------
