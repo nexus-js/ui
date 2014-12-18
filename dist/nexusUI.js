@@ -875,6 +875,12 @@ exports.defineTransmit = function(protocol) {
         
       }
       return newTransmit
+    
+    case 'max':
+      newTransmit = function(data) {
+        this.makeOSC(exports.maxTransmit, data);
+      }
+      return newTransmit
   }
 }
 
@@ -906,6 +912,10 @@ exports.ajaxTransmit = function(subPath, data) {
 
 }
 
+exports.setAjaxPath = function(path) {
+  this.ajaxPath = path;
+}
+
 exports.nodeTransmit = function(subPath, data) {
    
     var msg = {
@@ -916,11 +926,10 @@ exports.nodeTransmit = function(subPath, data) {
 
 }
 
-exports.setAjaxPath = function(path) {
-  this.ajaxPath = path;
+exports.maxTransmit = function (subPath, data) {
+    var oscPath = subPath=='value' ? this.oscPath : this.oscPath+"/"+subPath;
+    window.max.outlet(oscPath + " " + data);
 }
-
-
 },{}],9:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
@@ -2842,7 +2851,7 @@ var widget = require('../core/widget');
 
 /** 
 	@class multislider      
-	Multiple vertical sliders in one object
+	Multiple vertical sliders in one interface (multitouch compatible)
 	```html
 	<canvas nx="multislider"></canvas>
 	```
@@ -2853,14 +2862,13 @@ var multislider = module.exports = function (target) {
 	this.defaultSize = { width: 100, height: 75 };
 	widget.call(this, target);
 	
-	//unique attributes
-	this.sliders = 15;
+	this.sliders = 10;
 
 	/** @property {object}  val   
 		| &nbsp; | data
 		| --- | ---
-		| *(slider index)* | slider value
-		| list | all multislider values as list
+		| *(slider index)* | value of currently changed slider
+		| list | all multislider values as list. (if the interface sends to js or node, this list will be an array. if sending to ajax, max7, etc, the list will be a string of space-separated values)
 	*/
 	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
@@ -2949,8 +2957,12 @@ multislider.prototype.move = function(firstclick) {
 	}
 	var msg = new Object()
 	msg[sliderToMove] = this.val[sliderToMove]
-	msg["list"] = new String();
-	for (var key in this.val) { msg["list"] += this.val[key] + " " }
+	if (this.transmissionProtocol=="js" || this.transmissionProtocol=="node") {
+		msg["list"] = this.val;
+	} else {
+		msg["list"] = new String();
+		for (var key in this.val) { msg["list"] += this.val[key] + " " }
+	}
 	this.transmit(msg);
 	this.oldSliderToMove = sliderToMove;
 	
@@ -2958,9 +2970,9 @@ multislider.prototype.move = function(firstclick) {
 
 multislider.prototype.setNumberOfSliders = function(numOfSliders) {
 	this.sliders = numOfSliders;
-	this.values = new Array();
+	this.val = new Array();
 	for (var i=0;i<this.sliders;i++) {
-		this.values.push(0.5);
+		this.val.push(0.7);
 	}
 	this.sliderWidth = this.realSpace.x/this.sliders;
 	this.init();
