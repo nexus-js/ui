@@ -32,7 +32,8 @@ gulp.task('uglify', function() {
 
 var logdox = function(err) { err ? console.log(err) : null }
 gulp.task('jsdox', function() {
-  jsdox.generateForDir("dist/nexusUI.js", "./api/", logdox);
+  jsdox.generateForDir("dist/nexusUI.js", "./api/", logdox); 
+  //jsdox.generateForDir("lib/widgets", "./api/", logdox);
 })
 
 gulp.task('default', function(done) {

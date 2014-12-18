@@ -37,10 +37,6 @@ window.onload = function() {
   
 };
 },{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":39}],2:[function(require,module,exports){
-var timingUtils = require('../utils/timing');
-var EventEmitter = require('events').EventEmitter;
-var util = require('util');
-var transmit = require('../utils/transmit');
 
 /** 
   @title NexusUI API
@@ -51,15 +47,21 @@ var transmit = require('../utils/transmit');
  */ 
  
 
-/** 
+var timingUtils = require('../utils/timing');
+var EventEmitter = require('events').EventEmitter;
+var util = require('util');
+var transmit = require('../utils/transmit');
 
-  @class manager
-
-  Central nexusUI manager with shared utility functions for all nexusUI objects
-
-*/
 
 var manager = module.exports = function() {
+
+/** 
+
+  @class nx
+  @description Central nexusUI manager with shared utility functions for all nexusUI objects
+  
+*/
+
   EventEmitter.apply(this)
   this.widgets = new Object();
   this.throttlePeriod = 20;
@@ -73,6 +75,10 @@ var manager = module.exports = function() {
     this.transmissionProtocol = "js";
     this.ajaxPath = "lib/nexusOSCRelay.php";
   }
+
+/** 
+  @member {boolean} isTouchDevice returns true if a multitouch mobile device.
+*/
   this.isTouchDevice = ('ontouchstart' in document.documentElement)? true:false;
   this.metas = document.getElementsByTagName('meta');
   this.globalWidgets=true;
@@ -80,6 +86,12 @@ var manager = module.exports = function() {
 
 util.inherits(manager, EventEmitter)
 
+
+/** 
+
+  @method add
+  
+*/
 manager.prototype.add = function(type, args) {
   //args may have optional properties: x, y, w, h, name, parent
 
@@ -293,6 +305,8 @@ var drawingUtils = require('../utils/drawing');
 var timingUtils = require('../utils/timing');
 var transmit = require('../utils/transmit');
 
+
+
 var widget = module.exports = function (target) {
   EventEmitter.apply(this)
   this.preClick = this.preClick.bind(this)
@@ -301,6 +315,13 @@ var widget = module.exports = function (target) {
   this.preTouch = this.preTouch.bind(this)
   this.preTouchMove = this.preTouchMove.bind(this)
   this.preTouchRelease = this.preTouchRelease.bind(this)
+
+/** 
+
+  @class widget
+  All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by all NexusUI interfaces.
+  
+*/
 
   //canvas
   this.canvasID = target;
@@ -1012,8 +1033,13 @@ banner.prototype.click = function() {
 var util = require('util');
 var widget = require('../core/widget');
 
+var button = module.exports = function(target) {
+
 /** 
-	@class button      
+	
+	@public
+	@class button 
+
 	Touch button with three modes of interaction
 	<br><a href="../examples/button/" target="blank">Demo</a>
 	```html
@@ -1021,7 +1047,6 @@ var widget = require('../core/widget');
 	```
 	<canvas nx="button" style="margin-left:25px"></canvas>
 */
-var button = module.exports = function(target) {
 
 	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
@@ -1031,7 +1056,8 @@ var button = module.exports = function(target) {
 
 	this.value = 1;
 
-	/** @property {object}  val  Main value set and output, with sub-properties:
+	/** 
+		@property {object}  val  Main value set and output, with sub-properties:
 		| &nbsp; | data
 		| --- | ---
 		| *press* | 0 (clicked) or 1 (unclicked)
@@ -1167,6 +1193,8 @@ button.prototype.release = function() {
 	this.draw();
 }
 
+
+/** @method setImage */
 button.prototype.setImage = function(image) {
 	this.image = new Image();
 	this.image.onload = function() { this.draw() }
@@ -4257,8 +4285,10 @@ toggle.prototype.draw = function() {
 			fillStyle = this.colors.white
 			fillText("on", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );	
 		} else {
-			fillStyle = this.colors.border
+			globalAlpha = 0.6;
+			fillStyle = this.colors.black
 			fillText("off", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );
+			globalAlpha = 1;
 		}
 	}
 

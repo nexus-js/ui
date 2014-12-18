@@ -39,10 +39,12 @@
   <script>
     Flatdoc.run({
      // fetcher: Flatdoc.github('lsu-emdm/NexusUI', 'api/nexusUI.md')
-      fetcher: Flatdoc.github('taylorbf/nxui-package', 'api/nexusUI.md')
+      //fetcher: Flatdoc.github('taylorbf/nxui-package', 'api/nexusUI.md')
+      fetcher: Flatdoc.file( 'nexusUI.md' )
     });
 
     $(document).on('flatdoc:ready', function() {
+
       // transformCanvases();
     });
   </script>
