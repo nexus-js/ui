@@ -1,6 +1,6 @@
 NexusUI API
 ===========
-*(c) 2014*
+*&copy; 2011-2014*
 
 **Author:** Ben Taylor, Jesse Allison, Yemin Oh, Sebastien Piquemal
 
@@ -8,10 +8,77 @@ NexusUI API
 
 nx
 ----
-**Methods**
+####Properties####
+###nx.throttlePeriod###
+ *integer*<br> Throttle time in ms (for nx.throttle).
 
-###nx.add()###
-###nx.colorize(\[aspect\], \[color\])###
+
+###nx.showLabels###
+ *boolean*<br> Whether or not to draw an automatic text label on each interface component.
+
+
+###nx.destination###
+ *string*<br> NexusUI's transmission protocol (i.e. "js" or "ajax"). Defaults to "js". We recommend setting this property using nx.sendsTo() which ensures that all widgets receive this setting.
+
+
+###nx.ajaxPath###
+ *string*<br> If sending via AJAX, the destination path. Defaults to "lib/nexusOSCRelay.php". We recommend setting this property using nx.setAjaxPath() which ensures that all widgets receive this setting.
+
+
+###nx.isTouchDevice###
+ *boolean*<br> Returns true if page is loaded on a touch device.
+
+
+###nx.globalWidgets###
+ *boolean*<br> Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets
+
+
+###nx.name###
+ *type*<br> description.
+
+
+
+####Methods####
+###nx.sendsTo( destination )###
+```js
+nx.sendsTo("ajax")
+
+// or
+
+nx.sendsTo(function(data) {
+//define a custom transmission function
+})
+```
+
+
+**destination**:  *string or function*,  Protocol for transmitting data from interfaces (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
+
+###nx.setAjaxPath( path )###
+**path**:  *string*,  If sending via AJAX, define the path to ajax destination
+
+###nx.add( type, settings )###
+Adds a NexusUI element to the webpage. This will create an HTML5 canvas and draw the interface on it.
+
+
+**type**:  *string*,  NexusUI widget type (i.e. "dial").
+
+**settings**:  *object*,  (Optional.) Extra settings for the new widget. This settings object may have any of the following properties: x (integer in px), y, w (width), h (height), name (widget's OSC name and canvas ID), parent (the ID of the element you wish to add the canvas into). If no settings are provided, the element will be at default size and appended to the body of the HTML document.
+
+###nx.transform( canvasID, type )###
+Transform an existing canvas into a NexusUI widget.
+
+
+**canvasID**:  *string*,  The ID of the canvas to be transformed.
+
+**type**:  *string*,  (Optional.) Specify which type of widget the canvas will become. If no type is given, the canvas must have an nx attribute with a valid widget type.
+
+###nx.transmit( data )###
+The "output" instructions for sending a widget's data to another application or to a JS callback. Inherited by each widget and executed when each widget is interacted with or its value changes. Set using nx.sendsTo() to ensure that all widgets inherit the new function correctly.
+
+
+**data**:  *object*,  The data to be transmitted. Each property of the object will become its own OSC message. (This works with objects nested to up to 2 levels).
+
+###nx.colorize( aspect, color )###
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
 
 ```js
@@ -20,22 +87,25 @@ manager.colorize("border", "#000000")
 
 
 
-**Parameters**
-
-**[aspect]**:  *which part of ui to change, i.e. "accent" "fill", "border"*,  
+**aspect**:  *which part of ui to change, i.e. "accent" "fill", "border"*,  
 
 
-**[color]**:  *hex or rgb color code*,  
+**color**:  *hex or rgb color code*,  
 
 
+###nx.transform(  )###
+###nx.name(  )###
+###nx.name(  )###
+###nx.name(  )###
+###nx.name(  )###
+###nx.name(  )###
 widget
 --------
 All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by all NexusUI interfaces.
 
 
-**Methods**
-
-###widget.set(\[data\], \[transmit\])###
+####Methods####
+###widget.set( data, transmit )###
 Sets the value of an object.
 
 ```js
@@ -53,12 +123,10 @@ button1.set({
 ```
 
 
-**Parameters**
-
-**[data]**:  *parameter/value pairs in object notation*,  
+**data**:  *parameter/value pairs in object notation*,  
 
 
-**[transmit]**:  *(optional) whether or not to transmit after setting*,  
+**transmit**:  *(optional) whether or not to transmit after setting*,  
 
 
 banner
@@ -78,9 +146,9 @@ Touch button with three modes of interaction
 ```
 <canvas nx="button" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* Main value set and output, with sub-properties:
+####Properties####
+###button.val###
+ *object*<br> Main value set and output, with sub-properties:
 
 | &nbsp; | data
 | --- | ---
@@ -93,7 +161,9 @@ button1.response = function(data) {
 // some code using data.press, data.x, and data.y
 }
 ```
-<br> **mode**:  *string* Interaction mode of impulse, toggle, or position
+ 
+###button.mode###
+ *string*<br> Interaction mode of impulse, toggle, or position
 
 impulse &nbsp; 1 on click <br>
 toggle &nbsp;  1 on click, 0 on release _(default)_<br>
@@ -101,9 +171,10 @@ position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
 ```js
 button1.mode = "position"
 ```
-<br> **Methods**
+ 
 
-###button.setImage()###
+####Methods####
+###button.setImage(  )###
 colors
 --------
 Color picker that outputs RBG values
@@ -112,9 +183,9 @@ Color picker that outputs RBG values
 ```
 <canvas nx="colors" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* Main output, RBG color value at mouse position
+####Properties####
+###colors.val###
+ *object*<br> Main output, RBG color value at mouse position
 
 | &nbsp; | data
 | --- | ---
@@ -126,7 +197,9 @@ colors1.response = function(data) {
 // some code using data.r, data.g, and data.b
 }
 ```
-<br> comment
+ 
+
+comment
 ---------
 Comment area with settable text
 ```html
@@ -134,9 +207,9 @@ Comment area with settable text
 ```
 <canvas nx="comment" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###comment.val###
+ *object*<br> 
 
 
 | &nbsp; | data
@@ -145,9 +218,10 @@ Comment area with settable text
 ```js
 comment1.val.text = "This is my comment"
 ```
-<br> **Methods**
+ 
 
-###comment.setSize()###
+####Methods####
+###comment.setSize(  )###
 text size in pixels
 
 
@@ -159,11 +233,13 @@ Circular dial
 ```
 <canvas nx="dial" style="margin-left:25px"></canvas>
 
-**Properties**
+####Properties####
+###dial.val###
+ *float*<br> Current value of dial as float 0-1<br>
 
-**val**:  *float* Current value of dial as float 0-1<br>
 
-<br> envelope
+
+envelope
 ----------
 Three-point line ramp generator
 ```html
@@ -171,15 +247,17 @@ Three-point line ramp generator
 ```
 <canvas nx="envelope" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###envelope.val###
+ *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
 | *amp* | amplitude at current point of ramp (float 0-1)
-<br> joints
+ 
+
+joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
 ```html
@@ -187,9 +265,9 @@ Three-point line ramp generator
 ```
 <canvas nx="joints" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###joints.val###
+ *object*<br> 
 
 
 | &nbsp; | data
@@ -201,7 +279,9 @@ Three-point line ramp generator
 | *node2* | nearness to third node if within range (float 0-1)
 | etc... | &nbsp;
 
-<br> keyboard
+ 
+
+keyboard
 ----------
 Piano keyboard which outputs midi pairs
 ```html
@@ -209,16 +289,18 @@ Piano keyboard which outputs midi pairs
 ```
 <canvas nx="keyboard" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* Core values and data output
+####Properties####
+###keyboard.val###
+ *object*<br> Core values and data output
 
 | &nbsp; | data
 | --- | ---
 | *on* | 0 if noteon, 1 if noteoff
 | *note* | MIDI value of key pressed
 | *midi* | paired MIDI message as a string - example "20 0" - This is to allow for simultaneous arrival of the MIDI pair if sent as an OSC message.
-<br> matrix
+ 
+
+matrix
 --------
 Matrix with scalable values and sequencer functionality.
 ```html
@@ -226,42 +308,51 @@ Matrix with scalable values and sequencer functionality.
 ```
 <canvas nx="matrix" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**row**:  *integer* Number of rows in the matrix
+####Properties####
+###matrix.row###
+ *integer*<br> Number of rows in the matrix
 
 ```js
 matrix1.row = 2;
 matrix1.draw()
 ```
-<br> **col**:  *integer* Number of columns in the matrix
+ 
+###matrix.col###
+ *integer*<br> Number of columns in the matrix
 
 ```js
 matrix1.col = 10;
 matrix1.draw()
 ```
-<br> **matrix**:  *array* Nested array of matrix values.
+ 
+###matrix.matrix###
+ *array*<br> Nested array of matrix values.
 
 ```js
 //change row 1 column 2 to value 0.5
 matrix1.matrix[1][2] = 0.5
 matrix1.draw()
 ```
-<br> **val**:  *object* Core values and data output
+ 
+###matrix.val###
+ *object*<br> Core values and data output
 
 | &nbsp; | data
 | --- | ---
 | *row* | Current row being changed
 | *col* | Current column being changed
 | *value* | New value of matrix point (0-1 float)
-<br> **bpm**:  *integer* Beats per minute (if in sequence mode)
+ 
+###matrix.bpm###
+ *integer*<br> Beats per minute (if in sequence mode)
 
 ```js
 matrix1.bpm = 120;
 ```
-<br> **Methods**
+ 
 
-###matrix.sequence(\[bpm\], obj, opts, ctor, superCtor)###
+####Methods####
+###matrix.sequence( bpm, obj, opts, ctor, superCtor )###
 Turns the matrix into a sequencer.
 
 ```js
@@ -269,9 +360,7 @@ matrix1.sequence(240);
 ```
 
 
-**Parameters**
-
-**[bpm]**:  *Beats per minute of the pulse*,  
+**bpm**:  *Beats per minute of the pulse*,  
 
 
 **obj**:  *Object*,  The object to print out.
@@ -290,15 +379,17 @@ Send a string of text.
 ```
 <canvas nx="message" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###message.val###
+ *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
 | *value* | Text of message, as string
-<br> position
+ 
+
+position
 ----------
 Two-dimensional touch slider.
 ```html
@@ -306,16 +397,18 @@ Two-dimensional touch slider.
 ```
 <canvas nx="position" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###position.val###
+ *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
 | *x* | x position of slider (float 0-1)
 | *y* | y position of slider (float 0-1)
-<br> mouse
+ 
+
+mouse
 -------
 Mouse tracker, relative to web browser window.
 ```html
@@ -323,9 +416,9 @@ Mouse tracker, relative to web browser window.
 ```
 <canvas nx="mouse" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###mouse.val###
+ *object*<br> 
 
 
 | &nbsp; | data
@@ -334,7 +427,9 @@ Mouse tracker, relative to web browser window.
 | *y* | y value of mouse relative to browser
 | *deltax* | x change in mouse from last position
 | *deltay* | y change in mouse from last position
-<br> multislider
+ 
+
+multislider
 -------------
 Multiple vertical sliders in one interface (multitouch compatible)
 ```html
@@ -342,16 +437,18 @@ Multiple vertical sliders in one interface (multitouch compatible)
 ```
 <canvas nx="multislider" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###multislider.val###
+ *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
 | *(slider index)* | value of currently changed slider
 | list | all multislider values as list. (if the interface sends to js or node, this list will be an array. if sending to ajax, max7, etc, the list will be a string of space-separated values)
-<br> multitouch
+ 
+
+multitouch
 ------------
 Multitouch 2d-slider with up to 5 points of touch.
 ```html
@@ -359,9 +456,9 @@ Multitouch 2d-slider with up to 5 points of touch.
 ```
 <canvas nx="multitouch" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###multitouch.val###
+ *object*<br> 
 
 
 | &nbsp; | data
@@ -371,9 +468,13 @@ Multitouch 2d-slider with up to 5 points of touch.
 | *touch2.x* | x position of second touch (if 2 touches)
 | *touch2.y* | y position of second touch (if 2 touches)
 | *etc* | &nbsp;
-<br> **mode**:  *object* "normal" or "matrix"
+ 
+###multitouch.mode###
+ *object*<br> "normal" or "matrix"
 
-<br> number
+
+
+number
 --------
 number box
 ```html
@@ -381,11 +482,13 @@ number box
 ```
 <canvas nx="number" style="margin-left:25px"></canvas>
 
-**Properties**
+####Properties####
+###number.val###
+ *float*<br> float value of number box
 
-**val**:  *float* float value of number box
 
-<br> position
+
+position
 ----------
 Two-dimensional touch slider.
 ```html
@@ -393,16 +496,18 @@ Two-dimensional touch slider.
 ```
 <canvas nx="position" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###position.val###
+ *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
 | *x* | x position of slider (float 0-1)
 | *y* | y position of slider (float 0-1)
-<br> range
+ 
+
+range
 -------
 Range Slider
 ```html
@@ -410,9 +515,9 @@ Range Slider
 ```
 <canvas nx="range" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###range.val###
+ *object*<br> 
 
 
 | &nbsp; | data
@@ -420,7 +525,9 @@ Range Slider
 | *start* | Range start value (float 0-1)
 | *stop* | Range end value (float 0-1)
 | *size* | Distance between ends (float 0-1)
-<br> select
+ 
+
+select
 --------
 HTML-style option selector. Outputs the chosen text string.
 ```html
@@ -428,15 +535,17 @@ HTML-style option selector. Outputs the chosen text string.
 ```
 <canvas nx="select" choices="sine,saw,square" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###select.val###
+ *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
 | *text* | Text string of option chosen
-<br> slider
+ 
+
+slider
 --------
 Slider (vertical or horizontal)
 ```html
@@ -444,11 +553,13 @@ Slider (vertical or horizontal)
 ```
 <canvas nx="slider" style="margin-left:25px"></canvas>
 
-**Properties**
+####Properties####
+###slider.val###
+ *float*<br> Slider value (float 0-1)
 
-**val**:  *float* Slider value (float 0-1)
 
-<br> **mode**:  *string* Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
+###slider.mode###
+ *string*<br> Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
 
 ```js
 nx.onload = function() {
@@ -456,7 +567,9 @@ nx.onload = function() {
 slider1.mode = "relative"
 }
 ```
-<br> **hslider**:  *boolean* Whether or not the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
+ 
+###slider.hslider###
+ *boolean*<br> Whether or not the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
 
 ```js
 nx.onload = function() {
@@ -466,7 +579,9 @@ slider1.hslider = true
 slider2.hslider = false
 }
 ```
-<br> string
+ 
+
+string
 --------
 In progress* Fun animated model of a plucked string interface.
 ```html
@@ -482,9 +597,9 @@ Mobile and Mac/Chrome compatible tilt sensor.
 ```
 <canvas nx="tilt" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###tilt.val###
+ *object*<br> 
 
 
 | &nbsp; | data
@@ -492,9 +607,13 @@ Mobile and Mac/Chrome compatible tilt sensor.
 | *x* | X-axis rotation if supported (-1 to 1)
 | *y* | Y-axis rotation if supported (-1 to 1)
 | *z* | Z-axis rotation if supported (-1 to 1 or possible 0 to 360)
-<br> **text**:  *string* Text shown on tilt object
+ 
+###tilt.text###
+ *string*<br> Text shown on tilt object
 
-<br> toggle
+
+
+toggle
 --------
 On/off toggle
 ```html
@@ -502,11 +621,13 @@ On/off toggle
 ```
 <canvas nx="toggle" style="margin-left:25px"></canvas>
 
-**Properties**
+####Properties####
+###toggle.val###
+ *integer*<br> 0 if off, 1 if on
 
-**val**:  *integer* 0 if off, 1 if on
 
-<br> typewriter
+
+typewriter
 ------------
 Computer keyboard listener and visualization. (Desktop only)
 ```html
@@ -514,9 +635,9 @@ Computer keyboard listener and visualization. (Desktop only)
 ```
 <canvas nx="typewriter" style="margin-left:25px"></canvas>
 
-**Properties**
-
-**val**:  *object* 
+####Properties####
+###typewriter.val###
+ *object*<br> 
 
 
 | &nbsp; | data
@@ -524,7 +645,9 @@ Computer keyboard listener and visualization. (Desktop only)
 | *key* | symbol of key pressed (example: "a")
 | *ascii* | ascii value of key pressed (example: 48)
 | *on* | 0 if key is being pressed, 1 if key is being released
-<br> vinyl
+ 
+
+vinyl
 -------
 Record scratcher *in progress*
 ```html
@@ -532,8 +655,9 @@ Record scratcher *in progress*
 ```
 <canvas nx="vinyl" style="margin-left:25px"></canvas>
 
-**Properties**
+####Properties####
+###vinyl.val###
+ *float*<br> forthcoming<br>
 
-**val**:  *float* forthcoming<br>
 
-<br> 
+

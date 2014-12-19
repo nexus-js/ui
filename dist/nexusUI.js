@@ -42,7 +42,7 @@ window.onload = function() {
   @title NexusUI API
   @overview NexusUI is a JavaScript toolkit for easily creating musical interfaces in web browsers. Interfaces are rendered on HTML5 canvases and are ideal for web audio projects, mobile apps, or for sending OSC to external audio applications like Max.
   @author Ben Taylor, Jesse Allison, Yemin Oh, Sebastien Piquemal
-  @copyright (c) 2014
+  @copyright &copy; 2011-2014
   @license MIT
  */ 
  
@@ -64,34 +64,57 @@ var manager = module.exports = function() {
 
   EventEmitter.apply(this)
   this.widgets = new Object();
+
+  /**  @property {integer} throttlePeriod Throttle time in ms (for nx.throttle). */
   this.throttlePeriod = 20;
   this.elemTypeArr = new Array();
   this.aniItems = new Array();
+  /**  @property {boolean} showLabels Whether or not to draw an automatic text label on each interface component. */
   this.showLabels = false;
   this.starttime = new Date().getTime();
   if (transmit) {
+    /**  
+    @method sendsTo 
+    @param {string or function} [destination] Protocol for transmitting data from interfaces (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
+    ```js
+    nx.sendsTo("ajax")
+
+    // or
+
+    nx.sendsTo(function(data) {
+         //define a custom transmission function
+    })
+    ```
+    */
     this.sendsTo = transmit.setGlobalTransmit;
+    /**  
+    @method setAjaxPath 
+    @param {string} [path] If sending via AJAX, define the path to ajax destination
+    */
     this.setAjaxPath = transmit.setAjaxPath;
-    this.transmissionProtocol = "js";
+    /**  @property {string} destination NexusUI's transmission protocol (i.e. "js" or "ajax"). Defaults to "js". We recommend setting this property using nx.sendsTo() which ensures that all widgets receive this setting. */
+    this.destination = "js";
+    /**  @property {string} ajaxPath If sending via AJAX, the destination path. Defaults to "lib/nexusOSCRelay.php". We recommend setting this property using nx.setAjaxPath() which ensures that all widgets receive this setting. */
     this.ajaxPath = "lib/nexusOSCRelay.php";
   }
 
-/** 
-  @member {boolean} isTouchDevice returns true if a multitouch mobile device.
-*/
+  /** @property {boolean} isTouchDevice Returns true if page is loaded on a touch device. */
   this.isTouchDevice = ('ontouchstart' in document.documentElement)? true:false;
   this.metas = document.getElementsByTagName('meta');
-  this.globalWidgets=true;
+
+  /**  @property {boolean} globalWidgets Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets */
+  this.globalWidgets = true;
 }
 
 util.inherits(manager, EventEmitter)
 
 
 /** 
-
-  @method add
-  
-*/
+  @method add 
+  Adds a NexusUI element to the webpage. This will create an HTML5 canvas and draw the interface on it.
+  @param {string} [type] NexusUI widget type (i.e. "dial").
+  @param {object} [settings] (Optional.) Extra settings for the new widget. This settings object may have any of the following properties: x (integer in px), y, w (width), h (height), name (widget's OSC name and canvas ID), parent (the ID of the element you wish to add the canvas into). If no settings are provided, the element will be at default size and appended to the body of the HTML document.
+  */
 manager.prototype.add = function(type, args) {
   //args may have optional properties: x, y, w, h, name, parent
 
@@ -129,6 +152,11 @@ manager.prototype.add = function(type, args) {
   }
 }
 
+/** @method transform 
+Transform an existing canvas into a NexusUI widget.
+@param {string} [canvasID] The ID of the canvas to be transformed.
+@param {string} [type] (Optional.) Specify which type of widget the canvas will become. If no type is given, the canvas must have an nx attribute with a valid widget type.
+*/
 manager.prototype.transform = function(canvas, type) {
   if (type) {
     var nxType = type;
@@ -180,10 +208,15 @@ manager.prototype.transform = function(canvas, type) {
   return newObj;
 }
 
+/** @method transmit 
+The "output" instructions for sending a widget's data to another application or to a JS callback. Inherited by each widget and executed when each widget is interacted with or its value changes. Set using nx.sendsTo() to ensure that all widgets inherit the new function correctly.
+@param {object} [data] The data to be transmitted. Each property of the object will become its own OSC message. (This works with objects nested to up to 2 levels).
+*/
+
 manager.prototype.transmit = function(data) {
     this.makeOSC(this.emit, data);
     this.emit('*',data);
-}
+} 
 
 /** 
   @method colorize
@@ -212,6 +245,8 @@ manager.prototype.colorize = function(aspect, newCol) {
   }
 }
   
+
+/** @method transform */
 manager.prototype.setThrottlePeriod = function(newThrottle) {
   this.throttlePeriod = newThrottle;
   for (var key in this.widgets) {
@@ -224,7 +259,8 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
   /*  
    *    GUI
    */
-  
+
+/**  @property {type} name description. */
 manager.prototype.colors = { 
   "accent": "#ff5500", 
   "fill": "#f5f5f5", 
@@ -235,15 +271,17 @@ manager.prototype.colors = {
   "highlight": "rgba(255,85,0,0.5)"
 };
   
-/* animation functions */
+/**  @method name */
 manager.prototype.startPulse = function() {
   this.pulseInt = setInterval("nx.pulse()", 30);
 }
-  
+
+/**  @method name */
 manager.prototype.stopPulse = function() {
   clearInterval(this.pulseInt);
 }
-  
+
+/**  @method name */
 manager.prototype.pulse = function() {
   for (var i=0;i<this.aniItems.length;i++) {
     this.aniItems[i]();
@@ -273,6 +311,7 @@ manager.prototype.addStylesheet = function() {
   document.body.innerHTML = document.body.innerHTML + htmlstr
 }
 
+/**  @method name */
 manager.prototype.setViewport = function(scale) {
   for (i=0; i<this.metas.length; i++) {
     if (this.metas[i].name == "viewport") {
@@ -281,6 +320,7 @@ manager.prototype.setViewport = function(scale) {
   }
 }
 
+/**  @method name */
 manager.prototype.setLabels = function(onoff) {
   if (onoff=="on") {
     this.showLabels = true;
@@ -291,7 +331,8 @@ manager.prototype.setLabels = function(onoff) {
     this.widgets[key].draw()
   }
 }
-  
+
+
 manager.prototype.blockMove = function(e) {
   if (e.target.tagName == 'CANVAS') {
      e.preventDefault();
@@ -395,10 +436,7 @@ var widget = module.exports = function (target) {
 }
 util.inherits(widget, EventEmitter)
 
-widget.prototype.transmit = function(data) {
-    this.makeOSC(this.emit, data);
-    this.emit('*',data);
-}
+widget.prototype.transmit = nx.transmit;
 
 widget.prototype.makeOSC = function(action, data) {
     this.action = action;
@@ -869,56 +907,61 @@ exports.throttle = function(func, wait) {
 }
 },{}],8:[function(require,module,exports){
 exports.defineTransmit = function(protocol) {
+  
   var newTransmit;
 
-  switch (protocol) {
-    case 'js':
-      newTransmit = function(data) {
-        this.makeOSC(this.emit, data);
-        this.emit('*',data);
-      }
-      return newTransmit
-    
-    case 'ajax':
-      newTransmit = function(data) {
-        this.makeOSC(exports.ajaxTransmit, data);
-      }
-      return newTransmit
-    
-    case 'node':
-      newTransmit = function(data) {
-        this.makeOSC(exports.nodeTransmit, data);
-      }
-      return newTransmit
-    
-    case 'ios':
-      newTransmit = function(data) {
-        
-      }
-      return newTransmit
-    
-    case 'max':
-      newTransmit = function(data) {
-        this.makeOSC(exports.maxTransmit, data);
-      }
-      return newTransmit
+  if (typeof(protocol)=="function") {
+    return protocol;
+  } else {
+    switch (protocol) {
+      case 'js':
+        newTransmit = function(data) {
+          this.makeOSC(this.emit, data);
+          this.emit('*',data);
+        }
+        return newTransmit
+      
+      case 'ajax':
+        newTransmit = function(data) {
+          this.makeOSC(exports.ajaxTransmit, data);
+        }
+        return newTransmit
+      
+      case 'node':
+        newTransmit = function(data) {
+          this.makeOSC(exports.nodeTransmit, data);
+        }
+        return newTransmit
+      
+      case 'ios':
+        newTransmit = function(data) {
+          
+        }
+        return newTransmit
+      
+      case 'max':
+        newTransmit = function(data) {
+          this.makeOSC(exports.maxTransmit, data);
+        }
+        return newTransmit
+    }
   }
 }
 
 exports.setGlobalTransmit = function(protocol) {
   var newTransmit = exports.defineTransmit(protocol)
   this.transmit = newTransmit
-  this.transmissionProtocol = protocol
+  this.destination = protocol
   for (var key in nx.widgets) {
     this.widgets[key].transmit = newTransmit;
-    this.widgets[key].transmissionProtocol = protocol;
+    this.widgets[key].destination = protocol;
   }
 }
 
 exports.setWidgetTransmit = function(protocol) {
   var newTransmit = exports.defineTransmit(protocol)
   this.transmit = newTransmit
-  this.transmissionProtocol = protocol
+  this.destination = protocol
 }
 
 

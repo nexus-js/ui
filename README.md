@@ -69,6 +69,10 @@ In addition, the interface can send OSC data through a network to other audio ap
 
 [nx-NodeDemo](http://www.github.com/lsu-emdm) offers a socket.io template for users of node.js. 
 
+[nx-max7](http://www.github.com/lsu-emdm) offers a max7 template for receiving data from a NexusUI embedded with [jweb]
+
+[nx-webAudio](http://www.github.com/lsu-emdm) offers a basic web audio project using NexusUI.
+
 
 #### Additional NexusUI Tools
 
@@ -86,6 +90,8 @@ Most users will only need to download the nexusUI.js script from this repository
 To build nexusUI yourself, you need [node.js and npm](http://nodejs.org/).
 
 Then open your terminal, and in the root folder of nexusUI, type `npm install` to install the packages needed for the build script. 
+
+*NOTE:* Our current documentation system uses an edited version of jsdox used by the authors. Therefore, your documentation builds (in /api) may not match our own.
 
 Now you need to install [gulp](http://gulpjs.com), which is the tool used to make the build. Type `npm install --global gulp`. (If your node.js configuration does not allow for global installation, you can use `sudo npm install --global gulp`)
 
