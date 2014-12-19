@@ -220,12 +220,13 @@ manager.prototype.transmit = function(data) {
 
 /** 
   @method colorize
-  @param {which part of ui to change, i.e. "accent" "fill", "border"} [aspect]
-  @param {hex or rgb color code} [color]
+  @param {string} [aspect] Which part of ui to change, i.e. "accent" "fill", "border"
+  @param {string} [color] Hex or rgb color code
   Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
   
   ```js
-  manager.colorize("border", "#000000")
+  nx.colorize("#00ff00") // changes the accent color by default
+  nx.colorize("border", "#000000") // changes the border color
   ```
 
 **/
@@ -246,7 +247,10 @@ manager.prototype.colorize = function(aspect, newCol) {
 }
   
 
-/** @method transform */
+/** @method setThrottlePeriod 
+Set throttle time of nx.throttle, which controls rapid network transmissions of widget data.
+@param {integer} [throttle time] Throttle time in milliseconds. 
+*/
 manager.prototype.setThrottlePeriod = function(newThrottle) {
   this.throttlePeriod = newThrottle;
   for (var key in this.widgets) {
@@ -260,7 +264,7 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
    *    GUI
    */
 
-/**  @property {type} name description. */
+/**  @property {object} colors The interface's color settings. Set with nx.colorize(). */
 manager.prototype.colors = { 
   "accent": "#ff5500", 
   "fill": "#f5f5f5", 
@@ -271,17 +275,23 @@ manager.prototype.colors = {
   "highlight": "rgba(255,85,0,0.5)"
 };
   
-/**  @method name */
+/**  @method startPulse 
+  Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
+*/
 manager.prototype.startPulse = function() {
   this.pulseInt = setInterval("nx.pulse()", 30);
 }
 
-/**  @method name */
+/**  @method stopPulse 
+  Stop the animation pulse interval.
+*/
 manager.prototype.stopPulse = function() {
   clearInterval(this.pulseInt);
 }
 
-/**  @method name */
+/**  @method pulse 
+  Animation pulse which executes all functions stored in the nx.aniItems array.
+*/
 manager.prototype.pulse = function() {
   for (var i=0;i<this.aniItems.length;i++) {
     this.aniItems[i]();
@@ -311,7 +321,9 @@ manager.prototype.addStylesheet = function() {
   document.body.innerHTML = document.body.innerHTML + htmlstr
 }
 
-/**  @method name */
+/**  @method setViewport
+    Set mobile viewport scale (similar to a zoom)
+    @param {integer} [scale] Zoom ratio (i.e. 0.5, 1, 2) */
 manager.prototype.setViewport = function(scale) {
   for (i=0; i<this.metas.length; i++) {
     if (this.metas[i].name == "viewport") {
@@ -320,7 +332,10 @@ manager.prototype.setViewport = function(scale) {
   }
 }
 
-/**  @method name */
+/**  @method setLabels
+    Tell all widgets whether or not draw text labels on widgets
+    @param {boolean} [on/off] true to add labels, false to remove labels
+ */
 manager.prototype.setLabels = function(onoff) {
   if (onoff=="on") {
     this.showLabels = true;
@@ -360,37 +375,50 @@ var widget = module.exports = function (target) {
 /** 
 
   @class widget
-  All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by all NexusUI interfaces.
+  All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by any NexusUI interface.
   
 */
 
-  //canvas
+  /**  @property {string} canvasID ID attribute of the interface's HTML5 canvas */
   this.canvasID = target;
+  /**  @property {string} oscPath OSC prefix for this interface. By default this is populated using the canvas ID (i.e. an ID of dial1 has OSC path /dial1) */
   this.oscPath = "/"+target;
   if (!document.getElementById(target)) {
     var newcanv = document.createElement("canvas")
     newcanv.id = target;
     document.body.appendChild(newcanv)
   }
+  /**  @property {DOM element} canvas The widget's HTML5 canvas */
   this.canvas = document.getElementById(target);
+  /**  @property {HTML5 drawing context} context The canvas's drawing context */
   this.context = this.canvas.getContext("2d");
   this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
   this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
+  /**  @property {integer} height The widget canvas's computed height in pixels */
   this.height = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px",""));
+  /**  @property {integer} width The widget canvas's computed width in pixels */
   this.width = parseInt(window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px",""));
+  if (!this.defaultSize) {
+    /**  @property {object} defaultSize The widget's default size if not defined with HTML/CSS style. (Has properties 'width' and 'height', both in pixels) */
+    this.defaultSize = { width: 100, height: 100 };
+  }
   if (this.width==300 && this.height==150) {
     this.canvas.width = this.defaultSize.width;
     this.canvas.height = this.defaultSize.height;
     this.width = this.defaultSize.width;
     this.height = this.defaultSize.height;
   }
+  /**  @property {object} offset The widget's computed offset from the top left of the document. (Has properties 'top' and 'left', both in pixels) */
   this.offset = domUtils.findPosition(this.canvas);
+  /**  @property {object} center The center of the widget's canvas. A 100x100 widget would have a center at 50x50. (Has properties 'x' and 'y', both in pixels) */
   this.center = {
     x: this.width/2, 
     y: this.height/2
   };
   //drawing
+  /**  @property {integer} lineWidth The default line width for drawing (default is 2 pixels). In many widgets, this is overwritten to suite the widget. However it does dictate the border width on most widgets. */
   this.lineWidth = 2;
+  /**  @property {object} colors A widget's individual color scheme. Inherited from nx.colors (Has properties "accent", "fill", "border", "black", and "white") */
   this.colors = new Object();
   // define colors individually so they are not pointers to nx.colors
   // this way each object can have its own color scheme
@@ -402,25 +430,44 @@ var widget = module.exports = function (target) {
   this.colors.white = nx.colors.white; 
   this.colors.highlight = nx.colors.highlight;
   //interaction
+  /**  @property {object} clickPos The most recent mouse/touch position when interating with a widget. (Has properties x and y) */
   this.clickPos = {x: 0, y: 0};
+  /**  @property {array} clickPos.touches If multitouch, an array of touch positions  */
   this.clickPos.touches = new Array();
+  /**  @property {boolean} clicked Whether or not the widget is currently clicked  */
   this.clicked = false;
   this.value = 0;
   this.val = new Object();
   this.pval = new Object();
   this.nodePos = new Array();
+  /**  @property {object} deltaMove Difference between the current touch/mouse position and the previous touch/mouse position, in pixels.   */
   this.deltaMove = new Object();
   this.throttlePeriod = nx.throttlePeriod;
+  /**  @property {boolean} label Whether or not to draw a text label this widget.   */
   this.label = false;
   this.hasMoved = false;
   //recording
+  /**  @property {boolean} isRecording Whether or not this widget's output is being recorded to a "remix" widget */
   this.isRecording = false;
   this.tapeNum = 0;
   this.recorder = null;
   //transmission
   if (transmit) {
+    /**  @method sendsTo
+    Set the transmission protocol for this widget individually 
+    @param {string or function} [destination] Protocol for transmitting data from this widget (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
+    ```js
+    dial1.sendsTo("ajax")
+
+    // or
+
+    dial1.sendsTo(function(data) {
+         //define a custom transmission function
+    })
+    ```  
+    */
     this.sendsTo = transmit.setWidgetTransmit;
-    this.transmissionProtocol = "js";
+    this.destination = "js";
   }
   this.events = new Object();
 
@@ -436,8 +483,17 @@ var widget = module.exports = function (target) {
 }
 util.inherits(widget, EventEmitter)
 
+/**  @method transmit
+    The "output" instructions for sending the widget's data to another application or to a JS callback. Inherited from nx.transmit and executed when each widget is interacted with or during animation. Set using .sendsTo() to use our built-in transmission defintions.
+    @param {object} [data] The data to be transmitted. Each property of the object will become its own OSC message if sending via "ajax" or "max7" protocols. (This works with objects nested to up to 2 levels).
+*/
 widget.prototype.transmit = nx.transmit;
 
+/**  @method makeOSC
+    Loops through an object (i.e. a widget's data), creates OSC path/value pairs, and executes a callback function with these two arguments.
+    @param {function} [callback] A function defining the action to be taken with each OSC path/value pair. This function should have two parameters, path (string) and data (type depends on widget data type).
+    @param {object} [data] The data as an object, to be broken into individual OSC messages.
+*/
 widget.prototype.makeOSC = function(action, data) {
     this.action = action;
     if ((typeof data == "object") && (data !== null)) {
@@ -460,6 +516,10 @@ widget.prototype.makeOSC = function(action, data) {
 // dial1.offset = utils.findPosition()
 // now it is simply:
 // dial1.getOffset()
+
+/**  @method getOffset
+    Recalculate the computed offset of the widget's canvas and store it in widget.offset. This is useful if a widget has been moved after being created.
+    */
 widget.prototype.getOffset = function() {
   this.offset = domUtils.findPosition(this.canvas)
 }
@@ -525,26 +585,51 @@ widget.prototype.preTouchRelease = function(e) {
   this.touchRelease();
 }
 
+
+/**  @method draw
+    Draw the widget onto the canvas.
+    */
 widget.prototype.draw = function() {
 }
 
+
+/**  @method click
+    Executes when the widget is clicked on
+    */
 widget.prototype.click = function() {
 }
 
+
+/**  @method move
+    Executes on drag (mouse moves while clicked).
+    */
 widget.prototype.move = function() {
 }
 
+
+/**  @method release
+    Executes when the mouse releases after having clicked on the widget.
+    */
 widget.prototype.release = function() {
 }
 
+/**  @method touch
+    Executes when the widget is touched on a touch device.
+    */
 widget.prototype.touch = function() {
   this.click();
 }
 
+/**  @method touchMove
+    Executes on drag (touch then move) on a touch device
+    */
 widget.prototype.touchMove = function() {
   this.move();
 }
 
+/**  @method touchRelease
+    Executes when the touch releases after having touched the widget.
+    */
 widget.prototype.touchRelease = function() {
   this.release();
 }
@@ -569,6 +654,9 @@ widget.prototype.makeRoundedBG = function() {
   drawingUtils.makeRoundRect(this.context, this.bgLeft, this.bgTop, this.bgWidth, this.bgHeight);
 }
 
+/**  @method erase
+    Erase the widget's canvas.
+    */
 widget.prototype.erase = function() {
   this.context.clearRect(0,0,this.width,this.height);
 }
@@ -583,6 +671,10 @@ widget.prototype.showCursor = function() {
 
 // allow us to get the constructor function name programatically
 //i.e. if element is a dial, this function will return "dial"
+
+/**  @method getName
+    Returns the widget's constructor function name (i.e. "dial")
+    */
 widget.prototype.getName = function() { 
   var funcNameRegex = /function (.{1,})\(/;
   var results = (funcNameRegex).exec((this).constructor.toString());
@@ -631,6 +723,9 @@ widget.prototype.set = function(data, transmit) {
   }
 }
 
+/**  @method destroy
+    Remove the widget object, canvas, and all related event listeners from the document.
+    */
 widget.prototype.destroy = function() {
   nx.widgets[this.canvasID] = null;
   var type = nx.elemTypeArr.indexOf(this.getName())
@@ -690,6 +785,9 @@ widget.prototype.drawLabel = function() {
   }
 }
 
+/**  @method saveCanv
+     Download the widget's current graphical state as an image (png).
+    */
 widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data

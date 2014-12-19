@@ -33,8 +33,8 @@ nx
  *boolean*<br> Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets
 
 
-###nx.name###
- *type*<br> description.
+###nx.colors###
+ *object*<br> The interface's color settings. Set with nx.colorize().
 
 
 
@@ -82,29 +82,190 @@ The "output" instructions for sending a widget's data to another application or 
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
 
 ```js
-manager.colorize("border", "#000000")
+nx.colorize("#00ff00") // changes the accent color by default
+nx.colorize("border", "#000000") // changes the border color
 ```
 
 
 
-**aspect**:  *which part of ui to change, i.e. "accent" "fill", "border"*,  
+**aspect**:  *string*,  Which part of ui to change, i.e. "accent" "fill", "border"
+
+**color**:  *string*,  Hex or rgb color code
+
+###nx.setThrottlePeriod( throttle )###
+Set throttle time of nx.throttle, which controls rapid network transmissions of widget data.
 
 
-**color**:  *hex or rgb color code*,  
+**throttle**:  *integer*,  time] Throttle time in milliseconds.
+
+###nx.startPulse(  )###
+Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
 
 
-###nx.transform(  )###
-###nx.name(  )###
-###nx.name(  )###
-###nx.name(  )###
-###nx.name(  )###
-###nx.name(  )###
+###nx.stopPulse(  )###
+Stop the animation pulse interval.
+
+
+###nx.pulse(  )###
+Animation pulse which executes all functions stored in the nx.aniItems array.
+
+
+###nx.setViewport( scale )###
+Set mobile viewport scale (similar to a zoom)
+
+**scale**:  *integer*,  Zoom ratio (i.e. 0.5, 1, 2)
+
+###nx.setLabels( on/off )###
+Tell all widgets whether or not draw text labels on widgets
+
+
+**on/off**:  *boolean*,  true to add labels, false to remove labels
+
 widget
 --------
-All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by all NexusUI interfaces.
+All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by any NexusUI interface.
+
+
+####Properties####
+###widget.canvasID###
+ *string*<br> ID attribute of the interface's HTML5 canvas
+
+
+###widget.oscPath###
+ *string*<br> OSC prefix for this interface. By default this is populated using the canvas ID (i.e. an ID of dial1 has OSC path /dial1)
+
+
+###widget.canvas###
+ *DOM element*<br> The widget's HTML5 canvas
+
+
+###widget.context###
+ *HTML5 drawing context*<br> The canvas's drawing context
+
+
+###widget.height###
+ *integer*<br> The widget canvas's computed height in pixels
+
+
+###widget.width###
+ *integer*<br> The widget canvas's computed width in pixels
+
+
+###widget.defaultSize###
+ *object*<br> The widget's default size if not defined with HTML/CSS style. (Has properties 'width' and 'height', both in pixels)
+
+
+###widget.offset###
+ *object*<br> The widget's computed offset from the top left of the document. (Has properties 'top' and 'left', both in pixels)
+
+
+###widget.center###
+ *object*<br> The center of the widget's canvas. A 100x100 widget would have a center at 50x50. (Has properties 'x' and 'y', both in pixels)
+
+
+###widget.lineWidth###
+ *integer*<br> The default line width for drawing (default is 2 pixels). In many widgets, this is overwritten to suite the widget. However it does dictate the border width on most widgets.
+
+
+###widget.colors###
+ *object*<br> A widget's individual color scheme. Inherited from nx.colors (Has properties "accent", "fill", "border", "black", and "white")
+
+
+###widget.clickPos###
+ *object*<br> The most recent mouse/touch position when interating with a widget. (Has properties x and y)
+
+
+###widget.clickPos.touches###
+ *array*<br> If multitouch, an array of touch positions
+
+
+###widget.clicked###
+ *boolean*<br> Whether or not the widget is currently clicked
+
+
+###widget.deltaMove###
+ *object*<br> Difference between the current touch/mouse position and the previous touch/mouse position, in pixels.
+
+
+###widget.label###
+ *boolean*<br> Whether or not to draw a text label this widget.
+
+
+###widget.isRecording###
+ *boolean*<br> Whether or not this widget's output is being recorded to a "remix" widget
+
 
 
 ####Methods####
+###widget.sendsTo( destination )###
+Set the transmission protocol for this widget individually
+```js
+dial1.sendsTo("ajax")
+
+// or
+
+dial1.sendsTo(function(data) {
+//define a custom transmission function
+})
+```
+
+
+**destination**:  *string or function*,  Protocol for transmitting data from this widget (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
+
+###widget.transmit( data )###
+The "output" instructions for sending the widget's data to another application or to a JS callback. Inherited from nx.transmit and executed when each widget is interacted with or during animation. Set using .sendsTo() to use our built-in transmission defintions.
+
+
+**data**:  *object*,  The data to be transmitted. Each property of the object will become its own OSC message if sending via "ajax" or "max7" protocols. (This works with objects nested to up to 2 levels).
+
+###widget.makeOSC( callback, data )###
+Loops through an object (i.e. a widget's data), creates OSC path/value pairs, and executes a callback function with these two arguments.
+
+
+**callback**:  *function*,  A function defining the action to be taken with each OSC path/value pair. This function should have two parameters, path (string) and data (type depends on widget data type).
+
+**data**:  *object*,  The data as an object, to be broken into individual OSC messages.
+
+###widget.getOffset(  )###
+Recalculate the computed offset of the widget's canvas and store it in widget.offset. This is useful if a widget has been moved after being created.
+
+
+###widget.draw(  )###
+Draw the widget onto the canvas.
+
+
+###widget.click(  )###
+Executes when the widget is clicked on
+
+
+###widget.move(  )###
+Executes on drag (mouse moves while clicked).
+
+
+###widget.release(  )###
+Executes when the mouse releases after having clicked on the widget.
+
+
+###widget.touch(  )###
+Executes when the widget is touched on a touch device.
+
+
+###widget.touchMove(  )###
+Executes on drag (touch then move) on a touch device
+
+
+###widget.touchRelease(  )###
+Executes when the touch releases after having touched the widget.
+
+
+###widget.erase(  )###
+Erase the widget's canvas.
+
+
+###widget.getName(  )###
+Returns the widget's constructor function name (i.e. "dial")
+
+
 ###widget.set( data, transmit )###
 Sets the value of an object.
 
@@ -127,6 +288,14 @@ button1.set({
 
 
 **transmit**:  *(optional) whether or not to transmit after setting*,  
+
+
+###widget.destroy(  )###
+Remove the widget object, canvas, and all related event listeners from the document.
+
+
+###widget.saveCanv(  )###
+Download the widget's current graphical state as an image (png).
 
 
 banner

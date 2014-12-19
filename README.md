@@ -13,7 +13,7 @@
 
 ### How to Use NexusUI
 
-Download nexusUI.js and link to it in the head of your HTML document
+Download nexusUI.js and link to it in the head of your HTML document. (NexusUI can also be installed via npm or bower (npm install nexusui) and included in a project using CommonJS-style requires.)
 
 ```html
 <script src="nexusUI.js"></script>
@@ -26,9 +26,9 @@ Add an HTML5 canvas to your page with a valid nx attribute.
 <canvas nx="dial"></canvas>
 ```
 
-It will automatically convert into a touch-compatible dial interface. 
+Your canvas will automatically convert into a touch-compatible dial interface.
 
-Valid Nexus objects include: dial, position, keyboard, button, toggle, slider, multislider, matrix, select, tilt, metroball, pixels, colors, sandbox, joints, comment, message, number, banner, multitouch.
+Valid Nexus objects include: dial, position, keyboard, button, toggle, slider, multislider, matrix, select, tilt, metro, range, colors, joints, comment, message, number, banner, multitouch, and vinyl.
 
 See [nexusosc.com](http://www.nexusosc.com) for a complete list, examples and tutorials.
 
@@ -61,7 +61,7 @@ position1.on('*', function(data) {
 
 
 
-##### OSC Communication Templates
+##### Templates (focusing on OSC communication)
 
 In addition, the interface can send OSC data through a network to other audio applications (or anything that understands OSC). We offer templates for several server paradigms:
 
@@ -91,8 +91,8 @@ To build nexusUI yourself, you need [node.js and npm](http://nodejs.org/).
 
 Then open your terminal, and in the root folder of nexusUI, type `npm install` to install the packages needed for the build script. 
 
-*NOTE:* Our current documentation system uses an edited version of jsdox used by the authors. Therefore, your documentation builds (in /api) may not match our own.
-
 Now you need to install [gulp](http://gulpjs.com), which is the tool used to make the build. Type `npm install --global gulp`. (If your node.js configuration does not allow for global installation, you can use `sudo npm install --global gulp`)
 
 Finally, you can build nexusUI by simply typing `gulp` in your terminal.
+
+*NOTE:* Our current documentation system uses an edited version of jsdox used by the authors. Therefore, your documentation builds (in /api) may not match our own.
