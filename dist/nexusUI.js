@@ -418,7 +418,7 @@ var widget = module.exports = function (target) {
   //drawing
   /**  @property {integer} lineWidth The default line width for drawing (default is 2 pixels). In many widgets, this is overwritten to suite the widget. However it does dictate the border width on most widgets. */
   this.lineWidth = 2;
-  /**  @property {object} colors A widget's individual color scheme. Inherited from nx.colors (Has properties "accent", "fill", "border", "black", and "white") */
+  /**  @property {object} colors A widget's individual color scheme. Inherited from nx.colors. (Has properties "accent", "fill", "border", "black", and "white") */
   this.colors = new Object();
   // define colors individually so they are not pointers to nx.colors
   // this way each object can have its own color scheme
@@ -437,12 +437,16 @@ var widget = module.exports = function (target) {
   /**  @property {boolean} clicked Whether or not the widget is currently clicked  */
   this.clicked = false;
   this.value = 0;
+    /**
+      @property {object} val An object containing the core interactive values of the widget, which are also the widget's data output. 
+    */
   this.val = new Object();
   this.pval = new Object();
   this.nodePos = new Array();
   /**  @property {object} deltaMove Difference between the current touch/mouse position and the previous touch/mouse position, in pixels.   */
   this.deltaMove = new Object();
   this.throttlePeriod = nx.throttlePeriod;
+  this.throttle = timingUtils.throttle;
   /**  @property {boolean} label Whether or not to draw a text label this widget.   */
   this.label = false;
   this.hasMoved = false;
@@ -586,6 +590,10 @@ widget.prototype.preTouchRelease = function(e) {
 }
 
 
+/**  @method init
+     Initialize or re-initialize the widget. Defined separately within each widget.
+    */
+
 /**  @method draw
     Draw the widget onto the canvas.
     */
@@ -682,8 +690,8 @@ widget.prototype.getName = function() {
 }
 
 /** @method set
-@param {parameter/value pairs in object notation} [data]
-@param {(optional) whether or not to transmit after setting} [transmit] 
+@param {object} [data] Parameter/value pairs in object notation.
+@param {boolean} [transmit] (optional) Whether or not to transmit new value after being set.
 Sets the value of an object. 
 
 ```js
@@ -794,6 +802,15 @@ widget.prototype.saveCanv = function() {
 }
 },{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":34,"util":38}],4:[function(require,module,exports){
 
+/** @class utils 
+  Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
+*/
+
+
+/** @method findPosition 
+    Returns the offset of an HTML element. Returns an object with 'top' and 'left' properties.
+    @param {DOM element} [element] 
+*/
 exports.findPosition = function(element) {
   var body = document.body,
       win = document.defaultView,
@@ -859,10 +876,18 @@ exports.getTouchPosition = function(e, canvas_offset) {
 },{}],5:[function(require,module,exports){
 var math = require('./math')
 
+/** @method randomColor
+    Returns a random color string in rgb format
+*/
 exports.randomColor = function() {
-  return "rgb(" + math.randomNum(250) + "," + math.randomNum(250) + "," + math.randomNum(250) + ")";
+  return "rgb(" + math.random(250) + "," + math.random(250) + "," + math.random(250) + ")";
 }
 
+/** @method hexToRgb
+    Converts a hex color code to rgb format
+    @param {color code} [hex] Input color code in hex format
+    @param {float} [alpha] Color alpha level
+*/
 exports.hexToRgb = function(hex, a) {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
   var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -924,6 +949,13 @@ exports.text = function(context, text, position) {
   }
 }
 },{"./math":6}],6:[function(require,module,exports){
+
+
+/** @method toPolar 
+    Receives cartesian coordinates and returns polar coordinates as an object with 'radius' and 'angle' properties.
+    @param {float} [x] 
+    @param {float} [y] 
+*/
 exports.toPolar = function(x,y) {
   var r = Math.sqrt(x*x + y*y);
 
@@ -931,19 +963,45 @@ exports.toPolar = function(x,y) {
   if (theta < 0.) {
     theta = theta + (2 * Math.PI);
   }
-  return {x: r, y: theta};
+  return {radius: r, angle: theta};
 }
 
+/** @method toCartesian 
+    Receives polar coordinates and returns cartesian coordinates as an object with 'x' and 'y' properties.
+    @param {float} [radius] 
+    @param {float} [angle] 
+*/
 exports.toCartesian = function(radius, angle){
   var cos = Math.cos(angle);
   var sin = Math.sin(angle);
   return {x: radius*cos, y: radius*sin*-1};
 }
 
+
+/** @method clip 
+    Limits a number to within low and high values.
+    @param {float} [input value] 
+    @param {float} [low limit] 
+    @param {float} [high limit] 
+    ```js
+    nx.clip(5,0,10) // returns 5
+    nx.clip(15,0,10) // returns 10
+    nx.clip(-1,0,10) // returns 0
+    ```
+*/
 exports.clip = function(value, low, high) {
   return Math.min(high, Math.max(low, value));
 }
 
+/** @method prune 
+    Limits a float to within a certain number of decimal places
+    @param {float} [input value] 
+    @param {integer} [max decimal places] 
+    ```js
+    nx.prine(1.2345, 3) // returns 1.234
+    nx.prune(1.2345, 1) // returns 1.2
+    ```
+*/
 exports.prune = function(data, scale) {
   var scale = Math.pow(10,scale);
   if (typeof data === "number") {
@@ -958,10 +1016,31 @@ exports.prune = function(data, scale) {
   return data;
 }
 
+
+/** @method scale 
+    Scales an input number to a new range of numbers
+    @param {float} [input value] 
+    @param {float} [low1]  input range (low)
+    @param {float} [high1] input range (high)
+    @param {float} [low2] output range (low)
+    @param {float} [high2] output range (high)
+    ```js
+    nx.scale(5,0,10,0,100) // returns 50
+    nx.scale(5,0,10,1,2) // returns 1.5
+    ```
+*/
 exports.scale = function(inNum, inMin, inMax, outMin, outMax) {
   return (((inNum - inMin) * (outMax - outMin)) / (inMax - inMin)) + outMin;  
 }
 
+/** @method invert 
+    Equivalent to nx.scale(input,0,1,1,0). Inverts a normalized (0-1) number. 
+    @param {float} [input value]  
+    ```js
+    nx.invert(0.25) // returns 0.75
+    nx.invert(0) // returns 1
+    ```
+*/
 exports.invert = function (inNum) {
   return exports.scale(inNum, 1, 0, 0, 1);
 }
@@ -976,14 +1055,32 @@ exports.bounce = function(posIn, borderMin, borderMax, delta) {
   }
 }
 
+
+/** @method mtof 
+    MIDI to frequency conversion. Returns frequency in Hz.
+    @param {float} [MIDI] MIDI value to convert
+    ```js
+    nx.mtof(69) // returns 440
+    ```
+*/
 exports.mtof = function(midi) {
   return Math.pow(2, ((midi-69)/12)) * 440;
 }
 
-exports.randomNum = function(scale) {
+
+/** @method random 
+    Returns a random integer between 0 a given scale parameter.
+    @param {float} [scale] Upper limit of random range.
+    ```js
+    nx.random(10) // returns a random number from 0 to 9.
+    ```
+*/
+exports.random = function(scale) {
   return Math.floor(Math.random() * scale);
 }
 },{}],7:[function(require,module,exports){
+
+
 exports.throttle = function(func, wait) {
   var timeout;
   return function() {
@@ -1110,9 +1207,14 @@ var banner = module.exports = function (target) {
 	widget.call(this, target);
 	
 	//unique attributes
+	/** @property {string} message1 The first line of text on the banner. */
 	this.message1 = "Powered By";
+	/** @property {string} message2 The second line of text on the banner. */
 	this.message2 = "NexusUI";
-	this.message3 = "nexusosc.com";
+	/** @property {string} link The URL the banner will link to. */
+	this.link = "http://www.nexusosc.com";
+	/** @property {boolean} isLink Whether or not the banner is a hyperlink. Defaults to true. */
+	this.isLink = true;
 }
 util.inherits(banner, widget);
 
@@ -1168,7 +1270,9 @@ banner.prototype.draw = function() {
 }
 
 banner.prototype.click = function() {
-	window.location = "http://www.nexusosc.com";
+	if (this.isLink) {
+		window.location = this.link;
+	}
 }
 },{"../core/widget":3,"util":38}],10:[function(require,module,exports){
 var util = require('util');
@@ -1181,8 +1285,7 @@ var button = module.exports = function(target) {
 	@public
 	@class button 
 
-	Touch button with three modes of interaction
-	<br><a href="../examples/button/" target="blank">Demo</a>
+	Touch button with three modes of interaction ("toggle", "impulse", and "aftertouch").
 	```html
 	<canvas nx="button"></canvas>
 	```
@@ -1193,7 +1296,7 @@ var button = module.exports = function(target) {
 	widget.call(this, target);
 
 	// Define Unique Attributes
-	// Value is the value to send when the button is clicked.  
+	// Value is the value to send when the button is clicked. 
 
 	this.value = 1;
 
@@ -1202,30 +1305,36 @@ var button = module.exports = function(target) {
 		| &nbsp; | data
 		| --- | ---
 		| *press* | 0 (clicked) or 1 (unclicked)
-		| *x* | 0-1 float of x-position of click ("node" mode only)
-		| *y* | 0-1 float of y-position of click ("node" mode only) 
-		val appears as the argument of the JavaScript response function:
+		| *x* | 0-1 float of x-position of click ("aftertouch" mode only)
+		| *y* | 0-1 float of y-position of click ("aftertouch" mode only) 
+		
+		When the widget is interacted with, val is sent as the output data for the widget.
 		```js 
-		button1.response = function(data) {
+		button1.on('*', function(data) {
 			// some code using data.press, data.x, and data.y
-		}
+		});
+		```
+		Or, if NexusUI is outputting OSC (e.g. if nx.sendsTo("ajax")), val will be broken into OSC messages: 
+		```html 
+		/button1/press 1
+		/button1/x 37
+		/button1/y 126
 		```
 		*/
 	this.val = {
 		press: 0
 	}
 	
-	/** @property {string}  mode  Interaction mode of impulse, toggle, or position
-	impulse &nbsp; 1 on click <br>
-	toggle &nbsp;  1 on click, 0 on release _(default)_<br>
-	position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br> 
+	/** @property {string}  mode  Interaction mode. Options:
+	<b>impulse</b> &nbsp; 1 on click <br>
+	<b>toggle</b> &nbsp;  1 on click, 0 on release _(default)_<br>
+	<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release <br> 
 	```js 
-	button1.mode = "position" 
+	button1.mode = "aftertouch" 
 	```
 	*/
 	this.mode = "toggle";
 
-	// image button properties
 	this.image = null;
 	this.imageHover = null;
 	this.imageTouch = null;
@@ -1253,15 +1362,13 @@ button.prototype.draw = function() {
 				drawImage(this.image, 0, 0);
 			} else {
 				if (!this.imageTouch) {
-					// No touch image, apply highlighting
-					fillStyle = this.colors.highlight;
-					strokeStyle = this.colors.accent;
-					
+
 					drawImage(this.image, 0, 0);
 
+					// No touch image, apply highlighting
 					globalAlpha = 0.5;
+					fillStyle = this.colors.accent;
 					fillRect (0, 0, this.width, this.height);
-					strokeRect (0, 0, this.width, this.height);
 					globalAlpha = 1;
 					
 				} else {
@@ -1335,7 +1442,9 @@ button.prototype.release = function() {
 }
 
 
-/** @method setImage */
+/** @method setImage 
+	Turns the button into an image button with custom image. Sets the default (unclicked) button image.
+	@param {string} [src] Image source */
 button.prototype.setImage = function(image) {
 	this.image = new Image();
 	this.image.onload = function() { this.draw() }
@@ -1348,6 +1457,9 @@ button.prototype.setHoverImage = function(image) {
 	this.imageHover.src = image;
 }
 
+/** @method setTouchImage 
+	Sets the image that will show when the button is clicked.
+	@param {string} [src] Image source */
 button.prototype.setTouchImage = function(image) {
 	this.imageTouch = new Image();
 	this.imageTouch.onload = this.draw();
@@ -1377,11 +1489,11 @@ var colors = module.exports = function (target) {
 	widget.call(this, target);
 	
 	//define unique attributes
-	var pencil_width = 50;
 	this.color_width = this.canvas.width - this.lineWidth*2;
 	this.color_height = this.canvas.height - this.lineWidth*2;
 	this.color_table = new Array();
-	this.saturation = 240;
+	/** @property {float} saturation Saturation percentage of the color picker (0-100)*/
+	this.saturation = 100;
 	this.color = [0,0,0];
 
 	this.init();
@@ -1390,12 +1502,10 @@ var colors = module.exports = function (target) {
 util.inherits(colors, widget);
 
 colors.prototype.init = function() {
-	
-	var pencil_width = 50;
+
 	this.color_width = this.canvas.width - this.lineWidth*2;
 	this.color_height = this.canvas.height - this.lineWidth*2;
 	this.color_table = new Array();
-	this.saturation = 240;
 	this.color = [0,0,0];
 	
 	//prep color picker
@@ -1460,14 +1570,14 @@ colors.prototype.click = function(e) {
 	}
 	
 
-	/** @property {object}  val   Main output, RBG color value at mouse position
+	/** @property {object}  val  RGB color value at mouse position. <br> This is also the widget's data output (See <a href="#nexusui-api-widget-widgetval">widget.val</a>). <br> Properties:
 	| &nbsp; | data
 	| --- | ---
 	| *r* | red value 0-256
 	| *g* | green value 0-256
 	| *b* | blue value 0-256 
 	```js 
-	colors1.response = function(data) {
+	colors1.on('*', function(data) {
 		// some code using data.r, data.g, and data.b
 	}
 	```
@@ -1493,7 +1603,7 @@ var widget = require('../core/widget');
 
 /** 
 	@class comment      
-	Comment area with settable text
+	Text comment
 	```html
 	<canvas nx="comment"></canvas>
 	```
@@ -1511,6 +1621,7 @@ var comment = module.exports = function (target) {
 		| *text* | text of comment area (as string)
 		```js 
 		comment1.val.text = "This is my comment"
+		comment1.draw()
 		```
 	*/
 	
@@ -1524,7 +1635,8 @@ var comment = module.exports = function (target) {
 util.inherits(comment, widget);
 
 /** @method setSize
-	text size in pixels
+	Set the font size of the comment text
+	@param {integer} [size] Text size in pixels
 */
 comment.prototype.setSize = function(size) {
 	this.size = size;
@@ -1582,21 +1694,25 @@ var dial = module.exports = function(target) {
 	widget.call(this, target);
 	
 	//define unique attributes
-	this.circle_size = 1;
-	this.dial_position_length = 6;
+	this.circleSize;
+	this.handleLength;
 	if (this.width<101 || this.width<101) {
 		this.accentWidth = this.lineWidth * 1;
 	} else {
 		this.accentWidth = this.lineWidth * 2;
 	}
 
-	/** @property {float}  val    Current value of dial as float 0-1<br>
+	/** @property {object}  val
+	    | &nbsp; | data
+		| --- | ---
+		| *value* | Current value of dial as float 0-1
 	*/
 	this.val = {
 		value: 0
 	}
+	/** @property {float}  responsivity    How much the dial increments on drag. Default: 0.005<br>
+	*/
 	this.responsivity = 0.005;
-	this.throttle = nx.throttle;
 	
 	this.aniStart = 0;
 	this.aniStop = 1;
@@ -1610,12 +1726,12 @@ util.inherits(dial, widget);
 
 dial.prototype.init = function() {
 
-	this.circle_size = (Math.min(this.center.x, this.center.y)-this.lineWidth);
-	this.dial_position_length = this.circle_size+this.lineWidth;
+	this.circleSize = (Math.min(this.center.x, this.center.y)-this.lineWidth);
+	this.handleLength = this.circleSize+this.lineWidth;
 	
 	if (this.width<101) {
-		this.dial_position_length--;
-		this.dial_position_length--;
+		this.handleLength--;
+		this.handleLength--;
 	}
 	
 	this.draw();
@@ -1627,7 +1743,7 @@ dial.prototype.draw = function() {
 	//dial_line
 	var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
 	var dial_position = (this.val.value + 0.25) * 2 * Math.PI
-	var point = math.toCartesian(this.dial_position_length, dial_angle);
+	var point = math.toCartesian(this.handleLength, dial_angle);
 	
 	if (this.isRecording) {
 		this.recorder.write(this.tapeNum,this.val.value);
@@ -1641,7 +1757,7 @@ dial.prototype.draw = function() {
 		
 		//draw main circle
 		beginPath();
-			arc(this.center.x, this.center.y, this.circle_size, 0, Math.PI*2, true);
+			arc(this.center.x, this.center.y, this.circleSize, 0, Math.PI*2, true);
 			fill();
 			stroke();
 		closePath();
@@ -1649,7 +1765,7 @@ dial.prototype.draw = function() {
 		//draw color fill
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circle_size , Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
 			lineTo(this.center.x,this.center.y);
 			globalAlpha = 0.1;
 			fillStyle = this.colors.accent;
@@ -1660,7 +1776,7 @@ dial.prototype.draw = function() {
 		//draw round accent
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circle_size , Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
 			strokeStyle = this.colors.accent;
 			stroke();
 		closePath(); 
@@ -1677,7 +1793,7 @@ dial.prototype.draw = function() {
 		//draw circle in center
 		beginPath();
 			fillStyle = this.colors.accent;
-			arc(this.center.x, this.center.y, this.circle_size/8, 0, Math.PI*2, false);
+			arc(this.center.x, this.center.y, this.circleSize/8, 0, Math.PI*2, false);
 			fill();
 		closePath(); 
 		
@@ -1708,6 +1824,9 @@ dial.prototype.release = function() {
 	this.aniStop = this.val.value;
 }
 
+/** @method animate 
+	Animates the dial
+	@param {string} [type] Type of animation. Currently accepts "bounce" (bounces between mousedown and mouserelease points) or "none" */
 dial.prototype.animate = function(aniType) {
 	
 	switch (aniType) {
@@ -1757,8 +1876,11 @@ var envelope = module.exports = function (target) {
 	widget.call(this, target);
 	
 	this.nodeSize = 0;
+	/** @property {boolean} active Whether or not the envelope is currently animating. */
 	this.active = false;
+	/** @property {integer} duration The envelope's duration in ms. */
 	this.duration = 1000; // 1000 ms
+	/** @property {boolean} looping Whether or not the envelope loops. */
 	this.looping = false
 
 	//define unique attributes
@@ -1767,6 +1889,9 @@ var envelope = module.exports = function (target) {
 		| &nbsp; | data
 		| --- | ---
 		| *amp* | amplitude at current point of ramp (float 0-1)
+		| *index* | current progress through ramp (float 0-1)
+		| *x* | x of envelope peak point (float 0-1)
+		| *y* | y of envelope peak point (float 0-1)
 	*/
 	this.val = {
 		x: 0.15,
@@ -1901,19 +2026,19 @@ envelope.prototype.pulse = function() {
 	}
 }
 
+/** @method start
+	Start ramp from beginning. If set to loop, will loop the ramp until stopped. */
 envelope.prototype.start = function() {
 	this.active = true;
 	this.val.index = 0;
 }
 
+/** @method stop
+	Stop the ramp and set progress to 0. */
 envelope.prototype.stop = function() {
 	this.active = false;
 	this.val.index = 0;
 	this.draw();
-}
-
-envelope.prototype.continue = function() {
-
 }
 },{"../core/widget":3,"../utils/math":6,"util":38}],15:[function(require,module,exports){
 module.exports = {
@@ -1960,11 +2085,11 @@ var joints = module.exports = function (target) {
 	this.defaultSize = { width: 150, height: 150 };
 	widget.call(this, target);
 	
-	//this.line_width = 3;
-	this.nodeSize = this.width/14;
+	/* @property {integer} nodeSize The size of the proximity points in pixels */
+	this.nodeSize = this.width/14; 
 	this.values = [0,0];
 
-	/** @property {object}  val   
+	/** @property {object}  val  
 		| &nbsp; | data
 		| --- | ---
 		| *x* | x position of touch/mouse
@@ -1975,13 +2100,20 @@ var joints = module.exports = function (target) {
 		| etc... | &nbsp;
 		
 	*/
-
 	this.val = {
 		x: 0,
 		y: 0,
 		node1: 0
 	}
-	this.nodePos = [50,50];
+	/** @property {array} joints An array of objects with x and y properties detailing coordinates of each proximity node.
+	```js
+		// The widget will now have only 2 proximity points, instead of 8
+		joints1.joints = [
+		&nbsp; { x: 20 , y: 100 },
+		&nbsp; { x: 75 , y: 150 }
+		]
+	```
+	 */
 	this.joints = [
 		{ x: this.width/1.2 , y: this.height/1.2 },
 		{ x: this.width/2 , y: this.height/1.3 },
@@ -2099,13 +2231,6 @@ joints.prototype.move = function() {
 		this.val.x = this.clickPos.x/this.width;
 		this.val.y = this.clickPos.y/this.height;
 		this.draw();
-		var help = {
-			"this.clickPos.x": this.clickPos.x,
-			"this.clickPos.y": this.clickPos.y,
-			"this.val.x": this.val.x,
-			"this.val.y": this.val.y,
-			"this.offset": this.offset
-		}
 		this.transmit(this.val);
 		this.connections = new Array();
 	}
@@ -2113,6 +2238,8 @@ joints.prototype.move = function() {
 
 
 joints.prototype.release = function() {
+		this.anix = this.deltaMove.x/this.width;
+		this.aniy = (this.deltaMove.y)/this.height;
 	
 }
 
@@ -2135,6 +2262,8 @@ joints.prototype.touchMove = function() {
 }
 
 joints.prototype.touchRelease = function() {
+		this.anix = this.deltaMove.x/this.width;
+		this.aniy = (this.deltaMove.y)/this.height;
 	
 }
 
@@ -2142,7 +2271,7 @@ joints.prototype.animate = function(aniType) {
 	
 	switch (aniType) {
 		case "bounce":
-			nx.aniItems.push(this.aniBounce);
+			nx.aniItems.push(this.aniBounce.bind(this));
 			break;
 		case "none":
 			nx.aniItems.splice(nx.aniItems.indexOf(this.aniBounce));
@@ -2151,12 +2280,15 @@ joints.prototype.animate = function(aniType) {
 	
 }
 
+joints.prototype.anix = 0;
+joints.prototype.aniy = 0;
+
 joints.prototype.aniBounce = function() {
 	if (!this.clicked && this.val.x) {
-		this.val.x += (this.deltaMove.x/2);
-		this.val.y += (this.deltaMove.y/2);
-		this.deltaMove.x = math.bounce(this.val.x, this.bgLeft + this.nodeSize, this.width - this.bgLeft- this.nodeSize, this.deltaMove.x);
-		this.deltaMove.y = math.bounce(this.val.y, this.bgTop + this.nodeSize, this.height - this.bgTop - this.nodeSize, this.deltaMove.y);
+		this.val.x += (this.anix);
+		this.val.y += (this.aniy);
+		this.anix = math.bounce(this.val.x, 0.1, 0.9, this.anix);
+		this.aniy = math.bounce(this.val.y, 0.1, 0.9, this.aniy);
 		this.draw();
 		this.transmit(this.scaleNode());
 	}
@@ -2715,7 +2847,7 @@ matrix.prototype.seqStep = function() {
 		if (this.sequenceMode=="linear") {
 			this.place++;
 		} else if (this.sequenceMode=="random") {
-			this.place = math.randomNum(this.col);
+			this.place = math.random(this.col);
 		}
 		if (this.place>=this.col) {
 			this.place = 0;
@@ -3126,7 +3258,7 @@ multislider.prototype.move = function(firstclick) {
 	}
 	var msg = new Object()
 	msg[sliderToMove] = this.val[sliderToMove]
-	if (this.transmissionProtocol=="js" || this.transmissionProtocol=="node") {
+	if (this.destination=="js" || this.destination=="node") {
 		msg["list"] = this.val;
 	} else {
 		msg["list"] = new String();
@@ -4768,7 +4900,7 @@ vinyl.prototype.click = function(e) {
 	this.hasMovedOnce = false;
 	this.lastRotation = this.rotation
 	this.grabAngle = this.rotation % (Math.PI*2)
-	this.grabPos = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).y
+	this.grabPos = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).angle
 
 }
 
@@ -4777,10 +4909,10 @@ vinyl.prototype.move = function() {
 	if (!this.hasMovedOnce) {
 		this.hasMovedOnce = true;
 		this.grabAngle = this.rotation % (Math.PI*2)
-		this.grabPos = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).y
+		this.grabPos = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).angle
 	}
 
-	this.rotation = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).y + this.grabAngle - this.grabPos	
+	this.rotation = math.toPolar(this.clickPos.x-this.center.x,this.clickPos.y-this.center.y).angle + this.grabAngle - this.grabPos	
 
 
 }

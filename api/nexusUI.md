@@ -168,7 +168,7 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
 
 
 ###widget.colors###
- *object*<br> A widget's individual color scheme. Inherited from nx.colors (Has properties "accent", "fill", "border", "black", and "white")
+ *object*<br> A widget's individual color scheme. Inherited from nx.colors. (Has properties "accent", "fill", "border", "black", and "white")
 
 
 ###widget.clickPos###
@@ -181,6 +181,10 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
 
 ###widget.clicked###
  *boolean*<br> Whether or not the widget is currently clicked
+
+
+###widget.val###
+ *object*<br> An object containing the core interactive values of the widget, which are also the widget's data output.
 
 
 ###widget.deltaMove###
@@ -228,6 +232,10 @@ Loops through an object (i.e. a widget's data), creates OSC path/value pairs, an
 
 ###widget.getOffset(  )###
 Recalculate the computed offset of the widget's canvas and store it in widget.offset. This is useful if a widget has been moved after being created.
+
+
+###widget.init(  )###
+Initialize or re-initialize the widget. Defined separately within each widget.
 
 
 ###widget.draw(  )###
@@ -284,11 +292,9 @@ button1.set({
 ```
 
 
-**data**:  *parameter/value pairs in object notation*,  
+**data**:  *object*,  Parameter/value pairs in object notation.
 
-
-**transmit**:  *(optional) whether or not to transmit after setting*,  
-
+**transmit**:  *boolean*,  (optional) Whether or not to transmit new value after being set.
 
 ###widget.destroy(  )###
 Remove the widget object, canvas, and all related event listeners from the document.
@@ -298,6 +304,123 @@ Remove the widget object, canvas, and all related event listeners from the docum
 Download the widget's current graphical state as an image (png).
 
 
+utils
+-------
+Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
+
+####Methods####
+###utils.findPosition( element )###
+Returns the offset of an HTML element. Returns an object with 'top' and 'left' properties.
+
+
+**element**:  *DOM element*,  
+
+
+###utils.randomColor(  )###
+Returns a random color string in rgb format
+
+
+###utils.hexToRgb( hex, alpha )###
+Converts a hex color code to rgb format
+
+
+**hex**:  *color code*,  Input color code in hex format
+
+**alpha**:  *float*,  Color alpha level
+
+###utils.toPolar( x, y )###
+Receives cartesian coordinates and returns polar coordinates as an object with 'radius' and 'angle' properties.
+
+
+**x**:  *float*,  
+
+
+**y**:  *float*,  
+
+
+###utils.toCartesian( radius, angle )###
+Receives polar coordinates and returns cartesian coordinates as an object with 'x' and 'y' properties.
+
+
+**radius**:  *float*,  
+
+
+**angle**:  *float*,  
+
+
+###utils.clip( input, low, high )###
+Limits a number to within low and high values.
+```js
+nx.clip(5,0,10) // returns 5
+nx.clip(15,0,10) // returns 10
+nx.clip(-1,0,10) // returns 0
+```
+
+
+**input**:  *float*,  value]
+
+**low**:  *float*,  limit]
+
+**high**:  *float*,  limit]
+
+###utils.prune( input, max )###
+Limits a float to within a certain number of decimal places
+```js
+nx.prine(1.2345, 3) // returns 1.234
+nx.prune(1.2345, 1) // returns 1.2
+```
+
+
+**input**:  *float*,  value]
+
+**max**:  *integer*,  decimal places]
+
+###utils.scale( input, low1, high1, low2, high2 )###
+Scales an input number to a new range of numbers
+```js
+nx.scale(5,0,10,0,100) // returns 50
+nx.scale(5,0,10,1,2) // returns 1.5
+```
+
+
+**input**:  *float*,  value]
+
+**low1**:  *float*,  input range (low)
+
+**high1**:  *float*,  input range (high)
+
+**low2**:  *float*,  output range (low)
+
+**high2**:  *float*,  output range (high)
+
+###utils.invert( input )###
+Equivalent to nx.scale(input,0,1,1,0). Inverts a normalized (0-1) number.
+```js
+nx.invert(0.25) // returns 0.75
+nx.invert(0) // returns 1
+```
+
+
+**input**:  *float*,  value]
+
+###utils.mtof( MIDI )###
+MIDI to frequency conversion. Returns frequency in Hz.
+```js
+nx.mtof(69) // returns 440
+```
+
+
+**MIDI**:  *float*,  MIDI value to convert
+
+###utils.random( scale )###
+Returns a random integer between 0 a given scale parameter.
+```js
+nx.random(10) // returns a random number from 0 to 9.
+```
+
+
+**scale**:  *float*,  Upper limit of random range.
+
 banner
 --------
 "Powered by NexusUI" tag with a link to our website. Use it if you want to share the positive vibes of NexusUI. Thanks for using!
@@ -306,10 +429,27 @@ banner
 ```
 <canvas nx="banner" style="margin-left:25px"></canvas>
 
+####Properties####
+###banner.message1###
+ *string*<br> The first line of text on the banner.
+
+
+###banner.message2###
+ *string*<br> The second line of text on the banner.
+
+
+###banner.link###
+ *string*<br> The URL the banner will link to.
+
+
+###banner.isLink###
+ *boolean*<br> Whether or not the banner is a hyperlink. Defaults to true.
+
+
+
 button
 --------
-Touch button with three modes of interaction
-<br><a href="../examples/button/" target="blank">Demo</a>
+Touch button with three modes of interaction ("toggle", "impulse", and "aftertouch").
 ```html
 <canvas nx="button"></canvas>
 ```
@@ -322,28 +462,44 @@ Touch button with three modes of interaction
 | &nbsp; | data
 | --- | ---
 | *press* | 0 (clicked) or 1 (unclicked)
-| *x* | 0-1 float of x-position of click ("node" mode only)
-| *y* | 0-1 float of y-position of click ("node" mode only)
-val appears as the argument of the JavaScript response function:
+| *x* | 0-1 float of x-position of click ("aftertouch" mode only)
+| *y* | 0-1 float of y-position of click ("aftertouch" mode only)
+
+When the widget is interacted with, val is sent as the output data for the widget.
 ```js
-button1.response = function(data) {
+button1.on('*', function(data) {
 // some code using data.press, data.x, and data.y
-}
+});
+```
+Or, if NexusUI is outputting OSC (e.g. if nx.sendsTo("ajax")), val will be broken into OSC messages:
+```html
+/button1/press 1
+/button1/x 37
+/button1/y 126
 ```
  
 ###button.mode###
- *string*<br> Interaction mode of impulse, toggle, or position
+ *string*<br> Interaction mode. Options:
 
-impulse &nbsp; 1 on click <br>
-toggle &nbsp;  1 on click, 0 on release _(default)_<br>
-position &nbsp; 1, x, y on click; 1, x, y on move; 0, x, y on release <br>
+<b>impulse</b> &nbsp; 1 on click <br>
+<b>toggle</b> &nbsp;  1 on click, 0 on release _(default)_<br>
+<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release <br>
 ```js
-button1.mode = "position"
+button1.mode = "aftertouch"
 ```
  
 
 ####Methods####
-###button.setImage(  )###
+###button.setImage( src )###
+Turns the button into an image button with custom image. Sets the default (unclicked) button image.
+
+**src**:  *string*,  Image source
+
+###button.setTouchImage( src )###
+Sets the image that will show when the button is clicked.
+
+**src**:  *string*,  Image source
+
 colors
 --------
 Color picker that outputs RBG values
@@ -353,8 +509,12 @@ Color picker that outputs RBG values
 <canvas nx="colors" style="margin-left:25px"></canvas>
 
 ####Properties####
+###colors.saturation###
+ *float*<br> Saturation percentage of the color picker (0-100)
+
+
 ###colors.val###
- *object*<br> Main output, RBG color value at mouse position
+ *object*<br> RGB color value at mouse position. <br> This is also the widget's data output (See <a href="#nexusui-api-widget-widgetval">widget.val</a>). <br> Properties:
 
 | &nbsp; | data
 | --- | ---
@@ -362,7 +522,7 @@ Color picker that outputs RBG values
 | *g* | green value 0-256
 | *b* | blue value 0-256
 ```js
-colors1.response = function(data) {
+colors1.on('*', function(data) {
 // some code using data.r, data.g, and data.b
 }
 ```
@@ -370,7 +530,7 @@ colors1.response = function(data) {
 
 comment
 ---------
-Comment area with settable text
+Text comment
 ```html
 <canvas nx="comment"></canvas>
 ```
@@ -386,13 +546,16 @@ Comment area with settable text
 | *text* | text of comment area (as string)
 ```js
 comment1.val.text = "This is my comment"
+comment1.draw()
 ```
  
 
 ####Methods####
-###comment.setSize(  )###
-text size in pixels
+###comment.setSize( size )###
+Set the font size of the comment text
 
+
+**size**:  *integer*,  Text size in pixels
 
 dial
 ------
@@ -404,9 +567,23 @@ Circular dial
 
 ####Properties####
 ###dial.val###
- *float*<br> Current value of dial as float 0-1<br>
+ *object*<br> 
 
 
+| &nbsp; | data
+| --- | ---
+| *value* | Current value of dial as float 0-1
+ 
+###dial.responsivity###
+ *float*<br> How much the dial increments on drag. Default: 0.005<br>
+
+
+
+####Methods####
+###dial.animate( type )###
+Animates the dial
+
+**type**:  *string*,  Type of animation. Currently accepts "bounce" (bounces between mousedown and mouserelease points) or "none"
 
 envelope
 ----------
@@ -417,6 +594,18 @@ Three-point line ramp generator
 <canvas nx="envelope" style="margin-left:25px"></canvas>
 
 ####Properties####
+###envelope.active###
+ *boolean*<br> Whether or not the envelope is currently animating.
+
+
+###envelope.duration###
+ *integer*<br> The envelope's duration in ms.
+
+
+###envelope.looping###
+ *boolean*<br> Whether or not the envelope loops.
+
+
 ###envelope.val###
  *object*<br> 
 
@@ -424,7 +613,17 @@ Three-point line ramp generator
 | &nbsp; | data
 | --- | ---
 | *amp* | amplitude at current point of ramp (float 0-1)
+| *index* | current progress through ramp (float 0-1)
+| *x* | x of envelope peak point (float 0-1)
+| *y* | y of envelope peak point (float 0-1)
  
+
+####Methods####
+###envelope.start(  )###
+Start ramp from beginning. If set to loop, will loop the ramp until stopped.
+
+###envelope.stop(  )###
+Stop the ramp and set progress to 0.
 
 joints
 --------
@@ -448,6 +647,17 @@ joints
 | *node2* | nearness to third node if within range (float 0-1)
 | etc... | &nbsp;
 
+ 
+###joints.joints###
+ *array*<br> An array of objects with x and y properties detailing coordinates of each proximity node.
+
+```js
+// The widget will now have only 2 proximity points, instead of 8
+joints1.joints = [
+&nbsp; { x: 20 , y: 100 },
+&nbsp; { x: 75 , y: 150 }
+]
+```
  
 
 keyboard
