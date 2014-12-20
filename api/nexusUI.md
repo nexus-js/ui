@@ -275,6 +275,7 @@ Returns the widget's constructor function name (i.e. "dial")
 
 
 ###widget.set( data, transmit )###
+Manually set a widget's value (that is, set any properties of a widget's .val). See widget.val or the .val property of individual widgets for more info.
 Sets the value of an object.
 
 ```js
@@ -660,17 +661,51 @@ joints1.joints = [
 ```
  
 
+####Methods####
+###joints.animate( type )###
+Add simple physics to the widget
+
+
+**type**:  *string*,  Currently accepts "bounce" or "none".
+
 keyboard
 ----------
-Piano keyboard which outputs midi pairs
+Piano keyboard which outputs midi data
 ```html
 <canvas nx="keyboard"></canvas>
 ```
 <canvas nx="keyboard" style="margin-left:25px"></canvas>
 
 ####Properties####
+###keyboard.octaves###
+ *integer*<br> Number of octaves on the keyboard
+
+
+###keyboard.keypattern###
+ *array*<br> Array of 'w' and 'b' denoting the pattern of white and black keys. This can be customized! The pattern can be any number of keys, however each black key must be surrounded by two white keys.
+
+```js
+//This key pattern would put a black key between every white key
+keyboard1.keypattern = ['w','b','w','b','w','b','w','b','w','b','w','b']
+keyboard1.init()
+
+//This key pattern uses only white keys
+keyboard2.keypattern = ['w','w','w','w','w','w','w','w','w','w','w','w']
+keyboard2.init()
+```
+
+
+ 
+###keyboard.midibase###
+ *integer*<br> The MIDI note value of the lowest note on the keyboard. Defaults to 48.
+
+
+###keyboard.mode###
+ *string*<br> Play mode. Currently accepts "button" (default) or "sustain" in which each key acts as a toggle.
+
+
 ###keyboard.val###
- *object*<br> Core values and data output
+ *object*<br> Core interactive values and data output
 
 | &nbsp; | data
 | --- | ---
@@ -678,10 +713,27 @@ Piano keyboard which outputs midi pairs
 | *note* | MIDI value of key pressed
 | *midi* | paired MIDI message as a string - example "20 0" - This is to allow for simultaneous arrival of the MIDI pair if sent as an OSC message.
  
+###keyboard.keys###
+ *array*<br> Array of key objects. This may be of use in combination with the keyboard.toggle method.
+
+
+
+####Methods####
+###keyboard.toggle( key, on/off )###
+Manually toggle a key on or off, and transmit the new state.
+```js
+// Turns the first key on
+keyboard1.toggle( keyboard1.keys[0], true );
+```
+
+
+**key**:  *object*,  A key object (from the .keys array) to be turned on or off
+
+**on/off**:  *boolean*,  (Optional) Whether the key should be turned on (true) or off (false). If this parameter is left out, the key will switch to its opposite state.
 
 matrix
 --------
-Matrix with scalable values and sequencer functionality.
+Matrix of toggles, with sequencer functionality.
 ```html
 <canvas nx="matrix"></canvas>
 ```
@@ -693,7 +745,7 @@ Matrix with scalable values and sequencer functionality.
 
 ```js
 matrix1.row = 2;
-matrix1.draw()
+matrix1.init()
 ```
  
 ###matrix.col###
@@ -701,15 +753,20 @@ matrix1.draw()
 
 ```js
 matrix1.col = 10;
-matrix1.draw()
+matrix1.init()
 ```
  
 ###matrix.matrix###
- *array*<br> Nested array of matrix values.
+ *array*<br> Nested array of matrix values. Cells can be manually altered using .matrix (see code), however this will *not* cause the new value to be transmit. See .setCell() to set/transmit cell values.
 
 ```js
-//change row 1 column 2 to value 0.5
-matrix1.matrix[1][2] = 0.5
+//Turn on the cell at row 1 column 2
+matrix1.matrix[1][2] = 1
+matrix1.draw()
+
+
+//Turn off the cell at row 3 column 0
+matrix1.matrix[3][0] = 0
 matrix1.draw()
 ```
  
@@ -722,8 +779,20 @@ matrix1.draw()
 | *col* | Current column being changed
 | *value* | New value of matrix point (0-1 float)
  
+###matrix.erasing###
+ *boolean*<br> Whether or not mouse clicks will erase cells. Set to true automatically if you click on an "on" cell.
+
+
+###matrix.place###
+ *integer*<br> When sequencing, the current column.
+
+
+###matrix.sequenceMode###
+ *string*<br> Sequence pattern (currently accepts "linear" which is default, or "random")
+
+
 ###matrix.bpm###
- *integer*<br> Beats per minute (if in sequence mode)
+ *integer*<br> Beats per minute (if sequencing)
 
 ```js
 matrix1.bpm = 120;
@@ -731,7 +800,22 @@ matrix1.bpm = 120;
  
 
 ####Methods####
-###matrix.sequence( bpm, obj, opts, ctor, superCtor )###
+###matrix.setCell( col, row, on/off )###
+Manually set an individual cell on/off and transmit the new value.
+
+```js
+// Turns cell on at column 1 row 3
+matrix1.setCell(1,3,true);
+```
+
+
+**col**:  *integer*,  The column of the cell to be turned on/off
+
+**row**:  *integer*,  The row of the cell to be turned on/off
+
+**on/off**:  *boolean*,  Whether the cell should be turned on/off
+
+###matrix.sequence( bpm )###
 Turns the matrix into a sequencer.
 
 ```js
@@ -739,16 +823,7 @@ matrix1.sequence(240);
 ```
 
 
-**bpm**:  *Beats per minute of the pulse*,  
-
-
-**obj**:  *Object*,  The object to print out.
-
-**opts**:  *Object*,  Optional options object that alters the output.
-
-**ctor**:  *function*,  Constructor function which needs to inherit the
-
-**superCtor**:  *function*,  Constructor function to inherit prototype from.
+**bpm**:  *float*,  Beats per minute of the pulse
 
 message
 ---------
@@ -767,25 +842,36 @@ Send a string of text.
 | --- | ---
 | *value* | Text of message, as string
  
+###message.size###
+ *integer*<br> Text size in px
 
-position
-----------
-Two-dimensional touch slider.
+
+
+metro
+-------
+Bouncing ball metronome
 ```html
-<canvas nx="position"></canvas>
+<canvas nx="metro"></canvas>
 ```
-<canvas nx="position" style="margin-left:25px"></canvas>
+<canvas nx="metro" style="margin-left:25px"></canvas>
 
 ####Properties####
-###position.val###
+###metro.val###
  *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
-| *x* | x position of slider (float 0-1)
-| *y* | y position of slider (float 0-1)
+| *beat* | Which side the ball is bouncing on (0 if left, 1 if right)
  
+###metro.speed###
+ *float*<br> Speed of the ball (default 1)
+
+
+###metro.orientation###
+ *string*<br> Orientation of metro. Default is "horizontal".
+
+
 
 mouse
 -------
@@ -810,22 +896,37 @@ Mouse tracker, relative to web browser window.
 
 multislider
 -------------
-Multiple vertical sliders in one interface (multitouch compatible)
+Multiple vertical sliders in one interface.
 ```html
 <canvas nx="multislider"></canvas>
 ```
 <canvas nx="multislider" style="margin-left:25px"></canvas>
 
 ####Properties####
-###multislider.val###
- *object*<br> 
+###multislider.sliders###
+ *integer*<br> Number of sliders in the multislider. (Must call .init() after changing this setting, or set with .setNumberOfSliders)
 
+
+###multislider.val###
+ *array*<br> Array of slider values. <br> **Note:** This widget's output is not .val! Transmitted output is:
 
 | &nbsp; | data
 | --- | ---
 | *(slider index)* | value of currently changed slider
 | list | all multislider values as list. (if the interface sends to js or node, this list will be an array. if sending to ajax, max7, etc, the list will be a string of space-separated values)
+
  
+
+####Methods####
+###multislider.setNumberOfSliders( num )###
+**num**:  *integer*,  New number of sliders in the multislider
+
+###multislider.setSliderValue( slider, value )###
+Sets a slider to new value and transmits.
+
+**slider**:  *integer*,  Slider to set (slider index starts at 0)
+
+**value**:  *integer*,  New slider value
 
 multitouch
 ------------
@@ -848,14 +949,35 @@ Multitouch 2d-slider with up to 5 points of touch.
 | *touch2.y* | y position of second touch (if 2 touches)
 | *etc* | &nbsp;
  
+###multitouch.text###
+ *string*<br> Text that will show when object is static
+
+
 ###multitouch.mode###
- *object*<br> "normal" or "matrix"
+ *string*<br> "normal" or "matrix" mode. "matrix" mode has a GUI of discrete touch areas.
 
 
+###multitouch.rows###
+ *integer*<br> How many rows in the matrix (matrix mode only)
+
+
+###multitouch.cols###
+ *integer*<br> How many rows in the matrix (matrix mode only)
+
+
+###multitouch.matrixLabels###
+ *array*<br> An array of strings that can provide text labels on cells of the matrix. If shorter than the matrix cells, the array will repeat.
+
+```
+this.mode = "matrix"
+this.matrixLabels = [ "A", "A#", "B", "C" ]
+this.init();
+```
+ 
 
 number
 --------
-number box
+Number box
 ```html
 <canvas nx="number"></canvas>
 ```
@@ -863,9 +985,20 @@ number box
 
 ####Properties####
 ###number.val###
- *float*<br> float value of number box
+ *object*<br> 
 
 
+| &nbsp; | data
+| --- | ---
+| *value* | Number value
+
+```js
+// Sets number1.val.value to 20
+number1.set({
+value: 20
+})
+```
+ 
 
 position
 ----------
@@ -876,6 +1009,10 @@ Two-dimensional touch slider.
 <canvas nx="position" style="margin-left:25px"></canvas>
 
 ####Properties####
+###position.nodeSize###
+ *integer*<br> Size of touch node graphic.
+
+
 ###position.val###
  *object*<br> 
 
@@ -886,9 +1023,16 @@ Two-dimensional touch slider.
 | *y* | y position of slider (float 0-1)
  
 
+####Methods####
+###position.animate( type )###
+Adds animation to the widget.
+
+
+**type**:  *string*,  Type of animation. Currently accepts "none" or "bounce", in which case the touch node can be tossed and bounces.
+
 range
 -------
-Range Slider
+Range slider
 ```html
 <canvas nx="range"></canvas>
 ```
@@ -896,8 +1040,7 @@ Range Slider
 
 ####Properties####
 ###range.val###
- *object*<br> 
-
+ *object*<br> Object containing core interactive aspects of widget, which are also its data output. Has the following properties:
 
 | &nbsp; | data
 | --- | ---
@@ -905,23 +1048,39 @@ Range Slider
 | *stop* | Range end value (float 0-1)
 | *size* | Distance between ends (float 0-1)
  
+###range.hslider###
+ *boolean*<br> Whether or not the slider is a horizontal slider. Default is false, but set automatically to true if the slider is wider than it is tall.
+
+
+###range.mode###
+ *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the range individually. "area" mode (default) lets you drag the range as a whole (with parallel mouse movement) or scale the range as a whole (with transverse mouse movement)
+
+
 
 select
 --------
-HTML-style option selector. Outputs the chosen text string.
+HTML-style option selector. Outputs the chosen text string. <br> **Note:** Currently the canvas is actaully replaced by an HTML select object. Any inline style on your canvas may be lost in this transformation. To style the resultant select element, we recommend creating CSS styles for the select object using its ID or the select tag.
 ```html
 <canvas nx="select" choices="sine,saw,square"></canvas>
 ```
-<canvas nx="select" choices="sine,saw,square" style="margin-left:25px"></canvas>
+<canvas nx="select" choices="sine,saw,square"></canvas>
 
 ####Properties####
+###select.choices###
+ *array*<br> Desired choices, as an array of strings. Can be initialized with a "choices" HTML attribute of comma-separated text (see example above).
+
+```js
+select1.choices = ["PartA", "PartB", "GoNuts"]
+select1.init()
+```
+ 
 ###select.val###
  *object*<br> 
 
 
 | &nbsp; | data
 | --- | ---
-| *text* | Text string of option chosen
+| *value* | Text string of option chosen
  
 
 slider
@@ -934,58 +1093,86 @@ Slider (vertical or horizontal)
 
 ####Properties####
 ###slider.val###
- *float*<br> Slider value (float 0-1)
+ *object*<br> 
 
 
+| &nbsp; | data
+| --- | ---
+| *value* | Slider value (float 0-1)
+ 
 ###slider.mode###
- *string*<br> Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
+ *string*<br> Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it will not.
 
 ```js
 nx.onload = function() {
-// Slider will not jump to touch position.
-slider1.mode = "relative"
+&nbsp; // Slider will not jump to touch position.
+&nbsp; slider1.mode = "relative"
 }
 ```
  
 ###slider.hslider###
- *boolean*<br> Whether or not the slider should be horizontal. This is set to true *automatically* if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
+ *boolean*<br> Whether or not the slider should be horizontal. This is set to true automatically if the canvas is wider than it is tall. To override the default decision, set this property to true to create a horizontal slider, or false to create a vertical slider.
 
 ```js
 nx.onload = function() {
-//forces horizontal slider
-slider1.hslider = true
-//forces vertical slider
-slider2.hslider = false
+&nbsp; //forces horizontal slider
+&nbsp; slider1.hslider = true
+&nbsp; slider1.draw();
+&nbsp; //forces vertical slider
+&nbsp; slider2.hslider = false
+&nbsp; slider2.draw();
 }
 ```
  
 
 string
 --------
-In progress* Fun animated model of a plucked string interface.
+Animated model of a plucked string interface.
 ```html
 <canvas nx="string"></canvas>
 ```
 <canvas nx="string" style="margin-left:25px"></canvas>
 
+####Properties####
+###string.val###
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *string* | Index of the string that is plucked (starts at 0)
+| *x* | Where on the string the pluck occured (float 0-1);
+ 
+###string.numberOfStrings###
+ *integer*<br> How many strings in the widget. We recommend setting this property with .setStrings()
+
+
+###string.friction###
+ *integer*<br> How quickly the string slows down
+
+
+
 tilt
 ------
-Mobile and Mac/Chrome compatible tilt sensor.
+Mobile and Mac/Chrome-compatible tilt sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
+We recommend not calling .init() on this object after the original initialization, because it will add additional redundant tilt listeners to your document.
 ```html
 <canvas nx="tilt"></canvas>
 ```
 <canvas nx="tilt" style="margin-left:25px"></canvas>
 
 ####Properties####
-###tilt.val###
- *object*<br> 
+###tilt.active###
+ *boolean*<br> Whether or not the tilt widget is on (animating and transmitting data).
 
+
+###tilt.val###
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
 
 | &nbsp; | data
 | --- | ---
 | *x* | X-axis rotation if supported (-1 to 1)
 | *y* | Y-axis rotation if supported (-1 to 1)
-| *z* | Z-axis rotation if supported (-1 to 1 or possible 0 to 360)
+| *z* | Z-axis rotation if supported (-1 to 1 or possibly 0 to 360 depending on device)
  
 ###tilt.text###
  *string*<br> Text shown on tilt object
@@ -1002,22 +1189,28 @@ On/off toggle
 
 ####Properties####
 ###toggle.val###
- *integer*<br> 0 if off, 1 if on
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
 
-
+| &nbsp; | data
+| --- | ---
+| *value*| 1 if on, 0 if off
+ 
 
 typewriter
 ------------
-Computer keyboard listener and visualization. (Desktop only)
+Computer keyboard listener and visualization. (Desktop only) <br> **Note:** Clicking on the widget toggles it inactive or active, which can be useful if you need to temporarily type without triggering the widget's events.
 ```html
 <canvas nx="typewriter"></canvas>
 ```
 <canvas nx="typewriter" style="margin-left:25px"></canvas>
 
 ####Properties####
-###typewriter.val###
- *object*<br> 
+###typewriter.active###
+ *boolean*<br> Whether or not the widget is on (listening for events and transmitting values).
 
+
+###typewriter.val###
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
 
 | &nbsp; | data
 | --- | ---
@@ -1028,15 +1221,26 @@ Computer keyboard listener and visualization. (Desktop only)
 
 vinyl
 -------
-Record scratcher *in progress*
+For the boom bap
 ```html
 <canvas nx="vinyl"></canvas>
 ```
 <canvas nx="vinyl" style="margin-left:25px"></canvas>
 
 ####Properties####
+###vinyl.speed###
+<br> The rotation increment. Default is 0.05. Not to be confused with .val.speed (see below) which is the data output. During rotation, .speed will always move towards .defaultSpeed
+
+
+###vinyl.defaultSpeed###
+<br> The "steady-state" rotation increment. Default is 0.05. During rotation, if .speed is changed, it will gradually move towards this.
+
+
 ###vinyl.val###
- *float*<br> forthcoming<br>
+ *float*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
 
-
+| &nbsp; | data
+| --- | ---
+| *speed*| Current speed of the record player's rotation (normal is 1)
+ 
 
