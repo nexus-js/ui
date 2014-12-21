@@ -1992,7 +1992,6 @@ function multislider(target, transmitCommand) {
 		| &nbsp; | data
 		| --- | ---
 		| *(slider index)* | slider value
-		| list | all multislider values as list
 	*/
 	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
@@ -2092,10 +2091,7 @@ function multislider(target, transmitCommand) {
 		}
 		var msg = new Object()
 		msg[sliderToMove] = self.val[sliderToMove]
-		msg["list"] = new String();
-		for (var key in self.val) { msg["list"] += self.val[key] + " " }
 		self.nxTransmit(msg);
-		console.log(msg);
 		
 	}
 	
@@ -3742,9 +3738,9 @@ function toggle(target, transmitCommand) {
 			
 		} else {
 			with (this.context) {
-				fillStyle = self.colors.white
-				font = "bold "+self.fontsize+"px gill sans"
-				textAlign = "center"
+				fillStyle = self.colors.white;
+				font = "bold "+self.fontsize+"px gill sans";
+				textAlign = "center";
 				if (self.val) {
 					fillText("on", this.canvas.width/2, this.canvas.height/2 + self.fontsize/3.5 );	
 				} else {

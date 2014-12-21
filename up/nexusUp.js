@@ -6,19 +6,9 @@ outlets = 1;
 
 var uiObjects = new Array;
 var ourself = this.box;
-var uipatch, thisfolder;
 
-function getParent() {
-	if (this.patcher.parentpatcher) {
-		uipatch = this.patcher.parentpatcher;
-		post("nexusUp loaded for " + uipatch.name + ".maxpat");
-		thisfolder = uipatch.filepath;
-		thisfolder = thisfolder.replace(uipatch.name+".maxpat", "");
-	}
-}
-
-getParent()
-
+var uipatch = this.patcher.parentpatcher;
+post("nexusUp loaded for " + uipatch.name + ".maxpat");
 
 // Matches MAX OBJ CLASS on left to NEXUS OBJ NAME on right
 var nexusUISupportedObjects = {
@@ -44,6 +34,11 @@ var nexusUISupportedObjects = {
 
 var ipAddress = "localhost";
 var serverAddress = "Macintosh HD:/Users/allison/Sites/";
+
+
+
+var thisfolder = uipatch.filepath;
+thisfolder = thisfolder.replace(uipatch.name+".maxpat", "");
 
 
 function makeUI() {
@@ -102,11 +97,8 @@ function getQRCode()
 
 function setElement(oscName, oscVal)
 {
-	var oscArray = oscName.split("/");
-	oscName = oscArray[1].replace("/","");
+	oscName = oscName.replace("/","");
 	var elemToSet = uipatch.getnamed(oscName);
-//	post(elemToSet);
-	post(oscName);
 	var elemType = nexusUISupportedObjects[elemToSet.maxclass];
 	//very odd -- it works if i scale with size
 	//but not if i also scale with minimum (i.e. oscVal + elemToSet.getattr("min"))
@@ -136,32 +128,19 @@ function setElement(oscName, oscVal)
 			elemToSet.message("bang");
 			break;
 		case "number":
-			post("test ");
-			elemToSet.message("float",oscVal);
+			elemToSet.message("int",parseInt(oscVal));
 			break;
 		case "multislider":
-		//	oscVal = oscVal.split(" ");
+			oscVal = oscVal.split(" ");
 			//setminmax attribute is an array of the min and max of the multislider
-		
 			var minmax = elemToSet.getattr("setminmax");
-
-		// these commented lines are an attempt to set slider individually
-		// why not working???	
-		//	var newval = oscVal*(minmax[1]-minmax[0]) + minmax[0];
-		//	elemToSet.message("list", "select", parseInt(oscArray[2]), newval);
-		//	post("test", "set " + parseInt(oscArray[2]) + " " + newval);
-
-		//sets the multislider as a list
-			if (oscArray[2]=="list") {
-				var evstr = 'elemToSet.message("list"';
-				for (var i=0;i<oscVal.length;i++) {
-					oscVal[i] = oscVal[i]*(minmax[1]-minmax[0]) + minmax[0];
-					evstr += ','+oscVal[i];
-				}
-				evstr += ');';
-			//evaluating this string is crashing max. unclear why.
-			//	eval(evstr);
+			var evstr = 'elemToSet.message("list"';
+			for (var i=0;i<oscVal.length;i++) {
+				oscVal[i] = oscVal[i]*(minmax[1]-minmax[0]) + minmax[0];
+				evstr += ','+oscVal[i];
 			}
+			evstr += ');';
+			eval(evstr);
 			break;
 		case "tilt":
 			oscVal = oscVal.split(",");
