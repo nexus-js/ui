@@ -24,12 +24,12 @@
 
   <!-- Flatdoc -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src='http://rstacruz.github.io/flatdoc/v/0.8.1/legacy.js'></script>
-  <script src='http://rstacruz.github.io/flatdoc/v/0.8.1/flatdoc.js'></script>
+  <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/legacy.js'></script>
+  <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/flatdoc.js'></script>
 
   <!-- Flatdoc theme -->
-  <link  href='http://rstacruz.github.io/flatdoc/v/0.8.1/theme-white/style.css' rel='stylesheet'>
-  <script src='http://rstacruz.github.io/flatdoc/v/0.8.1/theme-white/script.js'></script>
+  <link  href='style.css' rel='stylesheet'>
+  <script src='script.js'></script>
 
   <!-- Meta -->
   <meta content="NexusUI" property="og:title">
@@ -38,15 +38,33 @@
   <!-- Initializer -->
   <script>
     Flatdoc.run({
-     // fetcher: Flatdoc.github('lsu-emdm/NexusUI', 'api/nexusUI.md')
-      //fetcher: Flatdoc.github('taylorbf/nxui-package', 'api/nexusUI.md')
-      fetcher: Flatdoc.file( 'nexusUI.md' )
+      fetcher: Flatdoc.file('nexusUI.md')
     });
 
     $(document).on('flatdoc:ready', function() {
 
-      // transformCanvases();
+      $('ul.level-2 li a:contains("class")').each(function(){
+          $(this).html($(this).html().split("class").join(""));
+      });
+      $('.menubar').css("overflow","scroll");
+      $('h1,h2,h3,h4,h5').css("text-transform","none");
     });
+
+    var sidefix = false;
+    window.onscroll = function scroll () {
+
+      if (window.pageYOffset>51 && !sidefix) {
+        $('.menubar').css("position","fixed");
+        sidefix = true;
+      } else if (window.pageYOffset<51 && sidefix) {
+        $('.menubar').css("position","absolute");
+        sidefix = false;
+      }
+    }
+
+    nx.onload = function() {
+      nx.colorize("#0dc")
+    }
   </script>
 </head>
 <body role='flatdoc'>
@@ -55,12 +73,14 @@
     <div class='left'>
       <h1>NexusUI</h1>
       <ul>
-        <li><a href='https://github.com/lsu-emdm/NexusUI'>View on GitHub</a></li>
-        <li><a href='https://github.com/lsu-emdm/NexusUI/issues'>Issues</a></li>
+        <li><a href='https://github.com/lsu-emdm/nexusUI'>View on GitHub</a></li>
+        <li><a href='https://github.com/lsu-emdm/nexusUI/issues'>Issues</a></li>
       </ul>
     </div>
     <div class='right'>
-      <iframe src="http://ghbtns.com/github-btn.html?user=taylorbf&amp;repo=NexusUI&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+      <!-- GitHub buttons: see http://ghbtns.com 
+       -->
+      <iframe src="http://ghbtns.com/github-btn.html?user=lsu-emdm&amp;repo=nexusUI&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
     </div>
   </div>
 

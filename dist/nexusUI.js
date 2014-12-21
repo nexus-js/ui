@@ -41,7 +41,7 @@ window.onload = function() {
 /** 
   @title NexusUI API
   @overview NexusUI is a JavaScript toolkit for easily creating musical interfaces in web browsers. Interfaces are rendered on HTML5 canvases and are ideal for web audio projects, mobile apps, or for sending OSC to external audio applications like Max.
-  @author Ben Taylor, Jesse Allison, Yemin Oh, Sebastien Piquemal
+  @author Ben Taylor, Jesse Allison, Yemin Oh, Sébastien Piquemal
   @copyright &copy; 2011-2014
   @license MIT
  */ 
@@ -811,6 +811,9 @@ widget.prototype.saveCanv = function() {
 /** @method findPosition 
     Returns the offset of an HTML element. Returns an object with 'top' and 'left' properties.
     @param {DOM element} [element] 
+    ```js
+    var button1Offset = nx.findPosition(button1.canvas)
+    ```
 */
 exports.findPosition = function(element) {
   var body = document.body,
@@ -956,6 +959,9 @@ exports.text = function(context, text, position) {
     Receives cartesian coordinates and returns polar coordinates as an object with 'radius' and 'angle' properties.
     @param {float} [x] 
     @param {float} [y] 
+    ```js
+    var ImOnACircle = nx.toPolar({ x: 20, y: 50 }})
+    ```
 */
 exports.toPolar = function(x,y) {
   var r = Math.sqrt(x*x + y*y);

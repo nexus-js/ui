@@ -2,7 +2,7 @@ NexusUI API
 ===========
 *&copy; 2011-2014*
 
-**Author:** Ben Taylor, Jesse Allison, Yemin Oh, Sebastien Piquemal
+**Author:** Ben Taylor, Jesse Allison, Yemin Oh, Sébastien Piquemal
 
 **Overview:** NexusUI is a JavaScript toolkit for easily creating musical interfaces in web browsers. Interfaces are rendered on HTML5 canvases and are ideal for web audio projects, mobile apps, or for sending OSC to external audio applications like Max.
 
@@ -51,32 +51,32 @@ nx.sendsTo(function(data) {
 ```
 
 
-**destination**:  *string or function*,  Protocol for transmitting data from interfaces (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
+**destination** &nbsp;  *string or function* &nbsp;  Protocol for transmitting data from interfaces (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
 
 ###nx.setAjaxPath( path )###
-**path**:  *string*,  If sending via AJAX, define the path to ajax destination
+**path** &nbsp;  *string* &nbsp;  If sending via AJAX, define the path to ajax destination
 
 ###nx.add( type, settings )###
 Adds a NexusUI element to the webpage. This will create an HTML5 canvas and draw the interface on it.
 
 
-**type**:  *string*,  NexusUI widget type (i.e. "dial").
+**type** &nbsp;  *string* &nbsp;  NexusUI widget type (i.e. "dial").
 
-**settings**:  *object*,  (Optional.) Extra settings for the new widget. This settings object may have any of the following properties: x (integer in px), y, w (width), h (height), name (widget's OSC name and canvas ID), parent (the ID of the element you wish to add the canvas into). If no settings are provided, the element will be at default size and appended to the body of the HTML document.
+**settings** &nbsp;  *object* &nbsp;  (Optional.) Extra settings for the new widget. This settings object may have any of the following properties: x (integer in px), y, w (width), h (height), name (widget's OSC name and canvas ID), parent (the ID of the element you wish to add the canvas into). If no settings are provided, the element will be at default size and appended to the body of the HTML document.
 
 ###nx.transform( canvasID, type )###
 Transform an existing canvas into a NexusUI widget.
 
 
-**canvasID**:  *string*,  The ID of the canvas to be transformed.
+**canvasID** &nbsp;  *string* &nbsp;  The ID of the canvas to be transformed.
 
-**type**:  *string*,  (Optional.) Specify which type of widget the canvas will become. If no type is given, the canvas must have an nx attribute with a valid widget type.
+**type** &nbsp;  *string* &nbsp;  (Optional.) Specify which type of widget the canvas will become. If no type is given, the canvas must have an nx attribute with a valid widget type.
 
 ###nx.transmit( data )###
 The "output" instructions for sending a widget's data to another application or to a JS callback. Inherited by each widget and executed when each widget is interacted with or its value changes. Set using nx.sendsTo() to ensure that all widgets inherit the new function correctly.
 
 
-**data**:  *object*,  The data to be transmitted. Each property of the object will become its own OSC message. (This works with objects nested to up to 2 levels).
+**data** &nbsp;  *object* &nbsp;  The data to be transmitted. Each property of the object will become its own OSC message. (This works with objects nested to up to 2 levels).
 
 ###nx.colorize( aspect, color )###
 Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
@@ -88,15 +88,15 @@ nx.colorize("border", "#000000") // changes the border color
 
 
 
-**aspect**:  *string*,  Which part of ui to change, i.e. "accent" "fill", "border"
+**aspect** &nbsp;  *string* &nbsp;  Which part of ui to change, i.e. "accent" "fill", "border"
 
-**color**:  *string*,  Hex or rgb color code
+**color** &nbsp;  *string* &nbsp;  Hex or rgb color code
 
 ###nx.setThrottlePeriod( throttle )###
 Set throttle time of nx.throttle, which controls rapid network transmissions of widget data.
 
 
-**throttle**:  *integer*,  time] Throttle time in milliseconds.
+**throttle** &nbsp;  *integer* &nbsp;  time] Throttle time in milliseconds.
 
 ###nx.startPulse(  )###
 Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
@@ -113,13 +113,13 @@ Animation pulse which executes all functions stored in the nx.aniItems array.
 ###nx.setViewport( scale )###
 Set mobile viewport scale (similar to a zoom)
 
-**scale**:  *integer*,  Zoom ratio (i.e. 0.5, 1, 2)
+**scale** &nbsp;  *integer* &nbsp;  Zoom ratio (i.e. 0.5, 1, 2)
 
 ###nx.setLabels( on/off )###
 Tell all widgets whether or not draw text labels on widgets
 
 
-**on/off**:  *boolean*,  true to add labels, false to remove labels
+**on/off** &nbsp;  *boolean* &nbsp;  true to add labels, false to remove labels
 
 widget
 --------
@@ -214,21 +214,21 @@ dial1.sendsTo(function(data) {
 ```
 
 
-**destination**:  *string or function*,  Protocol for transmitting data from this widget (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
+**destination** &nbsp;  *string or function* &nbsp;  Protocol for transmitting data from this widget (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
 
 ###widget.transmit( data )###
 The "output" instructions for sending the widget's data to another application or to a JS callback. Inherited from nx.transmit and executed when each widget is interacted with or during animation. Set using .sendsTo() to use our built-in transmission defintions.
 
 
-**data**:  *object*,  The data to be transmitted. Each property of the object will become its own OSC message if sending via "ajax" or "max7" protocols. (This works with objects nested to up to 2 levels).
+**data** &nbsp;  *object* &nbsp;  The data to be transmitted. Each property of the object will become its own OSC message if sending via "ajax" or "max7" protocols. (This works with objects nested to up to 2 levels).
 
 ###widget.makeOSC( callback, data )###
 Loops through an object (i.e. a widget's data), creates OSC path/value pairs, and executes a callback function with these two arguments.
 
 
-**callback**:  *function*,  A function defining the action to be taken with each OSC path/value pair. This function should have two parameters, path (string) and data (type depends on widget data type).
+**callback** &nbsp;  *function* &nbsp;  A function defining the action to be taken with each OSC path/value pair. This function should have two parameters, path (string) and data (type depends on widget data type).
 
-**data**:  *object*,  The data as an object, to be broken into individual OSC messages.
+**data** &nbsp;  *object* &nbsp;  The data as an object, to be broken into individual OSC messages.
 
 ###widget.getOffset(  )###
 Recalculate the computed offset of the widget's canvas and store it in widget.offset. This is useful if a widget has been moved after being created.
@@ -293,9 +293,9 @@ button1.set({
 ```
 
 
-**data**:  *object*,  Parameter/value pairs in object notation.
+**data** &nbsp;  *object* &nbsp;  Parameter/value pairs in object notation.
 
-**transmit**:  *boolean*,  (optional) Whether or not to transmit new value after being set.
+**transmit** &nbsp;  *boolean* &nbsp;  (optional) Whether or not to transmit new value after being set.
 
 ###widget.destroy(  )###
 Remove the widget object, canvas, and all related event listeners from the document.
@@ -312,9 +312,12 @@ Shared utility functions. These functions are exposed as methods of nx in NexusU
 ####Methods####
 ###utils.findPosition( element )###
 Returns the offset of an HTML element. Returns an object with 'top' and 'left' properties.
+```js
+var button1Offset = nx.findPosition(button1.canvas)
+```
 
 
-**element**:  *DOM element*,  
+**element** &nbsp;  *DOM element* &nbsp;  
 
 
 ###utils.randomColor(  )###
@@ -325,28 +328,31 @@ Returns a random color string in rgb format
 Converts a hex color code to rgb format
 
 
-**hex**:  *color code*,  Input color code in hex format
+**hex** &nbsp;  *color code* &nbsp;  Input color code in hex format
 
-**alpha**:  *float*,  Color alpha level
+**alpha** &nbsp;  *float* &nbsp;  Color alpha level
 
 ###utils.toPolar( x, y )###
 Receives cartesian coordinates and returns polar coordinates as an object with 'radius' and 'angle' properties.
+```js
+var ImOnACircle = nx.toPolar({ x: 20, y: 50 }})
+```
 
 
-**x**:  *float*,  
+**x** &nbsp;  *float* &nbsp;  
 
 
-**y**:  *float*,  
+**y** &nbsp;  *float* &nbsp;  
 
 
 ###utils.toCartesian( radius, angle )###
 Receives polar coordinates and returns cartesian coordinates as an object with 'x' and 'y' properties.
 
 
-**radius**:  *float*,  
+**radius** &nbsp;  *float* &nbsp;  
 
 
-**angle**:  *float*,  
+**angle** &nbsp;  *float* &nbsp;  
 
 
 ###utils.clip( input, low, high )###
@@ -358,11 +364,11 @@ nx.clip(-1,0,10) // returns 0
 ```
 
 
-**input**:  *float*,  value]
+**input** &nbsp;  *float* &nbsp;  value]
 
-**low**:  *float*,  limit]
+**low** &nbsp;  *float* &nbsp;  limit]
 
-**high**:  *float*,  limit]
+**high** &nbsp;  *float* &nbsp;  limit]
 
 ###utils.prune( input, max )###
 Limits a float to within a certain number of decimal places
@@ -372,9 +378,9 @@ nx.prune(1.2345, 1) // returns 1.2
 ```
 
 
-**input**:  *float*,  value]
+**input** &nbsp;  *float* &nbsp;  value]
 
-**max**:  *integer*,  decimal places]
+**max** &nbsp;  *integer* &nbsp;  decimal places]
 
 ###utils.scale( input, low1, high1, low2, high2 )###
 Scales an input number to a new range of numbers
@@ -384,15 +390,15 @@ nx.scale(5,0,10,1,2) // returns 1.5
 ```
 
 
-**input**:  *float*,  value]
+**input** &nbsp;  *float* &nbsp;  value]
 
-**low1**:  *float*,  input range (low)
+**low1** &nbsp;  *float* &nbsp;  input range (low)
 
-**high1**:  *float*,  input range (high)
+**high1** &nbsp;  *float* &nbsp;  input range (high)
 
-**low2**:  *float*,  output range (low)
+**low2** &nbsp;  *float* &nbsp;  output range (low)
 
-**high2**:  *float*,  output range (high)
+**high2** &nbsp;  *float* &nbsp;  output range (high)
 
 ###utils.invert( input )###
 Equivalent to nx.scale(input,0,1,1,0). Inverts a normalized (0-1) number.
@@ -402,7 +408,7 @@ nx.invert(0) // returns 1
 ```
 
 
-**input**:  *float*,  value]
+**input** &nbsp;  *float* &nbsp;  value]
 
 ###utils.mtof( MIDI )###
 MIDI to frequency conversion. Returns frequency in Hz.
@@ -411,7 +417,7 @@ nx.mtof(69) // returns 440
 ```
 
 
-**MIDI**:  *float*,  MIDI value to convert
+**MIDI** &nbsp;  *float* &nbsp;  MIDI value to convert
 
 ###utils.random( scale )###
 Returns a random integer between 0 a given scale parameter.
@@ -420,7 +426,7 @@ nx.random(10) // returns a random number from 0 to 9.
 ```
 
 
-**scale**:  *float*,  Upper limit of random range.
+**scale** &nbsp;  *float* &nbsp;  Upper limit of random range.
 
 banner
 --------
@@ -494,12 +500,12 @@ button1.mode = "aftertouch"
 ###button.setImage( src )###
 Turns the button into an image button with custom image. Sets the default (unclicked) button image.
 
-**src**:  *string*,  Image source
+**src** &nbsp;  *string* &nbsp;  Image source
 
 ###button.setTouchImage( src )###
 Sets the image that will show when the button is clicked.
 
-**src**:  *string*,  Image source
+**src** &nbsp;  *string* &nbsp;  Image source
 
 colors
 --------
@@ -556,7 +562,7 @@ comment1.draw()
 Set the font size of the comment text
 
 
-**size**:  *integer*,  Text size in pixels
+**size** &nbsp;  *integer* &nbsp;  Text size in pixels
 
 dial
 ------
@@ -584,7 +590,7 @@ Circular dial
 ###dial.animate( type )###
 Animates the dial
 
-**type**:  *string*,  Type of animation. Currently accepts "bounce" (bounces between mousedown and mouserelease points) or "none"
+**type** &nbsp;  *string* &nbsp;  Type of animation. Currently accepts "bounce" (bounces between mousedown and mouserelease points) or "none"
 
 envelope
 ----------
@@ -666,7 +672,7 @@ joints1.joints = [
 Add simple physics to the widget
 
 
-**type**:  *string*,  Currently accepts "bounce" or "none".
+**type** &nbsp;  *string* &nbsp;  Currently accepts "bounce" or "none".
 
 keyboard
 ----------
@@ -727,9 +733,9 @@ keyboard1.toggle( keyboard1.keys[0], true );
 ```
 
 
-**key**:  *object*,  A key object (from the .keys array) to be turned on or off
+**key** &nbsp;  *object* &nbsp;  A key object (from the .keys array) to be turned on or off
 
-**on/off**:  *boolean*,  (Optional) Whether the key should be turned on (true) or off (false). If this parameter is left out, the key will switch to its opposite state.
+**on/off** &nbsp;  *boolean* &nbsp;  (Optional) Whether the key should be turned on (true) or off (false). If this parameter is left out, the key will switch to its opposite state.
 
 matrix
 --------
@@ -809,11 +815,11 @@ matrix1.setCell(1,3,true);
 ```
 
 
-**col**:  *integer*,  The column of the cell to be turned on/off
+**col** &nbsp;  *integer* &nbsp;  The column of the cell to be turned on/off
 
-**row**:  *integer*,  The row of the cell to be turned on/off
+**row** &nbsp;  *integer* &nbsp;  The row of the cell to be turned on/off
 
-**on/off**:  *boolean*,  Whether the cell should be turned on/off
+**on/off** &nbsp;  *boolean* &nbsp;  Whether the cell should be turned on/off
 
 ###matrix.sequence( bpm )###
 Turns the matrix into a sequencer.
@@ -823,7 +829,7 @@ matrix1.sequence(240);
 ```
 
 
-**bpm**:  *float*,  Beats per minute of the pulse
+**bpm** &nbsp;  *float* &nbsp;  Beats per minute of the pulse
 
 message
 ---------
@@ -919,14 +925,14 @@ Multiple vertical sliders in one interface.
 
 ####Methods####
 ###multislider.setNumberOfSliders( num )###
-**num**:  *integer*,  New number of sliders in the multislider
+**num** &nbsp;  *integer* &nbsp;  New number of sliders in the multislider
 
 ###multislider.setSliderValue( slider, value )###
 Sets a slider to new value and transmits.
 
-**slider**:  *integer*,  Slider to set (slider index starts at 0)
+**slider** &nbsp;  *integer* &nbsp;  Slider to set (slider index starts at 0)
 
-**value**:  *integer*,  New slider value
+**value** &nbsp;  *integer* &nbsp;  New slider value
 
 multitouch
 ------------
@@ -1028,7 +1034,7 @@ Two-dimensional touch slider.
 Adds animation to the widget.
 
 
-**type**:  *string*,  Type of animation. Currently accepts "none" or "bounce", in which case the touch node can be tossed and bounces.
+**type** &nbsp;  *string* &nbsp;  Type of animation. Currently accepts "none" or "bounce", in which case the touch node can be tossed and bounces.
 
 range
 -------
