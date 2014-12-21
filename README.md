@@ -13,10 +13,12 @@
 
 ### How to Use NexusUI
 
-Download nexusUI.js and link to it in the head of your HTML document. (NexusUI can also be installed via npm or bower (npm install nexusui) and included in a project using CommonJS-style requires.)
+Download nexusUI.js (in the /dist folder of this repo) and link to it in the head of your HTML document. (NexusUI can also be installed via npm (npm install nexusui) and required in a project using CommonJS-style includes.)
 
 ```html
-<script src="nexusUI.js"></script>
+<head>
+   <script src="nexusUI.js"></script>
+</head>
 ```
 
 
@@ -65,20 +67,14 @@ position1.on('*', function(data) {
 
 In addition, the interface can send OSC data through a network to other audio applications (or anything that understands OSC). We offer templates for several server paradigms:
 
-[nx-AjaxDemo](http://www.github.com/lsu-emdm) offers a template for sending OSC via AJAX & PHP through a basic Apache server (Macs have one built-in, Windows users can use WAMP).
+[nx-AjaxDemo](http://www.github.com/lsu-emdm/nx-AjaxDemo) offers a template for sending OSC via AJAX & PHP through a basic Apache server (Macs have one built-in, Windows users can use WAMP).
 
-[nx-NodeDemo](http://www.github.com/lsu-emdm) offers a socket.io template for users of node.js. 
+[nx-max7](http://www.github.com/lsu-emdm/nx-max7) offers a max7 template for receiving data from a NexusUI embedded with [jweb]
 
-[nx-max7](http://www.github.com/lsu-emdm) offers a max7 template for receiving data from a NexusUI embedded with [jweb]
-
-[nx-webAudio](http://www.github.com/lsu-emdm) offers a basic web audio project using NexusUI.
+[nx-webAudio](http://www.github.com/lsu-emdm/nx-webAudio) offers a basic web audio project using NexusUI.
 
 
 #### Additional NexusUI Tools
-
-[nexusDrop](http://www.github.com/lsu-emdm/nexusDrop) offers a drag-and-drop interface for creating NexusUI interfaces.
-
-[nexusUp](http://www.github.com/lsu-emdm/nexusUp) offers a Max/MSP bpatcher for generating NexusUI interfaces from existing Max interfaces.
 
 [Braid](http://braid.nexusosc.com) offers a drag-and-drop interface for creating web audio instruments using Gibber.lib.
 
