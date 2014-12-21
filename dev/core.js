@@ -166,11 +166,7 @@ var nx = function() {
 							$("#debug").prepend(this.oscName+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
 						}
 					} else {
-						if (key=="value") {
-							$("#debug").prepend(this.oscName+" "+data[key]+"<br>");
-						} else {
-							$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
-						}
+						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
 					}
 				}
 			} else if (typeof data == "number" || typeof data == "string") {
@@ -226,13 +222,7 @@ var nx = function() {
 							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key+"/"+key2, this.uiIndex, data[key][key2], manager.oscIp);
 						}
 					} else {
-
-						if (key=="value") {
-							this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data[key], manager.oscIp);
-						} else {
-							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
-						}
-
+						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
 					}
 				}
 			} else if (typeof data == "number" || typeof data == "string") {
@@ -306,18 +296,8 @@ var nx = function() {
 						window.location.href = osc_message;
 					}
 				} else {
-
-
-
-					if (key=="value") {
-						var osc_message = "nexus://default?" + this.oscName + "=" + data[key];
-						window.location.href = osc_message;
-					} else {
-						var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
-						window.location.href = osc_message;
-					}
-
-					
+					var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
+					window.location.href = osc_message;
 				}
 			}
 		} else if (typeof data == "number" || typeof data == "string") {
@@ -696,9 +676,9 @@ var nx = function() {
 
 
 	  this.highlightEditedObj = function() {
-	 	$("canvas").css("border", "solid 1px #ccc");
+	//  	$("canvas").css("border", "solid 1px #ccc");
 	  	$("canvas").css("z-index", 1);
-	  	$("#"+globaldragid).css("border", "solid 1px "+nx.colors.accent);
+	 // 	$("#"+globaldragid).css("border", "solid 2px black");
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
 
@@ -887,6 +867,10 @@ function getTemplate(self, target, transmitCommand) {
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	self.iosTransmit = nx.iosTransmit;
+
+	if (nx.editmode) {
+	//	self.canvas.style.border = "solid 1px #888";
+	}
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
@@ -910,11 +894,8 @@ function getTemplate(self, target, transmitCommand) {
 	self.getTouchPosition = nx.getTouchPosition;
 	self.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
 	self.drawLabel = nx.drawLabel;
-
-	self.hasMoved = false;
 	
 	self.preClick = function(e) {
-		self.hasMoved = false;
 		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
 		//document.addEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
 		document.addEventListener("mousemove", self.preMove, false);
@@ -930,16 +911,15 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
 				self.isBeingResized = true;
-		//		hideElementCallbackCode();
 			} else {
 				self.isBeingResized = false;
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;
-			nx.highlightEditedObj(self.canvasID);
+	//		nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
-				self.destroy()
+				self.destroy();
 			}
 		} else {
 			self.click(e);
@@ -953,7 +933,6 @@ function getTemplate(self, target, transmitCommand) {
 		   		//	+ '-webkit-user-select: none;'
 	};
 	self.preMove = function(e) {
-		self.hasMoved = true;
 	//	self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
@@ -961,10 +940,9 @@ function getTemplate(self, target, transmitCommand) {
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
 			if (self.isBeingResized) {
-				//self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2)-2;
-				//self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2)-2;
-				self.canvas.width = self.clickPos.x-2;
-				self.canvas.height = self.clickPos.y-2;
+				console.log("resizing...")
+				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
+				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
 				self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
 				self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
@@ -988,13 +966,10 @@ function getTemplate(self, target, transmitCommand) {
 				self.init();
 				self.draw();
 			} else if (self.isBeingDragged) {
-			//	hideElementCallbackCode();
-			//	var matrixy = ~~((e.pageY-self.height/2)/canvasgridy)*canvasgridy;
-			//	var matrixx = ~~((e.pageX-self.width/2)/canvasgridx)*canvasgridx;
-			//	self.canvas.style.top = matrixy+"px";
-			//	self.canvas.style.left = matrixx+"px";
-				self.canvas.style.top = ~~(e.pageY-self.height/2)+"px";
-				self.canvas.style.left = ~~(e.pageX-self.width/2)+"px";
+				var matrixy = ~~((e.pageY-self.height/2)/canvasgridy)*canvasgridy;
+				var matrixx = ~~((e.pageX-self.width/2)/canvasgridx)*canvasgridx;
+				self.canvas.style.top = matrixy+"px";
+				self.canvas.style.left = matrixx+"px";
 				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
 			} 
 		} else {
@@ -1009,15 +984,7 @@ function getTemplate(self, target, transmitCommand) {
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = false;
 		if (nx.editmode) {
-			if (self.isBeingDragged) {
-				self.isBeingDragged = false;
-				document.body.style.cursor = "pointer";
-				self.canvas.style.cursor = "pointer"
-			}
-			if (!self.hasMoved) {
-			//	showElementCallbackCode(self);
-			}
-			
+			self.isBeingDragged = false;
 		} else {
 			self.release();
 		}
@@ -1039,7 +1006,7 @@ function getTemplate(self, target, transmitCommand) {
 			}
 		//	self.isBeingDragged = true;
 			globaldragid = self.canvasID;
-			nx.highlightEditedObj(self.canvasID);
+		//	nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
 				self.destroy();
@@ -1203,12 +1170,7 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	}
 
-	self.customDestroy = function() { console.log("dummy") }
-
 	self.destroy = function() {
-
-		self.customDestroy();
-
 		for (var i=0;i<nx.nxObjects.length;i++) {
 			if (nx.nxObjects[i].canvasID==self.canvasID) {
 				nx.nxObjects.splice(i,1)

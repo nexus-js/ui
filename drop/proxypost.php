@@ -1,39 +1,18 @@
 <?php
 
-
+	// $file = file_get_contents($_GET['requrl']);
+	// echo $file;
+/*
 	// Initialize curl
     $curl = curl_init();
 
-
-	/*$data = array(
-	  'name'      => 'adam',
-	  'transmission'  => 'ios',
-	  'uiJSON'       => "{'tester': 'yay', 'tester2': '2yay'}"
-	);
-	$data = "{'nexus_ui':'name'}" 
-
-	$data = '{"nexus_ui":{"name":"Test UI 1","transmission":"ajax","uiJSON":"
-					{\"twitter_handle\"=\u003e\"@BrianVanLoo2\", \"location\"=\u003e\"CA\"}
-					}"
-				}' */
-
- // $data =  "{  \"nexus_ui\": \"{   \"name\": \"test\",  \"transmission\": \"test\",  \"uiJSON\": \"{  \"bla\": \"one\"  }\"    }\"   }"
-
-    $data = 'nexus_ui' => array(
-	 	 'name'      => 'adam',
-	 	 'transmission'  => 'ios',
-	  	 'uiJSON'       => array(			
-             'test' =>  'try'
-	  	  )
-	  	)
-
     // Configure curl options
     $opts = array(
-        CURLOPT_URL             => "http://nexus.cct.lsu.edu:8000/nexus_uis",
+        CURLOPT_URL             => "http://nexus.cct.lsu.edu:8000/nexus_uis/",
         CURLOPT_RETURNTRANSFER  => true,
         CURLOPT_CUSTOMREQUEST   => 'POST',
         CURLOPT_POST            => 1,
-        CURLOPT_POSTFIELDS      => json_encode( $data )
+        CURLOPT_POSTFIELDS      => 'field1=arg1&field2=arg2'
     );
 
     // Set curl options
@@ -47,7 +26,7 @@
 
     echo $result;
     echo "tester"
-/*
+*/
 
 
 
@@ -75,6 +54,6 @@
 	echo $response
 	echo $data
 
-*/
+
 
 ?>

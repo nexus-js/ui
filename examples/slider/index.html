@@ -18,7 +18,7 @@
 			slider1.mode = "relative";
 
 			// you could set their content like this
-		
+			
 			slider1.colors.accent = "red";
 			slider1.set({ value: 0.2 })
 			slider2.colors.accent = "orange";
@@ -30,14 +30,14 @@
 			slider5.colors.accent = "blue";
 			slider5.set({ value: 0.6 })
 			slider6.colors.accent = "purple";
-			slider6.set({ value: 0.7 }) 
+			slider6.set({ value: 0.7 })
 
 			//or you could do it programatically like this
 
 			for (var i=0;i<nx.nxObjects.length;i++) {
 				var allobjs = nx.nxObjects
 				if (allobjs[i].getName()=="slider") {
-					allobjs[i].colors.accent = "#f0"+i;
+					allobjs[i].colors.accent = "f0"+i;
 					allobjs[i].set({ value: (i+1)/7});
 
 				}

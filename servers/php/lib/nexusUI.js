@@ -525,7 +525,7 @@ function dial(target, transmitCommand) {
 		var point = self.toCartesian(self.dial_position_length, dial_angle);
 		
 		if (self.isRecording) {
-		//	self.recorder.write(self.tapeNum,self.val);
+			self.recorder.write(self.tapeNum,self.val);
 		}
 
 		with (self.context) {
@@ -634,369 +634,6 @@ function dial(target, transmitCommand) {
 			self.nxTransmit(self.val);
 		}
 	}
-	
-}
-
-
-/** 
-	@class envelope      
-	Three-point line ramp generator
-	```html
-	<canvas nx="envelope"></canvas>
-	```
-	<canvas nx="envelope" style="margin-left:25px"></canvas>
-*/
-
-function envelope(target, transmitCommand) {
-					
-	//self awareness
-	var self = this;
-	this.defaultSize = { width: 100, height: 100 };
-	
-	//get common attributes and methods
-	getTemplate(self, target, transmitCommand);
-	
-	this.nodeSize = 5;
-	this.on = false;
-	this.duration = 1;
-
-	//define unique attributes
-	
-	/** @property {object}  val   
-		| &nbsp; | data
-		| --- | ---
-		| *amp* | amplitude at current point of ramp (float 0-1)
-	*/
-	this.val = {
-		x: 0.15,
-		y: 0.5,
-		amp: 0,
-		index: 0
-	}
-
-	this.init = function() {
-		self.actualWid = self.width - self.lineWidth*2 - self.nodeSize*2;
-		self.actualHgt = self.height - self.lineWidth*2 - self.nodeSize*2;
-		self.draw();
-		nx.aniItems.push(self.advance);
-	}
-
-	this.draw = function() {
-		self.erase();
-		self.makeRoundedBG();
-		with (self.context) {
-			strokeStyle = self.colors.border;
-			fillStyle = self.colors.fill;
-			lineWidth = self.lineWidth;
-			stroke();
-			fill();
-
-			var drawingX = self.val.x * self.actualWid + self.nodeSize + self.lineWidth
-			var drawingY = self.val.y * self.actualHgt + self.nodeSize + self.lineWidth
-	
-			//stay within right/left bounds
-			if (drawingX<(self.bgLeft+self.nodeSize)) {
-				drawingX = self.bgLeft + self.nodeSize;
-			} else if (drawingX>(self.bgRight-self.nodeSize)) {
-				drawingX = self.bgRight - self.nodeSize;
-			}
-			//stay within top/bottom bounds
-			if (drawingY<(self.bgTop+self.nodeSize)) {
-				drawingY = self.bgTop + self.nodeSize;
-			} else if (drawingY>(self.bgBottom-self.nodeSize)) {
-				drawingY = self.bgBottom - self.nodeSize;
-			}
-		
-			with (self.context) {
-				beginPath();
-					strokeStyle = self.colors.accent;
-					//lineWidth = 2;
-					moveTo(self.padding,self.height-self.padding);
-					lineTo(drawingX,drawingY);
-					lineTo(self.width-self.padding,self.height-self.padding);					
-					stroke();
-					globalAlpha = 0.2;
-					fillStyle = self.colors.accent;
-					fill();
-					globalAlpha = 1;
-				closePath();
-				beginPath();
-					fillStyle = self.colors.accent;
-					strokeStyle = self.colors.border;
-					lineWidth = self.lineWidth;
-					arc(drawingX, drawingY, self.nodeSize, 0, Math.PI*2, true);					
-					fill();
-				closePath();
-				/*if (self.val.index < self.val.x) {
-					var guiy = (self.val.index/self.val.x) * (1-self.val.y) * self.height;
-					guiy = Math.abs(guiy - self.height);
-				} else {
-					var guiy = ((1-self.val.index)/(1-self.val.x)) * (1-self.val.y) * self.height;
-					guiy = Math.abs(guiy - self.height);
-				}
-				beginPath();
-					arc(self.val.index*self.width+3, guiy-0,self.nodeSize,0,Math.PI*2);
-					fillStyle = self.colors.accent;
-					fill()
-				closePath();
-				*/
-				globalAlpha = 0.1
-				fillRect(0,0,self.val.index*self.width,self.height);
-				globalAlpha = 1;
-			}
-		}
-		
-		self.drawLabel();
-	}
-
-	
-	this.scaleNode = function() {
-		var actualX = self.val.x - self.nodeSize - self.lineWidth;
-		var actualY = self.val.y - self.nodeSize - self.lineWidth;
-		var clippedX = nx.clip(actualX/self.actualWid, 0, 1);
-		var clippedY = nx.clip(actualY/self.actualHgt, 0, 1);
-		self.val.x = nx.prune(clippedX, 3)
-		self.val.y = nx.prune(clippedY, 3)
-	}
-
-	this.click = function() {
-		self.val.x = self.clickPos.x;
-		self.val.y = self.clickPos.y;
-		self.scaleNode();
-		self.val["state"] = "click"
-		self.nxTransmit(self.val);
-		self.draw();
-	}
-
-	this.move = function() {
-		if (self.clicked) {
-			self.val.x = self.clickPos.x;
-			self.val.y = self.clickPos.y;
-			self.scaleNode();
-			self.nxTransmit(self.val);
-			self.draw();
-		}
-	}
-
-	this.release = function() {
-		self.val.x = self.clickPos.x;
-		self.val.y = self.clickPos.y;
-		self.scaleNode();
-		self.draw();
-		
-	}
-
-	
-	this.advance = function() {
-		if (self.on) {
-			self.val.index += ((33/self.width)/self.duration);
-
-			if (self.val.index < self.val.x) {
-				var guiy = (self.val.index/self.val.x) * (1-self.val.y);
-				self.val.amp = Math.abs(guiy - 1);
-			} else {
-				var guiy = ((1-self.val.index)/(1-self.val.x)) * (1-self.val.y);
-				self.val.amp = Math.abs(guiy - 1);
-			}
-		
-			self.nxTransmit(self.val);
-			self.draw();
-			if (self.val.index >= 1) {
-				self.stop();
-			}
-		}
-	}
-
-	this.start = function() {
-		self.on = true;
-		self.val.index = 0;
-	};
-
-	this.stop = function() {
-		self.on = false;
-		self.val.index = 0;
-		self.draw();
-	}
-	this.continue = function() {
-
-	}
-}
-
-function ghost(target) {
-					
-	//self awareness
-	var self = this;
-	this.defaultSize = { width: 300, height: 200 };
-	
-	//get common attributes and methods
-	getTemplate(self, target);
-	
-	//define unique attributes
-	this.bufferLength = 1000;
-	this.components = new Array();
-	this.buffer = new Array();
-	this.moment = 0;
-	this.stopLeft = 0;
-	this.stopRight = 0;
-
-	this.scrubber = 0;
-	this.val = {
-		test: 0
-	}
-
-	this.isRecording = true;
-	this.regioning = true;
-	this.range = {
-		start: 0,
-		stop: 100
-	}
-
-	self.init = function() {
-
-		self.resetDraw();
-		nx.aniItems.push(self.writeAll)
-		
-	}
-	
-	//sets a new component to be recorded
-	this.record = function(newComp) {
-		var compIndex = self.components.length;
-		self.components.push(newComp);
-		newComp.tapeNum = compIndex;
-		newComp.isRecording = true;
-		newComp.recorder = self;
-		self.buffer[compIndex] = new Array();
-		self.buffer[compIndex].length = this.bufferLength;
-	}
-	
-	//the actual recording function
-	this.write = function(index, value) {
-		/*self.moment++;
-		if (self.moment>=self.bufferLength) {
-			self.moment=0;
-		}
-		self.buffer[index][self.moment] = value;
-		self.draw(); */
-	}
-
-	this.writeAll = function() {
-		if (self.isRecording) {
-			self.moment++;
-			if (self.moment>=self.bufferLength) {
-				self.moment=0;
-			}
-			for (var i=0;i<self.components.length;i++) {
-				self.buffer[i][self.moment] = self.components[i].val;
-			}
-			self.draw();
-		}
-	}
-	
-	this.resetDraw = function() {
-		with (self.context) {
-			strokeStyle = self.colors.fill;
-			fillStyle = self.colors.fill;
-			lineWidth = 1;
-			self.makeRoundedBG();
-			fill();
-			stroke();
-		}
-	}
-	
-	this.drawLoop = function() {
-		with (self.context) {
-			fillStyle = "blue";
-			lineWidth = self.lineWidth;
-			fillRect(self.stopLeft,0,self.stopRight-self.stopLeft,self.lineWidth);
-		}
-	}
-
-	this.draw = function() {
-	
-		self.canvas.width = self.canvas.width;
-		self.resetDraw();
-	
-		var nodeWid = self.bgWidth / self.bufferLength;
-		var nodeDrawWid = 2;
-		
-		var nodeX = this.moment*nodeWid+this.bgLeft+self.lineWidth/2;
-		var nodeY;
-		
-		with (self.context) {		
-			for (i=0;i<self.buffer.length;i++) {
-				for (j=0;j<self.buffer[i].length;j++) {
-				
-					nodeX = j*nodeWid+this.bgLeft+self.lineWidth/2;
-					nodeY = Math.abs(self.buffer[i][j]-1)*(self.bgHeight-self.lineWidth*2)+self.bgTop+self.lineWidth;
-					
-					var Zebra = ["#CCC", "#BBB", "#AAA", "#999", "#888", "#777", "#555"];
-					fillStyle = Zebra[i];
-					
-					fillRect(nodeX, nodeY, nodeWid, self.canvas.height-nodeY- self.lineWidth);
-					
-				}
-			}
-
-
-			if (self.regioning) {
-				globalAlpha = 0.3;
-				fillStyle = self.colors.accent;
-				var x1 = (self.range.start/self.bufferLength)*self.width;
-				var y1 = 0
-				var wid = ((self.range.stop-self.range.start)/self.bufferLength)*self.width;
-				var hgt = self.height;
-				fillRect(x1,y1,wid,hgt)
-				globalAlpha = 1;
-			}
-
-		}
-	}
-	
-
-	this.click = function() {
-		self.scrubber = Math.round((self.clickPos.x/self.width) * self.bufferLength);
-
-		if (self.regioning) {
-			self.isRecording = false;
-			self.range = {
-				start: self.scrubber,
-				stop: self.scrubber
-			}
-			self.draw();
-		} else {
-			self.poll(self.scrubber)
-		}
-	}
-
-
-	this.move = function() {
-		if (self.clicked) {
-			
-			self.scrubber = Math.round((self.clickPos.x/self.width) * self.bufferLength);
-
-			if (self.regioning) {
-				self.range.stop = self.scrubber;
-				self.draw();
-			} else {
-				self.poll(self.scrubber);
-			}
-		}
-	}
-
-	this.release = function() {
-		if (self.regioning) {
-			self.isRecording = true;
-		}
-	}
-
-	this.poll = function(index) {
-		// when clicking, index coming in will be self.scrubber
-		for (var i=0;i<self.components.length;i++) {
-			self.value = self.buffer[i][index]
-			self.components[i].set(self.value);
-		}
-	}
-
 	
 }
 
@@ -2265,7 +1902,6 @@ function mouse(target, transmitCommand) {
 
 
 	this.init = function() {
-		console.log("mouse init");
 		self.mousing = window.addEventListener("mousemove",  self.preMove, false);
 		self.mousing = window.addEventListener("touchmove",  self.preTouchMove, false);
 
@@ -2275,11 +1911,6 @@ function mouse(target, transmitCommand) {
 		self.inside.top = self.lineWidth;
 		self.inside.quarterwid = (self.inside.width)/4
 		 
-	}
-
-	this.customDestroy = function() {
-		window.removeEventListener("mousemove",  self.preMove, false);
-		window.removeEventListener("touchmove",  self.preTouchMove, false);	
 	}
 
 	this.draw = function() {
@@ -3663,19 +3294,21 @@ function select(target, transmitCommand) {
 	<canvas nx="slider" style="margin-left:25px"></canvas>
 */
 
-function slider(target) {
+function slider(target, transmitCommand) {
 					
 	//self awareness
 	var self = this;
 	this.defaultSize = { width: 50, height: 200 };
 	
 	//get common attributes and methods
-	getTemplate(self, target);
+	getTemplate(self, target, transmitCommand);
 	
 	//unique attributes
 	/** @property {float}  val   Slider value (float 0-1)
 	*/
-	this.val.value = 0.7
+	this.val = 0.7
+	this.label = self.oscName;
+	this.label = this.label.replace("/","")
 
 	/** @property {string}  mode   Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it does not.
 	```js
@@ -3740,12 +3373,12 @@ function slider(target) {
 			if (!self.hslider) {
 
 				var x1 = self.lineWidth;
-				var y1 = self.height-self.val.value*self.height;
+				var y1 = self.height-self.val*self.height;
 				var x2 = self.lineWidth+self.realSpace.x;
 				var y2 = self.height-self.lineWidth;
 				var depth = 0;
 
-				if (self.val.value>0.01) {
+				if (self.val>0.01) {
 					fillRect(x1,y1,x2-x1,y2-y1);
 				}
 				
@@ -3768,11 +3401,11 @@ function slider(target) {
 
 				var x1 = self.lineWidth;
 				var y1 = self.lineWidth;
-				var x2 = self.lineWidth+self.val.value*self.realSpace.x;
+				var x2 = self.lineWidth+self.val*self.realSpace.x;
 				var y2 = self.height-self.lineWidth;
 				var depth = 0;
 			   
-				if (self.val.value>0.01) {
+				if (self.val>0.01) {
 					fillRect(x1,y1,x2-x1,y2-y1);
 				}
 				
@@ -3809,23 +3442,23 @@ function slider(target) {
 		if (self.mode=="absolute") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val.value = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
+					self.val = (Math.abs((nx.clip(self.clickPos.y/self.height, 0, 1)) - 1));
 				} else {	
-					self.val.value = nx.clip(self.clickPos.x/self.width, 0, 1);
+					self.val = nx.clip(self.clickPos.x/self.width, 0, 1);
 				}
 				self.draw();
 			}
 		} else if (self.mode=="relative") {
 			if (self.clicked) {
 				if (!self.hslider) {
-					self.val.value = nx.clip((self.val.value + ((self.deltaMove.y*-1)/self.height)),0,1);
+					self.val = nx.clip((self.val + ((self.deltaMove.y*-1)/self.height)),0,1);
 				} else {
-					self.val.value = nx.clip((self.val.value + ((self.deltaMove.x)/self.width)),0,1);
+					self.val = nx.clip((self.val + ((self.deltaMove.x)/self.width)),0,1);
 				}
 				self.draw();
 			}
 		}
-	//	var scaledVal = ( self.val.value - 0.02 ) * (1/.97);
+	//	var scaledVal = ( self.val - 0.02 ) * (1/.97);
 		self.nxTransmit(self.val);
 	}
 
@@ -4399,11 +4032,6 @@ function typewriter(target, transmitCommand) {
 		this.keyhgt = self.height/5
 		
 		self.draw();
-	}
-
-	this.customDestroy = function() {
-		document.removeEventListener("keydown", self.type);
-		document.removeEventListener("keyup", self.untype);
 	}
 
 	this.draw = function() {	// erase
@@ -5020,7 +4648,7 @@ var nx = function() {
 	this.setAjaxPath = function (setting) {
 		for (i=0;i<this.nxObjects.length;i++) {
 			this.nxObjects[i].transmitCommand = setting;
-		}
+		}	
 	}
 
 	this.logOSC = false
@@ -5048,11 +4676,7 @@ var nx = function() {
 							$("#debug").prepend(this.oscName+"/"+key+"/"+key2+" "+data[key][key2]+"<br>");
 						}
 					} else {
-						if (key=="value") {
-							$("#debug").prepend(this.oscName+" "+data[key]+"<br>");
-						} else {
-							$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
-						}
+						$("#debug").prepend(this.oscName+"/"+key+" "+data[key]+"<br>");
 					}
 				}
 			} else if (typeof data == "number" || typeof data == "string") {
@@ -5108,13 +4732,7 @@ var nx = function() {
 							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key+"/"+key2, this.uiIndex, data[key][key2], manager.oscIp);
 						}
 					} else {
-
-						if (key=="value") {
-							this.ajaxTransmit(this.transmitCommand, this.oscName, this.uiIndex, data[key], manager.oscIp);
-						} else {
-							this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
-						}
-
+						this.ajaxTransmit(this.transmitCommand, this.oscName+"/"+key, this.uiIndex, data[key], manager.oscIp);
 					}
 				}
 			} else if (typeof data == "number" || typeof data == "string") {
@@ -5188,18 +4806,8 @@ var nx = function() {
 						window.location.href = osc_message;
 					}
 				} else {
-
-
-
-					if (key=="value") {
-						var osc_message = "nexus://default?" + this.oscName + "=" + data[key];
-						window.location.href = osc_message;
-					} else {
-						var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
-						window.location.href = osc_message;
-					}
-
-					
+					var osc_message = "nexus://default?" + this.oscName+"/"+key + "=" + data[key];
+					window.location.href = osc_message;
 				}
 			}
 		} else if (typeof data == "number" || typeof data == "string") {
@@ -5578,9 +5186,9 @@ var nx = function() {
 
 
 	  this.highlightEditedObj = function() {
-	 	$("canvas").css("border", "solid 1px #ccc");
+	//  	$("canvas").css("border", "solid 1px #ccc");
 	  	$("canvas").css("z-index", 1);
-	  	$("#"+globaldragid).css("border", "solid 1px "+nx.colors.accent);
+	 // 	$("#"+globaldragid).css("border", "solid 2px black");
 	  	$("#"+globaldragid).css("z-index", 2);
 	  }
 
@@ -5769,6 +5377,10 @@ function getTemplate(self, target, transmitCommand) {
 	
 	self.ajaxTransmit = nx.ajaxTransmit;
 	self.iosTransmit = nx.iosTransmit;
+
+	if (nx.editmode) {
+	//	self.canvas.style.border = "solid 1px #888";
+	}
 	
 	
 		// By default localTransmit will call the global nx manager globalLocalTransmit function. It can be individually rewritten.
@@ -5792,11 +5404,8 @@ function getTemplate(self, target, transmitCommand) {
 	self.getTouchPosition = nx.getTouchPosition;
 	self.is_touch_device = ('ontouchstart' in document.documentElement)?true:false;
 	self.drawLabel = nx.drawLabel;
-
-	self.hasMoved = false;
 	
 	self.preClick = function(e) {
-		self.hasMoved = false;
 		self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);
 		//document.addEventListener("mousemove", self.nxThrottle(self.preMove, self.nxThrottlePeriod), false);
 		document.addEventListener("mousemove", self.preMove, false);
@@ -5812,16 +5421,15 @@ function getTemplate(self, target, transmitCommand) {
 		if (nx.editmode) {
 			if (self.clickPos.x>self.width-20 && self.clickPos.y>self.height-20) {
 				self.isBeingResized = true;
-		//		hideElementCallbackCode();
 			} else {
 				self.isBeingResized = false;
 				self.isBeingDragged = true;
 			}
 			globaldragid = self.canvasID;
-			nx.highlightEditedObj(self.canvasID);
+	//		nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
-				self.destroy()
+				self.destroy();
 			}
 		} else {
 			self.click(e);
@@ -5835,7 +5443,6 @@ function getTemplate(self, target, transmitCommand) {
 		   		//	+ '-webkit-user-select: none;'
 	};
 	self.preMove = function(e) {
-		self.hasMoved = true;
 	//	self.movehandle = 0;
 		var new_click_position = self.getCursorPosition(e, self.offset);
 		self.deltaMove.y = new_click_position.y - self.clickPos.y;
@@ -5843,10 +5450,9 @@ function getTemplate(self, target, transmitCommand) {
 		self.clickPos = new_click_position;
 		if (nx.editmode) {
 			if (self.isBeingResized) {
-				//self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2)-2;
-				//self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2)-2;
-				self.canvas.width = self.clickPos.x-2;
-				self.canvas.height = self.clickPos.y-2;
+				console.log("resizing...")
+				self.canvas.width = ~~(self.clickPos.x/(canvasgridx/2))*(canvasgridx/2);
+				self.canvas.height = ~~(self.clickPos.y/(canvasgridy/2))*(canvasgridy/2);
 
 				self.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
 				self.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
@@ -5870,13 +5476,10 @@ function getTemplate(self, target, transmitCommand) {
 				self.init();
 				self.draw();
 			} else if (self.isBeingDragged) {
-			//	hideElementCallbackCode();
-			//	var matrixy = ~~((e.pageY-self.height/2)/canvasgridy)*canvasgridy;
-			//	var matrixx = ~~((e.pageX-self.width/2)/canvasgridx)*canvasgridx;
-			//	self.canvas.style.top = matrixy+"px";
-			//	self.canvas.style.left = matrixx+"px";
-				self.canvas.style.top = ~~(e.pageY-self.height/2)+"px";
-				self.canvas.style.left = ~~(e.pageX-self.width/2)+"px";
+				var matrixy = ~~((e.pageY-self.height/2)/canvasgridy)*canvasgridy;
+				var matrixx = ~~((e.pageX-self.width/2)/canvasgridx)*canvasgridx;
+				self.canvas.style.top = matrixy+"px";
+				self.canvas.style.left = matrixx+"px";
 				self.offset = new nx.canvasOffset(nx.findPosition(self.canvas).left,nx.findPosition(self.canvas).top);	
 			} 
 		} else {
@@ -5891,15 +5494,7 @@ function getTemplate(self, target, transmitCommand) {
 		document.removeEventListener("mousemove", self.preMove, false);
 		self.clicked = false;
 		if (nx.editmode) {
-			if (self.isBeingDragged) {
-				self.isBeingDragged = false;
-				document.body.style.cursor = "pointer";
-				self.canvas.style.cursor = "pointer"
-			}
-			if (!self.hasMoved) {
-			//	showElementCallbackCode(self);
-			}
-			
+			self.isBeingDragged = false;
 		} else {
 			self.release();
 		}
@@ -5921,7 +5516,7 @@ function getTemplate(self, target, transmitCommand) {
 			}
 		//	self.isBeingDragged = true;
 			globaldragid = self.canvasID;
-			nx.highlightEditedObj(self.canvasID);
+		//	nx.highlightEditedObj(self.canvasID);
 			showSettings();
 			if (nx.isErasing) {
 				self.destroy();
@@ -6085,12 +5680,7 @@ function getTemplate(self, target, transmitCommand) {
 		}
 	}
 
-	self.customDestroy = function() { console.log("dummy") }
-
 	self.destroy = function() {
-
-		self.customDestroy();
-
 		for (var i=0;i<nx.nxObjects.length;i++) {
 			if (nx.nxObjects[i].canvasID==self.canvasID) {
 				nx.nxObjects.splice(i,1)

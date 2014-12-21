@@ -105,22 +105,6 @@ Circular dial
 
 **val**:  *float* Current value of dial as float 0-1<br>
 
-<br> envelope
-----------
-Three-point line ramp generator
-```html
-<canvas nx="envelope"></canvas>
-```
-<canvas nx="envelope" style="margin-left:25px"></canvas>
-
-**Properties**
-
-**val**:  *object* 
-
-
-| &nbsp; | data
-| --- | ---
-| *amp* | amplitude at current point of ramp (float 0-1)
 <br> joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
