@@ -831,6 +831,14 @@ matrix1.sequence(240);
 
 **bpm** &nbsp;  *float* &nbsp;  Beats per minute of the pulse
 
+###matrix.stop(  )###
+Stops the matrix sequencer.
+
+```js
+matrix1.stop();
+```
+
+
 message
 ---------
 Send a string of text.
