@@ -1071,6 +1071,13 @@ Range slider
 
 
 
+remix
+-------
+```html
+<canvas nx="remix"></canvas>
+```
+<canvas nx="remix" style="margin-left:25px"></canvas>
+
 select
 --------
 HTML-style option selector. Outputs the chosen text string. <br> **Note:** Currently the canvas is actaully replaced by an HTML select object. Any inline style on your canvas may be lost in this transformation. To style the resultant select element, we recommend creating CSS styles for the select object using its ID or the select tag.

@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":39}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":40}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -362,7 +362,7 @@ manager.prototype.blockMove = function(e) {
      e.stopPropogation();
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":15,"events":34,"util":38}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":15,"events":35,"util":39}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -769,6 +769,10 @@ widget.prototype.destroy = function() {
 
 }
 
+widget.prototype.customDestroy = function() {
+
+}
+
 widget.prototype.wrapText = function(text, x, y, maxWidth, lineHeight) {
   if (text) {
     var words = text.split(' ');
@@ -816,7 +820,7 @@ widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":34,"util":38}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":35,"util":39}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1296,7 +1300,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":38}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1489,7 +1493,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"util":38}],11:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1621,7 +1625,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":38}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1698,7 +1702,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":38}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],13:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -1771,10 +1775,6 @@ dial.prototype.draw = function() {
 	var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
 	var dial_position = (this.val.value + 0.25) * 2 * Math.PI
 	var point = math.toCartesian(this.handleLength, dial_angle);
-	
-	if (this.isRecording) {
-		this.recorder.write(this.tapeNum,this.val.value);
-	}
 
 	with (this.context) {
 		clearRect(0,0, this.width, this.height);
@@ -1883,7 +1883,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":38}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],14:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2067,7 +2067,7 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],15:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2085,6 +2085,7 @@ module.exports = {
   multitouch: require('./multitouch'),
   number: require('./number'),
   position: require('./position'),
+  remix: require('./remix'),
   range: require('./range'),
   select: require('./select'),
   slider: require('./slider'),
@@ -2094,7 +2095,7 @@ module.exports = {
   typewriter: require('./typewriter'),
   vinyl: require('./vinyl')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./joints":16,"./keyboard":17,"./matrix":18,"./message":19,"./metro":20,"./mouse":21,"./multislider":22,"./multitouch":23,"./number":24,"./position":25,"./range":26,"./select":27,"./slider":28,"./string":29,"./tilt":30,"./toggle":31,"./typewriter":32,"./vinyl":33}],16:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./joints":16,"./keyboard":17,"./matrix":18,"./message":19,"./metro":20,"./mouse":21,"./multislider":22,"./multitouch":23,"./number":24,"./position":25,"./range":26,"./remix":27,"./select":28,"./slider":29,"./string":30,"./tilt":31,"./toggle":32,"./typewriter":33,"./vinyl":34}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2326,7 +2327,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":38}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],17:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -2652,7 +2653,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":38}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":39}],18:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -2980,7 +2981,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":38}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":39}],19:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3052,7 +3053,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":38}],20:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],20:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3171,7 +3172,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3279,7 +3280,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"util":38}],22:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],22:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3441,7 +3442,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":38}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],23:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3651,7 +3652,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":38}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":39}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3718,7 +3719,7 @@ number.prototype.move = function(e) {
 		this.transmit(this.val);
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3746,8 +3747,8 @@ var position = module.exports = function (target) {
 		| *y* | y position of slider (float 0-1)
 	*/
 	this.val = {
-		x: this.width/2,
-		y: this.height/2
+		x: 0.5,
+		y: 0.5
 	}
 	
 	this.init();
@@ -3891,7 +3892,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],26:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -4127,7 +4128,190 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],27:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class remix      
+	
+	```html
+	<canvas nx="remix"></canvas>
+	```
+	<canvas nx="remix" style="margin-left:25px"></canvas>
+*/
+
+var remix = module.exports = function(target) {
+	
+	this.defaultSize = { width: 400, height: 150 };
+	widget.call(this, target);
+	
+	//define unique attributes
+	this.maxLength = 2000;
+	this.components = new Array();
+	this.buffer = new Array();
+	this.moment = 0;
+	this.stopLeft = 0;
+	this.stopRight = 0;
+	this.val = {
+		x: 0.15,
+		y: 0.5
+	}
+	this.boundLog = this.log.bind(this)
+	this.init();
+
+}
+
+util.inherits(remix, widget);
+
+
+remix.prototype.init = function() {
+	this.draw();
+}
+	
+	//sets a new component to be recorded
+remix.prototype.connect = function(target) {
+	var compIndex = this.components.length;
+	this.components.push(target);
+	target.tapeNum = compIndex;
+	target.isRecording = true;
+	target.recorder = this;
+	this.buffer[compIndex] = new Object();
+	for (var key in target.val) {
+		this.buffer[compIndex][key] = new Array();
+	}
+	
+}
+	
+	//the actual recording function
+remix.prototype.write = function(index, val) {
+	if (this.moment>=this.maxLength) {
+		this.stop();
+	}
+	for (var key in val) {
+		if (this.buffer[index][key]) {
+			this.buffer[index][key][this.moment] = val[key];
+		}
+	}
+	this.draw();
+}
+	
+
+remix.prototype.draw = function() {
+
+	with (this.context) {
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height)
+	}
+
+	if (this.moment>= 0) {
+		var nodeWid = this.width / this.moment
+	} else {
+		var nodeWid = this.width;
+	}
+	var nodeDrawWid = 5;
+	
+	var nodeX = this.moment*nodeWid+this.lineWidth/2;
+	var nodeY;
+	
+	if (!this.recording) {
+		with (this.context) {
+			
+			for (var i=0;i<this.buffer.length;i++) {
+				for (var key in this.buffer[i]) {
+					for (var j=0;j<this.buffer[i][key].length;j++) {
+						nodeX = j*nodeWid;
+						nodeY = Math.abs(this.buffer[i][key][j]-1)*(this.height);
+						
+						var Zebra = [this.colors.accent, "#0473C2", "#D6044E", "#24A600", "#E3D000", "#00E3C8", "#A600E3", "#000000"];
+						fillStyle = Zebra[i];
+						
+						beginPath();
+							fillRect(nodeX, nodeY, nodeDrawWid, nodeDrawWid);
+						closePath();
+						
+					}
+				}
+				
+			}
+		}
+	} else {
+
+		with (this.context) {
+			font = "bold "+this.height/3+"px gill sans";
+			textAlign = "center";
+			textBaseline = "middle"
+			fillStyle = "#F00"
+			fillText("rec",this.width/2,this.height/2);
+		}
+	}
+}
+
+remix.prototype.record = function() {
+	this.moment = 0;
+	nx.aniItems.push(this.boundLog)
+	this.recording = true;
+}
+
+remix.prototype.log = function() {
+	for (var i=0;i<this.components.length;i++) {
+		var sender = this.components[i];
+		for (var j in sender.val) {
+			this.write(this.components[i].tapeNum,this.components[i].val);
+		}
+	}
+	this.moment++;
+}
+
+remix.prototype.stop = function() {
+	nx.removeAni(this.boundLog);
+	this.recording = false;
+	this.draw();
+}
+
+remix.prototype.scan = function() {
+	
+}
+
+remix.prototype.play = function() {
+	
+}
+
+remix.prototype.loop = function() {
+	
+}
+	
+
+remix.prototype.click = function(e) {
+	this.move();
+}
+
+
+remix.prototype.move = function(e) {
+	if (this.clicked) {
+		this.needle = Math.floor( (this.clickPos.x/this.width) * this.moment);
+		console.log(this.needle)
+		for (var i=0;i<this.components.length;i++) {
+			var sender = this.components[i];
+			for (var key in this.buffer[sender.tapeNum]) {
+				if (this.buffer[sender.tapeNum][key]) {
+					var val = new Object();
+					val[key] = this.buffer[sender.tapeNum][key][this.needle]
+					sender.set(val, true)
+				}
+			}
+		}
+	}
+}
+
+
+/*
+remix.prototype.release = function(e) {
+}
+
+*/
+},{"../core/widget":3,"../utils/math":6,"util":39}],28:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4195,7 +4379,7 @@ select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"util":38}],28:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4373,7 +4557,7 @@ slider.prototype.move = function() {
 	//	var scaledVal = ( this.val.value - 0.02 ) * (1/.97);
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],30:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4575,7 +4759,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":38}],30:[function(require,module,exports){
+},{"../core/widget":3,"util":39}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4717,7 +4901,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],32:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -4791,7 +4975,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":38}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":39}],33:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5041,7 +5225,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":38}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":39}],34:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5189,7 +5373,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":38}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],35:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5492,7 +5676,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -5517,7 +5701,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5582,14 +5766,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6164,7 +6348,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":37,"_process":36,"inherits":35}],39:[function(require,module,exports){
+},{"./support/isBuffer":38,"_process":37,"inherits":36}],40:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
