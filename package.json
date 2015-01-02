@@ -27,6 +27,6 @@
     "extend": "2.0.x"
   },
   "engine": "node >= 0.10.0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "New BSD License"
 }
