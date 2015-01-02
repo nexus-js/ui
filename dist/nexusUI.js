@@ -132,10 +132,10 @@ manager.prototype.add = function(type, args) {
            canv.style.top = args.y + "px";
         }
         if (args.w) {
-           canv.style.width = args.w + "px";
+           canv.style = args.w;
         }
         if (args.h) {
-           canv.style.height = args.h + "px";
+           canv.style = args.h;
         }
         if (args.parent) {
            var parent = document.getElementById(args.parent)
@@ -297,6 +297,14 @@ manager.prototype.pulse = function() {
     this.aniItems[i]();
   }
 } 
+
+manager.prototype.addAni = function(fn) {
+
+}
+
+manager.prototype.removeAni = function(fn) {
+  this.aniItems.splice(this.aniItems.indexOf(fn));
+}
   
 manager.prototype.addStylesheet = function() {
   var htmlstr = '<style>'
@@ -351,6 +359,7 @@ manager.prototype.setLabels = function(onoff) {
 manager.prototype.blockMove = function(e) {
   if (e.target.tagName == 'CANVAS') {
      e.preventDefault();
+     e.stopPropogation();
   }
 }
 },{"../utils/timing":7,"../utils/transmit":8,"../widgets":15,"events":34,"util":38}],3:[function(require,module,exports){
@@ -736,7 +745,6 @@ widget.prototype.set = function(data, transmit) {
     Remove the widget object, canvas, and all related event listeners from the document.
     */
 widget.prototype.destroy = function() {
-  nx.widgets[this.canvasID] = null;
   var type = nx.elemTypeArr.indexOf(this.getName())
   nx.elemTypeArr.splice(type,1)
 
@@ -749,9 +757,16 @@ widget.prototype.destroy = function() {
   document.removeEventListener("mouseup", this.preRelease, false);
 
   var elemToKill = document.getElementById(this.canvasID)
-  elemToKill.parentNode.removeChild(elemToKill);
+  if (elemToKill) {
+    elemToKill.parentNode.removeChild(elemToKill);
+  }
 
-  delete window[this.canvasID];
+  this.customDestroy();
+
+  var id = this.canvasID
+  delete nx.widgets[id];
+  delete window[id];
+
 }
 
 widget.prototype.wrapText = function(text, x, y, maxWidth, lineHeight) {
@@ -1341,6 +1356,8 @@ var button = module.exports = function(target) {
 	```
 	*/
 	this.mode = "toggle";
+	
+	this.lockResize = true;
 
 	this.image = null;
 	this.imageHover = null;
@@ -1703,11 +1720,6 @@ var dial = module.exports = function(target) {
 	//define unique attributes
 	this.circleSize;
 	this.handleLength;
-	if (this.width<101 || this.width<101) {
-		this.accentWidth = this.lineWidth * 1;
-	} else {
-		this.accentWidth = this.lineWidth * 2;
-	}
 
 	/** @property {object}  val
 	    | &nbsp; | data
@@ -1725,6 +1737,8 @@ var dial = module.exports = function(target) {
 	this.aniStop = 1;
 	this.aniMove = 0.01;
 
+	this.lockResize = true;
+
 	this.init();
 	
 }
@@ -1739,6 +1753,12 @@ dial.prototype.init = function() {
 	if (this.width<101) {
 		this.handleLength--;
 		this.handleLength--;
+	}
+
+	if (this.width<101 || this.width<101) {
+		this.accentWidth = this.lineWidth * 1;
+	} else {
+		this.accentWidth = this.lineWidth * 2;
 	}
 	
 	this.draw();
@@ -2464,7 +2484,7 @@ keyboard.prototype.draw = function() {
 
 	with (this.context) {
 		for (var i in this.wkeys) {
-			strokeStyle = this.wkeys[i].on ? this.colors.white : this.colors.border
+			strokeStyle = this.wkeys[i].on ? this.colors.border : this.colors.border
 			fillStyle = this.wkeys[i].on ? this.colors.border : this.colors.fill
 			lineWidth = this.lineWidth
 			strokeRect(this.wkeys[i].x,0,this.white.width,this.white.height);
@@ -2714,6 +2734,7 @@ var matrix = module.exports = function (target) {
 	this.thisframe = 0;
 	this.lastframe = 0;
 
+	this.sequencing = false;
 	
 	/** @property {string}  sequenceMode  Sequence pattern (currently accepts "linear" which is default, or "random") */
 	this.sequenceMode = "linear"; // "linear" or "random". future options would be "wander" (drunk) or "markov"
@@ -2755,6 +2776,8 @@ matrix.prototype.draw = function() {
 	this.cellWid = this.canvas.width/this.col;
 	this.cellHgt = this.canvas.height/this.row;
 	
+	console.log(this.place);
+
 	for (var i=0;i<this.row;i++){
 		for (var j=0;j<this.col;j++) {
 			var st_x = j*this.cellWid // starting point(left)
@@ -2843,6 +2866,13 @@ matrix.prototype.move = function(e) {
 				this.cur.value = this.matrix[this.cur.col][this.cur.row]
 				this.prev = this.cur;
 
+				this.val = {
+					row: this.cur.row,
+					col: this.cur.col,
+					level: this.cur.value
+				}
+
+				this.transmit(this.val);
 				this.draw();
 			}
 		}
@@ -2891,9 +2921,20 @@ matrix.prototype.sequence = function(bpm) {
 	if (bpm) {
 		this.bpm = bpm;
 	}	
-
+	this.sequencing = true;
 	requestAnimationFrame(this.seqStep.bind(this));
  
+}
+
+/** @method stop
+Stops the matrix sequencer.
+
+```js
+	matrix1.stop();
+```
+*/
+matrix.prototype.stop = function() {
+	this.sequencing = false;
 }
 
 matrix.prototype.seqStep = function() {
@@ -2904,6 +2945,16 @@ matrix.prototype.seqStep = function() {
     this.thisframe = ~~(dt/(60000/this.bpm));
 
     if (this.thisframe != this.lastframe) {
+
+		if (this.sequenceMode=="linear") {
+			this.place++;
+		} else if (this.sequenceMode=="random") {
+			this.place = math.random(this.col);
+		}
+		if (this.place>=this.col) {
+			this.place = 0;
+		}
+		
 		if (this.place==null) {
 			this.place = 0;
 		}
@@ -2916,19 +2967,17 @@ matrix.prototype.seqStep = function() {
 
 		this.transmit(this.val);
 
-		if (this.sequenceMode=="linear") {
-			this.place++;
-		} else if (this.sequenceMode=="random") {
-			this.place = math.random(this.col);
-		}
-		if (this.place>=this.col) {
-			this.place = 0;
-		}
-
     }
 
     this.lastframe = this.thisframe;
-	requestAnimationFrame(this.seqStep.bind(this));
+    if (this.sequencing) {
+		requestAnimationFrame(this.seqStep.bind(this));
+	}
+}
+
+
+matrix.prototype.customDestroy = function() {
+	this.stop();
 }
 
 },{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":38}],19:[function(require,module,exports){
@@ -3043,6 +3092,9 @@ var metro = module.exports = function (target) {
 	this.orientation = "horizontal"
 	this.boundary = this.width
 	this.lineWidth = 1;
+
+	nx.aniItems.push(this.advance.bind(this));
+	this.active = true;
 	
 	this.init();
 }
@@ -3061,7 +3113,6 @@ metro.prototype.init = function() {
 	this.y = this.nodeSize+this.lineWidth;
 	this.loc = this.nodeSize+this.lineWidth;
 
-	nx.aniItems.push(this.advance.bind(this));
 	this.draw();
 
 }
@@ -3116,6 +3167,10 @@ metro.prototype.advance = function() {
 	}
 	this.draw();
 }
+
+metro.prototype.customDestroy = function() {
+	nx.removeAni(this.advance.bind(this))
+}
 },{"../core/widget":3,"../utils/math":6,"util":38}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
@@ -3149,20 +3204,22 @@ var mouse = module.exports = function (target) {
 		deltay: 0
 	}
 	this.inside = new Object();
+	this.boundmove = this.preMove.bind(this)
+	this.mousing = window.addEventListener("mousemove", this.boundmove, false);
+	
 	this.init();
 }
 util.inherits(mouse, widget);
 
 mouse.prototype.init = function() {
-	this.mousing = window.addEventListener("mousemove",  this.preMove, false);
-	this.mousing = window.addEventListener("touchmove",  this.preTouchMove, false);
-
+	
 	this.inside.height = this.height-this.lineWidth;
 	this.inside.width = this.width-this.lineWidth;
 	this.inside.left = this.lineWidth;
 	this.inside.top = this.lineWidth;
 	this.inside.quarterwid = (this.inside.width)/4
 	 
+	this.draw();
 }
 
 mouse.prototype.draw = function() {
@@ -3218,6 +3275,10 @@ mouse.prototype.move = function(e) {
 	this.transmit(this.val);
 
 }
+
+mouse.prototype.customDestroy = function() {
+	window.removeEventListener("mousemove",  this.boundmove, false);
+}
 },{"../core/widget":3,"util":38}],22:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
@@ -3237,7 +3298,7 @@ var multislider = module.exports = function (target) {
 	widget.call(this, target);
 	
 	/** @property {integer} sliders Number of sliders in the multislider. (Must call .init() after changing this setting, or set with .setNumberOfSliders) */
-	this.sliders = 10;
+	this.sliders = 15;
 
 	/** @property {array}  val   Array of slider values. <br> **Note:** This widget's output is not .val! Transmitted output is:	
 
@@ -3259,6 +3320,11 @@ var multislider = module.exports = function (target) {
 util.inherits(multislider, widget);
 
 multislider.prototype.init = function() {
+	this.val = new Object();
+	for (var i=0;i<this.sliders;i++) {
+		console.log(i)
+		this.val[i] = 0.7;
+	}
 	this.realSpace = { x: this.width-this.lineWidth*2, y: this.height-this.lineWidth*2 }
 	this.sliderWidth = this.realSpace.x/this.sliders;
 	this.draw();
@@ -3316,7 +3382,7 @@ multislider.prototype.move = function(firstclick) {
 
 			var sliderToMove = Math.floor(this.clickPos.x / this.sliderWidth);
 			sliderToMove = math.clip(sliderToMove,0,this.sliders-1);
-			this.val[sliderToMove] = math.clip(math.invert((this.clickPos.y / this.height)),0,1);
+			this.val[sliderToMove] = math.clip(math.invert(this.clickPos.y / this.height),0,1);
 
 			if (this.oldSliderToMove && this.oldSliderToMove > sliderToMove + 1) {
 				var missed = this.oldSliderToMove - sliderToMove - 1;
@@ -3362,7 +3428,7 @@ multislider.prototype.setNumberOfSliders = function(numOfSliders) {
 Sets a slider to new value and transmits.
 @param {integer} [slider] Slider to set (slider index starts at 0)
 @param {integer} [value] New slider value */
-multislider.prototype.setNumberOfSliders = function(slider,value) {
+multislider.prototype.setSliderValue = function(slider,value) {
 	this.val[slider] = value;
 	this.draw();
 	msg[slider] = this.val[slider]
@@ -3821,6 +3887,10 @@ position.prototype.aniBounce = function() {
 		this.draw();
 	}
 }
+
+position.prototype.customDestroy = function() {
+	nx.removeAni(this.aniBounce);
+}
 },{"../core/widget":3,"../utils/math":6,"util":38}],26:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
@@ -3836,7 +3906,7 @@ var math = require('../utils/math')
 */
 
 var range = module.exports = function (target) {
-	this.defaultSize = { width: 30, height: 100 };
+	this.defaultSize = { width: 100, height: 30 };
 	widget.call(this, target);
 
 	/** @property {object}  val  Object containing core interactive aspects of widget, which are also its data output. Has the following properties: 
@@ -4338,7 +4408,10 @@ var string = module.exports = function (target) {
 	this.friction = 1;
 	
 	var stringdiv;
+
 	this.init();
+
+	nx.aniItems.push(this.draw.bind(this));
 }
 util.inherits(string, widget);
 
@@ -4360,7 +4433,6 @@ string.prototype.init = function() {
 		};
 	}
 	this.draw();
-	nx.aniItems.push(this.draw.bind(this));
 }
 
 string.prototype.pulse = function() {
@@ -4499,6 +4571,10 @@ string.prototype.pluck = function(which) {
 	this.strings[i].vibrating = true;
 	this.strings[i].direction = (this.clickPos.y - this.strings[i].y1)/Math.abs(this.clickPos.y - this.strings[i].y1) * ((this.clickPos.y - this.strings[i].y1)/-1.2);
 }
+
+string.prototype.customDestroy = function() {
+	nx.removeAni(this.draw.bind(this));
+}
 },{"../core/widget":3,"util":38}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
@@ -4542,6 +4618,18 @@ var tilt = module.exports = function (target) {
 	
 	this.text = "TILT";
 	this.init();
+
+	this.boundChromeTilt = this.chromeTilt.bind(this)
+	this.boundMozTilt = this.mozTilt.bind(this)
+
+	if (window.DeviceOrientationEvent) {
+		window.addEventListener('deviceorientation', this.boundChromeTilt, false);
+	} else if (window.OrientationEvent) {
+	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
+	} else {
+	  	console.log("Not supported on your device or browser.")
+	}
+	
 }
 util.inherits(tilt, widget);
 
@@ -4559,33 +4647,27 @@ tilt.prototype.deviceOrientationHandler = function() {
 	
 }
 
+tilt.prototype.chromeTilt = function(eventData) {
+    this.tiltLR = eventData.gamma;
+		this.tiltFB = eventData.beta;
+		this.z = eventData.alpha
+    this.deviceOrientationHandler();
+    this.draw();
+}
+
+tilt.prototype.mozTilt = function(eventData) {
+    this.tiltLR = eventData.x * 90;
+    // y is the front-to-back tilt from -1 to +1, so we need to convert to degrees
+    // We also need to invert the value so tilting the device towards us (forward) 
+    // results in a positive value. 
+    this.tiltFB = eventData.y * -90;
+    this.z = eventData.z;
+    this.deviceOrientationHandler();
+    this.draw();
+}
+
 tilt.prototype.init = function() {
-	var self = this;
 	this.draw();
-	
-	if (window.DeviceOrientationEvent) {
-	  window.addEventListener('deviceorientation', function(eventData) {
-	    self.tiltLR = eventData.gamma;
-			self.tiltFB = eventData.beta;
-			self.z = eventData.alpha
-	    self.deviceOrientationHandler();
-	    self.draw();
-	  }, false);
-	} else if (window.OrientationEvent) {
-	  window.addEventListener('MozOrientation', function(eventData) {
-	    self.tiltLR = eventData.x * 90;
-	    // y is the front-to-back tilt from -1 to +1, so we need to convert to degrees
-	    // We also need to invert the value so tilting the device towards us (forward) 
-	    // results in a positive value. 
-	    self.tiltFB = eventData.y * -90;
-	    self.z = eventData.z;
-	    self.deviceOrientationHandler();
-	    self.draw();
-	  }, false);
-	} else {
-	  console.log("Not supported on your device or browser.")
-	}
-	
 }
 
 tilt.prototype.draw = function() {
@@ -4628,6 +4710,12 @@ tilt.prototype.draw = function() {
 
 tilt.prototype.click = function() {
 	this.active = !this.active;
+}
+
+tilt.prototype.customDestroy = function() {
+	this.active = false;
+	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
+	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
 },{"../core/widget":3,"../utils/math":6,"util":38}],31:[function(require,module,exports){
 var drawing = require('../utils/drawing');
@@ -4819,9 +4907,12 @@ var typewriter = module.exports = function (target) {
 		]
 	]
 
+	this.boundType = this.type.bind(this);
+	this.boundUntype = this.untype.bind(this);
+	window.addEventListener("keydown", this.boundType);
+	window.addEventListener("keyup", this.boundUntype);
 
-	document.addEventListener("keydown", this.type.bind(this));
-	document.addEventListener("keyup", this.untype.bind(this));
+	this.init();
 }
 util.inherits(typewriter, widget);
 	
@@ -4945,6 +5036,11 @@ typewriter.prototype.untype = function(e) {
 		this.draw();
 	}
 }
+
+typewriter.prototype.customDestroy = function() {
+	window.removeEventListener("keydown", this.boundType);
+	window.removeEventListener("keyup", this.boundUntype);
+}
 },{"../core/widget":3,"../utils/drawing":5,"util":38}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
@@ -4980,6 +5076,7 @@ var vinyl = module.exports = function (target) {
 		speed: 0
 	}
 	this.init();
+	nx.aniItems.push(this.spin.bind(this));
 }
 util.inherits(vinyl, widget);
 
@@ -4987,7 +5084,6 @@ vinyl.prototype.init = function() {
 
 	this.circleSize = (Math.min(this.center.x, this.center.y)-this.lineWidth);
 	this.draw();
-	nx.aniItems.push(this.spin.bind(this));
 }
 
 vinyl.prototype.draw = function() {
@@ -5088,6 +5184,10 @@ vinyl.prototype.spin = function() {
 
 	this.transmit(this.val)
 	
+}
+
+vinyl.prototype.customDestroy = function() {
+	nx.removeAni(this.spin.bind(this));
 }
 },{"../core/widget":3,"../utils/math":6,"util":38}],34:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.

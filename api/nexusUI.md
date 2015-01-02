@@ -831,6 +831,14 @@ matrix1.sequence(240);
 
 **bpm** &nbsp;  *float* &nbsp;  Beats per minute of the pulse
 
+###matrix.stop(  )###
+Stops the matrix sequencer.
+
+```js
+matrix1.stop();
+```
+
+
 message
 ---------
 Send a string of text.
@@ -918,10 +926,6 @@ Multiple vertical sliders in one interface.
 
 | &nbsp; | data
 | --- | ---
-<<<<<<< HEAD
-| *(slider index)* | slider value
-<br> multitouch
-=======
 | *(slider index)* | value of currently changed slider
 | list | all multislider values as list. (if the interface sends to js or node, this list will be an array. if sending to ajax, max7, etc, the list will be a string of space-separated values)
 
@@ -939,7 +943,6 @@ Sets a slider to new value and transmits.
 **value** &nbsp;  *integer* &nbsp;  New slider value
 
 multitouch
->>>>>>> 2f4b5e3dc9b344427dcf7db57872fd2df146fa15
 ------------
 Multitouch 2d-slider with up to 5 points of touch.
 ```html

@@ -48,6 +48,15 @@
 
 			    multislider1.setNumberOfSliders(5);
 
+			    nx.add('position', {
+			    	x: 300,
+			    	y: 300,
+			    	w: 50,
+			    	h: 50,
+			    	parent: "tester",
+			    	name: 'boing'
+			    })
+
 			}
 
 		</script>
@@ -62,7 +71,8 @@
 		  <canvas nx="keyboard"></canvas>
 		  <canvas nx="range" style="width:200px;height:50px"></canvas>
 		  <canvas nx="slider" style="width:200px;height:50px"></canvas>
-		  <canvas nx="message"></canvas>
+
+		  <div id="tester"></div>
 
 		  <!-- Try other nexusUI elements.
 		  See nexusosc.com for more. -->
