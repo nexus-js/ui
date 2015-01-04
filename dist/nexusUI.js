@@ -267,12 +267,10 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
 /**  @property {object} colors The interface's color settings. Set with nx.colorize(). */
 manager.prototype.colors = { 
   "accent": "#ff5500", 
-  "fill": "#f5f5f5", 
-  "border": "#999",
-  "accentborder": "#aa2200",
+  "fill": "#eee", 
+  "border": "#bbb",
   "black": "#000",
-  "white": "#FFF",
-  "highlight": "rgba(255,85,0,0.5)"
+  "white": "#FFF"
 };
   
 /**  @method startPulse 
@@ -323,7 +321,12 @@ manager.prototype.addStylesheet = function() {
     + 'font-family:gill sans;'
     + '}'
     + ''
-    + 'canvas { cursor:pointer; }'
+    + 'canvas { '
+    + 'cursor:pointer;'
+    + 'border-radius:5px;'
+    + 'moz-border-radius:5px;'
+    + 'webkit-border-radius:5px;'
+    + '}'
     + '</style>';
 
   document.body.innerHTML = document.body.innerHTML + htmlstr
@@ -427,6 +430,7 @@ var widget = module.exports = function (target) {
   //drawing
   /**  @property {integer} lineWidth The default line width for drawing (default is 2 pixels). In many widgets, this is overwritten to suite the widget. However it does dictate the border width on most widgets. */
   this.lineWidth = 2;
+  this.context.lineWidth = this.lineWidth;
   /**  @property {object} colors A widget's individual color scheme. Inherited from nx.colors. (Has properties "accent", "fill", "border", "black", and "white") */
   this.colors = new Object();
   // define colors individually so they are not pointers to nx.colors
@@ -1366,6 +1370,9 @@ var button = module.exports = function(target) {
 	this.image = null;
 	this.imageHover = null;
 	this.imageTouch = null;
+
+	this.subval = new Object();
+
 	this.init();
 
 }
@@ -1378,10 +1385,9 @@ button.prototype.init = function() {
 }
 
 button.prototype.draw = function() {
+	this.erase();
 	
 	with (this.context) {
-		clearRect(0, 0, this.width, this.height);
-		lineWidth = this.lineWidth;
 		
 		if (this.image !== null) {
 			// Image Button
@@ -1410,21 +1416,18 @@ button.prototype.draw = function() {
 			// Regular Button
 			if (!this.val.press) {
 				fillStyle = this.colors.fill;
-				strokeStyle = this.colors.border;
 			} else if (this.val.press) {
 				fillStyle = this.colors.accent;
-				strokeStyle = this.colors.accent;
 			}
 		
 			beginPath();
 				arc(this.center.x, this.center.y, (Math.min(this.center.x, this.center.y)-this.lineWidth/2), 0, Math.PI*2, true);
 				fill();	  
-				stroke();
 			closePath();
 
 			if (this.val.press && this.mode=="node") {
 				globalAlpha = 0.2;
-				fillStyle = "#fff";
+				fillStyle = this.colors.white;
 				beginPath();
 					arc(this.val.x, this.val.y, (Math.min(this.center.x, this.center.y)/2), 0, Math.PI*2, true);
 					fill();	  
@@ -1452,11 +1455,11 @@ button.prototype.click = function(e) {
 button.prototype.move = function () {
 	// use to track movement on the button
 	if (this.mode=="node") {
-		this.val = {
-			x: this.clickPos.x,
-			y: this.clickPos.y
-		}
-		this.transmit(this.val);
+		this.val["x"] = this.clickPos.x;
+		this.val["y"] = this.clickPos.y;
+		this.subval["x"] = this.clickPos.x;
+		this.subval["y"] = this.clickPos.y;
+		this.transmit(this.subval);
 		this.draw();
 	}
 }
@@ -1771,22 +1774,20 @@ dial.prototype.init = function() {
 }
 
 dial.prototype.draw = function() {
-	//dial_line
 	var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
 	var dial_position = (this.val.value + 0.25) * 2 * Math.PI
 	var point = math.toCartesian(this.handleLength, dial_angle);
 
+	this.erase();
+	
 	with (this.context) {
-		clearRect(0,0, this.width, this.height);
-		strokeStyle = this.colors.border;
+		
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
 		
 		//draw main circle
 		beginPath();
 			arc(this.center.x, this.center.y, this.circleSize, 0, Math.PI*2, true);
 			fill();
-			stroke();
 		closePath();
 
 		//draw color fill
@@ -3757,54 +3758,46 @@ util.inherits(position, widget);
 
 position.prototype.init = function() {
 	this.nodeSize = Math.min(this.height,this.width)/10;
-	this.actualWid = this.width - this.lineWidth*2 - this.nodeSize*2;
-	this.actualHgt = this.height - this.lineWidth*2 - this.nodeSize*2;
+	this.actualWid = this.width - this.nodeSize*2;
+	this.actualHgt = this.height - this.nodeSize*2;
 	this.draw();
 }
 
 position.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
-		strokeStyle = this.colors.border;
-		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
 
-		var drawingX = this.val.x * this.actualWid + this.nodeSize + this.lineWidth
-		var drawingY = this.val.y * this.actualHgt + this.nodeSize + this.lineWidth
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height);
+
+		var drawingX = this.val.x * this.actualWid + this.nodeSize
+		var drawingY = math.invert(this.val.y) * this.actualHgt + this.nodeSize
 
 		//stay within right/left bounds
-		if (drawingX<(this.bgLeft+this.nodeSize)) {
-			drawingX = this.bgLeft + this.nodeSize;
-		} else if (drawingX>(this.bgRight-this.nodeSize)) {
-			drawingX = this.bgRight - this.nodeSize;
+		if (drawingX<(this.nodeSize)) {
+			drawingX = this.nodeSize;
+		} else if (drawingX>(this.width-this.nodeSize)) {
+			drawingX = this.width - this.nodeSize;
 		}
 		//stay within top/bottom bounds
-		if (drawingY<(this.bgTop+this.nodeSize)) {
-			drawingY = this.bgTop + this.nodeSize;
-		} else if (drawingY>(this.bgBottom-this.nodeSize)) {
-			drawingY = this.bgBottom - this.nodeSize;
+		if (drawingY<(this.nodeSize)) {
+			drawingY = this.nodeSize;
+		} else if (drawingY>(this.height-this.nodeSize)) {
+			drawingY = this.height - this.nodeSize;
 		}
 	
 		with (this.context) {
-			globalAlpha=0.2;
 			beginPath();
 			strokeStyle = this.colors.accent;
-			//lineWidth = this.lineWidth;
-			lineWidth = 2;
-			moveTo(drawingX,0+this.lineWidth);
-			lineTo(drawingX,this.height-this.lineWidth);
-			moveTo(0+this.lineWidth,drawingY);
-			lineTo(this.width-this.lineWidth,drawingY);					
+			lineWidth = 3;
+			moveTo(0,this.height);
+			lineTo(this.val.x*this.width,this.height);
+			moveTo(0,this.height);
+			lineTo(0,math.invert(this.val.y)*this.height);					
 			stroke();
 			closePath();
-			globalAlpha=1;
 			beginPath();
 			fillStyle = this.colors.accent;
-			strokeStyle = this.colors.border;
-			lineWidth = this.lineWidth;
 			arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
 			fill();
 			closePath();
@@ -3815,12 +3808,13 @@ position.prototype.draw = function() {
 }
 
 position.prototype.scaleNode = function() {
-	var actualX = this.val.x - this.nodeSize - this.lineWidth;
-	var actualY = this.val.y - this.nodeSize - this.lineWidth;
+	var actualX = this.val.x - this.nodeSize;
+	var actualY = this.val.y - this.nodeSize;
 	var clippedX = math.clip(actualX/this.actualWid, 0, 1);
 	var clippedY = math.clip(actualY/this.actualHgt, 0, 1);
 	this.val.x = math.prune(clippedX, 3)
 	this.val.y = math.prune(clippedY, 3)
+	this.val.y = math.invert(this.val.y);
 }
 
 position.prototype.click = function() {
@@ -3948,8 +3942,6 @@ range.prototype.init = function() {
 		this.hslider = true;
 	}
 
-	this.realSpace = { x: this.width-this.lineWidth*2, y: this.height-this.lineWidth*2 }
-
 	if (this.canvas.getAttribute("label")!=null) {
 		this.label = this.canvas.getAttribute("label");
 	}
@@ -3959,24 +3951,19 @@ range.prototype.init = function() {
 
 range.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 		
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height);
 		
 		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
 
-			var x1 = this.lineWidth;
+			var x1 = 0;
 			var y1 = this.height-this.val.stop*this.height;
-			var x2 = this.lineWidth+this.realSpace.x;
+			var x2 = this.width;
 			var y2 = this.height-this.val.start*this.height;
-			var depth = 0;
 
 			fillRect(x1,y1,x2-x1,y2-y1);
 			
@@ -3997,11 +3984,10 @@ range.prototype.draw = function() {
 			}
 		} else {
 
-			var x1 = this.lineWidth+this.val.start*this.realSpace.x;
-			var y1 = this.lineWidth;
-			var x2 = this.lineWidth+this.val.stop*this.realSpace.x;
-			var y2 = this.height-this.lineWidth;
-			var depth = 0;
+			var x1 = this.val.start*this.width;
+			var y1 = 0;
+			var x2 = this.val.stop*this.width;
+			var y2 = this.height;
 		   
 			fillRect(x1,y1,x2-x1,y2-y1);
 			
@@ -4100,23 +4086,21 @@ range.prototype.move = function() {
 	} else if (this.mode=="area") {
 
 		if (this.hslider) {
-			var moveloc = (this.clickPos.x - this.touchdown.x)/this.width;
+			var moveloc = this.clickPos.x/this.width;
 			var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
 		} else {
-			var moveloc = (this.clickPos.y - this.touchdown.y)/this.height;
+			var moveloc = this.clickPos.y/this.height;
 			var movesize = (this.touchdown.x - this.clickPos.x)/this.width;
 			moveloc *= -1;
 			movesize *= -1;
 		}
-		moveloc /= 1.5;
 		movesize /= 3;
 		var size = this.startval.size + movesize;
-		var newloc = this.startval.loc + moveloc;
 		size = math.clip(size,0.001,1);
 
 		this.val = {
-			start: newloc - size/2,
-			stop: newloc + size/2
+			start: moveloc - size/2,
+			stop: moveloc + size/2
 		}
 
 		this.val.start = math.clip(this.val.start,0,1);
@@ -4223,6 +4207,8 @@ remix.prototype.draw = function() {
 	
 	if (!this.recording) {
 		with (this.context) {
+			strokeStyle = this.colors.accent;
+			lineWidth = 1;
 			
 			for (var i=0;i<this.buffer.length;i++) {
 				for (var key in this.buffer[i]) {
@@ -4233,22 +4219,11 @@ remix.prototype.draw = function() {
 						nodeX = j*nodeWid;
 						nodeY = Math.abs(this.buffer[i][key][j]-1)*(this.height);
 						
-						var Zebra = [this.colors.accent, "#0473C2", "#D6044E", "#24A600", "#E3D000", "#00E3C8", "#A600E3", "#000000"];
-						fillStyle = Zebra[0];
-						strokeStyle = Zebra[0];
-						lineWidth = 3;
-						
-						globalAlpha = 0.5
 						beginPath()
 							moveTo(pnodeX,pnodeY)
 							lineTo(nodeX,nodeY)
 							stroke()
 						closePath();
-
-						globalAlpha = 1
-					//	fillRect(nodeX, nodeY, nodeDrawWid/3, nodeDrawWid*4);
-					//	fillRect(nodeX, nodeY, nodeDrawWid, nodeDrawWid);
-
 						
 					}
 				}
@@ -4327,7 +4302,7 @@ remix.prototype.advance = function() {
 	if (this.playing) {
 		this.needle += this.rate;
 		if (this.needle/this.size < this.end) {
-			this.scan(this.needle/this.size); 
+			this.scan(this.needle/this.size);
 		} else if (this.looping) {
 			this.needle = this.start;
 		} else {
@@ -4338,12 +4313,16 @@ remix.prototype.advance = function() {
 	
 
 remix.prototype.click = function(e) {
-	this.scan(this.clickPos.x/this.width)
+	if (this.size) {
+		this.scan(this.clickPos.x/this.width)
+	}
 }
 
 
 remix.prototype.move = function(e) {
-	this.scan(this.clickPos.x/this.width)
+	if (this.size) {
+		this.scan(this.clickPos.x/this.width)
+	}
 }
 },{"../core/widget":3,"../utils/math":6,"util":39}],28:[function(require,module,exports){
 var util = require('util');
@@ -4478,8 +4457,6 @@ slider.prototype.init = function() {
 		this.hslider = true;
 	}
 
-	this.realSpace = { x: this.width-this.lineWidth*2, y: this.height-this.lineWidth*2 }
-
 	if (this.canvas.getAttribute("label")!=null) {
 		this.label = this.canvas.getAttribute("label");
 	}
@@ -4488,25 +4465,21 @@ slider.prototype.init = function() {
 }
 
 slider.prototype.draw = function() {
+	
 	this.erase();
-	this.makeRoundedBG();
 		
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height);
 		
 		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
 
-			var x1 = this.lineWidth;
+			var x1 = 0;
 			var y1 = this.height-this.val.value*this.height;
-			var x2 = this.lineWidth+this.realSpace.x;
-			var y2 = this.height-this.lineWidth;
-			var depth = 0;
+			var x2 = this.width;
+			var y2 = this.height;
 
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
@@ -4529,18 +4502,16 @@ slider.prototype.draw = function() {
 			}
 		} else {
 
-			var x1 = this.lineWidth;
-			var y1 = this.lineWidth;
-			var x2 = this.lineWidth+this.val.value*this.realSpace.x;
-			var y2 = this.height-this.lineWidth;
-			var depth = 0;
+			var x1 = 0;
+			var y1 = 0;
+			var x2 = this.val.value*this.width;
+			var y2 = this.height;
 		   
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
 			}
 			
 			if (nx.showLabels) {
-
 				textAlign = "center";
 				textBaseline = "middle";
 				font = "bold 15px courier";
@@ -4588,7 +4559,6 @@ slider.prototype.move = function() {
 			this.draw();
 		}
 	}
-	//	var scaledVal = ( this.val.value - 0.02 ) * (1/.97);
 	this.transmit(this.val);
 }
 },{"../core/widget":3,"../utils/math":6,"util":39}],30:[function(require,module,exports){
@@ -4975,14 +4945,14 @@ toggle.prototype.init = function() {
 toggle.prototype.draw = function() {
 	
 	this.erase()
-	this.makeRoundedBG();
+
 	with (this.context) {
 		if (this.val.value) {
 			fillStyle = this.colors.accent;
 		} else {
 			fillStyle = this.colors.fill;
 		}
-		fill();
+		fillRect(0,0,this.width,this.height);
 		font = "bold "+this.fontsize+"px gill sans"
 		textAlign = "center"
 		if (this.val.value) {
