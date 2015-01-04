@@ -1104,6 +1104,11 @@ exports.mtof = function(midi) {
 exports.random = function(scale) {
   return Math.floor(Math.random() * scale);
 }
+
+
+exports.interp = function(loc,min,max) {
+  return loc * (max - min) + min;  
+}
 },{}],7:[function(require,module,exports){
 
 
@@ -1321,11 +1326,6 @@ var button = module.exports = function(target) {
 	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
 
-	// Define Unique Attributes
-	// Value is the value to send when the button is clicked. 
-
-	this.value = 1;
-
 	/** 
 		@property {object}  val  Main value set and output, with sub-properties:
 		| &nbsp; | data
@@ -1360,7 +1360,7 @@ var button = module.exports = function(target) {
 	```
 	*/
 	this.mode = "toggle";
-	
+
 	this.lockResize = true;
 
 	this.image = null;
@@ -1385,7 +1385,7 @@ button.prototype.draw = function() {
 		
 		if (this.image !== null) {
 			// Image Button
-			if (!this.clicked) {
+			if (!this.val.press) {
 				// Draw Image if not touched
 				drawImage(this.image, 0, 0);
 			} else {
@@ -1408,10 +1408,10 @@ button.prototype.draw = function() {
 		} else {
 	
 			// Regular Button
-			if (!this.clicked) {
+			if (!this.val.press) {
 				fillStyle = this.colors.fill;
 				strokeStyle = this.colors.border;
-			} else if (this.clicked) {
+			} else if (this.val.press) {
 				fillStyle = this.colors.accent;
 				strokeStyle = this.colors.accent;
 			}
@@ -1422,7 +1422,7 @@ button.prototype.draw = function() {
 				stroke();
 			closePath();
 
-			if (this.clicked && this.mode=="node") {
+			if (this.val.press && this.mode=="node") {
 				globalAlpha = 0.2;
 				fillStyle = "#fff";
 				beginPath();
@@ -1440,7 +1440,7 @@ button.prototype.draw = function() {
 }
 
 button.prototype.click = function(e) {
-	this.val["press"] = this.value * this.clicked;
+	this.val["press"] = 1;
 	if (this.mode=="node") {
 		this.val["x"] = this.clickPos.x;
 		this.val["y"] = this.clickPos.y;
@@ -1462,7 +1462,7 @@ button.prototype.move = function () {
 }
 
 button.prototype.release = function() {
-	this.val["press"] = this.value * this.clicked;
+	this.val["press"] = 0;
 	if (this.mode=="toggle" || this.mode=="node") { 
 		this.transmit(this.val);
 	}
@@ -4152,14 +4152,20 @@ var remix = module.exports = function(target) {
 	this.components = new Array();
 	this.buffer = new Array();
 	this.moment = 0;
-	this.stopLeft = 0;
-	this.stopRight = 0;
 	this.val = {
 		x: 0.15,
 		y: 0.5
 	}
+	this.rate = 1;
+	this.start = 0;
+	this.end = 1;
+	this.size = 0;
+	this.looping = false;
 	this.boundLog = this.log.bind(this)
 	this.init();
+
+	this.boundAdv = this.advance.bind(this);
+	nx.aniItems.push(this.boundAdv)
 
 }
 
@@ -4221,15 +4227,28 @@ remix.prototype.draw = function() {
 			for (var i=0;i<this.buffer.length;i++) {
 				for (var key in this.buffer[i]) {
 					for (var j=0;j<this.buffer[i][key].length;j++) {
+						pnodeX = (j-1)*nodeWid;
+						pnodeY = Math.abs(this.buffer[i][key][j-1]-1)*(this.height);
+
 						nodeX = j*nodeWid;
 						nodeY = Math.abs(this.buffer[i][key][j]-1)*(this.height);
 						
 						var Zebra = [this.colors.accent, "#0473C2", "#D6044E", "#24A600", "#E3D000", "#00E3C8", "#A600E3", "#000000"];
-						fillStyle = Zebra[i];
+						fillStyle = Zebra[0];
+						strokeStyle = Zebra[0];
+						lineWidth = 3;
 						
-						beginPath();
-							fillRect(nodeX, nodeY, nodeDrawWid, nodeDrawWid);
+						globalAlpha = 0.5
+						beginPath()
+							moveTo(pnodeX,pnodeY)
+							lineTo(nodeX,nodeY)
+							stroke()
 						closePath();
+
+						globalAlpha = 1
+					//	fillRect(nodeX, nodeY, nodeDrawWid/3, nodeDrawWid*4);
+					//	fillRect(nodeX, nodeY, nodeDrawWid, nodeDrawWid);
+
 						
 					}
 				}
@@ -4257,47 +4276,29 @@ remix.prototype.record = function() {
 remix.prototype.log = function() {
 	for (var i=0;i<this.components.length;i++) {
 		var sender = this.components[i];
-		for (var j in sender.val) {
-			this.write(this.components[i].tapeNum,this.components[i].val);
-		}
+		this.write(this.components[i].tapeNum,this.components[i].val);
 	}
 	this.moment++;
 }
 
 remix.prototype.stop = function() {
 	nx.removeAni(this.boundLog);
+	this.size = this.moment;
 	this.recording = false;
 	this.draw();
 }
 
-remix.prototype.scan = function() {
-	
-}
-
-remix.prototype.play = function() {
-	
-}
-
-remix.prototype.loop = function() {
-	
-}
-	
-
-remix.prototype.click = function(e) {
-	this.move();
-}
-
-
-remix.prototype.move = function(e) {
-	if (this.clicked) {
-		this.needle = Math.floor( (this.clickPos.x/this.width) * this.moment);
-		console.log(this.needle)
+remix.prototype.scan = function(x) {
+	this.needle = x * this.size;
+	this.needle = nx.clip(this.needle,0,this.size-1)
+	if (this.needle) {
 		for (var i=0;i<this.components.length;i++) {
 			var sender = this.components[i];
 			for (var key in this.buffer[sender.tapeNum]) {
 				if (this.buffer[sender.tapeNum][key]) {
 					var val = new Object();
-					val[key] = this.buffer[sender.tapeNum][key][this.needle]
+					var max = this.buffer[sender.tapeNum][key][~~this.needle+1] ? this.buffer[sender.tapeNum][key][~~this.needle+1] : this.buffer[sender.tapeNum][key][~~this.needle]
+					val[key] = nx.interp(this.needle - ~~this.needle, this.buffer[sender.tapeNum][key][~~this.needle], max)
 					sender.set(val, true)
 				}
 			}
@@ -4305,12 +4306,45 @@ remix.prototype.move = function(e) {
 	}
 }
 
-
-/*
-remix.prototype.release = function(e) {
+remix.prototype.play = function(rate,start,end) {
+	rate ? this.rate = rate : null;
+	if (start) {
+		this.needle = start * this.size;
+		this.start = start;
+	} else {
+		this.needle = 0;
+		this.start = 0;
+	} 
+	end ? this.end = end : this.end = 1
+	this.playing = true;
 }
 
-*/
+remix.prototype.loop = function() {
+	
+}
+
+remix.prototype.advance = function() {
+	if (this.playing) {
+		this.needle += this.rate;
+		if (this.needle/this.size < this.end) {
+			this.scan(this.needle/this.size); 
+		} else if (this.looping) {
+			this.needle = this.start;
+		} else {
+			this.playing = false;
+		}
+	}
+}
+	
+
+remix.prototype.click = function(e) {
+	this.scan(this.clickPos.x/this.width)
+}
+
+
+remix.prototype.move = function(e) {
+	this.scan(this.clickPos.x/this.width)
+}
 },{"../core/widget":3,"../utils/math":6,"util":39}],28:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
