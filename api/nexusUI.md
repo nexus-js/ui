@@ -676,7 +676,7 @@ Add simple physics to the widget
 
 keyboard
 ----------
-Piano keyboard which outputs midi data
+Piano keyboard which outputs MIDI
 ```html
 <canvas nx="keyboard"></canvas>
 ```

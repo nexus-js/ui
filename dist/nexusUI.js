@@ -1559,13 +1559,6 @@ colors.prototype.init = function() {
 
 colors.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
-	with(this.context) {
-		fillStyle = this.colors.fill;
-		strokeStyle = this.colors.border;
-		fill();
-		stroke();
-	}
 	for (var i=0;i<this.color_width;i++) {
 		for (var j=0;j<this.color_height;j++) {
 			hue = this.color_table[i][j][0];
@@ -1686,7 +1679,6 @@ comment.prototype.draw = function() {
 
 	this.erase();
 	with (this.context) {
-		globalAlpha = 1;
 		
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
@@ -1695,9 +1687,6 @@ comment.prototype.draw = function() {
 		moveTo(0,this.height);
 		lineTo(this.width,this.height);
 		closePath();
-	
-		globalAlpha = 1;
-		
 		
 		fillStyle = this.colors.black;
 		textAlign = "left";
@@ -1934,24 +1923,20 @@ var envelope = module.exports = function (target) {
 util.inherits(envelope, widget);
 
 envelope.prototype.init = function() {
-	this.actualWid = this.width - this.lineWidth*2 - this.nodeSize*2;
-	this.actualHgt = this.height - this.lineWidth*2 - this.nodeSize*2;
+	this.actualWid = this.width- this.nodeSize*2;
+	this.actualHgt = this.height- this.nodeSize*2;
 	this.draw();
 	nx.aniItems.push(this.pulse.bind(this));
 }
 
 envelope.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height);
 
-		var drawingX = this.val.x * this.actualWid + this.nodeSize + this.lineWidth
-		var drawingY = this.val.y * this.actualHgt + this.nodeSize + this.lineWidth
+		var drawingX = this.val.x * this.actualWid + this.nodeSize
+		var drawingY = this.val.y * this.actualHgt + this.nodeSize
 
 		//stay within right/left bounds
 		if (drawingX<(this.bgLeft+this.nodeSize)) {
@@ -1969,10 +1954,9 @@ envelope.prototype.draw = function() {
 		with (this.context) {
 			beginPath();
 				strokeStyle = this.colors.accent;
-				lineWidth = 1.5;
-				moveTo(this.lineWidth,this.height-this.lineWidth);
+				moveTo(0,this.height);
 				lineTo(drawingX,drawingY);
-				lineTo(this.width-this.lineWidth,this.height-this.lineWidth);					
+				lineTo(this.width,this.height);					
 				stroke();
 				globalAlpha = 0.2;
 				fillStyle = this.colors.accent;
@@ -1982,7 +1966,6 @@ envelope.prototype.draw = function() {
 			beginPath();
 				fillStyle = this.colors.accent;
 				strokeStyle = this.colors.border;
-				lineWidth = this.lineWidth;
 				arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
 				fill();
 			closePath();
@@ -1996,8 +1979,8 @@ envelope.prototype.draw = function() {
 }
 
 envelope.prototype.scaleNode = function() {
-	var actualX = this.val.x - this.nodeSize - this.lineWidth;
-	var actualY = this.val.y - this.nodeSize - this.lineWidth;
+	var actualX = this.val.x - this.nodeSize;
+	var actualY = this.val.y - this.nodeSize;
 	var clippedX = math.clip(actualX/this.actualWid, 0, 1);
 	var clippedY = math.clip(actualY/this.actualHgt, 0, 1);
 	this.val.x = math.prune(clippedX, 3)
@@ -2130,8 +2113,8 @@ var joints = module.exports = function (target) {
 		
 	*/
 	this.val = {
-		x: 0,
-		y: 0,
+		x: 0.35,
+		y: 0.35,
 		node1: 0
 	}
 	/** @property {array} joints An array of objects with x and y properties detailing coordinates of each proximity node.
@@ -2166,17 +2149,13 @@ joints.prototype.init = function() {
 
 joints.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 
-	this.drawingX = this.val.x * this.width
-	this.drawingY = this.val.y * this.height
+	this.drawingX = this.val.x * this.width;
+	this.drawingY = this.val.y * this.height;
 
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height);
 		if (this.val.x != null) {
 			this.drawNode();
 		}
@@ -2187,7 +2166,6 @@ joints.prototype.draw = function() {
 		}	
 		fillStyle = this.colors.accent;
 		strokeStyle = this.colors.border;
-		lineWidth = this.lineWidth;
 		for (var i in this.joints) {
 			beginPath();
 				arc(this.joints[i].x, this.joints[i].y, this.nodeSize/2, 0, Math.PI*2, true);					
@@ -2215,16 +2193,16 @@ joints.prototype.draw = function() {
 
 joints.prototype.drawNode = function() {
 	//stay within right/left bounds
-	if (this.drawingX<(this.bgLeft+this.nodeSize)) {
-		this.drawingX = this.bgLeft + this.nodeSize;
-	} else if (this.drawingX>(this.bgRight-this.nodeSize)) {
-		this.drawingX = this.bgRight - this.nodeSize;
+	if (this.drawingX<(this.nodeSize)) {
+		this.drawingX = this.nodeSize;
+	} else if (this.drawingX>(this.width-this.nodeSize)) {
+		this.drawingX = this.width - this.nodeSize;
 	}
 	//stay within top/bottom bounds
-	if (this.drawingY<(this.bgTop+this.nodeSize)) {
-		this.drawingY = this.bgTop + this.nodeSize;
-	} else if (this.drawingY>(this.bgBottom-this.nodeSize)) {
-		this.drawingY = this.bgBottom - this.nodeSize;
+	if (this.drawingY < this.nodeSize) {
+		this.drawingY = this.nodeSize;
+	} else if (this.drawingY>(this.height-this.nodeSize)) {
+		this.drawingY = this.height - this.nodeSize;
 	}
 
 	with (this.context) {
@@ -2237,11 +2215,6 @@ joints.prototype.drawNode = function() {
 			fill();
 		closePath();
 	}
-}
-
-joints.prototype.scaleNode = function() {
-	this.values = [ math.prune(this.val.x/this.width, 3), math.prune(this.val.y/this.height, 3) ];
-	return this.values;
 }
 
 joints.prototype.click = function() {
@@ -2267,30 +2240,6 @@ joints.prototype.move = function() {
 
 
 joints.prototype.release = function() {
-		this.anix = this.deltaMove.x/this.width;
-		this.aniy = (this.deltaMove.y)/this.height;
-	
-}
-
-joints.prototype.touch = function() {
-	this.val.x = this.clickPos.x/this.width;
-	this.val.y = this.clickPos.y/this.height;
-	this.draw();
-	this.transmit(this.val);
-	this.connections = new Array();
-}
-
-joints.prototype.touchMove = function() {
-	if (this.clicked) {
-		this.val.x = this.clickPos.x/this.width;
-		this.val.y = this.clickPos.y/this.height;
-		this.draw();
-		this.transmit(this.val);
-		this.connections = new Array();
-	}
-}
-
-joints.prototype.touchRelease = function() {
 		this.anix = this.deltaMove.x/this.width;
 		this.aniy = (this.deltaMove.y)/this.height;
 	
@@ -2324,7 +2273,7 @@ joints.prototype.aniBounce = function() {
 		this.anix = math.bounce(this.val.x, 0.1, 0.9, this.anix);
 		this.aniy = math.bounce(this.val.y, 0.1, 0.9, this.aniy);
 		this.draw();
-		this.transmit(this.scaleNode());
+		this.transmit(this.val);
 	}
 }
 
@@ -2336,18 +2285,12 @@ var math = require('../utils/math');
 
 /** 
 	@class keyboard      
-	Piano keyboard which outputs midi data
+	Piano keyboard which outputs MIDI
 	```html
 	<canvas nx="keyboard"></canvas>
 	```
 	<canvas nx="keyboard" style="margin-left:25px"></canvas>
 */
-
-//
-// nexusKeyboard transmits midi pair arrays of [ note number, amplitude ]
-// Middle C "pressed" message will look like [12,1]
-// Middle C "unpressed" message will look like [12,0]
-// If sent to Max, these will show up as two-number lists.
 
 var keyboard = module.exports = function (target) {
 
@@ -2485,21 +2428,19 @@ keyboard.prototype.init = function() {
 keyboard.prototype.draw = function() {
 
 	with (this.context) {
+		strokeStyle = this.colors.border;
+		lineWidth = 1;
+			
 		for (var i in this.wkeys) {
-			strokeStyle = this.wkeys[i].on ? this.colors.border : this.colors.border
 			fillStyle = this.wkeys[i].on ? this.colors.border : this.colors.fill
-			lineWidth = this.lineWidth
 			strokeRect(this.wkeys[i].x,0,this.white.width,this.white.height);
 			fillRect(this.wkeys[i].x,0,this.white.width,this.white.height);
 		}
 		for (var i in this.bkeys) {
-			fillStyle = this.bkeys[i].on ? this.colors.accent : this.colors.black
+			fillStyle = this.bkeys[i].on ? this.colors.border : this.colors.black
 			fillRect(this.bkeys[i].x,0,this.black.width,this.black.height);
 		}
-
-		strokeStyle = this.colors.border;
-		lineWidth = this.lineWidth;
-		strokeRect(0,0,this.width,this.height);
+		//strokeRect(0,0,this.width,this.height);
 	}
 	this.drawLabel();
 }
@@ -2735,6 +2676,7 @@ var matrix = module.exports = function (target) {
 	this.starttime;
 	this.thisframe = 0;
 	this.lastframe = 0;
+	this.context.lineWidth = 1;
 
 	this.sequencing = false;
 	
@@ -2777,8 +2719,6 @@ matrix.prototype.draw = function() {
 
 	this.cellWid = this.canvas.width/this.col;
 	this.cellHgt = this.canvas.height/this.row;
-	
-	console.log(this.place);
 
 	for (var i=0;i<this.row;i++){
 		for (var j=0;j<this.col;j++) {
@@ -2792,7 +2732,6 @@ matrix.prototype.draw = function() {
 			
 			with (this.context) {
 				strokeStyle = this.colors.border;
-				lineWidth = this.lineWidth;
 				if (this.matrix[j][i] > 0) {
 					fillStyle = this.colors.accent;
 				} else {
@@ -2956,7 +2895,7 @@ matrix.prototype.seqStep = function() {
 		if (this.place>=this.col) {
 			this.place = 0;
 		}
-		
+
 		if (this.place==null) {
 			this.place = 0;
 		}
@@ -3027,19 +2966,19 @@ message.prototype.init = function() {
 
 message.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		if (this.clicked) {
-			fillStyle = this.colors.border;
+			fillStyle = this.colors.accent;
 		} else {
 			fillStyle = this.colors.fill;
 		}
-		lineWidth = 1;
-		fill();
-		stroke();
+		fillRect(0,0,this.width,this.height)
 		
-		fillStyle = this.colors.black;
+		if (this.clicked) {
+			fillStyle = this.colors.white;
+		} else {
+			fillStyle = this.colors.black;
+		}
 		textAlign = "left";
 		font = this.size+"px courier";
 	}
@@ -3093,7 +3032,6 @@ var metro = module.exports = function (target) {
 	/** @property {string} orientation Orientation of metro. Default is "horizontal". */
 	this.orientation = "horizontal"
 	this.boundary = this.width
-	this.lineWidth = 1;
 
 	nx.aniItems.push(this.advance.bind(this));
 	this.active = true;
@@ -3103,7 +3041,7 @@ var metro = module.exports = function (target) {
 util.inherits(metro, widget);
 
 metro.prototype.init = function() {
-	this.nodeSize = Math.min(this.width,this.height)/2 - this.lineWidth;
+	this.nodeSize = Math.min(this.width,this.height)/2;
 	if (this.width<this.height) {
 		this.orientation = "vertical"
 		this.boundary = this.height
@@ -3111,24 +3049,20 @@ metro.prototype.init = function() {
 		this.orientation = "horizontal"
 		this.boundary = this.width
 	}
-	this.x = this.nodeSize+this.lineWidth;
-	this.y = this.nodeSize+this.lineWidth;
-	this.loc = this.nodeSize+this.lineWidth;
+	this.x = this.nodeSize;
+	this.y = this.nodeSize;
+	this.loc = this.nodeSize;
 
 	this.draw();
 
 }
 
 metro.prototype.draw = function() {
-	this.makeRoundedBG();
+	this.erase()
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		fill(); 
-		stroke();
+		fillRect(0,0,this.width,this.height); 
 
-		// draw circle
 		beginPath();
 		fillStyle = this.colors.accent;
 		arc(this.x, this.y, this.nodeSize, 0, Math.PI*2, true);					
@@ -3176,6 +3110,7 @@ metro.prototype.customDestroy = function() {
 },{"../core/widget":3,"../utils/math":6,"util":39}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
+var math = require('../utils/math');
 
 /** 
 	@class mouse      
@@ -3215,36 +3150,27 @@ util.inherits(mouse, widget);
 
 mouse.prototype.init = function() {
 	
-	this.inside.height = this.height-this.lineWidth;
-	this.inside.width = this.width-this.lineWidth;
-	this.inside.left = this.lineWidth;
-	this.inside.top = this.lineWidth;
-	this.inside.quarterwid = (this.inside.width)/4
+	this.inside.height = this.height;
+	this.inside.width = this.width;
+	this.inside.left = 0;
+	this.inside.top = 0;
+	this.inside.quarterwid = (this.inside.width)/4;
 	 
 	this.draw();
 }
 
 mouse.prototype.draw = function() {
-	// erase
 	this.erase();
 
-	//make background path
-	this.makeRoundedBG();
-
 	with (this.context) {
-		//fill in background path
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height); 
 
 		var scaledx = -(this.val.x) * this.height;
 		var scaledy = -(this.val.y) * this.height;
 		var scaleddx = -(this.val.deltax) * this.height - this.height/2;
 		var scaleddy = -(this.val.deltay) * this.height - this.height/2;
 
-		// draw something unique
 		fillStyle = this.colors.accent;
 		fillRect(this.inside.left, this.inside.height, this.inside.quarterwid, scaledx);
 		fillRect(this.inside.quarterwid, this.inside.height, this.inside.quarterwid, scaledy);
@@ -3269,9 +3195,9 @@ mouse.prototype.draw = function() {
 mouse.prototype.move = function(e) {
 	this.val = {
 		deltax: e.clientX/window.innerWidth - this.val.x,
-		deltay: e.clientY/window.innerHeight - this.val.y,
+		deltay: math.invert(e.clientY/window.innerHeight) - this.val.y,
 		x: e.clientX/window.innerWidth,
-		y: e.clientY/window.innerHeight
+		y: math.invert(e.clientY/window.innerHeight)
 	}
 	this.draw();
 	this.transmit(this.val);
@@ -3281,7 +3207,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"util":39}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":39}],22:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3327,33 +3253,28 @@ multislider.prototype.init = function() {
 		console.log(i)
 		this.val[i] = 0.7;
 	}
-	this.realSpace = { x: this.width-this.lineWidth*2, y: this.height-this.lineWidth*2 }
+	this.realSpace = { x: this.width, y: this.height }
 	this.sliderWidth = this.realSpace.x/this.sliders;
 	this.draw();
 }
 
 multislider.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height);
 		
 		strokeStyle = this.colors.accent;
 		fillStyle = this.colors.accent;
 		lineWidth = 5;
-    
     	
 		for(var i=0; i<this.sliders; i++) {
 			beginPath();
-			moveTo(this.lineWidth+i*this.sliderWidth, this.height-this.val[i]*this.height);
-			lineTo(this.lineWidth+i*this.sliderWidth + this.sliderWidth, this.height-this.val[i]*this.height);
+			moveTo(i*this.sliderWidth, this.height-this.val[i]*this.height);
+			lineTo(i*this.sliderWidth + this.sliderWidth, this.height-this.val[i]*this.height);
 			stroke();
-			lineTo(this.lineWidth+i*this.sliderWidth + this.sliderWidth, this.height-this.lineWidth);
-			lineTo(this.lineWidth+i*this.sliderWidth,  this.height-this.lineWidth);
+			lineTo(i*this.sliderWidth + this.sliderWidth, this.height);
+			lineTo(i*this.sliderWidth,  this.height);
 			globalAlpha = 0.3 - (i%3)*0.1;
 			fill();
 			closePath();
@@ -3521,13 +3442,9 @@ multitouch.prototype.init = function() {
 
 multitouch.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height);
 
 		var count = 0;
 
@@ -3696,13 +3613,9 @@ number.prototype.init = function() {
 
 number.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
-		stroke();
-		fill();
+		fillRect(0,0,this.width,this.height);
 		
 		fillStyle = this.colors.black;
 		textAlign = "left";
@@ -4575,7 +4488,7 @@ var widget = require('../core/widget');
 */
 
 var string = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 150 };
+	this.defaultSize = { width: 150, height: 75 };
 	widget.call(this, target);
 	
 	/** @property {object}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
@@ -4589,7 +4502,7 @@ var string = module.exports = function (target) {
 		x: 0
 	}
 	/** @property {integer}  numberOfStrings How many strings in the widget. We recommend setting this property with .setStrings() */
-	this.numberOfStrings = 6;
+	this.numberOfStrings = 10;
 	this.strings = new Array();
 	this.abovestring = new Array();
 	/** @property {integer}  friction  How quickly the string slows down */
@@ -4861,13 +4774,10 @@ tilt.prototype.init = function() {
 tilt.prototype.draw = function() {
 	
 	this.erase();
+
 	with (this.context) {
-		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
 	    fillRect(0,0,this.width,this.height);
-	    strokeStyle = this.colors.border;
-	    strokeRect(0,0,this.width,this.height); 
 
 		save(); 
 		translate(this.width/2,this.height/2)
@@ -4886,11 +4796,6 @@ tilt.prototype.draw = function() {
 		textAlign = "center";
 		fillText(this.text, this.width/2, this.height*(this.val.y/2)+this.height/2+this.height/15);
 		globalAlpha = 1;
-
-
-		 
-		// and restore the co-ordinate system to its default
-		// top left origin with no rotation
 		restore();
 	}
 	this.drawLabel();
@@ -5275,13 +5180,12 @@ vinyl.prototype.init = function() {
 }
 
 vinyl.prototype.draw = function() {
-	
+	this.erase()
 
 	with (this.context) {
-		clearRect(0,0, this.width, this.height);
 		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		lineWidth = this.lineWidth;
+		fillRect(0,0,this.width,this.height)
 		
 		//draw main circle
 		beginPath();
@@ -5318,9 +5222,6 @@ vinyl.prototype.draw = function() {
 		arc(this.center.x, this.center.y*1, this.circleSize/16, 0, Math.PI*2, false);
 		fill()
 		closePath(); 
-
-		lineWidth = 4;
-		strokeRect(0,0,this.width,this.height)
 
 	}
 
