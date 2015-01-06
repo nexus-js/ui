@@ -132,10 +132,12 @@ manager.prototype.add = function(type, args) {
            canv.style.top = args.y + "px";
         }
         if (args.w) {
-           canv.style = args.w;
+           canv.style.width = args.w;
+           canv.width = args.w;
         }
         if (args.h) {
-           canv.style = args.h;
+           canv.style.height = args.h;
+           canv.height = args.h;
         }
         if (args.parent) {
            var parent = document.getElementById(args.parent)
@@ -326,10 +328,13 @@ manager.prototype.addStylesheet = function() {
     + 'border-radius:5px;'
     + 'moz-border-radius:5px;'
     + 'webkit-border-radius:5px;'
+    + 'box-sizing:border-box;'
+    + '-moz-box-sizing:border-box;'
+    + '-webkit-box-sizing:border-box;'
     + '}'
     + '</style>';
 
-  document.body.innerHTML = document.body.innerHTML + htmlstr
+  document.head.innerHTML = document.head.innerHTML + htmlstr
 }
 
 /**  @method setViewport
@@ -1032,14 +1037,14 @@ exports.clip = function(value, low, high) {
     nx.prune(1.2345, 1) // returns 1.2
     ```
 */
+
 exports.prune = function(data, scale) {
-  var scale = Math.pow(10,scale);
   if (typeof data === "number") {
-    data = Math.round( data * scale ) / scale;
+    data = parseFloat(data.toFixed(scale));
   } else if (data instanceof Array) {
     for (var i=0;i<data.length;i++) {
       if (typeof data[i]=="number") {
-        data[i] = Math.round( data[i] * scale ) / scale;
+        data[i] = parseFloat(data[i].toFixed(scale));
       }
     }
   }
@@ -4456,9 +4461,9 @@ slider.prototype.move = function() {
 	if (this.mode=="absolute") {
 		if (this.clicked) {
 			if (!this.hslider) {
-				this.val.value = (Math.abs((math.clip(this.clickPos.y/this.height, 0, 1)) - 1));
+				this.val.value = math.prune((Math.abs((math.clip(this.clickPos.y/this.height, 0, 1)) - 1)),3);
 			} else {	
-				this.val.value = math.clip(this.clickPos.x/this.width, 0, 1);
+				this.val.value = math.prune(math.clip(this.clickPos.x/this.width, 0, 1),3);
 			}
 			this.draw();
 		}
