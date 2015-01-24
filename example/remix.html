@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Remix Demo</title>
+	<script type="text/javascript" src="../dist/nexusUI.js"></script>
+</head>
+<body>
+
+	<script>
+		nx.onload = function() {
+
+			nx.colorize("#0ac")
+			nx.sendsTo(function(data) {
+			 //	if (this.isRecording) {
+				//	this.recorder.write(this.tapeNum,data.value);
+				//}
+
+			});
+
+			remix1.bufferLength=1000;
+			remix1.connect(dial1);
+			remix1.connect(position1);
+			remix1.connect(slider1);
+			remix1.connect(toggle1);
+			remix1.connect(button1);
+			remix1.connect(range1);
+
+			toggle2.sendsTo(function(data) {
+				if (data.value) {
+					remix1.record();
+				} else {
+					remix1.stop();
+				}
+				
+			})
+
+
+			
+			
+		}
+
+	</script>
+		<canvas nx="dial"></canvas>
+		<canvas nx="position"></canvas>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="slider"></canvas>
+		<canvas nx="range"></canvas>
+		<br><br>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="remix"></canvas>
+
+</body>
+</html>

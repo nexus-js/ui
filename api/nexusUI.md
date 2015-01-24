@@ -676,7 +676,7 @@ Add simple physics to the widget
 
 keyboard
 ----------
-Piano keyboard which outputs midi data
+Piano keyboard which outputs MIDI
 ```html
 <canvas nx="keyboard"></canvas>
 ```
@@ -1070,6 +1070,13 @@ Range slider
  *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the range individually. "area" mode (default) lets you drag the range as a whole (with parallel mouse movement) or scale the range as a whole (with transverse mouse movement)
 
 
+
+remix
+-------
+```html
+<canvas nx="remix"></canvas>
+```
+<canvas nx="remix" style="margin-left:25px"></canvas>
 
 select
 --------
