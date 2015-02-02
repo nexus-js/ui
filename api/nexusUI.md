@@ -632,6 +632,13 @@ Start ramp from beginning. If set to loop, will loop the ramp until stopped.
 ###envelope.stop(  )###
 Stop the ramp and set progress to 0.
 
+ghost (alpha)
+---------------
+```html
+<canvas nx="ghost"></canvas>
+```
+<canvas nx="ghost" style="margin-left:25px"></canvas>
+
 joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
@@ -1071,8 +1078,8 @@ Range slider
 
 
 
-remix
--------
+remix (alpha)
+---------------
 ```html
 <canvas nx="remix"></canvas>
 ```
