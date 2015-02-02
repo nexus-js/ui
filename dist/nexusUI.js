@@ -160,6 +160,11 @@ Transform an existing canvas into a NexusUI widget.
 @param {string} [type] (Optional.) Specify which type of widget the canvas will become. If no type is given, the canvas must have an nx attribute with a valid widget type.
 */
 manager.prototype.transform = function(canvas, type) {
+  for (var key in nx.widgets) {
+    if (nx.widgets[key].canvasID == canvas.id) {
+      return;
+    }
+  }
   if (type) {
     var nxType = type;
   } else {
@@ -2131,10 +2136,7 @@ ghost.prototype.write = function(index, val) {
 	}
 	for (var key in val) {
 		if (this.buffer[index][key]) {
-		//	if (this.buffer[index][key][this.moment] != this.buffer[index][key][this.moment-1]) {
-		//		console.log(val)
-				this.buffer[index][key][this.moment] = val[key];
-		//	}
+			this.buffer[index][key][this.moment] = val[key];
 		}
 	}
 	this.draw();
@@ -2158,6 +2160,11 @@ ghost.prototype.draw = function() {
 			arc(quad,this.height/2,quad*0.8,0,Math.PI*2)
 			fill()
 			closePath();
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("rec",quad,this.height/2)
 		}
 	} else {
 		with (this.context) {
@@ -2168,20 +2175,31 @@ ghost.prototype.draw = function() {
 	
 	if (!this.playing) {
 		with (this.context) {
-			fillStyle = this.colors.accent
+			fillStyle = this.colors.border
 			beginPath()
 			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
 			fill()
 			closePath()
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("play",quad2,this.height/2)
 		}
 	} else {
 		with (this.context) {
 			strokeStyle = this.colors.border
-			lineWidth = this.width/20
+			lineWidth = this.width/30
 			beginPath()
 			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
 			stroke()
 			closePath()
+			var sec = ~~(this.needle/30)
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/3+"px courier"
+			fillStyle = this.colors.border
+			fillText(sec,quad2,this.height/2+2)
 		}
 	}
 }
@@ -2205,12 +2223,9 @@ ghost.prototype.stop = function() {
 	this.size = this.moment;
 	this.recording = false;
 	this.draw();
-	console.log(this.buffer)
 }
 
 ghost.prototype.scan = function(x) {
-	this.needle = x * this.size;
-	this.needle = nx.clip(this.needle,0,this.size-1)
 	if (this.needle) {
 		for (var i=0;i<this.components.length;i++) {
 			var sender = this.components[i];
@@ -2219,7 +2234,9 @@ ghost.prototype.scan = function(x) {
 					var val = new Object();
 					var max = this.buffer[sender.tapeNum][key][~~this.needle+1] ? this.buffer[sender.tapeNum][key][~~this.needle+1] : this.buffer[sender.tapeNum][key][~~this.needle]
 					val[key] = nx.interp(this.needle - ~~this.needle, this.buffer[sender.tapeNum][key][~~this.needle], max)
-					sender.set(val, true)
+					if (this.buffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.needle-this.direction]) {
+						sender.set(val, true)
+					}
 				}
 			}
 		}
@@ -2229,7 +2246,6 @@ ghost.prototype.scan = function(x) {
 ghost.prototype.play = function(rate,start,end) {
 	rate ? this.rate = rate : null;
 	if (start) {
-	//	this.needle = start * this.size;
 		this.needle = this.moment-1;
 		this.start = start;
 	} else {
@@ -2252,13 +2268,14 @@ ghost.prototype.advance = function() {
 	if (this.playing) {
 		this.needle += this.rate*this.direction;
 		if (this.needle/this.size < this.end && this.needle/this.size > this.start) {
-			this.scan(this.needle/this.size);
+			this.scan();
 		} else if (this.looping) {
 		//	this.needle = this.start;
 			this.direction = this.direction * -1
 		} else {
 			this.playing = false;
 		}
+		this.draw();
 	}
 }
 	
@@ -3483,7 +3500,6 @@ util.inherits(multislider, widget);
 multislider.prototype.init = function() {
 	this.val = new Object();
 	for (var i=0;i<this.sliders;i++) {
-		console.log(i)
 		this.val[i] = 0.7;
 	}
 	this.realSpace = { x: this.width, y: this.height }
