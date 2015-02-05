@@ -425,11 +425,21 @@ var widget = module.exports = function (target) {
     this.defaultSize = { width: 100, height: 100 };
   }
   if (this.width==300 && this.height==150) {
-    this.canvas.width = this.defaultSize.width;
-    this.canvas.height = this.defaultSize.height;
+    this.canvas.width = this.defaultSize.width*2;
+    this.canvas.height = this.defaultSize.height*2;
     this.width = this.defaultSize.width;
     this.height = this.defaultSize.height;
+  } else {
+  	var proxyw = this.width;
+  	var proxyh = this.height;
+  	this.canvas.width = proxyw*2;
+    this.canvas.height = proxyh*2;
+    this.width = proxyw;
+    this.height = proxyh;
   }
+  this.canvas.style.width = this.canvas.width/2+"px";
+  this.canvas.style.height = this.canvas.height/2+"px";
+  this.context.scale(2,2)
   /**  @property {object} offset The widget's computed offset from the top left of the document. (Has properties 'top' and 'left', both in pixels) */
   this.offset = domUtils.findPosition(this.canvas);
   /**  @property {object} center The center of the widget's canvas. A 100x100 widget would have a center at 50x50. (Has properties 'x' and 'y', both in pixels) */
@@ -1530,8 +1540,8 @@ var colors = module.exports = function (target) {
 	widget.call(this, target);
 	
 	//define unique attributes
-	this.color_width = this.canvas.width - this.lineWidth*2;
-	this.color_height = this.canvas.height - this.lineWidth*2;
+	this.color_width = this.width - this.lineWidth*2;
+	this.color_height = this.height - this.lineWidth*2;
 	this.color_table = new Array();
 	/** @property {float} saturation Saturation percentage of the color picker (0-100)*/
 	this.saturation = 100;
@@ -1544,8 +1554,8 @@ util.inherits(colors, widget);
 
 colors.prototype.init = function() {
 
-	this.color_width = this.canvas.width - this.lineWidth*2;
-	this.color_height = this.canvas.height - this.lineWidth*2;
+	this.color_width = this.width - this.lineWidth*2;
+	this.color_height = this.height - this.lineWidth*2;
 	this.color_table = new Array();
 	this.color = [0,0,0];
 	
@@ -1575,11 +1585,11 @@ colors.prototype.draw = function() {
 			sat = this.color_table[i][j][1];
 			lum = this.color_table[i][j][2];
 			with(this.context) {
-					beginPath();
-					fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
-					fillRect(i+this.lineWidth,j+this.lineWidth, 240/this.color_width, 240/this.color_height);
-					fill();
-					closePath();
+				beginPath();
+				fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
+				fillRect(i+this.lineWidth,j+this.lineWidth, 240/this.color_width, 240/this.color_height);
+				fill();
+				closePath();
 			}
 		}
 	}
@@ -1589,16 +1599,15 @@ colors.prototype.draw = function() {
 
 colors.prototype.drawColor = function() {
 	with(this.context) {
-
-		fillStyle = "rgb("+this.val.r+","+this.val.g+","+this.val.b+")"
-		fillRect(2,this.height-2,this.width-2,2)
-		
+		strokeStyle = "rgb("+this.val.r+","+this.val.g+","+this.val.b+")"
+		lineWidth = 4;
+		strokeRect(2,2,this.height-4,this.width-4)
 	}
 }
 
 colors.prototype.click = function(e) {
-	if (this.clickPos.x > 0 && this.clickPos.y > 2 && this.clickPos.x < this.width && this.clickPos.y < this.height) {
-		var imgData = this.context.getImageData(this.clickPos.x,this.clickPos.y,1,1);
+	if (this.clickPos.x > 0 && this.clickPos.y > 0 && this.clickPos.x < this.width && this.clickPos.y < this.height) {
+		var imgData = this.context.getImageData(this.clickPos.x*2,this.clickPos.y*2,1,1);
 	} else {
 		return;
 	}
@@ -1758,7 +1767,7 @@ dial.prototype.init = function() {
 	
 	if (this.width<101) {
 		this.handleLength--;
-		this.handleLength--;
+	//	this.handleLength--;
 	}
 
 	if (this.width<101 || this.width<101) {
@@ -3951,7 +3960,7 @@ position.prototype.draw = function() {
 		with (this.context) {
 			beginPath();
 			strokeStyle = this.colors.accent;
-			lineWidth = 3;
+			lineWidth = 5;
 			moveTo(0,this.height);
 			lineTo(this.val.x*this.width,this.height);
 			moveTo(0,this.height);
@@ -5111,11 +5120,11 @@ toggle.prototype.draw = function() {
 		textAlign = "center"
 		if (this.val.value) {
 			fillStyle = this.colors.white
-			fillText("on", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );	
+			fillText("on", this.width/2, this.height/2 + this.fontsize/3.5 );	
 		} else {
 			globalAlpha = 0.6;
 			fillStyle = this.colors.black
-			fillText("off", this.canvas.width/2, this.canvas.height/2 + this.fontsize/3.5 );
+			fillText("off", this.width/2, this.height/2 + this.fontsize/3.5 );
 			globalAlpha = 1;
 		}
 	}
