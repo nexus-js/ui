@@ -2095,7 +2095,10 @@ var ghost = module.exports = function(target) {
 	this.maxLength = 2000;
 	this.components = new Array();
 	this.buffer = new Array();
+	//this.moment is for the record head
 	this.moment = 0;
+	//this.needle is for the playback head
+	this.needle = 0;
 	this.val = new Object();
 	this.rate = 1;
 	this.start = 0;
@@ -2104,6 +2107,13 @@ var ghost = module.exports = function(target) {
 	this.looping = true;
 	this.boundLog = this.log.bind(this)
 	this.direction = 1;
+	//settings
+	this.noise = 0;
+	this.loopstart = 0;
+	this.loopend = 0;
+	this.stutter = 0;
+	this.mode = "linear";   // linear,bounce,random,wander,pattern/dream
+	//init
 	this.init();
 
 	this.boundAdv = this.advance.bind(this);
@@ -2235,25 +2245,36 @@ ghost.prototype.stop = function() {
 }
 
 ghost.prototype.scan = function(x) {
-	if (this.needle) {
-		for (var i=0;i<this.components.length;i++) {
-			var sender = this.components[i];
-			for (var key in this.buffer[sender.tapeNum]) {
-				if (this.buffer[sender.tapeNum][key]) {
-					var val = new Object();
-					var max = this.buffer[sender.tapeNum][key][~~this.needle+1] ? this.buffer[sender.tapeNum][key][~~this.needle+1] : this.buffer[sender.tapeNum][key][~~this.needle]
-					val[key] = nx.interp(this.needle - ~~this.needle, this.buffer[sender.tapeNum][key][~~this.needle], max)
-					if (this.buffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.needle-this.direction]) {
-						sender.set(val, true)
-					}
+	// loop through the widgets that were recorded
+	for (var i=0;i<this.components.length;i++) {
+		//sender is the current widget we're looking at
+		var sender = this.components[i];
+		//loop through the widget's gesture buffer
+		for (var key in this.buffer[sender.tapeNum]) {
+			if (this.buffer[sender.tapeNum][key]) {
+				//create a new val object
+				var val = new Object();
+				//make sure we're not looking out of bounds of the buffer
+				var max = this.buffer[sender.tapeNum][key][~~this.needle+1] ? this.buffer[sender.tapeNum][key][~~this.needle+1] : this.buffer[sender.tapeNum][key][~~this.needle]
+				// create the value pair
+				val[key] = nx.interp(this.needle - ~~this.needle, this.buffer[sender.tapeNum][key][~~this.needle], max)
+				val[key] += Math.random() * this.noise - this.noise/2;
+				val[key] = nx.clip(val[key],0,1)
+				//set the widget with the value from the buffer
+				if (this.buffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.needle-this.direction]) {
+					sender.set(val, true)
 				}
 			}
 		}
 	}
 }
 
+
+//this.moment is for the record head
+//this.needle is for the playback head
+
 ghost.prototype.play = function(rate,start,end) {
-	rate ? this.rate = rate : null;
+	rate ? this.rate = rate : false;
 	if (start) {
 		this.needle = this.moment-1;
 		this.start = start;
@@ -2275,12 +2296,25 @@ ghost.prototype.loop = function() {
 
 ghost.prototype.advance = function() {
 	if (this.playing) {
-		this.needle += this.rate*this.direction;
+		if (this.mode == "linear" || this.mode == "bounce") {
+			this.needle += this.rate*this.direction;
+		} else if (this.mode=="random") {
+			this.needle = nx.random(this.size);
+		} else if (this.mode=="wander") {
+			var dir = 3
+			this.needle > this.size*0.75 ? dir-- : null;
+			this.needle < this.size*0.25 ? dir++ : null;
+			this.needle += this.rate*this.direction * (nx.random(dir)-1);
+		}
+
 		if (this.needle/this.size < this.end && this.needle/this.size > this.start) {
 			this.scan();
 		} else if (this.looping) {
-		//	this.needle = this.start;
-			this.direction = this.direction * -1
+			if (this.mode=="linear") {
+				this.needle = this.start;
+			} else {
+				this.direction = this.direction * -1
+			}
 		} else {
 			this.playing = false;
 		}
@@ -2304,10 +2338,6 @@ ghost.prototype.click = function(e) {
 		}
 		this.draw();
 	}
-}
-
-
-ghost.prototype.move = function(e) {
 }
 },{"../core/widget":3,"../utils/math":6,"util":40}],16:[function(require,module,exports){
 module.exports = {
