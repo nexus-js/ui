@@ -7,24 +7,80 @@
 </head>
 <body>
 
+	<style>
+
+		body {
+			color:#333;
+			font-family:helvetica;
+			font-weight:100;
+			line-height:2em;
+		}
+
+	</style>
+
 	<script>
 		nx.onload = function() {
 
 			nx.colorize("#0ac")
 			ghost1.watch()
+
+			tabs1.options = ["linear","bounce","random","wander","pattern"]
+			tabs1.init();
+
+			tabs1.on('*',function(data) {
+				ghost1.mode = data.text;
+			})
+
+			dial2.on('*',function(data) {
+				ghost1.rate = data.value;
+			})
+			
+			dial3.on('*',function(data) {
+				ghost1.noise = data.value;
+			})
+			
+			range2.on('*',function(data) {
+				ghost1.start = data.start;
+				ghost1.end = data.stop;
+			})
+
+			position1.on('*',function(data) {
+			//	console.log(data);
+			})
 			
 		}
 
 	</script>
+
 		<canvas nx="dial"></canvas>
 		<canvas nx="position"></canvas>
 		<canvas nx="toggle"></canvas>
 		<canvas nx="button"></canvas>
 		<canvas nx="slider"></canvas>
 		<canvas nx="range"></canvas>
-		<br><br>
-		<canvas nx="toggle"></canvas>
+		
+		<br>
+		<div style="display:inline-block;padding:20px;background-color:#f7f7f7;margin:20px 0px">
+		Gesture Recorder<br>
 		<canvas nx="ghost"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="range"></canvas><br>
+		<canvas nx="tabs" style="width:315px;height:50px"></canvas>
+		</div>
+
+		<br>Demo Gesture Replays:
+		<br>Linear
+		<br>Bounce
+		<br>Linear slow
+		<br>Linear with noise
+		<br>Linear slow with noise
+		<br>Random
+		<br>Wandering
+		<br>Granular loop
+		<br>Granular loop jumping around
+
+
 
 </body>
 </html>

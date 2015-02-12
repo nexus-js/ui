@@ -1179,6 +1179,13 @@ Animated model of a plucked string interface.
 
 
 
+tabs
+------
+```html
+<canvas nx="tabs"></canvas>
+```
+<canvas nx="tabs" style="margin-left:25px"></canvas>
+
 tilt
 ------
 Mobile and Mac/Chrome-compatible tilt sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
