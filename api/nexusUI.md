@@ -632,6 +632,15 @@ Start ramp from beginning. If set to loop, will loop the ramp until stopped.
 ###envelope.stop(  )###
 Stop the ramp and set progress to 0.
 
+ghost (alpha)
+---------------
+Interface gesture capture / playback (in development)
+
+```html
+<canvas nx="ghost"></canvas>
+```
+<canvas nx="ghost" style="margin-left:25px"></canvas>
+
 joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
@@ -1071,8 +1080,8 @@ Range slider
 
 
 
-remix
--------
+remix (alpha)
+---------------
 ```html
 <canvas nx="remix"></canvas>
 ```
@@ -1171,6 +1180,13 @@ Animated model of a plucked string interface.
  *integer*<br> How quickly the string slows down
 
 
+
+tabs
+------
+```html
+<canvas nx="tabs"></canvas>
+```
+<canvas nx="tabs" style="margin-left:25px"></canvas>
 
 tilt
 ------
