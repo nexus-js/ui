@@ -634,6 +634,8 @@ Stop the ramp and set progress to 0.
 
 ghost (alpha)
 ---------------
+Interface gesture capture / playback (in development)
+
 ```html
 <canvas nx="ghost"></canvas>
 ```

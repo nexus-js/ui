@@ -2076,7 +2076,8 @@ var util = require('util');
 var widget = require('../core/widget');
 
 /** 
-	@class ghost (alpha)     
+	@class ghost (alpha) 
+	Interface gesture capture / playback (in development)    
 	
 	```html
 	<canvas nx="ghost"></canvas>
@@ -2283,6 +2284,9 @@ ghost.prototype.play = function(rate,start,end) {
 		this.needle = this.moment-1;
 		this.start = 0;
 	} 
+	if (this.mode=="linear") {
+		this.direction = 1;
+	}
 	end ? this.end = end : this.end = 1
 	this.playing = true;
 }
@@ -3645,6 +3649,7 @@ Sets a slider to new value and transmits.
 multislider.prototype.setSliderValue = function(slider,value) {
 	this.val[slider] = value;
 	this.draw();
+	var msg = new Object();
 	msg[slider] = this.val[slider]
 	if (this.destination=="js" || this.destination=="node") {
 		msg["list"] = this.val;
@@ -5031,6 +5036,15 @@ tabs.prototype.draw = function() {
 		with (this.context) {
 			fillStyle=tabcol;
 			fillRect(this.tabwid*i,0,this.tabwid,this.height)
+			if (i!=this.options.length-1) {
+				beginPath();
+				moveTo(this.tabwid*(i+1),0)
+				lineTo(this.tabwid*(i+1),this.height)
+				lineWidth = 1;
+				strokeStyle = this.colors.border
+				stroke()
+				closePath()
+			}
 			fillStyle=textcol;
 			fillText(this.options[i],this.tabwid*i+this.tabwid/2,this.height/2)
 		}

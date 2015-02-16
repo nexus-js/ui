@@ -31,11 +31,11 @@
 				ghost1.mode = data.text;
 			})
 
-			dial2.on('*',function(data) {
+			dial7.on('*',function(data) {
 				ghost1.rate = data.value;
 			})
 			
-			dial3.on('*',function(data) {
+			dial8.on('*',function(data) {
 				ghost1.noise = data.value;
 			})
 			
@@ -52,14 +52,27 @@
 
 	</script>
 
+
+	<div style="width:450px;background-color:#fafafa;padding:20px;margin:40px auto;text-align:center">
 		<canvas nx="dial"></canvas>
-		<canvas nx="position"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas><br>
+		<canvas nx="position"></canvas> &nbsp; &nbsp;
+		<canvas nx="position"></canvas><br>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="toggle"></canvas>
 		<canvas nx="toggle"></canvas>
 		<canvas nx="button"></canvas>
-		<canvas nx="slider"></canvas>
-		<canvas nx="range"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas><br>
+		<canvas nx="slider" style="width:100px;height:30px"></canvas> &nbsp;
+		<canvas nx="range"></canvas> &nbsp;
+		<canvas nx="slider" style="width:100px;height:30px"></canvas>
 		
-		<br>
+		<br><br>
 		<div style="display:inline-block;padding:20px;background-color:#f7f7f7;margin:20px 0px">
 		Gesture Recorder<br>
 		<canvas nx="ghost"></canvas>
@@ -68,8 +81,9 @@
 		<canvas nx="range"></canvas><br>
 		<canvas nx="tabs" style="width:315px;height:50px"></canvas>
 		</div>
+	</div>
 
-		<br>Demo Gesture Replays:
+	<!--	<br>Demo Gesture Replays:
 		<br>Linear
 		<br>Bounce
 		<br>Linear slow
@@ -78,7 +92,7 @@
 		<br>Random
 		<br>Wandering
 		<br>Granular loop
-		<br>Granular loop jumping around
+		<br>Granular loop jumping around -->
 
 
 
