@@ -314,17 +314,15 @@ manager.prototype.removeAni = function(fn) {
 manager.prototype.addStylesheet = function() {
   var htmlstr = '<style>'
     + 'select {'
-    + 'background: transparent;'
-    + '-webkit-appearance: none;'
     + 'width: 150px;'
     + 'padding: 5px 5px;'
     + 'font-size: 16px;'
-    + 'color:#888;'
-    + 'border: solid 2px #CCC;'
-    + 'border-radius: 6;'
+    + 'color:#666666;'
+    + 'border: solid 0px #CCC;'
+    + 'border-radius: 5;'
     + 'outline: black;'
     + 'cursor:pointer;'
-    + 'background-color:#F7F7F7;'
+    + 'background-color:#EEE;'
     + 'font-family:gill sans;'
     + '}'
     + ''
@@ -1528,25 +1526,28 @@ var widget = require('../core/widget');
 	```
 	<canvas nx="colors" style="margin-left:25px"></canvas>
 */
-
-
-// this object is poor when it is resized
-// because it calculates hsl based on
-// hsl max values / width of object...
 				
 var colors = module.exports = function (target) {
 	
 	this.defaultSize = { width: 100, height: 100 };	
 	widget.call(this, target);
-	
-	//define unique attributes
-	this.color_width = this.width - this.lineWidth*2;
-	this.color_height = this.height - this.lineWidth*2;
-	this.color_table = new Array();
-	/** @property {float} saturation Saturation percentage of the color picker (0-100)*/
-	this.saturation = 100;
-	this.color = [0,0,0];
 
+	/* new tactic */
+
+	this.gradient1 = this.context.createLinearGradient(0,0,this.width,0)
+ 	this.gradient1.addColorStop(0, '#F00'); 
+ 	this.gradient1.addColorStop(0.17, '#FF0'); 
+ 	this.gradient1.addColorStop(0.34, '#0F0'); 
+ 	this.gradient1.addColorStop(0.51, '#0FF'); 
+ 	this.gradient1.addColorStop(0.68, '#00F'); 
+ 	this.gradient1.addColorStop(0.85, '#F0F'); 
+ 	this.gradient1.addColorStop(1, '#F00'); 
+
+	this.gradient2 = this.context.createLinearGradient(0,0,0,this.height)
+ 	this.gradient2.addColorStop(0, 'rgba(0,0,0,255)'); 
+ 	this.gradient2.addColorStop(0.49, 'rgba(0,0,0,0)'); 
+ 	this.gradient2.addColorStop(0.51, 'rgba(255,255,255,0)'); 
+ 	this.gradient2.addColorStop(0.95, 'rgba(255,255,255,255)'); 
 	this.init();
 	
 }
@@ -1554,44 +1555,17 @@ util.inherits(colors, widget);
 
 colors.prototype.init = function() {
 
-	this.color_width = this.width - this.lineWidth*2;
-	this.color_height = this.height - this.lineWidth*2;
-	this.color_table = new Array();
-	this.color = [0,0,0];
-	
-	//prep color picker
- 	this.color_table = new Array(this.color_width);
-	for (var i=0;i<this.color_table.length;i++) {
-		this.color_table[i] = new Array(this.color_height);
-	}
-	
-	
-	for (var i=0;i<this.color_width;i++) {
-		h = Math.round((240/this.color_width)*i);
-		for (var j=0;j<this.color_height;j++) {
-				s = this.saturation;
-				l = Math.round((100/this.color_height)*j);
-			this.color_table[i][j] = [h, s, l];
-		}
-	}
 	this.draw();
 }
 
 colors.prototype.draw = function() {
 	this.erase();
-	for (var i=0;i<this.color_width;i++) {
-		for (var j=0;j<this.color_height;j++) {
-			hue = this.color_table[i][j][0];
-			sat = this.color_table[i][j][1];
-			lum = this.color_table[i][j][2];
-			with(this.context) {
-				beginPath();
-				fillStyle = 'hsl('+hue+', '+sat+'%, '+lum+'%)'
-				fillRect(i+this.lineWidth,j+this.lineWidth, 240/this.color_width, 240/this.color_height);
-				fill();
-				closePath();
-			}
-		}
+
+	with(this.context) {
+		fillStyle = this.gradient1;
+		fillRect(0,0,this.width,this.height)
+		fillStyle = this.gradient2;
+		fillRect(0,0,this.width,this.height)
 	}
 
 	this.drawLabel();
@@ -1599,9 +1573,9 @@ colors.prototype.draw = function() {
 
 colors.prototype.drawColor = function() {
 	with(this.context) {
-		strokeStyle = "rgb("+this.val.r+","+this.val.g+","+this.val.b+")"
-		lineWidth = 4;
-		strokeRect(2,2,this.height-4,this.width-4)
+		fillStyle = "rgb("+this.val.r+","+this.val.g+","+this.val.b+")"
+		fillRect(0,this.height * 0.95,this.width,this.height* 0.05)
+
 	}
 }
 
@@ -1625,7 +1599,6 @@ colors.prototype.click = function(e) {
 	}
 	```
 	*/
-	
 
 	this.val = {
 		r: imgData.data[0], 
@@ -2950,7 +2923,8 @@ var matrix = module.exports = function (target) {
 		| --- | ---
 		| *row* | Current row being changed
 		| *col* | Current column being changed
-		| *value* | New value of matrix point (0-1 float)
+		| *level* | Whether cell is on or off (0 or 1)
+		| *list * | Array of values in highlighted column (if sequencing)
 	*/
 	this.val = {
 		row: 0,
@@ -3195,14 +3169,8 @@ matrix.prototype.seqStep = function() {
 		if (this.place==null) {
 			this.place = 0;
 		}
-		this.draw();
 
-	//	var data = this.matrix[this.place]
-	//	data = data.join();
-	//	data = data.replace(/\,/g," ");
-		this.val.list = this.matrix[this.place];
-
-		this.transmit(this.val);
+		this.jumpToCol(this.place);
 
     }
 
@@ -3210,6 +3178,23 @@ matrix.prototype.seqStep = function() {
     if (this.sequencing) {
 		requestAnimationFrame(this.seqStep.bind(this));
 	}
+}
+
+/** @method jumpToCol
+Jump to a certain column of the matrix, highlight it, and output its values as an array. Column numbers start at 0.
+
+```js
+	matrix1.jumpToCol(1);
+```
+*/
+
+matrix.prototype.jumpToCol = function(place) {
+		this.place = place
+		this.val = {
+			list: this.matrix[this.place]
+		}
+		this.transmit(this.val);
+		this.draw();
 }
 
 
@@ -4593,13 +4578,21 @@ select.prototype.init = function() {
 		this.choices = this.choices.split(",");
 	}
 
-	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
+	var cstyle = this.canvas.style
+	console.log(cstyle)
 	var parent = canv.parentNode;
-	var newdiv = document.createElement("div");
+	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
 	parent.replaceChild(newdiv,canv)
-	
+	this.sel = document.getElementById(this.canvasID)
+	this.sel.style.float = "left"
+	this.sel.style.display = "block"
+	for (var prop in cstyle)
+    	this.sel.style[prop] = cstyle[prop];
+
+
 	this.canvas = document.getElementById(this.canvasID);
 	
 	for (var i=0;i<this.choices.length;i++) {

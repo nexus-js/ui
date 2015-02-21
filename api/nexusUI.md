@@ -516,10 +516,6 @@ Color picker that outputs RBG values
 <canvas nx="colors" style="margin-left:25px"></canvas>
 
 ####Properties####
-###colors.saturation###
- *float*<br> Saturation percentage of the color picker (0-100)
-
-
 ###colors.val###
  *object*<br> RGB color value at mouse position. <br> This is also the widget's data output (See <a href="#nexusui-api-widget-widgetval">widget.val</a>). <br> Properties:
 
@@ -792,7 +788,8 @@ matrix1.draw()
 | --- | ---
 | *row* | Current row being changed
 | *col* | Current column being changed
-| *value* | New value of matrix point (0-1 float)
+| *level* | Whether cell is on or off (0 or 1)
+| *list * | Array of values in highlighted column (if sequencing)
  
 ###matrix.erasing###
  *boolean*<br> Whether or not mouse clicks will erase cells. Set to true automatically if you click on an "on" cell.
@@ -845,6 +842,14 @@ Stops the matrix sequencer.
 
 ```js
 matrix1.stop();
+```
+
+
+###matrix.jumpToCol(  )###
+Jump to a certain column of the matrix, highlight it, and output its values as an array. Column numbers start at 0.
+
+```js
+matrix1.jumpToCol(1);
 ```
 
 
