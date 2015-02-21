@@ -582,7 +582,7 @@ Circular dial
 | *value* | Current value of dial as float 0-1
  
 ###dial.responsivity###
- *float*<br> How much the dial increments on drag. Default: 0.005<br>
+ *float*<br> How much the dial increments on drag. Default: 0.004<br>
 
 
 
@@ -1021,6 +1021,15 @@ number1.set({
 value: 20
 })
 ```
+ 
+###number.decimalPlaces###
+ *integer*<br> How many decimal places on the number. This applies to both the output and the interface text. Default is 2. To achieve an int (non-float), set decimalPlaces to 0.
+
+```js
+// Turns number into an int counter
+number1.decimalPlaces = 0;
+```
+
  
 
 position

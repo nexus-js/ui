@@ -6,43 +6,46 @@
 		<script>
 
 			nx.onload = function() {
-
-				//log all events
-				for (var key in nx.widgets) {
-					with (nx.widgets[key]) {
-						on('*', function(data) {
-							// code that will be executed
-							console.log(canvasID, data)
-						})
-					}
-				} 
-
-				/* or set set individual event listeners like this
-
-					button1.on('press', function(data) {
-						// do something with data
-						// data will be 1 if the button is pressed
-						// data will be 0 if the button is unpressed
-						console.log('b1press', data)
-					})
-
-					button1.on('*', function(data) {
-						// data will now be a js object with several properties relating to the button's state.
-						//data.press will be the press state
-						//data.x will be the x location of the interaction
-						//data.y will by the y location of the interaction
-						console.log('b1all', data)
-					})
-
-					dial1.on('value', function(data) {
-						console.log('d1', data);
-					})
-				*/
 				
-
 			    nx.colorize("accent", "#347");
 			    nx.colorize("border", "#bbb");
 			    nx.colorize("fill", "#eee");
+
+
+				/* log all events */
+
+				for (var key in nx.widgets) {
+
+					nx.widgets[key].on('*', function(data) {
+						console.log(this.canvasID, data)
+					})
+
+				}
+
+
+				/* or set individual event listeners like this */
+
+				button1.on('press', function(data) {
+					// do something with data
+					// data will be 1 if the button is pressed
+					// data will be 0 if the button is unpressed
+					console.log('b1press', data)
+				})
+
+				button1.on('*', function(data) {
+					// data will now be a js object with several properties
+					// data.press will be the press state
+					// data.x will be the x location of the interaction
+					// data.y will by the y location of the interaction
+					console.log('b1all', data)
+				})
+
+				dial1.on('value', function(data) {
+					console.log('d1', data);
+				})
+
+
+				/* misc methods */
 
 			    button1.mode = "node";
 
@@ -71,6 +74,7 @@
 		  <canvas nx="keyboard"></canvas>
 		  <canvas nx="range"></canvas>
 		  <canvas nx="slider"></canvas>
+		  <canvas nx="number"></canvas>
 
 		  <div id="tester"></div>
 

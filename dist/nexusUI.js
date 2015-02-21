@@ -1744,9 +1744,9 @@ var dial = module.exports = function(target) {
 	this.val = {
 		value: 0
 	}
-	/** @property {float}  responsivity    How much the dial increments on drag. Default: 0.005<br>
+	/** @property {float}  responsivity    How much the dial increments on drag. Default: 0.004<br>
 	*/
-	this.responsivity = 0.005;
+	this.responsivity = 0.004;
 	
 	this.aniStart = 0;
 	this.aniStop = 1;
@@ -1840,7 +1840,7 @@ dial.prototype.draw = function() {
 
 
 dial.prototype.click = function(e) {
-	this.val.value = math.prune(this.val.value, 3)
+	this.val.value = math.prune(this.val.value, 4)
 	this.transmit(this.val);
 	this.draw();
 	this.aniStart = this.val.value;
@@ -1849,7 +1849,7 @@ dial.prototype.click = function(e) {
 
 dial.prototype.move = function() {	
 	this.val.value = math.clip((this.val.value - (this.deltaMove.y * this.responsivity)), 0, 1);
-	this.val.value = math.prune(this.val.value, 3)
+	this.val.value = math.prune(this.val.value, 4)
 	this.transmit(this.val);
 	
 	this.draw();
@@ -1886,7 +1886,7 @@ dial.prototype.aniBounce = function() {
 		}
 		this.aniMove = math.bounce(this.val.value, this.aniStart, this.aniStop, this.aniMove);	
 		this.draw();
-		this.val.value = math.prune(this.val.value, 3)
+		this.val.value = math.prune(this.val.value, 4)
 		this.transmit(this.val);
 	}
 }
@@ -3013,8 +3013,8 @@ matrix.prototype.init = function() {
 
 matrix.prototype.draw = function() {
 
-	this.cellWid = this.canvas.width/this.col;
-	this.cellHgt = this.canvas.height/this.row;
+	this.cellWid = this.width/this.col;
+	this.cellHgt = this.height/this.row;
 
 	for (var i=0;i<this.row;i++){
 		for (var j=0;j<this.col;j++) {
@@ -3899,6 +3899,18 @@ var number = module.exports = function (target) {
 	this.val = {
 		value: 0
 	}
+
+	/** @property {integer}  decimalPlaces   How many decimal places on the number. This applies to both the output and the interface text. Default is 2. To achieve an int (non-float), set decimalPlaces to 0.
+
+		```js
+			// Turns number into an int counter
+			number1.decimalPlaces = 0;
+		```
+
+	*/ 
+	this.decimalPlaces = 2;
+	this.lostdata = 0;
+	this.actual = 0;
 	this.init();
 }
 util.inherits(number, widget);
@@ -3912,19 +3924,22 @@ number.prototype.draw = function() {
 	with (this.context) {
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
-		
 		fillStyle = this.colors.black;
 		textAlign = "left";
 		font = this.height*.6+"px courier";
 		textBaseline = 'middle';
-		fillText(this.val.value, 10, this.height/2-1);
+		fillText(this.val.value, this.width/10, this.height/2);
 	}
 }
 
 number.prototype.move = function(e) {
 	if (this.clicked) {
+		this.val.value += (this.deltaMove.x*.02);
 		this.val.value += (this.deltaMove.y*-.1);
-		this.val.value = math.prune(this.val.value,1);
+		this.val.value += this.lostdata;
+		this.actual = this.val.value;
+		this.val.value = math.prune(this.val.value,this.decimalPlaces);
+		this.lostdata = this.actual - this.val.value;
 		this.draw();
 		this.transmit(this.val);
 	}
