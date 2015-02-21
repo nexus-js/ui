@@ -314,17 +314,15 @@ manager.prototype.removeAni = function(fn) {
 manager.prototype.addStylesheet = function() {
   var htmlstr = '<style>'
     + 'select {'
-    + 'background: transparent;'
-    + '-webkit-appearance: none;'
     + 'width: 150px;'
     + 'padding: 5px 5px;'
     + 'font-size: 16px;'
-    + 'color:#888;'
-    + 'border: solid 2px #CCC;'
-    + 'border-radius: 6;'
+    + 'color:#666666;'
+    + 'border: solid 0px #CCC;'
+    + 'border-radius: 5;'
     + 'outline: black;'
     + 'cursor:pointer;'
-    + 'background-color:#F7F7F7;'
+    + 'background-color:#EEE;'
     + 'font-family:gill sans;'
     + '}'
     + ''
@@ -4593,13 +4591,21 @@ select.prototype.init = function() {
 		this.choices = this.choices.split(",");
 	}
 
-	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
+	var cstyle = this.canvas.style
+	console.log(cstyle)
 	var parent = canv.parentNode;
-	var newdiv = document.createElement("div");
+	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
 	parent.replaceChild(newdiv,canv)
-	
+	this.sel = document.getElementById(this.canvasID)
+	this.sel.style.float = "left"
+	this.sel.style.display = "block"
+	for (var prop in cstyle)
+    	this.sel.style[prop] = cstyle[prop];
+
+
 	this.canvas = document.getElementById(this.canvasID);
 	
 	for (var i=0;i<this.choices.length;i++) {
