@@ -6,7 +6,18 @@
 4. In lib/widgets, duplicate position.js (or another widget file) and use it as a template. Position.js is a good choice because it is commented for this purpose.
 5. Rename the file to your new widget name (i.e. tuningfork.js)
 6. Add that same name to the list in lib/widgets/index.js. Please keep this in alphabetical order.
-7. Modify your widget. Guidelines for development:
+7. Modify and build your widget. (See guidelines below)
+8. When you have finished making your widget:
+
+  • Build the project with `gulp`
+  
+  • Test the widget by adding it to one of the /examples pages. Make sure your widget outputs the correct data.
+  
+  • Send a pull request so I can merge your awesome interface!
+
+--
+
+### Guidelines for development:
 
   **the constructor** is a good place to define properties of your widget
   
@@ -25,11 +36,3 @@
   **.deltaMove** is a js object containing the difference between the current x and y interaction point and the previous x and y interaction point.
   
   **.clicked** is automatically set to true when a click or touch has been registered, and set to false upon a mouse/touch release.
-  
-8. When you have finished making your widget:
-
-  • Build the project with `gulp`
-  
-  • Test the widget by adding it to one of the /examples pages. Make sure your widget outputs the correct data.
-  
-  • Send a pull request so I can merge your awesome interface!
