@@ -2162,7 +2162,7 @@ envmulti.prototype.draw = function() {
 					lineTo(drawingX[j],drawingY[j]);
 				}
 
-				lineTo(this.width,this.height);					
+				lineTo(this.width,this.height);
 				stroke();
 				globalAlpha = 0.2;
 				fillStyle = this.colors.accent;
@@ -2202,9 +2202,8 @@ envmulti.prototype.scaleNode = function(nodeIndex) {
 envmulti.prototype.click = function() {
 	// TO DO: handle multiple clicks
 
-	// figure out which node was clicked, let's say it's two for now...
-	// scale only that node
-	selectedNode = 3;
+	// find nearest node and set selectedNode (index)
+	selectedNode = findNearestNode(this.clickPos.x/this.actualWid, this.clickPos.y/this.actualHgt, this.val.points);
 
 	this.transmit(this.val);
 	this.draw();
@@ -2267,6 +2266,25 @@ envmulti.prototype.stop = function() {
 	this.active = false;
 	this.val.index = 0;
 	this.draw();
+}
+
+function findNearestNode(x, y, nodes) {
+	var nearestIndex = null;
+	var nearestDist = 1000;
+
+	for (var i in nodes) {
+		var vec = Array(nodes[i].x, nodes[i].y);
+		var distance = Math.sqrt(  Math.pow( (nodes[i].x - x), 2), Math.pow((nodes[i].y - y), 2) );
+		if (distance < nearestDist) {
+			nearestDist = distance;
+			nearestIndex = i;
+		}
+		console.log('distance between ' + i + ' and pt: ' + distance);
+	}
+
+	console.log(nearestIndex);
+
+	return nearestIndex;
 }
 },{"../core/widget":3,"../utils/math":6,"util":42}],16:[function(require,module,exports){
 var math = require('../utils/math')
