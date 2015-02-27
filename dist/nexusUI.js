@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":42}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":43}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -373,7 +373,7 @@ manager.prototype.blockMove = function(e) {
      e.stopPropogation();
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":16,"events":37,"util":41}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":38,"util":42}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -842,7 +842,7 @@ widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":37,"util":41}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":38,"util":42}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1327,7 +1327,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":41}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1514,7 +1514,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"util":41}],11:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1613,7 +1613,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":41}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1686,7 +1686,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":41}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],13:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -1865,7 +1865,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],14:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1880,7 +1880,6 @@ var widget = require('../core/widget');
 */
 
 var envelope = module.exports = function (target) {
-	
 	this.defaultSize = { width: 75, height: 75 };
 	widget.call(this, target);
 	
@@ -2043,7 +2042,238 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],15:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class envmulti      
+	Three-point line ramp generator
+	```html
+	<canvas nx="envmulti"></canvas>
+	```
+	<canvas nx="envmulti" style="margin-left:25px"></canvas>
+*/
+
+var envmulti = module.exports = function (target) {
+	this.defaultSize = { width: 75, height: 75 };
+	widget.call(this, target);
+	
+	this.nodeSize = 0;
+	/** @property {boolean} active Whether or not the envmulti is currently animating. */
+	this.active = false;
+	/** @property {integer} duration The envmulti's duration in ms. */
+	this.duration = 1000; // 1000 ms
+	/** @property {boolean} looping Whether or not the envmulti loops. */
+	this.looping = false
+
+	//define unique attributes
+	
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *amp* | amplitude at current point of ramp (float 0-1)
+		| *index* | current progress through ramp (float 0-1)
+		| *x* | x of envmulti peak point (float 0-1)
+		| *y* | y of envmulti peak point (float 0-1)
+	*/
+	// this.val = {
+	// 	x: 0.15,
+	// 	y: 0.5,
+	// 	amp: 0,
+	// 	index: 0
+	// };
+
+	// multiple values
+	this.val = {
+		index: 0,
+		amp: 0,
+		points: [
+			{
+				x: 0.01,
+				y: 0.00
+			},
+			{
+				x: 0.02,
+				y: 0.9
+			},
+			{
+				x: 0.5,
+				y: 0.4
+			},
+			{
+				x: 0.85,
+				y: 0.2
+			}
+		]
+	}
+
+	// Index of which node was clicked
+	var selectedNode = null;
+
+	this.init();
+}
+
+util.inherits(envmulti, widget);
+
+envmulti.prototype.init = function() {
+	this.actualWid = this.width- this.nodeSize*2;
+	this.actualHgt = this.height- this.nodeSize*2;
+	this.draw();
+	nx.aniItems.push(this.pulse.bind(this));
+}
+
+envmulti.prototype.draw = function() {
+	this.erase();
+	with (this.context) {
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height);
+
+		// draw all the points
+		var drawingX = [];
+		var drawingY = [];
+
+		for (var i = 0; i < this.val.points.length; i++) {
+			drawingX[i] = this.val.points[i].x * this.actualWid + this.nodeSize;
+			drawingY[i] = (1 - this.val.points[i].y) * this.actualHgt + this.nodeSize;
+
+			//stay within right/left bounds
+			if (drawingX[i]<(this.bgLeft+this.nodeSize)) {
+				drawingX[i] = this.bgLeft + this.nodeSize;
+			} else if (drawingX[i]>(this.bgRight-this.nodeSize)) {
+				drawingX[i] = this.bgRight - this.nodeSize;
+			}
+			//stay within top/bottom bounds
+			if (drawingY[i]<(this.bgTop+this.nodeSize)) {
+				drawingY[i] = this.bgTop + this.nodeSize;
+			} else if (drawingY[i]>(this.bgBottom-this.nodeSize)) {
+				drawingY[i] = this.bgBottom - this.nodeSize;
+			}
+		}
+
+		with (this.context) {
+			beginPath();
+				strokeStyle = this.colors.accent;
+				moveTo(0,this.height);
+
+				// draw each line
+				for (var j = 0; j < drawingX.length; j++) {
+					lineTo(drawingX[j],drawingY[j]);
+				}
+
+				lineTo(this.width,this.height);					
+				stroke();
+				globalAlpha = 0.2;
+				fillStyle = this.colors.accent;
+				fill();
+				globalAlpha = 1;
+			closePath();
+			beginPath();
+				fillStyle = this.colors.accent;
+				strokeStyle = this.colors.border;
+
+				// draw each arch
+				for (var k = 0; k < drawingX.length; k++) {
+					arc(drawingX[k], drawingY[k], this.nodeSize, 0, Math.PI*2, true);					
+				}
+
+				// fill();
+			closePath();
+			globalAlpha = 0.1
+			fillRect(0,0,this.val.index*this.width,this.height);
+			globalAlpha = 1;
+		}
+	}
+	
+	this.drawLabel();
+}
+
+envmulti.prototype.scaleNode = function(nodeIndex) {
+	var i = nodeIndex;
+	var actualX = this.val.points[i].x - this.nodeSize;
+	var actualY = (this.actualHgt - this.val.points[i].y) - this.nodeSize;
+	var clippedX = math.clip(actualX/this.actualWid, 0, 1);
+	var clippedY = math.clip(actualY/this.actualHgt, 0, 1);
+	this.val.points[i].x = math.prune(clippedX, 3);
+	this.val.points[i].y = math.prune(clippedY, 3);
+}
+
+envmulti.prototype.click = function() {
+	// TO DO: handle multiple clicks
+
+	// figure out which node was clicked, let's say it's two for now...
+	selectedNode = 3;
+	// scale only that node
+	this.val.points[selectedNode].x = this.clickPos.x;
+	this.val.points[selectedNode].y = this.clickPos.y;
+	this.scaleNode(selectedNode);
+	this.transmit(this.val);
+	this.draw();
+}
+
+envmulti.prototype.move = function() {
+	if (this.clicked) {
+		this.val.points[selectedNode].x = this.clickPos.x;
+		this.val.points[selectedNode].y = this.clickPos.y;
+		this.scaleNode(selectedNode);
+		this.transmit(this.val);
+		this.draw();
+	}
+}
+
+envmulti.prototype.release = function() {
+	this.val.points[selectedNode].x = this.clickPos.x;
+	this.val.points[selectedNode].y = this.clickPos.y;
+	this.scaleNode(selectedNode);
+	this.draw();
+
+	// reset the selectedNode
+	selectedNode = null;
+}
+
+// updat index and amp
+envmulti.prototype.pulse = function() {
+	if (this.active) {
+		this.val.index += ((this.width/3.3)/this.duration);
+		this.val.index = math.clip(this.val.index, 0, 1)
+
+		// TO DO: FIX THIS
+		if (this.val.index < this.val.points[2].x) {
+			var guiy = (this.val.index/this.val.points[2].x) * (1-this.val.points[2].y);
+			this.val.amp = math.clip(guiy, 0, 1)
+		} else {
+			var guiy = ((1-this.val.index)/(1-this.val.points[2].x)) * (1-this.val.points[2].y);
+			this.amp = math.clip(guiy, 0, 1)
+		}
+	
+		this.transmit(this.val);
+		this.draw();
+		if (this.val.index >= 1) {
+			if (this.looping) {
+				this.val.index -= 1;
+			} else {
+				this.stop();
+			}
+		}
+	}
+}
+
+/** @method start
+	Start ramp from beginning. If set to loop, will loop the ramp until stopped. */
+envmulti.prototype.start = function() {
+	this.active = true;
+	this.val.index = 0;
+}
+
+/** @method stop
+	Stop the ramp and set progress to 0. */
+envmulti.prototype.stop = function() {
+	this.active = false;
+	this.val.index = 0;
+	this.draw();
+}
+},{"../core/widget":3,"../utils/math":6,"util":42}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2318,7 +2548,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],17:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2326,6 +2556,7 @@ module.exports = {
   comment: require('./comment'),
   dial: require('./dial'),
   envelope: require('./envelope'),
+  envmulti: require('./envmulti'),
   ghost: require('./ghost'),
   joints: require('./joints'),
   keyboard: require('./keyboard'),
@@ -2348,7 +2579,7 @@ module.exports = {
   typewriter: require('./typewriter'),
   vinyl: require('./vinyl')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./ghost":15,"./joints":17,"./keyboard":18,"./matrix":19,"./message":20,"./metro":21,"./mouse":22,"./multislider":23,"./multitouch":24,"./number":25,"./position":26,"./range":27,"./remix":28,"./select":29,"./slider":30,"./string":31,"./tabs":32,"./tilt":33,"./toggle":34,"./typewriter":35,"./vinyl":36}],17:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./envmulti":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./metro":22,"./mouse":23,"./multislider":24,"./multitouch":25,"./number":26,"./position":27,"./range":28,"./remix":29,"./select":30,"./slider":31,"./string":32,"./tabs":33,"./tilt":34,"./toggle":35,"./typewriter":36,"./vinyl":37}],18:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2546,7 +2777,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],19:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -2864,7 +3095,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":42}],20:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3202,7 +3433,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":42}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3274,7 +3505,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":41}],21:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],22:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3388,7 +3619,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],23:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -3488,7 +3719,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3645,7 +3876,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],25:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3851,7 +4082,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":42}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3929,7 +4160,7 @@ number.prototype.move = function(e) {
 		this.transmit(this.val);
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],27:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4095,7 +4326,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],28:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -4321,7 +4552,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4533,7 +4764,7 @@ remix.prototype.move = function(e) {
 		this.scan(this.clickPos.x/this.width)
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],30:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4609,7 +4840,7 @@ select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"util":41}],30:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4778,7 +5009,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4980,7 +5211,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":41}],32:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5070,7 +5301,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],34:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5204,7 +5435,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],35:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5278,7 +5509,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":42}],36:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5528,7 +5759,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":42}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5672,7 +5903,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],38:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -5975,7 +6206,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -6000,7 +6231,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -6065,14 +6296,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6194,6 +6425,8 @@ exports.debuglog = function(set) {
  * Echos the value of a value. Trys to print the value out
  * in the best way possible given the different types.
  *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
  */
 /* legacy: obj, showHidden, depth, colors*/
 function inspect(obj, opts) {
@@ -6628,6 +6861,19 @@ exports.log = function() {
 };
 
 
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
 exports.inherits = require('inherits');
 
 exports._extend = function(origin, add) {
@@ -6647,7 +6893,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":40,"_process":39,"inherits":38}],42:[function(require,module,exports){
+},{"./support/isBuffer":41,"_process":40,"inherits":39}],43:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
