@@ -2236,7 +2236,7 @@ envmulti.prototype.release = function() {
 	selectedNode = null;
 }
 
-// updat index and amp
+// update index and amp
 envmulti.prototype.pulse = function() {
 	if (this.active) {
 		this.val.index += ((this.width/3.3)/this.duration);
@@ -2245,13 +2245,14 @@ envmulti.prototype.pulse = function() {
 		// TO DO: FIX THIS
 		if (this.val.index < this.val.points[2].x) {
 			var guiy = (this.val.index/this.val.points[2].x) * (1-this.val.points[2].y);
-			this.val.amp = math.clip(guiy, 0, 1)
+			this.val.amp = (1 - math.clip(guiy, 0, 1) );
 		} else {
 			var guiy = ((1-this.val.index)/(1-this.val.points[2].x)) * (1-this.val.points[2].y);
-			this.amp = math.clip(guiy, 0, 1)
+			this.amp = (1 - math.clip(guiy, 0, 1) );
 		}
 	
 		this.transmit(this.val);
+		console.log(this.val.amp);
 		this.draw();
 		if (this.val.index >= 1) {
 			if (this.looping) {
@@ -2289,10 +2290,7 @@ function findNearestNode(x, y, nodes) {
 			nearestDist = distance;
 			nearestIndex = i;
 		}
-		console.log('distance between ' + i + ' and pt: ' + distance);
 	}
-
-	console.log(nearestIndex);
 
 	return nearestIndex;
 }
