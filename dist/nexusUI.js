@@ -2203,11 +2203,9 @@ envmulti.prototype.click = function() {
 	// TO DO: handle multiple clicks
 
 	// figure out which node was clicked, let's say it's two for now...
-	selectedNode = 3;
 	// scale only that node
-	this.val.points[selectedNode].x = this.clickPos.x;
-	this.val.points[selectedNode].y = this.clickPos.y;
-	this.scaleNode(selectedNode);
+	selectedNode = 3;
+
 	this.transmit(this.val);
 	this.draw();
 }
@@ -2223,9 +2221,6 @@ envmulti.prototype.move = function() {
 }
 
 envmulti.prototype.release = function() {
-	this.val.points[selectedNode].x = this.clickPos.x;
-	this.val.points[selectedNode].y = this.clickPos.y;
-	this.scaleNode(selectedNode);
 	this.draw();
 
 	// reset the selectedNode
