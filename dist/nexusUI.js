@@ -104,6 +104,10 @@ var manager = module.exports = function() {
 
   /**  @property {boolean} globalWidgets Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets */
   this.globalWidgets = true;
+
+  this.font = "gill sans";
+  this.fontSize = 14;
+  this.fontWeight = "bold";
 }
 
 util.inherits(manager, EventEmitter)
@@ -140,7 +144,14 @@ manager.prototype.add = function(type, args) {
            canv.height = args.h;
         }
         if (args.parent) {
-           var parent = document.getElementById(args.parent)
+          var parent;
+          if (typeof args.parent === "string") {
+            parent = document.getElementById(args.parent);
+          } else if (args.parent instanceof HTMLElement){
+            parent = args.parent;
+          } else if (args.parent instanceof jQuery){
+            parent = args.parent[0];            
+          }
         }
         if (args.name) {
            canv.id = args.name
@@ -366,6 +377,15 @@ manager.prototype.setLabels = function(onoff) {
   }
 }
 
+manager.prototype.setProp = function(prop,val) {
+  if (prop && val) {
+    nx[prop] = val;
+    for (var key in this.widgets) {
+      this.widgets[key][prop] = val;
+      this.widgets[key].draw()
+    } 
+  }
+}
 
 manager.prototype.blockMove = function(e) {
   if (e.target.tagName == 'CANVAS') {
@@ -514,6 +534,10 @@ var widget = module.exports = function (target) {
   } else {
     this.canvas.addEventListener('mousedown', this.preClick, false);
   }
+
+  this.fontSize = nx.fontSize;
+  this.fontWeight = nx.fontWeight;
+  this.font = nx.font;
 
 }
 util.inherits(widget, EventEmitter)
@@ -841,6 +865,16 @@ widget.prototype.drawLabel = function() {
 widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data
+}
+
+widget.prototype.setFont = function() {
+  with (this.context) {
+        textAlign = "center";
+        textBaseline = "middle";
+        font = this.fontWeight+" "+this.fontSize+"px "+this.font;
+        fillStyle = this.colors.black;
+        globalAlpha = 0.7;
+  }
 }
 },{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":37,"util":41}],4:[function(require,module,exports){
 
@@ -1300,7 +1334,7 @@ banner.prototype.draw = function() {
 		fillRect(15,0,this.width-30,this.height-10);
 		
 		fillStyle = this.colors.white;
-		font = this.height/5+"px gill sans";
+		font = this.fontWeight + " " +this.height/5+"px "+this.font;
 		textAlign = "center";
 		fillText(this.message1, this.width/2, this.height/3.3);
 		fillText(this.message2, this.width/2, (this.height/3.3)*2);
@@ -2949,6 +2983,9 @@ var matrix = module.exports = function (target) {
 	this.context.lineWidth = 1;
 
 	this.sequencing = false;
+
+	/** @property {integer}  cellBuffer  How much padding between matrix cells, in pixels */
+	this.cellBuffer = 4;
 	
 	/** @property {string}  sequenceMode  Sequence pattern (currently accepts "linear" which is default, or "random") */
 	this.sequenceMode = "linear"; // "linear" or "random". future options would be "wander" (drunk) or "markov"
@@ -2967,8 +3004,6 @@ util.inherits(matrix, widget);
 
 
 matrix.prototype.init = function() {
-
-	this.lineWidth = 1;
 	
 	this.matrix = null;
 	// generate 2D matrix array
@@ -2987,6 +3022,8 @@ matrix.prototype.init = function() {
 
 matrix.prototype.draw = function() {
 
+	this.erase();
+
 	this.cellWid = this.width/this.col;
 	this.cellHgt = this.height/this.row;
 
@@ -3002,13 +3039,13 @@ matrix.prototype.draw = function() {
 			
 			with (this.context) {
 				strokeStyle = this.colors.border;
+				lineWidth = this.cellBuffer;
 				if (this.matrix[j][i] > 0) {
 					fillStyle = this.colors.accent;
 				} else {
 					fillStyle = this.colors.fill;
 				}
-				fillRect(st_x, st_y, boxwid, boxhgt);
-				strokeRect(st_x, st_y, boxwid, boxhgt);
+				fillRect(st_x+this.cellBuffer/2, st_y+this.cellBuffer/2, boxwid-this.cellBuffer, boxhgt-this.cellBuffer);
 			
 				// sequencer highlight
 				if (this.place == j) {
@@ -3021,6 +3058,7 @@ matrix.prototype.draw = function() {
 			}
 		} 
 	}
+
 	this.drawLabel();
 }
 
@@ -3458,10 +3496,10 @@ mouse.prototype.draw = function() {
 		fillRect(this.inside.quarterwid*2, this.inside.height, this.inside.quarterwid, scaleddx);
 		fillRect(this.inside.quarterwid*3, this.inside.height, this.inside.quarterwid, scaleddy);
 
-		globalAlpha = 0.5;
-		fillStyle = this.colors.white;
+		globalAlpha = 1;
+		fillStyle = this.colors.fill;
 		textAlign = "center";
-		font = this.width/7+"px gill sans";
+		font = this.width/7+"px "+this.font;
 		fillText("x", this.inside.quarterwid*0 + this.inside.quarterwid/2, this.height-7);
 		fillText("y", this.inside.quarterwid*1 + this.inside.quarterwid/2, this.height-7);
 		fillText("dx", this.inside.quarterwid*2 + this.inside.quarterwid/2, this.height-7);
@@ -3557,8 +3595,10 @@ multislider.prototype.draw = function() {
 			lineTo(i*this.sliderWidth,  this.height);
 			globalAlpha = 0.3 - (i%3)*0.1;
 			fill();
-			closePath();
+			closePath(); 
 			globalAlpha = 1;
+		//	var separation = i==this.sliders-1 ? 0 : 1;
+		//	fillRect(i*this.sliderWidth, this.height-this.val[i]*this.height, this.sliderWidth-separation, this.val[i]*this.height)
 		}
 	}
 	this.drawLabel();
@@ -3800,11 +3840,10 @@ multitouch.prototype.draw = function() {
 				}
 			}
 			else {
+				this.setFont()
 				fillStyle = this.colors.border;
-				font = "14px courier";
-				textAlign = "center";
-				
 				fillText(this.text, this.width/2, this.height/2);
+				globalAlpha = 1;
 			}
 		}
 	}
@@ -3944,13 +3983,16 @@ var widget = require('../core/widget');
 */
 
 var position = module.exports = function (target) {
+
+	// define a default size
 	this.defaultSize = { width: 150, height: 100 };
+
 	widget.call(this, target);
 	
 	/** @property {integer} nodeSize Size of touch node graphic. */
 	this.nodeSize = 15;
 
-	/** @property {object}  val   
+	/** @property {object}  val   val is an object containing the main interactive / actionable aspects of the widget.
 		| &nbsp; | data
 		| --- | ---
 		| *x* | x position of slider (float 0-1)
@@ -3963,8 +4005,11 @@ var position = module.exports = function (target) {
 	
 	this.init();
 }
+
+// inherit the widget object template
 util.inherits(position, widget);
 
+// .init() is called automatically when the widget is created on a webpage.
 position.prototype.init = function() {
 	this.nodeSize = Math.min(this.height,this.width)/10;
 	this.actualWid = this.width - this.nodeSize*2;
@@ -3972,10 +4017,14 @@ position.prototype.init = function() {
 	this.draw();
 }
 
+// .draw() should be used for any graphics activity
 position.prototype.draw = function() {
 	this.erase();
 	with (this.context) {
 
+		// use this.colors.fill for the widget background color (default: very light gray)
+		// use this.colors.border for any extra structural needs (default: light gray)
+		// use this.colors.accent for important or highlighted parts (default: a bright color)
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
 
@@ -3996,6 +4045,7 @@ position.prototype.draw = function() {
 		}
 	
 		with (this.context) {
+			// draw the x/y level meters
 			beginPath();
 			strokeStyle = this.colors.accent;
 			lineWidth = 5;
@@ -4005,6 +4055,8 @@ position.prototype.draw = function() {
 			lineTo(0,math.invert(this.val.y)*this.height);					
 			stroke();
 			closePath();
+
+			// draw the touch point
 			beginPath();
 			fillStyle = this.colors.accent;
 			arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
@@ -4016,16 +4068,9 @@ position.prototype.draw = function() {
 	this.drawLabel();
 }
 
-position.prototype.scaleNode = function() {
-	var actualX = this.val.x - this.nodeSize;
-	var actualY = this.val.y - this.nodeSize;
-	var clippedX = math.clip(actualX/this.actualWid, 0, 1);
-	var clippedY = math.clip(actualY/this.actualHgt, 0, 1);
-	this.val.x = math.prune(clippedX, 3)
-	this.val.y = math.prune(clippedY, 3)
-	this.val.y = math.invert(this.val.y);
-}
-
+// .click() will be fired when the interface is interacted with
+// this.clicked is automatically set to true
+// this.clickPos is already and object with x and y properties detailing click point.
 position.prototype.click = function() {
 	this.val.x = this.clickPos.x;
 	this.val.y = this.clickPos.y;
@@ -4035,17 +4080,18 @@ position.prototype.click = function() {
 	this.draw();
 }
 
+// .move() will be fired when the interface is moved over after being clicked
+// this.clickPos is already and object with x and y properties detailing click point.
 position.prototype.move = function() {
-	if (this.clicked) {
-		this.val.x = this.clickPos.x;
-		this.val.y = this.clickPos.y;
-		this.scaleNode();
-		this.val["state"] = "move"
-		this.transmit(this.val);
-		this.draw();
-	}
+	this.val.x = this.clickPos.x;
+	this.val.y = this.clickPos.y;
+	this.scaleNode();
+	this.val["state"] = "move"
+	this.transmit(this.val);
+	this.draw();
 }
 
+// .release() will be fired on mouse up (unclick)
 position.prototype.release = function() {
 	this.val.x = this.clickPos.x;
 	this.val.y = this.clickPos.y;
@@ -4053,9 +4099,46 @@ position.prototype.release = function() {
 	this.val["state"] = "release"
 	this.transmit(this.val);
 	this.draw();
+}
+
+/* TOUCH SPECIFIC EVENTS
+ currently, ontouch, ontouchmove, and ontouchrelease automatically execute .click, .move, and .release
+ so you only need to write one function for these events, and they will be touch compatible by default
+ however if you would like to create a touch-specific event you may define the following functions.
+ in these functions, .clickPos and .clicked will refer to your touch interactions.
+
+position.prototype.touch = function() {
+
+}
+
+position.prototype.touchmove = function() {
 	
 }
 
+position.prototype.touchrelease = function() {
+	
+}
+
+
+
+
+*/
+
+
+
+/* 
+ extra functions pertaining only to this widget 
+*/
+
+position.prototype.scaleNode = function() {
+	var actualX = this.val.x - this.nodeSize;
+	var actualY = this.val.y - this.nodeSize;
+	var clippedX = math.clip(actualX/this.actualWid, 0, 1);
+	var clippedY = math.clip(actualY/this.actualHgt, 0, 1);
+	this.val.x = math.prune(clippedX, 3)
+	this.val.y = math.prune(clippedY, 3)
+	this.val.y = math.invert(this.val.y);
+}
 
 /** @method animate
 	Adds animation to the widget.
@@ -4164,54 +4247,43 @@ range.prototype.draw = function() {
 	with (this.context) {
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
-		
-		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
+			
+			if (nx.showLabels && this.label) {
+				save();
+	 			translate(this.width/2, 0);
+				rotate(Math.PI/2);
+				this.setFont();
+				fillText(this.label, this.height/2, 0);
+				globalAlpha = 1;
+				restore();
+			}
 
 			var x1 = 0;
 			var y1 = this.height-this.val.stop*this.height;
 			var x2 = this.width;
 			var y2 = this.height-this.val.start*this.height;
 
+			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
-			
-			if (nx.showLabels) {
 
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				textAlign = "left";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, 0);
-				globalAlpha = 1;
-				restore();
-			
-			}
 		} else {
+			
+			if (nx.showLabels && this.label) {
+				this.setFont();
+				fillText(this.label, this.width/2, this.height/2);
+				globalAlpha = 1;
+			}
 
 			var x1 = this.val.start*this.width;
 			var y1 = 0;
 			var x2 = this.val.stop*this.width;
 			var y2 = this.height;
 		   
+		
+			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
-			
-			
-			if (nx.showLabels) {
-
-				textAlign = "center";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, this.height/2);
-				globalAlpha = 1;
-			
-			}
 		}
 	}
 }
@@ -4298,9 +4370,9 @@ range.prototype.move = function() {
 			var moveloc = this.clickPos.x/this.width;
 			var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
 		} else {
-			var moveloc = this.clickPos.y/this.height;
+			var moveloc = nx.invert(this.clickPos.y/this.height);
 			var movesize = (this.touchdown.x - this.clickPos.x)/this.width;
-			moveloc *= -1;
+		//	moveloc *= -1;
 			movesize *= -1;
 		}
 		movesize /= 3;
@@ -4658,9 +4730,12 @@ var slider = module.exports = function (target) {
 	```
 	*/
 	this.hslider = false;
+	this.label = "";
 	this.handle;
 	this.relhandle;
 	this.cap;
+
+
 	this.init();
 }
 util.inherits(slider, widget);
@@ -4688,55 +4763,50 @@ slider.prototype.draw = function() {
 	with (this.context) {
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
-		
-		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
+
+			if (nx.showLabels) {
+
+				save();
+	 			translate(this.width/2, 0);
+				rotate(Math.PI/2);
+				this.setFont();
+				fillText(this.label, this.height/2, 0);
+				globalAlpha = 1;
+				restore();
+			
+			}
 
 			var x1 = 0;
 			var y1 = this.height-this.val.value*this.height;
 			var x2 = this.width;
 			var y2 = this.height;
 
+		
+			fillStyle = this.colors.accent;
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
 			}
+
+		} else {
 			
 			if (nx.showLabels) {
-
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				textAlign = "left";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, 0);
+				this.setFont();
+				fillText(this.label, this.width/2, this.height/2);
 				globalAlpha = 1;
-				restore();
 			
 			}
-		} else {
 
 			var x1 = 0;
 			var y1 = 0;
 			var x2 = this.val.value*this.width;
 			var y2 = this.height;
 		   
+		
+			fillStyle = this.colors.accent;
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
-			}
-			
-			if (nx.showLabels) {
-				textAlign = "center";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, this.height/2);
-				globalAlpha = 1;
-			
 			}
 		}
 	}
@@ -5040,6 +5110,7 @@ tabs.prototype.draw = function() {
 		} else {
 			var tabcol = this.colors.fill;
 			var textcol = this.colors.black;
+			globalAlpha = 0.7;
 		}
 		with (this.context) {
 			fillStyle=tabcol;
@@ -5054,6 +5125,7 @@ tabs.prototype.draw = function() {
 				closePath()
 			}
 			fillStyle=textcol;
+			font = this.fontSize+"px "+this.font;
 			fillText(this.options[i],this.tabwid*i+this.tabwid/2,this.height/2)
 		}
 		
@@ -5186,7 +5258,7 @@ tilt.prototype.draw = function() {
 	    }
 
 		fillRect(-this.width,this.height*(this.val.y/2)+this.height/2,this.width*3,this.height*2)
-		font = "bold "+this.height/5+"px gill sans";
+		font = "bold "+this.height/5+"px "+this.font;
 		textAlign = "center";
 		fillText(this.text, this.width/2, this.height*(this.val.y/2)+this.height/2+this.height/15);
 		globalAlpha = 1;
@@ -5252,15 +5324,14 @@ toggle.prototype.draw = function() {
 			fillStyle = this.colors.fill;
 		}
 		fillRect(0,0,this.width,this.height);
-		font = "bold "+this.fontsize+"px gill sans"
-		textAlign = "center"
 		if (this.val.value) {
+			this.setFont();
 			fillStyle = this.colors.white
-			fillText("on", this.width/2, this.height/2 + this.fontsize/3.5 );	
+			globalAlpha = 1;
+			fillText("on", this.width/2, this.height/2);	
 		} else {
-			globalAlpha = 0.6;
-			fillStyle = this.colors.black
-			fillText("off", this.width/2, this.height/2 + this.fontsize/3.5 );
+			this.setFont();
+			fillText("off", this.width/2, this.height/2);
 			globalAlpha = 1;
 		}
 	}
@@ -5293,7 +5364,7 @@ var widget = require('../core/widget');
 */
 
 var typewriter = module.exports = function (target) {
-	this.defaultSize = { width: 175, height: 75 };
+	this.defaultSize = { width: 300, height: 100 };
 	widget.call(this, target);
 
 	
@@ -5459,11 +5530,9 @@ typewriter.prototype.draw = function() {	// erase
 		}
 
 		if (this.val.on) {
-			globalAlpha = 0.7
+			this.setFont();
 			fillStyle = this.colors.border;
-			font = this.height+"px courier";
-			textAlign = "center";
-			textBaseline = "middle";
+			font = this.height+"px "+this.font;
 			fillText(this.val.key, this.width/2, this.height/2);
 			
 			globalAlpha = 1

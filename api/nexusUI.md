@@ -799,6 +799,10 @@ matrix1.draw()
  *integer*<br> When sequencing, the current column.
 
 
+###matrix.cellBuffer###
+ *integer*<br> How much padding between matrix cells, in pixels
+
+
 ###matrix.sequenceMode###
  *string*<br> Sequence pattern (currently accepts "linear" which is default, or "random")
 
@@ -1051,8 +1055,7 @@ Two-dimensional touch slider.
 
 
 ###position.val###
- *object*<br> 
-
+ *object*<br> val is an object containing the main interactive / actionable aspects of the widget.
 
 | &nbsp; | data
 | --- | ---
