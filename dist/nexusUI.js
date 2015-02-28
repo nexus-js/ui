@@ -885,17 +885,32 @@ widget.prototype.setFont = function() {
 
 
 widget.prototype.checkPercentage = function() {
-  var wstr1 = this.canvas.style.width;
-  if (wstr1.indexOf("%") >= 0) {
-    this.percent = wstr1.replace("%","")
+  var wstr = this.canvas.style.width;
+  var hstr = this.canvas.style.height;
+  if (wstr.indexOf("%") >= 0 || hstr.indexOf("%") >= 0) {
+    this.percent = {
+      w: (wstr.indexOf("%") >= 0) ? wstr.replace("%","") : false,
+      h: (hstr.indexOf("%") >= 0) ? hstr.replace("%","") : false
+    }
     this.stretch();
   }
 }
 
 widget.prototype.stretch = function() {
   window.addEventListener("resize", function(e) {
-    var newWidth = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("width").replace("px","");
-    this.resize(newWidth*(this.percent/100))
+    if (this.percent.w) {
+      var newWidth = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("width").replace("px","");
+      newWidth *= this.percent.w/100
+    } else {
+      var newWidth = false;
+    }
+    if (this.percent.h) {
+      var newHeight = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("height").replace("px","");
+      newHeight *= this.percent.h/100 
+    } else {
+      var newHeight = false;
+    }
+    this.resize(newWidth,newHeight);
   }.bind(this))
 }
 
@@ -3047,13 +3062,15 @@ util.inherits(matrix, widget);
 
 matrix.prototype.init = function() {
 	
+	this.pmatrix = this.matrix ? this.matrix : false;
+
 	this.matrix = null;
 	// generate 2D matrix array
 	this.matrix = new Array(this.col)
 	for (var i=0;i<this.col;i++) {
 		this.matrix[i] = new Array(this.row)
 		for (var j=0;j<this.row;j++) {
-			this.matrix[i][j] = 0; // set value of each matrix cell
+			this.matrix[i][j] = this.pmatrix ? this.pmatrix[i] ? this.pmatrix[i][j] : 0 : 0; // set value of each matrix cell
 		}
 	}
 
