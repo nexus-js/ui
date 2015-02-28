@@ -1421,6 +1421,7 @@ banner.prototype.click = function() {
 },{"../core/widget":3,"util":41}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
+var drawing = require('../utils/drawing');
 
 var button = module.exports = function(target) {
 
@@ -1490,6 +1491,7 @@ util.inherits(button, widget);
 button.prototype.init = function() {
 	this.width = this.canvas.width;
 	this.height = this.canvas.height;
+	this.radius = (Math.min(this.center.x, this.center.y)-this.lineWidth/2)
 	this.draw();
 }
 
@@ -1530,7 +1532,7 @@ button.prototype.draw = function() {
 			}
 		
 			beginPath();
-				arc(this.center.x, this.center.y, (Math.min(this.center.x, this.center.y)-this.lineWidth/2), 0, Math.PI*2, true);
+				arc(this.center.x, this.center.y, this.radius, 0, Math.PI*2, true);
 				fill();	  
 			closePath();
 
@@ -1552,13 +1554,15 @@ button.prototype.draw = function() {
 }
 
 button.prototype.click = function(e) {
-	this.val["press"] = 1;
-	if (this.mode=="node") {
-		this.val["x"] = this.clickPos.x;
-		this.val["y"] = this.clickPos.y;
+	if (drawing.isInside(this.clickPos,{x: this.center.x-this.radius, y:this.center.y-this.radius, w:this.radius*2, h:this.radius*2})) {
+		this.val["press"] = 1;
+		if (this.mode=="node") {
+			this.val["x"] = this.clickPos.x;
+			this.val["y"] = this.clickPos.y;
+		}
+		this.transmit(this.val);
+		this.draw();
 	}
-	this.transmit(this.val);
-	this.draw();
 }
 
 button.prototype.move = function () {
@@ -1605,7 +1609,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"util":41}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":41}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1826,15 +1830,16 @@ util.inherits(dial, widget);
 
 dial.prototype.init = function() {
 
-	this.circleSize = (Math.min(this.center.x, this.center.y)-this.lineWidth);
-	this.handleLength = this.circleSize+this.lineWidth;
+	this.circleSize = (Math.min(this.center.x, this.center.y));
+	this.handleLength = this.circleSize;
+	this.mindim = Math.min(this.width,this.height)
 	
-	if (this.width<101) {
+	if (this.mindim<101) {
 		this.handleLength--;
 	//	this.handleLength--;
 	}
 
-	if (this.width<101 || this.width<101) {
+	if (this.mindim<101 || this.mindim<101) {
 		this.accentWidth = this.lineWidth * 1;
 	} else {
 		this.accentWidth = this.lineWidth * 2;
@@ -1858,14 +1863,14 @@ dial.prototype.draw = function() {
 		
 		//draw main circle
 		beginPath();
-			arc(this.center.x, this.center.y, this.circleSize, 0, Math.PI*2, true);
+			arc(this.center.x, this.center.y, this.circleSize-1, 0, Math.PI*2, true);
 			fill();
 		closePath();
 
 		//draw color fill
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize, Math.PI* 0.5, dial_position, false);
 			lineTo(this.center.x,this.center.y);
 			globalAlpha = 0.1;
 			fillStyle = this.colors.accent;
@@ -1876,7 +1881,7 @@ dial.prototype.draw = function() {
 		//draw round accent
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize-this.lineWidth , Math.PI* 0.5, dial_position, false);
 			strokeStyle = this.colors.accent;
 			stroke();
 		closePath(); 
