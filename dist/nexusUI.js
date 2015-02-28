@@ -901,8 +901,6 @@ widget.prototype.stretch = function() {
 
 widget.prototype.resize = function(w,h) {
 
-  console.log(this.width)
-
   this.canvas.width = w ? w*2 : this.canvas.width;
   this.canvas.height = h ? h*2 : this.canvas.height;
   this.width =  w ? w : this.width;
