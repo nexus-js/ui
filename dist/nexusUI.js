@@ -432,6 +432,9 @@ var widget = module.exports = function (target) {
   this.canvas = document.getElementById(target);
   /**  @property {HTML5 drawing context} context The canvas's drawing context */
   this.context = this.canvas.getContext("2d");
+
+  this.checkPercentage();
+
   this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
   this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
   /**  @property {integer} height The widget canvas's computed height in pixels */
@@ -875,6 +878,47 @@ widget.prototype.setFont = function() {
         fillStyle = this.colors.black;
         globalAlpha = 0.7;
   }
+}
+
+
+/* Percentage width support */
+
+
+widget.prototype.checkPercentage = function() {
+  var wstr1 = this.canvas.style.width;
+  if (wstr1.indexOf("%") >= 0) {
+    this.percent = wstr1.replace("%","")
+    this.stretch();
+  }
+}
+
+widget.prototype.stretch = function() {
+  window.addEventListener("resize", function(e) {
+    var newWidth = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("width").replace("px","");
+    this.resize(newWidth*(this.percent/100))
+  }.bind(this))
+}
+
+widget.prototype.resize = function(w,h) {
+
+  console.log(this.width)
+
+  this.canvas.width = w ? w*2 : this.canvas.width;
+  this.canvas.height = h ? h*2 : this.canvas.height;
+  this.width =  w ? w : this.width;
+  this.height = h ? h : this.height;
+  this.canvas.style.width = this.width+"px";
+  this.canvas.style.height = this.height+"px";
+  this.context.scale(2,2)
+
+  this.center = {
+    x: this.width/2,
+    y: this.height/2
+  };
+
+  this.init();
+  this.draw();
+  
 }
 },{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":37,"util":41}],4:[function(require,module,exports){
 
@@ -4653,7 +4697,6 @@ select.prototype.init = function() {
 	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
-	console.log(cstyle)
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
