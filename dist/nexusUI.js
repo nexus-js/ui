@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":42}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":43}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -104,10 +104,6 @@ var manager = module.exports = function() {
 
   /**  @property {boolean} globalWidgets Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets */
   this.globalWidgets = true;
-
-  this.font = "gill sans";
-  this.fontSize = 14;
-  this.fontWeight = "bold";
 }
 
 util.inherits(manager, EventEmitter)
@@ -144,14 +140,7 @@ manager.prototype.add = function(type, args) {
            canv.height = args.h;
         }
         if (args.parent) {
-          var parent;
-          if (typeof args.parent === "string") {
-            parent = document.getElementById(args.parent);
-          } else if (args.parent instanceof HTMLElement){
-            parent = args.parent;
-          } else if (args.parent instanceof jQuery){
-            parent = args.parent[0];            
-          }
+           var parent = document.getElementById(args.parent)
         }
         if (args.name) {
            canv.id = args.name
@@ -377,15 +366,6 @@ manager.prototype.setLabels = function(onoff) {
   }
 }
 
-manager.prototype.setProp = function(prop,val) {
-  if (prop && val) {
-    nx[prop] = val;
-    for (var key in this.widgets) {
-      this.widgets[key][prop] = val;
-      this.widgets[key].draw()
-    } 
-  }
-}
 
 manager.prototype.blockMove = function(e) {
   if (e.target.tagName == 'CANVAS') {
@@ -393,7 +373,7 @@ manager.prototype.blockMove = function(e) {
      e.stopPropogation();
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":16,"events":37,"util":41}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":16,"events":38,"util":42}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -432,9 +412,6 @@ var widget = module.exports = function (target) {
   this.canvas = document.getElementById(target);
   /**  @property {HTML5 drawing context} context The canvas's drawing context */
   this.context = this.canvas.getContext("2d");
-
-  this.checkPercentage();
-
   this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
   this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
   /**  @property {integer} height The widget canvas's computed height in pixels */
@@ -537,10 +514,6 @@ var widget = module.exports = function (target) {
   } else {
     this.canvas.addEventListener('mousedown', this.preClick, false);
   }
-
-  this.fontSize = nx.fontSize;
-  this.fontWeight = nx.fontWeight;
-  this.font = nx.font;
 
 }
 util.inherits(widget, EventEmitter)
@@ -869,71 +842,7 @@ widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data
 }
-
-widget.prototype.setFont = function() {
-  with (this.context) {
-        textAlign = "center";
-        textBaseline = "middle";
-        font = this.fontWeight+" "+this.fontSize+"px "+this.font;
-        fillStyle = this.colors.black;
-        globalAlpha = 0.7;
-  }
-}
-
-
-/* Percentage width support */
-
-
-widget.prototype.checkPercentage = function() {
-  var wstr = this.canvas.style.width;
-  var hstr = this.canvas.style.height;
-  if (wstr.indexOf("%") >= 0 || hstr.indexOf("%") >= 0) {
-    this.percent = {
-      w: (wstr.indexOf("%") >= 0) ? wstr.replace("%","") : false,
-      h: (hstr.indexOf("%") >= 0) ? hstr.replace("%","") : false
-    }
-    this.stretch();
-  }
-}
-
-widget.prototype.stretch = function() {
-  window.addEventListener("resize", function(e) {
-    if (this.percent.w) {
-      var newWidth = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("width").replace("px","");
-      newWidth *= this.percent.w/100
-    } else {
-      var newWidth = false;
-    }
-    if (this.percent.h) {
-      var newHeight = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("height").replace("px","");
-      newHeight *= this.percent.h/100 
-    } else {
-      var newHeight = false;
-    }
-    this.resize(newWidth,newHeight);
-  }.bind(this))
-}
-
-widget.prototype.resize = function(w,h) {
-
-  this.canvas.width = w ? w*2 : this.canvas.width;
-  this.canvas.height = h ? h*2 : this.canvas.height;
-  this.width =  w ? w : this.width;
-  this.height = h ? h : this.height;
-  this.canvas.style.width = this.width+"px";
-  this.canvas.style.height = this.height+"px";
-  this.context.scale(2,2)
-
-  this.center = {
-    x: this.width/2,
-    y: this.height/2
-  };
-
-  this.init();
-  this.draw();
-  
-}
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":37,"util":41}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":38,"util":42}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1391,7 +1300,7 @@ banner.prototype.draw = function() {
 		fillRect(15,0,this.width-30,this.height-10);
 		
 		fillStyle = this.colors.white;
-		font = this.fontWeight + " " +this.height/5+"px "+this.font;
+		font = this.height/5+"px gill sans";
 		textAlign = "center";
 		fillText(this.message1, this.width/2, this.height/3.3);
 		fillText(this.message2, this.width/2, (this.height/3.3)*2);
@@ -1418,10 +1327,9 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":41}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
-var drawing = require('../utils/drawing');
 
 var button = module.exports = function(target) {
 
@@ -1491,7 +1399,6 @@ util.inherits(button, widget);
 button.prototype.init = function() {
 	this.width = this.canvas.width;
 	this.height = this.canvas.height;
-	this.radius = (Math.min(this.center.x, this.center.y)-this.lineWidth/2)
 	this.draw();
 }
 
@@ -1532,7 +1439,7 @@ button.prototype.draw = function() {
 			}
 		
 			beginPath();
-				arc(this.center.x, this.center.y, this.radius, 0, Math.PI*2, true);
+				arc(this.center.x, this.center.y, (Math.min(this.center.x, this.center.y)-this.lineWidth/2), 0, Math.PI*2, true);
 				fill();	  
 			closePath();
 
@@ -1554,15 +1461,13 @@ button.prototype.draw = function() {
 }
 
 button.prototype.click = function(e) {
-	if (drawing.isInside(this.clickPos,{x: this.center.x-this.radius, y:this.center.y-this.radius, w:this.radius*2, h:this.radius*2})) {
-		this.val["press"] = 1;
-		if (this.mode=="node") {
-			this.val["x"] = this.clickPos.x;
-			this.val["y"] = this.clickPos.y;
-		}
-		this.transmit(this.val);
-		this.draw();
+	this.val["press"] = 1;
+	if (this.mode=="node") {
+		this.val["x"] = this.clickPos.x;
+		this.val["y"] = this.clickPos.y;
 	}
+	this.transmit(this.val);
+	this.draw();
 }
 
 button.prototype.move = function () {
@@ -1609,7 +1514,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],11:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1708,7 +1613,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":41}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1781,7 +1686,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":41}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],13:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -1830,16 +1735,15 @@ util.inherits(dial, widget);
 
 dial.prototype.init = function() {
 
-	this.circleSize = (Math.min(this.center.x, this.center.y));
-	this.handleLength = this.circleSize;
-	this.mindim = Math.min(this.width,this.height)
+	this.circleSize = (Math.min(this.center.x, this.center.y)-this.lineWidth);
+	this.handleLength = this.circleSize+this.lineWidth;
 	
-	if (this.mindim<101) {
+	if (this.width<101) {
 		this.handleLength--;
 	//	this.handleLength--;
 	}
 
-	if (this.mindim<101 || this.mindim<101) {
+	if (this.width<101 || this.width<101) {
 		this.accentWidth = this.lineWidth * 1;
 	} else {
 		this.accentWidth = this.lineWidth * 2;
@@ -1863,14 +1767,14 @@ dial.prototype.draw = function() {
 		
 		//draw main circle
 		beginPath();
-			arc(this.center.x, this.center.y, this.circleSize-1, 0, Math.PI*2, true);
+			arc(this.center.x, this.center.y, this.circleSize, 0, Math.PI*2, true);
 			fill();
 		closePath();
 
 		//draw color fill
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize, Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
 			lineTo(this.center.x,this.center.y);
 			globalAlpha = 0.1;
 			fillStyle = this.colors.accent;
@@ -1881,7 +1785,7 @@ dial.prototype.draw = function() {
 		//draw round accent
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize-this.lineWidth , Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
 			strokeStyle = this.colors.accent;
 			stroke();
 		closePath(); 
@@ -1961,7 +1865,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],14:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2139,7 +2043,7 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],15:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2414,7 +2318,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],16:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2427,6 +2331,7 @@ module.exports = {
   keyboard: require('./keyboard'),
   matrix: require('./matrix'),
   message: require('./message'),
+  meter: require('./meter'),
   metro: require('./metro'),
   mouse: require('./mouse'),
   multislider: require('./multislider'),
@@ -2444,7 +2349,7 @@ module.exports = {
   typewriter: require('./typewriter'),
   vinyl: require('./vinyl')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./ghost":15,"./joints":17,"./keyboard":18,"./matrix":19,"./message":20,"./metro":21,"./mouse":22,"./multislider":23,"./multitouch":24,"./number":25,"./position":26,"./range":27,"./remix":28,"./select":29,"./slider":30,"./string":31,"./tabs":32,"./tilt":33,"./toggle":34,"./typewriter":35,"./vinyl":36}],17:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./ghost":15,"./joints":17,"./keyboard":18,"./matrix":19,"./message":20,"./meter":21,"./metro":22,"./mouse":23,"./multislider":24,"./multitouch":25,"./number":26,"./position":27,"./range":28,"./remix":29,"./select":30,"./slider":31,"./string":32,"./tabs":33,"./tilt":34,"./toggle":35,"./typewriter":36,"./vinyl":37}],17:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2642,7 +2547,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],18:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -2960,7 +2865,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":42}],19:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3045,9 +2950,6 @@ var matrix = module.exports = function (target) {
 	this.context.lineWidth = 1;
 
 	this.sequencing = false;
-
-	/** @property {integer}  cellBuffer  How much padding between matrix cells, in pixels */
-	this.cellBuffer = 4;
 	
 	/** @property {string}  sequenceMode  Sequence pattern (currently accepts "linear" which is default, or "random") */
 	this.sequenceMode = "linear"; // "linear" or "random". future options would be "wander" (drunk) or "markov"
@@ -3066,16 +2968,16 @@ util.inherits(matrix, widget);
 
 
 matrix.prototype.init = function() {
-	
-	this.pmatrix = this.matrix ? this.matrix : false;
 
+	this.lineWidth = 1;
+	
 	this.matrix = null;
 	// generate 2D matrix array
 	this.matrix = new Array(this.col)
 	for (var i=0;i<this.col;i++) {
 		this.matrix[i] = new Array(this.row)
 		for (var j=0;j<this.row;j++) {
-			this.matrix[i][j] = this.pmatrix ? this.pmatrix[i] ? this.pmatrix[i][j] : 0 : 0; // set value of each matrix cell
+			this.matrix[i][j] = 0; // set value of each matrix cell
 		}
 	}
 
@@ -3085,8 +2987,6 @@ matrix.prototype.init = function() {
 }
 
 matrix.prototype.draw = function() {
-
-	this.erase();
 
 	this.cellWid = this.width/this.col;
 	this.cellHgt = this.height/this.row;
@@ -3103,13 +3003,13 @@ matrix.prototype.draw = function() {
 			
 			with (this.context) {
 				strokeStyle = this.colors.border;
-				lineWidth = this.cellBuffer;
 				if (this.matrix[j][i] > 0) {
 					fillStyle = this.colors.accent;
 				} else {
 					fillStyle = this.colors.fill;
 				}
-				fillRect(st_x+this.cellBuffer/2, st_y+this.cellBuffer/2, boxwid-this.cellBuffer, boxhgt-this.cellBuffer);
+				fillRect(st_x, st_y, boxwid, boxhgt);
+				strokeRect(st_x, st_y, boxwid, boxhgt);
 			
 				// sequencer highlight
 				if (this.place == j) {
@@ -3122,7 +3022,6 @@ matrix.prototype.draw = function() {
 			}
 		} 
 	}
-
 	this.drawLabel();
 }
 
@@ -3304,7 +3203,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":42}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3376,7 +3275,109 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":41}],21:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],21:[function(require,module,exports){
+var util = require('util');
+var drawing = require('../utils/drawing');
+var widget = require('../core/widget');
+
+var meter = module.exports = function(target) {
+
+/** 
+    
+    @public
+    @class meter 
+
+    Decibel level meter.
+
+    ```html
+    <canvas nx="meter"></canvas>
+    ```
+    <canvas nx="meter" style="margin-left:25px"></canvas>
+*/
+
+    this.defaultSize = { width: 30, height: 100 };
+    widget.call(this, target);
+
+    this.val = {
+        level: 0
+    }
+  
+    //this.subval = new Object();
+
+    this.init();
+
+}
+util.inherits(meter, widget);
+
+
+meter.prototype.init = function(){
+
+    this.width = this.canvas.width;
+    this.height = this.canvas.height;
+    this.dataArray;
+}
+
+meter.prototype.setup = function(actx,source){
+    this.actx = actx;   
+    this.source = source;
+   // this.destination = destination;
+
+    this.analyser = this.actx.createAnalyser();
+    this.analyser.smoothingTimeConstant = 0.85;
+    this.analyser.fftsize = 1024;
+    this.bufferLength = this.analyser.frequencyBinCount;
+    this.dataArray = new Uint8Array(this.bufferLength);
+    this.source.connect(this.analyser);
+    
+    
+    this.draw();
+}
+
+meter.prototype.draw = function(){
+    
+    if(this.dataArray){
+        this.analyser.getByteTimeDomainData(this.dataArray);
+    }
+
+    this.erase();
+    
+    this.x = 0;
+    
+    with (this.context){
+        fillStyle = this.colors.fill;
+        fillRect(0,0,this.width, this.height);
+        
+        for(var i = 0; i < this.bufferLength; i++) {
+
+            var v = this.dataArray[i];
+            var y = this.height-((v-128))-60;
+
+            if(v >= 240){
+                fillStyle = 'rgb(255,0,0)';
+            } else if(v <=239 && v >= 230){
+                fillStyle = 'rgb(255,255,0)';
+            } else if(v<=229){
+                fillStyle = 'rgb(0,255,0)';
+            }
+            if((i/2%10)<5){
+                fillRect(this.x,y,30,2);
+            }
+        }
+    }
+    
+    this.val = v;
+
+    window.requestAnimationFrame(this.draw.bind(this));
+    
+}
+   
+   
+
+
+
+    
+    
+},{"../core/widget":3,"../utils/drawing":5,"util":42}],22:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3490,7 +3491,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],23:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -3560,10 +3561,10 @@ mouse.prototype.draw = function() {
 		fillRect(this.inside.quarterwid*2, this.inside.height, this.inside.quarterwid, scaleddx);
 		fillRect(this.inside.quarterwid*3, this.inside.height, this.inside.quarterwid, scaleddy);
 
-		globalAlpha = 1;
-		fillStyle = this.colors.fill;
+		globalAlpha = 0.5;
+		fillStyle = this.colors.white;
 		textAlign = "center";
-		font = this.width/7+"px "+this.font;
+		font = this.width/7+"px gill sans";
 		fillText("x", this.inside.quarterwid*0 + this.inside.quarterwid/2, this.height-7);
 		fillText("y", this.inside.quarterwid*1 + this.inside.quarterwid/2, this.height-7);
 		fillText("dx", this.inside.quarterwid*2 + this.inside.quarterwid/2, this.height-7);
@@ -3590,7 +3591,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3659,10 +3660,8 @@ multislider.prototype.draw = function() {
 			lineTo(i*this.sliderWidth,  this.height);
 			globalAlpha = 0.3 - (i%3)*0.1;
 			fill();
-			closePath(); 
+			closePath();
 			globalAlpha = 1;
-		//	var separation = i==this.sliders-1 ? 0 : 1;
-		//	fillRect(i*this.sliderWidth, this.height-this.val[i]*this.height, this.sliderWidth-separation, this.val[i]*this.height)
 		}
 	}
 	this.drawLabel();
@@ -3749,7 +3748,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":41}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],25:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3904,10 +3903,11 @@ multitouch.prototype.draw = function() {
 				}
 			}
 			else {
-				this.setFont()
 				fillStyle = this.colors.border;
+				font = "14px courier";
+				textAlign = "center";
+				
 				fillText(this.text, this.width/2, this.height/2);
-				globalAlpha = 1;
 			}
 		}
 	}
@@ -3954,7 +3954,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":41}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":42}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4032,7 +4032,7 @@ number.prototype.move = function(e) {
 		this.transmit(this.val);
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],27:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4242,7 +4242,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],28:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -4311,43 +4311,54 @@ range.prototype.draw = function() {
 	with (this.context) {
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
+		
+		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
-			
-			if (nx.showLabels && this.label) {
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				this.setFont();
-				fillText(this.label, this.height/2, 0);
-				globalAlpha = 1;
-				restore();
-			}
 
 			var x1 = 0;
 			var y1 = this.height-this.val.stop*this.height;
 			var x2 = this.width;
 			var y2 = this.height-this.val.start*this.height;
 
-			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
-
-		} else {
 			
-			if (nx.showLabels && this.label) {
-				this.setFont();
-				fillText(this.label, this.width/2, this.height/2);
+			if (nx.showLabels) {
+
+				save();
+	 			translate(this.width/2, 0);
+				rotate(Math.PI/2);
+				textAlign = "left";
+				textBaseline = "middle";
+				font = "bold 15px courier";
+				fillStyle = this.colors.accent;
+				globalAlpha = 0.3;
+				fillText(this.label, this.width/2, 0);
 				globalAlpha = 1;
+				restore();
+			
 			}
+		} else {
 
 			var x1 = this.val.start*this.width;
 			var y1 = 0;
 			var x2 = this.val.stop*this.width;
 			var y2 = this.height;
 		   
-		
-			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
+			
+			
+			if (nx.showLabels) {
+
+				textAlign = "center";
+				textBaseline = "middle";
+				font = "bold 15px courier";
+				fillStyle = this.colors.accent;
+				globalAlpha = 0.3;
+				fillText(this.label, this.width/2, this.height/2);
+				globalAlpha = 1;
+			
+			}
 		}
 	}
 }
@@ -4434,9 +4445,9 @@ range.prototype.move = function() {
 			var moveloc = this.clickPos.x/this.width;
 			var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
 		} else {
-			var moveloc = nx.invert(this.clickPos.y/this.height);
+			var moveloc = this.clickPos.y/this.height;
 			var movesize = (this.touchdown.x - this.clickPos.x)/this.width;
-		//	moveloc *= -1;
+			moveloc *= -1;
 			movesize *= -1;
 		}
 		movesize /= 3;
@@ -4457,7 +4468,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4669,7 +4680,7 @@ remix.prototype.move = function(e) {
 		this.scan(this.clickPos.x/this.width)
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],30:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4717,6 +4728,7 @@ select.prototype.init = function() {
 	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
+	console.log(cstyle)
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
@@ -4744,7 +4756,7 @@ select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"util":41}],30:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4793,12 +4805,9 @@ var slider = module.exports = function (target) {
 	```
 	*/
 	this.hslider = false;
-	this.label = "";
 	this.handle;
 	this.relhandle;
 	this.cap;
-
-
 	this.init();
 }
 util.inherits(slider, widget);
@@ -4826,50 +4835,55 @@ slider.prototype.draw = function() {
 	with (this.context) {
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
+		
+		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
-
-			if (nx.showLabels) {
-
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				this.setFont();
-				fillText(this.label, this.height/2, 0);
-				globalAlpha = 1;
-				restore();
-			
-			}
 
 			var x1 = 0;
 			var y1 = this.height-this.val.value*this.height;
 			var x2 = this.width;
 			var y2 = this.height;
 
-		
-			fillStyle = this.colors.accent;
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
 			}
-
-		} else {
 			
 			if (nx.showLabels) {
-				this.setFont();
-				fillText(this.label, this.width/2, this.height/2);
+
+				save();
+	 			translate(this.width/2, 0);
+				rotate(Math.PI/2);
+				textAlign = "left";
+				textBaseline = "middle";
+				font = "bold 15px courier";
+				fillStyle = this.colors.accent;
+				globalAlpha = 0.3;
+				fillText(this.label, this.width/2, 0);
 				globalAlpha = 1;
+				restore();
 			
 			}
+		} else {
 
 			var x1 = 0;
 			var y1 = 0;
 			var x2 = this.val.value*this.width;
 			var y2 = this.height;
 		   
-		
-			fillStyle = this.colors.accent;
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
+			}
+			
+			if (nx.showLabels) {
+				textAlign = "center";
+				textBaseline = "middle";
+				font = "bold 15px courier";
+				fillStyle = this.colors.accent;
+				globalAlpha = 0.3;
+				fillText(this.label, this.width/2, this.height/2);
+				globalAlpha = 1;
+			
 			}
 		}
 	}
@@ -4911,7 +4925,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5113,7 +5127,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":41}],32:[function(require,module,exports){
+},{"../core/widget":3,"util":42}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5173,7 +5187,6 @@ tabs.prototype.draw = function() {
 		} else {
 			var tabcol = this.colors.fill;
 			var textcol = this.colors.black;
-			globalAlpha = 0.7;
 		}
 		with (this.context) {
 			fillStyle=tabcol;
@@ -5188,7 +5201,6 @@ tabs.prototype.draw = function() {
 				closePath()
 			}
 			fillStyle=textcol;
-			font = this.fontSize+"px "+this.font;
 			fillText(this.options[i],this.tabwid*i+this.tabwid/2,this.height/2)
 		}
 		
@@ -5205,7 +5217,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],34:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5321,7 +5333,7 @@ tilt.prototype.draw = function() {
 	    }
 
 		fillRect(-this.width,this.height*(this.val.y/2)+this.height/2,this.width*3,this.height*2)
-		font = "bold "+this.height/5+"px "+this.font;
+		font = "bold "+this.height/5+"px gill sans";
 		textAlign = "center";
 		fillText(this.text, this.width/2, this.height*(this.val.y/2)+this.height/2+this.height/15);
 		globalAlpha = 1;
@@ -5339,7 +5351,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],35:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5387,14 +5399,15 @@ toggle.prototype.draw = function() {
 			fillStyle = this.colors.fill;
 		}
 		fillRect(0,0,this.width,this.height);
+		font = "bold "+this.fontsize+"px gill sans"
+		textAlign = "center"
 		if (this.val.value) {
-			this.setFont();
 			fillStyle = this.colors.white
-			globalAlpha = 1;
-			fillText("on", this.width/2, this.height/2);	
+			fillText("on", this.width/2, this.height/2 + this.fontsize/3.5 );	
 		} else {
-			this.setFont();
-			fillText("off", this.width/2, this.height/2);
+			globalAlpha = 0.6;
+			fillStyle = this.colors.black
+			fillText("off", this.width/2, this.height/2 + this.fontsize/3.5 );
 			globalAlpha = 1;
 		}
 	}
@@ -5412,7 +5425,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":42}],36:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5427,7 +5440,7 @@ var widget = require('../core/widget');
 */
 
 var typewriter = module.exports = function (target) {
-	this.defaultSize = { width: 300, height: 100 };
+	this.defaultSize = { width: 175, height: 75 };
 	widget.call(this, target);
 
 	
@@ -5593,9 +5606,11 @@ typewriter.prototype.draw = function() {	// erase
 		}
 
 		if (this.val.on) {
-			this.setFont();
+			globalAlpha = 0.7
 			fillStyle = this.colors.border;
-			font = this.height+"px "+this.font;
+			font = this.height+"px courier";
+			textAlign = "center";
+			textBaseline = "middle";
 			fillText(this.val.key, this.width/2, this.height/2);
 			
 			globalAlpha = 1
@@ -5660,7 +5675,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":41}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":42}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5804,7 +5819,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":41}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":42}],38:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -6107,7 +6122,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -6132,7 +6147,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -6197,14 +6212,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6326,6 +6341,8 @@ exports.debuglog = function(set) {
  * Echos the value of a value. Trys to print the value out
  * in the best way possible given the different types.
  *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
  */
 /* legacy: obj, showHidden, depth, colors*/
 function inspect(obj, opts) {
@@ -6760,6 +6777,19 @@ exports.log = function() {
 };
 
 
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
 exports.inherits = require('inherits');
 
 exports._extend = function(origin, add) {
@@ -6779,7 +6809,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":40,"_process":39,"inherits":38}],42:[function(require,module,exports){
+},{"./support/isBuffer":41,"_process":40,"inherits":39}],43:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;

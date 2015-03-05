@@ -11,7 +11,8 @@
 			    nx.colorize("border", "#bbb");
 			    nx.colorize("fill", "#eee");
 
-			    slider1.label = "vol"
+			   
+
 
 				/* log all events */
 
@@ -45,12 +46,39 @@
 					console.log('d1', data);
 				})
 
+				//set up audio context, gain envelope generator and oscillator for db meter
+				var actx = new (window.AudioContext || window.webkitAudioContext)();
+
+			    var env = actx.createGain();
+        		env.gain.value = 0;
+        		env.connect(actx.destination);
+
+        		button2.on('press',function(data){
+        			
+        			if(data == 1){
+			            env.gain.cancelScheduledValues(actx.currentTime);
+			            env.gain.setValueAtTime(0.0, actx.currentTime);
+			            env.gain.linearRampToValueAtTime(1,actx.currentTime + 0.02);
+			            env.gain.linearRampToValueAtTime(0.0,actx.currentTime + 1.0);
+			        }
+        		})
+        
+			    var sine = actx.createOscillator();
+			    sine.type = 'sine';
+			    sine.frequency.value = 400;
+			    
+			    sine.connect(env);
+			    sine.start();
+
+			    //set up db meter
+			    meter1.setup(actx,env);
+
 
 				/* misc methods */
 
 			    button1.mode = "node";
 
-			    multislider1.setNumberOfSliders(10);
+			    multislider1.setNumberOfSliders(5);
 
 			    nx.add('position', {
 			    	x: 300,
@@ -76,16 +104,12 @@
 		  <canvas nx="range"></canvas>
 		  <canvas nx="slider"></canvas>
 		  <canvas nx="number"></canvas>
+		  <canvas nx="button"></canvas>
+		  <canvas nx="meter"></canvas>
 
 		  <canvas nx="select" style="width:200px;height:30px" choices="one,two,three"></canvas>
 
-		  <div style="margin:50px auto;padding:10px;border:solid 1px #DDD">
-		  	<canvas nx="toggle" style="width:100%;height:30px;margin:0px"></canvas>
-		  	<canvas nx="toggle" style="width:50%;height:30px;margin:0px"></canvas>
-		  	<canvas nx="matrix" style="width:100%;height:100px;margin:0px"></canvas>
-		  </div>
-
-		  <div id="tester" style="position:absolute"></div>
+		  <div id="tester"></div>
 
 		  <!-- Try other nexusUI elements.
 		  See nexusosc.com for more. -->
