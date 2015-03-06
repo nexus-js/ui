@@ -879,6 +879,15 @@ Send a string of text.
 
 
 
+meter
+-------
+Decibel level meter.
+
+```html
+<canvas nx="meter"></canvas>
+```
+<canvas nx="meter" style="margin-left:25px"></canvas>
+
 metro
 -------
 Bouncing ball metronome
