@@ -560,6 +560,24 @@ Set the font size of the comment text
 
 **size** &nbsp;  *integer* &nbsp;  Text size in pixels
 
+crossfade
+-----------
+Crossfade for panning or mixing
+```html
+<canvas nx="crossfade"></canvas>
+```
+<canvas nx="crossfade" style="margin-left:25px"></canvas>
+
+####Properties####
+###crossfade.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *value* | Crossfade value (float -1 to 1)
+ 
+
 dial
 ------
 Circular dial
@@ -1306,4 +1324,12 @@ For the boom bap
 | --- | ---
 | *speed*| Current speed of the record player's rotation (normal is 1)
  
+
+windows
+---------
+Scalable windows
+```html
+<canvas nx="windows"></canvas>
+```
+<canvas nx="windows" style="margin-left:25px"></canvas>
 
