@@ -11,6 +11,8 @@
 			    nx.colorize("border", "#bbb");
 			    nx.colorize("fill", "#eee");
 
+			   
+
 
 				/* log all events */
 
@@ -44,6 +46,33 @@
 					console.log('d1', data);
 				})
 
+				//set up audio context, gain envelope generator and oscillator for db meter
+				var actx = new (window.AudioContext || window.webkitAudioContext)();
+
+			    var env = actx.createGain();
+        		env.gain.value = 0;
+        		env.connect(actx.destination);
+
+        		button2.on('press',function(data){
+        			
+        			if(data == 1){
+			            env.gain.cancelScheduledValues(actx.currentTime);
+			            env.gain.setValueAtTime(0.0, actx.currentTime);
+			            env.gain.linearRampToValueAtTime(1,actx.currentTime + 0.02);
+			            env.gain.linearRampToValueAtTime(0.0,actx.currentTime + 1.0);
+			        }
+        		})
+        
+			    var sine = actx.createOscillator();
+			    sine.type = 'sine';
+			    sine.frequency.value = 400;
+			    
+			    sine.connect(env);
+			    sine.start();
+
+			    //set up db meter
+			    meter1.setup(actx,env);
+
 
 				/* misc methods */
 
@@ -75,6 +104,10 @@
 		  <canvas nx="range"></canvas>
 		  <canvas nx="slider"></canvas>
 		  <canvas nx="number"></canvas>
+		  <canvas nx="button"></canvas>
+		  <canvas nx="meter"></canvas>
+		  <canvas nx="crossfade"></canvas>
+		  <canvas nx="windows"></canvas>
 
 		  <canvas nx="select" style="width:200px;height:30px" choices="one,two,three"></canvas>
 
