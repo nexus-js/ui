@@ -11,7 +11,14 @@
   },{
     "name": "Sebastien Piquemal",
     "email": "sebpiq@gmail.com"
+  },{
+    "name": "Andrew Bernstein",
+    "email": "andrewbbernstein@gmail.com"
   }],
+  "repository" : { 
+    "type" : "git",
+    "url" : "http://github.com/lsu-emdm/nexusui/"
+  },
   "dependencies": {},
   "devDependencies": {
     "gulp": "3.8.x",
@@ -23,7 +30,7 @@
     "run-sequence": "0.3.x",
     "eventemitter2": "0.4.x",
     "vinyl-source-stream": "1.0.x",
-    "jsdox": "0.4.x",
+    "jsdox": "0.2.x",
     "extend": "2.0.x"
   },
   "engine": "node >= 0.10.0",
