@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":44}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":47}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -104,6 +104,10 @@ var manager = module.exports = function() {
 
   /**  @property {boolean} globalWidgets Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets */
   this.globalWidgets = true;
+
+  this.font = "gill sans";
+  this.fontSize = 14;
+  this.fontWeight = "bold";
 }
 
 util.inherits(manager, EventEmitter)
@@ -140,7 +144,14 @@ manager.prototype.add = function(type, args) {
            canv.height = args.h;
         }
         if (args.parent) {
-           var parent = document.getElementById(args.parent)
+          var parent;
+          if (typeof args.parent === "string") {
+            parent = document.getElementById(args.parent);
+          } else if (args.parent instanceof HTMLElement){
+            parent = args.parent;
+          } else if (args.parent instanceof jQuery){
+            parent = args.parent[0];            
+          }
         }
         if (args.name) {
            canv.id = args.name
@@ -367,6 +378,15 @@ manager.prototype.setLabels = function(onoff) {
   }
 }
 
+manager.prototype.setProp = function(prop,val) {
+  if (prop && val) {
+    nx[prop] = val;
+    for (var key in this.widgets) {
+      this.widgets[key][prop] = val;
+      this.widgets[key].draw()
+    } 
+  }
+}
 
 manager.prototype.blockMove = function(e) {
   if (e.target.tagName == 'CANVAS') {
@@ -374,7 +394,7 @@ manager.prototype.blockMove = function(e) {
      e.stopPropogation();
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":39,"util":43}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":42,"util":46}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -413,6 +433,9 @@ var widget = module.exports = function (target) {
   this.canvas = document.getElementById(target);
   /**  @property {HTML5 drawing context} context The canvas's drawing context */
   this.context = this.canvas.getContext("2d");
+
+  this.checkPercentage();
+
   this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
   this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
   /**  @property {integer} height The widget canvas's computed height in pixels */
@@ -516,6 +539,10 @@ var widget = module.exports = function (target) {
     this.canvas.addEventListener('mousedown', this.preClick, false);
   }
 
+  this.fontSize = nx.fontSize;
+  this.fontWeight = nx.fontWeight;
+  this.font = nx.font;
+
 }
 util.inherits(widget, EventEmitter)
 
@@ -568,6 +595,7 @@ widget.prototype.preClick = function(e) {
   this.clicked = true;
   this.deltaMove.x = 0;
   this.deltaMove.y = 0;
+  this.hasMoved = false;
   this.click(e);
   document.body.style.userSelect = "none";
   document.body.style.mozUserSelect = "none";
@@ -579,6 +607,7 @@ widget.prototype.preMove = function(e) {
   this.deltaMove.y = newClickPos.y - this.clickPos.y;
   this.deltaMove.x = newClickPos.x - this.clickPos.x;
   this.clickPos = newClickPos;
+  this.hasMoved = true;
   this.move(e);
 }
 
@@ -843,7 +872,71 @@ widget.prototype.saveCanv = function() {
   var data = this.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   window.location.href = data
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":39,"util":43}],4:[function(require,module,exports){
+
+widget.prototype.setFont = function() {
+  with (this.context) {
+        textAlign = "center";
+        textBaseline = "middle";
+        font = this.fontWeight+" "+this.fontSize+"px "+this.font;
+        fillStyle = this.colors.black;
+        globalAlpha = 0.7;
+  }
+}
+
+
+/* Percentage width support */
+
+
+widget.prototype.checkPercentage = function() {
+  var wstr = this.canvas.style.width;
+  var hstr = this.canvas.style.height;
+  if (wstr.indexOf("%") >= 0 || hstr.indexOf("%") >= 0) {
+    this.percent = {
+      w: (wstr.indexOf("%") >= 0) ? wstr.replace("%","") : false,
+      h: (hstr.indexOf("%") >= 0) ? hstr.replace("%","") : false
+    }
+    this.stretch();
+  }
+}
+
+widget.prototype.stretch = function() {
+  window.addEventListener("resize", function(e) {
+    if (this.percent.w) {
+      var newWidth = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("width").replace("px","");
+      newWidth *= this.percent.w/100
+    } else {
+      var newWidth = false;
+    }
+    if (this.percent.h) {
+      var newHeight = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("height").replace("px","");
+      newHeight *= this.percent.h/100 
+    } else {
+      var newHeight = false;
+    }
+    this.resize(newWidth,newHeight);
+  }.bind(this))
+}
+
+widget.prototype.resize = function(w,h) {
+
+  this.canvas.width = w ? w*2 : this.canvas.width;
+  this.canvas.height = h ? h*2 : this.canvas.height;
+  this.width =  w ? w : this.width;
+  this.height = h ? h : this.height;
+  this.canvas.style.width = this.width+"px";
+  this.canvas.style.height = this.height+"px";
+  this.context.scale(2,2)
+
+  this.center = {
+    x: this.width/2,
+    y: this.height/2
+  };
+
+  this.init();
+  this.draw();
+  
+}
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":42,"util":46}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1301,7 +1394,7 @@ banner.prototype.draw = function() {
 		fillRect(15,0,this.width-30,this.height-10);
 		
 		fillStyle = this.colors.white;
-		font = this.height/5+"px gill sans";
+		font = this.fontWeight + " " +this.height/5+"px "+this.font;
 		textAlign = "center";
 		fillText(this.message1, this.width/2, this.height/3.3);
 		fillText(this.message2, this.width/2, (this.height/3.3)*2);
@@ -1328,9 +1421,10 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":43}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
+var drawing = require('../utils/drawing');
 
 var button = module.exports = function(target) {
 
@@ -1400,6 +1494,7 @@ util.inherits(button, widget);
 button.prototype.init = function() {
 	this.width = this.canvas.width;
 	this.height = this.canvas.height;
+	this.radius = (Math.min(this.center.x, this.center.y)-this.lineWidth/2)
 	this.draw();
 }
 
@@ -1440,7 +1535,7 @@ button.prototype.draw = function() {
 			}
 		
 			beginPath();
-				arc(this.center.x, this.center.y, (Math.min(this.center.x, this.center.y)-this.lineWidth/2), 0, Math.PI*2, true);
+				arc(this.center.x, this.center.y, this.radius, 0, Math.PI*2, true);
 				fill();	  
 			closePath();
 
@@ -1462,13 +1557,15 @@ button.prototype.draw = function() {
 }
 
 button.prototype.click = function(e) {
-	this.val["press"] = 1;
-	if (this.mode=="node") {
-		this.val["x"] = this.clickPos.x;
-		this.val["y"] = this.clickPos.y;
+	if (drawing.isInside(this.clickPos,{x: this.center.x-this.radius, y:this.center.y-this.radius, w:this.radius*2, h:this.radius*2})) {
+		this.val["press"] = 1;
+		if (this.mode=="node") {
+			this.val["x"] = this.clickPos.x;
+			this.val["y"] = this.clickPos.y;
+		}
+		this.transmit(this.val);
+		this.draw();
 	}
-	this.transmit(this.val);
-	this.draw();
 }
 
 button.prototype.move = function () {
@@ -1515,7 +1612,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"util":43}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1614,7 +1711,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":43}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1687,7 +1784,88 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":43}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],13:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class crossfade      
+	Crossfade for panning or mixing
+	```html
+	<canvas nx="crossfade"></canvas>
+	```
+	<canvas nx="crossfade" style="margin-left:25px"></canvas>
+*/
+
+var crossfade = module.exports = function (target) {
+	this.defaultSize = { width: 100, height: 30 };
+	widget.call(this, target);
+
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *value* | Crossfade value (float -1 to 1)
+	*/
+	this.val.value = 0.7
+
+	this.label = "";
+
+	this.init();
+}
+util.inherits(crossfade, widget);
+
+crossfade.prototype.init = function() {
+
+	if (this.canvas.getAttribute("label")!=null) {
+		this.label = this.canvas.getAttribute("label");
+	}
+
+	this.draw();
+}
+
+crossfade.prototype.draw = function() {
+	
+	this.erase();
+		
+	with (this.context) {
+
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height);
+
+		
+		if (nx.showLabels) {
+			this.setFont();
+			fillText(this.label, this.width/2, this.height/2);
+			globalAlpha = 1;
+		
+		}
+
+		var x1 = this.width/2;
+		var y1 = 0;
+		var x2 = (this.val.value/2)*this.width;
+		var y2 = this.height;
+	   
+	
+		fillStyle = this.colors.accent;
+		fillRect(x1,y1,x2,y2);
+
+		fillRect(x1-1,y1,2,y2);
+
+	}
+}
+
+crossfade.prototype.click = function() {
+	this.move();
+}
+
+crossfade.prototype.move = function() {
+	var x = nx.scale(this.clickPos.x/this.width,0,1,-1,1)
+	this.val.value = math.prune(math.clip(x, -1, 1),3)
+	this.draw();
+	this.transmit(this.val);
+}
+},{"../core/widget":3,"../utils/math":6,"util":46}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -1736,15 +1914,15 @@ util.inherits(dial, widget);
 
 dial.prototype.init = function() {
 
-	this.circleSize = (Math.min(this.center.x, this.center.y)-this.lineWidth);
-	this.handleLength = this.circleSize+this.lineWidth;
+	this.circleSize = (Math.min(this.center.x, this.center.y));
+	this.handleLength = this.circleSize;
+	this.mindim = Math.min(this.width,this.height)
 	
-	if (this.width<101) {
+	if (this.mindim<101) {
 		this.handleLength--;
-	//	this.handleLength--;
 	}
 
-	if (this.width<101 || this.width<101) {
+	if (this.mindim<101 || this.mindim<101) {
 		this.accentWidth = this.lineWidth * 1;
 	} else {
 		this.accentWidth = this.lineWidth * 2;
@@ -1768,14 +1946,14 @@ dial.prototype.draw = function() {
 		
 		//draw main circle
 		beginPath();
-			arc(this.center.x, this.center.y, this.circleSize, 0, Math.PI*2, true);
+			arc(this.center.x, this.center.y, this.circleSize-1, 0, Math.PI*2, true);
 			fill();
 		closePath();
 
 		//draw color fill
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize, Math.PI* 0.5, dial_position, false);
 			lineTo(this.center.x,this.center.y);
 			globalAlpha = 0.1;
 			fillStyle = this.colors.accent;
@@ -1786,7 +1964,7 @@ dial.prototype.draw = function() {
 		//draw round accent
 		beginPath();
 			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize , Math.PI* 0.5, dial_position, false);
+			arc(this.center.x, this.center.y, this.circleSize-this.lineWidth , Math.PI* 0.5, dial_position, false);
 			strokeStyle = this.colors.accent;
 			stroke();
 		closePath(); 
@@ -1866,7 +2044,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":43}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],15:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2043,7 +2221,7 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],16:[function(require,module,exports){
 var ac = window.audioContext || new AudioContext();
 var startTime = 0;
 
@@ -2323,7 +2501,7 @@ function findNearestNode(x, y, nodes) {
 
 	return nearestIndex;
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],17:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2382,9 +2560,6 @@ ghost.prototype.init = function() {
 }
 
 ghost.prototype.watch = function() {
-	for (var key in nx.widgets) {
-		this.connect(nx.widgets[key]);
-	}
 }
 	
 	//sets a new component to be recorded
@@ -2477,6 +2652,12 @@ ghost.prototype.draw = function() {
 }
 
 ghost.prototype.record = function() {
+	if (!this.playing) {
+		this.components = new Array();
+		for (var key in nx.widgets) {
+			this.connect(nx.widgets[key]);
+		}
+	}
 	this.moment = 0;
 	nx.aniItems.push(this.boundLog)
 	this.recording = true;
@@ -2598,12 +2779,13 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],18:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
   colors: require('./colors'),
   comment: require('./comment'),
+  crossfade: require('./crossfade'),
   dial: require('./dial'),
   envelope: require('./envelope'),
   envmulti: require('./envmulti'),
@@ -2613,6 +2795,7 @@ module.exports = {
   matrix: require('./matrix'),
   matrixExp: require('./matrixExp'),
   message: require('./message'),
+  meter: require('./meter'),
   metro: require('./metro'),
   mouse: require('./mouse'),
   multislider: require('./multislider'),
@@ -2628,9 +2811,10 @@ module.exports = {
   tilt: require('./tilt'),
   toggle: require('./toggle'),
   typewriter: require('./typewriter'),
-  vinyl: require('./vinyl')
+  vinyl: require('./vinyl'),
+  windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./dial":13,"./envelope":14,"./envmulti":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./matrixExp":21,"./message":22,"./metro":23,"./mouse":24,"./multislider":25,"./multitouch":26,"./number":27,"./position":28,"./range":29,"./remix":30,"./select":31,"./slider":32,"./string":33,"./tabs":34,"./tilt":35,"./toggle":36,"./typewriter":37,"./vinyl":38}],18:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./envmulti":16,"./ghost":17,"./joints":19,"./keyboard":20,"./matrix":21,"./matrixExp":22,"./message":23,"./meter":24,"./metro":25,"./mouse":26,"./multislider":27,"./multitouch":28,"./number":29,"./position":30,"./range":31,"./remix":32,"./select":33,"./slider":34,"./string":35,"./tabs":36,"./tilt":37,"./toggle":38,"./typewriter":39,"./vinyl":40,"./windows":41}],19:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2828,7 +3012,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":43}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3108,8 +3292,8 @@ keyboard.prototype.move = function(e) {
 		this.fingers[0].pkey = this.fingers[0].key;
 		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
 		if (this.fingers[0].key && this.fingers[0].key.index != this.fingers[0].pkey.index) {
-			this.toggle(this.fingers[0].key, true);
 			this.toggle(this.fingers[0].pkey, false);
+			this.toggle(this.fingers[0].key, true);
 		}
 	}
 }
@@ -3146,7 +3330,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":43}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],21:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3231,6 +3415,9 @@ var matrix = module.exports = function (target) {
 	this.context.lineWidth = 1;
 
 	this.sequencing = false;
+
+	/** @property {integer}  cellBuffer  How much padding between matrix cells, in pixels */
+	this.cellBuffer = 4;
 	
 	/** @property {string}  sequenceMode  Sequence pattern (currently accepts "linear" which is default, or "random") */
 	this.sequenceMode = "linear"; // "linear" or "random". future options would be "wander" (drunk) or "markov"
@@ -3249,16 +3436,16 @@ util.inherits(matrix, widget);
 
 
 matrix.prototype.init = function() {
-
-	this.lineWidth = 1;
 	
+	this.pmatrix = this.matrix ? this.matrix : false;
+
 	this.matrix = null;
 	// generate 2D matrix array
 	this.matrix = new Array(this.col)
 	for (var i=0;i<this.col;i++) {
 		this.matrix[i] = new Array(this.row)
 		for (var j=0;j<this.row;j++) {
-			this.matrix[i][j] = 0; // set value of each matrix cell
+			this.matrix[i][j] = this.pmatrix ? this.pmatrix[i] ? this.pmatrix[i][j] : 0 : 0; // set value of each matrix cell
 		}
 	}
 
@@ -3268,6 +3455,8 @@ matrix.prototype.init = function() {
 }
 
 matrix.prototype.draw = function() {
+
+	this.erase();
 
 	this.cellWid = this.width/this.col;
 	this.cellHgt = this.height/this.row;
@@ -3284,13 +3473,13 @@ matrix.prototype.draw = function() {
 			
 			with (this.context) {
 				strokeStyle = this.colors.border;
+				lineWidth = this.cellBuffer;
 				if (this.matrix[j][i] > 0) {
 					fillStyle = this.colors.accent;
 				} else {
 					fillStyle = this.colors.fill;
 				}
-				fillRect(st_x, st_y, boxwid, boxhgt);
-				strokeRect(st_x, st_y, boxwid, boxhgt);
+				fillRect(st_x+this.cellBuffer/2, st_y+this.cellBuffer/2, boxwid-this.cellBuffer, boxhgt-this.cellBuffer);
 			
 				// sequencer highlight
 				if (this.place == j) {
@@ -3303,6 +3492,7 @@ matrix.prototype.draw = function() {
 			}
 		} 
 	}
+
 	this.drawLabel();
 }
 
@@ -3484,7 +3674,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":43}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],22:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3829,7 +4019,7 @@ matrixExp.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":43}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],23:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3901,7 +4091,121 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":43}],23:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],24:[function(require,module,exports){
+var util = require('util');
+var drawing = require('../utils/drawing');
+var widget = require('../core/widget');
+
+/** 
+    
+    @public
+    @class meter 
+
+    Decibel level meter.
+
+    ```html
+    <canvas nx="meter"></canvas>
+    ```
+    <canvas nx="meter" style="margin-left:25px"></canvas>
+*/
+
+var meter = module.exports = function(target) {
+
+    // to update, eventually (note to self)
+    // possibly a less-frequent animation request, to lighten the graphics load
+    // option for stereo meter? i.e. optional third .setup(ctx,s1,s2) argument
+
+    this.defaultSize = { width: 20, height: 50 };
+    widget.call(this, target);
+
+    this.val = {
+        level: 0
+    }
+    this.dataArray;
+    this.bars = 10;
+
+    this.init();
+
+}
+util.inherits(meter, widget);
+
+
+meter.prototype.init = function(){
+   this.bar = {
+        x: 0,
+        y: 0,
+        w: this.width,
+        h: this.height/this.bars
+    }
+    with (this.context) {
+        fillStyle = this.colors.fill;
+        fillRect(0,0,this.width, this.height);
+    }
+}
+
+meter.prototype.setup = function(actx,source){
+    this.actx = actx;   
+    this.source = source;
+
+    this.analyser = this.actx.createAnalyser();
+    this.analyser.smoothingTimeConstant = 0.85;
+    this.analyser.fftsize = 1024;
+    this.bufferLength = this.analyser.frequencyBinCount;
+    this.dataArray = new Uint8Array(this.bufferLength);
+    this.source.connect(this.analyser);
+    
+    this.draw();
+}
+
+meter.prototype.draw = function(){
+    
+    if(this.dataArray) {
+        this.analyser.getByteTimeDomainData(this.dataArray);
+
+        var max = Math.max.apply(null, this.dataArray);
+        var min = Math.min.apply(null, this.dataArray);
+        var amp = max - min;
+        amp /= 240
+
+        //converts amps to db
+        var db = 20 * (Math.log(amp) / Math.log(10))
+
+        with (this.context){
+            fillStyle = this.colors.fill;
+            fillRect(0,0,this.width, this.height);
+
+            //scales: -40 to +10 db range => a number of bars
+            var dboffset = Math.floor((db + 40) / (50/this.bars) );
+           
+            for (var i = 0; i<this.bars; i++) {
+
+                // 0+ db is red
+                if(i >= this.bars*.8) {
+                    fillStyle = 'rgb(255,0,0)';
+
+                // -5 to 0 db is yellow
+                } else if (i < this.bars*.8 && i >= this.bars*.69) {
+                    fillStyle = 'rgb(255,255,0)';
+
+                // -40 to -5 db is green
+                } else if (i < this.bars*.69) {
+                    fillStyle = 'rgb(0,255,0)';
+                }
+
+                // draw bar
+                if (i<dboffset)
+                    fillRect(1,this.height-this.bar.h*i,this.width-2,this.bar.h-1);
+
+            }
+        }
+    }
+
+    window.requestAnimationFrame(this.draw.bind(this));
+    
+}
+    
+    
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4015,7 +4319,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],26:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -4085,10 +4389,10 @@ mouse.prototype.draw = function() {
 		fillRect(this.inside.quarterwid*2, this.inside.height, this.inside.quarterwid, scaleddx);
 		fillRect(this.inside.quarterwid*3, this.inside.height, this.inside.quarterwid, scaleddy);
 
-		globalAlpha = 0.5;
-		fillStyle = this.colors.white;
+		globalAlpha = 1;
+		fillStyle = this.colors.fill;
 		textAlign = "center";
-		font = this.width/7+"px gill sans";
+		font = this.width/7+"px "+this.font;
 		fillText("x", this.inside.quarterwid*0 + this.inside.quarterwid/2, this.height-7);
 		fillText("y", this.inside.quarterwid*1 + this.inside.quarterwid/2, this.height-7);
 		fillText("dx", this.inside.quarterwid*2 + this.inside.quarterwid/2, this.height-7);
@@ -4115,7 +4419,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],27:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4184,8 +4488,10 @@ multislider.prototype.draw = function() {
 			lineTo(i*this.sliderWidth,  this.height);
 			globalAlpha = 0.3 - (i%3)*0.1;
 			fill();
-			closePath();
+			closePath(); 
 			globalAlpha = 1;
+		//	var separation = i==this.sliders-1 ? 0 : 1;
+		//	fillRect(i*this.sliderWidth, this.height-this.val[i]*this.height, this.sliderWidth-separation, this.val[i]*this.height)
 		}
 	}
 	this.drawLabel();
@@ -4272,7 +4578,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":43}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],28:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4427,11 +4733,10 @@ multitouch.prototype.draw = function() {
 				}
 			}
 			else {
+				this.setFont()
 				fillStyle = this.colors.border;
-				font = "14px courier";
-				textAlign = "center";
-				
 				fillText(this.text, this.width/2, this.height/2);
+				globalAlpha = 1;
 			}
 		}
 	}
@@ -4478,7 +4783,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":43}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4556,7 +4861,7 @@ number.prototype.move = function(e) {
 		this.transmit(this.val);
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4571,13 +4876,16 @@ var widget = require('../core/widget');
 */
 
 var position = module.exports = function (target) {
+
+	// define a default size
 	this.defaultSize = { width: 150, height: 100 };
+
 	widget.call(this, target);
 	
 	/** @property {integer} nodeSize Size of touch node graphic. */
 	this.nodeSize = 15;
 
-	/** @property {object}  val   
+	/** @property {object}  val   val is an object containing the main interactive / actionable aspects of the widget.
 		| &nbsp; | data
 		| --- | ---
 		| *x* | x position of slider (float 0-1)
@@ -4590,19 +4898,27 @@ var position = module.exports = function (target) {
 	
 	this.init();
 }
+
+// inherit the widget object template
 util.inherits(position, widget);
 
+// .init() is called automatically when the widget is created on a webpage.
 position.prototype.init = function() {
 	this.nodeSize = Math.min(this.height,this.width)/10;
+	this.nodeSize = Math.max(this.nodeSize,10)
 	this.actualWid = this.width - this.nodeSize*2;
 	this.actualHgt = this.height - this.nodeSize*2;
 	this.draw();
 }
 
+// .draw() should be used for any graphics activity
 position.prototype.draw = function() {
 	this.erase();
 	with (this.context) {
 
+		// use this.colors.fill for the widget background color (default: very light gray)
+		// use this.colors.border for any extra structural needs (default: light gray)
+		// use this.colors.accent for important or highlighted parts (default: a bright color)
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
 
@@ -4623,7 +4939,8 @@ position.prototype.draw = function() {
 		}
 	
 		with (this.context) {
-			beginPath();
+			// draw the x/y level meters
+		/*	beginPath();
 			strokeStyle = this.colors.accent;
 			lineWidth = 5;
 			moveTo(0,this.height);
@@ -4631,7 +4948,9 @@ position.prototype.draw = function() {
 			moveTo(0,this.height);
 			lineTo(0,math.invert(this.val.y)*this.height);					
 			stroke();
-			closePath();
+			closePath(); */
+
+			// draw the touch point
 			beginPath();
 			fillStyle = this.colors.accent;
 			arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
@@ -4643,16 +4962,9 @@ position.prototype.draw = function() {
 	this.drawLabel();
 }
 
-position.prototype.scaleNode = function() {
-	var actualX = this.val.x - this.nodeSize;
-	var actualY = this.val.y - this.nodeSize;
-	var clippedX = math.clip(actualX/this.actualWid, 0, 1);
-	var clippedY = math.clip(actualY/this.actualHgt, 0, 1);
-	this.val.x = math.prune(clippedX, 3)
-	this.val.y = math.prune(clippedY, 3)
-	this.val.y = math.invert(this.val.y);
-}
-
+// .click() will be fired when the interface is interacted with
+// this.clicked is automatically set to true
+// this.clickPos is already and object with x and y properties detailing click point.
 position.prototype.click = function() {
 	this.val.x = this.clickPos.x;
 	this.val.y = this.clickPos.y;
@@ -4662,17 +4974,18 @@ position.prototype.click = function() {
 	this.draw();
 }
 
+// .move() will be fired when the interface is moved over after being clicked
+// this.clickPos is already and object with x and y properties detailing click point.
 position.prototype.move = function() {
-	if (this.clicked) {
-		this.val.x = this.clickPos.x;
-		this.val.y = this.clickPos.y;
-		this.scaleNode();
-		this.val["state"] = "move"
-		this.transmit(this.val);
-		this.draw();
-	}
+	this.val.x = this.clickPos.x;
+	this.val.y = this.clickPos.y;
+	this.scaleNode();
+	this.val["state"] = "move"
+	this.transmit(this.val);
+	this.draw();
 }
 
+// .release() will be fired on mouse up (unclick)
 position.prototype.release = function() {
 	this.val.x = this.clickPos.x;
 	this.val.y = this.clickPos.y;
@@ -4680,9 +4993,46 @@ position.prototype.release = function() {
 	this.val["state"] = "release"
 	this.transmit(this.val);
 	this.draw();
+}
+
+/* TOUCH SPECIFIC EVENTS
+ currently, ontouch, ontouchmove, and ontouchrelease automatically execute .click, .move, and .release
+ so you only need to write one function for these events, and they will be touch compatible by default
+ however if you would like to create a touch-specific event you may define the following functions.
+ in these functions, .clickPos and .clicked will refer to your touch interactions.
+
+position.prototype.touch = function() {
+
+}
+
+position.prototype.touchmove = function() {
 	
 }
 
+position.prototype.touchrelease = function() {
+	
+}
+
+
+
+
+*/
+
+
+
+/* 
+ extra functions pertaining only to this widget 
+*/
+
+position.prototype.scaleNode = function() {
+	var actualX = this.val.x - this.nodeSize;
+	var actualY = this.val.y - this.nodeSize;
+	var clippedX = math.clip(actualX/this.actualWid, 0, 1);
+	var clippedY = math.clip(actualY/this.actualHgt, 0, 1);
+	this.val.x = math.prune(clippedX, 3)
+	this.val.y = math.prune(clippedY, 3)
+	this.val.y = math.invert(this.val.y);
+}
 
 /** @method animate
 	Adds animation to the widget.
@@ -4722,7 +5072,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],31:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -4791,54 +5141,43 @@ range.prototype.draw = function() {
 	with (this.context) {
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
-		
-		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
+			
+			if (nx.showLabels && this.label) {
+				save();
+	 			translate(this.width/2, 0);
+				rotate(Math.PI/2);
+				this.setFont();
+				fillText(this.label, this.height/2, 0);
+				globalAlpha = 1;
+				restore();
+			}
 
 			var x1 = 0;
 			var y1 = this.height-this.val.stop*this.height;
 			var x2 = this.width;
 			var y2 = this.height-this.val.start*this.height;
 
+			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
-			
-			if (nx.showLabels) {
 
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				textAlign = "left";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, 0);
-				globalAlpha = 1;
-				restore();
-			
-			}
 		} else {
+			
+			if (nx.showLabels && this.label) {
+				this.setFont();
+				fillText(this.label, this.width/2, this.height/2);
+				globalAlpha = 1;
+			}
 
 			var x1 = this.val.start*this.width;
 			var y1 = 0;
 			var x2 = this.val.stop*this.width;
 			var y2 = this.height;
 		   
+		
+			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
-			
-			
-			if (nx.showLabels) {
-
-				textAlign = "center";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, this.height/2);
-				globalAlpha = 1;
-			
-			}
 		}
 	}
 }
@@ -4925,9 +5264,9 @@ range.prototype.move = function() {
 			var moveloc = this.clickPos.x/this.width;
 			var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
 		} else {
-			var moveloc = this.clickPos.y/this.height;
+			var moveloc = nx.invert(this.clickPos.y/this.height);
 			var movesize = (this.touchdown.x - this.clickPos.x)/this.width;
-			moveloc *= -1;
+		//	moveloc *= -1;
 			movesize *= -1;
 		}
 		movesize /= 3;
@@ -4948,7 +5287,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],32:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5160,7 +5499,7 @@ remix.prototype.move = function(e) {
 		this.scan(this.clickPos.x/this.width)
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],33:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5208,7 +5547,6 @@ select.prototype.init = function() {
 	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
-	console.log(cstyle)
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
@@ -5236,7 +5574,7 @@ select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"util":43}],32:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],34:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5285,9 +5623,12 @@ var slider = module.exports = function (target) {
 	```
 	*/
 	this.hslider = false;
+	this.label = "";
 	this.handle;
 	this.relhandle;
 	this.cap;
+
+
 	this.init();
 }
 util.inherits(slider, widget);
@@ -5315,55 +5656,50 @@ slider.prototype.draw = function() {
 	with (this.context) {
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.width,this.height);
-		
-		fillStyle = this.colors.accent;
 	
 		if (!this.hslider) {
+
+			if (nx.showLabels) {
+
+				save();
+	 			translate(this.width/2, 0);
+				rotate(Math.PI/2);
+				this.setFont();
+				fillText(this.label, this.height/2, 0);
+				globalAlpha = 1;
+				restore();
+			
+			}
 
 			var x1 = 0;
 			var y1 = this.height-this.val.value*this.height;
 			var x2 = this.width;
 			var y2 = this.height;
 
+		
+			fillStyle = this.colors.accent;
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
 			}
+
+		} else {
 			
 			if (nx.showLabels) {
-
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				textAlign = "left";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, 0);
+				this.setFont();
+				fillText(this.label, this.width/2, this.height/2);
 				globalAlpha = 1;
-				restore();
 			
 			}
-		} else {
 
 			var x1 = 0;
 			var y1 = 0;
 			var x2 = this.val.value*this.width;
 			var y2 = this.height;
 		   
+		
+			fillStyle = this.colors.accent;
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
-			}
-			
-			if (nx.showLabels) {
-				textAlign = "center";
-				textBaseline = "middle";
-				font = "bold 15px courier";
-				fillStyle = this.colors.accent;
-				globalAlpha = 0.3;
-				fillText(this.label, this.width/2, this.height/2);
-				globalAlpha = 1;
-			
 			}
 		}
 	}
@@ -5405,7 +5741,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],35:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5607,7 +5943,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":43}],34:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],36:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5667,6 +6003,7 @@ tabs.prototype.draw = function() {
 		} else {
 			var tabcol = this.colors.fill;
 			var textcol = this.colors.black;
+			globalAlpha = 0.7;
 		}
 		with (this.context) {
 			fillStyle=tabcol;
@@ -5681,6 +6018,7 @@ tabs.prototype.draw = function() {
 				closePath()
 			}
 			fillStyle=textcol;
+			font = this.fontSize+"px "+this.font;
 			fillText(this.options[i],this.tabwid*i+this.tabwid/2,this.height/2)
 		}
 		
@@ -5697,7 +6035,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5813,7 +6151,7 @@ tilt.prototype.draw = function() {
 	    }
 
 		fillRect(-this.width,this.height*(this.val.y/2)+this.height/2,this.width*3,this.height*2)
-		font = "bold "+this.height/5+"px gill sans";
+		font = "bold "+this.height/5+"px "+this.font;
 		textAlign = "center";
 		fillText(this.text, this.width/2, this.height*(this.val.y/2)+this.height/2+this.height/15);
 		globalAlpha = 1;
@@ -5831,7 +6169,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],38:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5879,15 +6217,14 @@ toggle.prototype.draw = function() {
 			fillStyle = this.colors.fill;
 		}
 		fillRect(0,0,this.width,this.height);
-		font = "bold "+this.fontsize+"px gill sans"
-		textAlign = "center"
 		if (this.val.value) {
+			this.setFont();
 			fillStyle = this.colors.white
-			fillText("on", this.width/2, this.height/2 + this.fontsize/3.5 );	
+			globalAlpha = 1;
+			fillText("on", this.width/2, this.height/2);	
 		} else {
-			globalAlpha = 0.6;
-			fillStyle = this.colors.black
-			fillText("off", this.width/2, this.height/2 + this.fontsize/3.5 );
+			this.setFont();
+			fillText("off", this.width/2, this.height/2);
 			globalAlpha = 1;
 		}
 	}
@@ -5905,7 +6242,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":43}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],39:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5920,7 +6257,7 @@ var widget = require('../core/widget');
 */
 
 var typewriter = module.exports = function (target) {
-	this.defaultSize = { width: 175, height: 75 };
+	this.defaultSize = { width: 300, height: 100 };
 	widget.call(this, target);
 
 	
@@ -6086,11 +6423,9 @@ typewriter.prototype.draw = function() {	// erase
 		}
 
 		if (this.val.on) {
-			globalAlpha = 0.7
+			this.setFont();
 			fillStyle = this.colors.border;
-			font = this.height+"px courier";
-			textAlign = "center";
-			textBaseline = "middle";
+			font = this.height+"px "+this.font;
 			fillText(this.val.key, this.width/2, this.height/2);
 			
 			globalAlpha = 1
@@ -6155,7 +6490,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":43}],38:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],40:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6299,7 +6634,165 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":43}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],41:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class windows      
+	Scalable windows
+	```html
+	<canvas nx="windows"></canvas>
+	```
+	<canvas nx="windows" style="margin-left:25px"></canvas>
+*/
+
+var windows = module.exports = function (target) {
+
+	this.defaultSize = { width: 200, height: 200 };
+
+	widget.call(this, target);
+
+	this.val = {}
+
+	this.items = []
+	this.size = 30;
+	this.meta = false;
+	this.resizing = false;
+	
+	this.init();
+
+	document.addEventListener('keydown',function(e) {
+		this.meta = true;
+		this.draw();
+	}.bind(this))
+	document.addEventListener('keyup',function(e) {
+		this.meta = false;
+		this.draw();
+	}.bind(this))
+}
+util.inherits(windows, widget);
+
+windows.prototype.init = function() {
+	this.draw();
+}
+
+windows.prototype.draw = function() {
+	this.erase();
+	with (this.context) {
+
+		if (!this.meta) {
+			fillStyle = this.colors.fill;
+		} else {
+			fillStyle = this.colors.border;
+		}
+
+		fillRect(0,0,this.width,this.height);
+	
+		for (var i=0;i<this.items.length;i++) {
+			fillStyle = this.colors.accent;
+			fillRect(this.items[i].x-this.items[i].w/2,this.items[i].y-this.items[i].h/2,this.items[i].w,this.items[i].h)
+		    
+			strokeStyle = this.colors.fill;
+			lineWidth = 1;
+		    strokeRect(this.items[i].x+this.items[i].w/2-10,this.items[i].y+this.items[i].h/2-10,10,10)
+		
+		}
+
+	}
+	
+	this.drawLabel();
+}
+
+windows.prototype.click = function() {
+	this.holds = false;
+	for (var i=0;i<this.items.length;i++) {
+		if (nx.isInside({x:this.clickPos.x+this.items[i].w/2,y:this.clickPos.y+this.items[i].h/2 },this.items[i])) {
+			this.holds = i;
+			if (this.clickPos.x > this.items[i].x + this.items[i].w/2 - 10 && this.clickPos.x < this.items[i].x + this.items[i].w/2 && this.clickPos.y > this.items[i].y + this.items[i].h/2 - 10 && this.clickPos.y < this.items[i].y + this.items[i].h/2) {
+				this.resizing = true;
+			}
+		}
+	}
+	if (this.holds===false) {
+		this.items.push({
+			x: ~~((this.clickPos.x)/5)*5,
+			y: ~~((this.clickPos.y)/5)*5,
+			w: this.size,
+			h: this.size
+		})
+		this.holds = this.items.length-1;
+		this.hasMoved = true;
+		this.val = {
+			add: this.items[this.holds],
+			items: this.items
+		}
+		this.transmit(this.val)
+	}
+	if (this.meta) {
+		for (var i=0;i<this.items.length;i++) {
+			this.items[i].tx = this.items[i].x
+			this.items[i].ty = this.items[i].y
+		}
+		this.tx = this.clickPos.x
+		this.ty = this.clickPos.y
+	}
+	this.draw();
+}
+
+windows.prototype.move = function() {
+	if (this.resizing) {
+		if (!this.meta) {
+			this.items[this.holds].w = this.clickPos.x + this.items[this.holds].w/2 - this.items[this.holds].x
+			this.items[this.holds].h = this.clickPos.y + this.items[this.holds].h/2 - this.items[this.holds].y
+		} else {
+			for (var i=0;i<this.items.length;i++) {
+				this.items[i].w = this.clickPos.x + this.items[this.holds].w/2 - this.items[this.holds].x
+				this.items[i].h = this.clickPos.y + this.items[this.holds].h/2 - this.items[this.holds].y
+			}
+		}
+	} else {
+		if (!this.meta) {
+			this.items[this.holds].x = ~~((this.clickPos.x)/5)*5;
+			this.items[this.holds].y = ~~((this.clickPos.y)/5)*5;	
+		} else {
+			for (var i=0;i<this.items.length;i++) {
+				this.items[i].x = (~~((this.clickPos.x)/5)*5 - this.tx) + this.items[i].tx;
+				this.items[i].y = (~~((this.clickPos.y)/5)*5 - this.ty) + this.items[i].ty;	
+			}
+		}	
+	}
+	
+	this.val = {
+		change: true,
+		items: this.items
+	}
+	this.transmit(this.val)
+	this.draw();
+}
+
+windows.prototype.release = function() {
+	if (!this.hasMoved) {
+		if (this.meta) {
+			this.val = {
+				remove: "all",
+				items: this.items
+			}
+			this.items = []
+		} else {
+			this.val = {
+				remove: this.holds,
+				items: this.items
+			}
+			this.items.splice(this.holds,1)
+		}
+	}
+	this.resizing = false;
+	this.transmit(this.val);
+	this.draw();
+}
+},{"../core/widget":3,"../utils/math":6,"util":46}],42:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -6602,7 +7095,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],40:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -6627,7 +7120,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],41:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -6692,14 +7185,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],42:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],43:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -7289,7 +7782,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":42,"_process":41,"inherits":40}],44:[function(require,module,exports){
+},{"./support/isBuffer":45,"_process":44,"inherits":43}],47:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;

@@ -560,6 +560,24 @@ Set the font size of the comment text
 
 **size** &nbsp;  *integer* &nbsp;  Text size in pixels
 
+crossfade
+-----------
+Crossfade for panning or mixing
+```html
+<canvas nx="crossfade"></canvas>
+```
+<canvas nx="crossfade" style="margin-left:25px"></canvas>
+
+####Properties####
+###crossfade.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *value* | Crossfade value (float -1 to 1)
+ 
+
 dial
 ------
 Circular dial
@@ -799,6 +817,10 @@ matrix1.draw()
  *integer*<br> When sequencing, the current column.
 
 
+###matrix.cellBuffer###
+ *integer*<br> How much padding between matrix cells, in pixels
+
+
 ###matrix.sequenceMode###
  *string*<br> Sequence pattern (currently accepts "linear" which is default, or "random")
 
@@ -874,6 +896,15 @@ Send a string of text.
  *integer*<br> Text size in px
 
 
+
+meter
+-------
+Decibel level meter.
+
+```html
+<canvas nx="meter"></canvas>
+```
+<canvas nx="meter" style="margin-left:25px"></canvas>
 
 metro
 -------
@@ -1051,8 +1082,7 @@ Two-dimensional touch slider.
 
 
 ###position.val###
- *object*<br> 
-
+ *object*<br> val is an object containing the main interactive / actionable aspects of the widget.
 
 | &nbsp; | data
 | --- | ---
@@ -1294,4 +1324,12 @@ For the boom bap
 | --- | ---
 | *speed*| Current speed of the record player's rotation (normal is 1)
  
+
+windows
+---------
+Scalable windows
+```html
+<canvas nx="windows"></canvas>
+```
+<canvas nx="windows" style="margin-left:25px"></canvas>
 
