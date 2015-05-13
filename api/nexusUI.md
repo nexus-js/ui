@@ -1232,6 +1232,24 @@ tabs
 ```
 <canvas nx="tabs" style="margin-left:25px"></canvas>
 
+text
+------
+Text editor. Outputs the typed text string when Enter is pressed. <br> **Note:** Currently the canvas is actaully replaced by an HTML textarea object. Any inline style on your canvas may be lost in this transformation. To style the resultant textarea element, we recommend creating CSS styles for the textarea element using its ID or the textarea tag.
+```html
+<canvas nx="text"></canvas>
+```
+<canvas nx="text"></canvas>
+
+####Properties####
+###text.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *text* | Text string
+ 
+
 tilt
 ------
 Mobile and Mac/Chrome-compatible tilt sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
