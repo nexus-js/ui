@@ -402,7 +402,7 @@ manager.prototype.setProp = function(prop,val) {
 }
 
 manager.prototype.blockMove = function(e) {
-  if (e.target.tagName == 'CANVAS') {
+  if (e.target.tagName == 'CANVAS' || e.target.tagName == 'INPUT') {
      e.preventDefault();
      e.stopPropogation();
   }
@@ -448,6 +448,7 @@ var widget = module.exports = function (target) {
   this.context = this.canvas.getContext("2d");
 
   this.checkPercentage();
+  this.canvas.className = this.canvas.className ? this.canvas.className += " nx" : "nx"
 
   this.canvas.height = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("height").replace("px","");
   this.canvas.width = window.getComputedStyle(document.getElementById(target), null).getPropertyValue("width").replace("px","");
@@ -645,6 +646,7 @@ widget.prototype.preTouch = function(e) {
   this.clicked = true;
   this.deltaMove.x = 0;
   this.deltaMove.y = 0;
+  this.hasMoved = false;
   this.touch(e);
 }
 
@@ -654,6 +656,7 @@ widget.prototype.preTouchMove = function(e) {
     this.deltaMove.y = newClickPos.y - this.clickPos.y;
     this.deltaMove.x = newClickPos.x - this.clickPos.x;
     this.clickPos = newClickPos;
+    this.hasMoved = true;
     this.touchMove(e);
   }
 }
@@ -4360,7 +4363,7 @@ var number = module.exports = function (target) {
 		```
 
 	*/ 
-	this.decimalPlaces = 2;
+	this.decimalPlaces = 3;
 	this.lostdata = 0;
 	this.actual = 0;
 
@@ -4368,7 +4371,7 @@ var number = module.exports = function (target) {
 	this.min = -20000
 	this.max = 20000
 	this.step = 1
-	this.rate = 0.1
+	this.rate = 1
 
 	this.init();
 }
@@ -4380,7 +4383,7 @@ number.prototype.init = function() {
 	this.canvas.ontouchmove = null;
 	this.canvas.ontouchend = null;
 
-	var htmlstr = '<input type="text" id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;"></input><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<input type="text" class="nx" id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;"></input><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
 	var parent = canv.parentNode;
@@ -4388,23 +4391,28 @@ number.prototype.init = function() {
 	newdiv.innerHTML = htmlstr;
 	parent.replaceChild(newdiv,canv)
 	this.el = document.getElementById(this.canvasID)
-	this.el.style.float = "left"
-	this.el.style.display = "block"
 	for (var prop in cstyle)
     	this.el.style[prop] = cstyle[prop];
 
 	this.canvas = document.getElementById(this.canvasID);
 	this.canvas.style.fontSize = this.height * .6 + "px"
-	this.canvas.style.textAlign = "right"
+	this.canvas.style.textAlign = "left"
 	this.canvas.style.backgroundColor = this.colors.fill
 	this.canvas.style.highlight = this.colors.fill
 	this.canvas.style.border = "none"
 	this.canvas.style.outline = "none"
 	this.canvas.style.padding = "4px 10px"
 	this.canvas.style.cursor = "pointer"
+	this.canvas.style.display = "block"
 
 	this.canvas.addEventListener("blur", function () {
 	  this.canvas.style.outline = "none";
+	  if (this.canvas.value != this.val.value) {
+	  	this.actual = parseFloat(this.canvas.value)
+	  	this.actual = math.clip(this.actual,this.min,this.max)
+		this.actual = math.prune(this.actual,this.decimalPlaces);
+	  	this.set({"value": this.actual}, true)
+	  }
 	}.bind(this));
 
 	this.canvas.addEventListener("keydown", function (e) {
@@ -4414,22 +4422,16 @@ number.prototype.init = function() {
 	  		e.preventDefault();
 	  	}
 	  }
-	 // this.canvas.value = parseFloat(this.canvas.value)
 	  if (e.which==13) {
-	  	this.set({"value": parseFloat(this.canvas.value)})
+	  /*	this.actual = parseFloat(this.canvas.value)
+	  	this.actual = math.clip(this.actual,this.min,this.max)
+		this.actual = math.prune(this.actual,this.decimalPlaces);
+	  	this.set({"value": this.actual}, true) */
 	  	//this.canvas.style.outline = "none";
 	  	this.canvas.blur()
 	  }
 	}.bind(this));
 
-/*
-	this.canvas.addEventListener("mousedown", function (e) {
-	  e.preventDefault()
-	});
-	this.canvas.addEventListener("mousemove", function (e) {
-	  e.preventDefault()
-	});
-*/
 	
   // Setup interaction
   if (nx.isTouchDevice) {
@@ -4452,36 +4454,21 @@ number.prototype.draw = function() {
 
 	this.canvas.value = this.val.value;
 
-/*
-	this.erase();
-	with (this.context) {
-		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
-		fillStyle = this.colors.black;
-		textAlign = "left";
-		font = this.height*.6+"px courier";
-		textBaseline = 'middle';
-		fillText(this.val.value, this.width/10, this.height/2);
-	} */
 }
 
 
 number.prototype.click = function(e) {
-//	this.canvas.disabled = true;
 	this.canvas.readOnly = true;
-//	console.log(this.canvas)
 }
 
 number.prototype.move = function(e) {
 	if (this.clicked) {
-
 	  	this.canvas.style.outline = "none";
-		this.val.value += (this.deltaMove.x*.02);
-		this.val.value += (this.deltaMove.y*-.1);
-		this.val.value += this.lostdata;
-		this.actual = this.val.value;
+
+		this.actual -= (this.deltaMove.y*(this.rate*this.step));
+		this.actual = math.clip(this.actual,this.min,this.max)
+		this.val.value = Math.floor(this.actual / this.step) * this.step;
 		this.val.value = math.prune(this.val.value,this.decimalPlaces);
-		this.lostdata = this.actual - this.val.value;
 		this.draw();
 		this.transmit(this.val);
 	}
@@ -4489,14 +4476,12 @@ number.prototype.move = function(e) {
 
 
 number.prototype.release = function(e) {
-//	this.canvas.disabled = true;
 	if (!this.hasMoved && this.canvas.readOnly) {
 		this.canvas.readOnly = false;
 		this.canvas.focus()
 		this.canvas.setSelectionRange(0, this.canvas.value.length)
 		this.canvas.style.outline = "solid 2px "+ this.colors.accent;
 	}
-//	console.log(this.canvas)
 }
 
 },{"../core/widget":3,"../utils/math":6,"util":45}],28:[function(require,module,exports){
@@ -5182,7 +5167,7 @@ select.prototype.init = function() {
 		this.choices = this.choices.split(",");
 	}
 
-	var htmlstr = '<select id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<select id="'+this.canvasID+'" class="nx" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
 	var parent = canv.parentNode;
