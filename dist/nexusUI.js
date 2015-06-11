@@ -4371,7 +4371,7 @@ var number = module.exports = function (target) {
 	this.min = -20000
 	this.max = 20000
 	this.step = 1
-	this.rate = 1
+	this.rate = .25
 
 	this.init();
 }
