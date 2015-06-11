@@ -337,7 +337,21 @@ manager.prototype.addStylesheet = function() {
     + 'font-family:gill sans;'
     + '}'
     + ''
+    + 'input[type=text]::-moz-selection { background: transparent; }'
+    + 'input[type=text]::selection { background: transparent; }'   
+    + 'input[type=text]::-webkit-selection { background: transparent; }' 
+    + ''
     + 'canvas { '
+    + 'cursor:pointer;'
+    + 'border-radius:5px;'
+    + 'moz-border-radius:5px;'
+    + 'webkit-border-radius:5px;'
+    + 'box-sizing:border-box;'
+    + '-moz-box-sizing:border-box;'
+    + '-webkit-box-sizing:border-box;'
+    + '}'
+    + ''
+    + 'input[type=text] { '
     + 'cursor:pointer;'
     + 'border-radius:5px;'
     + 'moz-border-radius:5px;'
@@ -1228,6 +1242,59 @@ exports.random = function(scale) {
 
 exports.interp = function(loc,min,max) {
   return loc * (max - min) + min;  
+}
+
+exports.lphistory = []
+
+exports.lp2 = function(value,limit) {
+
+  var total = 0;
+  for (var i=0;i<this.lphistory.length;i++) {
+    total += this.lphistory[i]
+  }
+  total += value;
+
+  var newvalue = total / ( this.lphistory.length + 1 )
+
+  this.lphistory.push(newvalue)
+
+  if (this.lphistory.length>limit) {
+    this.lphistory.splice(0,1)
+  }
+
+  return newvalue;
+}
+
+
+exports.lp = function(value,limit) {
+  /*
+  var total = this.lphistory.reduce(function(previousValue, currentValue, index, array) {
+    return previousValue + currentValue;
+  });
+  */
+  var total = 0;
+
+  this.lphistory.push(value)
+
+  if (this.lphistory.length>limit) {
+    this.lphistory.splice(0,1)
+  }
+
+  for (var i=0;i<this.lphistory.length;i++) {
+    total += this.lphistory[i]
+  }
+
+  var newvalue = total / this.lphistory.length;
+
+  return newvalue;
+}
+
+exports.lp3 = function(value,pvalue,limit) {
+
+  var total = value + pvalue * limit;
+  newvalue = total / (limit + 1)
+
+  return newvalue;
 }
 },{}],7:[function(require,module,exports){
 
@@ -2786,7 +2853,39 @@ var keyboard = module.exports = function (target) {
 	widget.call(this, target);
 
 	/** @property {integer} octaves Number of octaves on the keyboard */
+	
+
 	this.octaves = 3;
+
+/*	console.log(this.octaves)
+
+	Object.defineProperty(this, 'test', {
+		get: function() {
+		   console.log('get')
+	       return test;
+	    }
+	});
+
+
+	Object.defineProperty(this, 'test', {
+	    enumerable: false,
+	    configurable: false,
+	    writable: false,
+		value: 3,
+		get: function() {
+			console.log('get')
+	      //return this.octaves;
+	    },
+	    set: function(value) {
+		  console.log('set')
+	    //  this.octaves = value;
+	    //  this.init()
+	    }
+	}); */
+
+	console.log(this.test)
+
+
 	this.white = {
 		width:0,
 		height:0
@@ -3003,6 +3102,34 @@ keyboard.prototype.whichKey = function (x, y){
 }
 
 keyboard.prototype.click = function(e) {
+
+	if (this.clickPos.touches.length>1 || this.multitouch) {
+		this.multitouch = true;
+		if (this.clickPos.touches.length>=2 && this.oneleft) {
+			this.oneleft = false;
+		}
+		this.keysinuse = new Array();
+		for (var j=0;j<this.clickPos.touches.length;j++) {
+			this.fingers[j] = {
+				key: this.whichKey(this.clickPos.touches[j].x, this.clickPos.touches[j].y)
+			}
+			if (!this.fingers[j].key.on) {
+				this.toggle(this.fingers[j].key, true)
+			}
+			this.keysinuse.push(this.fingers[j].key.index)
+		}
+		for (var j=0;j<this.keys.length;j++) {
+			if (this.keys[j].on  && this.keysinuse.indexOf(this.keys[j].index)<0) {
+				this.toggle(this.keys[j], false);
+			}
+		}
+	} else {
+		this.fingers[0].pkey = this.fingers[0].key;
+		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
+		this.toggle(this.fingers[0].key)
+	}
+
+	/*
 	if (this.clickPos.touches.length>1 || this.multitouch) {
 		if (this.clickPos.touches.length>=2 && this.oneleft) {
 			this.oneleft = false;
@@ -3021,10 +3148,10 @@ keyboard.prototype.click = function(e) {
 		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
 		this.toggle(this.fingers[0].key)
 	}
+	*/
 }
 
 keyboard.prototype.move = function(e) {
-	var debug = document.getElementById("debug");
 	if (this.clickPos.touches.length>1 || this.multitouch) {
 		this.keysinuse = new Array();
 		for (var j=0;j<this.clickPos.touches.length;j++) {
@@ -4236,15 +4363,96 @@ var number = module.exports = function (target) {
 	this.decimalPlaces = 2;
 	this.lostdata = 0;
 	this.actual = 0;
+
+
+	this.min = -20000
+	this.max = 20000
+	this.step = 1
+	this.rate = 0.1
+
 	this.init();
 }
 util.inherits(number, widget);
 
 number.prototype.init = function() {
-	this.draw();
+
+	this.canvas.ontouchstart = null;
+	this.canvas.ontouchmove = null;
+	this.canvas.ontouchend = null;
+
+	var htmlstr = '<input type="text" id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;"></input><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var canv = this.canvas
+	var cstyle = this.canvas.style
+	var parent = canv.parentNode;
+	var newdiv = document.createElement("span");
+	newdiv.innerHTML = htmlstr;
+	parent.replaceChild(newdiv,canv)
+	this.el = document.getElementById(this.canvasID)
+	this.el.style.float = "left"
+	this.el.style.display = "block"
+	for (var prop in cstyle)
+    	this.el.style[prop] = cstyle[prop];
+
+	this.canvas = document.getElementById(this.canvasID);
+	this.canvas.style.fontSize = this.height * .6 + "px"
+	this.canvas.style.textAlign = "right"
+	this.canvas.style.backgroundColor = this.colors.fill
+	this.canvas.style.highlight = this.colors.fill
+	this.canvas.style.border = "none"
+	this.canvas.style.outline = "none"
+	this.canvas.style.padding = "4px 10px"
+	this.canvas.style.cursor = "pointer"
+
+	this.canvas.addEventListener("blur", function () {
+	  this.canvas.style.outline = "none";
+	}.bind(this));
+
+	this.canvas.addEventListener("keydown", function (e) {
+	  console.log(e.which)
+	  if (e.which < 48 || e.which > 57) {
+	  	if (e.which != 189 && e.which != 190 && e.which != 8) {
+	  		e.preventDefault();
+	  	}
+	  }
+	 // this.canvas.value = parseFloat(this.canvas.value)
+	  if (e.which==13) {
+	  	this.set({"value": parseFloat(this.canvas.value)})
+	  	//this.canvas.style.outline = "none";
+	  	this.canvas.blur()
+	  }
+	}.bind(this));
+
+/*
+	this.canvas.addEventListener("mousedown", function (e) {
+	  e.preventDefault()
+	});
+	this.canvas.addEventListener("mousemove", function (e) {
+	  e.preventDefault()
+	});
+*/
+	
+  // Setup interaction
+  if (nx.isTouchDevice) {
+    this.canvas.ontouchstart = this.preTouch;
+    this.canvas.ontouchmove = this.preTouchMove;
+    this.canvas.ontouchend = this.preTouchRelease;
+  } else {
+    this.canvas.addEventListener('mousedown', this.preClick, false);
+  }
+
+
+  this.canvas.style.userSelect = "none !important";
+  this.canvas.style.mozUserSelect = "none !important";
+  this.canvas.style.webkitUserSelect = "none !important";
+
+  this.draw();
 }
 
 number.prototype.draw = function() {
+
+	this.canvas.value = this.val.value;
+
+/*
 	this.erase();
 	with (this.context) {
 		fillStyle = this.colors.fill;
@@ -4254,11 +4462,20 @@ number.prototype.draw = function() {
 		font = this.height*.6+"px courier";
 		textBaseline = 'middle';
 		fillText(this.val.value, this.width/10, this.height/2);
-	}
+	} */
+}
+
+
+number.prototype.click = function(e) {
+//	this.canvas.disabled = true;
+	this.canvas.readOnly = true;
+//	console.log(this.canvas)
 }
 
 number.prototype.move = function(e) {
 	if (this.clicked) {
+
+	  	this.canvas.style.outline = "none";
 		this.val.value += (this.deltaMove.x*.02);
 		this.val.value += (this.deltaMove.y*-.1);
 		this.val.value += this.lostdata;
@@ -4269,6 +4486,19 @@ number.prototype.move = function(e) {
 		this.transmit(this.val);
 	}
 }
+
+
+number.prototype.release = function(e) {
+//	this.canvas.disabled = true;
+	if (!this.hasMoved && this.canvas.readOnly) {
+		this.canvas.readOnly = false;
+		this.canvas.focus()
+		this.canvas.setSelectionRange(0, this.canvas.value.length)
+		this.canvas.style.outline = "solid 2px "+ this.colors.accent;
+	}
+//	console.log(this.canvas)
+}
+
 },{"../core/widget":3,"../utils/math":6,"util":45}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');

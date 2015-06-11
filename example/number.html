@@ -1,0 +1,44 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script>
+
+			nx.onload = function() {
+				
+			    nx.colorize("accent", "#347");
+			    nx.colorize("border", "#bbb");
+			    nx.colorize("fill", "#eee");
+
+				/* log all events */
+
+				for (var key in nx.widgets) {
+
+					nx.widgets[key].on('*', function(data) {
+						var d = document.getElementById("tester");
+						d.innerHTML = data.value + "<br>" + d.innerHTML
+					})
+
+				}
+
+			 
+			}
+
+
+		</script>
+	</head>
+
+	<body>
+
+		  <canvas nx="number" style="width:400px;height:100px"></canvas>
+		  <canvas nx="number" style="width:60px;height:20px"></canvas>
+
+
+		  <input type="number" min="0" max="10" pattern="\d*"></input>
+
+		  <div id="tester"></div>
+
+	</body>
+	
+</html>
