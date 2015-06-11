@@ -2860,35 +2860,6 @@ var keyboard = module.exports = function (target) {
 
 	this.octaves = 3;
 
-/*	console.log(this.octaves)
-
-	Object.defineProperty(this, 'test', {
-		get: function() {
-		   console.log('get')
-	       return test;
-	    }
-	});
-
-
-	Object.defineProperty(this, 'test', {
-	    enumerable: false,
-	    configurable: false,
-	    writable: false,
-		value: 3,
-		get: function() {
-			console.log('get')
-	      //return this.octaves;
-	    },
-	    set: function(value) {
-		  console.log('set')
-	    //  this.octaves = value;
-	    //  this.init()
-	    }
-	}); */
-
-	console.log(this.test)
-
-
 	this.white = {
 		width:0,
 		height:0
@@ -3132,26 +3103,6 @@ keyboard.prototype.click = function(e) {
 		this.toggle(this.fingers[0].key)
 	}
 
-	/*
-	if (this.clickPos.touches.length>1 || this.multitouch) {
-		if (this.clickPos.touches.length>=2 && this.oneleft) {
-			this.oneleft = false;
-		}
-		for (var j=0;j<this.clickPos.touches.length;j++) {
-			this.multitouch = true;
-			this.fingers[j] = {
-				key: this.whichKey(this.clickPos.touches[j].x, this.clickPos.touches[j].y)
-			}
-			if (!this.fingers[j].key.on) {
-				this.fingers[j].key.on = true;
-			}
-		}
-	} else {
-		this.fingers[0].pkey = this.fingers[0].key;
-		this.fingers[0].key = this.whichKey(this.clickPos.x, this.clickPos.y);
-		this.toggle(this.fingers[0].key)
-	}
-	*/
 }
 
 keyboard.prototype.move = function(e) {
