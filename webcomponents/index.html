@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>dial</title>
+    <!-- Imports polyfill -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.3/webcomponents.js"></script>
+    <!-- Imports nx-dial component -->
+    <link rel="import" href="dial.html">
+    <!-- Link to NexusUI -->
+    <script src="../dist/nexusUI.js"></script>
+</head>
+<body>
+    
+    <!-- Use web components -->
+    <nx-dial></nx-dial>
+    <nx-dial></nx-dial>
+    <nx-dial></nx-dial>
+    <nx-dial></nx-dial>
+
+
+	<style>
+		/* Style all nexusUI components */
+		.nx {
+			margin:10px;
+			float:left;	
+		}
+	 	/* Or style all dials */
+		canvas[nx=dial] {
+			width:100px;
+			height:100px;
+		}
+	</style>
+
+</body>
+</html>
