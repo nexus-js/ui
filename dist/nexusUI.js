@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":46}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":47}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -407,7 +407,7 @@ manager.prototype.blockMove = function(e) {
      e.stopPropogation();
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":41,"util":45}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":42,"util":46}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -957,7 +957,7 @@ widget.prototype.resize = function(w,h) {
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":41,"util":45}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":42,"util":46}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1495,7 +1495,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":45}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1686,7 +1686,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":45}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1785,7 +1785,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":45}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1858,7 +1858,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":45}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1939,7 +1939,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2118,7 +2118,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":45}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],15:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2296,7 +2296,7 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2603,7 +2603,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],17:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2619,6 +2619,7 @@ module.exports = {
   message: require('./message'),
   meter: require('./meter'),
   metro: require('./metro'),
+  motion: require('./motion'),
   mouse: require('./mouse'),
   multislider: require('./multislider'),
   multitouch: require('./multitouch'),
@@ -2637,7 +2638,7 @@ module.exports = {
   vinyl: require('./vinyl'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./meter":22,"./metro":23,"./mouse":24,"./multislider":25,"./multitouch":26,"./number":27,"./position":28,"./range":29,"./remix":30,"./select":31,"./slider":32,"./string":33,"./tabs":34,"./text":35,"./tilt":36,"./toggle":37,"./typewriter":38,"./vinyl":39,"./windows":40}],18:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./meter":22,"./metro":23,"./motion":24,"./mouse":25,"./multislider":26,"./multitouch":27,"./number":28,"./position":29,"./range":30,"./remix":31,"./select":32,"./slider":33,"./string":34,"./tabs":35,"./text":36,"./tilt":37,"./toggle":38,"./typewriter":39,"./vinyl":40,"./windows":41}],18:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2835,7 +2836,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":45}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],19:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3164,7 +3165,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":45}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],20:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3508,7 +3509,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":45}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3580,7 +3581,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":45}],22:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],22:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -3694,7 +3695,7 @@ meter.prototype.draw = function(){
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":45}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],23:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3808,7 +3809,133 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],24:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class motion      
+	Mobile and Mac/Chrome-compatible motion sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
+	We recommend not calling .init() on this object after the original initialization, because it will add additional redundant motion listeners to your document.
+	```html
+	<canvas nx="motion"></canvas>
+	```
+	<canvas nx="motion" style="margin-left:25px"></canvas>
+*/
+
+var motion = module.exports = function (target) {
+	this.defaultSize = { width: 50, height: 50 };
+	widget.call(this, target);
+	
+	this.motionLR;
+	this.motionFB;
+	this.z;
+	/** @property {boolean} active Whether or not the motion widget is on (animating and transmitting data). */
+	this.active = true;
+
+	this.px = 0;
+	this.py = 0;
+	this.pz = 0;
+
+	/** @property {object}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
+		| &nbsp; | data
+		| --- | ---
+		| *x* | X-axis motion if supported (-1 to 1)
+		| *y* | Y-axis motion if supported (-1 to 1)
+		| *z* | Z-axis motion if supported (-1 to 1 or 0 to 360 depending on device)
+	*/
+	this.val = {
+		x: 0,
+		y: 0,
+		z: 0
+	}
+
+	/** @property {string}  text   Text shown on motion object
+	*/
+	
+	this.text = "Motion";
+	this.init();
+
+	this.boundMotion = this.motionlistener.bind(this)
+
+	if (window.DeviceMotionEvent) {
+		window.addEventListener('devicemotion', this.boundMotion, false);
+	}
+	
+}
+util.inherits(motion, widget);
+
+motion.prototype.deviceMotionHandler = function() {
+	
+	this.val = {
+		x: math.prune(this.motionLR/10,4),
+		y: math.prune(this.motionFB/10,4),
+		z: math.prune(this.z/10,4)
+	}
+
+	this.transmit(this.val);
+	
+}
+
+motion.prototype.motionlistener = function(e) {
+	var data = e.accelerationIncludingGravity
+	
+	if (this.active && this.px) {
+		this.motionLR = data.x - this.px;
+		this.motionFB = data.y - this.py
+		this.z = data.z - this.pz
+		//console.log(e)
+    	this.deviceMotionHandler();
+    }
+    this.px = data.x
+	this.py = data.y
+	this.pz = data.z
+    this.draw();
+}
+
+motion.prototype.init = function() {
+	this.draw();
+}
+
+motion.prototype.draw = function() {
+	
+	this.erase();
+
+	with (this.context) {
+	    fillStyle = this.colors.fill;
+	    fillRect(0,0,this.width,this.height);
+	    fillStyle = this.colors.accent;
+	    var eighth = Math.PI/4
+	    if (this.motionFB>0) {
+			beginPath()
+				moveTo(this.width/2,this.height/2)
+				arc(this.width/2,this.height/2,this.width/2,eighth*5,eighth*7,false)
+				globalAlpha = Math.abs(this.motionFB/10)
+				fill()
+			closePath()
+	    } else {
+			beginPath()
+				moveTo(this.width/2,this.height/2)
+				arc(this.width/2,this.height/2,this.width/2,eighth*1,eighth*3,false)
+				globalAlpha = Math.abs(this.motionFB/10)
+				fill()
+			closePath()
+	    }
+		globalAlpha = 1
+	}
+	this.drawLabel();
+}
+
+motion.prototype.click = function() {
+	this.active = !this.active;
+}
+
+motion.prototype.customDestroy = function() {
+	this.active = false;
+	window.removeEventListener("devicemotion",this.motionlistener,false);
+}
+},{"../core/widget":3,"../utils/math":6,"util":46}],25:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -3908,7 +4035,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4067,7 +4194,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":45}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],27:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4272,7 +4399,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":45}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4435,7 +4562,7 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":45}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4530,6 +4657,16 @@ position.prototype.draw = function() {
 			arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
 			fill();
 			closePath();
+
+			if (this.clicked) {
+				// draw the emphasis circle
+				beginPath();
+				fillStyle = this.colors.accent;
+				arc(drawingX, drawingY, this.nodeSize*2, 0, Math.PI*2, true);					
+				fill();
+				closePath();
+
+			}
 		}
 	}
 	
@@ -4646,7 +4783,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],30:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -4861,7 +4998,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5073,7 +5210,7 @@ remix.prototype.move = function(e) {
 		this.scan(this.clickPos.x/this.width)
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5148,7 +5285,7 @@ select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"util":45}],32:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5315,7 +5452,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],34:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5517,7 +5654,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":45}],34:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5609,7 +5746,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],36:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5689,7 +5826,7 @@ text.prototype.draw = function() {
 	// needed especially for ghost
 	this.el.value = this.val.text 
 }
-},{"../core/widget":3,"util":45}],36:[function(require,module,exports){
+},{"../core/widget":3,"util":46}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5823,7 +5960,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],38:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -5896,7 +6033,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":45}],38:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],39:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6145,7 +6282,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":45}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":46}],40:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6289,7 +6426,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],41:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6529,7 +6666,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":45}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":46}],42:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -6832,7 +6969,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -6857,7 +6994,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -6922,14 +7059,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -7504,7 +7641,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":44,"_process":43,"inherits":42}],46:[function(require,module,exports){
+},{"./support/isBuffer":45,"_process":44,"inherits":43}],47:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;

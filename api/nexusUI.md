@@ -932,6 +932,34 @@ Bouncing ball metronome
 
 
 
+motion
+--------
+Mobile and Mac/Chrome-compatible motion sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
+We recommend not calling .init() on this object after the original initialization, because it will add additional redundant motion listeners to your document.
+```html
+<canvas nx="motion"></canvas>
+```
+<canvas nx="motion" style="margin-left:25px"></canvas>
+
+####Properties####
+###motion.active###
+ *boolean*<br> Whether or not the motion widget is on (animating and transmitting data).
+
+
+###motion.val###
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *x* | X-axis motion if supported (-1 to 1)
+| *y* | Y-axis motion if supported (-1 to 1)
+| *z* | Z-axis motion if supported (-1 to 1 or 0 to 360 depending on device)
+ 
+###motion.text###
+ *string*<br> Text shown on motion object
+
+
+
 mouse
 -------
 Mouse tracker, relative to web browser window.
