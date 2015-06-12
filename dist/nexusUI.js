@@ -1247,7 +1247,32 @@ exports.interp = function(loc,min,max) {
   return loc * (max - min) + min;  
 }
 
-exports.lphistory = []
+exports.lphistory = {}
+
+
+exports.lp = function(tag,value,limit) {
+
+  if (!this.lphistory[tag]) {
+    this.lphistory[tag] = []
+  }
+
+  var total = 0;
+
+  this.lphistory[tag].push(value)
+
+  if (this.lphistory[tag].length>limit) {
+    this.lphistory[tag].splice(0,1)
+  }
+
+  for (var i=0;i<this.lphistory[tag].length;i++) {
+    total += this.lphistory[tag][i]
+  }
+
+  var newvalue = total / this.lphistory[tag].length;
+
+  return newvalue;
+}
+
 
 exports.lp2 = function(value,limit) {
 
@@ -1268,29 +1293,6 @@ exports.lp2 = function(value,limit) {
   return newvalue;
 }
 
-
-exports.lp = function(value,limit) {
-  /*
-  var total = this.lphistory.reduce(function(previousValue, currentValue, index, array) {
-    return previousValue + currentValue;
-  });
-  */
-  var total = 0;
-
-  this.lphistory.push(value)
-
-  if (this.lphistory.length>limit) {
-    this.lphistory.splice(0,1)
-  }
-
-  for (var i=0;i<this.lphistory.length;i++) {
-    total += this.lphistory[i]
-  }
-
-  var newvalue = total / this.lphistory.length;
-
-  return newvalue;
-}
 
 exports.lp3 = function(value,pvalue,limit) {
 
@@ -3861,6 +3863,11 @@ var motion = module.exports = function (target) {
 
 	if (window.DeviceMotionEvent) {
 		window.addEventListener('devicemotion', this.boundMotion, false);
+	} else {
+		with (this.context) {
+			fillText("incompatible",0,0)
+			this.active = false;
+		}
 	}
 	
 }
@@ -3879,49 +3886,80 @@ motion.prototype.deviceMotionHandler = function() {
 }
 
 motion.prototype.motionlistener = function(e) {
-	var data = e.accelerationIncludingGravity
+	var data = e.acceleration
 	
-	if (this.active && this.px) {
-		this.motionLR = data.x - this.px;
-		this.motionFB = data.y - this.py
-		this.z = data.z - this.pz
-		//console.log(e)
-    	this.deviceMotionHandler();
-    }
-    this.px = data.x
-	this.py = data.y
-	this.pz = data.z
-    this.draw();
+	if (this.active) {
+
+
+		this.motionLR = nx.lp(this.canvasID+"motionx",data.x,20)
+		this.motionFB = nx.lp(this.canvasID+"motiony",data.y,20)
+		this.z = nx.lp(this.canvasID+"motionz",data.z,20)
+    	this.deviceMotionHandler()
+
+   		this.draw();
+
+		if (data.x===null || data.x===undefined) {
+			this.erase()
+			with (this.context) {
+				fillStyle = this.colors.accent
+				font="12px courier";
+				textAlign = "center"
+				fillText("motion: device not supported",this.width/2,this.height/2)	
+			}
+			this.active = false;
+		}
+ 	}
 }
 
 motion.prototype.init = function() {
-	this.draw();
+	this.draw()
 }
 
 motion.prototype.draw = function() {
 	
-	this.erase();
+	this.erase()
 
 	with (this.context) {
 	    fillStyle = this.colors.fill;
 	    fillRect(0,0,this.width,this.height);
 	    fillStyle = this.colors.accent;
 	    var eighth = Math.PI/4
-	    if (this.motionFB>0) {
+	    if (this.motionFB<0) {
 			beginPath()
 				moveTo(this.width/2,this.height/2)
 				arc(this.width/2,this.height/2,this.width/2,eighth*5,eighth*7,false)
-				globalAlpha = Math.abs(this.motionFB/10)
+				globalAlpha = Math.pow(this.motionFB, 2)
 				fill()
 			closePath()
 	    } else {
 			beginPath()
 				moveTo(this.width/2,this.height/2)
 				arc(this.width/2,this.height/2,this.width/2,eighth*1,eighth*3,false)
-				globalAlpha = Math.abs(this.motionFB/10)
+				globalAlpha = Math.pow(this.motionFB, 2)
 				fill()
 			closePath()
 	    }
+	    if (this.motionLR<0) {
+			beginPath()
+				moveTo(this.width/2,this.height/2)
+				arc(this.width/2,this.height/2,this.width/2,eighth*7,eighth*1,false)
+				globalAlpha = Math.pow(this.motionLR, 2)
+				fill()
+			closePath()
+	    } else {
+			beginPath()
+				moveTo(this.width/2,this.height/2)
+				arc(this.width/2,this.height/2,this.width/2,eighth*3,eighth*5,false)
+				globalAlpha = Math.pow(this.motionLR, 2)
+				fill()
+			closePath()
+	    }
+		beginPath()
+			moveTo(this.width/2,this.height/2)
+			arc(this.width/2,this.height/2,this.width/6,0,Math.PI*2,false)
+			globalAlpha = Math.pow(this.z, 2)
+			fill()
+		closePath()
 		globalAlpha = 1
 	}
 	this.drawLabel();
@@ -3929,6 +3967,7 @@ motion.prototype.draw = function() {
 
 motion.prototype.click = function() {
 	this.active = !this.active;
+	this.draw()
 }
 
 motion.prototype.customDestroy = function() {
