@@ -1,0 +1,59 @@
+<script>
+(function(window, document, undefined) {
+    // Refers to the "importer", which is index.html
+    var thatDoc = document;
+
+    // Refers to the "importee", which is src/hello-world.html
+    var thisDoc =  (thatDoc._currentScript || thatDoc.currentScript).ownerDocument;
+
+    // Creates an object based in the HTML Element prototype
+    var MyElementProto = Object.create(HTMLElement.prototype);
+
+    // Fires when an instance of the element is created
+    MyElementProto.createdCallback = function() {
+
+
+        var container = document.createElement('div')
+        for (var i=0;i<this.style.length;i++)
+            container.style[this.style[i]] = this.style[this.style[i]]
+
+        this.appendChild(container)
+
+        var dial = nx.add("dial",{
+            parent: container,
+            w: "100%",
+            h: "100%",
+            t: 0,
+            l: 0
+        })
+
+
+        dial.init() 
+
+        var number = nx.add("number",{
+            parent: container,
+            w: 80,
+            h: 30
+        })
+
+        number.canvas.style.margin = "3px auto"
+        number.canvas.style.display = "block"
+        number.init()
+
+        dial.on('value',function(data) {
+            number.set({value: data},false)
+        })
+
+    };
+
+    // Fires when an attribute is added, removed, or updated
+    MyElementProto.attributeChangedCallback = function(attr, oldVal, newVal) {
+        // not doing anything currently but may need to someday...
+    };
+
+    // Registers <nx-dial> in the main document
+    window.MyElement = thatDoc.registerElement('nx-dial-complex', {
+        prototype: MyElementProto
+    });
+})(window, document);
+</script>

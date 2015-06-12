@@ -7,8 +7,20 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.3/webcomponents.js"></script>
     <!-- Imports nx-dial component -->
     <link rel="import" href="dial.html">
+    <link rel="import" href="nx-dial-complex.html">
     <!-- Link to NexusUI -->
     <script src="../dist/nexusUI.js"></script>
+
+    <script>
+
+        nx.onload = function() {
+            dial1.on('*',function() {
+                console.log(1)
+            }) 
+        }
+
+    </script>
+
 </head>
 <body>
     
@@ -17,6 +29,10 @@
     <nx-dial></nx-dial>
     <nx-dial></nx-dial>
     <nx-dial></nx-dial>
+
+    <br><br>
+
+    <nx-dial-complex style="width:400px;height:400px"></nx-dial-complex>
 
 
 	<style>
