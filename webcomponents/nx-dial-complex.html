@@ -38,11 +38,33 @@
 
         number.canvas.style.margin = "3px auto"
         number.canvas.style.display = "block"
-        number.init()
 
         dial.on('value',function(data) {
             number.set({value: data},false)
         })
+
+        number.min = 0;
+        number.max = 1;
+        number.step = 0.01;
+        number.on('value',function(data) {
+            dial.set({value: data},true)
+        })
+
+        number.init()
+
+        /* some needs for this setup to be successful:
+            
+            - number should not transmit out via general nx transmit
+                (number should only control dial, not send data out)
+            - number must automatically know min/max of dial
+                AND if that range is changed on the dial, should change 
+                on the number too.
+            - number needs to just be itself, not embedded in spans
+            - dial needs to be full height of container, - height of number
+            - how to know how big to make the numbers?
+                maybe that is a global nx setting?
+
+        */
 
     };
 
