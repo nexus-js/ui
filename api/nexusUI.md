@@ -9,8 +9,8 @@ NexusUI API
 nx
 ----
 ####Properties####
-###nx.throttlePeriod###
- *integer*<br> Throttle time in ms (for nx.throttle).
+###nx.widgets###
+ *object*<br> Contains all interface widgets (e.g. nx.widgets.dial1, nx.widgets.toggle1)
 
 
 ###nx.showLabels###
@@ -31,6 +31,10 @@ nx
 
 ###nx.globalWidgets###
  *boolean*<br> Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets
+
+
+###nx.throttlePeriod###
+ *integer*<br> Throttle time in ms (for nx.throttle).
 
 
 ###nx.colors###
@@ -133,6 +137,10 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
 
 ###widget.oscPath###
  *string*<br> OSC prefix for this interface. By default this is populated using the canvas ID (i.e. an ID of dial1 has OSC path /dial1)
+
+
+###widget.type###
+ *string*<br> The type of NexusUI widget (i.e. "dial", "toggle", "slider"). Set automatically at creation.
 
 
 ###widget.canvas###

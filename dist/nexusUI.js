@@ -63,10 +63,10 @@ var manager = module.exports = function() {
 */
 
   EventEmitter.apply(this)
+
+  /**@property {object} widgets Contains all interface widgets (e.g. nx.widgets.dial1, nx.widgets.toggle1) */
   this.widgets = new Object();
 
-  /**  @property {integer} throttlePeriod Throttle time in ms (for nx.throttle). */
-  this.throttlePeriod = 20;
   this.elemTypeArr = new Array();
   this.aniItems = new Array();
   /**  @property {boolean} showLabels Whether or not to draw an automatic text label on each interface component. */
@@ -108,6 +108,10 @@ var manager = module.exports = function() {
   this.font = "gill sans";
   this.fontSize = 14;
   this.fontWeight = "bold";
+
+
+  /**  @property {integer} throttlePeriod Throttle time in ms (for nx.throttle). */
+  this.throttlePeriod = 20;
 }
 
 util.inherits(manager, EventEmitter)
@@ -215,9 +219,12 @@ manager.prototype.transform = function(canvas, type) {
     try {
       var newObj = new (require('../widgets')[nxType])(canvas.id);
     } catch (err) {
-      console.log(nxType);
+      console.log("creation of " + nxType + " failed");
+      return;
     }
   }
+
+  newObj.type = nxType;
 
   this.widgets[newObj.canvasID] = newObj;
   if (this.globalWidgets) {
@@ -444,6 +451,10 @@ var widget = module.exports = function (target) {
     newcanv.id = target;
     document.body.appendChild(newcanv)
   }
+  /**
+   * @property {string} type The type of NexusUI widget (i.e. "dial", "toggle", "slider"). Set automatically at creation.
+   */
+  this.type = undefined;
   /**  @property {DOM element} canvas The widget's HTML5 canvas */
   this.canvas = document.getElementById(target);
   /**  @property {HTML5 drawing context} context The canvas's drawing context */
@@ -4525,7 +4536,7 @@ number.prototype.init = function() {
 	this.canvas.style.display = "block"
 
 	this.canvas.addEventListener("blur", function () {
-	  this.canvas.style.outline = "none";
+	  this.canvas.style.border = "none";
 	  if (this.canvas.value != this.val.value) {
 	  	this.actual = parseFloat(this.canvas.value)
 	  	this.actual = math.clip(this.actual,this.min,this.max)
@@ -4582,7 +4593,7 @@ number.prototype.click = function(e) {
 
 number.prototype.move = function(e) {
 	if (this.clicked) {
-	  	this.canvas.style.outline = "none";
+	  	this.canvas.style.border = "none";
 
 		this.actual -= (this.deltaMove.y*(this.rate*this.step));
 		this.actual = math.clip(this.actual,this.min,this.max)
@@ -4599,7 +4610,7 @@ number.prototype.release = function(e) {
 		this.canvas.readOnly = false;
 		this.canvas.focus()
 		this.canvas.setSelectionRange(0, this.canvas.value.length)
-		this.canvas.style.outline = "solid 2px "+ this.colors.accent;
+		this.canvas.style.border = "solid 2px "+ this.colors.accent;
 	}
 }
 
