@@ -278,10 +278,6 @@ Executes when the touch releases after having touched the widget.
 Erase the widget's canvas.
 
 
-###widget.getName(  )###
-Returns the widget's constructor function name (i.e. "dial")
-
-
 ###widget.set( data, transmit )###
 Manually set a widget's value (that is, set any properties of a widget's .val). See widget.val or the .val property of individual widgets for more info.
 Sets the value of an object.

@@ -774,14 +774,9 @@ widget.prototype.showCursor = function() {
 
 // allow us to get the constructor function name programatically
 //i.e. if element is a dial, this function will return "dial"
-
-/**  @method getName
-    Returns the widget's constructor function name (i.e. "dial")
-    */
-widget.prototype.getName = function() { 
-  var funcNameRegex = /function (.{1,})\(/;
-  var results = (funcNameRegex).exec((this).constructor.toString());
-  return (results && results.length > 1) ? results[1] : "";
+//deprecated
+widget.prototype.getName = function() {
+  return "deprecated -- use widget.type instead"
 }
 
 /** @method set
