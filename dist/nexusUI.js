@@ -5288,10 +5288,7 @@ var select = module.exports = function (target) {
 		| *value* | Text string of option chosen
 	*/
 	this.val = new Object();
-}
-util.inherits(select, widget);
 
-select.prototype.init = function() {
 	
 	this.canvas.ontouchstart = null;
 	this.canvas.ontouchmove = null;
@@ -5315,8 +5312,10 @@ select.prototype.init = function() {
 	for (var prop in cstyle)
     	this.sel.style[prop] = cstyle[prop];
 
-
 	this.canvas = document.getElementById(this.canvasID);
+
+    this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.color = this.colors.black;
 	
 	for (var i=0;i<this.choices.length;i++) {
 		var option=document.createElement("option");
@@ -5325,12 +5324,36 @@ select.prototype.init = function() {
 		this.canvas.add(option,null);
 	}
 	
+
+
+
+}
+util.inherits(select, widget);
+
+select.prototype.init = function() {
+
+    this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.color = this.colors.black;
+	
+	for (var i=0;i<this.choices.length;i++) {
+		var option=document.createElement("option");
+		option.text = this.choices[i];
+		option.value = this.choices[i];
+		this.canvas.add(option,null);
+	}
 }
 
 // should have a modified "set" function
 select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
 	this.transmit(this.val);
+}
+
+select.prototype.draw = function() {
+
+    this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.color = this.colors.black;
+
 }
 },{"../core/widget":3,"util":46}],33:[function(require,module,exports){
 var math = require('../utils/math')
@@ -5855,6 +5878,9 @@ text.prototype.init = function() {
 	this.canvas.ontouchstart = null;
 	this.canvas.ontouchmove = null;
 	this.canvas.ontouchend = null;
+
+    this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.color = this.colors.black;
 	
 }
 
@@ -5872,6 +5898,9 @@ text.prototype.change = function(e,el) {
 text.prototype.draw = function() {
 	// needed especially for ghost
 	this.el.value = this.val.text 
+	
+    this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.color = this.colors.black;
 }
 },{"../core/widget":3,"util":46}],37:[function(require,module,exports){
 var math = require('../utils/math')
@@ -6565,11 +6594,13 @@ windows.prototype.draw = function() {
 		}
 
 		fillRect(0,0,this.width,this.height);
+
+		globalAlpha = 0.8;
 	
 		for (var i=0;i<this.val.items.length;i++) {
 			fillStyle = this.colors.accent;
-			var x = (this.val.items[i].x-this.val.items[i].w/2)*this.width
-			var y = (this.val.items[i].y-this.val.items[i].h/2)*this.height
+			var x = this.val.items[i].x*this.width
+			var y = this.val.items[i].y*this.height
 			var w = this.val.items[i].w*this.width
 			var h = this.val.items[i].h*this.height
 			fillRect(x,y,w,h)
@@ -6579,6 +6610,8 @@ windows.prototype.draw = function() {
 		    strokeRect(x+w-10,y+h-10,10,10)
 		  //  strokeRect((this.val.items[i].x + this.val.items[i].w/2)*this.width - 10, (this.val.items[i].y + this.val.items[i].h/2)*this.height - 10,10,10)
 		}
+
+		globalAlpha = 1;
 
 	}
 	
@@ -6591,14 +6624,13 @@ windows.prototype.click = function() {
 	var cx = this.clickPos.x / this.width;
 	var cy = this.clickPos.y / this.height;
 	for (var i=0;i<this.val.items.length;i++) {
-		if (nx.isInside({ x: cx+this.val.items[i].w/2, y: cy+this.val.items[i].h/2 }, this.val.items[i])) {
+		if (nx.isInside({ x: cx, y: cy }, this.val.items[i])) {
 			this.holds = i;
-			if (this.clickPos.x > (this.val.items[i].x + this.val.items[i].w/2)*this.width - 10 && this.clickPos.x < (this.val.items[i].x + this.val.items[i].w/2)*this.width && this.clickPos.y > (this.val.items[i].y + this.val.items[i].h/2)*this.height - 10 && this.clickPos.y < (this.val.items[i].y + this.val.items[i].h/2)*this.height) {
+			if (this.clickPos.x > (this.val.items[i].x+this.val.items[i].w)*this.width - 10 && this.clickPos.x < (this.val.items[i].x+this.val.items[i].w)*this.width && this.clickPos.y > (this.val.items[i].y+this.val.items[i].h)*this.height - 10 && this.clickPos.y < (this.val.items[i].y+this.val.items[i].h)*this.height) {
 				this.resizing = true;
 			}
 		}
 	}
-	console.log(this.resizing)
 
 	if (this.holds===false) {
 		this.val.items.push({
@@ -6634,13 +6666,13 @@ windows.prototype.move = function() {
 	var cy = this.clickPos.y / this.height;
 	if (this.resizing) {
 		if (!this.meta) {
-			this.val.items[this.holds].w = cx + this.val.items[this.holds].w/2 - this.val.items[this.holds].x
-			this.val.items[this.holds].h = cy + this.val.items[this.holds].h/2 - this.val.items[this.holds].y
+			this.val.items[this.holds].w = cx - this.val.items[this.holds].x
+			this.val.items[this.holds].h = cy - this.val.items[this.holds].y
 			this.val.items[this.holds] = this.restrict(this.val.items[this.holds])
 		} else {
 			for (var i=0;i<this.val.items.length;i++) {
-				this.val.items[i].w = cx + this.val.items[this.holds].w/2 - this.val.items[this.holds].x
-				this.val.items[i].h = cy + this.val.items[this.holds].h/2 - this.val.items[this.holds].y
+				this.val.items[i].w = cx - this.val.items[this.holds].x
+				this.val.items[i].h = cy - this.val.items[this.holds].y
 				this.val.items[i] = this.restrict(this.val.items[i])
 			}
 		}
@@ -6699,17 +6731,17 @@ windows.prototype.release = function() {
 }
 
 windows.prototype.restrict = function(item) {
-	if (item.x < item.w/2) {
-		item.x = item.w/2
+	if (item.x < 0) {
+		item.x = 0
 	}
-	if (item.y < item.h/2) {
-		item.y = item.h/2
+	if (item.y < 0) {
+		item.y = 0
 	}
-	if (item.x + item.w/2 > 1) {
-		item.x = 1 - item.w/2
+	if (item.x + item.w > 1) {
+		item.x = 1 - item.w
 	}
-	if (item.y + item.h/2 > 1) {
-		item.y = 1 - item.h/2
+	if (item.y + item.h > 1) {
+		item.y = 1 - item.h
 	}	
 	return item;
 }
