@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":47}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":48}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -294,10 +294,10 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
 /**  @property {object} colors The interface's color settings. Set with nx.colorize(). */
 manager.prototype.colors = { 
   "accent": "#ff5500", 
-  "fill": "#eee", 
-  "border": "#bbb",
-  "black": "#000",
-  "white": "#FFF"
+  "fill": "#eeeeee", 
+  "border": "#bbbbbb",
+  "black": "#000000",
+  "white": "#FFFFFF"
 };
   
 /**  @method startPulse 
@@ -411,12 +411,13 @@ manager.prototype.setProp = function(prop,val) {
 }
 
 manager.prototype.blockMove = function(e) {
-  if (e.target.tagName == 'CANVAS' || e.target.tagName == 'INPUT') {
+  if (e.target.tagName == 'CANVAS') {
+    // || e.target.tagName == 'INPUT'
      e.preventDefault();
-     e.stopPropogation();
+     e.stopPropogation ? e.stopPropogation() : false;
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":42,"util":46}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":43,"util":47}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -965,7 +966,7 @@ widget.prototype.resize = function(w,h) {
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":42,"util":46}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":43,"util":47}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1505,7 +1506,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":46}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1576,13 +1577,16 @@ var button = module.exports = function(target) {
 util.inherits(button, widget);
 
 button.prototype.init = function() {
-	this.width = this.canvas.width;
-	this.height = this.canvas.height;
+	this.center = {
+		x: this.width/2,
+		y: this.height/2
+	}
 	this.radius = (Math.min(this.center.x, this.center.y)-this.lineWidth/2)
 	this.draw();
 }
 
 button.prototype.draw = function() {
+
 	this.erase();
 	
 	with (this.context) {
@@ -1617,21 +1621,32 @@ button.prototype.draw = function() {
 			} else if (this.val.press) {
 				fillStyle = this.colors.accent;
 			}
-		
+
 			beginPath();
 				arc(this.center.x, this.center.y, this.radius, 0, Math.PI*2, true);
 				fill();	  
 			closePath();
 
 			if (this.val.press && this.mode=="node") {
-				globalAlpha = 0.2;
-				fillStyle = this.colors.white;
-				beginPath();
-					arc(this.val.x, this.val.y, (Math.min(this.center.x, this.center.y)/2), 0, Math.PI*2, true);
-					fill();	  
-				closePath();
 
-				globalAlpha = 1;
+				var x = nx.clip(this.clickPos.x,this.width*.2,this.width/1.3)
+				var y = nx.clip(this.clickPos.y,this.height*.2,this.height/1.3)
+				console.log(x)
+				console.log(y)
+
+				var gradient = this.context.createRadialGradient(x,y,this.width/6,this.center.x,this.center.y,this.radius*1.3);
+				gradient.addColorStop(0,this.colors.accent);
+				gradient.addColorStop(1,"white");
+
+				strokeStyle = gradient;
+				lineWidth = this.width/20;
+
+				beginPath()
+					arc(this.center.x, this.center.y, this.radius-this.width/40, 0, Math.PI*2, true);
+					stroke()
+				closePath()
+
+
 			}
 		}
 
@@ -1696,7 +1711,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1714,6 +1729,13 @@ var colors = module.exports = function (target) {
 	this.defaultSize = { width: 100, height: 100 };	
 	widget.call(this, target);
 
+	this.init();
+	
+}
+util.inherits(colors, widget);
+
+colors.prototype.init = function() {
+
 	/* new tactic */
 
 	this.gradient1 = this.context.createLinearGradient(0,0,this.width,0)
@@ -1730,12 +1752,6 @@ var colors = module.exports = function (target) {
  	this.gradient2.addColorStop(0.49, 'rgba(0,0,0,0)'); 
  	this.gradient2.addColorStop(0.51, 'rgba(255,255,255,0)'); 
  	this.gradient2.addColorStop(0.95, 'rgba(255,255,255,255)'); 
-	this.init();
-	
-}
-util.inherits(colors, widget);
-
-colors.prototype.init = function() {
 
 	this.draw();
 }
@@ -1795,7 +1811,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":46}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1868,7 +1884,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":46}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1949,7 +1965,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2128,7 +2144,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],15:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2306,7 +2322,7 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2613,7 +2629,330 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],17:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class ghostlist (alpha) 
+	Interface gesture capture / playback (in development)    
+	
+	```html
+	<canvas nx="ghostlist"></canvas>
+	```
+	<canvas nx="ghostlist" style="margin-left:25px"></canvas>
+*/
+
+var ghostlist = module.exports = function(target) {
+	
+	this.defaultSize = { width: 100, height: 50 };
+	widget.call(this, target);
+	
+	//define unique attributes
+	this.recording = false;
+	this.playing = false;
+	this.maxLength = 2000;
+	this.components = new Array();
+	//the recording buffer
+	this.buffer = new Array();
+	//the playback info
+	this.playbuffer = []
+	this.playIndex = 0
+	//this.moment is for the record head
+	this.moment = 0;
+	//this.needle is for the playback head
+	this.needle = 0;
+	this.val = new Object();
+	this.rate = 1;
+	this.start = 0;
+	this.end = 1;
+	this.size = 0;
+	this.looping = true;
+	this.boundLog = this.log.bind(this)
+	this.direction = 1;
+	//settings
+	this.noise = 0;
+	this.loopstart = 0;
+	this.loopend = 0;
+	this.mode = "linear";   // linear,bounce,random,wander,pattern/dream
+	//init
+	this.init();
+
+	this.boundAdv = this.advance.bind(this);
+	nx.aniItems.push(this.boundAdv)
+
+}
+
+util.inherits(ghostlist, widget);
+
+
+ghostlist.prototype.init = function() {
+	this.draw();
+}
+
+ghostlist.prototype.watch = function() {
+}
+	
+	//sets a new component to be recorded
+ghostlist.prototype.connect = function(target) {
+	var compIndex = this.components.length;
+	this.components.push(target);
+	target.tapeNum = compIndex;
+	target.isRecording = true;
+	target.recorder = this;
+	this.buffer[compIndex] = new Object();
+	for (var key in target.val) {
+		this.buffer[compIndex][key] = new Array();
+	}
+	
+}
+	
+	//the actual recording function
+ghostlist.prototype.write = function(index, val) {
+	if (this.moment>=this.maxLength) {
+		this.stop();
+	}
+	for (var key in val) {
+		if (this.buffer[index][key]) {
+			// if an array or object, must make a copy, otherwise it is a reference to the original and will not record properly
+			if (typeof val[key] == "object") {
+				if (Array.isArray(val[key])) {
+				//	this.buffer[index][key][this.moment] = val[key].slice()
+				//	above line should work, but is still only a reference, not a copy
+					this.buffer[index][key][this.moment] = JSON.parse(JSON.stringify(val[key]))
+				} else {
+					this.buffer[index][key][this.moment] = {}
+					for (var subkey in val[key]) {
+						this.buffer[index][key][this.moment][subkey] = val[key][subkey]
+					}
+				}
+			} else {
+				this.buffer[index][key][this.moment] = val[key];
+			}
+		}
+	}
+	this.draw();
+}
+	
+
+ghostlist.prototype.draw = function() {
+
+	with (this.context) {
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height)
+	}
+
+	var quad = this.width/4;
+	var quad2 = this.width-quad;
+	
+	if (!this.recording) {
+		with (this.context) {
+			fillStyle = "#e33";
+			beginPath()
+			arc(quad,this.height/2,quad*0.8,0,Math.PI*2)
+			fill()
+			closePath();
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("rec",quad,this.height/2)
+		}
+	} else {
+		with (this.context) {
+			fillStyle = "#e33";
+			fillRect(quad*0.4,quad*0.4,quad*1.2,quad*1.2)
+		}
+	}
+	
+	if (!this.playing) {
+		with (this.context) {
+			fillStyle = this.colors.border
+			beginPath()
+			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
+			fill()
+			closePath()
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("play",quad2,this.height/2)
+		}
+	} else {
+		with (this.context) {
+			strokeStyle = this.colors.border
+			lineWidth = this.width/30
+			beginPath()
+			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
+			stroke()
+			closePath()
+			var sec = ~~(this.needle/30)
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/3+"px courier"
+			fillStyle = this.colors.border
+			fillText(sec,quad2,this.height/2+2)
+		}
+	}
+}
+
+ghostlist.prototype.record = function() {
+//	if (!this.playing) {
+		this.components = new Array();
+		for (var key in nx.widgets) {
+			this.connect(nx.widgets[key]);
+			console.log(key)
+		}
+//	}
+	this.moment = 0;
+	nx.aniItems.push(this.boundLog)
+	this.recording = true;
+}
+
+ghostlist.prototype.log = function() {
+	for (var i=0;i<this.components.length;i++) {
+		var sender = this.components[i];
+		var val = {}
+		if (!sender.clicked) {
+			for (var key in sender.val) {
+				val[key] = false
+			}
+		} else {
+			val = sender.val
+		}
+		this.write(this.components[i].tapeNum,val);
+	}
+	this.moment++;
+}
+
+ghostlist.prototype.stop = function() {
+	nx.removeAni(this.boundLog);
+	this.size = this.moment;
+	this.recording = false;
+	this.draw();
+}
+
+
+ghostlist.prototype.scan = function(x) {
+
+	// loop through the widgets that were recorded
+	for (var i=0;i<this.components.length;i++) {
+		//sender is the current widget we're looking at
+		var sender = this.components[i];
+		//loop through the widget's gesture buffer
+		for (var key in this.playbuffer[sender.tapeNum]) {
+
+			if (this.playbuffer[sender.tapeNum][key]) {
+
+				//create a new val object
+				var val = new Object();
+				//make sure we're not looking out of bounds of the buffer
+				var max = this.playbuffer[sender.tapeNum][key][~~this.needle+1] ? this.playbuffer[sender.tapeNum][key][~~this.needle+1] : this.playbuffer[sender.tapeNum][key][~~this.needle]
+
+				if (this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.playbuffer[sender.tapeNum][key][~~this.needle] != this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction]) {
+					
+					// if it's a number, interpolate
+					if (typeof this.playbuffer[sender.tapeNum][key][~~this.needle] == "number") {
+						// create the value pair
+						val[key] = nx.interp(this.needle - ~~this.needle, this.playbuffer[sender.tapeNum][key][~~this.needle], max)
+						val[key] += Math.random() * this.noise - this.noise/2;
+						val[key] = nx.clip(val[key],0,1)
+						//set the widget with the value from the buffer
+						sender.set(val, true);
+					} else {
+						// otherwise, transfer the closest val as is
+						val[key] = this.playbuffer[sender.tapeNum][key][~~this.needle]
+						
+						if (val[key]) {
+							sender.set(val, true)
+						}
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+//this.moment is for the record head
+//this.needle is for the playback head
+
+ghostlist.prototype.play = function(rate,start,end) {
+	rate ? this.rate = rate : false;
+	if (start) {
+		this.needle = this.moment-1;
+		this.start = start;
+	} else {
+		this.needle = this.moment-1;
+		this.start = 0;
+	} 
+	if (this.mode=="linear") {
+		this.direction = 1;
+	}
+	end ? this.end = end : this.end = 1
+	this.playing = true;
+}
+
+ghostlist.prototype.pause = function() {
+	this.playing = false;
+}
+
+ghostlist.prototype.loop = function() {
+	
+}
+
+ghostlist.prototype.advance = function() {
+	if (this.playing) {
+		if (this.mode == "linear" || this.mode == "bounce") {
+			this.needle += this.rate*this.direction;
+		} else if (this.mode=="random") {
+			this.needle = nx.random((this.end-this.start)*this.size)+this.start*this.size;
+		} else if (this.mode=="wander") {
+			var dir = 3
+			this.needle > this.size*0.75 ? dir-- : null;
+			this.needle < this.size*0.25 ? dir++ : null;
+			this.needle += this.rate*this.direction * (nx.random(dir)-1);
+		}
+
+		if (this.needle/this.size < this.end && this.needle/this.size > this.start) {
+			this.scan();
+		} else if (this.looping) {
+			if (this.mode=="linear") {
+			//	this.needle = this.start*this.size + 1;
+				this.needle = 0;
+				this.playbuffer = this.jest.next()
+			} else {
+				this.direction = this.direction * -1
+			}
+		} else {
+			this.playing = false;
+		}
+		this.draw();
+		this.jest.drawvis(this.needle/this.size)
+	}
+}
+	
+
+ghostlist.prototype.click = function(e) {
+	if (this.clickPos.x<this.width/2) {
+		if (this.recording) {
+			this.stop()
+		} else {
+			this.record()
+		}
+	} else {
+		if (this.playing) {
+			this.pause();
+		} else {
+			this.play();
+		}
+		this.draw();
+	}
+}
+},{"../core/widget":3,"../utils/math":6,"util":47}],18:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2623,6 +2962,7 @@ module.exports = {
   dial: require('./dial'),
   envelope: require('./envelope'),
   ghost: require('./ghost'),
+  ghostlist: require('./ghostlist'),
   joints: require('./joints'),
   keyboard: require('./keyboard'),
   matrix: require('./matrix'),
@@ -2648,7 +2988,7 @@ module.exports = {
   vinyl: require('./vinyl'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./meter":22,"./metro":23,"./motion":24,"./mouse":25,"./multislider":26,"./multitouch":27,"./number":28,"./position":29,"./range":30,"./remix":31,"./select":32,"./slider":33,"./string":34,"./tabs":35,"./text":36,"./tilt":37,"./toggle":38,"./typewriter":39,"./vinyl":40,"./windows":41}],18:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./ghostlist":17,"./joints":19,"./keyboard":20,"./matrix":21,"./message":22,"./meter":23,"./metro":24,"./motion":25,"./mouse":26,"./multislider":27,"./multitouch":28,"./number":29,"./position":30,"./range":31,"./remix":32,"./select":33,"./slider":34,"./string":35,"./tabs":36,"./text":37,"./tilt":38,"./toggle":39,"./typewriter":40,"./vinyl":41,"./windows":42}],19:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2846,7 +3186,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3175,7 +3515,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],21:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3519,7 +3859,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],22:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3591,7 +3931,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":46}],22:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],23:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -3705,7 +4045,7 @@ meter.prototype.draw = function(){
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3819,7 +4159,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3982,7 +4322,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],26:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -4082,7 +4422,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],27:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4241,7 +4581,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],28:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4446,7 +4786,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4609,7 +4949,7 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4830,7 +5170,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],31:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -5045,7 +5385,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],32:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5257,7 +5597,7 @@ remix.prototype.move = function(e) {
 		this.scan(this.clickPos.x/this.width)
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],33:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5355,7 +5695,7 @@ select.prototype.draw = function() {
     this.canvas.style.color = this.colors.black;
 
 }
-},{"../core/widget":3,"util":46}],33:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],34:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5522,7 +5862,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],35:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5724,7 +6064,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":46}],35:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],36:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5816,7 +6156,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],37:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5902,7 +6242,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":46}],37:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],38:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6036,7 +6376,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],38:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],39:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6109,7 +6449,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],40:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6358,7 +6698,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],41:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6384,6 +6724,9 @@ var vinyl = module.exports = function (target) {
 	this.defaultspeed = 0.05
 	this.rotation = 0;
 	this.hasMovedOnce = false;
+
+	this.lockResize = true;
+	
 	/** @property {float}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
 		| &nbsp; | data
 		| --- | ---
@@ -6502,7 +6845,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],42:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6745,7 +7088,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7048,7 +7391,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -7073,7 +7416,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -7138,14 +7481,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -7720,7 +8063,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":45,"_process":44,"inherits":43}],47:[function(require,module,exports){
+},{"./support/isBuffer":46,"_process":45,"inherits":44}],48:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
