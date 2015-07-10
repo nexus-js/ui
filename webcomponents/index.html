@@ -23,30 +23,52 @@
 
 </head>
 <body>
+
     
-    <!-- Use web components -->
-    <nx-dial></nx-dial>
-    <nx-dial></nx-dial>
-    <nx-dial></nx-dial>
-    <nx-dial></nx-dial>
+    <!-- Use web components
+    <nx-dial style="width:200px;height:200px;"></nx-dial> -->
 
-    <br><br>
-
-    <nx-dial-complex style="width:400px;height:400px"></nx-dial-complex>
+    <nx-dial-complex style="width:100px;height:100px;"></nx-dial-complex>
+    <nx-dial-complex style="width:100px;height:100px;"></nx-dial-complex>
+    <nx-dial-complex style="width:100px;height:100px;"></nx-dial-complex>
+    <nx-dial-complex></nx-dial-complex>
 
 
-	<style>
-		/* Style all nexusUI components */
-		.nx {
-			margin:10px;
-			float:left;	
-		}
-	 	/* Or style all dials */
-		canvas[nx=dial] {
-			width:100px;
-			height:100px;
-		}
-	</style>
+    <style>
+
+
+        /* SIGNIFICANT: CANNOT STYLE WEB COMPONENTS WITHOUT VERBOSE CSS;
+
+        This does not work:
+
+        nx-dial-complex { 
+            width: 100px;
+        }
+
+        Must do other garbage like 
+
+        style shim-shadowdom
+          nx-dial-complex::shadow canvas {
+            color: red;
+          }
+          ...
+
+        */
+
+        /* Style all nexusUI components */
+        .nx {
+
+        }
+        /* Or style all dials (the canvases, not the web component) */
+        canvas[nx=dial] {
+            width:100px;
+            height:100px;
+        }
+        
+
+
+    </style>
+
 
 </body>
 </html>

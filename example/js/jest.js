@@ -16,40 +16,46 @@ var Jest = function(parentID) {
 
 }
 
-Jest.prototype.add = function(name,buffer) {
+Jest.prototype.add = function(name,buffer,len) {
 
 	var piece = document.createElement("div")
-	piece.innerHTML = name
 	piece.className = "item"
 	this.container.appendChild(piece)
 
+	var text = document.createElement("div")
+	text.innerHTML = name
+	text.className = "text"
+	piece.appendChild(text)
+
 	var vis = document.createElement("div")
-	vis.innerHTML = name
 	vis.className = "vis"
 	piece.appendChild(vis)
 
 	this.playlist.push({
 		name: name,
 		buffer: buffer,
+		len: len,
 		nametag: piece,
 		vis: vis
 	})
+
+	var self = this;
 
 	$([this.container]).sortable({
 	  containment: "parent",
 	  start: function( event, ui ) {
 	  	this.mover.start = ui.item.index()
-	  },
+	  }.bind(self),
 	  update: function( event, ui ) {
 	  	this.mover.end = ui.item.index()
 	  	this.move(this.mover.start,this.mover.end)
-	  }
+	  }.bind(self)
 	})
 
 }
 
 Jest.prototype.move = function(start,end) {
-	this.playlist.splice(end, 0, this.splice(start, 1)[0])
+	this.playlist.splice(end, 0, this.playlist.splice(start, 1)[0])
 	//if (start==this.current) {
 	//	this.current = end;
 	//}
@@ -68,12 +74,12 @@ Jest.prototype.next = function() {
 	if (this.playlist.length>0) {
 		var next = this.playlist[curr]
 		this.current = next;
-		return next.buffer;
+		return next;
 	}
 }
 
 Jest.prototype.drawvis = function(ratio) {
 //	var curr = this.playlist.indexOf(this.current)
 //	this.playlist[curr]
-	this.current.vis.style.width = ratio * 100 + "%"	
+	this.current.vis.style.width = ratio * 110 + "%"	
 }

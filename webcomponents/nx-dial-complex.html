@@ -23,8 +23,8 @@
             parent: container,
             w: "100%",
             h: "100%",
-            t: 0,
-            l: 0
+            x: 0,
+            y: 0
         })
 
 
@@ -36,18 +36,23 @@
             h: 30
         })
 
+        number.sendsTo("wc")
+
         number.canvas.style.margin = "3px auto"
         number.canvas.style.display = "block"
 
-        dial.on('value',function(data) {
-            number.set({value: data},false)
+        dial.on('value',function(data,passive) {
+            if (!passive) {
+                number.set({value: data},false)
+            }  
         })
 
         number.min = 0;
         number.max = 1;
         number.step = 0.01;
-        number.on('value',function(data) {
-            dial.set({value: data},true)
+
+        number.on('internal',function(data,passive) {
+            dial.set({value: data.value},true)
         })
 
         number.init()
@@ -56,13 +61,18 @@
             
             - number should not transmit out via general nx transmit
                 (number should only control dial, not send data out)
+            - number should not be in nx.widgets[] . really, the multiple items here need to be grouped together as one nx.widget
             - number must automatically know min/max of dial
                 AND if that range is changed on the dial, should change 
                 on the number too.
-            - number needs to just be itself, not embedded in spans
+            - number needs to just be itself, not embedded in spans with the fake canvas
             - dial needs to be full height of container, - height of number
-            - how to know how big to make the numbers?
+            - how to know how big to make the numbers? 
                 maybe that is a global nx setting?
+            - ***** must be able to style web components with regular CSS.
+                currently not possible. *****
+
+            therefore, I am not pursuing web components further
 
         */
 

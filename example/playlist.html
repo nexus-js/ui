@@ -28,29 +28,32 @@
 		.playlist > .item {
 			background-color:#eee;
 			border-bottom:solid 1px #ddd;
+			cursor:pointer;
+			position:relative;
+			overflow:hidden;
+		}
+
+		.playlist > .item > .text {
 			text-align:left;
-			font-size:10pt;
-			padding:6px 10px;
+			font-size:9pt;
+			font-weight:bold;
+			padding:4px 10px;
 			box-sizing:border-box;
 			line-height:1em;
 			cursor:pointer;
 			position:relative;
+			z-index:2;
 		}
 
 		.playlist > .item > .vis {
 			background-color:#0bd;
-			text-align:left;
-			font-size:10pt;
-			padding:6px 10px;
-			box-sizing:border-box;
-			line-height:1em;
 			cursor:pointer;
 			width:0px;
 			height:100%;
-			overflow:hidden;
 			position:absolute;
 			top:0px;
 			left:0px;
+			z-index:0;
 		}
 
 	</style>
@@ -60,7 +63,7 @@
 	var test1 = [0,1,2]
 	var test2 = test1.slice()
 	test2.push(3)
-	console.log(test1)
+//	console.log(test1)
 
 	var pkeys = [];
 
@@ -68,7 +71,7 @@
 
 			nx.colorize("#0ac")
 
-			var jest = new Jest("playlist1")
+			jest = new Jest("playlist1")
 			ghostlist1.jest = jest;
 			ghostlist1.playbuffer = ghostlist1.jest.next()
 		/*	p.add("test1")
@@ -79,7 +82,7 @@
 			document.addEventListener('keydown',function(e) {
 				if (pkeys.indexOf(e.which)==-1) {
 					pkeys.push(e.which)
-					console.log(pkeys)
+				//	console.log(pkeys)
 					ghostlist1.record()
 				}
 			})
@@ -87,10 +90,12 @@
 				pkeys.splice(pkeys.indexOf(e.which))
 				ghostlist1.stop()
 				var buff = ghostlist1.buffer.slice()
-
-				jest.add(nameIndex++,buff)
+				console.log(ghostlist1.moment)
+				jest.add(nameIndex++,buff,ghostlist1.moment)
 				if (jest.playlist.length==1) {
-					ghostlist1.playbuffer = ghostlist1.jest.next()
+					ghostlist1.next = ghostlist1.jest.next()
+					ghostlist1.playbuffer = ghostlist1.next.buffer
+					ghostlist1.playbufferSize = ghostlist1.next.len
 				}
 			/*	console.log(buff)
 				for (var i=0;i<buff.length;i++) {
@@ -131,7 +136,7 @@
 			})
 
 			position1.on('*',function(data) {
-				console.log(data);
+			//	console.log(data);
 			})
 			
 		}

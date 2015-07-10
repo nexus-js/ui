@@ -240,9 +240,10 @@ The "output" instructions for sending a widget's data to another application or 
 @param {object} [data] The data to be transmitted. Each property of the object will become its own OSC message. (This works with objects nested to up to 2 levels).
 */
 
-manager.prototype.transmit = function(data) {
-    this.makeOSC(this.emit, data);
-    this.emit('*',data);
+manager.prototype.transmit = function(data, passive) {
+  //console.log(passive + " manager.transmit")
+    this.makeOSC(this.emit, data, passive);
+    this.emit('*',data, passive);
 } 
 
 /** 
@@ -574,6 +575,8 @@ var widget = module.exports = function (target) {
   this.clickCB = false;
   this.releaseCB = false;
 
+  this.actuated = true;
+
 }
 util.inherits(widget, EventEmitter)
 
@@ -619,6 +622,7 @@ widget.prototype.getOffset = function() {
 }
 
 widget.prototype.preClick = function(e) {
+  this.actuated = true;
   this.offset = domUtils.findPosition(this.canvas)
   document.addEventListener("mousemove", this.preMove, false);
   document.addEventListener("mouseup", this.preRelease, false);
@@ -635,6 +639,7 @@ widget.prototype.preClick = function(e) {
 }
 
 widget.prototype.preMove = function(e) {
+  this.actuated = true;
   var newClickPos = domUtils.getCursorPosition(e, this.offset);
   this.deltaMove.y = newClickPos.y - this.clickPos.y;
   this.deltaMove.x = newClickPos.x - this.clickPos.x;
@@ -644,7 +649,7 @@ widget.prototype.preMove = function(e) {
 }
 
 widget.prototype.preRelease = function(e) {
-
+  this.actuated = true;
   document.removeEventListener("mousemove", this.preMove, false);
   document.removeEventListener("mouseup", this.preRelease, false);
   this.clicked = false;
@@ -656,6 +661,7 @@ widget.prototype.preRelease = function(e) {
 }
 
 widget.prototype.preTouch = function(e) {
+  this.actuated = true;
   this.clickPos = domUtils.getTouchPosition(e, this.offset);
   this.clicked = true;
   this.deltaMove.x = 0;
@@ -666,6 +672,7 @@ widget.prototype.preTouch = function(e) {
 
 widget.prototype.preTouchMove = function(e) {
   if (this.clicked) {
+    this.actuated = true;
     var newClickPos = domUtils.getTouchPosition(e, this.offset);
     this.deltaMove.y = newClickPos.y - this.clickPos.y;
     this.deltaMove.x = newClickPos.x - this.clickPos.x;
@@ -676,6 +683,7 @@ widget.prototype.preTouchMove = function(e) {
 }
 
 widget.prototype.preTouchRelease = function(e) {
+  this.actuated = true;
   if (e.targetTouches.length>=1) {
     var newClickPos = domUtils.getTouchPosition(e, this.offset);
     this.clickPos = newClickPos;
@@ -802,6 +810,8 @@ An optional second argument decides whether the object then transmits its new va
 */
 widget.prototype.set = function(data, transmit) {
 
+  this.actuated = false;
+
   if (typeof this.val == "object" && this.val !== "null") {
     if (typeof data == "object" && data !== "null") {
       for (var key in data) {
@@ -819,7 +829,7 @@ widget.prototype.set = function(data, transmit) {
   this.draw();
 
   if (transmit) {
-    this.transmit(this.val)
+    this.transmit(this.val,true)
   }
 }
 
@@ -1342,9 +1352,9 @@ exports.defineTransmit = function(protocol) {
   } else {
     switch (protocol) {
       case 'js':
-        newTransmit = function(data) {
-          this.makeOSC(this.emit, data);
-          this.emit('*',data);
+        newTransmit = function(data,passive) {
+          this.makeOSC(this.emit, data, passive);
+          this.emit('*',data, passive);
         }
         return newTransmit
       
@@ -1369,6 +1379,12 @@ exports.defineTransmit = function(protocol) {
       case 'max':
         newTransmit = function(data) {
           this.makeOSC(exports.maxTransmit, data);
+        }
+        return newTransmit
+
+      case 'wc':
+        newTransmit = function(data, passive) {
+          this.emit('internal',data, passive);
         }
         return newTransmit
     }
@@ -2659,6 +2675,7 @@ var ghostlist = module.exports = function(target) {
 	//the playback info
 	this.playbuffer = []
 	this.playIndex = 0
+	this.playbufferSize = 0
 	//this.moment is for the record head
 	this.moment = 0;
 	//this.needle is for the playback head
@@ -2715,21 +2732,43 @@ ghostlist.prototype.write = function(index, val) {
 	}
 	for (var key in val) {
 		if (this.buffer[index][key]) {
-			// if an array or object, must make a copy, otherwise it is a reference to the original and will not record properly
-			if (typeof val[key] == "object") {
-				if (Array.isArray(val[key])) {
-				//	this.buffer[index][key][this.moment] = val[key].slice()
-				//	above line should work, but is still only a reference, not a copy
-					this.buffer[index][key][this.moment] = JSON.parse(JSON.stringify(val[key]))
-				} else {
-					this.buffer[index][key][this.moment] = {}
+			/*if (!this.actuated) {
+				//if ignored because widget currently being set with .set
+				this.buffer[index][key][this.moment] = {}
 					for (var subkey in val[key]) {
 						this.buffer[index][key][this.moment][subkey] = val[key][subkey]
 					}
+
+			} else { */
+				// if an array or object, must make a copy, otherwise it is a reference to the original and will not record properly
+				if (typeof val[key] == "object") {
+					if (Array.isArray(val[key])) {
+					//	this.buffer[index][key][this.moment] = val[key].slice()
+					//	above line should work, but is still only a reference, not a copy
+						if (this.components[index].actuated) {
+							this.buffer[index][key][this.moment] = JSON.parse(JSON.stringify(val[key]))
+						} else {
+							this.buffer[index][key][this.moment] = false;
+						}
+					} else {
+						this.buffer[index][key][this.moment] = {}
+						for (var subkey in val[key]) {
+							if (this.components[index].actuated) {
+								this.buffer[index][key][this.moment][subkey] = val[key][subkey]
+							} else {
+								this.buffer[index][key][this.moment][subkey] = false;
+							}
+						}
+					}
+				} else {
+					
+					if (this.components[index].actuated) {
+						this.buffer[index][key][this.moment] = val[key];
+					} else {
+						this.buffer[index][key][this.moment] = false;
+					}
 				}
-			} else {
-				this.buffer[index][key][this.moment] = val[key];
-			}
+		//	}
 		}
 	}
 	this.draw();
@@ -2802,7 +2841,6 @@ ghostlist.prototype.record = function() {
 		this.components = new Array();
 		for (var key in nx.widgets) {
 			this.connect(nx.widgets[key]);
-			console.log(key)
 		}
 //	}
 	this.moment = 0;
@@ -2840,8 +2878,10 @@ ghostlist.prototype.scan = function(x) {
 	for (var i=0;i<this.components.length;i++) {
 		//sender is the current widget we're looking at
 		var sender = this.components[i];
-		//loop through the widget's gesture buffer
+		//loop through the widget's recorded val keys
 		for (var key in this.playbuffer[sender.tapeNum]) {
+
+			//console.log(this.playbuffer[sender.tapeNum][key])
 
 			if (this.playbuffer[sender.tapeNum][key]) {
 
@@ -2864,7 +2904,7 @@ ghostlist.prototype.scan = function(x) {
 						// otherwise, transfer the closest val as is
 						val[key] = this.playbuffer[sender.tapeNum][key][~~this.needle]
 						
-						if (val[key]) {
+						if (val[key] || val[key]===0) {
 							sender.set(val, true)
 						}
 						
@@ -2909,21 +2949,23 @@ ghostlist.prototype.advance = function() {
 		if (this.mode == "linear" || this.mode == "bounce") {
 			this.needle += this.rate*this.direction;
 		} else if (this.mode=="random") {
-			this.needle = nx.random((this.end-this.start)*this.size)+this.start*this.size;
+			this.needle = nx.random((this.end-this.start)*this.playbufferSize)+this.start*this.playbufferSize;
 		} else if (this.mode=="wander") {
 			var dir = 3
-			this.needle > this.size*0.75 ? dir-- : null;
-			this.needle < this.size*0.25 ? dir++ : null;
+			this.needle > this.playbufferSize*0.75 ? dir-- : null;
+			this.needle < this.playbufferSize*0.25 ? dir++ : null;
 			this.needle += this.rate*this.direction * (nx.random(dir)-1);
 		}
 
-		if (this.needle/this.size < this.end && this.needle/this.size > this.start) {
+		if (this.needle/this.playbufferSize < this.end && this.needle/this.playbufferSize > this.start) {
 			this.scan();
 		} else if (this.looping) {
 			if (this.mode=="linear") {
-			//	this.needle = this.start*this.size + 1;
+			//	this.needle = this.start*this.playbufferSize + 1;
 				this.needle = 0;
-				this.playbuffer = this.jest.next()
+				this.next = this.jest.next()
+				this.playbuffer = this.next.buffer
+				this.playbufferSize = this.next.len
 			} else {
 				this.direction = this.direction * -1
 			}
@@ -2931,7 +2973,7 @@ ghostlist.prototype.advance = function() {
 			this.playing = false;
 		}
 		this.draw();
-		this.jest.drawvis(this.needle/this.size)
+		this.jest.drawvis(this.needle/this.playbufferSize)
 	}
 }
 	
@@ -4881,7 +4923,6 @@ number.prototype.init = function() {
 	}.bind(this));
 
 	this.canvas.addEventListener("keydown", function (e) {
-	  console.log(e.which)
 	  if (e.which < 48 || e.which > 57) {
 	  	if (e.which != 189 && e.which != 190 && e.which != 8) {
 	  		e.preventDefault();
@@ -4923,7 +4964,8 @@ number.prototype.draw = function() {
 
 
 number.prototype.click = function(e) {
-	this.canvas.readOnly = true;
+	this.canvas.readOnly = true
+	this.actual = this.val.value
 }
 
 number.prototype.move = function(e) {
