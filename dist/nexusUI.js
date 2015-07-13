@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":50}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":49}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -305,7 +305,6 @@ manager.prototype.colors = {
   Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
 */
 manager.prototype.startPulse = function() {
-  console.log('starting pulse');
   this.pulseInt = setInterval("nx.pulse()", 30);
 }
 
@@ -419,7 +418,7 @@ manager.prototype.blockMove = function(e) {
      e.stopPropogation ? e.stopPropogation() : false;
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":19,"events":45,"util":49}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":19,"events":44,"util":48}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -977,7 +976,7 @@ widget.prototype.resize = function(w,h) {
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":45,"util":49}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":44,"util":48}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1523,7 +1522,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":49}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1728,7 +1727,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":49}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1828,7 +1827,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":49}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1901,7 +1900,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":49}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1982,7 +1981,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2161,7 +2160,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":49}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],15:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2176,6 +2175,7 @@ var widget = require('../core/widget');
 */
 
 var envelope = module.exports = function (target) {
+
 	this.defaultSize = { width: 75, height: 75 };
 	widget.call(this, target);
 	
@@ -2338,7 +2338,7 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],16:[function(require,module,exports){
 var ac = window.audioContext || new AudioContext();
 var startTime = 0;
 
@@ -2618,7 +2618,7 @@ function findNearestNode(x, y, nodes) {
 
 	return nearestIndex;
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],17:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2925,7 +2925,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],18:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3274,7 +3274,7 @@ ghostlist.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],19:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -3289,7 +3289,6 @@ module.exports = {
   joints: require('./joints'),
   keyboard: require('./keyboard'),
   matrix: require('./matrix'),
-  matrixExp: require('./matrixExp'),
   message: require('./message'),
   meter: require('./meter'),
   metro: require('./metro'),
@@ -3312,7 +3311,7 @@ module.exports = {
   vinyl: require('./vinyl'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./envmulti":16,"./ghost":17,"./ghostlist":18,"./joints":20,"./keyboard":21,"./matrix":22,"./matrixExp":23,"./message":24,"./meter":25,"./metro":26,"./motion":27,"./mouse":28,"./multislider":29,"./multitouch":30,"./number":31,"./position":32,"./range":33,"./remix":34,"./select":35,"./slider":36,"./string":37,"./tabs":38,"./text":39,"./tilt":40,"./toggle":41,"./typewriter":42,"./vinyl":43,"./windows":44}],20:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./envmulti":16,"./ghost":17,"./ghostlist":18,"./joints":20,"./keyboard":21,"./matrix":22,"./message":23,"./meter":24,"./metro":25,"./motion":26,"./mouse":27,"./multislider":28,"./multitouch":29,"./number":30,"./position":31,"./range":32,"./remix":33,"./select":34,"./slider":35,"./string":36,"./tabs":37,"./text":38,"./tilt":39,"./toggle":40,"./typewriter":41,"./vinyl":42,"./windows":43}],20:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3510,7 +3509,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":49}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3839,7 +3838,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":49}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],22:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4183,352 +4182,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":49}],23:[function(require,module,exports){
-var math = require('../utils/math');
-var drawing = require('../utils/drawing');
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class matrixExp      
-	Matrix of toggles, with sequencer functionality.
-	```html
-	<canvas nx="matrixExp"></canvas>
-	```
-	<canvas nx="matrixExp" style="margin-left:25px"></canvas>
-*/
-
-
-var matrixExp = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 100 };
-	widget.call(this, target);
-	
-
-	/** @property {integer}  row   Number of rows in the matrixExp
-	```js
-		matrixExp1.row = 2;
-		matrixExp1.init()
-	```
-	*/
-	this.row = 4;
-
-	/** @property {integer}  col   Number of columns in the matrixExp
-	```js
-		matrixExp1.col = 10;
-		matrixExp1.init()
-	```
-	*/
-	this.col = 4;
-	
-	this.cellHgt;
-	this.cellWid;
-
-	/** @property {array}  matrixExp   Nested array of matrixExp values. Cells can be manually altered using .matrixExp (see code), however this will *not* cause the new value to be transmit. See .setCell() to set/transmit cell values.
-	```js
-		//Turn on the cell at row 1 column 2
-		matrixExp1.matrixExp[1][2] = 1
-		matrixExp1.draw()
-
-
-		//Turn off the cell at row 3 column 0
-		matrixExp1.matrixExp[3][0] = 0
-		matrixExp1.draw()
-	```
-	*/
-	this.matrixExp;
-
-	/** @property {object}  val   Core values and data output
-		| &nbsp; | data
-		| --- | ---
-		| *row* | Current row being changed
-		| *col* | Current column being changed
-		| *level* | Whether cell is on or off (0 or 1)
-		| *list * | Array of values in highlighted column (if sequencing)
-	*/
-	this.val = {
-		row: 0,
-		col: 0,
-		level: 0,
-		list: new Array()
-	}
-
-	//for mouse logic
-	this.cur;
-	this.prev;
-
-	/** @property {boolean}  erasing   Whether or not mouse clicks will erase cells. Set to true automatically if you click on an "on" cell. */
-	this.erasing = false;
-
-	/** @property {integer}  place   When sequencing, the current column. */
-	this.place = null;
-
-	this.starttime;
-	this.thisframe = 0;
-	this.lastframe = 0;
-	this.context.lineWidth = 1;
-
-	this.sequencing = false;
-	
-	/** @property {string}  sequenceMode  Sequence pattern (currently accepts "linear" which is default, or "random") */
-	this.sequenceMode = "linear"; // "linear" or "random". future options would be "wander" (drunk) or "markov"
-
-	/** @property {integer}  bpm   Beats per minute (if sequencing)
-	```js
-		matrixExp1.bpm = 120;
-	```
-	*/
-	this.bpm = 120;
-	this.init();
-	
-}
-util.inherits(matrixExp, widget);
-
-
-
-matrixExp.prototype.init = function() {
-
-	var oldRow = this.row;
-	var oldCol = this.col;
-
-	this.lineWidth = 1;
-	
-	this.matrixExp = null;
-	// generate 2D matrixExp array
-	this.matrixExp = new Array(this.col)
-	for (var i=0;i<this.col;i++) {
-		this.matrixExp[i] = new Array(this.row)
-		for (var j=0;j<this.row;j++) {
-			this.matrixExp[i][j] = 0; // set value of each matrixExp cell
-		}
-	}
-
-	this.row = oldRow;
-	this.col = oldCol;
-
-	this.draw();
-	
-}
-
-matrixExp.prototype.draw = function() {
-
-	this.cellWid = this.width/this.col;
-	this.cellHgt = this.height/this.row;
-
-	for (var i=0;i<this.row;i++){
-		for (var j=0;j<this.col;j++) {
-			var st_x = j*this.cellWid // starting point(left)
-			j==0 ? st_x += 0 : null;
-			var st_y = i*this.cellHgt; // starting point(top)
-			i==0 ? st_y += 0 : null;
-			var boxwid = this.cellWid;
-			var boxhgt = this.cellHgt;
-
-			
-			with (this.context) {
-				strokeStyle = this.colors.border;
-				if (this.matrixExp[j][i] > 0) {
-					fillStyle = this.colors.accent;
-				} else {
-					fillStyle = this.colors.fill;
-				}
-				fillRect(st_x, st_y, boxwid, boxhgt);
-				strokeRect(st_x, st_y, boxwid, boxhgt);
-			
-				// sequencer highlight
-				if (this.place == j) {
-					globalAlpha = 0.4;
-					fillStyle = this.colors.border;
-					fillRect(st_x, st_y, boxwid, boxhgt);
-					globalAlpha = 1;
-				}
-
-			}
-		} 
-	}
-	this.drawLabel();
-}
-
-
-
-matrixExp.prototype.click = function(e) {
-
-	this.cur = {
-		col: ~~(this.clickPos.x/this.cellWid),
-		row: ~~(this.clickPos.y/this.cellHgt)
-	}
-
-	if (this.matrixExp[this.cur.col][this.cur.row]) {
-		this.matrixExp[this.cur.col][this.cur.row] = 0;
-		this.erasing = true;
-	} else {
-		this.matrixExp[this.cur.col][this.cur.row] = 1;
-		this.erasing = false;
-	}
-
-	this.cur.value = this.matrixExp[this.cur.col][this.cur.row]
-	this.prev = this.cur;
-
-//	var data = this.matrixExp[this.cur.col];
-//	data = data.join();
-//	data = data.replace(/\,/g," ");
-
-	this.val = {
-		row: this.cur.row,
-		col: this.cur.col,
-		level: this.cur.value
-	}
-
-	this.transmit(this.val);
-	this.draw();
-}
-
-matrixExp.prototype.move = function(e) {
-	if (this.clicked) {
-		
-		this.cur = {
-			col: ~~(this.clickPos.x/this.cellWid),
-			row: ~~(this.clickPos.y/this.cellHgt)
-		}
-
-		if (this.cur.row < this.row && this.cur.col < this.col && this.cur.row >= 0 && this.cur.col >=0) {
-			if (this.cur.col!=this.prev.col || this.cur.row != this.prev.row) {
-				if (this.erasing) {
-					this.matrixExp[this.cur.col][this.cur.row] = 0;
-				} else {
-					this.matrixExp[this.cur.col][this.cur.row] = 1;
-				}
-
-				this.cur.value = this.matrixExp[this.cur.col][this.cur.row]
-				this.prev = this.cur;
-
-				this.val = {
-					row: this.cur.row,
-					col: this.cur.col,
-					level: this.cur.value
-				}
-
-				this.transmit(this.val);
-				this.draw();
-			}
-		}
-
-	}
-}
-
-
-/** @method setCell
-Manually set an individual cell on/off and transmit the new value.
-@param {integer} [col] The column of the cell to be turned on/off
-@param {integer} [row] The row of the cell to be turned on/off
-@param {boolean} [on/off] Whether the cell should be turned on/off
-
-```js
-	// Turns cell on at column 1 row 3
-	matrixExp1.setCell(1,3,true);
-```
-*/
-matrixExp.prototype.setCell = function(col,row,on) {
-
-	var value = on ? 1 : 0;
-	this.matrixExp[col][row] = value
-
-	this.val = {
-		row: row,
-		col: col,
-		level: value
-	}
-
-	this.transmit(this.val);
-	this.draw();
-
-}
-
-/** @method sequence
-@param {float} [bpm] Beats per minute of the pulse
-Turns the matrixExp into a sequencer.
-
-```js
-	matrixExp1.sequence(240);
-```
-*/
-matrixExp.prototype.sequence = function(bpm) {
-
-	if (bpm) {
-		this.bpm = bpm;
-	}	
-	this.sequencing = true;
-	requestAnimationFrame(this.seqStep.bind(this));
- 
-}
-
-/** @method stop
-Stops the matrixExp sequencer.
-
-```js
-	matrixExp1.stop();
-```
-*/
-matrixExp.prototype.stop = function() {
-	this.sequencing = false;
-}
-
-matrixExp.prototype.seqStep = function() {
-
-    var now = new Date().getTime();
-    var dt = now - nx.starttime;
-
-    this.thisframe = ~~(dt/(60000/this.bpm));
-
-    if (this.thisframe != this.lastframe) {
-
-		if (this.sequenceMode=="linear") {
-			this.place++;
-		} else if (this.sequenceMode=="random") {
-			this.place = math.random(this.col);
-		}
-		if (this.place>=this.col) {
-			this.place = 0;
-		}
-
-		if (this.place==null) {
-			this.place = 0;
-		}
-
-		this.jumpToCol(this.place);
-
-    }
-
-    this.lastframe = this.thisframe;
-    if (this.sequencing) {
-		requestAnimationFrame(this.seqStep.bind(this));
-	}
-
-}
-
-
-/** @method jumpToCol
-Jump to a certain column of the matrixExp, highlight it, and output its values as an array. Column numbers start at 0.
-
-```js
-	matrixExp1.jumpToCol(1);
-```
-*/
-
-matrixExp.prototype.jumpToCol = function(place) {
-		this.place = place
-		this.val = {
-			list: this.matrixExp[this.place]
-		}
-		this.transmit(this.val);
-		this.draw();
-}
-
-
-matrixExp.prototype.customDestroy = function() {
-	this.stop();
-}
-
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":49}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],23:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4600,7 +4254,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":49}],25:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],24:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -4714,7 +4368,7 @@ meter.prototype.draw = function(){
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":49}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4828,7 +4482,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4991,7 +4645,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],27:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -5091,7 +4745,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5250,7 +4904,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":49}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],29:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -5455,7 +5109,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":49}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5618,7 +5272,7 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":49}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5839,7 +5493,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -6054,7 +5708,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6266,7 +5920,7 @@ remix.prototype.move = function(e) {
 		this.scan(this.clickPos.x/this.width)
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],34:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6364,7 +6018,7 @@ select.prototype.draw = function() {
     this.canvas.style.color = this.colors.black;
 
 }
-},{"../core/widget":3,"util":49}],36:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6531,7 +6185,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],36:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6733,7 +6387,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":49}],38:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6825,7 +6479,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],38:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6911,7 +6565,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":49}],40:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],39:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7045,7 +6699,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],40:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -7118,7 +6772,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":49}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],41:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -7367,7 +7021,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":49}],43:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],42:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7514,7 +7168,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],44:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],43:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7757,7 +7411,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":49}],45:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],44:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8060,7 +7714,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],46:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8085,7 +7739,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],47:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8150,14 +7804,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],48:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8747,7 +8401,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":48,"_process":47,"inherits":46}],50:[function(require,module,exports){
+},{"./support/isBuffer":47,"_process":46,"inherits":45}],49:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
