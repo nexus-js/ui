@@ -1,0 +1,61 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script>
+
+			nx.onload = function() {
+				
+			    nx.colorize("accent", "#347");
+			    nx.colorize("border", "#bbb");
+			    nx.colorize("fill", "#eee");
+
+
+			    number1.min = 0
+			    number1.max = 100
+
+
+			    number2.min = 0
+			    number2.max = 1
+			    number2.step = .01
+			    number2.rate = 1
+
+
+				/* log all events */
+
+				for (var key in nx.widgets) {
+
+					nx.widgets[key].on('*', function(data) {
+						var d = document.getElementById("tester");
+						d.innerHTML = data.value + "<br>" + d.innerHTML
+					})
+
+				}
+
+			 
+			}
+
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<style>
+			.nx {
+				float:left;
+				margin:5px;
+			}
+		</style>
+
+
+		  <canvas nx="number" style="width:300px;height:100px"></canvas>
+		  <canvas nx="number" style="width:200px;height:50px"></canvas>
+
+		  <div id="tester" style="clear:both"></div>
+
+	</body>
+	
+</html>

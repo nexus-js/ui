@@ -9,8 +9,8 @@ NexusUI API
 nx
 ----
 ####Properties####
-###nx.throttlePeriod###
- *integer*<br> Throttle time in ms (for nx.throttle).
+###nx.widgets###
+ *object*<br> Contains all interface widgets (e.g. nx.widgets.dial1, nx.widgets.toggle1)
 
 
 ###nx.showLabels###
@@ -31,6 +31,10 @@ nx
 
 ###nx.globalWidgets###
  *boolean*<br> Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets
+
+
+###nx.throttlePeriod###
+ *integer*<br> Throttle time in ms (for nx.throttle).
 
 
 ###nx.colors###
@@ -133,6 +137,10 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
 
 ###widget.oscPath###
  *string*<br> OSC prefix for this interface. By default this is populated using the canvas ID (i.e. an ID of dial1 has OSC path /dial1)
+
+
+###widget.type###
+ *string*<br> The type of NexusUI widget (i.e. "dial", "toggle", "slider"). Set automatically at creation.
 
 
 ###widget.canvas###
@@ -268,10 +276,6 @@ Executes when the touch releases after having touched the widget.
 
 ###widget.erase(  )###
 Erase the widget's canvas.
-
-
-###widget.getName(  )###
-Returns the widget's constructor function name (i.e. "dial")
 
 
 ###widget.set( data, transmit )###
@@ -655,6 +659,15 @@ Interface gesture capture / playback (in development)
 ```
 <canvas nx="ghost" style="margin-left:25px"></canvas>
 
+ghostlist (alpha)
+-------------------
+Interface gesture capture / playback (in development)
+
+```html
+<canvas nx="ghostlist"></canvas>
+```
+<canvas nx="ghostlist" style="margin-left:25px"></canvas>
+
 joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
@@ -929,6 +942,34 @@ Bouncing ball metronome
 
 ###metro.orientation###
  *string*<br> Orientation of metro. Default is "horizontal".
+
+
+
+motion
+--------
+Mobile and Mac/Chrome-compatible motion sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
+We recommend not calling .init() on this object after the original initialization, because it will add additional redundant motion listeners to your document.
+```html
+<canvas nx="motion"></canvas>
+```
+<canvas nx="motion" style="margin-left:25px"></canvas>
+
+####Properties####
+###motion.active###
+ *boolean*<br> Whether or not the motion widget is on (animating and transmitting data).
+
+
+###motion.val###
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *x* | X-axis motion if supported (-1 to 1)
+| *y* | Y-axis motion if supported (-1 to 1)
+| *z* | Z-axis motion if supported (-1 to 1 or 0 to 360 depending on device)
+ 
+###motion.text###
+ *string*<br> Text shown on motion object
 
 
 
@@ -1231,6 +1272,24 @@ tabs
 <canvas nx="tabs"></canvas>
 ```
 <canvas nx="tabs" style="margin-left:25px"></canvas>
+
+text
+------
+Text editor. Outputs the typed text string when Enter is pressed. <br> **Note:** Currently the canvas is actaully replaced by an HTML textarea object. Any inline style on your canvas may be lost in this transformation. To style the resultant textarea element, we recommend creating CSS styles for the textarea element using its ID or the textarea tag.
+```html
+<canvas nx="text"></canvas>
+```
+<canvas nx="text"></canvas>
+
+####Properties####
+###text.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *text* | Text string
+ 
 
 tilt
 ------

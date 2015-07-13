@@ -1,0 +1,31 @@
+{
+  "name": "nexusUI",
+  "main": "dist/nexusUI.min.js",
+  "version": "1.0.6",
+  "homepage": "http://www.nexusosc.com",
+  "authors": [
+    "Ben Taylor",
+    "Jesse Allison",
+    "Yemin Oh",
+    "Sébastien Piquemal"
+  ],
+  "description": "JavaScript toolkit for music interfaces in mobile apps and web browsers",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "music",
+    "osc",
+    "sound",
+    "ui",
+    "gui"
+  ],
+  "license": "New BSD License",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
