@@ -650,6 +650,46 @@ Start ramp from beginning. If set to loop, will loop the ramp until stopped.
 ###envelope.stop(  )###
 Stop the ramp and set progress to 0.
 
+envmulti
+----------
+Multi-point line ramp generator
+```html
+<canvas nx="envmulti"></canvas>
+```
+<canvas nx="envmulti" style="margin-left:25px"></canvas>
+
+####Properties####
+###envmulti.active###
+ *boolean*<br> Whether or not the envmulti is currently animating.
+
+
+###envmulti.duration###
+ *integer*<br> The envmulti's duration in ms.
+
+
+###envmulti.looping###
+ *boolean*<br> Whether or not the envmulti loops.
+
+
+###envmulti.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *amp* | amplitude at current point of ramp (float 0-1)
+| *index* | current progress through ramp (float 0-1)
+| *x* | x of envmulti peak point (float 0-1)
+| *y* | y of envmulti peak point (float 0-1)
+ 
+
+####Methods####
+###envmulti.start(  )###
+Start ramp from beginning. If set to loop, will loop the ramp until stopped.
+
+###envmulti.stop(  )###
+Stop the ramp and set progress to 0.
+
 ghost (alpha)
 ---------------
 Interface gesture capture / playback (in development)

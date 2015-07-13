@@ -60,43 +60,22 @@
 
 	<script>
 
-	var test1 = [0,1,2]
-	var test2 = test1.slice()
-	test2.push(3)
-//	console.log(test1)
-
-	var pkeys = [];
+		var pkeys = [];
 
 		nx.onload = function() {
 
 			nx.colorize("#0ac")
 
-			jest = new Jest("playlist1")
-			ghostlist1.jest = jest;
-			ghostlist1.playbuffer = ghostlist1.jest.next()
+			jest = new Jest("playlist1",ghostlist1,49)
+			jest2 = new Jest("playlist2",ghostlist2,50)
+		//	ghostlist1.jest = jest;
+		//	ghostlist1.playbuffer = ghostlist1.jest.next()
+
 		/*	p.add("test1")
 			p.add("test2")
 			p.add("test3") */
 			nameIndex = 0
 
-			document.addEventListener('keydown',function(e) {
-				if (pkeys.indexOf(e.which)==-1) {
-					pkeys.push(e.which)
-				//	console.log(pkeys)
-					ghostlist1.record()
-				}
-			})
-			document.addEventListener('keyup',function(e) {
-				pkeys.splice(pkeys.indexOf(e.which))
-				ghostlist1.stop()
-				var buff = ghostlist1.buffer.slice()
-				console.log(ghostlist1.moment)
-				jest.add(nameIndex++,buff,ghostlist1.moment)
-				if (jest.playlist.length==1) {
-					ghostlist1.next = ghostlist1.jest.next()
-					ghostlist1.playbuffer = ghostlist1.next.buffer
-					ghostlist1.playbufferSize = ghostlist1.next.len
-				}
 			/*	console.log(buff)
 				for (var i=0;i<buff.length;i++) {
 					var sum = buff.reduce(function(pv, cv, index, array) {
@@ -107,8 +86,6 @@
 					}
 				}
 			*/
-			})
-
 
 
 
@@ -155,12 +132,14 @@
 		<div style="display:inline-block;padding:20px;background-color:#f7f7f7;margin:20px 0px">
 		Gesture Recorder<br>
 		<canvas nx="ghostlist"></canvas>
+		<canvas nx="ghostlist"></canvas>
 		<canvas nx="dial"></canvas>
 		<canvas nx="dial"></canvas>
 		<canvas nx="range"></canvas><br>
 		</div>
 
 		<div id="playlist1"></div>
+		<div id="playlist2"></div>
 	</div>
 
 

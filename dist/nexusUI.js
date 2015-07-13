@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":48}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":49}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -108,6 +108,8 @@ var manager = module.exports = function() {
   this.font = "gill sans";
   this.fontSize = 14;
   this.fontWeight = "bold";
+
+  this.context = window.audioContext || new AudioContext();
 
 
   /**  @property {integer} throttlePeriod Throttle time in ms (for nx.throttle). */
@@ -418,7 +420,7 @@ manager.prototype.blockMove = function(e) {
      e.stopPropogation ? e.stopPropogation() : false;
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":43,"util":47}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":19,"events":44,"util":48}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -976,7 +978,7 @@ widget.prototype.resize = function(w,h) {
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":43,"util":47}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":44,"util":48}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1522,7 +1524,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":47}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1577,7 +1579,7 @@ var button = module.exports = function(target) {
 	button1.mode = "aftertouch" 
 	```
 	*/
-	this.mode = "toggle";
+	this.mode = "node";
 
 	this.lockResize = true;
 
@@ -1647,8 +1649,6 @@ button.prototype.draw = function() {
 
 				var x = nx.clip(this.clickPos.x,this.width*.2,this.width/1.3)
 				var y = nx.clip(this.clickPos.y,this.height*.2,this.height/1.3)
-				console.log(x)
-				console.log(y)
 
 				var gradient = this.context.createRadialGradient(x,y,this.width/6,this.center.x,this.center.y,this.radius*1.3);
 				gradient.addColorStop(0,this.colors.accent);
@@ -1727,7 +1727,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1827,7 +1827,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":47}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1900,7 +1900,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":47}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1981,7 +1981,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2160,7 +2160,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],15:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2338,7 +2338,319 @@ envelope.prototype.stop = function() {
 	this.val.index = 0;
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],16:[function(require,module,exports){
+var startTime = 0;
+
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class envmulti      
+	Multi-point line ramp generator
+	```html
+	<canvas nx="envmulti"></canvas>
+	```
+	<canvas nx="envmulti" style="margin-left:25px"></canvas>
+*/
+
+var envmulti = module.exports = function (target) {
+	this.defaultSize = { width: 75, height: 75 };
+	widget.call(this, target);
+	
+	this.nodeSize = 1;
+	/** @property {boolean} active Whether or not the envmulti is currently animating. */
+	this.active = false;
+	/** @property {integer} duration The envmulti's duration in ms. */
+	this.duration = 1000; // 1000 ms
+	/** @property {boolean} looping Whether or not the envmulti loops. */
+	this.looping = false
+
+	//define unique attributes
+	
+	/** @property {object}  val   
+		| &nbsp; | data
+		| --- | ---
+		| *amp* | amplitude at current point of ramp (float 0-1)
+		| *index* | current progress through ramp (float 0-1)
+		| *x* | x of envmulti peak point (float 0-1)
+		| *y* | y of envmulti peak point (float 0-1)
+	*/
+	// this.val = {
+	// 	x: 0.15,
+	// 	y: 0.5,
+	// 	amp: 0,
+	// 	index: 0
+	// };
+
+	// multiple values
+	this.val = {
+		index: 0,
+		amp: 0,
+		points: [
+			{
+				x: 0.01,
+				y: 0.9
+			},
+			{
+				x: 0.2,
+				y: 0.5
+			},
+			{
+				x: 0.5,
+				y: 0.2
+			},
+			{
+				x: 0.85,
+				y: 0.0
+			}
+		]
+	}
+
+	// Index of which node was clicked
+	var selectedNode = null;
+
+	this.init();
+}
+
+util.inherits(envmulti, widget);
+
+envmulti.prototype.init = function() {
+	this.mindim = this.width < this.height ? this.width : this.height;
+	this.draw();
+	nx.aniItems.push(this.pulse.bind(this));
+
+	// init nx
+	nx.startPulse();
+}
+
+envmulti.prototype.draw = function() {
+	this.erase();
+	with (this.context) {
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height);
+		fillStyle = this.colors.accent;
+		var centerx = this.mindim/10
+		var centery = this.height-this.mindim/10
+		beginPath()
+			moveTo(centerx,centery)
+			arc(centerx,centery,this.mindim/10,Math.PI*1.5,Math.PI*2*this.val.index+Math.PI*1.5,false);
+			fill()
+		closePath()
+
+		// draw all the points
+		var drawingX = [];
+		var drawingY = [];
+
+		for (var i = 0; i < this.val.points.length; i++) {
+			drawingX[i] = this.val.points[i].x * this.width;
+			drawingY[i] = (1 - this.val.points[i].y) * this.height;
+
+			//stay within right/left bounds
+			if (drawingX[i]<(this.bgLeft+this.nodeSize)) {
+				drawingX[i] = this.bgLeft + this.nodeSize;
+			} else if (drawingX[i]>(this.bgRight-this.nodeSize)) {
+				drawingX[i] = this.bgRight - this.nodeSize;
+			}
+			//stay within top/bottom bounds
+			if (drawingY[i]<(this.bgTop+this.nodeSize)) {
+				drawingY[i] = this.bgTop + this.nodeSize;
+			} else if (drawingY[i]>(this.bgBottom-this.nodeSize)) {
+				drawingY[i] = this.bgBottom - this.nodeSize;
+			}
+		}
+
+		// draw rectangles
+		for (var j = 0; j < drawingX.length; j++) {
+			// lineTo(drawingX[j],drawingY[j]);
+			var size = this.mindim/25;
+			beginPath()
+			arc(drawingX[j],drawingY[j],size,0,Math.PI*2,false);
+			fillStyle = this.colors.accent
+			fill()
+			closePath()
+		}
+
+
+		// draw shape
+		beginPath();
+			strokeStyle = this.colors.accent;
+			moveTo(-5,this.height);
+			lineTo(-5,(1-this.val.points[0].y)*this.height);
+
+			// draw each line
+			for (var j = 0; j < drawingX.length; j++) {
+				lineTo(drawingX[j],drawingY[j]);
+			}
+
+			lineTo(this.width+5,(1-this.val.points[this.val.points.length-1].y)*this.height);
+			lineTo(this.width+5,this.height);
+			stroke();
+			globalAlpha = 0.2;
+			fillStyle = this.colors.accent;
+			fill();
+			globalAlpha = 1
+		closePath();
+	/*	globalAlpha = 1
+		fillRect(0,0,this.val.index*this.width,1);
+		globalAlpha = 1; */
+	
+
+
+	}
+	
+	this.drawLabel();
+}
+
+envmulti.prototype.scaleNode = function(nodeIndex) {
+	var i = nodeIndex;
+	var prevX = 0;
+	var nextX = this.width;
+	
+	var actualX = this.val.points[i].x;
+	var actualY = (this.height - this.val.points[i].y);
+	var clippedX = math.clip(actualX/this.width, 0, 1);
+	var clippedY = math.clip(actualY/this.height, 0, 1);
+
+	this.val.points[i].x = math.prune(clippedX, 3);
+	this.val.points[i].y = math.prune(clippedY, 3);
+
+	// find x value of nodes to the right and left
+	if (i > 0) {
+		prevX = this.val.points[i-1].x;
+	}
+	if (this.val.points.length > i+1) {
+		nextX = this.val.points[i+1].x;
+	}
+
+	if (this.val.points[i].x < prevX) {
+		this.val.points.splice(i-1, 0, this.val.points.splice(i, 1)[0])
+		i = i-1;
+		selectedNode = i;
+	}
+
+	if (this.val.points[i].x > nextX) {
+		this.val.points.splice(i+1, 0, this.val.points.splice(i, 1)[0])
+		i = i+1;
+		selectedNode = i;
+	}
+
+	//this.val.points[i].x = math.clip(this.val.points[i].x, prevX*this.width, nextX*this.width);
+
+
+}
+
+envmulti.prototype.click = function() {
+	// TO DO: handle multiple clicks
+
+	// find nearest node and set selectedNode (index)
+	selectedNode = this.findNearestNode(this.clickPos.x/this.width, this.clickPos.y/this.height, this.val.points);
+
+	this.transmit(this.val);
+	this.draw();
+}
+
+envmulti.prototype.move = function() {
+	if (this.clicked) {
+		this.val.points[selectedNode].x = this.clickPos.x;
+		this.val.points[selectedNode].y = this.clickPos.y;
+		this.scaleNode(selectedNode);
+		this.transmit(this.val);
+		this.draw();
+	}
+}
+
+envmulti.prototype.release = function() {
+
+	if (!this.hasMoved) {
+		this.val.points.splice(selectedNode,1)
+	}
+
+	this.draw();
+
+	// reset the selectedNode
+	selectedNode = null;
+}
+
+// update index and amp
+envmulti.prototype.pulse = function() {
+	if (this.active) {
+
+		// calculate index based on audio context
+		var percentDone = (nx.context.currentTime - startTime) / (this.duration/1000);
+		if (this.looping) {
+			percentDone %= 1;
+		}
+		this.val.index = percentDone;
+
+		this.val.index = math.clip(this.val.index, 0, 1)
+
+		var lastPoint = this.val.points[this.val.points.length-1];
+		if (this.val.index < lastPoint.x) {
+			var guiy = (this.val.index/lastPoint.x) * (1-lastPoint.y);
+			this.val.amp = (1 - math.clip(guiy, 0, 1) );
+		} else {
+			var guiy = ((1-this.val.index)/(1-lastPoint.x)) * (1-lastPoint.y);
+			this.amp = (1 - math.clip(guiy, 0, 1) );
+		}
+	
+		this.transmit(this.val);
+		this.draw();
+		if (this.val.index >= 1) {
+			if (this.looping) {
+				this.val.index = 0;
+			} else {
+				this.stop();
+			}
+		}
+	}
+}
+
+/** @method start
+	Start ramp from beginning. If set to loop, will loop the ramp until stopped. */
+envmulti.prototype.start = function() {
+	this.active = true;
+	this.val.index = 0;
+	
+	// set startTime
+	startTime = nx.context.currentTime;
+}
+
+/** @method stop
+	Stop the ramp and set progress to 0. */
+envmulti.prototype.stop = function() {
+	this.active = false;
+	this.val.index = 0;
+	this.draw();
+}
+
+envmulti.prototype.findNearestNode = function(x, y, nodes) {
+	var nearestIndex = null;
+	var nearestDist = 1000;
+	var before = false;
+	y = 1 - y;
+	for (var i = 0; i<nodes.length; i++) {
+		var distance = Math.sqrt(  Math.pow( (nodes[i].x - x), 2), Math.pow((nodes[i].y - (-y)), 2) );
+
+		if (distance < nearestDist) {
+			nearestDist = distance;
+			nearestIndex = i;
+			before = x > nodes[i].x
+		}
+	}
+
+	if (nearestDist>.1) {
+		if (before) { nearestIndex++ }
+		this.val.points.splice(nearestIndex,0,{
+			x: this.clickPos.x/this.width,
+			y: (this.height-this.clickPos.y)/this.height
+		})
+		//nearestIndex++;
+	}
+
+	return nearestIndex;
+}
+},{"../core/widget":3,"../utils/math":6,"util":48}],17:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2645,7 +2957,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],18:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2882,6 +3194,11 @@ ghostlist.prototype.scan = function(x) {
 		for (var key in this.playbuffer[sender.tapeNum]) {
 
 			//console.log(this.playbuffer[sender.tapeNum][key])
+			//
+			//playbuffer is the whole buffer
+			//sender.tapeNum is the nx.widget index & this.component index
+			//[key] is the val property that was recorded, i.e. x and y for 
+			//so this returns an array for each val property. that array contains n moments of recorded data
 
 			if (this.playbuffer[sender.tapeNum][key]) {
 
@@ -2889,9 +3206,8 @@ ghostlist.prototype.scan = function(x) {
 				var val = new Object();
 				//make sure we're not looking out of bounds of the buffer
 				var max = this.playbuffer[sender.tapeNum][key][~~this.needle+1] ? this.playbuffer[sender.tapeNum][key][~~this.needle+1] : this.playbuffer[sender.tapeNum][key][~~this.needle]
-
-				if (this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.playbuffer[sender.tapeNum][key][~~this.needle] != this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction]) {
-					
+				//console.log("1")
+				if (this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.playbuffer[sender.tapeNum][key][~~this.needle] !== this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction]) {
 					// if it's a number, interpolate
 					if (typeof this.playbuffer[sender.tapeNum][key][~~this.needle] == "number") {
 						// create the value pair
@@ -2899,12 +3215,14 @@ ghostlist.prototype.scan = function(x) {
 						val[key] += Math.random() * this.noise - this.noise/2;
 						val[key] = nx.clip(val[key],0,1)
 						//set the widget with the value from the buffer
+						//console.log(val)
 						sender.set(val, true);
 					} else {
 						// otherwise, transfer the closest val as is
 						val[key] = this.playbuffer[sender.tapeNum][key][~~this.needle]
 						
 						if (val[key] || val[key]===0) {
+							//console.log(val)
 							sender.set(val, true)
 						}
 						
@@ -2994,7 +3312,7 @@ ghostlist.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],19:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -3003,6 +3321,7 @@ module.exports = {
   crossfade: require('./crossfade'),
   dial: require('./dial'),
   envelope: require('./envelope'),
+  envmulti: require('./envmulti'),
   ghost: require('./ghost'),
   ghostlist: require('./ghostlist'),
   joints: require('./joints'),
@@ -3030,7 +3349,7 @@ module.exports = {
   vinyl: require('./vinyl'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./ghostlist":17,"./joints":19,"./keyboard":20,"./matrix":21,"./message":22,"./meter":23,"./metro":24,"./motion":25,"./mouse":26,"./multislider":27,"./multitouch":28,"./number":29,"./position":30,"./range":31,"./remix":32,"./select":33,"./slider":34,"./string":35,"./tabs":36,"./text":37,"./tilt":38,"./toggle":39,"./typewriter":40,"./vinyl":41,"./windows":42}],19:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./envmulti":16,"./ghost":17,"./ghostlist":18,"./joints":20,"./keyboard":21,"./matrix":22,"./message":23,"./meter":24,"./metro":25,"./motion":26,"./mouse":27,"./multislider":28,"./multitouch":29,"./number":30,"./position":31,"./range":32,"./remix":33,"./select":34,"./slider":35,"./string":36,"./tabs":37,"./text":38,"./tilt":39,"./toggle":40,"./typewriter":41,"./vinyl":42,"./windows":43}],20:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3228,7 +3547,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3557,7 +3876,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],22:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3901,7 +4220,7 @@ matrix.prototype.customDestroy = function() {
 	this.stop();
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],23:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3973,7 +4292,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":47}],23:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],24:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -4087,7 +4406,7 @@ meter.prototype.draw = function(){
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4201,7 +4520,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4364,7 +4683,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],27:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -4464,7 +4783,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4623,7 +4942,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],29:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4828,7 +5147,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4991,7 +5310,7 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5212,7 +5531,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -5427,7 +5746,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5639,7 +5958,7 @@ remix.prototype.move = function(e) {
 		this.scan(this.clickPos.x/this.width)
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],34:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5737,7 +6056,7 @@ select.prototype.draw = function() {
     this.canvas.style.color = this.colors.black;
 
 }
-},{"../core/widget":3,"util":47}],34:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5904,7 +6223,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],36:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6106,7 +6425,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":47}],36:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6198,7 +6517,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],38:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6284,7 +6603,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":47}],38:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],39:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6418,7 +6737,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],40:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6491,7 +6810,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],41:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6740,7 +7059,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],42:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6887,7 +7206,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],43:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7130,7 +7449,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],43:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],44:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7433,7 +7752,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -7458,7 +7777,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -7523,14 +7842,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8105,7 +8424,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":46,"_process":45,"inherits":44}],48:[function(require,module,exports){
+},{"./support/isBuffer":47,"_process":46,"inherits":45}],49:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
