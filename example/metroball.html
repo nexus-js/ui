@@ -9,12 +9,8 @@
 				
 			    nx.colorize("accent", "#1ac");
 
-			    envmulti1.looping = true
-			    envmulti1.duration = 10000
-			    envmulti1.start()
-
-			    envmulti1.on('*',function(data) {
-			    	slider1.set({value: data.amp})
+			    metroball1.on('*',function(data) {
+			    	console.log(data)
 			    })
 
 			}
@@ -34,8 +30,7 @@
 		</style>
 
 
-		  <canvas nx="envmulti" style="width:310px;height:150px"></canvas>
-		  <canvas nx="slider"></canvas>
+		  <canvas nx="metroball" style="width:310px;height:150px"></canvas>
 
 	</body>
 	

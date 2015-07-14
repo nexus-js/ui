@@ -610,46 +610,6 @@ Animates the dial
 
 **type** &nbsp;  *string* &nbsp;  Type of animation. Currently accepts "bounce" (bounces between mousedown and mouserelease points) or "none"
 
-envelope
-----------
-Three-point line ramp generator
-```html
-<canvas nx="envelope"></canvas>
-```
-<canvas nx="envelope" style="margin-left:25px"></canvas>
-
-####Properties####
-###envelope.active###
- *boolean*<br> Whether or not the envelope is currently animating.
-
-
-###envelope.duration###
- *integer*<br> The envelope's duration in ms.
-
-
-###envelope.looping###
- *boolean*<br> Whether or not the envelope loops.
-
-
-###envelope.val###
- *object*<br> 
-
-
-| &nbsp; | data
-| --- | ---
-| *amp* | amplitude at current point of ramp (float 0-1)
-| *index* | current progress through ramp (float 0-1)
-| *x* | x of envelope peak point (float 0-1)
-| *y* | y of envelope peak point (float 0-1)
- 
-
-####Methods####
-###envelope.start(  )###
-Start ramp from beginning. If set to loop, will loop the ramp until stopped.
-
-###envelope.stop(  )###
-Stop the ramp and set progress to 0.
-
 envmulti
 ----------
 Multi-point line ramp generator
@@ -679,8 +639,7 @@ Multi-point line ramp generator
 | --- | ---
 | *amp* | amplitude at current point of ramp (float 0-1)
 | *index* | current progress through ramp (float 0-1)
-| *x* | x of envmulti peak point (float 0-1)
-| *y* | y of envmulti peak point (float 0-1)
+| *points* | array containing x/y coordinates of each node.
  
 
 ####Methods####
@@ -698,15 +657,6 @@ Interface gesture capture / playback (in development)
 <canvas nx="ghost"></canvas>
 ```
 <canvas nx="ghost" style="margin-left:25px"></canvas>
-
-ghostlist (alpha)
--------------------
-Interface gesture capture / playback (in development)
-
-```html
-<canvas nx="ghostlist"></canvas>
-```
-<canvas nx="ghostlist" style="margin-left:25px"></canvas>
 
 joints
 --------
@@ -985,6 +935,32 @@ Bouncing ball metronome
 
 
 
+metroball
+-----------
+Bouncy-ball area with built-in tilt control
+```html
+<canvas nx="metroball"></canvas>
+```
+<canvas nx="metroball" style="margin-left:25px"></canvas>
+
+####Properties####
+###metroball.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *bounce* | forthcoming
+ 
+
+####Methods####
+###metroball.pulse(  )###
+Animation pulse occuring each frame
+
+
+###metroball.deleteMB(  )###
+###metroball.addNewMB(  )###
+###metroball.toggleQuantization(  )###
 motion
 --------
 Mobile and Mac/Chrome-compatible motion sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
@@ -1204,13 +1180,6 @@ Range slider
  *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the range individually. "area" mode (default) lets you drag the range as a whole (with parallel mouse movement) or scale the range as a whole (with transverse mouse movement)
 
 
-
-remix (alpha)
----------------
-```html
-<canvas nx="remix"></canvas>
-```
-<canvas nx="remix" style="margin-left:25px"></canvas>
 
 select
 --------
