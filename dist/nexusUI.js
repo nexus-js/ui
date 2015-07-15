@@ -3050,9 +3050,15 @@ var keyboard = module.exports = function (target) {
 	this.defaultSize = { width: 300, height: 75 };
 	widget.call(this, target);
 
-	/** @property {integer} octaves Number of octaves on the keyboard */
-	
+	/** @property {integer} octaves  Number of octaves on the keyboard 
+		```js
+			//This key pattern would put a black key between every white key
+			keyboard1.octaves = 1
+			keyboard1.init()
+		```
 
+	*/
+	
 	this.octaves = 3;
 
 	this.white = {
@@ -3833,7 +3839,7 @@ var message = module.exports = function (target) {
 	}
 
 	/** @property {integer} size Text size in px */
-	this.size = 12;
+	this.size = 14;
 	
 }
 util.inherits(message, widget);
@@ -3850,19 +3856,19 @@ message.prototype.draw = function() {
 	this.erase();
 	with (this.context) {
 		if (this.clicked) {
-			fillStyle = this.colors.accent;
+			fillStyle = this.colors.border;
 		} else {
 			fillStyle = this.colors.fill;
 		}
 		fillRect(0,0,this.width,this.height)
 		
 		if (this.clicked) {
-			fillStyle = this.colors.white;
+			fillStyle = this.colors.black;
 		} else {
 			fillStyle = this.colors.black;
 		}
 		textAlign = "left";
-		font = this.size+"px courier";
+		font = this.size+"px "+nx.font;
 	}
 	this.wrapText(this.val.value, 5, 1+this.size, this.width-6, this.size);
 }
@@ -6747,10 +6753,10 @@ var vinyl = module.exports = function (target) {
 
 	this.lockResize = true;
 	
-	/** @property {float}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
+	/** @property {object}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
 		| &nbsp; | data
 		| --- | ---
-		| *speed*| Current speed of the record player's rotation (normal is 1)
+		| *speed*| Current speed of the record player's rotation. (Normal is 1.)
 	*/
 	this.val = {
 		speed: 0

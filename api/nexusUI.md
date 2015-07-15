@@ -702,7 +702,13 @@ Piano keyboard which outputs MIDI
 ###keyboard.octaves###
  *integer*<br> Number of octaves on the keyboard
 
+```js
+//This key pattern would put a black key between every white key
+keyboard1.octaves = 1
+keyboard1.init()
+```
 
+ 
 ###keyboard.keypattern###
  *array*<br> Array of 'w' and 'b' denoting the pattern of white and black keys. This can be customized! The pattern can be any number of keys, however each black key must be surrounded by two white keys.
 
@@ -1414,11 +1420,11 @@ For the boom bap
 
 
 ###vinyl.val###
- *float*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
 
 | &nbsp; | data
 | --- | ---
-| *speed*| Current speed of the record player's rotation (normal is 1)
+| *speed*| Current speed of the record player's rotation. (Normal is 1.)
  
 
 windows

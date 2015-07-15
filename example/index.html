@@ -11,9 +11,6 @@
 			    nx.colorize("border", "#bbb");
 			    nx.colorize("fill", "#eee");
 
-			   
-
-
 				/* log all events */
 
 				for (var key in nx.widgets) {
@@ -23,7 +20,6 @@
 					})
 
 				}
-
 
 				/* or set individual event listeners like this */
 
@@ -76,15 +72,18 @@
 
 				/* misc methods */
 
-			    button1.mode = "node";
+			    button1.mode = "aftertouch";
 
 			    multislider1.setNumberOfSliders(5);
+
+			    keyboard1.octaves = 2
+			    keyboard1.init()
 
 			    nx.add('position', {
 			    	x: 300,
 			    	y: 300,
-			    	w: 50,
-			    	h: 50,
+			    	w: 200,
+			    	h: 100,
 			    	parent: "tester",
 			    	name: 'boing'
 			    })
@@ -103,14 +102,9 @@
 		  <canvas nx="keyboard"></canvas>
 		  <canvas nx="range"></canvas>
 		  <canvas nx="slider"></canvas>
-		  <canvas nx="number"></canvas>
 		  <canvas nx="button"></canvas>
 		  <canvas nx="meter"></canvas>
-		  <canvas nx="crossfade"></canvas>
-		  <canvas nx="windows"></canvas>
-		  <canvas nx="text"></canvas>
 
-		  <canvas nx="select" style="width:200px;height:30px" choices="one,two,three"></canvas>
 
 		  <div id="tester"></div>
 
