@@ -939,11 +939,11 @@ Bouncing ball metronome
 
 metroball
 -----------
-Bouncy-ball area with built-in tilt control
+Bouncy-balls for rhythms
 ```html
 <canvas nx="metroball"></canvas>
 ```
-<canvas nx="metroball" style="margin-left:25px"></canvas>
+<!-- <canvas nx="metroball" style="margin-left:25px"></canvas> -->
 
 ####Properties####
 ###metroball.val###
@@ -952,20 +952,15 @@ Bouncy-ball area with built-in tilt control
 
 | &nbsp; | data
 | --- | ---
-| *bounce* | forthcoming
+| *x* | x position of the bouncing ball
+| *side* | 0 or 1 int (which side is hit)
+| *ball* | Which ball is doing the bouncing
+| *all* | All three values together in a string
  
 
-####Methods####
-###metroball.pulse(  )###
-Animation pulse occuring each frame
-
-
-###metroball.deleteMB(  )###
-###metroball.addNewMB(  )###
-###metroball.toggleQuantization(  )###
 motion
 --------
-Mobile and Mac/Chrome-compatible motion sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
+Mobile motion sensor. Does not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
 We recommend not calling .init() on this object after the original initialization, because it will add additional redundant motion listeners to your document.
 ```html
 <canvas nx="motion"></canvas>
@@ -1113,18 +1108,49 @@ Number box
 ```js
 // Sets number1.val.value to 20
 number1.set({
-value: 20
+&nbsp; value: 20
 })
+```
+ 
+###number.min###
+ *float*<br> The minimum number allowed. Default is -20000.
+
+```js
+// only allow positive numbers
+number1.min = 0;
+```
+ 
+###number.max###
+ *float*<br> The maximum number allowed. Default is 20000.
+
+```js
+// only allow negative numbers
+number1.max = 0;
+```
+ 
+###number.step###
+ *float*<br> The increment. Default is 1.
+
+```js
+// count by 10s
+number1.step = 10;
+```
+ 
+###number.rate###
+ *float*<br> Sensitivity of dragging. Default is .25
+
+```js
+// For fine tuning
+number1.rate = .001;
 ```
  
 ###number.decimalPlaces###
  *integer*<br> How many decimal places on the number. This applies to both the output and the interface text. Default is 2. To achieve an int (non-float), set decimalPlaces to 0.
 
 ```js
-// Turns number into an int counter
+// For an int counter
 number1.decimalPlaces = 0;
 ```
-
  
 
 position
@@ -1376,7 +1402,7 @@ For the boom bap
 ```html
 <canvas nx="vinyl"></canvas>
 ```
-<canvas nx="vinyl" style="margin-left:25px"></canvas>
+<!--	<canvas nx="vinyl" style="margin-left:25px"></canvas> -->
 
 ####Properties####
 ###vinyl.speed###

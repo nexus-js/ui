@@ -4111,11 +4111,11 @@ var widget = require('../core/widget');
 
 /** 
 	@class metroball
-	Bouncy-ball area with built-in tilt control
+	Bouncy-balls for rhythms
 	```html
 	<canvas nx="metroball"></canvas>
 	```
-	<canvas nx="metroball" style="margin-left:25px"></canvas>
+	<!-- <canvas nx="metroball" style="margin-left:25px"></canvas> -->
 */
 
 
@@ -4139,12 +4139,17 @@ var metroball = module.exports = function (target) {
 	/** @property {object}  val   
 		| &nbsp; | data
 		| --- | ---
-		| *bounce* | forthcoming
+		| *x* | x position of the bouncing ball
+		| *side* | 0 or 1 int (which side is hit)
+		| *ball* | Which ball is doing the bouncing
+		| *all* | All three values together in a string
 	*/
 	this.val = {
-		bounce: ""
+		x: false,
+		side: false,
+		ball: false,
+		all: false
 	}
-
 
 	nx.aniItems.push(this.metro.bind(this));
 
@@ -4157,9 +4162,6 @@ metroball.prototype.init = function() {
 	this.draw()
 }
 
-/** @method pulse 
-	Animation pulse occuring each frame
-*/
 metroball.prototype.metro = function() {
 	with (this.context) {
 		clearRect(0,0, this.width, this.height);
@@ -4187,8 +4189,6 @@ metroball.prototype.drawSpaces = function() {
 
 		fillStyle = this.colors.fill;
 		fillText("delete",this.width/2,this.height/8)
-		
-		//draw 'add' and 'delete'
 		
 	}
 }
@@ -4230,8 +4230,6 @@ metroball.prototype.release = function(e) {
 }
 
 
-/** @method deleteMB */
-
 metroball.prototype.deleteMB = function(ballpos) {
 	//delete in reverse order
 	for (var i=this.CurrentBalls.length-1;i>=0;i--) {
@@ -4246,14 +4244,12 @@ metroball.prototype.deleteMB = function(ballpos) {
 	}
 }
 
-/** @method addNewMB */
 	
 metroball.prototype.addNewMB = function(ballpos) {
 	var nextIndex = this.CurrentBalls.length;
 	this.CurrentBalls[nextIndex] = new this.Ball(nextIndex, ballpos.x, ballpos.y, this);
 }
 
-/** @method toggleQuantization */
 
 metroball.prototype.toggleQuantization = function() {
 	if (!this.quantize) {
@@ -4378,7 +4374,7 @@ var widget = require('../core/widget');
 
 /** 
 	@class motion      
-	Mobile and Mac/Chrome-compatible motion sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
+	Mobile motion sensor. Does not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
 	We recommend not calling .init() on this object after the original initialization, because it will add additional redundant motion listeners to your document.
 	```html
 	<canvas nx="motion"></canvas>
@@ -4387,7 +4383,7 @@ var widget = require('../core/widget');
 */
 
 var motion = module.exports = function (target) {
-	this.defaultSize = { width: 50, height: 50 };
+	this.defaultSize = { width: 75, height: 75 };
 	widget.call(this, target);
 	
 	this.motionLR;
@@ -4461,10 +4457,12 @@ motion.prototype.motionlistener = function(e) {
 		if (data.x===null || data.x===undefined) {
 			this.erase()
 			with (this.context) {
-				fillStyle = this.colors.accent
+				fillStyle = this.colors.fill
+				fillRect(0,0,this.width,this.height)
+				fillStyle = this.colors.black
 				font="12px courier";
 				textAlign = "center"
-				fillText("motion: device not supported",this.width/2,this.height/2)	
+				fillText("no data",this.width/2,this.height/2)	
 			}
 			this.active = false;
 		}
@@ -5024,7 +5022,7 @@ var number = module.exports = function (target) {
 		```js
 			// Sets number1.val.value to 20
 			number1.set({
-				value: 20
+			&nbsp; value: 20
 			})
 		```
 	*/
@@ -5032,23 +5030,53 @@ var number = module.exports = function (target) {
 		value: 0
 	}
 
+	/** @property {float}  min   The minimum number allowed. Default is -20000.
+
+		```js
+		    // only allow positive numbers
+			number1.min = 0;
+		```
+	*/
+	this.min = -20000
+
+	/** @property {float}  max   The maximum number allowed. Default is 20000.
+
+		```js
+		    // only allow negative numbers
+			number1.max = 0;
+		```
+	*/
+	this.max = 20000
+
+	/** @property {float}  step   The increment. Default is 1.
+
+		```js
+		    // count by 10s
+			number1.step = 10;
+		```
+	*/
+	this.step = 1
+
+
+	/** @property {float}  rate   Sensitivity of dragging. Default is .25
+
+		```js
+		    // For fine tuning 
+			number1.rate = .001;
+		```
+	*/
+	this.rate = .25
+
 	/** @property {integer}  decimalPlaces   How many decimal places on the number. This applies to both the output and the interface text. Default is 2. To achieve an int (non-float), set decimalPlaces to 0.
 
 		```js
-			// Turns number into an int counter
+			// For an int counter
 			number1.decimalPlaces = 0;
 		```
-
 	*/ 
 	this.decimalPlaces = 3;
 	this.lostdata = 0;
 	this.actual = 0;
-
-
-	this.min = -20000
-	this.max = 20000
-	this.step = 1
-	this.rate = .25
 
 	this.init();
 }
@@ -5083,7 +5111,10 @@ number.prototype.init = function() {
 	this.canvas.style.display = "block"
 
 	this.canvas.addEventListener("blur", function () {
-	  this.canvas.style.border = "none";
+	  //this.canvas.style.border = "none";
+
+	  this.canvas.style.backgroundColor = this.colors.fill;
+	  this.canvas.style.color = this.colors.black;
 	  if (this.canvas.value != this.val.value) {
 	  	this.actual = parseFloat(this.canvas.value)
 	  	this.actual = math.clip(this.actual,this.min,this.max)
@@ -5157,7 +5188,8 @@ number.prototype.release = function(e) {
 		this.canvas.readOnly = false;
 		this.canvas.focus()
 		this.canvas.setSelectionRange(0, this.canvas.value.length)
-		this.canvas.style.border = "solid 2px "+ this.colors.accent;
+		this.canvas.style.backgroundColor = this.colors.accent;
+		this.canvas.style.color = this.colors.fill;
 	}
 }
 
@@ -6184,7 +6216,6 @@ var text = module.exports = function (target) {
 	for (var prop in cstyle)
     	this.el.style[prop] = cstyle[prop];
 
-	this.el.style.float = "left"
 	this.el.style.display = "block"
 	this.el.style.backgroundColor = this.colors.fill
 	this.el.style.border = "none"
@@ -6698,7 +6729,7 @@ var widget = require('../core/widget');
 	```html
 	<canvas nx="vinyl"></canvas>
 	```
-	<canvas nx="vinyl" style="margin-left:25px"></canvas>
+<!--	<canvas nx="vinyl" style="margin-left:25px"></canvas> -->
 */
 
 var vinyl = module.exports = function (target) {
