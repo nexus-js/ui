@@ -63,7 +63,9 @@ position1.on('*', function(data) {
 
 
 
-##### Templates (focusing on OSC communication)
+##### OSC Templates 
+
+**(These templates may use past versions of NexusUI.js)**
 
 In addition, the interface can send OSC data through a network to other audio applications (or anything that understands OSC). We offer templates for several server paradigms:
 
