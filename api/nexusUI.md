@@ -9,12 +9,8 @@ NexusUI API
 nx
 ----
 ####Properties####
-###nx.throttlePeriod###
- *integer*<br> Throttle time in ms (for nx.throttle).
-
-
-###nx.showLabels###
- *boolean*<br> Whether or not to draw an automatic text label on each interface component.
+###nx.widgets###
+ *object*<br> Contains all interface widgets (e.g. nx.widgets.dial1, nx.widgets.toggle1)
 
 
 ###nx.destination###
@@ -31,6 +27,10 @@ nx
 
 ###nx.globalWidgets###
  *boolean*<br> Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets
+
+
+###nx.throttlePeriod###
+ *integer*<br> Throttle time in ms (for nx.throttle).
 
 
 ###nx.colors###
@@ -115,12 +115,6 @@ Set mobile viewport scale (similar to a zoom)
 
 **scale** &nbsp;  *integer* &nbsp;  Zoom ratio (i.e. 0.5, 1, 2)
 
-###nx.setLabels( on/off )###
-Tell all widgets whether or not draw text labels on widgets
-
-
-**on/off** &nbsp;  *boolean* &nbsp;  true to add labels, false to remove labels
-
 widget
 --------
 All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by any NexusUI interface.
@@ -133,6 +127,10 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
 
 ###widget.oscPath###
  *string*<br> OSC prefix for this interface. By default this is populated using the canvas ID (i.e. an ID of dial1 has OSC path /dial1)
+
+
+###widget.type###
+ *string*<br> The type of NexusUI widget (i.e. "dial", "toggle", "slider"). Set automatically at creation.
 
 
 ###widget.canvas###
@@ -268,10 +266,6 @@ Executes when the touch releases after having touched the widget.
 
 ###widget.erase(  )###
 Erase the widget's canvas.
-
-
-###widget.getName(  )###
-Returns the widget's constructor function name (i.e. "dial")
 
 
 ###widget.set( data, transmit )###
@@ -489,8 +483,8 @@ Or, if NexusUI is outputting OSC (e.g. if nx.sendsTo("ajax")), val will be broke
  *string*<br> Interaction mode. Options:
 
 <b>impulse</b> &nbsp; 1 on click <br>
-<b>toggle</b> &nbsp;  1 on click, 0 on release _(default)_<br>
-<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release <br>
+<b>toggle</b> &nbsp;  1 on click, 0 on release<br>
+<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release _(default)_ <br>
 ```js
 button1.mode = "aftertouch"
 ```
@@ -608,7 +602,7 @@ Animates the dial
 
 envelope
 ----------
-Three-point line ramp generator
+Multi-point line ramp generator
 ```html
 <canvas nx="envelope"></canvas>
 ```
@@ -635,8 +629,7 @@ Three-point line ramp generator
 | --- | ---
 | *amp* | amplitude at current point of ramp (float 0-1)
 | *index* | current progress through ramp (float 0-1)
-| *x* | x of envelope peak point (float 0-1)
-| *y* | y of envelope peak point (float 0-1)
+| *points* | array containing x/y coordinates of each node.
  
 
 ####Methods####
@@ -709,7 +702,13 @@ Piano keyboard which outputs MIDI
 ###keyboard.octaves###
  *integer*<br> Number of octaves on the keyboard
 
+```js
+//This key pattern would put a black key between every white key
+keyboard1.octaves = 1
+keyboard1.init()
+```
 
+ 
 ###keyboard.keypattern###
  *array*<br> Array of 'w' and 'b' denoting the pattern of white and black keys. This can be customized! The pattern can be any number of keys, however each black key must be surrounded by two white keys.
 
@@ -875,6 +874,18 @@ matrix1.jumpToCol(1);
 ```
 
 
+###matrix.life(  )###
+Alters the matrix according to Conway's Game of Life. Matrix.life() constitutes one tick through the game. To simulate the game, you might use setInterval.
+
+```js
+//one tick
+matrix1.life();
+
+//repeated ticks at 80ms
+setInterval(matrix1.life,80)
+```
+
+
 message
 ---------
 Send a string of text.
@@ -929,6 +940,55 @@ Bouncing ball metronome
 
 ###metro.orientation###
  *string*<br> Orientation of metro. Default is "horizontal".
+
+
+
+metroball
+-----------
+Bouncy-balls for rhythms
+```html
+<canvas nx="metroball"></canvas>
+```
+<!-- <canvas nx="metroball" style="margin-left:25px"></canvas> -->
+
+####Properties####
+###metroball.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *x* | x position of the bouncing ball
+| *side* | 0 or 1 int (which side is hit)
+| *ball* | Which ball is doing the bouncing
+| *all* | All three values together in a string
+ 
+
+motion
+--------
+Mobile motion sensor. Does not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
+We recommend not calling .init() on this object after the original initialization, because it will add additional redundant motion listeners to your document.
+```html
+<canvas nx="motion"></canvas>
+```
+<canvas nx="motion" style="margin-left:25px"></canvas>
+
+####Properties####
+###motion.active###
+ *boolean*<br> Whether or not the motion widget is on (animating and transmitting data).
+
+
+###motion.val###
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *x* | X-axis motion if supported (-1 to 1)
+| *y* | Y-axis motion if supported (-1 to 1)
+| *z* | Z-axis motion if supported (-1 to 1 or 0 to 360 depending on device)
+ 
+###motion.text###
+ *string*<br> Text shown on motion object
 
 
 
@@ -1054,18 +1114,49 @@ Number box
 ```js
 // Sets number1.val.value to 20
 number1.set({
-value: 20
+&nbsp; value: 20
 })
+```
+ 
+###number.min###
+ *float*<br> The minimum number allowed. Default is -20000.
+
+```js
+// only allow positive numbers
+number1.min = 0;
+```
+ 
+###number.max###
+ *float*<br> The maximum number allowed. Default is 20000.
+
+```js
+// only allow negative numbers
+number1.max = 0;
+```
+ 
+###number.step###
+ *float*<br> The increment. Default is 1.
+
+```js
+// count by 10s
+number1.step = 10;
+```
+ 
+###number.rate###
+ *float*<br> Sensitivity of dragging. Default is .25
+
+```js
+// For fine tuning
+number1.rate = .001;
 ```
  
 ###number.decimalPlaces###
  *integer*<br> How many decimal places on the number. This applies to both the output and the interface text. Default is 2. To achieve an int (non-float), set decimalPlaces to 0.
 
 ```js
-// Turns number into an int counter
+// For an int counter
 number1.decimalPlaces = 0;
 ```
-
  
 
 position
@@ -1123,13 +1214,6 @@ Range slider
  *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the range individually. "area" mode (default) lets you drag the range as a whole (with parallel mouse movement) or scale the range as a whole (with transverse mouse movement)
 
 
-
-remix (alpha)
----------------
-```html
-<canvas nx="remix"></canvas>
-```
-<canvas nx="remix" style="margin-left:25px"></canvas>
 
 select
 --------
@@ -1232,6 +1316,24 @@ tabs
 ```
 <canvas nx="tabs" style="margin-left:25px"></canvas>
 
+text
+------
+Text editor. Outputs the typed text string when Enter is pressed. <br> **Note:** Currently the canvas is actaully replaced by an HTML textarea object. Any inline style on your canvas may be lost in this transformation. To style the resultant textarea element, we recommend creating CSS styles for the textarea element using its ID or the textarea tag.
+```html
+<canvas nx="text"></canvas>
+```
+<canvas nx="text"></canvas>
+
+####Properties####
+###text.val###
+ *object*<br> 
+
+
+| &nbsp; | data
+| --- | ---
+| *text* | Text string
+ 
+
 tilt
 ------
 Mobile and Mac/Chrome-compatible tilt sensor. May not work on all devices! <br> **Notes:** Clicking on this widget toggles it inactive or active. <br>
@@ -1306,7 +1408,7 @@ For the boom bap
 ```html
 <canvas nx="vinyl"></canvas>
 ```
-<canvas nx="vinyl" style="margin-left:25px"></canvas>
+<!--	<canvas nx="vinyl" style="margin-left:25px"></canvas> -->
 
 ####Properties####
 ###vinyl.speed###
@@ -1318,11 +1420,11 @@ For the boom bap
 
 
 ###vinyl.val###
- *float*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
+ *object*<br> Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties:
 
 | &nbsp; | data
 | --- | ---
-| *speed*| Current speed of the record player's rotation (normal is 1)
+| *speed*| Current speed of the record player's rotation. (Normal is 1.)
  
 
 windows
