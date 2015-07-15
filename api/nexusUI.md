@@ -13,10 +13,6 @@ nx
  *object*<br> Contains all interface widgets (e.g. nx.widgets.dial1, nx.widgets.toggle1)
 
 
-###nx.showLabels###
- *boolean*<br> Whether or not to draw an automatic text label on each interface component.
-
-
 ###nx.destination###
  *string*<br> NexusUI's transmission protocol (i.e. "js" or "ajax"). Defaults to "js". We recommend setting this property using nx.sendsTo() which ensures that all widgets receive this setting.
 
@@ -118,12 +114,6 @@ Animation pulse which executes all functions stored in the nx.aniItems array.
 Set mobile viewport scale (similar to a zoom)
 
 **scale** &nbsp;  *integer* &nbsp;  Zoom ratio (i.e. 0.5, 1, 2)
-
-###nx.setLabels( on/off )###
-Tell all widgets whether or not draw text labels on widgets
-
-
-**on/off** &nbsp;  *boolean* &nbsp;  true to add labels, false to remove labels
 
 widget
 --------
@@ -493,8 +483,8 @@ Or, if NexusUI is outputting OSC (e.g. if nx.sendsTo("ajax")), val will be broke
  *string*<br> Interaction mode. Options:
 
 <b>impulse</b> &nbsp; 1 on click <br>
-<b>toggle</b> &nbsp;  1 on click, 0 on release _(default)_<br>
-<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release <br>
+<b>toggle</b> &nbsp;  1 on click, 0 on release<br>
+<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release _(default)_ <br>
 ```js
 button1.mode = "aftertouch"
 ```
@@ -610,28 +600,28 @@ Animates the dial
 
 **type** &nbsp;  *string* &nbsp;  Type of animation. Currently accepts "bounce" (bounces between mousedown and mouserelease points) or "none"
 
-envmulti
+envelope
 ----------
 Multi-point line ramp generator
 ```html
-<canvas nx="envmulti"></canvas>
+<canvas nx="envelope"></canvas>
 ```
-<canvas nx="envmulti" style="margin-left:25px"></canvas>
+<canvas nx="envelope" style="margin-left:25px"></canvas>
 
 ####Properties####
-###envmulti.active###
- *boolean*<br> Whether or not the envmulti is currently animating.
+###envelope.active###
+ *boolean*<br> Whether or not the envelope is currently animating.
 
 
-###envmulti.duration###
- *integer*<br> The envmulti's duration in ms.
+###envelope.duration###
+ *integer*<br> The envelope's duration in ms.
 
 
-###envmulti.looping###
- *boolean*<br> Whether or not the envmulti loops.
+###envelope.looping###
+ *boolean*<br> Whether or not the envelope loops.
 
 
-###envmulti.val###
+###envelope.val###
  *object*<br> 
 
 
@@ -643,10 +633,10 @@ Multi-point line ramp generator
  
 
 ####Methods####
-###envmulti.start(  )###
+###envelope.start(  )###
 Start ramp from beginning. If set to loop, will loop the ramp until stopped.
 
-###envmulti.stop(  )###
+###envelope.stop(  )###
 Stop the ramp and set progress to 0.
 
 ghost (alpha)
@@ -875,6 +865,18 @@ Jump to a certain column of the matrix, highlight it, and output its values as a
 
 ```js
 matrix1.jumpToCol(1);
+```
+
+
+###matrix.life(  )###
+Alters the matrix according to Conway's Game of Life. Matrix.life() constitutes one tick through the game. To simulate the game, you might use setInterval.
+
+```js
+//one tick
+matrix1.life();
+
+//repeated ticks at 80ms
+setInterval(matrix1.life,80)
 ```
 
 

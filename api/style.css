@@ -113,7 +113,7 @@ body,
 td,
 textarea,
 input {
-  font-family: Helvetica Neue, Open Sans, sans-serif;
+  font-family:  Helvetica Neue, Open Sans, sans-serif;
   line-height: 1.6;
   font-size: 13px;
   color: #505050;
@@ -814,12 +814,15 @@ a.big.button:hover:visited {
   color: #565666;
 }
 .menu a.level-2 {
-  font-weight: normal;
+  font-family: Open Sans;
+  font-size:1.1em;
+  line-height:1.4em;
 }
 .menu a.level-3 {
   font-weight: normal;
   font-size: 0.9em;
   padding-left: 10px;
+  display:none;
 }
 .menu a.active {
   font-weight: bold !important;

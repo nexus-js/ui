@@ -70,7 +70,7 @@ var manager = module.exports = function() {
 
   this.elemTypeArr = new Array();
   this.aniItems = new Array();
-  /**  @property {boolean} showLabels Whether or not to draw an automatic text label on each interface component. */
+  /*  @property {boolean} showLabels Whether or not to draw an automatic text label on each interface component. */
   this.showLabels = false;
   this.starttime = new Date().getTime();
   if (transmit) {
@@ -413,7 +413,7 @@ manager.prototype.setViewport = function(scale) {
   }
 }
 
-/**  @method setLabels
+/*  @method setLabels
     Tell all widgets whether or not draw text labels on widgets
     @param {boolean} [on/off] true to add labels, false to remove labels
  */
@@ -1597,13 +1597,13 @@ var button = module.exports = function(target) {
 	
 	/** @property {string}  mode  Interaction mode. Options:
 	<b>impulse</b> &nbsp; 1 on click <br>
-	<b>toggle</b> &nbsp;  1 on click, 0 on release _(default)_<br>
-	<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release <br> 
+	<b>toggle</b> &nbsp;  1 on click, 0 on release<br>
+	<b>aftertouch</b> &nbsp; 1, x, y on click; x, y on move; 0, x, y on release _(default)_ <br> 
 	```js 
 	button1.mode = "aftertouch" 
 	```
 	*/
-	this.mode = "node";
+	this.mode = "aftertouch";
 
 	this.lockResize = true;
 
@@ -1669,7 +1669,7 @@ button.prototype.draw = function() {
 				fill();	  
 			closePath();
 
-			if (this.val.press && this.mode=="node") {
+			if (this.val.press && this.mode=="aftertouch") {
 
 				var x = nx.clip(this.clickPos.x,this.width*.2,this.width/1.3)
 				var y = nx.clip(this.clickPos.y,this.height*.2,this.height/1.3)
@@ -1698,7 +1698,7 @@ button.prototype.draw = function() {
 button.prototype.click = function(e) {
 	if (drawing.isInside(this.clickPos,{x: this.center.x-this.radius, y:this.center.y-this.radius, w:this.radius*2, h:this.radius*2})) {
 		this.val["press"] = 1;
-		if (this.mode=="node") {
+		if (this.mode=="aftertouch") {
 			this.val["x"] = this.clickPos.x;
 			this.val["y"] = this.clickPos.y;
 		}
@@ -1709,7 +1709,7 @@ button.prototype.click = function(e) {
 
 button.prototype.move = function () {
 	// use to track movement on the button
-	if (this.mode=="node") {
+	if (this.mode=="aftertouch") {
 		this.val["x"] = this.clickPos.x;
 		this.val["y"] = this.clickPos.y;
 		this.subval["x"] = this.clickPos.x;
@@ -1721,7 +1721,7 @@ button.prototype.move = function () {
 
 button.prototype.release = function() {
 	this.val["press"] = 0;
-	if (this.mode=="toggle" || this.mode=="node") { 
+	if (this.mode=="toggle" || this.mode=="aftertouch") { 
 		this.transmit(this.val);
 	}
 	this.draw();
@@ -2192,24 +2192,24 @@ var util = require('util');
 var widget = require('../core/widget');
 
 /** 
-	@class envmulti      
+	@class envelope      
 	Multi-point line ramp generator
 	```html
-	<canvas nx="envmulti"></canvas>
+	<canvas nx="envelope"></canvas>
 	```
-	<canvas nx="envmulti" style="margin-left:25px"></canvas>
+	<canvas nx="envelope" style="margin-left:25px"></canvas>
 */
 
-var envmulti = module.exports = function (target) {
-	this.defaultSize = { width: 75, height: 75 };
+var envelope = module.exports = function (target) {
+	this.defaultSize = { width: 200, height: 100 };
 	widget.call(this, target);
 	
 	this.nodeSize = 1;
-	/** @property {boolean} active Whether or not the envmulti is currently animating. */
+	/** @property {boolean} active Whether or not the envelope is currently animating. */
 	this.active = false;
-	/** @property {integer} duration The envmulti's duration in ms. */
+	/** @property {integer} duration The envelope's duration in ms. */
 	this.duration = 1000; // 1000 ms
-	/** @property {boolean} looping Whether or not the envmulti loops. */
+	/** @property {boolean} looping Whether or not the envelope loops. */
 	this.looping = false
 
 
@@ -2230,40 +2230,40 @@ var envmulti = module.exports = function (target) {
 		amp: 0,
 		points: [
 			{
-				x: 0.01,
-				y: 0.9
+				x: 0.1,
+				y: 0.4
 			},
 			{
-				x: 0.2,
-				y: 0.5
+				x: 0.35,
+				y: 0.6
 			},
 			{
-				x: 0.5,
+				x: 0.65,
 				y: 0.2
 			},
 			{
-				x: 0.85,
-				y: 0.0
+				x: 0.9,
+				y: 0.4
 			}
 		]
 	}
 
 	// Index of which node was clicked
 	var selectedNode = null;
-	
+
 	nx.aniItems.push(this.pulse.bind(this));
 
 	this.init();
 }
 
-util.inherits(envmulti, widget);
+util.inherits(envelope, widget);
 
-envmulti.prototype.init = function() {
+envelope.prototype.init = function() {
 	this.mindim = this.width < this.height ? this.width : this.height;
 	this.draw();
 }
 
-envmulti.prototype.draw = function() {
+envelope.prototype.draw = function() {
 	this.erase();
 	with (this.context) {
 		fillStyle = this.colors.fill;
@@ -2337,7 +2337,7 @@ envmulti.prototype.draw = function() {
 	this.drawLabel();
 }
 
-envmulti.prototype.scaleNode = function(nodeIndex) {
+envelope.prototype.scaleNode = function(nodeIndex) {
 	var i = nodeIndex;
 	var prevX = 0;
 	var nextX = this.width;
@@ -2372,7 +2372,7 @@ envmulti.prototype.scaleNode = function(nodeIndex) {
 
 }
 
-envmulti.prototype.click = function() {
+envelope.prototype.click = function() {
 
 	// find nearest node and set selectedNode (index)
 	selectedNode = this.findNearestNode(this.clickPos.x/this.width, this.clickPos.y/this.height, this.val.points);
@@ -2381,7 +2381,7 @@ envmulti.prototype.click = function() {
 	this.draw();
 }
 
-envmulti.prototype.move = function() {
+envelope.prototype.move = function() {
 	if (this.clicked) {
 		this.val.points[selectedNode].x = this.clickPos.x;
 		this.val.points[selectedNode].y = this.clickPos.y;
@@ -2391,7 +2391,7 @@ envmulti.prototype.move = function() {
 	}
 }
 
-envmulti.prototype.release = function() {
+envelope.prototype.release = function() {
 
 	if (!this.hasMoved) {
 		this.val.points.splice(selectedNode,1)
@@ -2404,7 +2404,7 @@ envmulti.prototype.release = function() {
 }
 
 // update index and amp
-envmulti.prototype.pulse = function() {
+envelope.prototype.pulse = function() {
 	if (this.active) {
 
 		// calculate index based on audio context
@@ -2448,7 +2448,7 @@ envmulti.prototype.pulse = function() {
 
 /** @method start
 	Start ramp from beginning. If set to loop, will loop the ramp until stopped. */
-envmulti.prototype.start = function() {
+envelope.prototype.start = function() {
 	this.active = true;
 	this.val.index = 0;
 	
@@ -2458,13 +2458,13 @@ envmulti.prototype.start = function() {
 
 /** @method stop
 	Stop the ramp and set progress to 0. */
-envmulti.prototype.stop = function() {
+envelope.prototype.stop = function() {
 	this.active = false;
 	this.val.index = 0;
 	this.draw();
 }
 
-envmulti.prototype.findNearestNode = function(x, y, nodes) {
+envelope.prototype.findNearestNode = function(x, y, nodes) {
 	var nearestIndex = null;
 	var nearestDist = 1000;
 	var before = false;
@@ -3485,6 +3485,8 @@ matrix.prototype.init = function() {
 	}
 
 	this.draw();
+
+  	this.life = this.unboundlife.bind(this)
 	
 }
 
@@ -3743,6 +3745,62 @@ matrix.prototype.jumpToCol = function(place) {
 
 matrix.prototype.customDestroy = function() {
 	this.stop();
+}
+
+matrix.prototype.unboundlife = function() {
+  if (!this.clicked) {
+  this.newmatrix = []
+  for (var i=0;i<this.col;i++) {
+    this.newmatrix[i] = []
+    for (var j=0;j<this.row;j++) {
+      var total = 0
+      if (i-1 >= 0) {
+        total += this.matrix[i-1][j-1] ? this.matrix[i-1][j-1] : 0
+        total += this.matrix[i-1][j] ? this.matrix[i-1][j] : 0
+        total += this.matrix[i-1][j+1] ? this.matrix[i-1][j+1] : 0
+      }
+      total += this.matrix[i][j-1] ? this.matrix[i][j-1] : 0
+      total += this.matrix[i][j+1] ? this.matrix[i][j+1] : 0
+      if (i+1 < this.col) {
+        total += this.matrix[i+1][j-1] ? this.matrix[i+1][j-1] : 0
+        total += this.matrix[i+1][j] ? this.matrix[i+1][j] : 0
+        total += this.matrix[i+1][j+1] ? this.matrix[i+1][j+1] : 0
+      }
+
+      if (this.matrix[i][j]) {
+        if (total < 2) {
+          this.newmatrix[i][j] = 0
+        } else if (total ==2 || total == 3) {
+          this.newmatrix[i][j] = 1
+        } else if (total > 3) {
+          this.newmatrix[i][j] = 0
+        }
+      } else if (!this.matrix[i][j] && total == 3) {
+        this.newmatrix[i][j] = 1
+      } else {
+        this.newmatrix[i][j] = this.matrix[i][j]
+      }
+    }
+  }
+  this.matrix = this.newmatrix
+  }
+  this.transmit({ grid: this.matrix})
+  this.draw()
+}
+
+/** @method life
+Alters the matrix according to Conway's Game of Life. Matrix.life() constitutes one tick through the game. To simulate the game, you might use setInterval.
+
+```js
+  //one tick
+  matrix1.life();
+
+  //repeated ticks at 80ms
+  setInterval(matrix1.life,80)
+```
+*/
+matrix.prototype.life = function() { 
+  return false;
 }
 
 },{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],21:[function(require,module,exports){
