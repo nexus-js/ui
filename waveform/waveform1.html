@@ -10,13 +10,13 @@
 				A : {
 					0 : "./audio/kick1.wav",
 					1 : "./audio/tom.wav",
-					2 : "./audio/bell.wav",
+					2 : "./audio/liss.wav",
 				},
 			}).toMaster();
 
 			Tone.Buffer.onload = function() {
 
-				waveform1.setBuffer(sampler._buffers["A.1"]._buffer)
+				waveform1.setBuffer(sampler._buffers["A.2"]._buffer)
 
 			}
 
