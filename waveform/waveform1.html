@@ -17,12 +17,17 @@
 			Tone.Buffer.onload = function() {
 
 				waveform1.setBuffer(sampler._buffers["A.2"]._buffer)
+				waveform2.setBuffer(sampler._buffers["A.1"]._buffer)
 
 			}
 
 			nx.onload = function() {
 				
 			    nx.colorize("accent", "#1ac");
+
+			    waveform1.on('*',function(data) {
+			    	console.log(data)
+			    })
 
 			}
 
@@ -34,6 +39,7 @@
 	<body>
 
 	<canvas nx="waveform" style="width:600px;height:300px"></canvas>
+	<canvas nx="waveform" style="width:200px;height:100px"></canvas>
 
 	</body>
 	

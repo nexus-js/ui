@@ -6890,13 +6890,12 @@ var waveform = module.exports = function (target) {
 	this.val = {
 		start: 0.3,
 		stop: 0.7,
-		size: 0.4
+		size: 0.4,
+		starttime: 0,
+		stoptime: 0,
+		looptime: 0
 	}
 
-
-	// handling horiz possibility
-	/** @property {boolean}  hslider  Whether or not the slider is a horizontal slider. Default is false, but set automatically to true if the slider is wider than it is tall. */  
-	this.hslider = false;
 	this.handle;
 	this.relhandle;
 	this.cap;
@@ -6949,8 +6948,6 @@ util.inherits(waveform, widget);
 
 waveform.prototype.init = function() {
 
-	this.hslider = true;
-
 	this.pieces = ~~(this.width/this.bitcrush);
 
 	this.draw();
@@ -6970,19 +6967,24 @@ waveform.prototype.setBuffer = function(prebuff) {
 		this.timescale++;
 	}
 	this.timescale = this.times[this.timescale]
-	
 
 	// reduce/crush buffers
 	for (var i=0;i<this.channels;i++) {
 		this.rawbuffer.push(prebuff.getChannelData(0))
 		this.buffer.push([])
 
+		// counts faster (& less accurately) through larger buffers.
+		// for every 5 seconds in the buffer, our counter skips 1.
+		// so a 10 second buffer will only look at every 3rd sample
+		//   when calculating waveform.
+		var countinc = ~~(this.rawbuffer[0].length / (this.sampleRate*5)) + 1
+
 		var groupsize = ~~(this.rawbuffer[i].length/this.pieces)
 		var cmax = 0
 		var cmin = 0
 		var group = 0
 		var vis = []
-		for (var j=0;j<this.rawbuffer[i].length;j++) {
+		for (var j=0;j<this.rawbuffer[i].length;j += countinc) {
 			if (this.rawbuffer[i][j]>0) {
 				cmax = Math.max(cmax,this.rawbuffer[i][j])
 			} else {
@@ -7026,11 +7028,14 @@ waveform.prototype.draw = function() {
 		//time bar - top
 		globalAlpha = 0.7
 		fillStyle = this.colors.border
-		fillRect(0,0,this.width,this.height/12)
+		fillRect(0,0,this.width,16)
 		globalAlpha = 1
 
 
 		textBaseline = "middle"
+		textAlign = "left"
+		fontSize = "8px"
+
 		//time lines
 		if (this.timescale) {
 			for (var i=1; i<this.durationMS/this.timescale.dur; i++) {
@@ -7039,7 +7044,9 @@ waveform.prototype.draw = function() {
 				fillStyle = this.colors.border
 				fillRect(x,0,1,this.height)
 				fillStyle = this.colors.black
-				fillText(this.msToTime(i * this.timescale.dur,this.timescale.format),x+10,this.height/24)
+				globalAlpha = 0.6
+				fillText(this.msToTime(i * this.timescale.dur,this.timescale.format),x+5,8)
+				globalAlpha = 1
 			}	
 		} 
 		
@@ -7057,10 +7064,18 @@ waveform.prototype.draw = function() {
 		fillRect(x1,y1,x2-x1,y2-y1);
 		globalAlpha = 0.7
 		strokeRect(x1,y1-2,x2-x1,y2-y1+4);
-		if (this.durationMS) {
+		if (this.durationMS && this.val.looptime) {
 			this.val.size = this.val.stop - this.val.start
 			textAlign = "center"
-			var dur = math.prune(this.val.size * this.durationMS,3)
+			var dur = this.val.looptime
+			if (dur > 1000) {
+				dur /= 1000
+				math.prune(dur,2)
+				dur += ' s'
+			} else {
+				math.prune(dur,0)
+				dur += ' ms'
+			}
 			fillText(dur,x1 + (x2-x1)/2,this.height/2)
 		}
 		
@@ -7098,18 +7113,10 @@ waveform.prototype.msToTime = function(rawms,format) {
 
 waveform.prototype.click = function() {
 	if (this.mode=="edge") {
-		if (this.hslider) {
-			if (Math.abs(this.clickPos.x-this.val.start*this.width) < Math.abs(this.clickPos.x-this.val.stop*this.width)) {
-				this.firsttouch = "start"
-			} else {
-				this.firsttouch = "stop"
-			}
+		if (Math.abs(this.clickPos.x-this.val.start*this.width) < Math.abs(this.clickPos.x-this.val.stop*this.width)) {
+			this.firsttouch = "start"
 		} else {
-			if (Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.start*this.height) < Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.stop*this.height)) {
-				this.firsttouch = "start"
-			} else {
-				this.firsttouch = "stop"
-			}
+			this.firsttouch = "stop"
 		}
 	} else if (this.mode=="area") {
 		this.touchdown = {
@@ -7126,31 +7133,18 @@ waveform.prototype.click = function() {
 waveform.prototype.move = function() {
 
 	if (this.mode=="edge") {
-		if (this.hslider) {
-			if (this.firsttouch=="start") {
-				this.val.start = this.clickPos.x/this.width;
-				if (this.clickPos.touches.length>1) {
-					this.val.stop = this.clickPos.touches[1].x/this.width;
-				}
-			} else {
-				this.val.stop = this.clickPos.x/this.width;
-				if (this.clickPos.touches.length>1) {
-					this.val.start = this.clickPos.touches[1].x/this.width;
-				}
+		if (this.firsttouch=="start") {
+			this.val.start = this.clickPos.x/this.width;
+			if (this.clickPos.touches.length>1) {
+				this.val.stop = this.clickPos.touches[1].x/this.width;
 			}
 		} else {
-			if (this.firsttouch=="start") {
-				this.val.start = math.invert(this.clickPos.y/this.height);
-				if (this.clickPos.touches.length>1) {
-					this.val.stop = math.invert(this.clickPos.touches[1].y/this.height);
-				}
-			} else {
-				this.val.stop = math.invert(this.clickPos.y/this.height);
-				if (this.clickPos.touches.length>1) {
-					this.val.start = math.invert(this.clickPos.touches[1].y/this.height);
-				}
+			this.val.stop = this.clickPos.x/this.width;
+			if (this.clickPos.touches.length>1) {
+				this.val.start = this.clickPos.touches[1].x/this.width;
 			}
 		}
+	
 
 		if (this.val.stop < this.val.start) {
 			this.tempstart = this.val.start;
@@ -7162,44 +7156,37 @@ waveform.prototype.move = function() {
 				this.firsttouch = "start";
 			}
 		} 
-		this.val = {
-			start: math.clip(this.val.start, 0, 1),
-			stop: math.clip(this.val.stop, 0, 1),
-		} 
-		this.val['size'] = math.prune(math.clip(Math.abs(this.val.stop - this.val.start), 0, 1), 3)
-	
-		this.draw();
-
-		this.transmit(this.val);
-
+		
 	} else if (this.mode=="area") {
 
-		if (this.hslider) {
-			var moveloc = this.clickPos.x/this.width;
-			var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
-		} else {
-			var moveloc = nx.invert(this.clickPos.y/this.height);
-			var movesize = (this.touchdown.x - this.clickPos.x)/this.width;
-		//	moveloc *= -1;
-			movesize *= -1;
-		}
-		movesize /= 3;
+		var moveloc = this.clickPos.x/this.width;
+		var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
+	
+		movesize /= 6;
 		var size = this.startval.size + movesize;
 		size = math.clip(size,0.001,1);
 
 		this.val = {
 			start: moveloc - size/2,
-			stop: moveloc + size/2
+			stop: moveloc + size/2,
 		}
 
-		this.val.start = math.clip(this.val.start,0,1);
-		this.val.stop = math.clip(this.val.stop,0,1);
-
-		this.draw();
-
-		this.transmit(this.val);
-
 	}
+
+	this.val.start = math.clip(this.val.start,0,1);
+	this.val.stop = math.clip(this.val.stop,0,1);
+
+	this.val['size'] = math.clip(Math.abs(this.val.stop - this.val.start), 0, 1)
+
+	if (this.durationMS) {
+		this.val["starttime"] = Math.round(this.val.start * this.durationMS)
+		this.val["stoptime"] = Math.round(this.val.stop * this.durationMS)
+		this.val["looptime"] = Math.round(this.val.size * this.durationMS)
+	}
+
+	this.transmit(this.val);
+	this.draw();
+
 }
 },{"../core/widget":3,"../utils/math":6,"util":47}],42:[function(require,module,exports){
 var math = require('../utils/math')

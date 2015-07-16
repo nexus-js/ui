@@ -1454,10 +1454,6 @@ waveform visualizer and selecter
 | *stop* | waveform end value (float 0-1)
 | *size* | Distance between ends (float 0-1)
  
-###waveform.hslider###
- *boolean*<br> Whether or not the slider is a horizontal slider. Default is false, but set automatically to true if the slider is wider than it is tall.
-
-
 ###waveform.mode###
  *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the waveform individually. "area" mode (default) lets you drag the waveform as a whole (with parallel mouse movement) or scale the waveform as a whole (with transverse mouse movement)
 
