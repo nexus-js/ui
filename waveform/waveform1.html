@@ -16,43 +16,13 @@
 
 			Tone.Buffer.onload = function() {
 
-				waveform1.setup(sampler._buffers["A.1"]._buffer.getChannelData(0))
+				waveform1.setBuffer(sampler._buffers["A.1"]._buffer)
 
-
-/*
-				var buff = sampler._buffers["A.2"]._buffer.getChannelData(0)
-				//console.log(buff)
-
-				var groupsize = ~~(buff.length/200);
-				var cmax = 0;
-				var cmin = 0;
-				var group = 0
-				var vis = []
-				for (var i=0;i<buff.length;i++) {
-					if (buff[i]>0) {
-						cmax = Math.max(cmax,buff[i])
-					} else {
-						cmin = Math.min(cmin,buff[i])
-					}
-					if (i > group * groupsize) {
-						vis.push([cmin,cmax])
-						group++;
-						document.body.innerHTML += '<div style="background-color:black;width:2px;height:2px;position:absolute;top:'+(cmin*100+100)+'px;left:'+(group+10)+'px;"></div>'
-						document.body.innerHTML += '<div style="background-color:black;width:2px;height:2px;position:absolute;top:'+(cmax*100+100)+'px;left:'+(group+10)+'px;"></div>'
-
-						cmin = 0;
-						cmax = 0;
-					}
-				}
-
-*/
 			}
 
 			nx.onload = function() {
 				
 			    nx.colorize("accent", "#1ac");
-
-			   	//waveform1.setup()
 
 			}
 
@@ -63,7 +33,7 @@
 
 	<body>
 
-	<canvas nx="waveform"></canvas>
+	<canvas nx="waveform" style="width:600px;height:300px"></canvas>
 
 	</body>
 	
