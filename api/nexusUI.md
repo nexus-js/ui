@@ -1436,6 +1436,33 @@ For the boom bap
 | *speed*| Current speed of the record player's rotation. (Normal is 1.)
  
 
+waveform
+----------
+waveform visualizer and selecter
+```html
+<canvas nx="waveform"></canvas>
+```
+<canvas nx="waveform" style="margin-left:25px"></canvas>
+
+####Properties####
+###waveform.val###
+ *object*<br> Object containing core interactive aspects of widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *start* | waveform start value (float 0-1)
+| *stop* | waveform end value (float 0-1)
+| *size* | Distance between ends (float 0-1)
+ 
+###waveform.hslider###
+ *boolean*<br> Whether or not the slider is a horizontal slider. Default is false, but set automatically to true if the slider is wider than it is tall.
+
+
+###waveform.mode###
+ *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the waveform individually. "area" mode (default) lets you drag the waveform as a whole (with parallel mouse movement) or scale the waveform as a whole (with transverse mouse movement)
+
+
+
 windows
 ---------
 Scalable windows

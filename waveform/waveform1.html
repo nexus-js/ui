@@ -1,0 +1,70 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script type="text/javascript" src="Tone.js"></script>
+		<script>
+
+			var sampler = new Tone.Sampler({
+				A : {
+					0 : "./audio/kick1.wav",
+					1 : "./audio/tom.wav",
+					2 : "./audio/bell.wav",
+				},
+			}).toMaster();
+
+			Tone.Buffer.onload = function() {
+
+				waveform1.setup(sampler._buffers["A.1"]._buffer.getChannelData(0))
+
+
+/*
+				var buff = sampler._buffers["A.2"]._buffer.getChannelData(0)
+				//console.log(buff)
+
+				var groupsize = ~~(buff.length/200);
+				var cmax = 0;
+				var cmin = 0;
+				var group = 0
+				var vis = []
+				for (var i=0;i<buff.length;i++) {
+					if (buff[i]>0) {
+						cmax = Math.max(cmax,buff[i])
+					} else {
+						cmin = Math.min(cmin,buff[i])
+					}
+					if (i > group * groupsize) {
+						vis.push([cmin,cmax])
+						group++;
+						document.body.innerHTML += '<div style="background-color:black;width:2px;height:2px;position:absolute;top:'+(cmin*100+100)+'px;left:'+(group+10)+'px;"></div>'
+						document.body.innerHTML += '<div style="background-color:black;width:2px;height:2px;position:absolute;top:'+(cmax*100+100)+'px;left:'+(group+10)+'px;"></div>'
+
+						cmin = 0;
+						cmax = 0;
+					}
+				}
+
+*/
+			}
+
+			nx.onload = function() {
+				
+			    nx.colorize("accent", "#1ac");
+
+			   	//waveform1.setup()
+
+			}
+
+
+		</script>
+
+	</head>
+
+	<body>
+
+	<canvas nx="waveform"></canvas>
+
+	</body>
+	
+</html>

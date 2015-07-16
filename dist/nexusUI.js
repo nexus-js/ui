@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":47}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":48}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -111,31 +111,6 @@ var manager = module.exports = function() {
   this.fontWeight = "bold";
 
   this.context = new(window.AudioContext || window.webkitAudioContext)()
-  //this.clock = new WAAClock(this.context)
-  //this.clock.start()
-/*
-  this.interval = {
-    add: function(func,ms) {
-      var event = nx.clock.setTimeout(func,1).repeat(1)
-      nx.clock.timeStretch(nx.context.currentTime, [event], ms/1000)
-      console.log(event)
-      return event
-    },
-    kill: function(event) {
-      event.clear()
-    },
-    bpm: function(event,bpm) {
-      console.log(bpm + " in int")
-      console.log(event)
-      if (bpm) {
-        nx.clock.timeStretch(nx.context.currentTime, [event], bpm)
-      }
-    },
-    ms: function(event,ms) {
-      nx.clock.timeStretch(nx.context.currentTime, [event], ms/1000)
-    }
-  }
-  */
  
   this.sys = navigator.userAgent.toLowerCase();
   this.isAndroid = this.sys.indexOf("android") > -1;
@@ -451,7 +426,7 @@ manager.prototype.blockMove = function(e) {
      }
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":42,"util":46}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":43,"util":47}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -1010,7 +985,7 @@ widget.prototype.resize = function(w,h) {
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":42,"util":46}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":43,"util":47}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1556,7 +1531,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":46}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1759,7 +1734,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1859,7 +1834,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":46}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1932,7 +1907,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":46}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2013,7 +1988,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2192,7 +2167,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],15:[function(require,module,exports){
 var startTime = 0;
 
 var math = require('../utils/math')
@@ -2498,7 +2473,7 @@ envelope.prototype.findNearestNode = function(x, y, nodes) {
 
 	return nearestIndex;
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2805,7 +2780,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],17:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2838,9 +2813,10 @@ module.exports = {
   toggle: require('./toggle'),
   typewriter: require('./typewriter'),
   vinyl: require('./vinyl'),
+  waveform: require('./waveform'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./meter":22,"./metro":23,"./metroball":24,"./motion":25,"./mouse":26,"./multislider":27,"./multitouch":28,"./number":29,"./position":30,"./range":31,"./select":32,"./slider":33,"./string":34,"./tabs":35,"./text":36,"./tilt":37,"./toggle":38,"./typewriter":39,"./vinyl":40,"./windows":41}],18:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./meter":22,"./metro":23,"./metroball":24,"./motion":25,"./mouse":26,"./multislider":27,"./multitouch":28,"./number":29,"./position":30,"./range":31,"./select":32,"./slider":33,"./string":34,"./tabs":35,"./text":36,"./tilt":37,"./toggle":38,"./typewriter":39,"./vinyl":40,"./waveform":41,"./windows":42}],18:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3038,7 +3014,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],19:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3373,7 +3349,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],20:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3817,7 +3793,7 @@ matrix.prototype.life = function() {
   return false;
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],21:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3889,7 +3865,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":46}],22:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],22:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -4010,7 +3986,7 @@ meter.prototype.draw = function(){
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],23:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4124,7 +4100,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],24:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4388,7 +4364,7 @@ metroball.prototype.Ball = function(thisIndex, thisX, thisY, parent) {
 		}	
 	}	
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4553,7 +4529,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],26:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -4653,7 +4629,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],27:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4812,7 +4788,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],28:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -5017,7 +4993,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":46}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],29:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5214,7 +5190,7 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":46}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5425,7 +5401,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],31:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -5640,7 +5616,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5738,7 +5714,7 @@ select.prototype.draw = function() {
     this.canvas.style.color = this.colors.black;
 
 }
-},{"../core/widget":3,"util":46}],33:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5905,7 +5881,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],34:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6107,7 +6083,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":46}],35:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6199,7 +6175,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],36:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6284,7 +6260,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":46}],37:[function(require,module,exports){
+},{"../core/widget":3,"util":47}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6418,7 +6394,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],38:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],38:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6491,7 +6467,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],39:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6739,7 +6715,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":46}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":47}],40:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6886,7 +6862,235 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],41:[function(require,module,exports){
+var util = require('util');
+var widget = require('../core/widget');
+var math = require('../utils/math')
+
+/** 
+	@class waveform      
+	waveform visualizer and selecter
+	```html
+	<canvas nx="waveform"></canvas>
+	```
+	<canvas nx="waveform" style="margin-left:25px"></canvas>
+*/
+
+var waveform = module.exports = function (target) {
+	this.defaultSize = { width: 400, height: 125 };
+	widget.call(this, target);
+
+	/** @property {object}  val  Object containing core interactive aspects of widget, which are also its data output. Has the following properties: 
+		| &nbsp; | data
+		| --- | ---
+		| *start* | waveform start value (float 0-1)
+		| *stop* | waveform end value (float 0-1)
+		| *size* | Distance between ends (float 0-1)
+	*/
+	this.val = {
+		start: 0.3,
+		stop: 0.7,
+		size: 0.4
+	}
+
+
+	// handling horiz possibility
+	/** @property {boolean}  hslider  Whether or not the slider is a horizontal slider. Default is false, but set automatically to true if the slider is wider than it is tall. */  
+	this.hslider = false;
+	this.handle;
+	this.relhandle;
+	this.cap;
+	this.firsttouch = "start";
+
+	//waveform specific
+	this.buffer = {
+		L: [],
+		R: []
+	}
+	this.bitcrush = 1;
+	this.pieces = false;
+
+	/** @property {string}  mode  Mode of interaction. "edge" mode lets you drag each edge of the waveform individually. "area" mode (default) lets you drag the waveform as a whole (with parallel mouse movement) or scale the waveform as a whole (with transverse mouse movement) */
+	this.mode = "area" // modes: "edge", "area"
+	this.touchdown = new Object();
+	this.init();
+}
+util.inherits(waveform, widget);
+
+waveform.prototype.init = function() {
+
+	this.hslider = true;
+
+	this.pieces = ~~(this.width/this.bitcrush);
+
+	this.draw();
+}
+
+waveform.prototype.setup = function(prebuff) {
+
+	//console.log(prebuff)
+
+	var groupsize = ~~(prebuff.length/this.pieces)
+	var cmax = 0
+	var cmin = 0
+	var group = 0
+	var vis = []
+	for (var i=0;i<prebuff.length;i++) {
+		if (prebuff[i]>0) {
+			cmax = Math.max(cmax,prebuff[i])
+		} else {
+			cmin = Math.min(cmin,prebuff[i])
+		}
+		if (i > group * groupsize) {
+			this.buffer.L.push([cmax,cmin])
+			group++
+			cmin = 0
+			cmax = 0
+		}
+	}
+	this.draw()
+
+}
+
+waveform.prototype.draw = function() {
+	//this.erase();
+		
+	with (this.context) {
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height);
+
+
+		fillStyle = this.colors.black;
+		for (var i=0;i<this.buffer.L.length;i++) {
+			var ht1 = this.height/2 - this.buffer.L[i][0]*this.height/2
+			var ht2 = this.height/2 + Math.abs(this.buffer.L[i][1]*this.height/2)
+			ht2 = ht2 - ht1
+			fillRect( i*this.bitcrush, ht1 , this.bitcrush, ht2)
+		}
+
+		var x1 = this.val.start*this.width;
+		var y1 = 0;
+		var x2 = this.val.stop*this.width;
+		var y2 = this.height;
+	   
+		fillStyle = this.colors.accent;
+		strokeStyle = this.colors.accent;
+		lineWidth = 2
+		globalAlpha = 0.3
+		fillRect(x1,y1,x2-x1,y2-y1);
+		globalAlpha = 0.7
+		strokeRect(x1,y1-2,x2-x1,y2-y1+4);
+		globalAlpha = 1
+	
+	}
+}
+
+waveform.prototype.click = function() {
+	if (this.mode=="edge") {
+		if (this.hslider) {
+			if (Math.abs(this.clickPos.x-this.val.start*this.width) < Math.abs(this.clickPos.x-this.val.stop*this.width)) {
+				this.firsttouch = "start"
+			} else {
+				this.firsttouch = "stop"
+			}
+		} else {
+			if (Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.start*this.height) < Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.stop*this.height)) {
+				this.firsttouch = "start"
+			} else {
+				this.firsttouch = "stop"
+			}
+		}
+	} else if (this.mode=="area") {
+		this.touchdown = {
+			x: this.clickPos.x,
+			y: this.clickPos.y
+		}
+		this.startval = new Object();
+		this.startval.size = this.val.stop - this.val.start;
+		this.startval.loc = this.val.start + this.startval.size/2;
+	}
+	this.move();
+}
+
+waveform.prototype.move = function() {
+
+	if (this.mode=="edge") {
+		if (this.hslider) {
+			if (this.firsttouch=="start") {
+				this.val.start = this.clickPos.x/this.width;
+				if (this.clickPos.touches.length>1) {
+					this.val.stop = this.clickPos.touches[1].x/this.width;
+				}
+			} else {
+				this.val.stop = this.clickPos.x/this.width;
+				if (this.clickPos.touches.length>1) {
+					this.val.start = this.clickPos.touches[1].x/this.width;
+				}
+			}
+		} else {
+			if (this.firsttouch=="start") {
+				this.val.start = math.invert(this.clickPos.y/this.height);
+				if (this.clickPos.touches.length>1) {
+					this.val.stop = math.invert(this.clickPos.touches[1].y/this.height);
+				}
+			} else {
+				this.val.stop = math.invert(this.clickPos.y/this.height);
+				if (this.clickPos.touches.length>1) {
+					this.val.start = math.invert(this.clickPos.touches[1].y/this.height);
+				}
+			}
+		}
+
+		if (this.val.stop < this.val.start) {
+			this.tempstart = this.val.start;
+			this.val.start = this.val.stop;
+			this.val.stop = this.tempstart;
+			if (this.firsttouch=="start") {
+				this.firsttouch = "stop";
+			} else {
+				this.firsttouch = "start";
+			}
+		} 
+		this.val = {
+			start: math.clip(this.val.start, 0, 1),
+			stop: math.clip(this.val.stop, 0, 1),
+		} 
+		this.val['size'] = math.prune(math.clip(Math.abs(this.val.stop - this.val.start), 0, 1), 3)
+	
+		this.draw();
+
+		this.transmit(this.val);
+
+	} else if (this.mode=="area") {
+
+		if (this.hslider) {
+			var moveloc = this.clickPos.x/this.width;
+			var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
+		} else {
+			var moveloc = nx.invert(this.clickPos.y/this.height);
+			var movesize = (this.touchdown.x - this.clickPos.x)/this.width;
+		//	moveloc *= -1;
+			movesize *= -1;
+		}
+		movesize /= 3;
+		var size = this.startval.size + movesize;
+		size = math.clip(size,0.001,1);
+
+		this.val = {
+			start: moveloc - size/2,
+			stop: moveloc + size/2
+		}
+
+		this.val.start = math.clip(this.val.start,0,1);
+		this.val.stop = math.clip(this.val.stop,0,1);
+
+		this.draw();
+
+		this.transmit(this.val);
+
+	}
+}
+},{"../core/widget":3,"../utils/math":6,"util":47}],42:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7129,7 +7333,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":46}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":47}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7432,7 +7636,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -7457,7 +7661,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -7522,14 +7726,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8104,7 +8308,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":45,"_process":44,"inherits":43}],47:[function(require,module,exports){
+},{"./support/isBuffer":46,"_process":45,"inherits":44}],48:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
