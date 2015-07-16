@@ -64,7 +64,7 @@
 			    sine.frequency.value = 400;
 			    
 			    sine.connect(env);
-			    sine.start();
+			    sine.start(0);
 
 			    //set up db meter
 			    meter1.setup(actx,env);
@@ -95,7 +95,7 @@
 
 	<body style="background-color:#fff">
 
-		  <canvas nx="button" style="width:100px;height:100px"></canvas>
+		  <canvas nx="button"></canvas>
 		  <canvas nx="dial"></canvas>
 		  <canvas nx="toggle"></canvas>
 		  <canvas nx="multislider"></canvas>
@@ -110,6 +110,15 @@
 
 		  <!-- Try other nexusUI elements.
 		  See nexusosc.com for more. -->
+
+		  <style>
+		  	.nx {
+		  		display:block;
+		  		float:left;
+		  		margin:0px 10px;
+		  	}
+
+		  </style>
 
 	</body>
 	

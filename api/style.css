@@ -814,8 +814,8 @@ a.big.button:hover:visited {
   color: #565666;
 }
 .menu a.level-2 {
-  font-family: Open Sans;
-  font-size:1.1em;
+  font-family: Helvetica Neue, Open Sans;
+  font-size:1.2em;
   line-height:1.4em;
 }
 .menu a.level-3 {

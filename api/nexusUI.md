@@ -917,6 +917,15 @@ Decibel level meter.
 ```
 <canvas nx="meter" style="margin-left:25px"></canvas>
 
+####Methods####
+###meter.setup( context, source )###
+Connect the meter to an audio source and start the meter's graphics.
+
+
+**context** &nbsp;  *audio context* &nbsp;  The audio context hosting the source node
+
+**source** &nbsp;  *audio node* &nbsp;  The audio source node to analyze
+
 metro
 -------
 Bouncing ball metronome
