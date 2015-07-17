@@ -6869,11 +6869,10 @@ var math = require('../utils/math')
 
 /** 
 	@class waveform      
-	waveform visualizer and selecter
+	Waveform visualizer and selecter
 	```html
 	<canvas nx="waveform"></canvas>
 	```
-	<canvas nx="waveform" style="margin-left:25px"></canvas>
 */
 
 var waveform = module.exports = function (target) {
@@ -6883,14 +6882,17 @@ var waveform = module.exports = function (target) {
 	/** @property {object}  val  Object containing core interactive aspects of widget, which are also its data output. Has the following properties: 
 		| &nbsp; | data
 		| --- | ---
-		| *start* | waveform start value (float 0-1)
-		| *stop* | waveform end value (float 0-1)
-		| *size* | Distance between ends (float 0-1)
+		| *starttime* | Waveform selection start position in milliseconds (integer)
+		| *stoptime* | Waveform selection end position in milliseconds (integer)
+		| *looptime* | Selection size, in milliseconds (integer)
+		| *start* | Waveform selection start, as fraction of waveform (float 0-1)
+		| *stop* | Waveform selection end, as fraction of waveform (float 0-1)
+		| *size* | Selection size, as fraction of waveform (float 0-1)
 	*/
 	this.val = {
-		start: 0.3,
-		stop: 0.7,
-		size: 0.4,
+		start: 0,
+		stop: 0,
+		size: 0,
 		starttime: 0,
 		stoptime: 0,
 		looptime: 0
@@ -6901,16 +6903,19 @@ var waveform = module.exports = function (target) {
 	this.cap;
 	this.firsttouch = "start";
 
-	//waveform specific
+	/** @property {Array} buffer  Contains multiple arrays of reduced buffer data, for visualization */
 	this.buffer = []
 
 	if (nx.isMobile) {
-		this.bitcrush = 3;
+		/** @property {integer} definition  Horizontal definition of the visualization. Value of 3 means the waveform will be represented in 3 pixel chunks. Higher numbers (4+) lead to a smaller graphics load. Smaller numbers (1-3) look better. Default is 1 for desktop renders, 3 for mobile renders. */
+		this.definition = 3;
 	} else {
-		this.bitcrush = 1;
+		this.definition = 1;
 	}
 
 	this.pieces = false;
+
+	/** @property {integer} channels  How many channels in the waveform */
 	this.channels = 1
 	this.rawbuffer = []
 
@@ -6919,10 +6924,10 @@ var waveform = module.exports = function (target) {
 		{ dur: 50 , format: 1 },
 		{ dur: 100 , format: 1 },
 		{ dur: 200 , format: 1 },
-		{ dur: 500 , format: 2 },
-		{ dur: 1000 , format: 2 },
-		{ dur: 2000 , format: 2 },
-		{ dur: 5000 , format: 2 },
+		{ dur: 500 , format: 1 },
+		{ dur: 1000 , format: 1 },
+		{ dur: 2000 , format: 1 },
+		{ dur: 5000 , format: 1 },
 		{ dur: 10000 , format: 3 },
 		{ dur: 15000 , format: 3 },
 		{ dur: 60000 , format: 3 }, // 1 min
@@ -6931,6 +6936,10 @@ var waveform = module.exports = function (target) {
 		{ dur: 600000 , format: 3 }, // 10 mins
 	]
 	this.timescale = false
+
+	// to do --
+	// // sample rate adjustments
+	// .select(500,1000)
 
 	/** @property {string}  mode  Mode of interaction. "edge" mode lets you drag each edge of the waveform individually. "area" mode (default) lets you drag the waveform as a whole (with parallel mouse movement) or scale the waveform as a whole (with transverse mouse movement) */
 	this.mode = "area" // modes: "edge", "area"
@@ -6941,11 +6950,17 @@ util.inherits(waveform, widget);
 
 waveform.prototype.init = function() {
 
-	this.pieces = ~~(this.width/this.bitcrush);
+	this.pieces = ~~(this.width/this.definition);
 
 	this.draw();
 }
 
+
+/** 
+  @method setBuffer 
+  Load a web audio AudioBuffer into the waveform ui, for analysis and visualization.
+  @param {AudioBuffer} [buffer] The buffer to be loaded.
+  */
 waveform.prototype.setBuffer = function(prebuff) {
 
 	this.channels = prebuff.numberOfChannels
@@ -6960,6 +6975,9 @@ waveform.prototype.setBuffer = function(prebuff) {
 		this.timescale++;
 	}
 	this.timescale = this.times[this.timescale]
+
+	this.rawbuffer = []
+	this.buffer = []
 
 	// reduce/crush buffers
 	for (var i=0;i<this.channels;i++) {
@@ -6991,9 +7009,37 @@ waveform.prototype.setBuffer = function(prebuff) {
 			}
 		}
 	}
+
+	if (this.val.start && this.val.stop) {
+
+	}
+
+	this.val.starttime = Math.round(this.val.start * this.durationMS)
+	this.val.stoptime = Math.round(this.val.stop * this.durationMS)
+	this.val.looptime = Math.round(this.val.size * this.durationMS)
+	
+
 	this.draw()
 
 }
+
+/** 
+  @method select 
+  Set the selection start and end points.
+  @param {integer} [start] Selection start point in milliseconds
+  @param {integer} [end] Selection end point in milliseconds
+  */
+waveform.prototype.select = function(start,stop) {
+	this.val.start = math.clip(start / this.durationMS,0,1)
+	this.val.stop = math.clip(stop / this.durationMS,0,1)
+	this.val.size = this.val.stop - this.val.start
+	this.val.starttime = start
+	this.val.stoptime = stop
+	this.val.looptime = start - stop
+	this.transmit(this.val)
+	this.draw()
+}
+
 
 waveform.prototype.draw = function() {
 	//this.erase();
@@ -7012,14 +7058,14 @@ waveform.prototype.draw = function() {
 				var ht1 = this.waveCenter - this.buffer[i][j][0]*this.waveHeight
 				var ht2 = this.waveCenter + Math.abs(this.buffer[i][j][1]*this.waveHeight)
 				ht2 = ht2 - ht1
-				fillRect( j*this.bitcrush, ht1 , this.bitcrush, ht2)
+				fillRect( j*this.definition, ht1 , this.definition, ht2)
 			}
 			this.buffer[i]
 
 		}
 
 		//time bar - top
-		globalAlpha = 0.7
+		globalAlpha = 0.3
 		fillStyle = this.colors.border
 		fillRect(0,0,this.width,16)
 		globalAlpha = 1
