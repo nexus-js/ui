@@ -1,0 +1,53 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script type="text/javascript" src="js/Tone.js"></script>
+		<script>
+
+			var sampler = new Tone.Sampler({
+				A : {
+					0 : "./audio/splash.wav",
+				},
+			},{
+				player: {
+					loop: true,
+				}
+			}).toMaster();
+
+
+			Tone.Buffer.onload = function() {
+
+				//Load the buffer into the waveform GUI.
+				//Any Web Audio AudioBuffer can be loaded.
+				//For Tone.js, look at the _buffers property.
+				
+				waveform1.setBuffer( sampler._buffers["A.0"]._buffer )
+				waveform1.select(1500,1800)
+				sampler.triggerAttack('A.0')
+
+			}
+
+			nx.onload = function() {
+				
+			    nx.colorize("accent", "#1ac");
+
+			    waveform1.on('*',function(data) {
+			    	sampler.player.setLoopPoints(data.starttime/1000,data.stoptime/1000)
+			    })
+
+			}
+
+
+		</script>
+
+	</head>
+
+	<body style="background-color:#bbb">
+
+		<canvas nx="waveform" style="width:600px;height:300px;display:block;margin:100px auto"></canvas>
+
+	</body>
+	
+</html>

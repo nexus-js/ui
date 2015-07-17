@@ -1436,6 +1436,58 @@ For the boom bap
 | *speed*| Current speed of the record player's rotation. (Normal is 1.)
  
 
+waveform
+----------
+Waveform visualizer and selecter
+```html
+<canvas nx="waveform"></canvas>
+```
+
+####Properties####
+###waveform.val###
+ *object*<br> Object containing core interactive aspects of widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *starttime* | Waveform selection start position in milliseconds (integer)
+| *stoptime* | Waveform selection end position in milliseconds (integer)
+| *looptime* | Selection size, in milliseconds (integer)
+| *start* | Waveform selection start, as fraction of waveform (float 0-1)
+| *stop* | Waveform selection end, as fraction of waveform (float 0-1)
+| *size* | Selection size, as fraction of waveform (float 0-1)
+ 
+###waveform.buffer###
+ *Array*<br> Contains multiple arrays of reduced buffer data, for visualization
+
+
+###waveform.definition###
+ *integer*<br> Horizontal definition of the visualization. Value of 3 means the waveform will be represented in 3 pixel chunks. Higher numbers (4+) lead to a smaller graphics load. Smaller numbers (1-3) look better. Default is 1 for desktop renders, 3 for mobile renders.
+
+
+###waveform.channels###
+ *integer*<br> How many channels in the waveform
+
+
+###waveform.mode###
+ *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the waveform individually. "area" mode (default) lets you drag the waveform as a whole (with parallel mouse movement) or scale the waveform as a whole (with transverse mouse movement)
+
+
+
+####Methods####
+###waveform.setBuffer( buffer )###
+Load a web audio AudioBuffer into the waveform ui, for analysis and visualization.
+
+
+**buffer** &nbsp;  *AudioBuffer* &nbsp;  The buffer to be loaded.
+
+###waveform.select( start, end )###
+Set the selection start and end points.
+
+
+**start** &nbsp;  *integer* &nbsp;  Selection start point in milliseconds
+
+**end** &nbsp;  *integer* &nbsp;  Selection end point in milliseconds
+
 windows
 ---------
 Scalable windows
