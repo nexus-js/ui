@@ -1,8 +1,8 @@
 # Nexus UI
 
-**Author:** Ben Taylor
+**Authors:** Ben Taylor & Jesse Allison
 
-**Contributors:** Jesse Allison, Yemin Oh, Sébastien Piquemal
+**Contributors:** Yemin Oh, Sébastien Piquemal, Andrew Bernstein, Jason Sigal
 
 **Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping and integration with Max/MSP.
 
