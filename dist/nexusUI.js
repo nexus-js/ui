@@ -897,19 +897,21 @@ widget.prototype.wrapText = function(text, x, y, maxWidth, lineHeight) {
 }
 
 widget.prototype.drawLabel = function() {
-  if (this.showLabels) {
+  if (nx.showLabels) {
     with(this.context) {
-      globalAlpha = 0.9;
-      fillStyle = this.colors.fill;
-      fillRect(this.width-100,this.height-20,100,20);
-      globalAlpha = 1;
+      globalAlpha = 0.4;
+      fillStyle = this.colors.white;
+      fillRect(this.width-this.canvasID.length * 6-10,this.height-16,this.canvasID.length * 6+10,16);
+      globalAlpha = 0.4;
       beginPath();
-      fillStyle = this.colors.border;
-      font = "bold 15px courier";
-      textAlign = "center";
-      fillText(this.oscPath,this.width-50,this.height-5);
+      fillStyle = this.colors.black;
+      font = "normal 10px courier";
+      textAlign = "right";
+      textBaseline = "alphabetic";
+      fillText(this.canvasID,this.width-4,this.height-4);
       textAlign = "left";
       closePath();
+      globalAlpha = 1;
     }
   }
 }
