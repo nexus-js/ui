@@ -7,13 +7,11 @@
 		<script>
 
 			var sampler = new Tone.Sampler({
-				A : {
-					0 : "./audio/splash.wav",
-				},
-			},{
-				player: {
-					loop: true,
-				}
+					0 : "./audio/splash.wav"
+				},{
+					player: {
+						loop: true,
+					}
 			}).toMaster();
 
 
@@ -21,11 +19,11 @@
 
 				//Load the buffer into the waveform GUI.
 				//Any Web Audio AudioBuffer can be loaded.
-				//For Tone.js, look at the _buffers property.
+				//For Tone.js, these are found in _buffers.
 				
-				waveform1.setBuffer( sampler._buffers["A.0"]._buffer )
+				waveform1.setBuffer( sampler._buffers[0]._buffer )
 				waveform1.select(1500,1800)
-				sampler.triggerAttack('A.0')
+				sampler.triggerAttack('0')
 
 			}
 
@@ -44,9 +42,11 @@
 
 	</head>
 
-	<body style="background-color:#bbb">
+	<body style="background-color:#ddd">
 
-		<canvas nx="waveform" style="width:600px;height:300px;display:block;margin:100px auto"></canvas>
+		<canvas nx="waveform" style="width:900px;height:300px;display:block;margin:100px auto 0px"></canvas>
+
+		<div style="font-size:12pt;color:#666;font-family:gill sans;margin:10px auto 0px;text-align:right;width:900px">Made with the waveform element of <a href="http://nexusosc.com" style="color:#09b">NexusUI</a></div> 
 
 	</body>
 	
