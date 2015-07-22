@@ -106,9 +106,9 @@ var manager = module.exports = function() {
   /**  @property {boolean} globalWidgets Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets */
   this.globalWidgets = true;
 
-  this.font = "gill sans";
+  this.font = "courier";
   this.fontSize = 14;
-  this.fontWeight = "bold";
+  this.fontWeight = "normal";
 
   this.context = new(window.AudioContext || window.webkitAudioContext)()
  
@@ -586,6 +586,13 @@ var widget = module.exports = function (target) {
 
   this.actuated = true;
 
+  if (this.canvas.getAttribute("label")!=null) {
+    this.label = this.canvas.getAttribute("label");
+  } else {
+    this.label = this.canvasID;
+  }
+
+
 }
 util.inherits(widget, EventEmitter)
 
@@ -901,14 +908,12 @@ widget.prototype.drawLabel = function() {
     with(this.context) {
       globalAlpha = 0.4;
       fillStyle = this.colors.white;
-      fillRect(this.width-this.canvasID.length * 6-10,this.height-16,this.canvasID.length * 6+10,16);
-      globalAlpha = 0.4;
+      var w = this.label.length * 8+12;
+      fillRect(this.width-w,this.height-16,w,16);
       beginPath();
-      fillStyle = this.colors.black;
-      font = "normal 10px courier";
+      this.setFont();
       textAlign = "right";
-      textBaseline = "alphabetic";
-      fillText(this.canvasID,this.width-4,this.height-4);
+      fillText(this.label,this.width-4,this.height-8);
       textAlign = "left";
       closePath();
       globalAlpha = 1;
@@ -926,11 +931,11 @@ widget.prototype.saveCanv = function() {
 
 widget.prototype.setFont = function() {
   with (this.context) {
-        textAlign = "center";
-        textBaseline = "middle";
-        font = this.fontWeight+" "+this.fontSize+"px "+this.font;
-        fillStyle = this.colors.black;
-        globalAlpha = 0.7;
+      textAlign = "center";
+      textBaseline = "middle";
+      font = this.fontWeight+" "+this.fontSize+"px "+this.font;
+      fillStyle = this.colors.black;
+      globalAlpha = 0.7;
   }
 }
 
@@ -2856,34 +2861,33 @@ var joints = module.exports = function (target) {
 		y: 0.35,
 		node1: 0
 	}
-	/** @property {array} joints An array of objects with x and y properties detailing coordinates of each proximity node.
+	/** @property {array} joints An array of objects with x and y properties detailing coordinates of each proximity node. Coordinates are 0-1 floats which are decimal fractions of the width and height.
 	```js
-		// The widget will now have only 2 proximity points, instead of 8
+		// The widget will now have 2 proximity points instead of 8
 		joints1.joints = [
-		&nbsp; { x: 20 , y: 100 },
-		&nbsp; { x: 75 , y: 150 }
+		&nbsp; { x: 0.5 , y: 0.2 },
+		&nbsp; { x: 0.5 , y: 0.7 }
 		]
 	```
 	 */
 	this.joints = [
-		{ x: this.width/1.2 , y: this.height/1.2 },
-		{ x: this.width/2 , y: this.height/1.3 },
-		{ x: this.width/4.2 , y: this.height/1.1 },
-		
-		{ x: this.width/1.4 , y: this.height/2.2 },
-		{ x: this.width/2.1 , y: this.height/1.8 },
-		{ x: this.width/5 , y: this.height/2.4 },
-		
-		{ x: this.width/2.8 , y: this.height/6 },
-		{ x: this.width/6 , y: this.height/3.7 }
-	
+		{ x: .1, y: .2 },
+	    { x: .2, y: .1 },
+	    { x: .3, y: .7 },
+	    { x: .4, y: .4 },
+	    { x: .5, y: .9 },
+	    { x: .6, y: .15 },
+	    { x: .7, y: .3 },
+	    { x: .8, y: .8 },
 	]
 	this.threshold = this.width / 3;
 }
 util.inherits(joints, widget);
 
 joints.prototype.init = function() {
-	this.draw();
+  this.nodeSize = this.width/14;
+  this.threshold = this.width/3;
+  this.draw();
 }
 
 joints.prototype.draw = function() {
@@ -2907,15 +2911,15 @@ joints.prototype.draw = function() {
 		strokeStyle = this.colors.border;
 		for (var i in this.joints) {
 			beginPath();
-				arc(this.joints[i].x, this.joints[i].y, this.nodeSize/2, 0, Math.PI*2, true);					
+				arc(this.joints[i].x*this.width, this.joints[i].y*this.height, this.nodeSize/2, 0, Math.PI*2, true);					
 				fill();
 			closePath();
-			var cnctX = Math.abs(this.joints[i].x-this.drawingX);
-			var cnctY = Math.abs(this.joints[i].y-this.drawingY);
+			var cnctX = Math.abs(this.joints[i].x*this.width-this.drawingX);
+			var cnctY = Math.abs(this.joints[i].y*this.height-this.drawingY);
 			var strength = cnctX + cnctY;
 			if (strength < this.threshold) {
 				beginPath();
-					moveTo(this.joints[i].x, this.joints[i].y);
+					moveTo(this.joints[i].x*this.width, this.joints[i].y*this.height);
 					lineTo(this.drawingX,this.drawingY);
 					strokeStyle = this.colors.accent;
 					lineWidth = math.scale( strength, 0, this.threshold, this.nodeSize/2, 5 );
@@ -5765,7 +5769,6 @@ var slider = module.exports = function (target) {
 	```
 	*/
 	this.hslider = false;
-	this.label = "";
 	this.handle;
 	this.relhandle;
 	this.cap;
@@ -5784,10 +5787,6 @@ slider.prototype.init = function() {
 		this.hslider = true;
 	}
 
-	if (this.canvas.getAttribute("label")!=null) {
-		this.label = this.canvas.getAttribute("label");
-	}
-
 	this.draw();
 }
 
@@ -5801,6 +5800,18 @@ slider.prototype.draw = function() {
 	
 		if (!this.hslider) {
 
+			var x1 = 0;
+			var y1 = this.height-this.val.value*this.height;
+			var x2 = this.width;
+			var y2 = this.height;
+
+		
+			fillStyle = this.colors.accent;
+			if (this.val.value>0.01) {
+				fillRect(x1,y1,x2-x1,y2-y1);
+			}
+
+
 			if (nx.showLabels) {
 
 				save();
@@ -5813,25 +5824,7 @@ slider.prototype.draw = function() {
 			
 			}
 
-			var x1 = 0;
-			var y1 = this.height-this.val.value*this.height;
-			var x2 = this.width;
-			var y2 = this.height;
-
-		
-			fillStyle = this.colors.accent;
-			if (this.val.value>0.01) {
-				fillRect(x1,y1,x2-x1,y2-y1);
-			}
-
 		} else {
-			
-			if (nx.showLabels) {
-				this.setFont();
-				fillText(this.label, this.width/2, this.height/2);
-				globalAlpha = 1;
-			
-			}
 
 			var x1 = 0;
 			var y1 = 0;
@@ -5842,6 +5835,13 @@ slider.prototype.draw = function() {
 			fillStyle = this.colors.accent;
 			if (this.val.value>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
+			}
+			
+			if (nx.showLabels) {
+				this.setFont();
+				fillText(this.label, this.width/2, this.height/2);
+				globalAlpha = 1;
+			
 			}
 		}
 	}

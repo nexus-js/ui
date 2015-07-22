@@ -672,13 +672,13 @@ joints
 
  
 ###joints.joints###
- *array*<br> An array of objects with x and y properties detailing coordinates of each proximity node.
+ *array*<br> An array of objects with x and y properties detailing coordinates of each proximity node. Coordinates are 0-1 floats which are decimal fractions of the width and height.
 
 ```js
-// The widget will now have only 2 proximity points, instead of 8
+// The widget will now have 2 proximity points instead of 8
 joints1.joints = [
-&nbsp; { x: 20 , y: 100 },
-&nbsp; { x: 75 , y: 150 }
+&nbsp; { x: 0.5 , y: 0.2 },
+&nbsp; { x: 0.5 , y: 0.7 }
 ]
 ```
  
