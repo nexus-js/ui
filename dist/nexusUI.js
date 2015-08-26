@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":48}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":49}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -426,7 +426,7 @@ manager.prototype.blockMove = function(e) {
      }
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":43,"util":47}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":44,"util":48}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -992,7 +992,7 @@ widget.prototype.resize = function(w,h) {
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":43,"util":47}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":44,"util":48}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1538,7 +1538,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":47}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1741,7 +1741,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1841,7 +1841,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":47}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1914,7 +1914,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":47}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1995,7 +1995,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2174,7 +2174,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],15:[function(require,module,exports){
 var startTime = 0;
 
 var math = require('../utils/math')
@@ -2239,7 +2239,7 @@ var envelope = module.exports = function (target) {
 	}
 
 	// Index of which node was clicked
-	var selectedNode = null;
+	this.selectedNode = null;
 
 	nx.aniItems.push(this.pulse.bind(this));
 
@@ -2291,7 +2291,7 @@ envelope.prototype.draw = function() {
 
 		// draw rectangles
 		for (var j = 0; j < drawingX.length; j++) {
-			var size = this.mindim/25;
+			var size = this.mindim/35 + 2;
 			beginPath()
 			arc(drawingX[j],drawingY[j],size,0,Math.PI*2,false);
 			fillStyle = this.colors.accent
@@ -2351,21 +2351,21 @@ envelope.prototype.scaleNode = function(nodeIndex) {
 	if (this.val.points[i].x < prevX) {
 		this.val.points.splice(i-1, 0, this.val.points.splice(i, 1)[0])
 		i = i-1;
-		selectedNode = i;
+		this.selectedNode = i;
 	}
 
 	if (this.val.points[i].x > nextX) {
 		this.val.points.splice(i+1, 0, this.val.points.splice(i, 1)[0])
 		i = i+1;
-		selectedNode = i;
+		this.selectedNode = i;
 	}
 
 }
 
 envelope.prototype.click = function() {
 
-	// find nearest node and set selectedNode (index)
-	selectedNode = this.findNearestNode(this.clickPos.x/this.width, this.clickPos.y/this.height, this.val.points);
+	// find nearest node and set this.selectedNode (index)
+	this.selectedNode = this.findNearestNode(this.clickPos.x/this.width, this.clickPos.y/this.height, this.val.points);
 
 	this.transmit(this.val);
 	this.draw();
@@ -2373,9 +2373,9 @@ envelope.prototype.click = function() {
 
 envelope.prototype.move = function() {
 	if (this.clicked) {
-		this.val.points[selectedNode].x = this.clickPos.x;
-		this.val.points[selectedNode].y = this.clickPos.y;
-		this.scaleNode(selectedNode);
+		this.val.points[this.selectedNode].x = this.clickPos.x;
+		this.val.points[this.selectedNode].y = this.clickPos.y;
+		this.scaleNode(this.selectedNode);
 		this.transmit(this.val);
 		this.draw();
 	}
@@ -2384,13 +2384,13 @@ envelope.prototype.move = function() {
 envelope.prototype.release = function() {
 
 	if (!this.hasMoved) {
-		this.val.points.splice(selectedNode,1)
+		this.val.points.splice(this.selectedNode,1)
 	}
 
 	this.draw();
 
-	// reset the selectedNode
-	selectedNode = null;
+	// reset the this.selectedNode
+	this.selectedNode = null;
 }
 
 // update index and amp
@@ -2416,9 +2416,9 @@ envelope.prototype.pulse = function() {
 			this.val.amp = this.val.points[this.val.points.length-1].y
 		} else if (this.val.index < this.val.points[0].x) {
 			this.val.amp = this.val.points[0].y
-		} else {
-
-			while (percentDone > this.val.points[this.scanIndex].x) {
+		} else {				
+			this.scanIndex = 0;
+			while (this.val.index > this.val.points[this.scanIndex].x) {
 				this.scanIndex++;
 			}
 
@@ -2480,7 +2480,7 @@ envelope.prototype.findNearestNode = function(x, y, nodes) {
 
 	return nearestIndex;
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2787,7 +2787,365 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],17:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class ghostlist (alpha) 
+	Interface gesture capture / playback (in development)    
+	
+	```html
+	<canvas nx="ghostlist"></canvas>
+	```
+	<canvas nx="ghostlist" style="margin-left:25px"></canvas>
+*/
+
+var ghostlist = module.exports = function(target) {
+	
+	this.defaultSize = { width: 100, height: 50 };
+	widget.call(this, target);
+	
+	//define unique attributes
+	this.recording = false;
+	this.playing = false;
+	this.maxLength = 2000;
+	this.components = new Array();
+	//the recording buffer
+	this.buffer = new Array();
+	//the playback info
+	this.playbuffer = []
+	this.playIndex = 0
+	this.playbufferSize = 0
+	//this.moment is for the record head
+	this.moment = 0;
+	//this.needle is for the playback head
+	this.needle = 0;
+	this.val = new Object();
+	this.rate = 1;
+	this.start = 0;
+	this.end = 1;
+	this.size = 0;
+	this.looping = true;
+	this.boundLog = this.log.bind(this)
+	this.direction = 1;
+	//settings
+	this.noise = 0;
+	this.loopstart = 0;
+	this.loopend = 0;
+	this.mode = "linear";   // linear,bounce,random,wander,pattern/dream
+	//init
+	this.init();
+
+	this.boundAdv = this.advance.bind(this);
+	nx.aniItems.push(this.boundAdv)
+
+}
+
+util.inherits(ghostlist, widget);
+
+
+ghostlist.prototype.init = function() {
+	this.draw();
+}
+
+ghostlist.prototype.watch = function() {
+}
+	
+	//sets a new component to be recorded
+ghostlist.prototype.connect = function(target) {
+	var compIndex = this.components.length;
+	this.components.push(target);
+	target.tapeNum = compIndex;
+	target.isRecording = true;
+	target.recorder = this;
+	this.buffer[compIndex] = new Object();
+	for (var key in target.val) {
+		this.buffer[compIndex][key] = new Array();
+	}
+	
+}
+	
+	//the actual recording function
+ghostlist.prototype.write = function(index, val) {
+	if (this.moment>=this.maxLength) {
+		this.stop();
+	}
+	for (var key in val) {
+		if (this.buffer[index][key]) {
+			/*if (!this.actuated) {
+				//if ignored because widget currently being set with .set
+				this.buffer[index][key][this.moment] = {}
+					for (var subkey in val[key]) {
+						this.buffer[index][key][this.moment][subkey] = val[key][subkey]
+					}
+
+			} else { */
+				// if an array or object, must make a copy, otherwise it is a reference to the original and will not record properly
+				if (typeof val[key] == "object") {
+					if (Array.isArray(val[key])) {
+					//	this.buffer[index][key][this.moment] = val[key].slice()
+					//	above line should work, but is still only a reference, not a copy
+						if (this.components[index].actuated) {
+							this.buffer[index][key][this.moment] = JSON.parse(JSON.stringify(val[key]))
+						} else {
+							this.buffer[index][key][this.moment] = false;
+						}
+					} else {
+						this.buffer[index][key][this.moment] = {}
+						for (var subkey in val[key]) {
+							if (this.components[index].actuated) {
+								this.buffer[index][key][this.moment][subkey] = val[key][subkey]
+							} else {
+								this.buffer[index][key][this.moment][subkey] = false;
+							}
+						}
+					}
+				} else {
+					
+					if (this.components[index].actuated) {
+						this.buffer[index][key][this.moment] = val[key];
+					} else {
+						this.buffer[index][key][this.moment] = false;
+					}
+				}
+		//	}
+		}
+	}
+	this.draw();
+}
+	
+
+ghostlist.prototype.draw = function() {
+
+	with (this.context) {
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height)
+	}
+
+	var quad = this.width/4;
+	var quad2 = this.width-quad;
+	
+	if (!this.recording) {
+		with (this.context) {
+			fillStyle = "#e33";
+			beginPath()
+			arc(quad,this.height/2,quad*0.8,0,Math.PI*2)
+			fill()
+			closePath();
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("rec",quad,this.height/2)
+		}
+	} else {
+		with (this.context) {
+			fillStyle = "#e33";
+			fillRect(quad*0.4,quad*0.4,quad*1.2,quad*1.2)
+		}
+	}
+	
+	if (!this.playing) {
+		with (this.context) {
+			fillStyle = this.colors.border
+			beginPath()
+			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
+			fill()
+			closePath()
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("play",quad2,this.height/2)
+		}
+	} else {
+		with (this.context) {
+			strokeStyle = this.colors.border
+			lineWidth = this.width/30
+			beginPath()
+			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
+			stroke()
+			closePath()
+			var sec = ~~(this.needle/30)
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.height/3+"px courier"
+			fillStyle = this.colors.border
+			fillText(sec,quad2,this.height/2+2)
+		}
+	}
+}
+
+ghostlist.prototype.record = function() {
+//	if (!this.playing) {
+		this.components = new Array();
+		for (var key in nx.widgets) {
+			this.connect(nx.widgets[key]);
+		}
+//	}
+	this.moment = 0;
+	nx.aniItems.push(this.boundLog)
+	this.recording = true;
+}
+
+ghostlist.prototype.log = function() {
+	for (var i=0;i<this.components.length;i++) {
+		var sender = this.components[i];
+		var val = {}
+		if (!sender.clicked) {
+			for (var key in sender.val) {
+				val[key] = false
+			}
+		} else {
+			val = sender.val
+			if (!jest.nexttitle) {
+				jest.nexttitle = sender.canvasID
+			}
+		}
+		this.write(this.components[i].tapeNum,val);
+	}
+	this.moment++;
+}
+
+ghostlist.prototype.stop = function() {
+	nx.removeAni(this.boundLog);
+	this.size = this.moment;
+	this.recording = false;
+	this.draw();
+}
+
+
+ghostlist.prototype.scan = function(x) {
+
+	// loop through the widgets that were recorded
+	for (var i=0;i<this.components.length;i++) {
+		//sender is the current widget we're looking at
+		var sender = this.components[i];
+		//loop through the widget's recorded val keys
+		for (var key in this.playbuffer[sender.tapeNum]) {
+
+			//console.log(this.playbuffer[sender.tapeNum][key])
+			//
+			//playbuffer is the whole buffer
+			//sender.tapeNum is the nx.widget index & this.component index
+			//[key] is the val property that was recorded, i.e. x and y for 
+			//so this returns an array for each val property. that array contains n moments of recorded data
+
+			if (this.playbuffer[sender.tapeNum][key]) {
+
+				//create a new val object
+				var val = new Object();
+				//make sure we're not looking out of bounds of the buffer
+				var max = this.playbuffer[sender.tapeNum][key][~~this.needle+1] ? this.playbuffer[sender.tapeNum][key][~~this.needle+1] : this.playbuffer[sender.tapeNum][key][~~this.needle]
+				//console.log("1")
+				if (this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.playbuffer[sender.tapeNum][key][~~this.needle] !== this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction]) {
+					// if it's a number, interpolate
+					if (typeof this.playbuffer[sender.tapeNum][key][~~this.needle] == "number") {
+						// create the value pair
+						val[key] = nx.interp(this.needle - ~~this.needle, this.playbuffer[sender.tapeNum][key][~~this.needle], max)
+						val[key] += Math.random() * this.noise - this.noise/2;
+						val[key] = nx.clip(val[key],0,1)
+						//set the widget with the value from the buffer
+						//console.log(val)
+						sender.set(val, true);
+					} else {
+						// otherwise, transfer the closest val as is
+						val[key] = this.playbuffer[sender.tapeNum][key][~~this.needle]
+						
+						if (val[key] || val[key]===0) {
+							//console.log(val)
+							sender.set(val, true)
+						}
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+//this.moment is for the record head
+//this.needle is for the playback head
+
+ghostlist.prototype.play = function(rate,start,end) {
+	rate ? this.rate = rate : false;
+	if (start) {
+		this.needle = this.moment-1;
+		this.start = start;
+	} else {
+		this.needle = this.moment-1;
+		this.start = 0;
+	} 
+	if (this.mode=="linear") {
+		this.direction = 1;
+	}
+	end ? this.end = end : this.end = 1
+	this.playing = true;
+}
+
+ghostlist.prototype.pause = function() {
+	this.playing = false;
+}
+
+ghostlist.prototype.loop = function() {
+	
+}
+
+ghostlist.prototype.advance = function() {
+	if (this.playing) {
+		if (this.mode == "linear" || this.mode == "bounce") {
+			this.needle += this.rate*this.direction;
+		} else if (this.mode=="random") {
+			this.needle = nx.random((this.end-this.start)*this.playbufferSize)+this.start*this.playbufferSize;
+		} else if (this.mode=="wander") {
+			var dir = 3
+			this.needle > this.playbufferSize*0.75 ? dir-- : null;
+			this.needle < this.playbufferSize*0.25 ? dir++ : null;
+			this.needle += this.rate*this.direction * (nx.random(dir)-1);
+		}
+
+		if (this.needle/this.playbufferSize < this.end && this.needle/this.playbufferSize > this.start) {
+			this.scan();
+		} else if (this.looping) {
+			if (this.mode=="linear") {
+			//	this.needle = this.start*this.playbufferSize + 1;
+				this.needle = 0;
+				this.next = this.jest.next()
+				this.playbuffer = this.next.buffer
+				this.playbufferSize = this.next.len
+			} else {
+				this.direction = this.direction * -1
+			}
+		} else {
+			this.playing = false;
+		}
+		this.draw();
+		this.jest.drawvis(this.needle/this.playbufferSize)
+	}
+}
+	
+
+ghostlist.prototype.click = function(e) {
+	if (this.clickPos.x<this.width/2) {
+		if (this.recording) {
+			this.stop()
+		} else {
+			this.record()
+		}
+	} else {
+		if (this.playing) {
+			this.pause();
+		} else {
+			this.play();
+		}
+		this.draw();
+	}
+}
+},{"../core/widget":3,"../utils/math":6,"util":48}],18:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2797,6 +3155,7 @@ module.exports = {
   dial: require('./dial'),
   envelope: require('./envelope'),
   ghost: require('./ghost'),
+  ghostlist: require('./ghostlist'),
   joints: require('./joints'),
   keyboard: require('./keyboard'),
   matrix: require('./matrix'),
@@ -2823,7 +3182,7 @@ module.exports = {
   waveform: require('./waveform'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./meter":22,"./metro":23,"./metroball":24,"./motion":25,"./mouse":26,"./multislider":27,"./multitouch":28,"./number":29,"./position":30,"./range":31,"./select":32,"./slider":33,"./string":34,"./tabs":35,"./text":36,"./tilt":37,"./toggle":38,"./typewriter":39,"./vinyl":40,"./waveform":41,"./windows":42}],18:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./ghostlist":17,"./joints":19,"./keyboard":20,"./matrix":21,"./message":22,"./meter":23,"./metro":24,"./metroball":25,"./motion":26,"./mouse":27,"./multislider":28,"./multitouch":29,"./number":30,"./position":31,"./range":32,"./select":33,"./slider":34,"./string":35,"./tabs":36,"./text":37,"./tilt":38,"./toggle":39,"./typewriter":40,"./vinyl":41,"./waveform":42,"./windows":43}],19:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3020,7 +3379,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3355,7 +3714,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],21:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3799,7 +4158,7 @@ matrix.prototype.life = function() {
   return false;
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],22:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3871,7 +4230,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":47}],22:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],23:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -3902,7 +4261,7 @@ var meter = module.exports = function(target) {
         level: 0
     }
     this.dataArray;
-    this.bars = 10;
+    this.bars = 8;
 
     this.init();
 
@@ -3981,18 +4340,20 @@ meter.prototype.draw = function(){
 
                 // draw bar
                 if (i<dboffset)
-                    fillRect(1,this.height-this.bar.h*i,this.width-2,this.bar.h-1);
+                    fillRect(1,this.height-this.bar.h*i,this.width-2,this.bar.h-2);
 
             }
         }
     }
 
-    window.requestAnimationFrame(this.draw.bind(this));
+    setTimeout(function() {
+        window.requestAnimationFrame(this.draw.bind(this));
+    }.bind(this), 80)
     
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4106,7 +4467,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],25:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4370,7 +4731,7 @@ metroball.prototype.Ball = function(thisIndex, thisX, thisY, parent) {
 		}	
 	}	
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4535,7 +4896,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],27:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -4635,7 +4996,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4794,7 +5155,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],29:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4999,7 +5360,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5196,7 +5557,7 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5407,7 +5768,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -5622,7 +5983,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],33:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5663,8 +6024,8 @@ var select = module.exports = function (target) {
 		this.choices = this.canvas.getAttribute("choices");
 		this.choices = this.choices.split(",");
 	}
-
-	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	console.log(Math.round(this.height/1.7))
+	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.height+'px;width:'+this.width+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
 	var parent = canv.parentNode;
@@ -5681,16 +6042,19 @@ var select = module.exports = function (target) {
 
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
+    this.canvas.style.fontSize = Math.round(this.height/1.7) + "px"
 	
+	var optlength = this.canvas.options.length;
+	for (i = 0; i < optlength; i++) {
+	  this.canvas.options[i] = null;
+	}
+
 	for (var i=0;i<this.choices.length;i++) {
 		var option=document.createElement("option");
 		option.text = this.choices[i];
 		option.value = this.choices[i];
 		this.canvas.add(option,null);
 	}
-	
-
-
 
 }
 util.inherits(select, widget);
@@ -5699,6 +6063,11 @@ select.prototype.init = function() {
 
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
+
+    var optlength = this.canvas.options.length;
+	for (i = 0; i < optlength; i++) {
+	  this.canvas.options[i] = null;
+	}
 	
 	for (var i=0;i<this.choices.length;i++) {
 		var option=document.createElement("option");
@@ -5720,7 +6089,7 @@ select.prototype.draw = function() {
     this.canvas.style.color = this.colors.black;
 
 }
-},{"../core/widget":3,"util":47}],33:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],34:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5883,7 +6252,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],35:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6085,7 +6454,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":47}],35:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],36:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6177,7 +6546,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],37:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6262,7 +6631,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":47}],37:[function(require,module,exports){
+},{"../core/widget":3,"util":48}],38:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6396,7 +6765,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],38:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],39:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6429,7 +6798,7 @@ var toggle = module.exports = function (target) {
 util.inherits(toggle, widget);
 
 toggle.prototype.init = function() {
-	this.fontsize = this.mindim/4;
+	this.fontSize = this.mindim/4;
 	this.draw();
 }
 
@@ -6444,15 +6813,17 @@ toggle.prototype.draw = function() {
 			fillStyle = this.colors.fill;
 		}
 		fillRect(0,0,this.width,this.height);
-		if (this.val.value) {
-			this.setFont();
-			fillStyle = this.colors.white
-			globalAlpha = 1;
-			fillText("on", this.width/2, this.height/2);	
-		} else {
-			this.setFont();
-			fillText("off", this.width/2, this.height/2);
-			globalAlpha = 1;
+		if (this.mindim > 25) {
+			if (this.val.value) {
+				this.setFont();
+				fillStyle = this.colors.white
+				globalAlpha = 1;
+				fillText("on", this.width/2, this.height/2);	
+			} else {
+				this.setFont();
+				fillText("off", this.width/2, this.height/2);
+				globalAlpha = 1;
+			}
 		}
 	}
 
@@ -6469,7 +6840,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],40:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6717,7 +7088,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":48}],41:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6864,7 +7235,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],42:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -7229,7 +7600,7 @@ waveform.prototype.move = function() {
 	this.draw();
 
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],43:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7472,7 +7843,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],43:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":48}],44:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7775,7 +8146,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -7800,7 +8171,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -7865,14 +8236,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8447,7 +8818,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":46,"_process":45,"inherits":44}],48:[function(require,module,exports){
+},{"./support/isBuffer":47,"_process":46,"inherits":45}],49:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;

@@ -29,23 +29,20 @@ var Jest = function(parentID,recorder,hotkey) {
 				this.recorder.record()
 			}
 		}
-	/*
-			pkeys.push(e.which)
-		//	console.log(pkeys)
-			ghostlist1.record()
-		} */
 	}.bind(this))
 	document.addEventListener('keyup',function(e) {
 		if (e.which==this.hotkey) {
 			this.pkeys.splice(this.pkeys.indexOf(e.which))
 			this.recorder.stop()
 			var buff = this.recorder.buffer.slice()
-			this.add(nameIndex++,buff,this.recorder.moment)
+			this.add(this.nameIndex++,buff,this.recorder.moment)
 			if (this.playlist.length==1) {
+				this.recorder.play()
 				this.recorder.next = this.next()
 				this.recorder.playbuffer = this.recorder.next.buffer
 				this.recorder.playbufferSize = this.recorder.next.len
 			}
+			this.nexttitle = false;
 		}
 	/*	pkeys.splice(pkeys.indexOf(e.which))
 		ghostlist1.stop()
@@ -59,24 +56,38 @@ var Jest = function(parentID,recorder,hotkey) {
 	*/
 	}.bind(this))
 
+	this.nameIndex = 0
+	window.pkeys = []
 
+	this.nexttitle = false;
 
 }
 
 Jest.prototype.add = function(name,buffer,len) {
+
 
 	var piece = document.createElement("div")
 	piece.className = "item"
 	this.container.appendChild(piece)
 
 	var text = document.createElement("div")
-	text.innerHTML = name
+	text.innerHTML = name + ": " + this.nexttitle;
 	text.className = "text"
 	piece.appendChild(text)
 
 	var vis = document.createElement("div")
 	vis.className = "vis"
 	piece.appendChild(vis)
+
+	var closer = document.createElement("div")
+	closer.className = "close"
+	closer.innerHTML = "-"
+	piece.appendChild(closer)
+	closer.addEventListener("mousedown",this.cut.bind(this,name,piece))
+
+	/*function(index,piece) {
+		this.cut(index,piece);
+	}.bind(this,name,piece) */
 
 	this.playlist.push({
 		name: name,
@@ -109,6 +120,10 @@ Jest.prototype.move = function(start,end) {
 }
 
 Jest.prototype.next = function() {
+	if (this.playlist.length==0) {
+		console.log("empty")
+		return {buffer:[]}
+	}
 	if (this.current) {
 		var curr = this.playlist.indexOf(this.current)
 		curr++;
@@ -129,4 +144,21 @@ Jest.prototype.drawvis = function(ratio) {
 //	var curr = this.playlist.indexOf(this.current)
 //	this.playlist[curr]
 	this.current.vis.style.width = ratio * 107 + "%"	
+}
+
+Jest.prototype.cut = function(index,piece) {
+	for (var i=0;i<this.playlist.length;i++) {
+		if (this.playlist[i].name == index) {
+			this.playlist.splice(i,1)
+			this.container.removeChild(piece)
+		}
+	}
+	if (this.playlist.length==0) {
+		this.recorder.pause();
+		this.recorder.next = {buffer:[]}
+		this.recorder.playbuffer = []
+		this.recorder.playbufferSize = 0
+
+	}
+	console.log(this.playlist)
 }

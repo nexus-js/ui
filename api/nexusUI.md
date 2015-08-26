@@ -648,6 +648,15 @@ Interface gesture capture / playback (in development)
 ```
 <canvas nx="ghost" style="margin-left:25px"></canvas>
 
+ghostlist (alpha)
+-------------------
+Interface gesture capture / playback (in development)
+
+```html
+<canvas nx="ghostlist"></canvas>
+```
+<canvas nx="ghostlist" style="margin-left:25px"></canvas>
+
 joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
