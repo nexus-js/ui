@@ -1397,6 +1397,27 @@ On/off toggle
 | *value*| 1 if on, 0 if off
  
 
+trace
+-------
+Path/gesture drawing canvas
+```html
+<canvas nx="trace"></canvas>
+```
+<canvas nx="trace" style="margin-left:25px"></canvas>
+
+####Properties####
+###trace.nodeSize###
+ *integer*<br> Size of path node graphic.
+
+
+###trace.val###
+ *object*<br> val is an object containing the main interactive / actionable aspects of the widget.
+
+| &nbsp; | data
+| --- | ---
+| *path* | array of objects containing x/y of each path node
+ 
+
 typewriter
 ------------
 Computer keyboard listener and visualization. (Desktop only) <br> **Note:** Clicking on the widget toggles it inactive or active, which can be useful if you need to temporarily type without triggering the widget's events.

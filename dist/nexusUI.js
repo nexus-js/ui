@@ -36,7 +36,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":49}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":51}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -426,7 +426,7 @@ manager.prototype.blockMove = function(e) {
      }
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":44,"util":48}],3:[function(require,module,exports){
+},{"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":46,"util":50}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -992,7 +992,7 @@ widget.prototype.resize = function(w,h) {
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":44,"util":48}],4:[function(require,module,exports){
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":46,"util":50}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1538,7 +1538,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":48}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":50}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1741,7 +1741,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":48}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":50}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1841,7 +1841,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":48}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":50}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1914,7 +1914,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
 }
-},{"../core/widget":3,"util":48}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":50}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1995,7 +1995,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2174,7 +2174,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":48}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],15:[function(require,module,exports){
 var startTime = 0;
 
 var math = require('../utils/math')
@@ -2480,7 +2480,7 @@ envelope.prototype.findNearestNode = function(x, y, nodes) {
 
 	return nearestIndex;
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2787,7 +2787,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],17:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3145,7 +3145,7 @@ ghostlist.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],18:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -3168,6 +3168,7 @@ module.exports = {
   multislider: require('./multislider'),
   multitouch: require('./multitouch'),
   number: require('./number'),
+  panel: require('./panel'),
   position: require('./position'),
   range: require('./range'),
   select: require('./select'),
@@ -3177,12 +3178,13 @@ module.exports = {
   text: require('./text'),
   tilt: require('./tilt'),
   toggle: require('./toggle'),
+  trace: require('./trace'),
   typewriter: require('./typewriter'),
   vinyl: require('./vinyl'),
   waveform: require('./waveform'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./ghostlist":17,"./joints":19,"./keyboard":20,"./matrix":21,"./message":22,"./meter":23,"./metro":24,"./metroball":25,"./motion":26,"./mouse":27,"./multislider":28,"./multitouch":29,"./number":30,"./position":31,"./range":32,"./select":33,"./slider":34,"./string":35,"./tabs":36,"./text":37,"./tilt":38,"./toggle":39,"./typewriter":40,"./vinyl":41,"./waveform":42,"./windows":43}],19:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./ghostlist":17,"./joints":19,"./keyboard":20,"./matrix":21,"./message":22,"./meter":23,"./metro":24,"./metroball":25,"./motion":26,"./mouse":27,"./multislider":28,"./multitouch":29,"./number":30,"./panel":31,"./position":32,"./range":33,"./select":34,"./slider":35,"./string":36,"./tabs":37,"./text":38,"./tilt":39,"./toggle":40,"./trace":41,"./typewriter":42,"./vinyl":43,"./waveform":44,"./windows":45}],19:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3379,7 +3381,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":48}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3714,7 +3716,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":50}],21:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4158,7 +4160,7 @@ matrix.prototype.life = function() {
   return false;
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":50}],22:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4230,7 +4232,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":48}],23:[function(require,module,exports){
+},{"../core/widget":3,"util":50}],23:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -4353,7 +4355,7 @@ meter.prototype.draw = function(){
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":48}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":50}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4467,7 +4469,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],25:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4731,7 +4733,7 @@ metroball.prototype.Ball = function(thisIndex, thisX, thisY, parent) {
 		}	
 	}	
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":50}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4896,7 +4898,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],27:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -4996,7 +4998,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5155,7 +5157,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":48}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],29:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -5360,7 +5362,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":48}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":50}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5557,7 +5559,32 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":48}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],31:[function(require,module,exports){
+var util = require('util');
+var widget = require('../core/widget');
+
+// panel for max duplication -- maybe this object is unnecessary.
+
+var panel = module.exports = function (target) {
+	this.defaultSize = { width: 100, height: 100 };
+	widget.call(this, target);
+}
+util.inherits(panel, widget);
+
+panel.prototype.init = function() {
+	this.draw();
+}
+
+panel.prototype.draw = function() {
+	this.erase();
+	this.makeRoundedBG();
+	with (this.context) {
+		fillStyle = this.colors.border;
+		lineWidth = this.lineWidth;
+		fill();
+	}
+}
+},{"../core/widget":3,"util":50}],32:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5768,7 +5795,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],33:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -5983,7 +6010,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],34:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6089,7 +6116,7 @@ select.prototype.draw = function() {
     this.canvas.style.color = this.colors.black;
 
 }
-},{"../core/widget":3,"util":48}],34:[function(require,module,exports){
+},{"../core/widget":3,"util":50}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6252,7 +6279,7 @@ slider.prototype.move = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],35:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],36:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6454,7 +6481,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":48}],36:[function(require,module,exports){
+},{"../core/widget":3,"util":50}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6546,7 +6573,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],37:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],38:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6631,7 +6658,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":48}],38:[function(require,module,exports){
+},{"../core/widget":3,"util":50}],39:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6765,7 +6792,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],40:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6840,7 +6867,109 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":48}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":50}],41:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class trace      
+	Path/gesture drawing canvas
+	```html
+	<canvas nx="trace"></canvas>
+	```
+	<canvas nx="trace" style="margin-left:25px"></canvas>
+*/
+
+var trace = module.exports = function (target) {
+
+	// define a default size
+	this.defaultSize = { width: 200, height: 200 };
+
+	widget.call(this, target);
+	
+	/** @property {integer} nodeSize Size of path node graphic. */
+	this.nodeSize = 8;
+
+	/** @property {object}  val   val is an object containing the main interactive / actionable aspects of the widget.
+		| &nbsp; | data
+		| --- | ---
+		| *path* | array of objects containing x/y of each path node
+	*/
+	this.val = {
+		path: []
+	}
+
+	this.limit = 20;
+	this.space = 0;
+	
+	this.init();
+}
+
+// inherit the widget object template
+util.inherits(trace, widget);
+
+// .init() is called automatically when the widget is created on a webpage.
+trace.prototype.init = function() {
+	this.nodeSize = Math.min(this.height,this.width)/10;
+	this.nodeSize = Math.max(this.nodeSize,10)
+	this.draw();
+}
+
+// .draw() should be used for any graphics activity
+trace.prototype.draw = function() {
+	this.erase();
+	with (this.context) {
+
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.width,this.height);
+		fillStyle = this.colors.fill;
+
+		globalAlpha = 0.7;
+		for (var i=0;i<this.val.path.length;i++) {
+			var drawingX = this.val.path[i].x * this.width
+			var drawingY = this.val.path[i].y * this.height
+
+			beginPath();
+				fillStyle = this.colors.accent;
+				arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
+				fill();
+			closePath();
+
+		}
+		globalAlpha = 1;
+
+	}
+	
+	this.drawLabel();
+}
+
+trace.prototype.click = function() {
+	this.val.path = []
+	this.space = 0;
+	this.move()
+	this.draw()
+}
+
+trace.prototype.move = function() {
+	this.space++
+	if (this.space>3 && this.val.path.length<this.limit) {
+		this.space = 0
+		var x = math.clip(this.clickPos.x,0,this.width) / this.width
+		var y = math.clip(this.clickPos.y,0,this.height) / this.height
+		this.val.path.push({ x: x, y: y })
+		/*if (this.val.path.length>=this.limit) {
+			this.val.path = this.val.path.slice(1)
+		} */
+	}
+	this.draw();
+}
+
+trace.prototype.release = function() {
+	this.transmit(this.val);
+}
+
+},{"../core/widget":3,"../utils/math":6,"util":50}],42:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -7088,7 +7217,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":48}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":50}],43:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7235,7 +7364,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],44:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -7600,7 +7729,7 @@ waveform.prototype.move = function() {
 	this.draw();
 
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],43:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],45:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7843,7 +7972,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":48}],44:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":50}],46:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8146,7 +8275,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],45:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8171,7 +8300,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8236,14 +8365,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],47:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],48:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8818,7 +8947,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":47,"_process":46,"inherits":45}],49:[function(require,module,exports){
+},{"./support/isBuffer":49,"_process":48,"inherits":47}],51:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
