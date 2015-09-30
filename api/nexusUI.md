@@ -1518,6 +1518,55 @@ Set the selection start and end points.
 
 **end** &nbsp;  *integer* &nbsp;  Selection end point in milliseconds
 
+wavegrain
+-----------
+wavegrain visualizer and selecter
+```html
+<canvas nx="wavegrain"></canvas>
+```
+
+####Properties####
+###wavegrain.val###
+ *object*<br> Object containing core interactive aspects of widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *starttime* | wavegrain selection start position in milliseconds (integer)
+| *stoptime* | wavegrain selection end position in milliseconds (integer)
+| *looptime* | Selection size, in milliseconds (integer)
+ 
+###wavegrain.buffer###
+ *Array*<br> Contains multiple arrays of reduced buffer data, for visualization
+
+
+###wavegrain.definition###
+ *integer*<br> Horizontal definition of the visualization. Value of 3 means the wavegrain will be represented in 3 pixel chunks. Higher numbers (4+) lead to a smaller graphics load. Smaller numbers (1-3) look better. Default is 1 for desktop renders, 3 for mobile renders.
+
+
+###wavegrain.channels###
+ *integer*<br> How many channels in the wavegrain
+
+
+###wavegrain.mode###
+ *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the wavegrain individually. "area" mode (default) lets you drag the wavegrain as a whole (with parallel mouse movement) or scale the wavegrain as a whole (with transverse mouse movement)
+
+
+
+####Methods####
+###wavegrain.setBuffer( buffer )###
+Load a web audio AudioBuffer into the wavegrain ui, for analysis and visualization.
+
+
+**buffer** &nbsp;  *AudioBuffer* &nbsp;  The buffer to be loaded.
+
+###wavegrain.select( start, end )###
+Set the selection start and end points.
+
+
+**start** &nbsp;  *integer* &nbsp;  Selection start point in milliseconds
+
+**end** &nbsp;  *integer* &nbsp;  Selection end point in milliseconds
+
 windows
 ---------
 Scalable windows

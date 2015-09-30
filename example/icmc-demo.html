@@ -1,0 +1,112 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script type="text/javascript" src="js/Tone.js"></script>
+		<script>
+
+			var sampler = new Tone.Sampler({
+					0 : "./audio/sonata.mp3"
+				},{
+					player: {
+						loop: true,
+					}
+			}).toMaster();
+
+
+			Tone.Buffer.onload = function() {
+
+				//Load the buffer into the waveform GUI.
+				//Any Web Audio AudioBuffer can be loaded.
+				//For Tone.js, these are found in _buffers.
+				
+				waveform1.setBuffer( sampler._buffers[0]._buffer )
+				waveform1.select(1500,1800)
+			//	sampler.triggerAttack('0')
+
+			}
+
+			nx.onload = function() {
+				
+			    nx.colorize("accent", "#1ac");
+
+			    waveform1.on('*',function(data) {
+			    	sampler.player.setLoopPoints(data.starttime/1000,data.stoptime/1000)
+			    })
+
+			    var size = 73
+			    for (var i=0;i<5;i++) {
+			    	var widget = nx.add("toggle",{
+			    		x: 1,
+			    		y: i*size+i*5 + 1,
+			    		w: size,
+			    		h: size,
+			    		parent: "interface"
+			    	})
+			    }
+
+			    for (var i=0;i<5;i++) {
+			    	var widget = nx.add("button",{
+			    		x: size*1 + 5,
+			    		y: i*size+i*5 + 1,
+			    		w: size,
+			    		h: size,
+			    		parent: "interface"
+			    	})
+			    }
+			    for (var i=0;i<5;i++) {
+			    	var widget = nx.add("dial",{
+			    		x: size*2 + 10,
+			    		y: i*size+i*5 + 1,
+			    		w: size,
+			    		h: size,
+			    		parent: "interface"
+			    	})
+			    }
+			    for (var i=0;i<5;i++) {
+			    	var widget = nx.add("dial",{
+			    		x: size*3 + 15,
+			    		y: i*size+i*5 + 1,
+			    		w: size,
+			    		h: size,
+			    		parent: "interface"
+			    	})
+			    }
+			    for (var i=0;i<5;i++) {
+			    	var widget = nx.add("dial",{
+			    		x: size*4 + 20,
+			    		y: i*size+i*5 + 1,
+			    		w: size,
+			    		h: size,
+			    		parent: "interface"
+			    	})
+			    }
+
+			    matrix1.row = 6
+			    matrix1.col = 10
+			    matrix1.init()
+
+			}
+
+
+		</script>
+
+	</head>
+
+	<body style="background-color:#fff">
+
+		<div id="interface" style="width:800px;height:600px;border:solid 0px black;position:relative">
+
+			<canvas nx="waveform" style="width:800px;height:200px;display:block;position:absolute;bottom:5px"></canvas>
+
+			<canvas nx="matrix" style="width:400px;height:250px;display:block;position:absolute;top:0px;right:0px"></canvas>
+
+			<canvas nx="ghost" style="width:400px;height:130px;display:block;position:absolute;top:257px;right:0px"></canvas>
+
+		</div>	
+
+
+	</body>
+	
+</html>

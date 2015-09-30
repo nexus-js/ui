@@ -1,0 +1,108 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script type="text/javascript" src="js/Tone.js"></script>
+		<script>
+
+
+			var player = new Tone.Player("./audio/Fanitullen.mp3").toMaster();
+  
+			Tone.Buffer.onload = function() {
+				
+				wavegrain1.setBuffer( player._buffer._buffer )
+
+			}
+
+			graininterval = false;
+			grainpos = {}
+
+			nx.onload = function() {
+				
+			    nx.colorize("accent", "#1ac");
+
+			    meter1.bars = 30
+			    meter1.init()
+			    meter1.setup(Tone.context,Tone.Master)
+ 
+ 					ghost1.watch()
+
+			    tabs1.options = ["linear","bounce","random"]
+					tabs1.init();
+
+					tabs1.on('*',function(data) {
+						ghost1.mode = data.text;
+					})
+
+					dial1.on('*',function(data) {
+						ghost1.rate = data.value;
+					})
+					
+					dial2.on('*',function(data) {
+						ghost1.noise = data.value/2;
+					})
+					
+					range1.on('*',function(data) {
+						ghost1.start = data.start;
+						ghost1.end = data.stop;
+					})
+
+			    wavegrain1.on('*',function(data) {
+
+			    	if (data.state == "on") {
+
+				    	if (!graininterval) {
+				    		grainpos = data
+				    		onegrain()
+				    		graininterval = setInterval(onegrain,100)
+				    	} else {
+				    		grainpos = data;
+				    	}
+
+			    	} else {
+			    		player.stop()
+			    		clearInterval(graininterval)
+			    		graininterval = false;
+			    	}
+			    	
+			    })
+
+			}
+
+			function onegrain() {
+
+		    	player.stop()
+			    player.volume.value = nx.scale(grainpos.level,1,0,-40,5)
+					player.start(false,grainpos.start*wavegrain1.duration)
+
+			}
+
+
+		</script>
+
+	</head>
+
+	<body style="background-color:#ddd">
+
+		<div style="margin:50px auto 0px;width:900px;overflow:auto">
+
+			<canvas nx="wavegrain" style="width:800px;height:300px;display:block;float:left;margin:5px;cursor:none"></canvas>
+
+			<canvas nx="meter" style="width:40px;height:300px;display:block;float:left;margin:5px"></canvas>
+
+			<br>
+			<div style="display:inline-block;padding:20px;background-color:#ddd;margin:20px 0px">
+			Gesture Recorder<br>
+			<canvas nx="ghost" style="height:100px;width:200px"></canvas>
+			<canvas nx="dial" style="height:100px;width:100px"></canvas>
+			<canvas nx="dial" style="height:100px;width:100px"></canvas>
+			<canvas nx="range" style="height:100px;width:400px"></canvas><br>
+			<canvas nx="tabs" style="width:800px;height:100px"></canvas>
+			</div>
+
+		</div>
+
+	</body>
+	
+</html>

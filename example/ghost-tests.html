@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Ghost Demo</title>
+	<script type="text/javascript" src="../dist/nexusUI.js"></script>
+</head>
+<body>
+
+	<style>
+
+		body {
+			color:#333;
+			font-family:helvetica;
+			font-weight:100;
+			line-height:2em;
+		}
+
+	</style>
+
+	<script>
+		nx.onload = function() {
+
+			nx.colorize("#0ac")
+			ghost1.watch()
+
+			tabs1.options = ["linear","bounce","random","wander","pattern"]
+			tabs1.init();
+
+			tabs1.on('*',function(data) {
+				ghost1.mode = data.text;
+			})
+
+			dial7.on('*',function(data) {
+				ghost1.rate = data.value;
+			})
+			
+			dial8.on('*',function(data) {
+				ghost1.noise = data.value;
+			})
+			
+			range2.on('*',function(data) {
+				ghost1.start = data.start;
+				ghost1.end = data.stop;
+			})
+			
+		}
+
+	</script>
+
+
+	<div style="width:450px;background-color:#fafafa;padding:20px;margin:40px auto;text-align:center">
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas><br>
+		<canvas nx="multislider"></canvas><br>
+		<canvas nx="position"></canvas> &nbsp; &nbsp;
+		<canvas nx="position"></canvas><br>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="toggle"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas>
+		<canvas nx="button"></canvas><br>
+		<canvas nx="slider" style="width:100px;height:30px"></canvas> &nbsp;
+		<canvas nx="range"></canvas> &nbsp;
+		<canvas nx="slider" style="width:100px;height:30px"></canvas>
+		
+		<br><br>
+		<div style="display:inline-block;padding:20px;background-color:#f7f7f7;margin:20px 0px">
+		Gesture Recorder<br>
+		<canvas nx="ghost"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="dial"></canvas>
+		<canvas nx="range"></canvas><br>
+		<canvas nx="tabs" style="width:315px;height:50px"></canvas>
+		</div>
+	</div>
+
+
+
+</body>
+</html>
