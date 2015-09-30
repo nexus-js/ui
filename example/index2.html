@@ -1,0 +1,129 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script>
+
+			nx.onload = function() {
+				
+			    nx.colorize("accent", "#347");
+			    nx.colorize("border", "#bbb");
+			    nx.colorize("fill", "#eee");
+
+				/* log all events */
+
+				for (var key in nx.widgets) {
+
+					nx.widgets[key].on('*', function(data) {
+						console.log(this.canvasID, data)
+					})
+
+				}
+
+				/* or set individual event listeners like this */
+
+				button1.on('press', function(data) {
+					// do something with data
+					// data will be 1 if the button is pressed
+					// data will be 0 if the button is unpressed
+					console.log('b1press', data)
+				})
+
+				button1.on('*', function(data) {
+					// data will now be a js object with several properties
+					// data.press will be the press state
+					// data.x will be the x location of the interaction
+					// data.y will by the y location of the interaction
+					console.log('b1all', data)
+				})
+
+				dial1.on('value', function(data) {
+					console.log('d1', data);
+				})
+
+				//set up audio context, gain envelope generator and oscillator for db meter
+				var actx = new (window.AudioContext || window.webkitAudioContext)();
+
+			    var env = actx.createGain();
+        		env.gain.value = 0;
+        		env.connect(actx.destination);
+
+        		button2.on('press',function(data){
+        			
+        			if(data == 1){
+			            env.gain.cancelScheduledValues(actx.currentTime);
+			            env.gain.setValueAtTime(0.0, actx.currentTime);
+			            env.gain.linearRampToValueAtTime(1,actx.currentTime + 0.02);
+			            env.gain.linearRampToValueAtTime(0.0,actx.currentTime + 1.0);
+			        }
+        		})
+        
+			    var sine = actx.createOscillator();
+			    sine.type = 'sine';
+			    sine.frequency.value = 400;
+			    
+			    sine.connect(env);
+			    sine.start(0);
+
+			    //set up db meter
+			    meter1.setup(actx,env);
+
+
+				/* misc methods */
+
+			    button1.mode = "aftertouch";
+
+			    multislider1.setNumberOfSliders(5);
+
+			    keyboard1.octaves = 2
+			    keyboard1.init()
+
+			    nx.add('position', {
+			    	x: 300,
+			    	y: 300,
+			    	w: 200,
+			    	h: 100,
+			    	parent: "tester",
+			    	name: 'boing'
+			    })
+
+			}
+
+		</script>
+	</head>
+
+	<body style="background-color:#fff">
+
+		  <canvas nx="button"></canvas>
+		  <canvas nx="dial"></canvas>
+		  <canvas nx="toggle" style="height:20px;width:20px"></canvas>
+		  <canvas nx="multislider"></canvas>
+		  <canvas nx="keyboard"></canvas>
+		  <canvas nx="range"></canvas>
+		  <canvas nx="slider"></canvas>
+		  <canvas nx="button"></canvas>
+		  <canvas nx="meter"></canvas>
+		  <canvas nx="select" choices="sine,saw,triangle" style="height:15px"></canvas>
+
+
+		  <canvas nx="panel"></canvas>
+
+
+		  <div id="tester"></div>
+
+		  <!-- Try other nexusUI elements.
+		  See nexusosc.com for more. -->
+
+		  <style>
+		  	.nx {
+		  		display:block;
+		  		float:left;
+		  		margin:0px 10px;
+		  	}
+
+		  </style>
+
+	</body>
+	
+</html>
