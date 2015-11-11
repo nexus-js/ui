@@ -2031,7 +2031,7 @@ var widget = require('../core/widget');
 
 var dial = module.exports = function(target) {
 	
-	this.defaultSize = { width: 50, height: 50 };
+	this.defaultSize = { width: 100, height: 120 };
 	widget.call(this, target);
 	
 	//define unique attributes
@@ -2084,57 +2084,57 @@ dial.prototype.init = function() {
 }
 
 dial.prototype.draw = function() {
-	var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
+	//var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
 	var dial_position = (this.val.value + 0.25) * 2 * Math.PI
-	var point = math.toCartesian(this.handleLength, dial_angle);
+	//var point = math.toCartesian(this.handleLength, dial_angle);
 
 	this.erase();
 	
 	with (this.context) {
 		
-		fillStyle = this.colors.fill;
-		
-		//draw main circle
+		lineCap = 'butt';
 		beginPath();
-			arc(this.center.x, this.center.y, this.circleSize-1, 0, Math.PI*2, true);
-			fill();
-		closePath();
-
-		//draw color fill
-		beginPath();
-			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize, Math.PI* 0.5, dial_position, false);
-			lineTo(this.center.x,this.center.y);
-			globalAlpha = 0.1;
-			fillStyle = this.colors.accent;
-			fill();
-			globalAlpha = 1;
+			lineWidth = this.circleSize/2;
+			arc(this.center.x, this.center.y, this.circleSize-lineWidth/2, Math.PI * 0, Math.PI * 2, false);
+			strokeStyle = this.colors.fill;
+			stroke();
 		closePath(); 
 
 		//draw round accent
+		lineCap = 'butt';
 		beginPath();
-			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize-this.lineWidth , Math.PI* 0.5, dial_position, false);
+			lineWidth = this.circleSize/2;
+			arc(this.center.x, this.center.y, this.circleSize-lineWidth/2, Math.PI * 0.5, dial_position, false);
 			strokeStyle = this.colors.accent;
 			stroke();
 		closePath(); 
-	
-		//draw bar accent
-		beginPath();
-			lineWidth = this.accentWidth;
-			strokeStyle = this.colors.accent;
-			moveTo(this.center.x, this.center.y);
-			lineTo(point.x + this.center.x, point.y + this.center.y);
-			stroke();
-		closePath(); 
+
+		clearRect(this.center.x-this.GUI.w/40,this.center.y,this.GUI.w/20,this.GUI.h/2)
 		
-		//draw circle in center
-		beginPath();
-			fillStyle = this.colors.accent;
-			arc(this.center.x, this.center.y, this.circleSize/8, 0, Math.PI*2, false);
-			fill();
-		closePath(); 
-		
+    //figure out text size
+		var valdigits = this.max ? Math.floor(this.max).toString().length : 1
+		valdigits += this.step ? this.step < 1 ? 1 : 2 : 2
+		valtextsize = (this.GUI.w / valdigits) * 0.6
+
+		if (valtextsize > 6) {
+
+	    if (this.decimalPlaces > 0) {
+	    	var valtext = nx.prune(this.val.value,1)
+		    if (valtext == parseInt(valtext)) {
+		    	valtext += ".0"
+		    }
+	    } else {
+	    	var valtext = nx.prune(this.val.value,2)
+	    }
+
+			fillStyle = this.colors.border
+	    textAlign = "center"
+	    textBaseline = "middle"
+	    font = valtextsize+"px 'Open Sans'"
+	    fillText(valtext,this.GUI.w/2,this.GUI.h/2);
+
+	  }
+
 	}
 
 	this.drawLabel();
@@ -6278,24 +6278,39 @@ slider.prototype.draw = function() {
 			var y2 = this.GUI.h;
 		
 			fillStyle = this.colors.accent;
-			if (normalval>0.01) {
+			//if (normalval>0.01) {
 				fillRect(x1,y1,x2-x1,y2-y1);
-			}
+			//}
+			//
+			//
+	    //figure out text size
+			var valdigits = this.max ? Math.floor(this.max).toString().length : 1
+			valdigits += this.step ? this.step < 1 ? 1 : 0 : 0
+			valtextsize = (this.GUI.w / valdigits) * 1.2
 
-	    textAlign = "center"
-	    font = "14px 'Open Sans'"
-	    if (y1 < this.GUI.h - 16) {
-				fillStyle = this.colors.white
-	    	var texty = this.GUI.h-11
-	    } else {
-				fillStyle = this.colors.accent
-	    	var texty = y1 - 11
-	    }
-	    var valtext = nx.prune(this.val.value,1)
-	    if (valtext == parseInt(valtext)) {
-	    	valtext += ".0"
-	    }
-	    fillText(valtext,this.width/2,texty);
+			if (valtextsize > 6) {
+
+				// figure out val text location
+		    if (y1 < this.GUI.h - valtextsize/2-5) {
+					fillStyle = this.colors.white
+		    	var texty = this.GUI.h-valtextsize/2-5
+		    } else {
+					fillStyle = this.colors.accent
+		    	var texty = y1 - valtextsize/2-5
+		    }
+		    if (this.decimalPlaces > 0) {
+		    	var valtext = nx.prune(this.val.value,1)
+			    if (valtext == parseInt(valtext)) {
+			    	valtext += ".0"
+			    }
+		    } else {
+		    	var valtext = nx.prune(this.val.value,0)
+		    }
+
+		    textAlign = "center"
+		    font = valtextsize+"px 'Open Sans'"
+		    fillText(valtext,this.width/2,texty);
+		  }
 
 		} else {
 

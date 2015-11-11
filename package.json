@@ -22,7 +22,9 @@
     "type" : "git",
     "url" : "http://github.com/lsu-emdm/nexusui/"
   },
-  "dependencies": {},
+  "dependencies": {
+    "extend": "2.0.x"
+  },
   "devDependencies": {
     "gulp": "3.8.x",
     "gulp-rename": "1.2.x",
