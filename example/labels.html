@@ -1,0 +1,31 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script>
+			nx.onload = function() {
+				nx.colorize("accent", "#1bd");
+				slider1.on('*',function(data){
+					//console.log(data.value)
+				})
+			}
+		</script>
+
+	</head>
+	<body>
+		<style>
+			.nx {
+				float:left;
+				display:block;
+				margin:5px;
+				/*border:solid 1px black;*/
+			}
+		</style>
+		<canvas nx="slider" min="5" max="100" label="Freq"></canvas>
+		<canvas nx="slider" min="0" max="1" label="Stuff" style="width:100px;height:400px"></canvas>
+		<canvas nx="slider" min="50" max="100" label="A" style="width:15px;height:60px"></canvas>
+
+		<canvas nx="slider" min="0" max="1000" label="Playback Rate" style="width:400px;height:50px"></canvas>
+	</body>
+</html>
