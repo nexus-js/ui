@@ -356,12 +356,14 @@ manager.prototype.addStylesheet = function() {
     + 'padding: 5px 5px;'
     + 'font-size: 16px;'
     + 'color:#666666;'
-    + 'border: solid 0px #CCC;'
+    + 'border: solid 2px #e4e4e4;'
     + 'border-radius: 0;'
-    + 'outline: black;'
+    + '-webkit-appearance: none;'
+    //+ 'border: 0;'
+    + 'outline: none;'
     + 'cursor:pointer;'
     + 'background-color:#EEE;'
-    + 'font-family:gill sans;'
+    + 'font-family:"open sans";'
     + '}'
     + ''
     + 'input[type=text]::-moz-selection { background: transparent; }'
@@ -512,7 +514,7 @@ var widget = module.exports = function (target) {
 
 
   /* separate gui and label */
-  this.labelSize = 20
+  this.labelSize = 30
   this.labelAlign = "center"
   this.labelFont = "'Open Sans'"
   this.GUI = {
@@ -930,7 +932,7 @@ widget.prototype.drawLabel = function() {
     fillStyle = this.colors.black;
     textAlign = "center"
     textBaseline = "middle";
-    font = (this.labelSize - 8) + "px "+this.labelFont+" normal"
+    font = (this.labelSize/2.8) + "px "+this.labelFont+" normal"
     fillText(this.label,this.width/2,this.labelY);
   }
 }
@@ -1630,10 +1632,11 @@ util.inherits(button, widget);
 
 button.prototype.init = function() {
 	this.center = {
-		x: this.width/2,
-		y: this.height/2
+		x: this.GUI.w/2,
+		y: this.GUI.h/2
 	}
-	this.radius = (Math.min(this.center.x, this.center.y)-this.lineWidth/2)
+	this.strokeWidth = this.GUI.w/20;
+	this.radius = (Math.min(this.center.x, this.center.y))
 	this.draw();
 }
 
@@ -1656,7 +1659,7 @@ button.prototype.draw = function() {
 					// No touch image, apply highlighting
 					globalAlpha = 0.5;
 					fillStyle = this.colors.accent;
-					fillRect (0, 0, this.width, this.height);
+					fillRect (0, 0, this.GUI.w, this.GUI.h);
 					globalAlpha = 1;
 					
 				} else {
@@ -1668,34 +1671,47 @@ button.prototype.draw = function() {
 		} else {
 	
 			// Regular Button
+			
 			if (!this.val.press) {
-				fillStyle = this.colors.fill;
+				fillStyle = this.colors.fill
+				strokeStyle = this.colors.border
+				var strokealpha = 1
 			} else if (this.val.press) {
 				fillStyle = this.colors.accent;
+				strokeStyle = this.colors.accentborder || "#fff"
+				var strokealpha = 0.2
 			}
+
+			lineWidth = this.strokeWidth;
 
 			beginPath();
 				arc(this.center.x, this.center.y, this.radius, 0, Math.PI*2, true);
-				fill();	  
-			closePath();
+				fill()
+			closePath()
+
+			beginPath();
+				arc(this.center.x, this.center.y, this.radius-lineWidth/2, 0, Math.PI*2, true);
+				globalAlpha = strokealpha
+				stroke()
+				globalAlpha = 1
+			closePath()
 
 			if (this.val.press && this.mode=="aftertouch") {
 
-				var x = nx.clip(this.clickPos.x,this.width*.2,this.width/1.3)
-				var y = nx.clip(this.clickPos.y,this.height*.2,this.height/1.3)
+				var x = nx.clip(this.clickPos.x,this.GUI.w*.2,this.GUI.w/1.3)
+				var y = nx.clip(this.clickPos.y,this.GUI.h*.2,this.GUI.h/1.3)
 
-				var gradient = this.context.createRadialGradient(x,y,this.width/6,this.center.x,this.center.y,this.radius*1.3);
+				var gradient = this.context.createRadialGradient(x,y,this.GUI.w/6,this.center.x,this.center.y,this.radius*1.3);
 				gradient.addColorStop(0,this.colors.accent);
 				gradient.addColorStop(1,"white");
 
 				strokeStyle = gradient;
-				lineWidth = this.width/20;
+				lineWidth = this.GUI.w/20;
 
 				beginPath()
-					arc(this.center.x, this.center.y, this.radius-this.width/40, 0, Math.PI*2, true);
+					arc(this.center.x, this.center.y, this.radius-this.GUI.w/40, 0, Math.PI*2, true);
 					stroke()
 				closePath()
-
 
 			}
 		}
@@ -2066,7 +2082,7 @@ dial.prototype.init = function() {
 
 	this.circleSize = (Math.min(this.center.x, this.center.y));
 	this.handleLength = this.circleSize;
-	this.mindim = Math.min(this.width,this.height)
+	this.mindim = Math.min(this.GUI.w,this.GUI.h)
 	
 	if (this.mindim<101) {
 		this.handleLength--;
@@ -2110,13 +2126,24 @@ dial.prototype.draw = function() {
 		closePath(); 
 
 		clearRect(this.center.x-this.GUI.w/40,this.center.y,this.GUI.w/20,this.GUI.h/2)
-		
+
+		if (this.val.value > 0) {
+			beginPath();
+			lineWidth = 1.5;
+			moveTo(this.center.x-this.GUI.w/40,this.center.y*1.5)
+			lineTo(this.center.x-this.GUI.w/40,this.GUI.h)
+
+			strokeStyle = this.colors.accent;
+			stroke();
+			closePath();
+		}
+
     //figure out text size
 		var valdigits = this.max ? Math.floor(this.max).toString().length : 1
 		valdigits += this.step ? this.step < 1 ? 1 : 2 : 2
-		valtextsize = (this.GUI.w / valdigits) * 0.6
+		valtextsize = (this.mindim / valdigits) * 0.55
 
-		if (valtextsize > 6) {
+		if (valtextsize > 7) {
 
 	    if (this.decimalPlaces > 0) {
 	    	var valtext = nx.prune(this.val.value,1)
@@ -3907,8 +3934,14 @@ matrix.prototype.draw = function() {
 
 	this.erase();
 
-	this.cellWid = this.width/this.col;
-	this.cellHgt = this.height/this.row;
+	this.cellWid = this.GUI.w/this.col;
+	this.cellHgt = this.GUI.h/this.row;
+
+	with (this.context) {
+		strokeStyle = this.colors.fill
+		//lineWidth = 0
+		//strokeRect(0,0,this.GUI.w,this.GUI.h)
+	}
 
 	for (var i=0;i<this.row;i++){
 		for (var j=0;j<this.col;j++) {
@@ -5516,6 +5549,7 @@ number.prototype.init = function() {
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
+	newdiv.className = "nx"
 	parent.replaceChild(newdiv,canv)
 	this.el = document.getElementById(this.canvasID)
 	for (var prop in cstyle)
@@ -5531,6 +5565,7 @@ number.prototype.init = function() {
 	this.canvas.style.padding = "4px 10px"
 	this.canvas.style.cursor = "pointer"
 	this.canvas.style.display = "block"
+	this.canvas.className = ""
 
 	this.canvas.addEventListener("blur", function () {
 	  //this.canvas.style.border = "none";
@@ -6114,10 +6149,11 @@ var select = module.exports = function (target) {
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
+	newdiv.className = "nx"
 	parent.replaceChild(newdiv,canv)
 	this.sel = document.getElementById(this.canvasID)
-	this.sel.style.float = "left"
-	this.sel.style.display = "block"
+	//this.sel.style.float = "left"
+	//this.sel.style.display = "block"
 	for (var prop in cstyle)
     	this.sel.style[prop] = cstyle[prop];
 
@@ -6125,8 +6161,10 @@ var select = module.exports = function (target) {
 
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
-    this.canvas.style.fontSize = Math.round(this.height/1.7) + "px"
+    this.canvas.style.fontSize = Math.round(this.height/2.3) + "px"
 	
+    this.canvas.className = ""
+
 	var optlength = this.canvas.options.length;
 	for (i = 0; i < optlength; i++) {
 	  this.canvas.options[i] = null;
@@ -6699,6 +6737,7 @@ var text = module.exports = function (target) {
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
+	newdiv.className = "nx"
 	parent.replaceChild(newdiv,canv)
 	this.el = document.getElementById(this.canvasID)
 
@@ -6715,6 +6754,7 @@ var text = module.exports = function (target) {
 	this.el.style.padding = "5px"
 	this.el.style.fontFamily = nx.font
 	this.el.style.fontSize = "16px"
+	this.el.className = ""
 
 
 	this.canvas = document.getElementById(this.canvasID);
@@ -6901,10 +6941,8 @@ var widget = require('../core/widget');
 */
 
 var toggle = module.exports = function (target) {
-	this.defaultSize = { width: 50, height: 50 };
+	this.defaultSize = { width: 50, height: 70 };
 	widget.call(this, target);
-	
-	this.mindim = this.height>this.width ? this.width : this.height;
 
 	/** @property {object}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
 		| &nbsp; | data
@@ -6919,7 +6957,6 @@ var toggle = module.exports = function (target) {
 util.inherits(toggle, widget);
 
 toggle.prototype.init = function() {
-	this.fontSize = this.mindim/4;
 	this.draw();
 }
 
@@ -6930,22 +6967,20 @@ toggle.prototype.draw = function() {
 	with (this.context) {
 		if (this.val.value) {
 			fillStyle = this.colors.accent;
+			strokeStyle = this.colors.white;
+			strokeAlpha = 0.3
 		} else {
 			fillStyle = this.colors.fill;
+			strokeStyle = this.colors.border;
+			strokeAlpha = 1
 		}
-		fillRect(0,0,this.width,this.height);
-		if (this.mindim > 25) {
-			if (this.val.value) {
-				this.setFont();
-				fillStyle = this.colors.white
-				globalAlpha = 1;
-				fillText("on", this.width/2, this.height/2);	
-			} else {
-				this.setFont();
-				fillText("off", this.width/2, this.height/2);
-				globalAlpha = 1;
-			}
-		}
+		lineWidth = Math.sqrt(this.GUI.w)/2;
+		//lineWidth = this.GUI.w / 20;
+
+		fillRect(0,0,this.GUI.w,this.GUI.h);
+		globalAlpha = strokeAlpha
+		strokeRect(lineWidth/2,lineWidth/2,this.GUI.w-lineWidth,this.GUI.h-lineWidth);
+		globalAlpha = 1
 	}
 
 	this.drawLabel();
