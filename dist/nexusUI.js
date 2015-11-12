@@ -453,6 +453,21 @@ manager.prototype.blockMove = function(e) {
      }
   }
 }
+
+manager.prototype.calculateDigits = function() {
+  var nondecimals = this.max ? Math.floor(this.max).toString().length : 1
+  if (nondecimals < this.maxdigits) {
+    var decimals = 3-nondecimals
+  } else {
+    var decimals = 0
+  }
+  var valdigits = nondecimals + decimals
+  return {
+    wholes: nondecimals,
+    decimals: decimals,
+    total: nondecimals + decimals, 
+  }
+}
 },{"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":47,"util":51}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
@@ -2015,52 +2030,56 @@ var crossfade = module.exports = function (target) {
 		| --- | ---
 		| *value* | Crossfade value (float -1 to 1)
 	*/
-	this.val.value = 0.7
+	this.val = {
+		R: 0.75,
+		L: 0.75
+	}
 
-	this.label = "";
+	this.location = 0.5
 
 	this.init();
 }
 util.inherits(crossfade, widget);
 
 crossfade.prototype.init = function() {
-
-	if (this.canvas.getAttribute("label")!=null) {
-		this.label = this.canvas.getAttribute("label");
-	}
-
 	this.draw();
 }
 
 crossfade.prototype.draw = function() {
 	
 	this.erase();
+
+	this.location = Math.pow(this.val.R,2)
 		
 	with (this.context) {
 
 		fillStyle = this.colors.fill;
 		fillRect(0,0,this.GUI.w,this.GUI.h);
 
-		
-		if (nx.showLabels) {
-			this.setFont();
-			fillText(this.label, this.GUI.w/2, this.GUI.h/2);
-			globalAlpha = 1;
-		
-		}
-
-		var x1 = this.GUI.w/2;
 		var y1 = 0;
-		var x2 = (this.val.value/2)*this.GUI.w;
 		var y2 = this.GUI.h;
-	   
-	
+		var x1 = this.location*this.GUI.w;
+		//var x2 = this.GUI.w/5;
+		//
 		fillStyle = this.colors.accent;
-		fillRect(x1,y1,x2,y2);
+		fillRect(x1,y1,this.GUI.w-x1,y2);
 
-		fillRect(x1-1,y1,2,y2);
+		textBaseline="middle"
+		font = this.GUI.h/3 + "px 'Open Sans'"
+
+		fillStyle = this.colors.accent;
+		textAlign="right"
+		fillText(this.val.R.toFixed(2), x1-2, this.GUI.h/4)
+
+		fillStyle = this.colors.fill;
+		textAlign="left"
+		fillText(this.val.L.toFixed(2), x1+2, this.GUI.h* 0.75)
+
 
 	}
+
+	this.drawLabel()
+	
 }
 
 crossfade.prototype.click = function() {
@@ -2068,8 +2087,11 @@ crossfade.prototype.click = function() {
 }
 
 crossfade.prototype.move = function() {
-	var x = nx.scale(this.clickPos.x/this.GUI.w,0,1,-1,1)
-	this.val.value = math.prune(math.clip(x, -1, 1),3)
+	var R = math.clip(this.clickPos.x/this.GUI.w,0,1)
+	var L = 1 - R
+	this.location = R
+	this.val.R = math.prune(Math.sqrt(R),3)
+	this.val.L = math.prune(Math.sqrt(L),3)
 	this.draw();
 	this.transmit(this.val);
 }
@@ -2114,6 +2136,25 @@ var dial = module.exports = function(target) {
 
 	this.lockResize = true;
 
+  if (this.canvas.getAttribute("min")!=null) {
+    this.min = parseFloat(this.canvas.getAttribute("min"));
+  } else {
+  	this.min = 0
+  }
+  if (this.canvas.getAttribute("max")!=null) {
+    this.max = parseFloat(this.canvas.getAttribute("max"));
+  } else {
+  	this.max = 1
+  }
+  if (this.canvas.getAttribute("step")!=null) {
+    this.step = parseFloat(this.canvas.getAttribute("step"));
+  } else {
+  	this.step = 0.001
+  }
+
+	this.maxdigits = 3
+	this.calculateDigits = nx.calculateDigits
+
 	this.init();
 	
 }
@@ -2142,8 +2183,11 @@ dial.prototype.init = function() {
 }
 
 dial.prototype.draw = function() {
+
+	var normalval = this.normalize(this.val.value)
+
 	//var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
-	var dial_position = (this.val.value + 0.25) * 2 * Math.PI
+	var dial_position = (normalval + 0.25) * 2 * Math.PI
 	//var point = math.toCartesian(this.handleLength, dial_angle);
 
 	this.erase();
@@ -2169,7 +2213,7 @@ dial.prototype.draw = function() {
 
 		clearRect(this.center.x-this.GUI.w/40,this.center.y,this.GUI.w/20,this.GUI.h/2)
 
-		if (this.val.value > 0) {
+		if (normalval > 0) {
 			beginPath();
 			lineWidth = 1.5;
 			moveTo(this.center.x-this.GUI.w/40,this.center.y+this.circleSize/2) //this.radius-this.circleSize/4
@@ -2180,20 +2224,21 @@ dial.prototype.draw = function() {
 		}
 
     //figure out text size
-		var valdigits = this.max ? Math.floor(this.max).toString().length : 1
-		valdigits += this.step ? this.step < 1 ? 1 : 2 : 2
-		valtextsize = (this.mindim / valdigits) * 0.55
+    //
+    //
+    //
+    this.val.value = math.prune(this.rangify(normalval),3)
+		
+
+		//var valdigits = this.max ? Math.floor(this.max).toString().length : 1
+		//valdigits += this.step ? this.step < 1 ? 1 : 2 : 2
+		this.digits = this.calculateDigits()
+
+		valtextsize = (this.mindim / this.digits.total) * 0.55
 
 		if (valtextsize > 7) {
 
-	    if (this.decimalPlaces > 0) {
-	    	var valtext = nx.prune(this.val.value,1)
-		    if (valtext == parseInt(valtext)) {
-		    	valtext += ".0"
-		    }
-	    } else {
-	    	var valtext = nx.prune(this.val.value,2)
-	    }
+	    var valtext = this.val.value.toFixed(this.digits.decimals)
 
 			fillStyle = this.colors.borderhl
 	    textAlign = "center"
@@ -2218,8 +2263,9 @@ dial.prototype.click = function(e) {
 
 
 dial.prototype.move = function() {	
-	this.val.value = math.clip((this.val.value - (this.deltaMove.y * this.responsivity)), 0, 1);
-	this.val.value = math.prune(this.val.value, 4)
+	var normalval = this.normalize(this.val.value)
+	normalval = math.clip((normalval - (this.deltaMove.y * this.responsivity)), 0, 1);
+	this.val.value = math.prune(this.rangify(normalval), 4)
 	this.transmit(this.val);
 	
 	this.draw();
@@ -6328,6 +6374,9 @@ var slider = module.exports = function (target) {
 	this.relhandle;
 	this.cap;
 
+	this.maxdigits = 3
+
+	this.calculateDigits = nx.calculateDigits;
 
 	this.init();
 }
@@ -6346,9 +6395,13 @@ slider.prototype.init = function() {
 	this.draw();
 }
 
+
 slider.prototype.draw = function() {
 
 	var normalval = this.normalize(this.val.value)
+
+	//figure out text size
+	this.digits = this.calculateDigits()
 
 	this.erase();
 		
@@ -6364,16 +6417,10 @@ slider.prototype.draw = function() {
 			var y2 = this.GUI.h;
 		
 			fillStyle = this.colors.accent;
-			//if (normalval>0.01) {
-				fillRect(x1,y1,x2-x1,y2-y1);
-			//}
-			//
-			//
-	    //figure out text size
-			var valdigits = this.max ? Math.floor(this.max).toString().length : 1
-			valdigits += this.step ? this.step < 1 ? 1 : 0 : 0
-			valtextsize = (this.GUI.w / valdigits) * 1.2
-
+			fillRect(x1,y1,x2-x1,y2-y1);
+			
+			//text
+			var valtextsize = (this.GUI.w / this.digits.total) * 1.2
 			if (valtextsize > 6) {
 
 				// figure out val text location
@@ -6384,19 +6431,10 @@ slider.prototype.draw = function() {
 					fillStyle = this.colors.accent
 		    	var texty = y1 - valtextsize/2-5
 		    }
-		    if (this.decimalPlaces > 0) {
-		    	var valtext = nx.prune(this.val.value,1)
-			    if (valtext == parseInt(valtext)) {
-			    	valtext += ".0"
-			    }
-		    } else {
-		    	var valtext = nx.prune(this.val.value,0)
-		    }
-
-		    textAlign = "center"
-		    font = valtextsize+"px 'Open Sans'"
-		    fillText(valtext,this.GUI.w/2,texty);
-		  }
+		    var textx = this.GUI.w/2
+		    var valtextAlign = "center"
+		    var valtextBaseline = "middle"
+			}
 
 		} else {
 
@@ -6405,12 +6443,35 @@ slider.prototype.draw = function() {
 			var x2 = normalval*this.GUI.w;
 			var y2 = this.GUI.h;
 		
-			fillStyle = this.colors.accent;
-			if (normalval>0.01) {
-				fillRect(x1,y1,x2-x1,y2-y1);
+			fillStyle = this.colors.accent
+			fillRect(x1,y1,x2-x1,y2-y1)
+
+			//text
+			var valtextsize = this.GUI.h/2
+			if (valtextsize > 6) {
+
+				// figure out val text location
+		    if (x2 > this.digits.total*valtextsize/2) {
+					fillStyle = this.colors.white
+		    	var textx = 5
+		    } else {
+					fillStyle = this.colors.accent
+		    	var textx = x2 + 5
+		    }
+		    var texty = this.GUI.h/2
+		    var valtextAlign = "left"
+		    var valtextBaseline = "middle"
 			}
 
 		}
+
+
+    var valtext = this.val.value.toFixed(this.digits.decimals)
+    textBaseline = valtextBaseline
+		textAlign = valtextAlign
+    font = valtextsize+"px 'Open Sans'"
+    fillText(valtext,textx,texty);
+
 
 		if (this.label) {
 			this.drawLabel()
@@ -6439,9 +6500,9 @@ slider.prototype.move = function() {
 	if (this.mode=="absolute") {
 		if (this.clicked) {
 			if (!this.hslider) {
-				normalval = math.prune(Math.abs((math.clip(this.clickPos.y/this.GUI.h, 0, 1) - 1)),3);
+				normalval = Math.abs((math.clip(this.clickPos.y/this.GUI.h, 0, 1) - 1));
 			} else {	
-				normalval = math.prune(math.clip(this.clickPos.x/this.GUI.w, 0, 1),3);
+				normalval = math.clip(this.clickPos.x/this.GUI.w, 0, 1);
 			}
 			this.draw();
 		}
@@ -6456,7 +6517,7 @@ slider.prototype.move = function() {
 		}
 	}
 
-	this.val.value = this.rangify(normalval)
+	this.val.value = math.prune(this.rangify(normalval),3)
 	this.transmit(this.val);
 }
 },{"../core/widget":3,"../utils/math":6,"util":51}],36:[function(require,module,exports){
