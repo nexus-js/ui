@@ -6,14 +6,18 @@
 		<script>
 			nx.onload = function() {
 			//	nx.labelSize(100)
-				nx.colorize("accent", "#0af");
-				nx.colorize("border", "#e4e4e4");
+			//	nx.colorize("accent", "#0af");
+			//	nx.colorize("border", "#e4e4e4");
+			
+				nx.skin("light-blue")	
+				
+			
 				slider3.decimalPlaces = 0
 				slider4.decimalPlaces = 2
 				slider1.on('*',function(data){
 					//console.log(data.value)
 				})
-				button2.mode = "toggle"
+				button2.mode = "aftertouch"
 			}
 		</script>
 

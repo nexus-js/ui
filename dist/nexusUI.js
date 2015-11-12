@@ -134,7 +134,7 @@ var manager = module.exports = function() {
   /* extra colors */
 
   this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.5,this.colors.border); // colors.border + [20% Darker] => colors.darkborder 
-  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.2,this.colors.accent);    
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.15,this.colors.accent);    
 
 }
 
@@ -292,7 +292,7 @@ manager.prototype.colorize = function(aspect, newCol) {
   
   this.colors[aspect] = newCol;
 
-  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.15,this.colors.border); // colors.border + [20% Darker] => colors.darkborder 
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(0.1,this.colors.border,this.colors.black); // colors.border + [20% Darker] => colors.darkborder 
   this.colors.accenthl = drawingUtils.shadeBlendConvert(0.3,this.colors.accent);  
   
   for (var key in this.widgets) {
@@ -454,7 +454,7 @@ manager.prototype.blockMove = function(e) {
   }
 }
 
-manager.prototype.calculateDigits = function() {
+manager.prototype.calculateDigits = function(value) {
   var nondecimals = this.max ? Math.floor(this.max).toString().length : 1
   if (nondecimals < this.maxdigits) {
     var decimals = 3-nondecimals
@@ -468,6 +468,49 @@ manager.prototype.calculateDigits = function() {
     total: nondecimals + decimals, 
   }
 }
+
+manager.prototype.themes = {
+  "light": {
+    "fill": "#DDDDDD",
+    "border": "#DADADA",
+    "black": "#000000",
+    "white": "#FFFFFF",
+    "body": "#F3F3F3"
+  },
+  "dark": {
+    "fill": "#222",
+    "border": "#292929",
+    "black": "#FFFFFF",
+    "white": "#000000",
+    "body": "#111"
+  },
+  "red": "#f24",
+  "orange": "#f50",
+  "yellow": "#ec1",
+  "green": "#1c9",
+  "blue": "#09d",
+  "purple": "#40a",
+}
+
+manager.prototype.skin = function(name) {
+
+  var names = name.split("-")
+
+  nx.colorize("fill", nx.themes[names[0]].fill)
+  nx.colorize("border", nx.themes[names[0]].border)
+  nx.colorize("black", nx.themes[names[0]].black)
+  nx.colorize("white", nx.themes[names[0]].white)
+
+  console.log(nx.themes[names[0]].border)
+
+  nx.colorize("accent", nx.themes[names[1]])
+
+  document.body.style.backgroundColor = nx.themes[names[0]].body
+}
+
+
+
+
 },{"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":47,"util":51}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
@@ -6254,6 +6297,7 @@ var select = module.exports = function (target) {
 	this.canvas = document.getElementById(this.canvasID);
 
     this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.border = "solid 2px "+this.colors.border;
     this.canvas.style.color = this.colors.black;
     this.canvas.style.fontSize = Math.round(this.GUI.h/2.3) + "px"
 	
@@ -6277,7 +6321,10 @@ util.inherits(select, widget);
 select.prototype.init = function() {
 
     this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.border = "solid 2px "+this.colors.border;
     this.canvas.style.color = this.colors.black;
+
+    console.log(this.colors.border)
 
     var optlength = this.canvas.options.length;
 	for (i = 0; i < optlength; i++) {
@@ -6302,6 +6349,7 @@ select.prototype.draw = function() {
 
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
+    this.canvas.style.border = "solid 2px "+this.colors.border;
 
 }
 },{"../core/widget":3,"util":51}],35:[function(require,module,exports){
