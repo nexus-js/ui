@@ -58,6 +58,7 @@ window.onload = function() {
  
 
 var timingUtils = require('../utils/timing');
+var drawingUtils = require('../utils/drawing');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var transmit = require('../utils/transmit');
@@ -128,6 +129,12 @@ var manager = module.exports = function() {
 
   /**  @property {integer} throttlePeriod Throttle time in ms (for nx.throttle). */
   this.throttlePeriod = 20;
+
+
+  /* extra colors */
+
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.5,this.colors.border); // colors.border + [20% Darker] => colors.darkborder 
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.2,this.colors.accent);    
 
 }
 
@@ -284,11 +291,18 @@ manager.prototype.colorize = function(aspect, newCol) {
   }
   
   this.colors[aspect] = newCol;
+
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.15,this.colors.border); // colors.border + [20% Darker] => colors.darkborder 
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.3,this.colors.accent);  
   
   for (var key in this.widgets) {
     this.widgets[key].colors[aspect] = newCol;
+    this.widgets[key].colors["borderhl"] = this.colors.borderhl;
+    this.widgets[key].colors["accenthl"] = this.colors.accenthl;
+
     this.widgets[key].draw();
   }
+
 }
   
 
@@ -313,11 +327,12 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
 manager.prototype.colors = { 
   "accent": "#ff5500", 
   "fill": "#eeeeee", 
-  "border": "#bbbbbb",
+  "border": "#e3e3e3",
+  "mid": "#1af",
   "black": "#000000",
   "white": "#FFFFFF"
 };
-  
+
 /**  @method startPulse 
   Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
 */
@@ -438,7 +453,7 @@ manager.prototype.blockMove = function(e) {
      }
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":47,"util":51}],3:[function(require,module,exports){
+},{"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":47,"util":51}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -550,13 +565,16 @@ var widget = module.exports = function (target) {
   this.colors = new Object();
   // define colors individually so they are not pointers to nx.colors
   // this way each object can have its own color scheme
-  this.colors.accent = nx.colors.accent;
+  for (var key in nx.colors) {
+    this.colors[key] = nx.colors[key]
+  }
+  /*this.colors.accent = nx.colors.accent;
   this.colors.fill = nx.colors.fill;
   this.colors.border = nx.colors.border;
   this.colors.accentborder = nx.colors.accentborder;
   this.colors.black = nx.colors.black;
   this.colors.white = nx.colors.white; 
-  this.colors.highlight = nx.colors.highlight;
+  this.colors.highlight = nx.colors.highlight; */
   //interaction
   /**  @property {object} clickPos The most recent mouse/touch position when interating with a widget. (Has properties x and y) */
   this.clickPos = {x: 0, y: 0};
@@ -1173,6 +1191,26 @@ exports.text = function(context, text, position) {
     closePath();
   }
 }
+
+exports.shadeBlendConvert = function(p, from, to) {
+    if(typeof(p)!="number"||p<-1||p>1||typeof(from)!="string"||(from[0]!='r'&&from[0]!='#')||(typeof(to)!="string"&&typeof(to)!="undefined"))return null; //ErrorCheck
+    this.sbcRip=function(d){
+        var l=d.length,RGB=new Object();
+        if(l>9){
+            d=d.split(",");
+            if(d.length<3||d.length>4)return null;//ErrorCheck
+            RGB[0]=i(d[0].slice(4)),RGB[1]=i(d[1]),RGB[2]=i(d[2]),RGB[3]=d[3]?parseFloat(d[3]):-1;
+        }else{
+            switch(l){case 8:case 6:case 3:case 2:case 1:return null;} //ErrorCheck
+            if(l<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(l>4?d[4]+""+d[4]:""); //3 digit
+            d=i(d.slice(1),16),RGB[0]=d>>16&255,RGB[1]=d>>8&255,RGB[2]=d&255,RGB[3]=l==9||l==5?r(((d>>24&255)/255)*10000)/10000:-1;
+        }
+        return RGB;}
+    var i=parseInt,r=Math.round,h=from.length>9,h=typeof(to)=="string"?to.length>9?true:to=="c"?!h:false:h,b=p<0,p=b?p*-1:p,to=to&&to!="c"?to:b?"#000000":"#FFFFFF",f=this.sbcRip(from),t=this.sbcRip(to);
+    if(!f||!t)return null; //ErrorCheck
+    if(h)return "rgb("+r((t[0]-f[0])*p+f[0])+","+r((t[1]-f[1])*p+f[1])+","+r((t[2]-f[2])*p+f[2])+(f[3]<0&&t[3]<0?")":","+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*10000)/10000:t[3]<0?f[3]:t[3])+")");
+    else return "#"+(0x100000000+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*255):t[3]>-1?r(t[3]*255):f[3]>-1?r(f[3]*255):255)*0x1000000+r((t[0]-f[0])*p+f[0])*0x10000+r((t[1]-f[1])*p+f[1])*0x100+r((t[2]-f[2])*p+f[2])).toString(16).slice(f[3]>-1||t[3]>-1?1:3);
+}
 },{"./math":6}],6:[function(require,module,exports){
 
 
@@ -1683,11 +1721,12 @@ button.prototype.draw = function() {
 			if (!this.val.press) {
 				fillStyle = this.colors.fill
 				strokeStyle = this.colors.border
-				var strokealpha = 1
+			//	var strokealpha = 1
 			} else if (this.val.press) {
 				fillStyle = this.colors.accent;
-				strokeStyle = this.colors.accentborder || "#fff"
-				var strokealpha = 0.2
+			//	strokeStyle = this.colors.accentborder || "#fff"
+				strokeStyle = this.colors.accenthl
+			//	var strokealpha = 0.2
 			}
 
 			lineWidth = this.strokeWidth;
@@ -1699,7 +1738,7 @@ button.prototype.draw = function() {
 
 			beginPath();
 				arc(this.center.x, this.center.y, this.radius-lineWidth/2, 0, Math.PI*2, true);
-				globalAlpha = strokealpha
+			//	globalAlpha = strokealpha
 				stroke()
 				globalAlpha = 1
 			closePath()
@@ -2156,7 +2195,7 @@ dial.prototype.draw = function() {
 	    	var valtext = nx.prune(this.val.value,2)
 	    }
 
-			fillStyle = this.colors.black
+			fillStyle = this.colors.borderhl
 	    textAlign = "center"
 	    textBaseline = "middle"
 	    font = valtextsize+"px 'Open Sans'"
@@ -5541,7 +5580,7 @@ var number = module.exports = function (target) {
 	this.canvas.ontouchmove = null;
 	this.canvas.ontouchend = null;
 
-	var htmlstr = '<input type="text" class="nx" nx="number" id="'+this.canvasID+'" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;font-size:'+this.GUI.h/2+'px;"></input><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<input type="text" nx="number" id="'+this.canvasID+'" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;font-size:'+this.GUI.h/2+'px;"></input><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
 	var parent = canv.parentNode
@@ -5794,8 +5833,7 @@ position.prototype.draw = function() {
 				fillStyle = this.colors.accent;
 				arc(drawingX, drawingY, this.nodeSize*2, 0, Math.PI*2, true);					
 				fill();
-				closePath();
-
+				closePath();clearRect(0,this.GUI.h,this.GUI.w,this.height - this.GUI.h)
 			}
 		}
 	}
@@ -5928,7 +5966,7 @@ var math = require('../utils/math')
 */
 
 var range = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 30 };
+	this.defaultSize = { width: 110, height: 35 };
 	widget.call(this, target);
 
 	/** @property {object}  val  Object containing core interactive aspects of widget, which are also its data output. Has the following properties: 
@@ -5984,16 +6022,6 @@ range.prototype.draw = function() {
 		fillRect(0,0,this.GUI.w,this.GUI.h);
 	
 		if (!this.hslider) {
-			
-			if (nx.showLabels && this.label) {
-				save();
-	 			translate(this.GUI.w/2, 0);
-				rotate(Math.PI/2);
-				this.setFont();
-				fillText(this.label, this.GUI.h/2, 0);
-				globalAlpha = 1;
-				restore();
-			}
 
 			var x1 = 0;
 			var y1 = this.GUI.h-this.val.stop*this.GUI.h;
@@ -6004,23 +6032,17 @@ range.prototype.draw = function() {
 			fillRect(x1,y1,x2-x1,y2-y1);
 
 		} else {
-			
-			if (nx.showLabels && this.label) {
-				this.setFont();
-				fillText(this.label, this.GUI.w/2, this.GUI.h/2);
-				globalAlpha = 1;
-			}
 
 			var x1 = this.val.start*this.GUI.w;
 			var y1 = 0;
 			var x2 = this.val.stop*this.GUI.w;
 			var y2 = this.GUI.h;
 		   
-		
 			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
 		}
 	}
+	this.drawLabel();
 }
 
 range.prototype.click = function() {
@@ -6516,14 +6538,12 @@ string.prototype.setStrings = function(val) {
 
 string.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
 		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
 		lineWidth = this.lineWidth;
 	//	stroke();
-		fill();
-		
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 		strokeStyle = this.colors.accent;
 
 		for (var i = 0;i<this.strings.length;i++) {
@@ -6936,9 +6956,12 @@ tilt.prototype.draw = function() {
 		fillRect(-this.GUI.w,this.GUI.h*(this.val.y/2)+this.GUI.h/2,this.GUI.w*3,this.GUI.h*2)
 		font = "bold "+this.GUI.h/5+"px "+this.font;
 		textAlign = "center";
-		fillText(this.text, this.GUI.w/2, this.GUI.h*(this.val.y/2)+this.GUI.h/2+this.GUI.h/15);
+		textBaseline = "middle";
+		fillText(this.text, this.GUI.w/2, this.GUI.h*(this.val.y/2)+this.GUI.h/2-this.GUI.h/15);
 		globalAlpha = 1;
 		restore();
+
+		clearRect(0,this.GUI.h,this.GUI.w,this.height - this.GUI.h)
 	}
 	this.drawLabel();
 }
@@ -6967,7 +6990,7 @@ var widget = require('../core/widget');
 */
 
 var toggle = module.exports = function (target) {
-	this.defaultSize = { width: 50, height: 70 };
+	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
 
 	/** @property {object}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
@@ -6993,8 +7016,10 @@ toggle.prototype.draw = function() {
 	with (this.context) {
 		if (this.val.value) {
 			fillStyle = this.colors.accent;
-			strokeStyle = this.colors.white;
-			strokeAlpha = 0.3
+		//	strokeStyle = this.colors.white;
+		//	strokeAlpha = 0.3
+			strokeStyle = this.colors.accenthl;
+			strokeAlpha = 1
 		} else {
 			fillStyle = this.colors.fill;
 			strokeStyle = this.colors.border;
@@ -7268,7 +7293,7 @@ typewriter.prototype.draw = function() {	// erase
 
 	with (this.context) {
 
-		strokeStyle = this.colors.border 
+		strokeStyle = this.colors.borderhl
 		fillStyle = this.colors.accent 
 		lineWidth = 1
 
@@ -7293,7 +7318,7 @@ typewriter.prototype.draw = function() {	// erase
 					stroke()
 				} else {
 					fillStyle = this.colors.fill 
-					strokeStyle = this.colors.border 
+					strokeStyle = this.colors.borderhl
 
 					fill()
 					stroke()
@@ -7306,7 +7331,7 @@ typewriter.prototype.draw = function() {	// erase
 
 		if (this.val.on) {
 			this.setFont();
-			fillStyle = this.colors.border;
+			fillStyle = this.colors.borderhl;
 			font = this.GUI.h+"px "+this.font;
 			fillText(this.val.key, this.GUI.w/2, this.GUI.h/2);
 			
@@ -7315,7 +7340,7 @@ typewriter.prototype.draw = function() {	// erase
 
 		if (!this.active) {
 			globalAlpha = 0.7
-			fillStyle = this.colors.border;
+			fillStyle = this.colors.borderhl;
 			font = (this.GUI.h/2)+"px courier";
 			textAlign = "center";
 			textBaseline = "middle"
