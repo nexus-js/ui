@@ -501,11 +501,32 @@ manager.prototype.skin = function(name) {
   nx.colorize("black", nx.themes[names[0]].black)
   nx.colorize("white", nx.themes[names[0]].white)
 
-  console.log(nx.themes[names[0]].border)
-
   nx.colorize("accent", nx.themes[names[1]])
 
   document.body.style.backgroundColor = nx.themes[names[0]].body
+}
+
+
+manager.prototype.labelSize = function(size) {
+  for (var key in this.widgets) {
+    var widget = this.widgets[key]
+     
+    if (widget.label) {
+      var newheight = widget.GUI.h + size
+      widget.labelSize = size
+      if (["select","number","text"].indexOf(widget.type)<0) {
+        widget.resize(false,newheight)
+      }
+    }
+  }
+  var textLabels = document.querySelectorAll(".nxlabel");
+  console.log(textLabels)
+ 
+  for (var i = 0; i < textLabels.length; i++) {
+      console.log(textLabels[i])
+      textLabels[i].style.fontSize = size/2.8+"px"
+      console.log(textLabels[i].style.fontSize)
+  }
 }
 
 
@@ -572,8 +593,12 @@ var widget = module.exports = function (target) {
   /**  @property {boolean} label Whether or not to draw a text label this widget.   */
   this.label = false
   this.labelSize = 30
+  this.labelAlign = "center"
+  this.labelFont = "'Open Sans'"
+
   if (this.canvas.getAttribute("label")!=null) {
-    this.label = this.canvas.getAttribute("label");
+    this.label = this.canvas.getAttribute("label")
+    this.origDefaultHeight = this.defaultSize.height
   }
   if (this.label) {
     this.defaultSize.height += this.labelSize
@@ -597,16 +622,7 @@ var widget = module.exports = function (target) {
   this.context.scale(2,2)
 
 
-  /* separate gui and label */
-  this.labelAlign = "center"
-  this.labelFont = "'Open Sans'"
-  this.GUI = {
-    w: this.width,
-    h: this.label ? this.height - this.labelSize : this.height
-  }
-  this.labelY = this.height - this.labelSize/2;
-  // must add the above code to widget.resize
-  
+  this.makeRoomForLabel()
 
   /**  @property {object} offset The widget's computed offset from the top left of the document. (Has properties 'top' and 'left', both in pixels) */
   this.offset = domUtils.findPosition(this.canvas);
@@ -1083,9 +1099,11 @@ widget.prototype.resize = function(w,h) {
   this.context.scale(2,2)
 
   this.center = {
-    x: this.width/2,
-    y: this.height/2
+    x: this.GUI.w/2,
+    y: this.GUI.h/2
   };
+
+  this.makeRoomForLabel()
 
   this.init();
   this.draw();
@@ -1097,6 +1115,16 @@ widget.prototype.normalize = function(value) {
 }
 widget.prototype.rangify = function(value) {
   return nx.scale(value,0,1,this.min,this.max)
+}
+
+
+widget.prototype.makeRoomForLabel = function() {
+  this.GUI = {
+    w: this.width,
+    h: this.label ? this.height - this.labelSize : this.height
+  }
+  this.labelY = this.height - this.labelSize/2;
+  // must add the above code to widget.resize
 }
 },{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":47,"util":51}],4:[function(require,module,exports){
 
@@ -2210,10 +2238,6 @@ dial.prototype.init = function() {
 	this.handleLength = this.circleSize;
 	this.mindim = Math.min(this.GUI.w,this.GUI.h)
 	
-	if (this.mindim<101) {
-		this.handleLength--;
-	}
-
 	if (this.mindim<101 || this.mindim<101) {
 		this.accentWidth = this.lineWidth * 1;
 	} else {
@@ -2221,8 +2245,7 @@ dial.prototype.init = function() {
 	}
 	
 	this.draw();
-	
-	return 1;
+
 }
 
 dial.prototype.draw = function() {
@@ -3754,16 +3777,16 @@ keyboard.prototype.init = function() {
 keyboard.prototype.draw = function() {
 
 	with (this.context) {
-		strokeStyle = this.colors.border;
+		strokeStyle = this.colors.borderhl;
 		lineWidth = 1;
 			
 		for (var i in this.wkeys) {
-			fillStyle = this.wkeys[i].on ? this.colors.border : this.colors.fill
+			fillStyle = this.wkeys[i].on ? this.colors.borderhl : this.colors.fill
 			strokeRect(this.wkeys[i].x,0,this.white.width,this.white.height);
 			fillRect(this.wkeys[i].x,0,this.white.width,this.white.height);
 		}
 		for (var i in this.bkeys) {
-			fillStyle = this.bkeys[i].on ? this.colors.border : this.colors.black
+			fillStyle = this.bkeys[i].on ? this.colors.borderhl : this.colors.black
 			fillRect(this.bkeys[i].x,0,this.black.width,this.black.height);
 		}
 		//strokeRect(0,0,this.GUI.w,this.GUI.h);
@@ -5694,6 +5717,7 @@ var number = module.exports = function (target) {
 	  labeldiv.style.lineHeight = this.labelSize+"px"
 	  labeldiv.style.width = this.GUI.w+"px"
 	  labeldiv.style.color = nx.colors.black
+	  labeldiv.className = "nxlabel"
 	  newdiv.appendChild(labeldiv)
   }
 
