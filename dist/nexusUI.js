@@ -376,7 +376,7 @@ manager.prototype.addStylesheet = function() {
     + '-webkit-appearance: none;'
     //+ 'border: 0;'
     + 'outline: none;'
-    + 'cursor:pointer;'
+   // + 'cursor:pointer;'
     + 'background-color:#EEE;'
     + 'font-family:"open sans";'
     + '}'
@@ -386,7 +386,7 @@ manager.prototype.addStylesheet = function() {
     + 'input[type=text]::-webkit-selection { background: transparent; }' 
     + ''
     + 'canvas { '
-    + 'cursor:pointer;'
+   // + 'cursor:pointer;'
     + 'border-radius:0px;'
     + 'moz-border-radius:0px;'
     + 'webkit-border-radius:0px;'
@@ -396,7 +396,7 @@ manager.prototype.addStylesheet = function() {
     + '}'
     + ''
     + 'input[type=text] { '
-    + 'cursor:pointer;'
+   // + 'cursor:pointer;'
     + 'border-radius:5px;'
     + 'moz-border-radius:5px;'
     + 'webkit-border-radius:5px;'
@@ -774,6 +774,7 @@ widget.prototype.preClick = function(e) {
   document.body.style.userSelect = "none";
   document.body.style.mozUserSelect = "none";
   document.body.style.webkitUserSelect = "none";
+  document.body.style.cursor = "none"
 }
 
 widget.prototype.preMove = function(e) {
@@ -796,6 +797,7 @@ widget.prototype.preRelease = function(e) {
   document.body.style.userSelect = "text";
   document.body.style.mozUserSelect = "text";
   document.body.style.webkitUserSelect = "text";
+  document.body.style.cursor = "pointer"
 }
 
 widget.prototype.preTouch = function(e) {
