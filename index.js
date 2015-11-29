@@ -3,6 +3,7 @@ var domUtils = require('./lib/utils/dom');
 var drawingUtils = require('./lib/utils/drawing');
 var mathUtils = require('./lib/utils/math');
 var extend = require('extend');
+var WebFont = require('webfontloader');
 
 /************************************************
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
@@ -18,6 +19,15 @@ window.nx = extend(window.nx,mathUtils)
  * using the canvas's id as its var name */
 
 window.onload = function() {
+  try {
+    WebFont.load({
+      google: {
+        families: ['Open Sans']
+      }
+    });
+  } catch(e) {
+    console.log("font not loaded")
+  }
 
   nx.addStylesheet();
 

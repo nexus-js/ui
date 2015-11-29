@@ -153,6 +153,10 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
  *object*<br> The widget's default size if not defined with HTML/CSS style. (Has properties 'width' and 'height', both in pixels)
 
 
+###widget.label###
+ *boolean*<br> Whether or not to draw a text label this widget.
+
+
 ###widget.offset###
  *object*<br> The widget's computed offset from the top left of the document. (Has properties 'top' and 'left', both in pixels)
 
@@ -187,10 +191,6 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
 
 ###widget.deltaMove###
  *object*<br> Difference between the current touch/mouse position and the previous touch/mouse position, in pixels.
-
-
-###widget.label###
- *boolean*<br> Whether or not to draw a text label this widget.
 
 
 ###widget.isRecording###
@@ -648,6 +648,15 @@ Interface gesture capture / playback (in development)
 ```
 <canvas nx="ghost" style="margin-left:25px"></canvas>
 
+ghostlist (alpha)
+-------------------
+Interface gesture capture / playback (in development)
+
+```html
+<canvas nx="ghostlist"></canvas>
+```
+<canvas nx="ghostlist" style="margin-left:25px"></canvas>
+
 joints
 --------
 2D slider with connections to several points; a proximity-based multislider.
@@ -672,13 +681,13 @@ joints
 
  
 ###joints.joints###
- *array*<br> An array of objects with x and y properties detailing coordinates of each proximity node.
+ *array*<br> An array of objects with x and y properties detailing coordinates of each proximity node. Coordinates are 0-1 floats which are decimal fractions of the width and height.
 
 ```js
-// The widget will now have only 2 proximity points, instead of 8
+// The widget will now have 2 proximity points instead of 8
 joints1.joints = [
-&nbsp; { x: 20 , y: 100 },
-&nbsp; { x: 75 , y: 150 }
+&nbsp; { x: 0.5 , y: 0.2 },
+&nbsp; { x: 0.5 , y: 0.7 }
 ]
 ```
  
@@ -1388,6 +1397,27 @@ On/off toggle
 | *value*| 1 if on, 0 if off
  
 
+trace
+-------
+Path/gesture drawing canvas
+```html
+<canvas nx="trace"></canvas>
+```
+<canvas nx="trace" style="margin-left:25px"></canvas>
+
+####Properties####
+###trace.nodeSize###
+ *integer*<br> Size of path node graphic.
+
+
+###trace.val###
+ *object*<br> val is an object containing the main interactive / actionable aspects of the widget.
+
+| &nbsp; | data
+| --- | ---
+| *path* | array of objects containing x/y of each path node
+ 
+
 typewriter
 ------------
 Computer keyboard listener and visualization. (Desktop only) <br> **Note:** Clicking on the widget toggles it inactive or active, which can be useful if you need to temporarily type without triggering the widget's events.
@@ -1481,6 +1511,55 @@ Load a web audio AudioBuffer into the waveform ui, for analysis and visualizatio
 **buffer** &nbsp;  *AudioBuffer* &nbsp;  The buffer to be loaded.
 
 ###waveform.select( start, end )###
+Set the selection start and end points.
+
+
+**start** &nbsp;  *integer* &nbsp;  Selection start point in milliseconds
+
+**end** &nbsp;  *integer* &nbsp;  Selection end point in milliseconds
+
+wavegrain
+-----------
+wavegrain visualizer and selecter
+```html
+<canvas nx="wavegrain"></canvas>
+```
+
+####Properties####
+###wavegrain.val###
+ *object*<br> Object containing core interactive aspects of widget, which are also its data output. Has the following properties:
+
+| &nbsp; | data
+| --- | ---
+| *starttime* | wavegrain selection start position in milliseconds (integer)
+| *stoptime* | wavegrain selection end position in milliseconds (integer)
+| *looptime* | Selection size, in milliseconds (integer)
+ 
+###wavegrain.buffer###
+ *Array*<br> Contains multiple arrays of reduced buffer data, for visualization
+
+
+###wavegrain.definition###
+ *integer*<br> Horizontal definition of the visualization. Value of 3 means the wavegrain will be represented in 3 pixel chunks. Higher numbers (4+) lead to a smaller graphics load. Smaller numbers (1-3) look better. Default is 1 for desktop renders, 3 for mobile renders.
+
+
+###wavegrain.channels###
+ *integer*<br> How many channels in the wavegrain
+
+
+###wavegrain.mode###
+ *string*<br> Mode of interaction. "edge" mode lets you drag each edge of the wavegrain individually. "area" mode (default) lets you drag the wavegrain as a whole (with parallel mouse movement) or scale the wavegrain as a whole (with transverse mouse movement)
+
+
+
+####Methods####
+###wavegrain.setBuffer( buffer )###
+Load a web audio AudioBuffer into the wavegrain ui, for analysis and visualization.
+
+
+**buffer** &nbsp;  *AudioBuffer* &nbsp;  The buffer to be loaded.
+
+###wavegrain.select( start, end )###
 Set the selection start and end points.
 
 

@@ -4,6 +4,7 @@ var domUtils = require('./lib/utils/dom');
 var drawingUtils = require('./lib/utils/drawing');
 var mathUtils = require('./lib/utils/math');
 var extend = require('extend');
+var WebFont = require('webfontloader');
 
 /************************************************
 *  INSTANTIATE NX MANAGER AND CREATE ELEMENTS   *
@@ -19,6 +20,15 @@ window.nx = extend(window.nx,mathUtils)
  * using the canvas's id as its var name */
 
 window.onload = function() {
+  try {
+    WebFont.load({
+      google: {
+        families: ['Open Sans']
+      }
+    });
+  } catch(e) {
+    console.log("font not loaded")
+  }
 
   nx.addStylesheet();
 
@@ -36,7 +46,7 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":48}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":52,"webfontloader":53}],2:[function(require,module,exports){
 
 /** 
   @title NexusUI API
@@ -48,6 +58,7 @@ window.onload = function() {
  
 
 var timingUtils = require('../utils/timing');
+var drawingUtils = require('../utils/drawing');
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var transmit = require('../utils/transmit');
@@ -106,9 +117,9 @@ var manager = module.exports = function() {
   /**  @property {boolean} globalWidgets Whether or not to instantiate a global variable for each widget (i.e. button1). Defaults to true. Designers of other softwares who wish to keep nexusUI entirely encapsulated in the nx object may set this property to false. In that case, all widgets are accessible in nx.widgets */
   this.globalWidgets = true;
 
-  this.font = "gill sans";
+  this.font = "'open sans'";
   this.fontSize = 14;
-  this.fontWeight = "bold";
+  this.fontWeight = "normal";
 
   this.context = new(window.AudioContext || window.webkitAudioContext)()
  
@@ -118,6 +129,12 @@ var manager = module.exports = function() {
 
   /**  @property {integer} throttlePeriod Throttle time in ms (for nx.throttle). */
   this.throttlePeriod = 20;
+
+
+  /* extra colors */
+
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.5,this.colors.border); // colors.border + [20% Darker] => colors.darkborder 
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.15,this.colors.accent);    
 
 }
 
@@ -274,11 +291,18 @@ manager.prototype.colorize = function(aspect, newCol) {
   }
   
   this.colors[aspect] = newCol;
+
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(0.1,this.colors.border,this.colors.black); // colors.border + [20% Darker] => colors.darkborder 
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.3,this.colors.accent);  
   
   for (var key in this.widgets) {
     this.widgets[key].colors[aspect] = newCol;
+    this.widgets[key].colors["borderhl"] = this.colors.borderhl;
+    this.widgets[key].colors["accenthl"] = this.colors.accenthl;
+
     this.widgets[key].draw();
   }
+
 }
   
 
@@ -303,11 +327,12 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
 manager.prototype.colors = { 
   "accent": "#ff5500", 
   "fill": "#eeeeee", 
-  "border": "#bbbbbb",
+  "border": "#e3e3e3",
+  "mid": "#1af",
   "black": "#000000",
   "white": "#FFFFFF"
 };
-  
+
 /**  @method startPulse 
   Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
 */
@@ -346,12 +371,14 @@ manager.prototype.addStylesheet = function() {
     + 'padding: 5px 5px;'
     + 'font-size: 16px;'
     + 'color:#666666;'
-    + 'border: solid 0px #CCC;'
-    + 'border-radius: 5;'
-    + 'outline: black;'
-    + 'cursor:pointer;'
+    + 'border: solid 2px #e4e4e4;'
+    + 'border-radius: 0;'
+    + '-webkit-appearance: none;'
+    //+ 'border: 0;'
+    + 'outline: none;'
+   // + 'cursor:pointer;'
     + 'background-color:#EEE;'
-    + 'font-family:gill sans;'
+    + 'font-family:"open sans";'
     + '}'
     + ''
     + 'input[type=text]::-moz-selection { background: transparent; }'
@@ -359,17 +386,17 @@ manager.prototype.addStylesheet = function() {
     + 'input[type=text]::-webkit-selection { background: transparent; }' 
     + ''
     + 'canvas { '
-    + 'cursor:pointer;'
-    + 'border-radius:5px;'
-    + 'moz-border-radius:5px;'
-    + 'webkit-border-radius:5px;'
+   // + 'cursor:pointer;'
+    + 'border-radius:0px;'
+    + 'moz-border-radius:0px;'
+    + 'webkit-border-radius:0px;'
     + 'box-sizing:border-box;'
     + '-moz-box-sizing:border-box;'
     + '-webkit-box-sizing:border-box;'
     + '}'
     + ''
     + 'input[type=text] { '
-    + 'cursor:pointer;'
+   // + 'cursor:pointer;'
     + 'border-radius:5px;'
     + 'moz-border-radius:5px;'
     + 'webkit-border-radius:5px;'
@@ -426,7 +453,86 @@ manager.prototype.blockMove = function(e) {
      }
   }
 }
-},{"../utils/timing":7,"../utils/transmit":8,"../widgets":17,"events":43,"util":47}],3:[function(require,module,exports){
+
+manager.prototype.calculateDigits = function(value) {
+  var nondecimals = this.max ? Math.floor(this.max).toString().length : 1
+  if (nondecimals < this.maxdigits) {
+    var decimals = 3-nondecimals
+  } else {
+    var decimals = 0
+  }
+  var valdigits = nondecimals + decimals
+  return {
+    wholes: nondecimals,
+    decimals: decimals,
+    total: nondecimals + decimals, 
+  }
+}
+
+manager.prototype.themes = {
+  "light": {
+    "fill": "#DDDDDD",
+    "border": "#DADADA",
+    "black": "#000000",
+    "white": "#FFFFFF",
+    "body": "#F3F3F3"
+  },
+  "dark": {
+    "fill": "#222",
+    "border": "#292929",
+    "black": "#FFFFFF",
+    "white": "#000000",
+    "body": "#111"
+  },
+  "red": "#f24",
+  "orange": "#f50",
+  "yellow": "#ec1",
+  "green": "#1c9",
+  "blue": "#09d",
+  "purple": "#40a",
+}
+
+manager.prototype.skin = function(name) {
+
+  var names = name.split("-")
+
+  nx.colorize("fill", nx.themes[names[0]].fill)
+  nx.colorize("border", nx.themes[names[0]].border)
+  nx.colorize("black", nx.themes[names[0]].black)
+  nx.colorize("white", nx.themes[names[0]].white)
+
+  nx.colorize("accent", nx.themes[names[1]])
+
+  document.body.style.backgroundColor = nx.themes[names[0]].body
+}
+
+
+manager.prototype.labelSize = function(size) {
+  for (var key in this.widgets) {
+    var widget = this.widgets[key]
+     
+    if (widget.label) {
+      var newheight = widget.GUI.h + size
+      widget.labelSize = size
+      if (["select","number","text"].indexOf(widget.type)<0) {
+        widget.resize(false,newheight)
+      }
+    }
+  }
+  var textLabels = document.querySelectorAll(".nxlabel");
+  console.log(textLabels)
+ 
+  for (var i = 0; i < textLabels.length; i++) {
+      console.log(textLabels[i])
+      textLabels[i].style.fontSize = size/2.8+"px"
+      console.log(textLabels[i].style.fontSize)
+  }
+}
+
+
+
+
+},{"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":47,"util":51}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -483,6 +589,21 @@ var widget = module.exports = function (target) {
     /**  @property {object} defaultSize The widget's default size if not defined with HTML/CSS style. (Has properties 'width' and 'height', both in pixels) */
     this.defaultSize = { width: 100, height: 100 };
   }
+  
+  /**  @property {boolean} label Whether or not to draw a text label this widget.   */
+  this.label = false
+  this.labelSize = 30
+  this.labelAlign = "center"
+  this.labelFont = "'Open Sans'"
+
+  if (this.canvas.getAttribute("label")!=null) {
+    this.label = this.canvas.getAttribute("label")
+    this.origDefaultHeight = this.defaultSize.height
+  }
+  if (this.label) {
+    this.defaultSize.height += this.labelSize
+  }
+
   if (this.width==300 && this.height==150) {
     this.canvas.width = this.defaultSize.width*2;
     this.canvas.height = this.defaultSize.height*2;
@@ -500,12 +621,15 @@ var widget = module.exports = function (target) {
   this.canvas.style.height = this.canvas.height/2+"px";
   this.context.scale(2,2)
 
+
+  this.makeRoomForLabel()
+
   /**  @property {object} offset The widget's computed offset from the top left of the document. (Has properties 'top' and 'left', both in pixels) */
   this.offset = domUtils.findPosition(this.canvas);
   /**  @property {object} center The center of the widget's canvas. A 100x100 widget would have a center at 50x50. (Has properties 'x' and 'y', both in pixels) */
   this.center = {
-    x: this.width/2, 
-    y: this.height/2
+    x: this.GUI.w/2,
+    y: this.GUI.h/2
   };
   //drawing
   /**  @property {integer} lineWidth The default line width for drawing (default is 2 pixels). In many widgets, this is overwritten to suite the widget. However it does dictate the border width on most widgets. */
@@ -515,13 +639,16 @@ var widget = module.exports = function (target) {
   this.colors = new Object();
   // define colors individually so they are not pointers to nx.colors
   // this way each object can have its own color scheme
-  this.colors.accent = nx.colors.accent;
+  for (var key in nx.colors) {
+    this.colors[key] = nx.colors[key]
+  }
+  /*this.colors.accent = nx.colors.accent;
   this.colors.fill = nx.colors.fill;
   this.colors.border = nx.colors.border;
   this.colors.accentborder = nx.colors.accentborder;
   this.colors.black = nx.colors.black;
   this.colors.white = nx.colors.white; 
-  this.colors.highlight = nx.colors.highlight;
+  this.colors.highlight = nx.colors.highlight; */
   //interaction
   /**  @property {object} clickPos The most recent mouse/touch position when interating with a widget. (Has properties x and y) */
   this.clickPos = {x: 0, y: 0};
@@ -540,8 +667,6 @@ var widget = module.exports = function (target) {
   this.deltaMove = new Object();
   this.throttlePeriod = nx.throttlePeriod;
   this.throttle = timingUtils.throttle;
-  /**  @property {boolean} label Whether or not to draw a text label this widget.   */
-  this.label = false;
   this.hasMoved = false;
   //recording
   /**  @property {boolean} isRecording Whether or not this widget's output is being recorded to a "remix" widget */
@@ -585,6 +710,8 @@ var widget = module.exports = function (target) {
   this.releaseCB = false;
 
   this.actuated = true;
+
+
 
 }
 util.inherits(widget, EventEmitter)
@@ -633,9 +760,11 @@ widget.prototype.getOffset = function() {
 widget.prototype.preClick = function(e) {
   this.actuated = true;
   this.offset = domUtils.findPosition(this.canvas)
+  this.clickPos = domUtils.getCursorPosition(e, this.offset);
+  // need something like:
+  // if (this.clickPos.y < this.GUI.h) { 
   document.addEventListener("mousemove", this.preMove, false);
   document.addEventListener("mouseup", this.preRelease, false);
-  this.clickPos = domUtils.getCursorPosition(e, this.offset);
   this.clicked = true;
   this.deltaMove.x = 0;
   this.deltaMove.y = 0;
@@ -645,6 +774,7 @@ widget.prototype.preClick = function(e) {
   document.body.style.userSelect = "none";
   document.body.style.mozUserSelect = "none";
   document.body.style.webkitUserSelect = "none";
+  document.body.style.cursor = "none"
 }
 
 widget.prototype.preMove = function(e) {
@@ -667,6 +797,7 @@ widget.prototype.preRelease = function(e) {
   document.body.style.userSelect = "text";
   document.body.style.mozUserSelect = "text";
   document.body.style.webkitUserSelect = "text";
+  document.body.style.cursor = "pointer"
 }
 
 widget.prototype.preTouch = function(e) {
@@ -897,21 +1028,13 @@ widget.prototype.wrapText = function(text, x, y, maxWidth, lineHeight) {
 }
 
 widget.prototype.drawLabel = function() {
-  if (this.showLabels || nx.showLabels) {
+  if (this.label) {
     with(this.context) {
-      globalAlpha = 0.4;
-      fillStyle = this.colors.white;
-      fillRect(this.width-this.canvasID.length * 6-10,this.height-16,this.canvasID.length * 6+10,16);
-      globalAlpha = 0.4;
-      beginPath();
       fillStyle = this.colors.black;
-      font = "normal 10px courier";
-      textAlign = "right";
-      textBaseline = "alphabetic";
-      fillText(this.canvasID,this.width-4,this.height-4);
-      textAlign = "left";
-      closePath();
-      globalAlpha = 1;
+      textAlign = "center"
+      textBaseline = "middle";
+      font = (this.labelSize/2.8) + "px "+this.labelFont+" normal"
+      fillText(this.label,this.width/2,this.labelY);
     }
   }
 }
@@ -926,11 +1049,10 @@ widget.prototype.saveCanv = function() {
 
 widget.prototype.setFont = function() {
   with (this.context) {
-        textAlign = "center";
-        textBaseline = "middle";
-        font = this.fontWeight+" "+this.fontSize+"px "+this.font;
-        fillStyle = this.colors.black;
-        globalAlpha = 0.7;
+      textAlign = "center";
+      font = this.fontWeight+" "+this.fontSize+"px "+this.font;
+      fillStyle = this.colors.black;
+      globalAlpha = 1;
   }
 }
 
@@ -979,15 +1101,34 @@ widget.prototype.resize = function(w,h) {
   this.context.scale(2,2)
 
   this.center = {
-    x: this.width/2,
-    y: this.height/2
+    x: this.GUI.w/2,
+    y: this.GUI.h/2
   };
+
+  this.makeRoomForLabel()
 
   this.init();
   this.draw();
   
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":43,"util":47}],4:[function(require,module,exports){
+
+widget.prototype.normalize = function(value) {
+  return nx.scale(value,this.min,this.max,0,1)
+}
+widget.prototype.rangify = function(value) {
+  return nx.scale(value,0,1,this.min,this.max)
+}
+
+
+widget.prototype.makeRoomForLabel = function() {
+  this.GUI = {
+    w: this.width,
+    h: this.label ? this.height - this.labelSize : this.height
+  }
+  this.labelY = this.height - this.labelSize/2;
+  // must add the above code to widget.resize
+}
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":47,"util":51}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1032,7 +1173,7 @@ exports.getCursorPosition = function(e, canvas_offset) {
     y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
   }
   x -= canvas_offset.left;
-    y -= canvas_offset.top;
+  y -= canvas_offset.top;
   var click_position = {x: x, y: y};
   click_position.touches = [ {x: x, y: y } ];
   return click_position;
@@ -1137,6 +1278,26 @@ exports.text = function(context, text, position) {
     fillText(text,position[0],position[1]);
     closePath();
   }
+}
+
+exports.shadeBlendConvert = function(p, from, to) {
+    if(typeof(p)!="number"||p<-1||p>1||typeof(from)!="string"||(from[0]!='r'&&from[0]!='#')||(typeof(to)!="string"&&typeof(to)!="undefined"))return null; //ErrorCheck
+    this.sbcRip=function(d){
+        var l=d.length,RGB=new Object();
+        if(l>9){
+            d=d.split(",");
+            if(d.length<3||d.length>4)return null;//ErrorCheck
+            RGB[0]=i(d[0].slice(4)),RGB[1]=i(d[1]),RGB[2]=i(d[2]),RGB[3]=d[3]?parseFloat(d[3]):-1;
+        }else{
+            switch(l){case 8:case 6:case 3:case 2:case 1:return null;} //ErrorCheck
+            if(l<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(l>4?d[4]+""+d[4]:""); //3 digit
+            d=i(d.slice(1),16),RGB[0]=d>>16&255,RGB[1]=d>>8&255,RGB[2]=d&255,RGB[3]=l==9||l==5?r(((d>>24&255)/255)*10000)/10000:-1;
+        }
+        return RGB;}
+    var i=parseInt,r=Math.round,h=from.length>9,h=typeof(to)=="string"?to.length>9?true:to=="c"?!h:false:h,b=p<0,p=b?p*-1:p,to=to&&to!="c"?to:b?"#000000":"#FFFFFF",f=this.sbcRip(from),t=this.sbcRip(to);
+    if(!f||!t)return null; //ErrorCheck
+    if(h)return "rgb("+r((t[0]-f[0])*p+f[0])+","+r((t[1]-f[1])*p+f[1])+","+r((t[2]-f[2])*p+f[2])+(f[3]<0&&t[3]<0?")":","+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*10000)/10000:t[3]<0?f[3]:t[3])+")");
+    else return "#"+(0x100000000+(f[3]>-1&&t[3]>-1?r(((t[3]-f[3])*p+f[3])*255):t[3]>-1?r(t[3]*255):f[3]>-1?r(f[3]*255):255)*0x1000000+r((t[0]-f[0])*p+f[0])*0x10000+r((t[1]-f[1])*p+f[1])*0x100+r((t[2]-f[2])*p+f[2])).toString(16).slice(f[3]>-1||t[3]>-1?1:3);
 }
 },{"./math":6}],6:[function(require,module,exports){
 
@@ -1488,40 +1649,40 @@ banner.prototype.draw = function() {
 		fillStyle = this.colors.accent;
 		beginPath();
 			moveTo(0,10);
-			lineTo(10,this.height/2+5);
-			lineTo(0,this.height);
-			lineTo(30,this.height);
+			lineTo(10,this.GUI.h/2+5);
+			lineTo(0,this.GUI.h);
+			lineTo(30,this.GUI.h);
 			lineTo(30,10);
 			fill();
-			moveTo(this.width-30,10);
-			lineTo(this.width-30,this.height);
-			lineTo(this.width,this.height);
-			lineTo(this.width-10,this.height/2+5);
-			lineTo(this.width,10);
+			moveTo(this.GUI.w-30,10);
+			lineTo(this.GUI.w-30,this.GUI.h);
+			lineTo(this.GUI.w,this.GUI.h);
+			lineTo(this.GUI.w-10,this.GUI.h/2+5);
+			lineTo(this.GUI.w,10);
 			fill();
 		closePath();
 		globalAlpha = 1;
 
 		fillStyle = this.colors.accent;
-		fillRect(15,0,this.width-30,this.height-10);
+		fillRect(15,0,this.GUI.w-30,this.GUI.h-10);
 		
 		fillStyle = this.colors.white;
-		font = this.fontWeight + " " +this.height/5+"px "+this.font;
+		font = this.fontWeight + " " +this.GUI.h/5+"px "+this.font;
 		textAlign = "center";
-		fillText(this.message1, this.width/2, this.height/3.3);
-		fillText(this.message2, this.width/2, (this.height/3.3)*2);
+		fillText(this.message1, this.GUI.w/2, this.GUI.h/3.3);
+		fillText(this.message2, this.GUI.w/2, (this.GUI.h/3.3)*2);
 
 		fillStyle = this.colors.black;
 		beginPath();
-			moveTo(15,this.height-10);
-			lineTo(30,this.height);
-			lineTo(30,this.height-10);
-			lineTo(15,this.height-10);
+			moveTo(15,this.GUI.h-10);
+			lineTo(30,this.GUI.h);
+			lineTo(30,this.GUI.h-10);
+			lineTo(15,this.GUI.h-10);
 			fill();
-			moveTo(this.width-15,this.height-10);
-			lineTo(this.width-30,this.height);
-			lineTo(this.width-30,this.height-10);
-			lineTo(this.width-15,this.height-10);
+			moveTo(this.GUI.w-15,this.GUI.h-10);
+			lineTo(this.GUI.w-30,this.GUI.h);
+			lineTo(this.GUI.w-30,this.GUI.h-10);
+			lineTo(this.GUI.w-15,this.GUI.h-10);
 			fill();
 		closePath();
 	
@@ -1533,7 +1694,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":47}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":51}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1605,10 +1766,11 @@ util.inherits(button, widget);
 
 button.prototype.init = function() {
 	this.center = {
-		x: this.width/2,
-		y: this.height/2
+		x: this.GUI.w/2,
+		y: this.GUI.h/2
 	}
-	this.radius = (Math.min(this.center.x, this.center.y)-this.lineWidth/2)
+	this.strokeWidth = this.GUI.w/20;
+	this.radius = (Math.min(this.center.x, this.center.y))
 	this.draw();
 }
 
@@ -1631,7 +1793,7 @@ button.prototype.draw = function() {
 					// No touch image, apply highlighting
 					globalAlpha = 0.5;
 					fillStyle = this.colors.accent;
-					fillRect (0, 0, this.width, this.height);
+					fillRect (0, 0, this.GUI.w, this.GUI.h);
 					globalAlpha = 1;
 					
 				} else {
@@ -1643,34 +1805,48 @@ button.prototype.draw = function() {
 		} else {
 	
 			// Regular Button
+			
 			if (!this.val.press) {
-				fillStyle = this.colors.fill;
+				fillStyle = this.colors.fill
+				strokeStyle = this.colors.border
+			//	var strokealpha = 1
 			} else if (this.val.press) {
 				fillStyle = this.colors.accent;
+			//	strokeStyle = this.colors.accentborder || "#fff"
+				strokeStyle = this.colors.accenthl
+			//	var strokealpha = 0.2
 			}
+
+			lineWidth = this.strokeWidth;
 
 			beginPath();
 				arc(this.center.x, this.center.y, this.radius, 0, Math.PI*2, true);
-				fill();	  
-			closePath();
+				fill()
+			closePath()
+
+			beginPath();
+				arc(this.center.x, this.center.y, this.radius-lineWidth/2, 0, Math.PI*2, true);
+			//	globalAlpha = strokealpha
+				stroke()
+				globalAlpha = 1
+			closePath()
 
 			if (this.val.press && this.mode=="aftertouch") {
 
-				var x = nx.clip(this.clickPos.x,this.width*.2,this.width/1.3)
-				var y = nx.clip(this.clickPos.y,this.height*.2,this.height/1.3)
+				var x = nx.clip(this.clickPos.x,this.GUI.w*.2,this.GUI.w/1.3)
+				var y = nx.clip(this.clickPos.y,this.GUI.h*.2,this.GUI.h/1.3)
 
-				var gradient = this.context.createRadialGradient(x,y,this.width/6,this.center.x,this.center.y,this.radius*1.3);
+				var gradient = this.context.createRadialGradient(x,y,this.GUI.w/6,this.center.x,this.center.y,this.radius*1.3);
 				gradient.addColorStop(0,this.colors.accent);
 				gradient.addColorStop(1,"white");
 
 				strokeStyle = gradient;
-				lineWidth = this.width/20;
+				lineWidth = this.GUI.w/20;
 
 				beginPath()
-					arc(this.center.x, this.center.y, this.radius-this.width/40, 0, Math.PI*2, true);
+					arc(this.center.x, this.center.y, this.radius-this.GUI.w/40, 0, Math.PI*2, true);
 					stroke()
 				closePath()
-
 
 			}
 		}
@@ -1736,7 +1912,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw();
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":51}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1763,7 +1939,7 @@ colors.prototype.init = function() {
 
 	/* new tactic */
 
-	this.gradient1 = this.context.createLinearGradient(0,0,this.width,0)
+	this.gradient1 = this.context.createLinearGradient(0,0,this.GUI.w,0)
  	this.gradient1.addColorStop(0, '#F00'); 
  	this.gradient1.addColorStop(0.17, '#FF0'); 
  	this.gradient1.addColorStop(0.34, '#0F0'); 
@@ -1772,7 +1948,7 @@ colors.prototype.init = function() {
  	this.gradient1.addColorStop(0.85, '#F0F'); 
  	this.gradient1.addColorStop(1, '#F00'); 
 
-	this.gradient2 = this.context.createLinearGradient(0,0,0,this.height)
+	this.gradient2 = this.context.createLinearGradient(0,0,0,this.GUI.h)
  	this.gradient2.addColorStop(0, 'rgba(0,0,0,255)'); 
  	this.gradient2.addColorStop(0.49, 'rgba(0,0,0,0)'); 
  	this.gradient2.addColorStop(0.51, 'rgba(255,255,255,0)'); 
@@ -1786,9 +1962,9 @@ colors.prototype.draw = function() {
 
 	with(this.context) {
 		fillStyle = this.gradient1;
-		fillRect(0,0,this.width,this.height)
+		fillRect(0,0,this.GUI.w,this.GUI.h)
 		fillStyle = this.gradient2;
-		fillRect(0,0,this.width,this.height)
+		fillRect(0,0,this.GUI.w,this.GUI.h)
 	}
 
 	this.drawLabel();
@@ -1797,13 +1973,13 @@ colors.prototype.draw = function() {
 colors.prototype.drawColor = function() {
 	with(this.context) {
 		fillStyle = "rgb("+this.val.r+","+this.val.g+","+this.val.b+")"
-		fillRect(0,this.height * 0.95,this.width,this.height* 0.05)
+		fillRect(0,this.GUI.h * 0.95,this.GUI.w,this.GUI.h* 0.05)
 
 	}
 }
 
 colors.prototype.click = function(e) {
-	if (this.clickPos.x > 0 && this.clickPos.y > 0 && this.clickPos.x < this.width && this.clickPos.y < this.height) {
+	if (this.clickPos.x > 0 && this.clickPos.y > 0 && this.clickPos.x < this.GUI.w && this.clickPos.y < this.GUI.h) {
 		var imgData = this.context.getImageData(this.clickPos.x*2,this.clickPos.y*2,1,1);
 	} else {
 		return;
@@ -1836,7 +2012,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":47}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":51}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -1851,7 +2027,7 @@ var widget = require('../core/widget');
 
 var comment = module.exports = function (target) {
 	
-	this.defaultSize = { width: 75, height: 25 };
+	this.defaultSize = { width: 100, height: 20 };
 	widget.call(this, target);
 
 	/** @property {object}  val   
@@ -1889,27 +2065,22 @@ comment.prototype.init = function() {
 
 comment.prototype.draw = function() {
 	if (!this.sizeSet) {
-		this.size = Math.sqrt((this.width * this.height) / (this.val.text.length));
+		this.size = Math.sqrt((this.GUI.w * this.GUI.h) / (this.val.text.length*2));
 	}
 
 	this.erase();
 	with (this.context) {
 		
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
-		
-		beginPath();
-		moveTo(0,this.height);
-		lineTo(this.width,this.height);
-		closePath();
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 		
 		fillStyle = this.colors.black;
 		textAlign = "left";
-		font = this.size+"px Gill Sans";
+		font = this.size+"px 'Open Sans'";
 	}
-	this.wrapText(this.val.text, 6, 3+this.size, this.width-6, this.size);
+	this.wrapText(this.val.text, 6, 3+this.size, this.GUI.w-6, this.size);
 }
-},{"../core/widget":3,"util":47}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":51}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -1932,52 +2103,56 @@ var crossfade = module.exports = function (target) {
 		| --- | ---
 		| *value* | Crossfade value (float -1 to 1)
 	*/
-	this.val.value = 0.7
+	this.val = {
+		R: 0.75,
+		L: 0.75
+	}
 
-	this.label = "";
+	this.location = 0.5
 
 	this.init();
 }
 util.inherits(crossfade, widget);
 
 crossfade.prototype.init = function() {
-
-	if (this.canvas.getAttribute("label")!=null) {
-		this.label = this.canvas.getAttribute("label");
-	}
-
 	this.draw();
 }
 
 crossfade.prototype.draw = function() {
 	
 	this.erase();
+
+	this.location = Math.pow(this.val.R,2)
 		
 	with (this.context) {
 
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 
-		
-		if (nx.showLabels) {
-			this.setFont();
-			fillText(this.label, this.width/2, this.height/2);
-			globalAlpha = 1;
-		
-		}
-
-		var x1 = this.width/2;
 		var y1 = 0;
-		var x2 = (this.val.value/2)*this.width;
-		var y2 = this.height;
-	   
-	
+		var y2 = this.GUI.h;
+		var x1 = this.location*this.GUI.w;
+		//var x2 = this.GUI.w/5;
+		//
 		fillStyle = this.colors.accent;
-		fillRect(x1,y1,x2,y2);
+		fillRect(x1,y1,this.GUI.w-x1,y2);
 
-		fillRect(x1-1,y1,2,y2);
+		textBaseline="middle"
+		font = this.GUI.h/3 + "px 'Open Sans'"
+
+		fillStyle = this.colors.accent;
+		textAlign="right"
+		fillText(this.val.R.toFixed(2), x1-2, this.GUI.h/4)
+
+		fillStyle = this.colors.fill;
+		textAlign="left"
+		fillText(this.val.L.toFixed(2), x1+2, this.GUI.h* 0.75)
+
 
 	}
+
+	this.drawLabel()
+	
 }
 
 crossfade.prototype.click = function() {
@@ -1985,12 +2160,15 @@ crossfade.prototype.click = function() {
 }
 
 crossfade.prototype.move = function() {
-	var x = nx.scale(this.clickPos.x/this.width,0,1,-1,1)
-	this.val.value = math.prune(math.clip(x, -1, 1),3)
+	var R = math.clip(this.clickPos.x/this.GUI.w,0,1)
+	var L = 1 - R
+	this.location = R
+	this.val.R = math.prune(Math.sqrt(R),3)
+	this.val.L = math.prune(Math.sqrt(L),3)
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2006,7 +2184,7 @@ var widget = require('../core/widget');
 
 var dial = module.exports = function(target) {
 	
-	this.defaultSize = { width: 50, height: 50 };
+	this.defaultSize = { width: 100, height: 100 };
 	widget.call(this, target);
 	
 	//define unique attributes
@@ -2031,6 +2209,25 @@ var dial = module.exports = function(target) {
 
 	this.lockResize = true;
 
+  if (this.canvas.getAttribute("min")!=null) {
+    this.min = parseFloat(this.canvas.getAttribute("min"));
+  } else {
+  	this.min = 0
+  }
+  if (this.canvas.getAttribute("max")!=null) {
+    this.max = parseFloat(this.canvas.getAttribute("max"));
+  } else {
+  	this.max = 1
+  }
+  if (this.canvas.getAttribute("step")!=null) {
+    this.step = parseFloat(this.canvas.getAttribute("step"));
+  } else {
+  	this.step = 0.001
+  }
+
+	this.maxdigits = 3
+	this.calculateDigits = nx.calculateDigits
+
 	this.init();
 	
 }
@@ -2041,12 +2238,8 @@ dial.prototype.init = function() {
 
 	this.circleSize = (Math.min(this.center.x, this.center.y));
 	this.handleLength = this.circleSize;
-	this.mindim = Math.min(this.width,this.height)
+	this.mindim = Math.min(this.GUI.w,this.GUI.h)
 	
-	if (this.mindim<101) {
-		this.handleLength--;
-	}
-
 	if (this.mindim<101 || this.mindim<101) {
 		this.accentWidth = this.lineWidth * 1;
 	} else {
@@ -2054,62 +2247,75 @@ dial.prototype.init = function() {
 	}
 	
 	this.draw();
-	
-	return 1;
+
 }
 
 dial.prototype.draw = function() {
-	var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
-	var dial_position = (this.val.value + 0.25) * 2 * Math.PI
-	var point = math.toCartesian(this.handleLength, dial_angle);
+
+	var normalval = this.normalize(this.val.value)
+
+	//var dial_angle = (((1.0 - this.val.value) * 2 * Math.PI) + (1.5 * Math.PI));
+	var dial_position = (normalval + 0.25) * 2 * Math.PI
+	//var point = math.toCartesian(this.handleLength, dial_angle);
 
 	this.erase();
 	
 	with (this.context) {
 		
-		fillStyle = this.colors.fill;
-		
-		//draw main circle
+		lineCap = 'butt';
 		beginPath();
-			arc(this.center.x, this.center.y, this.circleSize-1, 0, Math.PI*2, true);
-			fill();
-		closePath();
-
-		//draw color fill
-		beginPath();
-			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize, Math.PI* 0.5, dial_position, false);
-			lineTo(this.center.x,this.center.y);
-			globalAlpha = 0.1;
-			fillStyle = this.colors.accent;
-			fill();
-			globalAlpha = 1;
+			lineWidth = this.circleSize/2;
+			arc(this.center.x, this.center.y, this.circleSize-lineWidth/2, Math.PI * 0, Math.PI * 2, false);
+			strokeStyle = this.colors.fill;
+			stroke();
 		closePath(); 
 
 		//draw round accent
+		lineCap = 'butt';
 		beginPath();
-			lineWidth = this.accentWidth;
-			arc(this.center.x, this.center.y, this.circleSize-this.lineWidth , Math.PI* 0.5, dial_position, false);
+			lineWidth = this.circleSize/2;
+			arc(this.center.x, this.center.y, this.circleSize-lineWidth/2, Math.PI * 0.5, dial_position, false);
 			strokeStyle = this.colors.accent;
 			stroke();
 		closePath(); 
-	
-		//draw bar accent
-		beginPath();
-			lineWidth = this.accentWidth;
-			strokeStyle = this.colors.accent;
-			moveTo(this.center.x, this.center.y);
-			lineTo(point.x + this.center.x, point.y + this.center.y);
+
+		clearRect(this.center.x-this.GUI.w/40,this.center.y,this.GUI.w/20,this.GUI.h/2)
+
+		if (normalval > 0) {
+			beginPath();
+			lineWidth = 1.5;
+			moveTo(this.center.x-this.GUI.w/40,this.center.y+this.circleSize/2) //this.radius-this.circleSize/4
+			lineTo(this.center.x-this.GUI.w/40,this.center.y+this.circleSize) //this.radius+this.circleSize/4
+			strokeStyle = this.colors.accent
 			stroke();
-		closePath(); 
+			closePath();
+		}
+
+    //figure out text size
+    //
+    //
+    //
+    this.val.value = math.prune(this.rangify(normalval),3)
 		
-		//draw circle in center
-		beginPath();
-			fillStyle = this.colors.accent;
-			arc(this.center.x, this.center.y, this.circleSize/8, 0, Math.PI*2, false);
-			fill();
-		closePath(); 
-		
+
+		//var valdigits = this.max ? Math.floor(this.max).toString().length : 1
+		//valdigits += this.step ? this.step < 1 ? 1 : 2 : 2
+		this.digits = this.calculateDigits()
+
+		valtextsize = (this.mindim / this.digits.total) * 0.55
+
+		if (valtextsize > 7) {
+
+	    var valtext = this.val.value.toFixed(this.digits.decimals)
+
+			fillStyle = this.colors.borderhl
+	    textAlign = "center"
+	    textBaseline = "middle"
+	    font = valtextsize+"px 'Open Sans'"
+	    fillText(valtext,this.GUI.w/2,this.GUI.h/2);
+
+	  }
+
 	}
 
 	this.drawLabel();
@@ -2125,8 +2331,9 @@ dial.prototype.click = function(e) {
 
 
 dial.prototype.move = function() {	
-	this.val.value = math.clip((this.val.value - (this.deltaMove.y * this.responsivity)), 0, 1);
-	this.val.value = math.prune(this.val.value, 4)
+	var normalval = this.normalize(this.val.value)
+	normalval = math.clip((normalval - (this.deltaMove.y * this.responsivity)), 0, 1);
+	this.val.value = math.prune(this.rangify(normalval), 4)
 	this.transmit(this.val);
 	
 	this.draw();
@@ -2169,7 +2376,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],15:[function(require,module,exports){
 var startTime = 0;
 
 var math = require('../utils/math')
@@ -2234,7 +2441,7 @@ var envelope = module.exports = function (target) {
 	}
 
 	// Index of which node was clicked
-	var selectedNode = null;
+	this.selectedNode = null;
 
 	nx.aniItems.push(this.pulse.bind(this));
 
@@ -2244,7 +2451,7 @@ var envelope = module.exports = function (target) {
 util.inherits(envelope, widget);
 
 envelope.prototype.init = function() {
-	this.mindim = this.width < this.height ? this.width : this.height;
+	this.mindim = this.GUI.w < this.GUI.h ? this.GUI.w : this.GUI.h;
 	this.draw();
 }
 
@@ -2252,10 +2459,10 @@ envelope.prototype.draw = function() {
 	this.erase();
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 		fillStyle = this.colors.accent;
 		var centerx = this.mindim/10
-		var centery = this.height-this.mindim/10
+		var centery = this.GUI.h-this.mindim/10
 		beginPath()
 			moveTo(centerx,centery)
 			arc(centerx,centery,this.mindim/10,Math.PI*1.5,Math.PI*2*this.val.index+Math.PI*1.5,false);
@@ -2267,8 +2474,8 @@ envelope.prototype.draw = function() {
 		var drawingY = [];
 
 		for (var i = 0; i < this.val.points.length; i++) {
-			drawingX[i] = this.val.points[i].x * this.width;
-			drawingY[i] = (1 - this.val.points[i].y) * this.height;
+			drawingX[i] = this.val.points[i].x * this.GUI.w;
+			drawingY[i] = (1 - this.val.points[i].y) * this.GUI.h;
 
 			//stay within right/left bounds
 			if (drawingX[i]<(this.bgLeft+this.nodeSize)) {
@@ -2286,7 +2493,7 @@ envelope.prototype.draw = function() {
 
 		// draw rectangles
 		for (var j = 0; j < drawingX.length; j++) {
-			var size = this.mindim/25;
+			var size = this.mindim/35 + 2;
 			beginPath()
 			arc(drawingX[j],drawingY[j],size,0,Math.PI*2,false);
 			fillStyle = this.colors.accent
@@ -2298,16 +2505,16 @@ envelope.prototype.draw = function() {
 		// draw shape
 		beginPath();
 			strokeStyle = this.colors.accent;
-			moveTo(-5,this.height);
-			lineTo(-5,(1-this.val.points[0].y)*this.height);
+			moveTo(-5,this.GUI.h);
+			lineTo(-5,(1-this.val.points[0].y)*this.GUI.h);
 
 			// draw each line
 			for (var j = 0; j < drawingX.length; j++) {
 				lineTo(drawingX[j],drawingY[j]);
 			}
 
-			lineTo(this.width+5,(1-this.val.points[this.val.points.length-1].y)*this.height);
-			lineTo(this.width+5,this.height);
+			lineTo(this.GUI.w+5,(1-this.val.points[this.val.points.length-1].y)*this.GUI.h);
+			lineTo(this.GUI.w+5,this.GUI.h);
 			stroke();
 			globalAlpha = 0.2;
 			fillStyle = this.colors.accent;
@@ -2325,12 +2532,12 @@ envelope.prototype.draw = function() {
 envelope.prototype.scaleNode = function(nodeIndex) {
 	var i = nodeIndex;
 	var prevX = 0;
-	var nextX = this.width;
+	var nextX = this.GUI.w;
 	
 	var actualX = this.val.points[i].x;
-	var actualY = (this.height - this.val.points[i].y);
-	var clippedX = math.clip(actualX/this.width, 0, 1);
-	var clippedY = math.clip(actualY/this.height, 0, 1);
+	var actualY = (this.GUI.h - this.val.points[i].y);
+	var clippedX = math.clip(actualX/this.GUI.w, 0, 1);
+	var clippedY = math.clip(actualY/this.GUI.h, 0, 1);
 
 	this.val.points[i].x = math.prune(clippedX, 3);
 	this.val.points[i].y = math.prune(clippedY, 3);
@@ -2346,21 +2553,21 @@ envelope.prototype.scaleNode = function(nodeIndex) {
 	if (this.val.points[i].x < prevX) {
 		this.val.points.splice(i-1, 0, this.val.points.splice(i, 1)[0])
 		i = i-1;
-		selectedNode = i;
+		this.selectedNode = i;
 	}
 
 	if (this.val.points[i].x > nextX) {
 		this.val.points.splice(i+1, 0, this.val.points.splice(i, 1)[0])
 		i = i+1;
-		selectedNode = i;
+		this.selectedNode = i;
 	}
 
 }
 
 envelope.prototype.click = function() {
 
-	// find nearest node and set selectedNode (index)
-	selectedNode = this.findNearestNode(this.clickPos.x/this.width, this.clickPos.y/this.height, this.val.points);
+	// find nearest node and set this.selectedNode (index)
+	this.selectedNode = this.findNearestNode(this.clickPos.x/this.GUI.w, this.clickPos.y/this.GUI.h, this.val.points);
 
 	this.transmit(this.val);
 	this.draw();
@@ -2368,9 +2575,9 @@ envelope.prototype.click = function() {
 
 envelope.prototype.move = function() {
 	if (this.clicked) {
-		this.val.points[selectedNode].x = this.clickPos.x;
-		this.val.points[selectedNode].y = this.clickPos.y;
-		this.scaleNode(selectedNode);
+		this.val.points[this.selectedNode].x = this.clickPos.x;
+		this.val.points[this.selectedNode].y = this.clickPos.y;
+		this.scaleNode(this.selectedNode);
 		this.transmit(this.val);
 		this.draw();
 	}
@@ -2379,13 +2586,13 @@ envelope.prototype.move = function() {
 envelope.prototype.release = function() {
 
 	if (!this.hasMoved) {
-		this.val.points.splice(selectedNode,1)
+		this.val.points.splice(this.selectedNode,1)
 	}
 
 	this.draw();
 
-	// reset the selectedNode
-	selectedNode = null;
+	// reset the this.selectedNode
+	this.selectedNode = null;
 }
 
 // update index and amp
@@ -2411,9 +2618,9 @@ envelope.prototype.pulse = function() {
 			this.val.amp = this.val.points[this.val.points.length-1].y
 		} else if (this.val.index < this.val.points[0].x) {
 			this.val.amp = this.val.points[0].y
-		} else {
-
-			while (percentDone > this.val.points[this.scanIndex].x) {
+		} else {				
+			this.scanIndex = 0;
+			while (this.val.index > this.val.points[this.scanIndex].x) {
 				this.scanIndex++;
 			}
 
@@ -2467,15 +2674,15 @@ envelope.prototype.findNearestNode = function(x, y, nodes) {
 	if (nearestDist>.1) {
 		if (before) { nearestIndex++ }
 		this.val.points.splice(nearestIndex,0,{
-			x: this.clickPos.x/this.width,
-			y: (this.height-this.clickPos.y)/this.height
+			x: this.clickPos.x/this.GUI.w,
+			y: (this.GUI.h-this.clickPos.y)/this.GUI.h
 		})
 		//nearestIndex++;
 	}
 
 	return nearestIndex;
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],16:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],16:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2582,24 +2789,24 @@ ghost.prototype.draw = function() {
 
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height)
+		fillRect(0,0,this.GUI.w,this.GUI.h)
 	}
 
-	var quad = this.width/4;
-	var quad2 = this.width-quad;
+	var quad = this.GUI.w/4;
+	var quad2 = this.GUI.w-quad;
 	
 	if (!this.recording) {
 		with (this.context) {
 			fillStyle = "#e33";
 			beginPath()
-			arc(quad,this.height/2,quad*0.8,0,Math.PI*2)
+			arc(quad,this.GUI.h/2,quad*0.8,0,Math.PI*2)
 			fill()
 			closePath();
 			textAlign = "center"
 			textBaseline = "middle"
-			font = "normal "+this.height/6+"px courier"
+			font = "normal "+this.GUI.h/6+"px courier"
 			fillStyle = this.colors.fill
-			fillText("rec",quad,this.height/2)
+			fillText("rec",quad,this.GUI.h/2)
 		}
 	} else {
 		with (this.context) {
@@ -2612,29 +2819,29 @@ ghost.prototype.draw = function() {
 		with (this.context) {
 			fillStyle = this.colors.border
 			beginPath()
-			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
+			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
 			fill()
 			closePath()
 			textAlign = "center"
 			textBaseline = "middle"
-			font = "normal "+this.height/6+"px courier"
+			font = "normal "+this.GUI.h/6+"px courier"
 			fillStyle = this.colors.fill
-			fillText("play",quad2,this.height/2)
+			fillText("play",quad2,this.GUI.h/2)
 		}
 	} else {
 		with (this.context) {
 			strokeStyle = this.colors.border
-			lineWidth = this.width/30
+			lineWidth = this.GUI.w/30
 			beginPath()
-			arc(quad2,this.height/2,quad*0.8,0,Math.PI*2)
+			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
 			stroke()
 			closePath()
 			var sec = ~~(this.needle/30)
 			textAlign = "center"
 			textBaseline = "middle"
-			font = "normal "+this.height/3+"px courier"
+			font = "normal "+this.GUI.h/3+"px courier"
 			fillStyle = this.colors.border
-			fillText(sec,quad2,this.height/2+2)
+			fillText(sec,quad2,this.GUI.h/2+2)
 		}
 	}
 }
@@ -2663,18 +2870,36 @@ ghost.prototype.stop = function() {
 	nx.removeAni(this.boundLog);
 	this.size = this.moment;
 	this.recording = false;
+
+/*	for ()
+	for (var j=0;j<this.buffer[sender.tapeNum][key].length;j++) {
+		if (this.buffer[sender.tapeNum][key][j] != this.buffer[sender.tapeNum][key][0]) {
+			changed = true;
+			console.log(key + " changes")
+			break;
+		}
+	} */
+
 	this.draw();
 }
 
 
 ghost.prototype.scan = function(x) {
+
+	this.pneedle = this.needle - this.direction
+	if (this.pneedle <= 0) {
+		this.pneedle = this.size-1
+	} else if (this.pneedle >= this.size-1) {
+		this.pneedle = 0
+	}
+
+
 	// loop through the widgets that were recorded
 	for (var i=0;i<this.components.length;i++) {
 		//sender is the current widget we're looking at
 		var sender = this.components[i];
 		//loop through the widget's gesture buffer
 		for (var key in this.buffer[sender.tapeNum]) {
-
 			if (this.buffer[sender.tapeNum][key]) {
 
 				//create a new val object
@@ -2682,8 +2907,25 @@ ghost.prototype.scan = function(x) {
 				//make sure we're not looking out of bounds of the buffer
 				var max = this.buffer[sender.tapeNum][key][~~this.needle+1] ? this.buffer[sender.tapeNum][key][~~this.needle+1] : this.buffer[sender.tapeNum][key][~~this.needle]
 
-				if (this.buffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.needle-this.direction]) {
-					
+			//	var changed = false;
+
+				//is this value the first
+		/*		if (this.buffer[sender.tapeNum][key][~~this.needle-this.direction] == undefined) {
+			
+					for (var j=0;j<this.buffer[sender.tapeNum][key].length;j++) {
+						if (this.buffer[sender.tapeNum][key][j] != this.buffer[sender.tapeNum][key][0]) {
+							changed = true;
+							break;
+						}
+					}
+				} else if (this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.needle-this.direction]) {
+					changed = true;
+				} */
+
+
+
+				if (this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.pneedle]) {
+	
 					// if it's a number, interpolate
 					if (typeof this.buffer[sender.tapeNum][key][~~this.needle] == "number") {
 						// create the value pair
@@ -2699,9 +2941,7 @@ ghost.prototype.scan = function(x) {
 						
 					}
 
-
-
-
+					
 				}
 			}
 		}
@@ -2715,9 +2955,10 @@ ghost.prototype.scan = function(x) {
 
 ghost.prototype.play = function(rate,start,end) {
 	rate ? this.rate = rate : false;
-	if (start) {
-		this.needle = this.moment-1;
-		this.start = start;
+	if (start || this.start) {
+		//this.needle = this.moment-1;
+		this.start = start ? start : this.start;
+		this.needle = this.start
 	} else {
 		this.needle = this.moment-1;
 		this.start = 0;
@@ -2750,11 +2991,11 @@ ghost.prototype.advance = function() {
 			this.needle += this.rate*this.direction * (nx.random(dir)-1);
 		}
 
-		if (this.needle/this.size < this.end && this.needle/this.size > this.start) {
+		if (this.needle/this.size < this.end && this.needle/this.size >= this.start) {
 			this.scan();
 		} else if (this.looping) {
 			if (this.mode=="linear") {
-				this.needle = this.start*this.size + 1;
+				this.needle = this.start*this.size;
 			} else {
 				this.direction = this.direction * -1
 			}
@@ -2767,7 +3008,366 @@ ghost.prototype.advance = function() {
 	
 
 ghost.prototype.click = function(e) {
-	if (this.clickPos.x<this.width/2) {
+	if (this.clickPos.x<this.GUI.w/2) {
+		if (this.recording) {
+			this.stop()
+		} else {
+			this.pause()
+			this.record()
+		}
+	} else {
+		if (this.playing) {
+			this.pause();
+		} else {
+			this.play();
+		}
+		this.draw();
+	}
+}
+},{"../core/widget":3,"../utils/math":6,"util":51}],17:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class ghostlist (alpha) 
+	Interface gesture capture / playback (in development)    
+	
+	```html
+	<canvas nx="ghostlist"></canvas>
+	```
+	<canvas nx="ghostlist" style="margin-left:25px"></canvas>
+*/
+
+var ghostlist = module.exports = function(target) {
+	
+	this.defaultSize = { width: 100, height: 50 };
+	widget.call(this, target);
+	
+	//define unique attributes
+	this.recording = false;
+	this.playing = false;
+	this.maxLength = 2000;
+	this.components = new Array();
+	//the recording buffer
+	this.buffer = new Array();
+	//the playback info
+	this.playbuffer = []
+	this.playIndex = 0
+	this.playbufferSize = 0
+	//this.moment is for the record head
+	this.moment = 0;
+	//this.needle is for the playback head
+	this.needle = 0;
+	this.val = new Object();
+	this.rate = 1;
+	this.start = 0;
+	this.end = 1;
+	this.size = 0;
+	this.looping = true;
+	this.boundLog = this.log.bind(this)
+	this.direction = 1;
+	//settings
+	this.noise = 0;
+	this.loopstart = 0;
+	this.loopend = 0;
+	this.mode = "linear";   // linear,bounce,random,wander,pattern/dream
+	//init
+	this.init();
+
+	this.boundAdv = this.advance.bind(this);
+	nx.aniItems.push(this.boundAdv)
+
+}
+
+util.inherits(ghostlist, widget);
+
+
+ghostlist.prototype.init = function() {
+	this.draw();
+}
+
+ghostlist.prototype.watch = function() {
+}
+	
+	//sets a new component to be recorded
+ghostlist.prototype.connect = function(target) {
+	var compIndex = this.components.length;
+	this.components.push(target);
+	target.tapeNum = compIndex;
+	target.isRecording = true;
+	target.recorder = this;
+	this.buffer[compIndex] = new Object();
+	for (var key in target.val) {
+		this.buffer[compIndex][key] = new Array();
+	}
+	
+}
+	
+	//the actual recording function
+ghostlist.prototype.write = function(index, val) {
+	if (this.moment>=this.maxLength) {
+		this.stop();
+	}
+	for (var key in val) {
+		if (this.buffer[index][key]) {
+			/*if (!this.actuated) {
+				//if ignored because widget currently being set with .set
+				this.buffer[index][key][this.moment] = {}
+					for (var subkey in val[key]) {
+						this.buffer[index][key][this.moment][subkey] = val[key][subkey]
+					}
+
+			} else { */
+				// if an array or object, must make a copy, otherwise it is a reference to the original and will not record properly
+				if (typeof val[key] == "object") {
+					if (Array.isArray(val[key])) {
+					//	this.buffer[index][key][this.moment] = val[key].slice()
+					//	above line should work, but is still only a reference, not a copy
+						if (this.components[index].actuated) {
+							this.buffer[index][key][this.moment] = JSON.parse(JSON.stringify(val[key]))
+						} else {
+							this.buffer[index][key][this.moment] = false;
+						}
+					} else {
+						this.buffer[index][key][this.moment] = {}
+						for (var subkey in val[key]) {
+							if (this.components[index].actuated) {
+								this.buffer[index][key][this.moment][subkey] = val[key][subkey]
+							} else {
+								this.buffer[index][key][this.moment][subkey] = false;
+							}
+						}
+					}
+				} else {
+					
+					if (this.components[index].actuated) {
+						this.buffer[index][key][this.moment] = val[key];
+					} else {
+						this.buffer[index][key][this.moment] = false;
+					}
+				}
+		//	}
+		}
+	}
+	this.draw();
+}
+	
+
+ghostlist.prototype.draw = function() {
+
+	with (this.context) {
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.GUI.w,this.GUI.h)
+	}
+
+	var quad = this.GUI.w/4;
+	var quad2 = this.GUI.w-quad;
+	
+	if (!this.recording) {
+		with (this.context) {
+			fillStyle = "#e33";
+			beginPath()
+			arc(quad,this.GUI.h/2,quad*0.8,0,Math.PI*2)
+			fill()
+			closePath();
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.GUI.h/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("rec",quad,this.GUI.h/2)
+		}
+	} else {
+		with (this.context) {
+			fillStyle = "#e33";
+			fillRect(quad*0.4,quad*0.4,quad*1.2,quad*1.2)
+		}
+	}
+	
+	if (!this.playing) {
+		with (this.context) {
+			fillStyle = this.colors.border
+			beginPath()
+			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
+			fill()
+			closePath()
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.GUI.h/6+"px courier"
+			fillStyle = this.colors.fill
+			fillText("play",quad2,this.GUI.h/2)
+		}
+	} else {
+		with (this.context) {
+			strokeStyle = this.colors.border
+			lineWidth = this.GUI.w/30
+			beginPath()
+			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
+			stroke()
+			closePath()
+			var sec = ~~(this.needle/30)
+			textAlign = "center"
+			textBaseline = "middle"
+			font = "normal "+this.GUI.h/3+"px courier"
+			fillStyle = this.colors.border
+			fillText(sec,quad2,this.GUI.h/2+2)
+		}
+	}
+}
+
+ghostlist.prototype.record = function() {
+//	if (!this.playing) {
+		this.components = new Array();
+		for (var key in nx.widgets) {
+			this.connect(nx.widgets[key]);
+		}
+//	}
+	this.moment = 0;
+	nx.aniItems.push(this.boundLog)
+	this.recording = true;
+}
+
+ghostlist.prototype.log = function() {
+	for (var i=0;i<this.components.length;i++) {
+		var sender = this.components[i];
+		var val = {}
+		if (!sender.clicked) {
+			for (var key in sender.val) {
+				val[key] = false
+			}
+		} else {
+			val = sender.val
+			if (!jest.nexttitle) {
+				jest.nexttitle = sender.canvasID
+			}
+		}
+		this.write(this.components[i].tapeNum,val);
+	}
+	this.moment++;
+}
+
+ghostlist.prototype.stop = function() {
+	nx.removeAni(this.boundLog);
+	this.size = this.moment;
+	this.recording = false;
+	this.draw();
+}
+
+
+ghostlist.prototype.scan = function(x) {
+
+	// loop through the widgets that were recorded
+	for (var i=0;i<this.components.length;i++) {
+		//sender is the current widget we're looking at
+		var sender = this.components[i];
+		//loop through the widget's recorded val keys
+		for (var key in this.playbuffer[sender.tapeNum]) {
+
+			//console.log(this.playbuffer[sender.tapeNum][key])
+			//
+			//playbuffer is the whole buffer
+			//sender.tapeNum is the nx.widget index & this.component index
+			//[key] is the val property that was recorded, i.e. x and y for 
+			//so this returns an array for each val property. that array contains n moments of recorded data
+
+			if (this.playbuffer[sender.tapeNum][key]) {
+
+				//create a new val object
+				var val = new Object();
+				//make sure we're not looking out of bounds of the buffer
+				var max = this.playbuffer[sender.tapeNum][key][~~this.needle+1] ? this.playbuffer[sender.tapeNum][key][~~this.needle+1] : this.playbuffer[sender.tapeNum][key][~~this.needle]
+				//console.log("1")
+				if (this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.playbuffer[sender.tapeNum][key][~~this.needle] !== this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction]) {
+					// if it's a number, interpolate
+					if (typeof this.playbuffer[sender.tapeNum][key][~~this.needle] == "number") {
+						// create the value pair
+						val[key] = nx.interp(this.needle - ~~this.needle, this.playbuffer[sender.tapeNum][key][~~this.needle], max)
+						val[key] += Math.random() * this.noise - this.noise/2;
+						val[key] = nx.clip(val[key],0,1)
+						//set the widget with the value from the buffer
+						//console.log(val)
+						sender.set(val, true);
+					} else {
+						// otherwise, transfer the closest val as is
+						val[key] = this.playbuffer[sender.tapeNum][key][~~this.needle]
+						
+						if (val[key] || val[key]===0) {
+							//console.log(val)
+							sender.set(val, true)
+						}
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+//this.moment is for the record head
+//this.needle is for the playback head
+
+ghostlist.prototype.play = function(rate,start,end) {
+	rate ? this.rate = rate : false;
+	if (start) {
+		this.needle = this.moment-1;
+		this.start = start;
+	} else {
+		this.needle = this.moment-1;
+		this.start = 0;
+	} 
+	if (this.mode=="linear") {
+		this.direction = 1;
+	}
+	end ? this.end = end : this.end = 1
+	this.playing = true;
+}
+
+ghostlist.prototype.pause = function() {
+	this.playing = false;
+}
+
+ghostlist.prototype.loop = function() {
+	
+}
+
+ghostlist.prototype.advance = function() {
+	if (this.playing) {
+		if (this.mode == "linear" || this.mode == "bounce") {
+			this.needle += this.rate*this.direction;
+		} else if (this.mode=="random") {
+			this.needle = nx.random((this.end-this.start)*this.playbufferSize)+this.start*this.playbufferSize;
+		} else if (this.mode=="wander") {
+			var dir = 3
+			this.needle > this.playbufferSize*0.75 ? dir-- : null;
+			this.needle < this.playbufferSize*0.25 ? dir++ : null;
+			this.needle += this.rate*this.direction * (nx.random(dir)-1);
+		}
+
+		if (this.needle/this.playbufferSize < this.end && this.needle/this.playbufferSize > this.start) {
+			this.scan();
+		} else if (this.looping) {
+			if (this.mode=="linear") {
+			//	this.needle = this.start*this.playbufferSize + 1;
+				this.needle = 0;
+				this.next = this.jest.next()
+				this.playbuffer = this.next.buffer
+				this.playbufferSize = this.next.len
+			} else {
+				this.direction = this.direction * -1
+			}
+		} else {
+			this.playing = false;
+		}
+		this.draw();
+		this.jest.drawvis(this.needle/this.playbufferSize)
+	}
+}
+	
+
+ghostlist.prototype.click = function(e) {
+	if (this.clickPos.x<this.GUI.w/2) {
 		if (this.recording) {
 			this.stop()
 		} else {
@@ -2782,7 +3382,7 @@ ghost.prototype.click = function(e) {
 		this.draw();
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],17:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],18:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -2792,6 +3392,7 @@ module.exports = {
   dial: require('./dial'),
   envelope: require('./envelope'),
   ghost: require('./ghost'),
+  ghostlist: require('./ghostlist'),
   joints: require('./joints'),
   keyboard: require('./keyboard'),
   matrix: require('./matrix'),
@@ -2804,6 +3405,7 @@ module.exports = {
   multislider: require('./multislider'),
   multitouch: require('./multitouch'),
   number: require('./number'),
+  panel: require('./panel'),
   position: require('./position'),
   range: require('./range'),
   select: require('./select'),
@@ -2813,12 +3415,14 @@ module.exports = {
   text: require('./text'),
   tilt: require('./tilt'),
   toggle: require('./toggle'),
+  trace: require('./trace'),
   typewriter: require('./typewriter'),
   vinyl: require('./vinyl'),
   waveform: require('./waveform'),
+  wavegrain: require('./wavegrain'),
   windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./joints":18,"./keyboard":19,"./matrix":20,"./message":21,"./meter":22,"./metro":23,"./metroball":24,"./motion":25,"./mouse":26,"./multislider":27,"./multitouch":28,"./number":29,"./position":30,"./range":31,"./select":32,"./slider":33,"./string":34,"./tabs":35,"./text":36,"./tilt":37,"./toggle":38,"./typewriter":39,"./vinyl":40,"./waveform":41,"./windows":42}],18:[function(require,module,exports){
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./ghostlist":17,"./joints":19,"./keyboard":20,"./matrix":21,"./message":22,"./meter":23,"./metro":24,"./metroball":25,"./motion":26,"./mouse":27,"./multislider":28,"./multitouch":29,"./number":30,"./panel":31,"./position":32,"./range":33,"./select":34,"./slider":35,"./string":36,"./tabs":37,"./text":38,"./tilt":39,"./toggle":40,"./trace":41,"./typewriter":42,"./vinyl":43,"./waveform":44,"./wavegrain":45,"./windows":46}],19:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2837,7 +3441,7 @@ var joints = module.exports = function (target) {
 	widget.call(this, target);
 	
 	/* @property {integer} nodeSize The size of the proximity points in pixels */
-	this.nodeSize = this.width/14; 
+	this.nodeSize = this.GUI.w/14; 
 	this.values = [0,0];
 
 	/** @property {object}  val  
@@ -2856,45 +3460,44 @@ var joints = module.exports = function (target) {
 		y: 0.35,
 		node1: 0
 	}
-	/** @property {array} joints An array of objects with x and y properties detailing coordinates of each proximity node.
+	/** @property {array} joints An array of objects with x and y properties detailing coordinates of each proximity node. Coordinates are 0-1 floats which are decimal fractions of the width and height.
 	```js
-		// The widget will now have only 2 proximity points, instead of 8
+		// The widget will now have 2 proximity points instead of 8
 		joints1.joints = [
-		&nbsp; { x: 20 , y: 100 },
-		&nbsp; { x: 75 , y: 150 }
+		&nbsp; { x: 0.5 , y: 0.2 },
+		&nbsp; { x: 0.5 , y: 0.7 }
 		]
 	```
 	 */
 	this.joints = [
-		{ x: this.width/1.2 , y: this.height/1.2 },
-		{ x: this.width/2 , y: this.height/1.3 },
-		{ x: this.width/4.2 , y: this.height/1.1 },
-		
-		{ x: this.width/1.4 , y: this.height/2.2 },
-		{ x: this.width/2.1 , y: this.height/1.8 },
-		{ x: this.width/5 , y: this.height/2.4 },
-		
-		{ x: this.width/2.8 , y: this.height/6 },
-		{ x: this.width/6 , y: this.height/3.7 }
-	
+		{ x: .1, y: .2 },
+	    { x: .2, y: .1 },
+	    { x: .3, y: .7 },
+	    { x: .4, y: .4 },
+	    { x: .5, y: .9 },
+	    { x: .6, y: .15 },
+	    { x: .7, y: .3 },
+	    { x: .8, y: .8 },
 	]
-	this.threshold = this.width / 3;
+	this.threshold = this.GUI.w / 3;
 }
 util.inherits(joints, widget);
 
 joints.prototype.init = function() {
-	this.draw();
+  this.nodeSize = this.GUI.w/14;
+  this.threshold = this.GUI.w/3;
+  this.draw();
 }
 
 joints.prototype.draw = function() {
 	this.erase();
 
-	this.drawingX = this.val.x * this.width;
-	this.drawingY = this.val.y * this.height;
+	this.drawingX = this.val.x * this.GUI.w;
+	this.drawingY = this.val.y * this.GUI.h;
 
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 		if (this.val.x != null) {
 			this.drawNode();
 		}
@@ -2907,15 +3510,15 @@ joints.prototype.draw = function() {
 		strokeStyle = this.colors.border;
 		for (var i in this.joints) {
 			beginPath();
-				arc(this.joints[i].x, this.joints[i].y, this.nodeSize/2, 0, Math.PI*2, true);					
+				arc(this.joints[i].x*this.GUI.w, this.joints[i].y*this.GUI.h, this.nodeSize/2, 0, Math.PI*2, true);					
 				fill();
 			closePath();
-			var cnctX = Math.abs(this.joints[i].x-this.drawingX);
-			var cnctY = Math.abs(this.joints[i].y-this.drawingY);
+			var cnctX = Math.abs(this.joints[i].x*this.GUI.w-this.drawingX);
+			var cnctY = Math.abs(this.joints[i].y*this.GUI.h-this.drawingY);
 			var strength = cnctX + cnctY;
 			if (strength < this.threshold) {
 				beginPath();
-					moveTo(this.joints[i].x, this.joints[i].y);
+					moveTo(this.joints[i].x*this.GUI.w, this.joints[i].y*this.GUI.h);
 					lineTo(this.drawingX,this.drawingY);
 					strokeStyle = this.colors.accent;
 					lineWidth = math.scale( strength, 0, this.threshold, this.nodeSize/2, 5 );
@@ -2934,14 +3537,14 @@ joints.prototype.drawNode = function() {
 	//stay within right/left bounds
 	if (this.drawingX<(this.nodeSize)) {
 		this.drawingX = this.nodeSize;
-	} else if (this.drawingX>(this.width-this.nodeSize)) {
-		this.drawingX = this.width - this.nodeSize;
+	} else if (this.drawingX>(this.GUI.w-this.nodeSize)) {
+		this.drawingX = this.GUI.w - this.nodeSize;
 	}
 	//stay within top/bottom bounds
 	if (this.drawingY < this.nodeSize) {
 		this.drawingY = this.nodeSize;
-	} else if (this.drawingY>(this.height-this.nodeSize)) {
-		this.drawingY = this.height - this.nodeSize;
+	} else if (this.drawingY>(this.GUI.h-this.nodeSize)) {
+		this.drawingY = this.GUI.h - this.nodeSize;
 	}
 
 	with (this.context) {
@@ -2958,8 +3561,8 @@ joints.prototype.drawNode = function() {
 
 joints.prototype.click = function() {
 	this.val = new Object();
-	this.val.x = this.clickPos.x/this.width;
-	this.val.y = this.clickPos.y/this.height;
+	this.val.x = this.clickPos.x/this.GUI.w;
+	this.val.y = this.clickPos.y/this.GUI.h;
 	this.draw();
 	this.transmit(this.val);
 	this.connections = new Array();
@@ -2969,8 +3572,8 @@ joints.prototype.click = function() {
 joints.prototype.move = function() {
 	this.val = new Object();
 	if (this.clicked) {
-		this.val.x = this.clickPos.x/this.width;
-		this.val.y = this.clickPos.y/this.height;
+		this.val.x = this.clickPos.x/this.GUI.w;
+		this.val.y = this.clickPos.y/this.GUI.h;
 		this.draw();
 		this.transmit(this.val);
 		this.connections = new Array();
@@ -2979,8 +3582,8 @@ joints.prototype.move = function() {
 
 
 joints.prototype.release = function() {
-		this.anix = this.deltaMove.x/this.width;
-		this.aniy = (this.deltaMove.y)/this.height;
+		this.anix = this.deltaMove.x/this.GUI.w;
+		this.aniy = (this.deltaMove.y)/this.GUI.h;
 	
 }
 
@@ -3016,7 +3619,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],19:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3135,11 +3738,11 @@ keyboard.prototype.init = function() {
 	}
 	this.white.num *= this.octaves;
 
-	this.white.width = this.width/this.white.num
-	this.white.height = this.height
+	this.white.width = this.GUI.w/this.white.num
+	this.white.height = this.GUI.h
 
 	this.black.width = this.white.width*0.6
-	this.black.height = this.height*0.6
+	this.black.height = this.GUI.h*0.6
 
 	for (var i=0;i<this.keypattern.length*this.octaves;i++) {
 		this.keys[i] = {
@@ -3176,19 +3779,19 @@ keyboard.prototype.init = function() {
 keyboard.prototype.draw = function() {
 
 	with (this.context) {
-		strokeStyle = this.colors.border;
+		strokeStyle = this.colors.borderhl;
 		lineWidth = 1;
 			
 		for (var i in this.wkeys) {
-			fillStyle = this.wkeys[i].on ? this.colors.border : this.colors.fill
+			fillStyle = this.wkeys[i].on ? this.colors.borderhl : this.colors.fill
 			strokeRect(this.wkeys[i].x,0,this.white.width,this.white.height);
 			fillRect(this.wkeys[i].x,0,this.white.width,this.white.height);
 		}
 		for (var i in this.bkeys) {
-			fillStyle = this.bkeys[i].on ? this.colors.border : this.colors.black
+			fillStyle = this.bkeys[i].on ? this.colors.borderhl : this.colors.black
 			fillRect(this.bkeys[i].x,0,this.black.width,this.black.height);
 		}
-		//strokeRect(0,0,this.width,this.height);
+		//strokeRect(0,0,this.GUI.w,this.GUI.h);
 	}
 	this.drawLabel();
 }
@@ -3212,7 +3815,7 @@ keyboard.prototype.toggle = function(key, data) {
 			}
 
 			var on = key.on ? 1 : 0;
-			var amp = math.invert(this.clickPos.y/this.height) * 128;
+			var amp = math.invert(this.clickPos.y/this.GUI.h) * 128;
 			amp = math.prune(math.clip(amp,5,128),0);
 
 			this.val = { 
@@ -3232,7 +3835,7 @@ keyboard.prototype.toggle = function(key, data) {
 			}
 
 			var on = key.on ? 1 : 0;
-			var amp = math.invert(this.clickPos.y/this.height) * 128;
+			var amp = math.invert(this.clickPos.y/this.GUI.h) * 128;
 			amp = math.prune(math.clip(amp,5,128),0);
 
 			this.val = { 
@@ -3351,7 +3954,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],21:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -3486,8 +4089,14 @@ matrix.prototype.draw = function() {
 
 	this.erase();
 
-	this.cellWid = this.width/this.col;
-	this.cellHgt = this.height/this.row;
+	this.cellWid = this.GUI.w/this.col;
+	this.cellHgt = this.GUI.h/this.row;
+
+	with (this.context) {
+		strokeStyle = this.colors.fill
+		//lineWidth = 0
+		//strokeRect(0,0,this.GUI.w,this.GUI.h)
+	}
 
 	for (var i=0;i<this.row;i++){
 		for (var j=0;j<this.col;j++) {
@@ -3795,7 +4404,7 @@ matrix.prototype.life = function() {
   return false;
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],22:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -3834,7 +4443,7 @@ message.prototype.init = function() {
 	if (this.canvas.getAttribute("label")) {
 		this.val.value = this.canvas.getAttribute("label");
 	}
-	//this.size = Math.sqrt((this.width * this.height) / (this.val.message.length));
+	//this.size = Math.sqrt((this.GUI.w * this.GUI.h) / (this.val.message.length));
 	this.draw();
 }
 
@@ -3846,7 +4455,7 @@ message.prototype.draw = function() {
 		} else {
 			fillStyle = this.colors.fill;
 		}
-		fillRect(0,0,this.width,this.height)
+		fillRect(0,0,this.GUI.w,this.GUI.h)
 		
 		if (this.clicked) {
 			fillStyle = this.colors.black;
@@ -3856,7 +4465,7 @@ message.prototype.draw = function() {
 		textAlign = "left";
 		font = this.size+"px "+nx.font;
 	}
-	this.wrapText(this.val.value, 5, 1+this.size, this.width-6, this.size);
+	this.wrapText(this.val.value, 5, 1+this.size, this.GUI.w-6, this.size);
 }
 
 message.prototype.click = function(e) {
@@ -3867,7 +4476,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":47}],22:[function(require,module,exports){
+},{"../core/widget":3,"util":51}],23:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -3898,7 +4507,7 @@ var meter = module.exports = function(target) {
         level: 0
     }
     this.dataArray;
-    this.bars = 10;
+    this.bars = 8;
 
     this.init();
 
@@ -3910,12 +4519,12 @@ meter.prototype.init = function(){
    this.bar = {
         x: 0,
         y: 0,
-        w: this.width,
-        h: this.height/this.bars
+        w: this.GUI.w,
+        h: this.GUI.h/this.bars
     }
     with (this.context) {
         fillStyle = this.colors.fill;
-        fillRect(0,0,this.width, this.height);
+        fillRect(0,0,this.GUI.w, this.GUI.h);
     }
 }
 
@@ -3955,7 +4564,7 @@ meter.prototype.draw = function(){
 
         with (this.context){
             fillStyle = this.colors.fill;
-            fillRect(0,0,this.width, this.height);
+            fillRect(0,0,this.GUI.w, this.GUI.h);
 
             //scales: -40 to +10 db range => a number of bars
             var dboffset = Math.floor((db + 40) / (50/this.bars) );
@@ -3977,18 +4586,20 @@ meter.prototype.draw = function(){
 
                 // draw bar
                 if (i<dboffset)
-                    fillRect(1,this.height-this.bar.h*i,this.width-2,this.bar.h-1);
+                    fillRect(1,this.GUI.h-this.bar.h*i,this.GUI.w-2,this.bar.h-2);
 
             }
         }
     }
 
-    window.requestAnimationFrame(this.draw.bind(this));
+    setTimeout(function() {
+        window.requestAnimationFrame(this.draw.bind(this));
+    }.bind(this), 80)
     
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],23:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":51}],24:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4026,7 +4637,7 @@ var metro = module.exports = function (target) {
 	this.direction = 1;
 	/** @property {string} orientation Orientation of metro. Default is "horizontal". */
 	this.orientation = "horizontal"
-	this.boundary = this.width
+	this.boundary = this.GUI.w
 
 	nx.aniItems.push(this.advance.bind(this));
 	this.active = true;
@@ -4036,13 +4647,13 @@ var metro = module.exports = function (target) {
 util.inherits(metro, widget);
 
 metro.prototype.init = function() {
-	this.nodeSize = Math.min(this.width,this.height)/2;
-	if (this.width<this.height) {
+	this.nodeSize = Math.min(this.GUI.w,this.GUI.h)/2;
+	if (this.GUI.w<this.GUI.h) {
 		this.orientation = "vertical"
-		this.boundary = this.height
+		this.boundary = this.GUI.h
 	} else {
 		this.orientation = "horizontal"
-		this.boundary = this.width
+		this.boundary = this.GUI.w
 	}
 	this.x = this.nodeSize;
 	this.y = this.nodeSize;
@@ -4056,7 +4667,7 @@ metro.prototype.draw = function() {
 	this.erase()
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height); 
+		fillRect(0,0,this.GUI.w,this.GUI.h); 
 
 		beginPath();
 		fillStyle = this.colors.accent;
@@ -4102,7 +4713,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],25:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4163,7 +4774,7 @@ metroball.prototype.init = function() {
 
 metroball.prototype.metro = function() {
 	with (this.context) {
-		clearRect(0,0, this.width, this.height);
+		clearRect(0,0, this.GUI.w, this.GUI.h);
 	}
 	this.drawSpaces();
 	this.drawBalls();
@@ -4175,19 +4786,19 @@ metroball.prototype.drawSpaces = function() {
 	with (this.context) {
 
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height)
+		fillRect(0,0,this.GUI.w,this.GUI.h)
 		
 		fillStyle=this.colors.border;
-		fillRect(0,0,this.width,this.height/4)
+		fillRect(0,0,this.GUI.w,this.GUI.h/4)
 
-		font="normal "+this.height/8+"px "+nx.font;
+		font="normal "+this.GUI.h/8+"px "+nx.font;
 		textAlign = "center";
 		textBaseline = "middle"
-		fillText("add",this.width/2,this.height/1.66)
+		fillText("add",this.GUI.w/2,this.GUI.h/1.66)
 
 
 		fillStyle = this.colors.fill;
-		fillText("delete",this.width/2,this.height/8)
+		fillText("delete",this.GUI.w/2,this.GUI.h/8)
 		
 	}
 }
@@ -4205,7 +4816,7 @@ metroball.prototype.click = function(e) {
 	
 	this.ballpos = this.clickPos;
 
-	if (this.clickPos.y < this.height/4) {
+	if (this.clickPos.y < this.GUI.h/4) {
 		this.deleteMB(this.ballpos);
 	} else {
 		this.addNewMB(this.ballpos);
@@ -4217,7 +4828,7 @@ metroball.prototype.click = function(e) {
 metroball.prototype.move = function(e) {
 	this.ballpos = this.clickPos;
 	
-	if (this.clickPos.y < this.height/4) {
+	if (this.clickPos.y < this.GUI.h/4) {
 		this.deleteMB(this.ballpos);
 	} else {
 		this.addNewMB(this.ballpos);
@@ -4366,7 +4977,7 @@ metroball.prototype.Ball = function(thisIndex, thisX, thisY, parent) {
 		}	
 	}	
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],25:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],26:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4457,11 +5068,11 @@ motion.prototype.motionlistener = function(e) {
 			this.erase()
 			with (this.context) {
 				fillStyle = this.colors.fill
-				fillRect(0,0,this.width,this.height)
+				fillRect(0,0,this.GUI.w,this.GUI.h)
 				fillStyle = this.colors.black
 				font="12px courier";
 				textAlign = "center"
-				fillText("no data",this.width/2,this.height/2)	
+				fillText("no data",this.GUI.w/2,this.GUI.h/2)	
 			}
 			this.active = false;
 		}
@@ -4478,42 +5089,42 @@ motion.prototype.draw = function() {
 
 	with (this.context) {
 	    fillStyle = this.colors.fill;
-	    fillRect(0,0,this.width,this.height);
+	    fillRect(0,0,this.GUI.w,this.GUI.h);
 	    fillStyle = this.colors.accent;
 	    var eighth = Math.PI/4
 	    if (this.motionFB<0) {
 			beginPath()
-				moveTo(this.width/2,this.height/2)
-				arc(this.width/2,this.height/2,this.width/2,eighth*5,eighth*7,false)
+				moveTo(this.GUI.w/2,this.GUI.h/2)
+				arc(this.GUI.w/2,this.GUI.h/2,this.GUI.w/2,eighth*5,eighth*7,false)
 				globalAlpha = Math.pow(this.motionFB, 2)
 				fill()
 			closePath()
 	    } else {
 			beginPath()
-				moveTo(this.width/2,this.height/2)
-				arc(this.width/2,this.height/2,this.width/2,eighth*1,eighth*3,false)
+				moveTo(this.GUI.w/2,this.GUI.h/2)
+				arc(this.GUI.w/2,this.GUI.h/2,this.GUI.w/2,eighth*1,eighth*3,false)
 				globalAlpha = Math.pow(this.motionFB, 2)
 				fill()
 			closePath()
 	    }
 	    if (this.motionLR<0) {
 			beginPath()
-				moveTo(this.width/2,this.height/2)
-				arc(this.width/2,this.height/2,this.width/2,eighth*7,eighth*1,false)
+				moveTo(this.GUI.w/2,this.GUI.h/2)
+				arc(this.GUI.w/2,this.GUI.h/2,this.GUI.w/2,eighth*7,eighth*1,false)
 				globalAlpha = Math.pow(this.motionLR, 2)
 				fill()
 			closePath()
 	    } else {
 			beginPath()
-				moveTo(this.width/2,this.height/2)
-				arc(this.width/2,this.height/2,this.width/2,eighth*3,eighth*5,false)
+				moveTo(this.GUI.w/2,this.GUI.h/2)
+				arc(this.GUI.w/2,this.GUI.h/2,this.GUI.w/2,eighth*3,eighth*5,false)
 				globalAlpha = Math.pow(this.motionLR, 2)
 				fill()
 			closePath()
 	    }
 		beginPath()
-			moveTo(this.width/2,this.height/2)
-			arc(this.width/2,this.height/2,this.width/6,0,Math.PI*2,false)
+			moveTo(this.GUI.w/2,this.GUI.h/2)
+			arc(this.GUI.w/2,this.GUI.h/2,this.GUI.w/6,0,Math.PI*2,false)
 			globalAlpha = Math.pow(this.z, 2)
 			fill()
 		closePath()
@@ -4531,7 +5142,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],27:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -4574,8 +5185,8 @@ util.inherits(mouse, widget);
 
 mouse.prototype.init = function() {
 	
-	this.inside.height = this.height;
-	this.inside.width = this.width;
+	this.inside.height = this.GUI.h;
+	this.inside.width = this.GUI.w;
 	this.inside.left = 0;
 	this.inside.top = 0;
 	this.inside.quarterwid = (this.inside.width)/4;
@@ -4588,12 +5199,12 @@ mouse.prototype.draw = function() {
 
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height); 
+		fillRect(0,0,this.GUI.w,this.GUI.h); 
 
-		var scaledx = -(this.val.x) * this.height;
-		var scaledy = -(this.val.y) * this.height;
-		var scaleddx = -(this.val.deltax) * this.height - this.height/2;
-		var scaleddy = -(this.val.deltay) * this.height - this.height/2;
+		var scaledx = -(this.val.x) * this.GUI.h;
+		var scaledy = -(this.val.y) * this.GUI.h;
+		var scaleddx = -(this.val.deltax) * this.GUI.h - this.GUI.h/2;
+		var scaleddy = -(this.val.deltay) * this.GUI.h - this.GUI.h/2;
 
 		fillStyle = this.colors.accent;
 		fillRect(this.inside.left, this.inside.height, this.inside.quarterwid, scaledx);
@@ -4604,12 +5215,12 @@ mouse.prototype.draw = function() {
 		globalAlpha = 1;
 		fillStyle = this.colors.fill;
 		textAlign = "center";
-		font = this.width/7+"px "+this.font;
-		fillText("x", this.inside.quarterwid*0 + this.inside.quarterwid/2, this.height-7);
-		fillText("y", this.inside.quarterwid*1 + this.inside.quarterwid/2, this.height-7);
-		fillText("dx", this.inside.quarterwid*2 + this.inside.quarterwid/2, this.height-7);
-		fillText("dy", this.inside.quarterwid*3 + this.inside.quarterwid/2, this.height-7);
-
+		font = this.GUI.w/7+"px "+this.font;
+/*  fillText("x", this.inside.quarterwid*0 + this.inside.quarterwid/2, this.GUI.h-7);
+		fillText("y", this.inside.quarterwid*1 + this.inside.quarterwid/2, this.GUI.h-7);
+		fillText("dx", this.inside.quarterwid*2 + this.inside.quarterwid/2, this.GUI.h-7);
+		fillText("dy", this.inside.quarterwid*3 + this.inside.quarterwid/2, this.GUI.h-7);
+*/
 		globalAlpha = 1;
 	}
 	
@@ -4631,7 +5242,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4661,10 +5272,6 @@ var multislider = module.exports = function (target) {
 
 	*/
 	
-	this.val = new Object();
-	for (var i=0;i<this.sliders;i++) {
-		this.val[i] = 0.7;
-	}
 	this.sliderClicked = 0;
 	this.oldSliderToMove;
 	this.init();
@@ -4672,11 +5279,11 @@ var multislider = module.exports = function (target) {
 util.inherits(multislider, widget);
 
 multislider.prototype.init = function() {
-	this.val = new Object();
+	this.val = new Array();
 	for (var i=0;i<this.sliders;i++) {
 		this.val[i] = 0.7;
 	}
-	this.realSpace = { x: this.width, y: this.height }
+	this.realSpace = { x: this.GUI.w, y: this.GUI.h }
 	this.sliderWidth = this.realSpace.x/this.sliders;
 	this.draw();
 }
@@ -4685,7 +5292,7 @@ multislider.prototype.draw = function() {
 	this.erase();
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 		
 		strokeStyle = this.colors.accent;
 		fillStyle = this.colors.accent;
@@ -4693,17 +5300,17 @@ multislider.prototype.draw = function() {
     	
 		for(var i=0; i<this.sliders; i++) {
 			beginPath();
-			moveTo(i*this.sliderWidth, this.height-this.val[i]*this.height);
-			lineTo(i*this.sliderWidth + this.sliderWidth, this.height-this.val[i]*this.height);
+			moveTo(i*this.sliderWidth, this.GUI.h-this.val[i]*this.GUI.h);
+			lineTo(i*this.sliderWidth + this.sliderWidth, this.GUI.h-this.val[i]*this.GUI.h);
 			stroke();
-			lineTo(i*this.sliderWidth + this.sliderWidth, this.height);
-			lineTo(i*this.sliderWidth,  this.height);
+			lineTo(i*this.sliderWidth + this.sliderWidth, this.GUI.h);
+			lineTo(i*this.sliderWidth,  this.GUI.h);
 			globalAlpha = 0.3 - (i%3)*0.1;
 			fill();
 			closePath(); 
 			globalAlpha = 1;
 		//	var separation = i==this.sliders-1 ? 0 : 1;
-		//	fillRect(i*this.sliderWidth, this.height-this.val[i]*this.height, this.sliderWidth-separation, this.val[i]*this.height)
+		//	fillRect(i*this.sliderWidth, this.GUI.h-this.val[i]*this.GUI.h, this.sliderWidth-separation, this.val[i]*this.GUI.h)
 		}
 	}
 	this.drawLabel();
@@ -4723,14 +5330,14 @@ multislider.prototype.move = function(firstclick) {
 			for (var i=0;i<this.clickPos.touches.length;i++) {
 				var sliderToMove = Math.floor(this.clickPos.touches[i].x / this.sliderWidth);
 				sliderToMove = math.clip(sliderToMove,0,this.sliders-1);
-				this.val[sliderToMove] = math.clip(math.invert((this.clickPos.touches[i].y / this.height)),0,1);
+				this.val[sliderToMove] = math.clip(math.invert((this.clickPos.touches[i].y / this.GUI.h)),0,1);
 			}
 
 		} else {
 
 			var sliderToMove = Math.floor(this.clickPos.x / this.sliderWidth);
 			sliderToMove = math.clip(sliderToMove,0,this.sliders-1);
-			this.val[sliderToMove] = math.clip(math.invert(this.clickPos.y / this.height),0,1);
+			this.val[sliderToMove] = math.clip(math.invert(this.clickPos.y / this.GUI.h),0,1);
 
 			if (this.oldSliderToMove && this.oldSliderToMove > sliderToMove + 1) {
 				var missed = this.oldSliderToMove - sliderToMove - 1;
@@ -4790,7 +5397,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],29:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4811,7 +5418,7 @@ var multitouch = module.exports = function (target) {
 	widget.call(this, target);
 	
 	//unique attributes
-	this.nodeSize = this.width/10;
+	this.nodeSize = this.GUI.w/10;
 
 	/** @property {object}  val   
 		| &nbsp; | data
@@ -4862,7 +5469,7 @@ var multitouch = module.exports = function (target) {
 util.inherits(multitouch, widget);
 
 multitouch.prototype.init = function() {
-	this.nodeSize = this.width/10;
+	this.nodeSize = this.GUI.w/10;
 	this.draw();
 }
 
@@ -4870,7 +5477,7 @@ multitouch.prototype.draw = function() {
 	this.erase();
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 
 		var count = 0;
 
@@ -4882,9 +5489,9 @@ multitouch.prototype.draw = function() {
 							fillStyle = this.colors.accent;
 							strokeStyle = this.colors.border;
 							lineWidth = 1;
-							var circx = i*this.width/this.cols + (this.width/this.cols)/2;
-							var circy = j*this.height/this.rows + (this.height/this.rows)/2;
-							arc(circx, circy, (this.height/this.rows)/2, 0, Math.PI*2, true);					
+							var circx = i*this.GUI.w/this.cols + (this.GUI.w/this.cols)/2;
+							var circy = j*this.GUI.h/this.rows + (this.GUI.h/this.rows)/2;
+							arc(circx, circy, (this.GUI.h/this.rows)/2, 0, Math.PI*2, true);					
 							stroke();
 							fillStyle = this.colors.border;
 							textAlign = "center";
@@ -4894,10 +5501,10 @@ multitouch.prototype.draw = function() {
 								count++
 							} 
 							var thisarea = {
-								x: i*this.width/this.cols,
-								y: j*this.height/this.rows,
-								w: this.width/this.cols,
-								h: this.height/this.rows
+								x: i*this.GUI.w/this.cols,
+								y: j*this.GUI.h/this.rows,
+								w: this.GUI.w/this.cols,
+								h: this.GUI.h/this.rows
 							}
 							if (this.clickPos.touches.length>=1) {
 								for (var k=0;k<this.clickPos.touches.length;k++) {
@@ -4941,13 +5548,13 @@ multitouch.prototype.draw = function() {
 						closePath(); 
 						globalAlpha=1;
 					}
-
 				}
+				clearRect(0,this.GUI.h,this.GUI.w,this.height - this.GUI.h)
 			}
 			else {
 				this.setFont()
 				fillStyle = this.colors.border;
-				fillText(this.text, this.width/2, this.height/2);
+				fillText(this.text, this.GUI.w/2, this.GUI.h/2);
 				globalAlpha = 1;
 			}
 		}
@@ -4995,7 +5602,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":47}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],30:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5077,29 +5684,44 @@ var number = module.exports = function (target) {
 	this.lostdata = 0;
 	this.actual = 0;
 
-	this.init();
-}
-util.inherits(number, widget);
-
-number.prototype.init = function() {
-
+	// SWAP
+	// 
 	this.canvas.ontouchstart = null;
 	this.canvas.ontouchmove = null;
 	this.canvas.ontouchend = null;
 
-	var htmlstr = '<input type="text" class="nx" nx="number" id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;"></input><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<input type="text" nx="number" id="'+this.canvasID+'" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;font-size:'+this.GUI.h/2+'px;"></input><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
-	var parent = canv.parentNode;
-	var newdiv = document.createElement("span");
-	newdiv.innerHTML = htmlstr;
+	var parent = canv.parentNode
+	var newdiv = document.createElement("span")
+	newdiv.innerHTML = htmlstr
+	newdiv.className = "nx"
 	parent.replaceChild(newdiv,canv)
+
 	this.el = document.getElementById(this.canvasID)
-	for (var prop in cstyle)
-    	this.el.style[prop] = cstyle[prop];
+	for (var prop in cstyle) {
+			if (prop != "height" && prop != "width") {
+    		this.el.style[prop] = cstyle[prop]
+ 			}
+  }
+
+  if (this.label) {
+	  var labeldiv = document.createElement("div")
+	  labeldiv.innerHTML = this.label
+	  labeldiv.style.fontSize = this.labelSize/2.8+"px"
+	  labeldiv.style.fontFamily = this.labelFont
+	  labeldiv.style.textAlign = this.labelAlign
+	  labeldiv.style.lineHeight = this.labelSize+"px"
+	  labeldiv.style.width = this.GUI.w+"px"
+	  labeldiv.style.color = nx.colors.black
+	  labeldiv.className = "nxlabel"
+	  newdiv.appendChild(labeldiv)
+  }
 
 	this.canvas = document.getElementById(this.canvasID);
-	this.canvas.style.fontSize = this.height * .6 + "px"
+	this.canvas.style.height = this.GUI.h + "px"
+	this.canvas.style.fontSize = this.GUI.h * .6 + "px"
 	this.canvas.style.textAlign = "left"
 	this.canvas.style.backgroundColor = this.colors.fill
 	this.canvas.style.highlight = this.colors.fill
@@ -5108,6 +5730,7 @@ number.prototype.init = function() {
 	this.canvas.style.padding = "4px 10px"
 	this.canvas.style.cursor = "pointer"
 	this.canvas.style.display = "block"
+	this.canvas.className = ""
 
 	this.canvas.addEventListener("blur", function () {
 	  //this.canvas.style.border = "none";
@@ -5153,6 +5776,18 @@ number.prototype.init = function() {
   this.canvas.style.mozUserSelect = "none !important";
   this.canvas.style.webkitUserSelect = "none !important";
 
+
+
+
+
+
+	this.init();
+}
+util.inherits(number, widget);
+
+number.prototype.init = function() {
+
+
   this.draw();
 }
 
@@ -5192,7 +5827,32 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":47}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],31:[function(require,module,exports){
+var util = require('util');
+var widget = require('../core/widget');
+
+// panel for max duplication -- maybe this object is unnecessary.
+
+var panel = module.exports = function (target) {
+	this.defaultSize = { width: 100, height: 100 };
+	widget.call(this, target);
+}
+util.inherits(panel, widget);
+
+panel.prototype.init = function() {
+	this.draw();
+}
+
+panel.prototype.draw = function() {
+	this.erase();
+	this.makeRoundedBG();
+	with (this.context) {
+		fillStyle = this.colors.border;
+		lineWidth = this.lineWidth;
+		fill();
+	}
+}
+},{"../core/widget":3,"util":51}],32:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5235,10 +5895,10 @@ util.inherits(position, widget);
 
 // .init() is called automatically when the widget is created on a webpage.
 position.prototype.init = function() {
-	this.nodeSize = Math.min(this.height,this.width)/10;
+	this.nodeSize = Math.min(this.GUI.h,this.GUI.w)/10;
 	this.nodeSize = Math.max(this.nodeSize,10)
-	this.actualWid = this.width - this.nodeSize*2;
-	this.actualHgt = this.height - this.nodeSize*2;
+	this.actualWid = this.GUI.w - this.nodeSize*2;
+	this.actualHgt = this.GUI.h - this.nodeSize*2;
 	this.draw();
 }
 
@@ -5251,7 +5911,7 @@ position.prototype.draw = function() {
 		// use this.colors.border for any extra structural needs (default: light gray)
 		// use this.colors.accent for important or highlighted parts (default: a bright color)
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 
 		var drawingX = this.val.x * this.actualWid + this.nodeSize
 		var drawingY = math.invert(this.val.y) * this.actualHgt + this.nodeSize
@@ -5259,14 +5919,14 @@ position.prototype.draw = function() {
 		//stay within right/left bounds
 		if (drawingX<(this.nodeSize)) {
 			drawingX = this.nodeSize;
-		} else if (drawingX>(this.width-this.nodeSize)) {
-			drawingX = this.width - this.nodeSize;
+		} else if (drawingX>(this.GUI.w-this.nodeSize)) {
+			drawingX = this.GUI.w - this.nodeSize;
 		}
 		//stay within top/bottom bounds
 		if (drawingY<(this.nodeSize)) {
 			drawingY = this.nodeSize;
-		} else if (drawingY>(this.height-this.nodeSize)) {
-			drawingY = this.height - this.nodeSize;
+		} else if (drawingY>(this.GUI.h-this.nodeSize)) {
+			drawingY = this.GUI.h - this.nodeSize;
 		}
 	
 		with (this.context) {
@@ -5284,8 +5944,7 @@ position.prototype.draw = function() {
 				fillStyle = this.colors.accent;
 				arc(drawingX, drawingY, this.nodeSize*2, 0, Math.PI*2, true);					
 				fill();
-				closePath();
-
+				closePath();clearRect(0,this.GUI.h,this.GUI.w,this.height - this.GUI.h)
 			}
 		}
 	}
@@ -5384,8 +6043,8 @@ position.prototype.animate = function(aniType) {
 
 position.prototype.aniBounce = function() {
 	if (!this.clicked && this.val.x) {
-		this.val.x += (this.deltaMove.x/2)/this.width;
-		this.val.y -= (this.deltaMove.y/2)/this.height;
+		this.val.x += (this.deltaMove.x/2)/this.GUI.w;
+		this.val.y -= (this.deltaMove.y/2)/this.GUI.h;
 		this.val["state"] = "animated";
 		if (math.bounce(this.val.x, 0, 1, this.deltaMove.x) != this.deltaMove.x) {
 			this.deltaMove.x = math.bounce(this.val.x, 0, 1, this.deltaMove.x);
@@ -5403,7 +6062,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],31:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],33:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -5418,7 +6077,7 @@ var math = require('../utils/math')
 */
 
 var range = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 30 };
+	this.defaultSize = { width: 110, height: 35 };
 	widget.call(this, target);
 
 	/** @property {object}  val  Object containing core interactive aspects of widget, which are also its data output. Has the following properties: 
@@ -5453,7 +6112,7 @@ util.inherits(range, widget);
 range.prototype.init = function() {
 
 	//decide if hslider or vslider
-	if (this.height>=this.width) {
+	if (this.GUI.h>=this.GUI.w) {
 		this.hslider = false;
 	} else {
 		this.hslider = true;
@@ -5471,58 +6130,42 @@ range.prototype.draw = function() {
 		
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 	
 		if (!this.hslider) {
-			
-			if (nx.showLabels && this.label) {
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				this.setFont();
-				fillText(this.label, this.height/2, 0);
-				globalAlpha = 1;
-				restore();
-			}
 
 			var x1 = 0;
-			var y1 = this.height-this.val.stop*this.height;
-			var x2 = this.width;
-			var y2 = this.height-this.val.start*this.height;
+			var y1 = this.GUI.h-this.val.stop*this.GUI.h;
+			var x2 = this.GUI.w;
+			var y2 = this.GUI.h-this.val.start*this.GUI.h;
 
 			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
 
 		} else {
-			
-			if (nx.showLabels && this.label) {
-				this.setFont();
-				fillText(this.label, this.width/2, this.height/2);
-				globalAlpha = 1;
-			}
 
-			var x1 = this.val.start*this.width;
+			var x1 = this.val.start*this.GUI.w;
 			var y1 = 0;
-			var x2 = this.val.stop*this.width;
-			var y2 = this.height;
+			var x2 = this.val.stop*this.GUI.w;
+			var y2 = this.GUI.h;
 		   
-		
 			fillStyle = this.colors.accent;
 			fillRect(x1,y1,x2-x1,y2-y1);
 		}
 	}
+	this.drawLabel();
 }
 
 range.prototype.click = function() {
 	if (this.mode=="edge") {
 		if (this.hslider) {
-			if (Math.abs(this.clickPos.x-this.val.start*this.width) < Math.abs(this.clickPos.x-this.val.stop*this.width)) {
+			if (Math.abs(this.clickPos.x-this.val.start*this.GUI.w) < Math.abs(this.clickPos.x-this.val.stop*this.GUI.w)) {
 				this.firsttouch = "start"
 			} else {
 				this.firsttouch = "stop"
 			}
 		} else {
-			if (Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.start*this.height) < Math.abs(Math.abs(this.clickPos.y-this.height)-this.val.stop*this.height)) {
+			if (Math.abs(Math.abs(this.clickPos.y-this.GUI.h)-this.val.start*this.GUI.h) < Math.abs(Math.abs(this.clickPos.y-this.GUI.h)-this.val.stop*this.GUI.h)) {
 				this.firsttouch = "start"
 			} else {
 				this.firsttouch = "stop"
@@ -5545,26 +6188,26 @@ range.prototype.move = function() {
 	if (this.mode=="edge") {
 		if (this.hslider) {
 			if (this.firsttouch=="start") {
-				this.val.start = this.clickPos.x/this.width;
+				this.val.start = this.clickPos.x/this.GUI.w;
 				if (this.clickPos.touches.length>1) {
-					this.val.stop = this.clickPos.touches[1].x/this.width;
+					this.val.stop = this.clickPos.touches[1].x/this.GUI.w;
 				}
 			} else {
-				this.val.stop = this.clickPos.x/this.width;
+				this.val.stop = this.clickPos.x/this.GUI.w;
 				if (this.clickPos.touches.length>1) {
-					this.val.start = this.clickPos.touches[1].x/this.width;
+					this.val.start = this.clickPos.touches[1].x/this.GUI.w;
 				}
 			}
 		} else {
 			if (this.firsttouch=="start") {
-				this.val.start = math.invert(this.clickPos.y/this.height);
+				this.val.start = math.invert(this.clickPos.y/this.GUI.h);
 				if (this.clickPos.touches.length>1) {
-					this.val.stop = math.invert(this.clickPos.touches[1].y/this.height);
+					this.val.stop = math.invert(this.clickPos.touches[1].y/this.GUI.h);
 				}
 			} else {
-				this.val.stop = math.invert(this.clickPos.y/this.height);
+				this.val.stop = math.invert(this.clickPos.y/this.GUI.h);
 				if (this.clickPos.touches.length>1) {
-					this.val.start = math.invert(this.clickPos.touches[1].y/this.height);
+					this.val.start = math.invert(this.clickPos.touches[1].y/this.GUI.h);
 				}
 			}
 		}
@@ -5592,11 +6235,11 @@ range.prototype.move = function() {
 	} else if (this.mode=="area") {
 
 		if (this.hslider) {
-			var moveloc = this.clickPos.x/this.width;
-			var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
+			var moveloc = this.clickPos.x/this.GUI.w;
+			var movesize = (this.touchdown.y - this.clickPos.y)/this.GUI.h;
 		} else {
-			var moveloc = nx.invert(this.clickPos.y/this.height);
-			var movesize = (this.touchdown.x - this.clickPos.x)/this.width;
+			var moveloc = nx.invert(this.clickPos.y/this.GUI.h);
+			var movesize = (this.touchdown.x - this.clickPos.x)/this.GUI.w;
 		//	moveloc *= -1;
 			movesize *= -1;
 		}
@@ -5618,7 +6261,7 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],34:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5659,34 +6302,40 @@ var select = module.exports = function (target) {
 		this.choices = this.canvas.getAttribute("choices");
 		this.choices = this.choices.split(",");
 	}
-
-	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.height+'px;width:'+this.width+'px;font-size:'+this.height/2+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
+	newdiv.className = "nx"
 	parent.replaceChild(newdiv,canv)
 	this.sel = document.getElementById(this.canvasID)
-	this.sel.style.float = "left"
-	this.sel.style.display = "block"
+	//this.sel.style.float = "left"
+	//this.sel.style.display = "block"
 	for (var prop in cstyle)
     	this.sel.style[prop] = cstyle[prop];
 
 	this.canvas = document.getElementById(this.canvasID);
 
     this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.border = "solid 2px "+this.colors.border;
     this.canvas.style.color = this.colors.black;
+    this.canvas.style.fontSize = Math.round(this.GUI.h/2.3) + "px"
 	
+    this.canvas.className = ""
+
+	var optlength = this.canvas.options.length;
+	for (i = 0; i < optlength; i++) {
+	  this.canvas.options[i] = null;
+	}
+
 	for (var i=0;i<this.choices.length;i++) {
 		var option=document.createElement("option");
 		option.text = this.choices[i];
 		option.value = this.choices[i];
 		this.canvas.add(option,null);
 	}
-	
-
-
 
 }
 util.inherits(select, widget);
@@ -5694,7 +6343,15 @@ util.inherits(select, widget);
 select.prototype.init = function() {
 
     this.canvas.style.backgroundColor = this.colors.fill;
+    this.canvas.style.border = "solid 2px "+this.colors.border;
     this.canvas.style.color = this.colors.black;
+
+    console.log(this.colors.border)
+
+    var optlength = this.canvas.options.length;
+	for (i = 0; i < optlength; i++) {
+	  this.canvas.options[i] = null;
+	}
 	
 	for (var i=0;i<this.choices.length;i++) {
 		var option=document.createElement("option");
@@ -5714,9 +6371,10 @@ select.prototype.draw = function() {
 
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
+    this.canvas.style.border = "solid 2px "+this.colors.border;
 
 }
-},{"../core/widget":3,"util":47}],33:[function(require,module,exports){
+},{"../core/widget":3,"util":51}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5731,15 +6389,32 @@ var widget = require('../core/widget');
 */
 
 var slider = module.exports = function (target) {
-	this.defaultSize = { width: 30, height: 100 };
+	this.defaultSize = { width: 35, height: 110 };
 	widget.call(this, target);
+
+  if (this.canvas.getAttribute("min")!=null) {
+    this.min = parseFloat(this.canvas.getAttribute("min"));
+  } else {
+  	this.min = 0
+  }
+  if (this.canvas.getAttribute("max")!=null) {
+    this.max = parseFloat(this.canvas.getAttribute("max"));
+  } else {
+  	this.max = 1
+  }
+  if (this.canvas.getAttribute("step")!=null) {
+    this.step = parseFloat(this.canvas.getAttribute("step"));
+  } else {
+  	this.step = 0.001
+  }
 
 	/** @property {object}  val   
 		| &nbsp; | data
 		| --- | ---
 		| *value* | Slider value (float 0-1)
 	*/
-	this.val.value = 0.7
+	this.val.value = nx.scale(0.7,0,1,this.min,this.max)
+	
 
 	/** @property {string}  mode   Set "absolute" or "relative" mode. In absolute mode, slider will jump to click/touch position. In relative mode, it will not.
 	```js
@@ -5765,11 +6440,13 @@ var slider = module.exports = function (target) {
 	```
 	*/
 	this.hslider = false;
-	this.label = "";
 	this.handle;
 	this.relhandle;
 	this.cap;
 
+	this.maxdigits = 3
+
+	this.calculateDigits = nx.calculateDigits;
 
 	this.init();
 }
@@ -5778,71 +6455,96 @@ util.inherits(slider, widget);
 slider.prototype.init = function() {
 
 	//decide if hslider or vslider
-	if (this.height>=this.width) {
+	if (this.GUI.h>=this.GUI.w) {
 		this.hslider = false;
 	} else {
 		this.hslider = true;
 	}
 
-	if (this.canvas.getAttribute("label")!=null) {
-		this.label = this.canvas.getAttribute("label");
-	}
 
 	this.draw();
 }
 
+
 slider.prototype.draw = function() {
-	
+
+	var normalval = this.normalize(this.val.value)
+
+	//figure out text size
+	this.digits = this.calculateDigits()
+
 	this.erase();
 		
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 	
 		if (!this.hslider) {
 
-			if (nx.showLabels) {
-
-				save();
-	 			translate(this.width/2, 0);
-				rotate(Math.PI/2);
-				this.setFont();
-				fillText(this.label, this.height/2, 0);
-				globalAlpha = 1;
-				restore();
-			
-			}
-
 			var x1 = 0;
-			var y1 = this.height-this.val.value*this.height;
-			var x2 = this.width;
-			var y2 = this.height;
-
+			var y1 = this.GUI.h-normalval*this.GUI.h;
+			var x2 = this.GUI.w;
+			var y2 = this.GUI.h;
 		
 			fillStyle = this.colors.accent;
-			if (this.val.value>0.01) {
-				fillRect(x1,y1,x2-x1,y2-y1);
+			fillRect(x1,y1,x2-x1,y2-y1);
+			
+			//text
+			var valtextsize = (this.GUI.w / this.digits.total) * 1.2
+			if (valtextsize > 6) {
+
+				// figure out val text location
+		    if (y1 < this.GUI.h - valtextsize/2-5) {
+					fillStyle = this.colors.white
+		    	var texty = this.GUI.h-valtextsize/2-5
+		    } else {
+					fillStyle = this.colors.accent
+		    	var texty = y1 - valtextsize/2-5
+		    }
+		    var textx = this.GUI.w/2
+		    var valtextAlign = "center"
+		    var valtextBaseline = "middle"
 			}
 
 		} else {
-			
-			if (nx.showLabels) {
-				this.setFont();
-				fillText(this.label, this.width/2, this.height/2);
-				globalAlpha = 1;
-			
-			}
 
 			var x1 = 0;
 			var y1 = 0;
-			var x2 = this.val.value*this.width;
-			var y2 = this.height;
-		   
+			var x2 = normalval*this.GUI.w;
+			var y2 = this.GUI.h;
 		
-			fillStyle = this.colors.accent;
-			if (this.val.value>0.01) {
-				fillRect(x1,y1,x2-x1,y2-y1);
+			fillStyle = this.colors.accent
+			fillRect(x1,y1,x2-x1,y2-y1)
+
+			//text
+			var valtextsize = this.GUI.h/2
+			if (valtextsize > 6) {
+
+				// figure out val text location
+		    if (x2 > this.digits.total*valtextsize/2) {
+					fillStyle = this.colors.white
+		    	var textx = 5
+		    } else {
+					fillStyle = this.colors.accent
+		    	var textx = x2 + 5
+		    }
+		    var texty = this.GUI.h/2
+		    var valtextAlign = "left"
+		    var valtextBaseline = "middle"
 			}
+
+		}
+
+
+    var valtext = this.val.value.toFixed(this.digits.decimals)
+    textBaseline = valtextBaseline
+		textAlign = valtextAlign
+    font = valtextsize+"px 'Open Sans'"
+    fillText(valtext,textx,texty);
+
+
+		if (this.label) {
+			this.drawLabel()
 		}
 	}
 }
@@ -5852,38 +6554,43 @@ slider.prototype.click = function() {
 }
 
 slider.prototype.move = function() {
+
+	var normalval = this.normalize(this.val.value)
+
 	if (this.hslider) {
 		this.handle = this.clickPos.x;
 		this.relhandle = this.deltaMove.x;
-		this.cap = this.width;
+		this.cap = this.GUI.w;
 	} else {
 		this.handle = this.clickPos.y;
 		this.relhandle = this.deltaMove.y*-1;
-		this.cap = this.height
+		this.cap = this.GUI.h
 	}
 
 	if (this.mode=="absolute") {
 		if (this.clicked) {
 			if (!this.hslider) {
-				this.val.value = math.prune((Math.abs((math.clip(this.clickPos.y/this.height, 0, 1)) - 1)),3);
+				normalval = Math.abs((math.clip(this.clickPos.y/this.GUI.h, 0, 1) - 1));
 			} else {	
-				this.val.value = math.prune(math.clip(this.clickPos.x/this.width, 0, 1),3);
+				normalval = math.clip(this.clickPos.x/this.GUI.w, 0, 1);
 			}
 			this.draw();
 		}
 	} else if (this.mode=="relative") {
 		if (this.clicked) {
 			if (!this.hslider) {
-				this.val.value = math.clip((this.val.value + ((this.deltaMove.y*-1)/this.height)),0,1);
+				normalval = math.clip(normalval + ((this.deltaMove.y*-1)/this.GUI.h),0,1);
 			} else {
-				this.val.value = math.clip((this.val.value + ((this.deltaMove.x)/this.width)),0,1);
+				normalval = math.clip(normalval + ((this.deltaMove.x)/this.GUI.w),0,1);
 			}
 			this.draw();
 		}
 	}
+
+	this.val.value = math.prune(this.rangify(normalval),3)
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],36:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -5926,12 +6633,12 @@ var string = module.exports = function (target) {
 util.inherits(string, widget);
 
 string.prototype.init = function() {
-	stringdiv = this.height/(this.numberOfStrings + 1);
+	stringdiv = this.GUI.h/(this.numberOfStrings + 1);
 	for (var i=0;i<this.numberOfStrings;i++) {
 		this.strings[i] = {
 			x1: this.lineWidth,
 			y1: stringdiv*(1+i),
-			x2: this.width - this.lineWidth,
+			x2: this.GUI.w - this.lineWidth,
 			y2: stringdiv*(i+1),
 			held: false, // whether or not it's gripped
 			vibrating: false, // whether or not its vibrating
@@ -5962,14 +6669,12 @@ string.prototype.setStrings = function(val) {
 
 string.prototype.draw = function() {
 	this.erase();
-	this.makeRoundedBG();
 	with (this.context) {
 		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
 		lineWidth = this.lineWidth;
 	//	stroke();
-		fill();
-		
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 		strokeStyle = this.colors.accent;
 
 		for (var i = 0;i<this.strings.length;i++) {
@@ -5994,7 +6699,7 @@ string.prototype.draw = function() {
 
 				beginPath();
 				moveTo(st.x1, st.y1);
-				quadraticCurveTo(this.width/2, st.y1+st.stretch, st.x2, st.y2);
+				quadraticCurveTo(this.GUI.w/2, st.y1+st.stretch, st.x2, st.y2);
 				stroke();
 				closePath();
 				st.on = true;
@@ -6050,7 +6755,7 @@ string.prototype.move = function() {
 				this.strings[i].above ^= true;
 			}
 
-			if (this.strings[i].held && Math.abs(this.clickPos.y - this.strings[i].y1) > this.height/(this.strings.length*3)) {
+			if (this.strings[i].held && Math.abs(this.clickPos.y - this.strings[i].y1) > this.GUI.h/(this.strings.length*3)) {
 
 				this.pluck(i)
 				
@@ -6071,7 +6776,7 @@ string.prototype.pluck = function(which) {
 	var i = which;
 	this.val = {
 		string: i,
-		x: this.clickPos.x/this.width
+		x: this.clickPos.x/this.GUI.w
 	}
 	this.transmit(this.val);
 	this.strings[i].held = false;
@@ -6085,7 +6790,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":47}],35:[function(require,module,exports){
+},{"../core/widget":3,"util":51}],37:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6129,14 +6834,14 @@ tabs.prototype.draw = function() {
 
 	with (this.context) {
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height)
+		fillRect(0,0,this.GUI.w,this.GUI.h)
 
 		textAlign = "center"
 		textBaseline = "middle"
-		font = "normal "+this.height/5+"px courier"
+		font = "normal "+this.GUI.h/5+"px courier"
 	}
 
-	this.tabwid = this.width/this.options.length
+	this.tabwid = this.GUI.w/this.options.length
 
 	for (var i=0;i<this.options.length;i++) {
 		if (i==this.choice) {
@@ -6149,11 +6854,11 @@ tabs.prototype.draw = function() {
 		}
 		with (this.context) {
 			fillStyle=tabcol;
-			fillRect(this.tabwid*i,0,this.tabwid,this.height)
+			fillRect(this.tabwid*i,0,this.tabwid,this.GUI.h)
 			if (i!=this.options.length-1) {
 				beginPath();
 				moveTo(this.tabwid*(i+1),0)
-				lineTo(this.tabwid*(i+1),this.height)
+				lineTo(this.tabwid*(i+1),this.GUI.h)
 				lineWidth = 1;
 				strokeStyle = this.colors.border
 				stroke()
@@ -6161,7 +6866,7 @@ tabs.prototype.draw = function() {
 			}
 			fillStyle=textcol;
 			font = this.fontSize+"px "+this.font;
-			fillText(this.options[i],this.tabwid*i+this.tabwid/2,this.height/2)
+			fillText(this.options[i],this.tabwid*i+this.tabwid/2,this.GUI.h/2)
 		}
 		
 	}
@@ -6177,7 +6882,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],38:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6203,12 +6908,13 @@ var text = module.exports = function (target) {
 		text: ""
 	}
 
-	var htmlstr = '<textarea id="'+this.canvasID+'" style="height:'+this.height+'px;width:'+this.width+'px;" onkeydown="'+this.canvasID+'.change(event,this)"></textarea><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<textarea id="'+this.canvasID+'" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;" onkeydown="'+this.canvasID+'.change(event,this)"></textarea><canvas height="1px" width="1px" style="display:none"></canvas>'                   
 	var canv = this.canvas
 	var cstyle = this.canvas.style
 	var parent = canv.parentNode;
 	var newdiv = document.createElement("span");
 	newdiv.innerHTML = htmlstr;
+	newdiv.className = "nx"
 	parent.replaceChild(newdiv,canv)
 	this.el = document.getElementById(this.canvasID)
 
@@ -6225,6 +6931,7 @@ var text = module.exports = function (target) {
 	this.el.style.padding = "5px"
 	this.el.style.fontFamily = nx.font
 	this.el.style.fontSize = "16px"
+	this.el.className = ""
 
 
 	this.canvas = document.getElementById(this.canvasID);
@@ -6262,7 +6969,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":47}],37:[function(require,module,exports){
+},{"../core/widget":3,"util":51}],39:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6363,12 +7070,12 @@ tilt.prototype.draw = function() {
 
 	with (this.context) {
 		fillStyle = this.colors.fill;
-	    fillRect(0,0,this.width,this.height);
+	    fillRect(0,0,this.GUI.w,this.GUI.h);
 
 		save(); 
-		translate(this.width/2,this.height/2)
+		translate(this.GUI.w/2,this.GUI.h/2)
 		rotate(-this.val.x*Math.PI/2);
-		translate(-this.width/2,-this.height/2)
+		translate(-this.GUI.w/2,-this.GUI.h/2)
 	    globalAlpha = 0.4;
 
 	    if (this.active) {
@@ -6377,12 +7084,15 @@ tilt.prototype.draw = function() {
 	    	fillStyle = this.colors.border;
 	    }
 
-		fillRect(-this.width,this.height*(this.val.y/2)+this.height/2,this.width*3,this.height*2)
-		font = "bold "+this.height/5+"px "+this.font;
+		fillRect(-this.GUI.w,this.GUI.h*(this.val.y/2)+this.GUI.h/2,this.GUI.w*3,this.GUI.h*2)
+		font = "bold "+this.GUI.h/5+"px "+this.font;
 		textAlign = "center";
-		fillText(this.text, this.width/2, this.height*(this.val.y/2)+this.height/2+this.height/15);
+		textBaseline = "middle";
+		fillText(this.text, this.GUI.w/2, this.GUI.h*(this.val.y/2)+this.GUI.h/2-this.GUI.h/15);
 		globalAlpha = 1;
 		restore();
+
+		clearRect(0,this.GUI.h,this.GUI.w,this.height - this.GUI.h)
 	}
 	this.drawLabel();
 }
@@ -6396,7 +7106,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],38:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],40:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6413,8 +7123,6 @@ var widget = require('../core/widget');
 var toggle = module.exports = function (target) {
 	this.defaultSize = { width: 50, height: 50 };
 	widget.call(this, target);
-	
-	this.mindim = this.height>this.width ? this.width : this.height;
 
 	/** @property {object}  val  Object containing the core interactive aspects of the widget, which are also its data output. Has the following properties: 
 		| &nbsp; | data
@@ -6429,7 +7137,6 @@ var toggle = module.exports = function (target) {
 util.inherits(toggle, widget);
 
 toggle.prototype.init = function() {
-	this.fontsize = this.mindim/4;
 	this.draw();
 }
 
@@ -6440,20 +7147,22 @@ toggle.prototype.draw = function() {
 	with (this.context) {
 		if (this.val.value) {
 			fillStyle = this.colors.accent;
+		//	strokeStyle = this.colors.white;
+		//	strokeAlpha = 0.3
+			strokeStyle = this.colors.accenthl;
+			strokeAlpha = 1
 		} else {
 			fillStyle = this.colors.fill;
+			strokeStyle = this.colors.border;
+			strokeAlpha = 1
 		}
-		fillRect(0,0,this.width,this.height);
-		if (this.val.value) {
-			this.setFont();
-			fillStyle = this.colors.white
-			globalAlpha = 1;
-			fillText("on", this.width/2, this.height/2);	
-		} else {
-			this.setFont();
-			fillText("off", this.width/2, this.height/2);
-			globalAlpha = 1;
-		}
+		lineWidth = Math.sqrt(this.GUI.w)/2;
+		//lineWidth = this.GUI.w / 20;
+
+		fillRect(0,0,this.GUI.w,this.GUI.h);
+		globalAlpha = strokeAlpha
+		strokeRect(lineWidth/2,lineWidth/2,this.GUI.w-lineWidth,this.GUI.h-lineWidth);
+		globalAlpha = 1
 	}
 
 	this.drawLabel();
@@ -6469,7 +7178,109 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],39:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":51}],41:[function(require,module,exports){
+var math = require('../utils/math')
+var util = require('util');
+var widget = require('../core/widget');
+
+/** 
+	@class trace      
+	Path/gesture drawing canvas
+	```html
+	<canvas nx="trace"></canvas>
+	```
+	<canvas nx="trace" style="margin-left:25px"></canvas>
+*/
+
+var trace = module.exports = function (target) {
+
+	// define a default size
+	this.defaultSize = { width: 200, height: 200 };
+
+	widget.call(this, target);
+	
+	/** @property {integer} nodeSize Size of path node graphic. */
+	this.nodeSize = 8;
+
+	/** @property {object}  val   val is an object containing the main interactive / actionable aspects of the widget.
+		| &nbsp; | data
+		| --- | ---
+		| *path* | array of objects containing x/y of each path node
+	*/
+	this.val = {
+		path: []
+	}
+
+	this.limit = 20;
+	this.space = 0;
+	
+	this.init();
+}
+
+// inherit the widget object template
+util.inherits(trace, widget);
+
+// .init() is called automatically when the widget is created on a webpage.
+trace.prototype.init = function() {
+	this.nodeSize = Math.min(this.GUI.h,this.GUI.w)/10;
+	this.nodeSize = Math.max(this.nodeSize,10)
+	this.draw();
+}
+
+// .draw() should be used for any graphics activity
+trace.prototype.draw = function() {
+	this.erase();
+	with (this.context) {
+
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.GUI.w,this.GUI.h);
+		fillStyle = this.colors.fill;
+
+		globalAlpha = 0.7;
+		for (var i=0;i<this.val.path.length;i++) {
+			var drawingX = this.val.path[i].x * this.GUI.w
+			var drawingY = this.val.path[i].y * this.GUI.h
+
+			beginPath();
+				fillStyle = this.colors.accent;
+				arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
+				fill();
+			closePath();
+
+		}
+		globalAlpha = 1;
+
+	}
+	
+	this.drawLabel();
+}
+
+trace.prototype.click = function() {
+	this.val.path = []
+	this.space = 0;
+	this.move()
+	this.draw()
+}
+
+trace.prototype.move = function() {
+	this.space++
+	if (this.space>2 && this.val.path.length<this.limit) {
+		this.space = 0
+		var x = math.clip(this.clickPos.x,0,this.GUI.w) / this.GUI.w
+		var y = math.clip(this.clickPos.y,0,this.GUI.h) / this.GUI.h
+		this.val.path.push({ x: x, y: y })
+		/*if (this.val.path.length>=this.limit) {
+			this.val.path = this.val.path.slice(1)
+		} */
+	}
+	this.draw();
+}
+
+trace.prototype.release = function() {
+	this.transmit(this.val);
+}
+
+},{"../core/widget":3,"../utils/math":6,"util":51}],42:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -6489,8 +7300,8 @@ var typewriter = module.exports = function(target) {
 
 	
 	this.letter = ""
-	this.keywid = this.width/14.5;
-	this.keyhgt = this.height/5
+	this.keywid = this.GUI.w/14.5;
+	this.keyhgt = this.GUI.h/5
 
 	/** @property {boolean}  active  Whether or not the widget is on (listening for events and transmitting values).*/ 
 	this.active = true;
@@ -6596,8 +7407,8 @@ util.inherits(typewriter, widget);
 	
 typewriter.prototype.init = function() {
 
-	this.keywid = this.width/14.5;
-	this.keyhgt = this.height/5
+	this.keywid = this.GUI.w/14.5;
+	this.keyhgt = this.GUI.h/5
 	
 	this.draw();
 }
@@ -6613,7 +7424,7 @@ typewriter.prototype.draw = function() {	// erase
 
 	with (this.context) {
 
-		strokeStyle = this.colors.border 
+		strokeStyle = this.colors.borderhl
 		fillStyle = this.colors.accent 
 		lineWidth = 1
 
@@ -6638,7 +7449,7 @@ typewriter.prototype.draw = function() {	// erase
 					stroke()
 				} else {
 					fillStyle = this.colors.fill 
-					strokeStyle = this.colors.border 
+					strokeStyle = this.colors.borderhl
 
 					fill()
 					stroke()
@@ -6651,20 +7462,20 @@ typewriter.prototype.draw = function() {	// erase
 
 		if (this.val.on) {
 			this.setFont();
-			fillStyle = this.colors.border;
-			font = this.height+"px "+this.font;
-			fillText(this.val.key, this.width/2, this.height/2);
+			fillStyle = this.colors.borderhl;
+			font = this.GUI.h+"px "+this.font;
+			fillText(this.val.key, this.GUI.w/2, this.GUI.h/2);
 			
 			globalAlpha = 1
 		}
 
 		if (!this.active) {
 			globalAlpha = 0.7
-			fillStyle = this.colors.border;
-			font = (this.height/2)+"px courier";
+			fillStyle = this.colors.borderhl;
+			font = (this.GUI.h/2)+"px courier";
 			textAlign = "center";
 			textBaseline = "middle"
-			fillText("inactive", this.width/2, this.height/2);
+			fillText("inactive", this.GUI.w/2, this.GUI.h/2);
 		}
 	}
 
@@ -6717,7 +7528,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":47}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":51}],43:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6771,7 +7582,7 @@ vinyl.prototype.draw = function() {
 	with (this.context) {
 		strokeStyle = this.colors.border;
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height)
+		fillRect(0,0,this.GUI.w,this.GUI.h)
 		
 		//draw main circle
 		beginPath();
@@ -6864,7 +7675,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],41:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],44:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -6952,7 +7763,7 @@ util.inherits(waveform, widget);
 
 waveform.prototype.init = function() {
 
-	this.pieces = ~~(this.width/this.definition);
+	this.pieces = ~~(this.GUI.w/this.definition);
 
 	this.draw();
 }
@@ -6968,7 +7779,7 @@ waveform.prototype.setBuffer = function(prebuff) {
 	this.channels = prebuff.numberOfChannels
 	this.duration = prebuff.duration
 	this.sampleRate = prebuff.sampleRate
-	this.waveHeight = this.height / this.channels
+	this.waveHeight = this.GUI.h / this.channels
 
 	// timescale
 	this.durationMS = (this.duration * 1000) 
@@ -7049,7 +7860,7 @@ waveform.prototype.draw = function() {
 	with (this.context) {
 		//bg
 		fillStyle = this.colors.fill;
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 
 		//waveform
 		for (var i=0;i<this.buffer.length;i++) {
@@ -7069,7 +7880,7 @@ waveform.prototype.draw = function() {
 		//time bar - top
 		globalAlpha = 0.3
 		fillStyle = this.colors.border
-		fillRect(0,0,this.width,16)
+		fillRect(0,0,this.GUI.w,16)
 		globalAlpha = 1
 
 
@@ -7081,9 +7892,9 @@ waveform.prototype.draw = function() {
 		if (this.timescale) {
 			for (var i=1; i<this.durationMS/this.timescale.dur; i++) {
 				var x = (i * this.timescale.dur) / this.durationMS
-				x *= this.width
+				x *= this.GUI.w
 				fillStyle = this.colors.border
-				fillRect(x,0,1,this.height)
+				fillRect(x,0,1,this.GUI.h)
 				fillStyle = this.colors.black
 				globalAlpha = 0.6
 				fillText(this.msToTime(i * this.timescale.dur,this.timescale.format),x+5,8)
@@ -7093,10 +7904,10 @@ waveform.prototype.draw = function() {
 		
 
 		// range selection
-		var x1 = this.val.start*this.width;
+		var x1 = this.val.start*this.GUI.w;
 		var y1 = 0;
-		var x2 = this.val.stop*this.width;
-		var y2 = this.height;
+		var x2 = this.val.stop*this.GUI.w;
+		var y2 = this.GUI.h;
 	   
 		fillStyle = this.colors.accent;
 		strokeStyle = this.colors.accent;
@@ -7117,7 +7928,7 @@ waveform.prototype.draw = function() {
 				math.prune(dur,0)
 				dur += ' ms'
 			}
-			fillText(dur,x1 + (x2-x1)/2,this.height/2)
+			fillText(dur,x1 + (x2-x1)/2,this.GUI.h/2)
 		}
 		
 		globalAlpha = 1
@@ -7154,7 +7965,7 @@ waveform.prototype.msToTime = function(rawms,format) {
 
 waveform.prototype.click = function() {
 	if (this.mode=="edge") {
-		if (Math.abs(this.clickPos.x-this.val.start*this.width) < Math.abs(this.clickPos.x-this.val.stop*this.width)) {
+		if (Math.abs(this.clickPos.x-this.val.start*this.GUI.w) < Math.abs(this.clickPos.x-this.val.stop*this.GUI.w)) {
 			this.firsttouch = "start"
 		} else {
 			this.firsttouch = "stop"
@@ -7175,14 +7986,14 @@ waveform.prototype.move = function() {
 
 	if (this.mode=="edge") {
 		if (this.firsttouch=="start") {
-			this.val.start = this.clickPos.x/this.width;
+			this.val.start = this.clickPos.x/this.GUI.w;
 			if (this.clickPos.touches.length>1) {
-				this.val.stop = this.clickPos.touches[1].x/this.width;
+				this.val.stop = this.clickPos.touches[1].x/this.GUI.w;
 			}
 		} else {
-			this.val.stop = this.clickPos.x/this.width;
+			this.val.stop = this.clickPos.x/this.GUI.w;
 			if (this.clickPos.touches.length>1) {
-				this.val.start = this.clickPos.touches[1].x/this.width;
+				this.val.start = this.clickPos.touches[1].x/this.GUI.w;
 			}
 		}
 	
@@ -7200,8 +8011,8 @@ waveform.prototype.move = function() {
 		
 	} else if (this.mode=="area") {
 
-		var moveloc = this.clickPos.x/this.width;
-		var movesize = (this.touchdown.y - this.clickPos.y)/this.height;
+		var moveloc = this.clickPos.x/this.GUI.w;
+		var movesize = (this.touchdown.y - this.clickPos.y)/this.GUI.h;
 	
 		movesize /= 4;
 		var size = this.startval.size + movesize;
@@ -7229,7 +8040,344 @@ waveform.prototype.move = function() {
 	this.draw();
 
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],45:[function(require,module,exports){
+var util = require('util');
+var widget = require('../core/widget');
+var math = require('../utils/math')
+
+/** 
+	@class wavegrain      
+	wavegrain visualizer and selecter
+	```html
+	<canvas nx="wavegrain"></canvas>
+	```
+*/
+
+var wavegrain = module.exports = function (target) {
+	this.defaultSize = { width: 400, height: 125 };
+	widget.call(this, target);
+
+	/** @property {object}  val  Object containing core interactive aspects of widget, which are also its data output. Has the following properties: 
+		| &nbsp; | data
+		| --- | ---
+		| *starttime* | wavegrain selection start position in milliseconds (integer)
+		| *stoptime* | wavegrain selection end position in milliseconds (integer)
+		| *looptime* | Selection size, in milliseconds (integer)
+	*/
+	this.val = {
+		starttime: 0,
+		stoptime: 0,
+		looptime: 50,
+		start: 0,
+		stop: 0,
+		size: 0,
+		level: 0,
+		state: "off"
+	}
+
+	this.handle;
+	this.relhandle;
+	this.cap;
+	this.firsttouch = "start";
+
+	/** @property {Array} buffer  Contains multiple arrays of reduced buffer data, for visualization */
+	this.buffer = []
+
+	if (nx.isMobile) {
+		/** @property {integer} definition  Horizontal definition of the visualization. Value of 3 means the wavegrain will be represented in 3 pixel chunks. Higher numbers (4+) lead to a smaller graphics load. Smaller numbers (1-3) look better. Default is 1 for desktop renders, 3 for mobile renders. */
+		this.definition = 1;
+	} else {
+		this.definition = 1;
+	}
+
+	this.pieces = false;
+
+	/** @property {integer} channels  How many channels in the wavegrain */
+	this.channels = 1
+	this.rawbuffer = []
+
+	this.times = [
+		{ dur: 10 , format: 1 },
+		{ dur: 50 , format: 1 },
+		{ dur: 100 , format: 1 },
+		{ dur: 200 , format: 1 },
+		{ dur: 500 , format: 1 },
+		{ dur: 1000 , format: 1 },
+		{ dur: 2000 , format: 1 },
+		{ dur: 5000 , format: 1 },
+		{ dur: 10000 , format: 3 },
+		{ dur: 15000 , format: 3 },
+		{ dur: 60000 , format: 3 }, // 1 min
+		{ dur: 120000 , format: 3 }, // 2 mins
+		{ dur: 300000 , format: 3 }, // 5 mins
+		{ dur: 600000 , format: 3 }, // 10 mins
+	]
+	this.timescale = false
+
+	// to do --
+	// // sample rate adjustments
+	// .select(500,1000)
+
+	/** @property {string}  mode  Mode of interaction. "edge" mode lets you drag each edge of the wavegrain individually. "area" mode (default) lets you drag the wavegrain as a whole (with parallel mouse movement) or scale the wavegrain as a whole (with transverse mouse movement) */
+	this.mode = "area" // modes: "edge", "area"
+	this.touchdown = new Object();
+	this.init();
+}
+util.inherits(wavegrain, widget);
+
+wavegrain.prototype.init = function() {
+
+	this.pieces = ~~(this.GUI.w/this.definition);
+
+	this.draw();
+}
+
+
+/** 
+  @method setBuffer 
+  Load a web audio AudioBuffer into the wavegrain ui, for analysis and visualization.
+  @param {AudioBuffer} [buffer] The buffer to be loaded.
+  */
+wavegrain.prototype.setBuffer = function(prebuff) {
+
+	this.channels = prebuff.numberOfChannels
+	this.duration = prebuff.duration
+	this.sampleRate = prebuff.sampleRate
+	this.waveHeight = this.GUI.h / this.channels
+
+	// timescale
+	this.durationMS = (this.duration * 1000) 
+	this.timescale = 0
+	while (~~(this.durationMS/this.times[this.timescale].dur) > 7 && this.timescale < this.times.length ) {
+		this.timescale++;
+	}
+	this.timescale = this.times[this.timescale]
+
+	this.rawbuffer = []
+	this.buffer = []
+
+	// reduce/crush buffers
+	for (var i=0;i<this.channels;i++) {
+		this.rawbuffer.push(prebuff.getChannelData(0))
+		this.buffer.push([])
+
+		// counts faster (& less accurately) through larger buffers.
+		// for every 5 seconds in the buffer, our counter skips 1.
+		// so a 10 second buffer will only look at every 3rd sample
+		//   when calculating wavegrain.
+		var countinc = ~~(this.rawbuffer[0].length / (this.sampleRate*5)) + 1
+
+		var groupsize = ~~(this.rawbuffer[i].length/this.pieces)
+		var cmax = 0
+		var cmin = 0
+		var group = 0
+		var vis = []
+		for (var j=0;j<this.rawbuffer[i].length;j += countinc) {
+			if (this.rawbuffer[i][j]>0) {
+				cmax = Math.max(cmax,this.rawbuffer[i][j])
+			} else {
+				cmin = Math.min(cmin,this.rawbuffer[i][j])
+			}
+			if (j > group * groupsize) {
+				this.buffer[i].push([cmax,cmin])
+				group++
+				cmin = 0
+				cmax = 0
+			}
+		}
+	}
+
+	if (this.val.start && this.val.stop) {
+
+	}
+
+	this.val.starttime = Math.round(this.val.start * this.durationMS)
+	this.val.stoptime = Math.round(this.val.stop * this.durationMS)
+	//this.val.looptime = Math.round(this.val.size * this.durationMS)
+	
+
+	this.draw()
+
+}
+
+/** 
+  @method select 
+  Set the selection start and end points.
+  @param {integer} [start] Selection start point in milliseconds
+  @param {integer} [end] Selection end point in milliseconds
+  */
+wavegrain.prototype.select = function(start,stop) {
+	this.val.start = math.clip(start / this.durationMS,0,1)
+	this.val.stop = math.clip(stop / this.durationMS,0,1)
+	this.val.size = this.val.stop - this.val.start
+	this.val.starttime = start
+	this.val.stoptime = stop
+	this.val.looptime = start - stop
+	this.transmit(this.val)
+	this.draw()
+}
+
+
+wavegrain.prototype.draw = function() {
+	//this.erase();
+
+	with (this.context) {
+		//bg
+		fillStyle = this.colors.fill;
+		fillRect(0,0,this.GUI.w,this.GUI.h);
+
+		//waveform
+		for (var i=0;i<this.buffer.length;i++) {
+			fillStyle = this.colors.black
+			this.waveTop = i*this.waveHeight;
+			this.waveCenter = this.waveTop + this.waveHeight/2
+			for (var j=0;j<this.buffer[i].length;j++) {
+				var ht1 = this.waveCenter - this.buffer[i][j][0]*this.waveHeight
+				var ht2 = this.waveCenter + Math.abs(this.buffer[i][j][1]*this.waveHeight)
+				ht2 = ht2 - ht1
+				fillRect( j*this.definition, ht1 , this.definition, ht2)
+			}
+			this.buffer[i]
+
+		}
+
+		//time bar - top
+		globalAlpha = 0.3
+		fillStyle = this.colors.border
+		fillRect(0,0,this.GUI.w,16)
+		globalAlpha = 1
+
+
+		textBaseline = "middle"
+		textAlign = "left"
+		fontSize = "8px"
+
+		//time lines
+		if (this.timescale) {
+			for (var i=1; i<this.durationMS/this.timescale.dur; i++) {
+				var x = (i * this.timescale.dur) / this.durationMS
+				x *= this.GUI.w
+				fillStyle = this.colors.border
+				fillRect(x,0,1,this.GUI.h)
+				fillStyle = this.colors.black
+				globalAlpha = 0.6
+				fillText(this.msToTime(i * this.timescale.dur,this.timescale.format),x+5,8)
+				globalAlpha = 1
+			}	
+		} 
+		
+
+		if (this.val.state=="on") {
+			// range selection
+			var x1 = this.val.start*this.GUI.w;
+			var y1 = this.val.level * this.GUI.h;
+			var x2 = this.val.stop*this.GUI.w;
+			var y2 = this.GUI.h;
+		   
+			fillStyle = this.colors.accent;
+			strokeStyle = this.colors.accent;
+			lineWidth = 2
+		
+			globalAlpha = 0.3	
+			beginPath()
+			//arc(x1,y1,x2-x1,0,Math.PI*2,false)
+			arc(x1,y1,30,0,Math.PI*2,false)
+			fill()
+			globalAlpha = 0.7
+			stroke()
+		
+		/*	globalAlpha = 0.1
+			fillRect(x1,0,x2-x1,y2);
+			globalAlpha = 0.3
+			strokeRect(x1,0,x2-x1,y2);
+			globalAlpha = 1
+			fillRect(x1,y1,x2-x1,y2-y1);
+			strokeRect(x1,y1,x2-x1,y2-y1); */
+			globalAlpha = 1
+		}
+
+		
+	}
+
+}
+
+wavegrain.prototype.msToTime = function(rawms,format) {
+
+  var format = format ? format : 2
+
+  var s = ~~(rawms / 1000)
+  var secs = s % 60;
+  s = (s - secs) / 60;
+  var mins = s % 60;
+  var hrs = (s - mins) / 60;
+  var ms = rawms % 1000
+
+  //correct digits
+  secs = (secs < 10 && mins) ? secs + '0' : secs;
+  //ms = (ms < 10 && secs) ? ms + '0' : ms;
+
+  if (format==1) {
+  	return secs + '.' + ms;
+  } else if (format==2) {
+  	return mins + ':' + secs + '.' + ms;
+  } else if (format==3) {
+  	return mins + ':' + secs;
+  }
+
+}
+
+wavegrain.prototype.click = function() {
+	if (this.durationMS) {
+		this.val.state = "on"
+		this.move();
+	//	this.tick();
+	//	this.interval = setInterval(this.tick.bind(this),this.val.looptime)
+	}
+}
+
+wavegrain.prototype.move = function() {
+
+	if (this.clickPos.x < 0) { this.clickPos.x = 0 }
+	if (this.clickPos.x > this.GUI.w) { this.clickPos.x = this.GUI.w }
+	if (this.clickPos.y < 0) { this.clickPos.y = 0 }
+	if (this.clickPos.y > this.GUI.h) { this.clickPos.y = this.GUI.h }
+
+	this.val.state = "on"
+	if (this.durationMS) {
+		this.val.start = this.clickPos.x/this.GUI.w - (this.val.looptime/this.durationMS)/2
+
+		this.val.size = this.val.looptime/this.durationMS
+
+	//	this.val.start = math.clip(this.val.start,0,1-this.val.size)
+
+		this.val.stop = this.val.start + this.val.size
+
+		this.val.starttime = Math.round(this.val.start * this.durationMS)
+		this.val.looptime = Math.round(this.val.size * this.durationMS)
+		this.val.stoptime = this.val.starttime + this.val.looptime
+
+		this.val.level = this.clickPos.y / this.GUI.h
+
+		this.transmit(this.val);
+	
+		this.draw();
+	}
+
+}
+
+
+wavegrain.prototype.release = function() {
+	this.val.state = "off"
+	this.transmit(this.val);
+	this.draw()
+//	clearInterval(this.interval)
+}
+
+wavegrain.prototype.tick = function() {
+	this.val.state = "on"
+	this.transmit(this.val);
+}
+},{"../core/widget":3,"../utils/math":6,"util":51}],46:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7320,22 +8468,22 @@ windows.prototype.draw = function() {
 			fillStyle = this.colors.border;
 		}
 
-		fillRect(0,0,this.width,this.height);
+		fillRect(0,0,this.GUI.w,this.GUI.h);
 
 		globalAlpha = 0.8;
 	
 		for (var i=0;i<this.val.items.length;i++) {
 			fillStyle = this.colors.accent;
-			var x = this.val.items[i].x*this.width
-			var y = this.val.items[i].y*this.height
-			var w = this.val.items[i].w*this.width
-			var h = this.val.items[i].h*this.height
+			var x = this.val.items[i].x*this.GUI.w
+			var y = this.val.items[i].y*this.GUI.h
+			var w = this.val.items[i].w*this.GUI.w
+			var h = this.val.items[i].h*this.GUI.h
 			fillRect(x,y,w,h)
 		    
 			strokeStyle = this.colors.fill;
 			lineWidth = 1;
 		    strokeRect(x+w-10,y+h-10,10,10)
-		  //  strokeRect((this.val.items[i].x + this.val.items[i].w/2)*this.width - 10, (this.val.items[i].y + this.val.items[i].h/2)*this.height - 10,10,10)
+		  //  strokeRect((this.val.items[i].x + this.val.items[i].w/2)*this.GUI.w - 10, (this.val.items[i].y + this.val.items[i].h/2)*this.GUI.h - 10,10,10)
 		}
 
 		globalAlpha = 1;
@@ -7348,12 +8496,12 @@ windows.prototype.draw = function() {
 windows.prototype.click = function() {
 
 	this.holds = false;
-	var cx = this.clickPos.x / this.width;
-	var cy = this.clickPos.y / this.height;
+	var cx = this.clickPos.x / this.GUI.w;
+	var cy = this.clickPos.y / this.GUI.h;
 	for (var i=0;i<this.val.items.length;i++) {
 		if (nx.isInside({ x: cx, y: cy }, this.val.items[i])) {
 			this.holds = i;
-			if (this.clickPos.x > (this.val.items[i].x+this.val.items[i].w)*this.width - 10 && this.clickPos.x < (this.val.items[i].x+this.val.items[i].w)*this.width && this.clickPos.y > (this.val.items[i].y+this.val.items[i].h)*this.height - 10 && this.clickPos.y < (this.val.items[i].y+this.val.items[i].h)*this.height) {
+			if (this.clickPos.x > (this.val.items[i].x+this.val.items[i].w)*this.GUI.w - 10 && this.clickPos.x < (this.val.items[i].x+this.val.items[i].w)*this.GUI.w && this.clickPos.y > (this.val.items[i].y+this.val.items[i].h)*this.GUI.h - 10 && this.clickPos.y < (this.val.items[i].y+this.val.items[i].h)*this.GUI.h) {
 				this.resizing = true;
 			}
 		}
@@ -7389,8 +8537,8 @@ windows.prototype.click = function() {
 }
 
 windows.prototype.move = function() {
-	var cx = this.clickPos.x / this.width;
-	var cy = this.clickPos.y / this.height;
+	var cx = this.clickPos.x / this.GUI.w;
+	var cy = this.clickPos.y / this.GUI.h;
 	if (this.resizing) {
 		if (!this.meta) {
 			this.val.items[this.holds].w = cx - this.val.items[this.holds].x
@@ -7472,7 +8620,7 @@ windows.prototype.restrict = function(item) {
 	}	
 	return item;
 }
-},{"../core/widget":3,"../utils/math":6,"util":47}],43:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":51}],47:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7775,7 +8923,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],44:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -7800,7 +8948,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],45:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -7865,14 +9013,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],46:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],47:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8447,7 +9595,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":46,"_process":45,"inherits":44}],48:[function(require,module,exports){
+},{"./support/isBuffer":50,"_process":49,"inherits":48}],52:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
@@ -8528,6 +9676,26 @@ module.exports = function extend() {
 	// Return the modified object
 	return target;
 };
+
+
+},{}],53:[function(require,module,exports){
+/* Web Font Loader v1.6.10 - (c) Adobe Systems, Google. License: Apache 2.0 */
+(function(){function aa(a,b,c){return a.call.apply(a.bind,arguments)}function ba(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var c=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(c,d);return a.apply(b,c)}}return function(){return a.apply(b,arguments)}}function n(a,b,c){n=Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?aa:ba;return n.apply(null,arguments)}var p=Date.now||function(){return+new Date};function q(a,b){this.F=a;this.k=b||a;this.H=this.k.document}var ca=!!window.FontFace;q.prototype.createElement=function(a,b,c){a=this.H.createElement(a);if(b)for(var d in b)b.hasOwnProperty(d)&&("style"==d?a.style.cssText=b[d]:a.setAttribute(d,b[d]));c&&a.appendChild(this.H.createTextNode(c));return a};function s(a,b,c){a=a.H.getElementsByTagName(b)[0];a||(a=document.documentElement);a.insertBefore(c,a.lastChild)}
+function t(a,b,c){b=b||[];c=c||[];for(var d=a.className.split(/\s+/),e=0;e<b.length;e+=1){for(var f=!1,g=0;g<d.length;g+=1)if(b[e]===d[g]){f=!0;break}f||d.push(b[e])}b=[];for(e=0;e<d.length;e+=1){f=!1;for(g=0;g<c.length;g+=1)if(d[e]===c[g]){f=!0;break}f||b.push(d[e])}a.className=b.join(" ").replace(/\s+/g," ").replace(/^\s+|\s+$/,"")}function u(a,b){for(var c=a.className.split(/\s+/),d=0,e=c.length;d<e;d++)if(c[d]==b)return!0;return!1}
+function v(a){if("string"===typeof a.fa)return a.fa;var b=a.k.location.protocol;"about:"==b&&(b=a.F.location.protocol);return"https:"==b?"https:":"http:"}function x(a,b,c){function d(){l&&e&&f&&(l(g),l=null)}b=a.createElement("link",{rel:"stylesheet",href:b,media:"all"});var e=!1,f=!0,g=null,l=c||null;ca?(b.onload=function(){e=!0;d()},b.onerror=function(){e=!0;g=Error("Stylesheet failed to load");d()}):setTimeout(function(){e=!0;d()},0);s(a,"head",b)}
+function y(a,b,c,d){var e=a.H.getElementsByTagName("head")[0];if(e){var f=a.createElement("script",{src:b}),g=!1;f.onload=f.onreadystatechange=function(){g||this.readyState&&"loaded"!=this.readyState&&"complete"!=this.readyState||(g=!0,c&&c(null),f.onload=f.onreadystatechange=null,"HEAD"==f.parentNode.tagName&&e.removeChild(f))};e.appendChild(f);setTimeout(function(){g||(g=!0,c&&c(Error("Script load timeout")))},d||5E3);return f}return null};function z(){this.S=0;this.K=null}function A(a){a.S++;return function(){a.S--;B(a)}}function C(a,b){a.K=b;B(a)}function B(a){0==a.S&&a.K&&(a.K(),a.K=null)};function D(a){this.ea=a||"-"}D.prototype.d=function(a){for(var b=[],c=0;c<arguments.length;c++)b.push(arguments[c].replace(/[\W_]+/g,"").toLowerCase());return b.join(this.ea)};function E(a,b){this.Q=a;this.M=4;this.L="n";var c=(b||"n4").match(/^([nio])([1-9])$/i);c&&(this.L=c[1],this.M=parseInt(c[2],10))}E.prototype.getName=function(){return this.Q};function da(a){return G(a)+" "+(a.M+"00")+" 300px "+H(a.Q)}function H(a){var b=[];a=a.split(/,\s*/);for(var c=0;c<a.length;c++){var d=a[c].replace(/['"]/g,"");-1!=d.indexOf(" ")||/^\d/.test(d)?b.push("'"+d+"'"):b.push(d)}return b.join(",")}function I(a){return a.L+a.M}
+function G(a){var b="normal";"o"===a.L?b="oblique":"i"===a.L&&(b="italic");return b}function ea(a){var b=4,c="n",d=null;a&&((d=a.match(/(normal|oblique|italic)/i))&&d[1]&&(c=d[1].substr(0,1).toLowerCase()),(d=a.match(/([1-9]00|normal|bold)/i))&&d[1]&&(/bold/i.test(d[1])?b=7:/[1-9]00/.test(d[1])&&(b=parseInt(d[1].substr(0,1),10))));return c+b};function fa(a,b){this.a=a;this.j=a.k.document.documentElement;this.O=b;this.g="wf";this.e=new D("-");this.da=!1!==b.events;this.u=!1!==b.classes}function ga(a){a.u&&t(a.j,[a.e.d(a.g,"loading")]);J(a,"loading")}function K(a){if(a.u){var b=u(a.j,a.e.d(a.g,"active")),c=[],d=[a.e.d(a.g,"loading")];b||c.push(a.e.d(a.g,"inactive"));t(a.j,c,d)}J(a,"inactive")}function J(a,b,c){if(a.da&&a.O[b])if(c)a.O[b](c.getName(),I(c));else a.O[b]()};function ha(){this.t={}}function ia(a,b,c){var d=[],e;for(e in b)if(b.hasOwnProperty(e)){var f=a.t[e];f&&d.push(f(b[e],c))}return d};function L(a,b){this.a=a;this.h=b;this.m=this.a.createElement("span",{"aria-hidden":"true"},this.h)}function M(a,b){var c=a.m,d;d="display:block;position:absolute;top:-9999px;left:-9999px;font-size:300px;width:auto;height:auto;line-height:normal;margin:0;padding:0;font-variant:normal;white-space:nowrap;font-family:"+H(b.Q)+";"+("font-style:"+G(b)+";font-weight:"+(b.M+"00")+";");c.style.cssText=d}function N(a){s(a.a,"body",a.m)}L.prototype.remove=function(){var a=this.m;a.parentNode&&a.parentNode.removeChild(a)};function O(a,b,c,d,e,f){this.G=a;this.J=b;this.f=d;this.a=c;this.v=e||3E3;this.h=f||void 0}O.prototype.start=function(){var a=this.a.k.document,b=this;Promise.race([new Promise(function(a,d){setTimeout(function(){d(b.f)},b.v)}),a.fonts.load(da(this.f),this.h)]).then(function(a){1===a.length?b.G(b.f):b.J(b.f)},function(){b.J(b.f)})};function P(a,b,c,d,e,f,g){this.G=a;this.J=b;this.a=c;this.f=d;this.h=g||"BESbswy";this.s={};this.v=e||3E3;this.Z=f||null;this.D=this.C=this.A=this.w=null;this.w=new L(this.a,this.h);this.A=new L(this.a,this.h);this.C=new L(this.a,this.h);this.D=new L(this.a,this.h);M(this.w,new E(this.f.getName()+",serif",I(this.f)));M(this.A,new E(this.f.getName()+",sans-serif",I(this.f)));M(this.C,new E("serif",I(this.f)));M(this.D,new E("sans-serif",I(this.f)));N(this.w);N(this.A);N(this.C);N(this.D)}
+var Q={ia:"serif",ha:"sans-serif"},R=null;function S(){if(null===R){var a=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))/.exec(window.navigator.userAgent);R=!!a&&(536>parseInt(a[1],10)||536===parseInt(a[1],10)&&11>=parseInt(a[2],10))}return R}P.prototype.start=function(){this.s.serif=this.C.m.offsetWidth;this.s["sans-serif"]=this.D.m.offsetWidth;this.ga=p();T(this)};function ja(a,b,c){for(var d in Q)if(Q.hasOwnProperty(d)&&b===a.s[Q[d]]&&c===a.s[Q[d]])return!0;return!1}
+function T(a){var b=a.w.m.offsetWidth,c=a.A.m.offsetWidth,d;(d=b===a.s.serif&&c===a.s["sans-serif"])||(d=S()&&ja(a,b,c));d?p()-a.ga>=a.v?S()&&ja(a,b,c)&&(null===a.Z||a.Z.hasOwnProperty(a.f.getName()))?U(a,a.G):U(a,a.J):ka(a):U(a,a.G)}function ka(a){setTimeout(n(function(){T(this)},a),50)}function U(a,b){setTimeout(n(function(){this.w.remove();this.A.remove();this.C.remove();this.D.remove();b(this.f)},a),0)};function V(a,b,c){this.a=a;this.p=b;this.P=0;this.ba=this.Y=!1;this.v=c}var la=!!window.FontFace;V.prototype.V=function(a){var b=this.p;b.u&&t(b.j,[b.e.d(b.g,a.getName(),I(a).toString(),"active")],[b.e.d(b.g,a.getName(),I(a).toString(),"loading"),b.e.d(b.g,a.getName(),I(a).toString(),"inactive")]);J(b,"fontactive",a);this.ba=!0;ma(this)};
+V.prototype.W=function(a){var b=this.p;if(b.u){var c=u(b.j,b.e.d(b.g,a.getName(),I(a).toString(),"active")),d=[],e=[b.e.d(b.g,a.getName(),I(a).toString(),"loading")];c||d.push(b.e.d(b.g,a.getName(),I(a).toString(),"inactive"));t(b.j,d,e)}J(b,"fontinactive",a);ma(this)};function ma(a){0==--a.P&&a.Y&&(a.ba?(a=a.p,a.u&&t(a.j,[a.e.d(a.g,"active")],[a.e.d(a.g,"loading"),a.e.d(a.g,"inactive")]),J(a,"active")):K(a.p))};function na(a){this.F=a;this.q=new ha;this.$=0;this.T=this.U=!0}na.prototype.load=function(a){this.a=new q(this.F,a.context||this.F);this.U=!1!==a.events;this.T=!1!==a.classes;oa(this,new fa(this.a,a),a)};
+function pa(a,b,c,d,e){var f=0==--a.$;(a.T||a.U)&&setTimeout(function(){var a=e||null,l=d||null||{};if(0===c.length&&f)K(b.p);else{b.P+=c.length;f&&(b.Y=f);var h,k=[];for(h=0;h<c.length;h++){var m=c[h],w=l[m.getName()],r=b.p,F=m;r.u&&t(r.j,[r.e.d(r.g,F.getName(),I(F).toString(),"loading")]);J(r,"fontloading",F);r=null;r=la?new O(n(b.V,b),n(b.W,b),b.a,m,b.v,w):new P(n(b.V,b),n(b.W,b),b.a,m,b.v,a,w);k.push(r)}for(h=0;h<k.length;h++)k[h].start()}},0)}
+function oa(a,b,c){var d=[],e=c.timeout;ga(b);var d=ia(a.q,c,a.a),f=new V(a.a,b,e);a.$=d.length;b=0;for(c=d.length;b<c;b++)d[b].load(function(b,c,d){pa(a,f,b,c,d)})};function qa(a,b,c){this.N=a?a:b+ra;this.o=[];this.R=[];this.ca=c||""}var ra="//fonts.googleapis.com/css";function sa(a,b){for(var c=b.length,d=0;d<c;d++){var e=b[d].split(":");3==e.length&&a.R.push(e.pop());var f="";2==e.length&&""!=e[1]&&(f=":");a.o.push(e.join(f))}}
+qa.prototype.d=function(){if(0==this.o.length)throw Error("No fonts to load!");if(-1!=this.N.indexOf("kit="))return this.N;for(var a=this.o.length,b=[],c=0;c<a;c++)b.push(this.o[c].replace(/ /g,"+"));a=this.N+"?family="+b.join("%7C");0<this.R.length&&(a+="&subset="+this.R.join(","));0<this.ca.length&&(a+="&text="+encodeURIComponent(this.ca));return a};function ta(a){this.o=a;this.aa=[];this.I={}}
+var ua={latin:"BESbswy",cyrillic:"&#1081;&#1103;&#1046;",greek:"&#945;&#946;&#931;",khmer:"&#x1780;&#x1781;&#x1782;",Hanuman:"&#x1780;&#x1781;&#x1782;"},va={thin:"1",extralight:"2","extra-light":"2",ultralight:"2","ultra-light":"2",light:"3",regular:"4",book:"4",medium:"5","semi-bold":"6",semibold:"6","demi-bold":"6",demibold:"6",bold:"7","extra-bold":"8",extrabold:"8","ultra-bold":"8",ultrabold:"8",black:"9",heavy:"9",l:"3",r:"4",b:"7"},wa={i:"i",italic:"i",n:"n",normal:"n"},xa=/^(thin|(?:(?:extra|ultra)-?)?light|regular|book|medium|(?:(?:semi|demi|extra|ultra)-?)?bold|black|heavy|l|r|b|[1-9]00)?(n|i|normal|italic)?$/;
+ta.prototype.parse=function(){for(var a=this.o.length,b=0;b<a;b++){var c=this.o[b].split(":"),d=c[0].replace(/\+/g," "),e=["n4"];if(2<=c.length){var f;var g=c[1];f=[];if(g)for(var g=g.split(","),l=g.length,h=0;h<l;h++){var k;k=g[h];if(k.match(/^[\w-]+$/))if(k=xa.exec(k.toLowerCase()),null==k)k="";else{var m;m=k[1];if(null==m||""==m)m="4";else{var w=va[m];m=w?w:isNaN(m)?"4":m.substr(0,1)}k=k[2];k=[null==k||""==k?"n":wa[k],m].join("")}else k="";k&&f.push(k)}0<f.length&&(e=f);3==c.length&&(c=c[2],f=
+[],c=c?c.split(","):f,0<c.length&&(c=ua[c[0]])&&(this.I[d]=c))}this.I[d]||(c=ua[d])&&(this.I[d]=c);for(c=0;c<e.length;c+=1)this.aa.push(new E(d,e[c]))}};function ya(a,b){this.a=a;this.c=b}var za={Arimo:!0,Cousine:!0,Tinos:!0};ya.prototype.load=function(a){var b=new z,c=this.a,d=new qa(this.c.api,v(c),this.c.text),e=this.c.families;sa(d,e);var f=new ta(e);f.parse();x(c,d.d(),A(b));C(b,function(){a(f.aa,f.I,za)})};function W(a,b){this.a=a;this.c=b;this.X=[]}W.prototype.B=function(a){var b=this.a;return v(this.a)+(this.c.api||"//f.fontdeck.com/s/css/js/")+(b.k.location.hostname||b.F.location.hostname)+"/"+a+".js"};
+W.prototype.load=function(a){var b=this.c.id,c=this.a.k,d=this;b?(c.__webfontfontdeckmodule__||(c.__webfontfontdeckmodule__={}),c.__webfontfontdeckmodule__[b]=function(b,c){for(var g=0,l=c.fonts.length;g<l;++g){var h=c.fonts[g];d.X.push(new E(h.name,ea("font-weight:"+h.weight+";font-style:"+h.style)))}a(d.X)},y(this.a,this.B(b),function(b){b&&a([])})):a([])};function X(a,b){this.a=a;this.c=b}X.prototype.B=function(a){return(this.c.api||"https://use.typekit.net")+"/"+a+".js"};X.prototype.load=function(a){var b=this.c.id,c=this.a.k;b?y(this.a,this.B(b),function(b){if(b)a([]);else if(c.Typekit&&c.Typekit.config&&c.Typekit.config.fn){b=c.Typekit.config.fn;for(var e=[],f=0;f<b.length;f+=2)for(var g=b[f],l=b[f+1],h=0;h<l.length;h++)e.push(new E(g,l[h]));try{c.Typekit.load({events:!1,classes:!1,async:!0})}catch(k){}a(e)}},2E3):a([])};function Y(a,b){this.a=a;this.c=b}Y.prototype.B=function(a,b){var c=v(this.a),d=(this.c.api||"fast.fonts.net/jsapi").replace(/^.*http(s?):(\/\/)?/,"");return c+"//"+d+"/"+a+".js"+(b?"?v="+b:"")};
+Y.prototype.load=function(a){function b(){if(e["__mti_fntLst"+c]){var d=e["__mti_fntLst"+c](),g=[],l;if(d)for(var h=0;h<d.length;h++){var k=d[h].fontfamily;void 0!=d[h].fontStyle&&void 0!=d[h].fontWeight?(l=d[h].fontStyle+d[h].fontWeight,g.push(new E(k,l))):g.push(new E(k))}a(g)}else setTimeout(function(){b()},50)}var c=this.c.projectId,d=this.c.version;if(c){var e=this.a.k;y(this.a,this.B(c,d),function(c){c?a([]):b()}).id="__MonotypeAPIScript__"+c}else a([])};function Aa(a,b){this.a=a;this.c=b}Aa.prototype.load=function(a){var b,c,d=this.c.urls||[],e=this.c.families||[],f=this.c.testStrings||{},g=new z;b=0;for(c=d.length;b<c;b++)x(this.a,d[b],A(g));var l=[];b=0;for(c=e.length;b<c;b++)if(d=e[b].split(":"),d[1])for(var h=d[1].split(","),k=0;k<h.length;k+=1)l.push(new E(d[0],h[k]));else l.push(new E(d[0]));C(g,function(){a(l,f)})};var Z=new na(window);Z.q.t.custom=function(a,b){return new Aa(b,a)};Z.q.t.fontdeck=function(a,b){return new W(b,a)};Z.q.t.monotype=function(a,b){return new Y(b,a)};Z.q.t.typekit=function(a,b){return new X(b,a)};Z.q.t.google=function(a,b){return new ya(b,a)};var $={load:n(Z.load,Z)};"function"===typeof define&&define.amd?define(function(){return $}):"undefined"!==typeof module&&module.exports?module.exports=$:(window.WebFont=$,window.WebFontConfig&&Z.load(window.WebFontConfig));}());
 
 
 },{}]},{},[1]);

@@ -2,123 +2,143 @@
    	<html>
 	<head>
 		<title>NexusUI Demo</title>
-		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script type="text/javascript" src="js/nexusUI.js"></script>
+		<script type="text/javascript" src="js/Tone.js"></script>
 		<script>
+
+			var freeverb = new Tone.Freeverb().toMaster();
+			freeverb.dampening.value = 10000;
+			freeverb.roomSize.value = 0.9;
+			freeverb.wet.value = 0.2;
+			var feedbackDelay = new Tone.FeedbackDelay(0.05, 0).connect(freeverb);
+			var ampEnv = new Tone.AmplitudeEnvelope({
+				"attack": 0.03,
+				"decay": 0,
+				"sustain": 1.0,
+				"release": 0.03
+			}).connect(feedbackDelay).connect(freeverb);
+			var player = new Tone.Player("./audio/Fanitullen.mp3").connect(ampEnv);
+  
+			Tone.Buffer.onload = function() {
+				
+				wavegrain1.setBuffer( player._buffer._buffer )
+
+			}
+
+			graininterval = false;
+			grainpos = {}
 
 			nx.onload = function() {
 				
-			    nx.colorize("accent", "#347");
-			    nx.colorize("border", "#bbb");
-			    nx.colorize("fill", "#eee");
+			    nx.colorize("accent", "#1ac");
 
-				/* log all events */
+			    meter1.bars = 30
+			    meter1.init()
+			    meter1.setup(Tone.context,Tone.Master)
+ 
+ 					ghost1.watch()
 
-				for (var key in nx.widgets) {
+ 					dial1.set({
+ 						value:0.5
+ 					})
+ 					range1.set({
+ 						start:0.2,
+ 						stop:0.8
+ 					})
 
-					nx.widgets[key].on('*', function(data) {
-						console.log(this.canvasID, data)
+			  /*  tabs1.options = ["linear","bounce","random"]
+					tabs1.init();
+
+					tabs1.on('*',function(data) {
+						ghost1.mode = data.text;
+					}) */
+
+					dial1.on('*',function(data) {
+						ghost1.rate = data.value*2;
+					})
+					
+					dial2.on('*',function(data) {
+						ghost1.noise = data.value/2;
+					})
+					
+					range1.on('*',function(data) {
+						ghost1.start = data.start;
+						ghost1.end = data.stop;
 					})
 
-				}
+			    wavegrain1.on('*',function(data) {
 
-				/* or set individual event listeners like this */
+			    	if (data.state == "on") {
 
-				button1.on('press', function(data) {
-					// do something with data
-					// data will be 1 if the button is pressed
-					// data will be 0 if the button is unpressed
-					console.log('b1press', data)
-				})
+				    	if (!graininterval) {
+				    		grainpos = data
+				    		onegrain()
+				    		graininterval = setInterval(onegrain,100)
+				    	} else {
+				    		grainpos = data;
+				    	}
 
-				button1.on('*', function(data) {
-					// data will now be a js object with several properties
-					// data.press will be the press state
-					// data.x will be the x location of the interaction
-					// data.y will by the y location of the interaction
-					console.log('b1all', data)
-				})
-
-				dial1.on('value', function(data) {
-					console.log('d1', data);
-				})
-
-				//set up audio context, gain envelope generator and oscillator for db meter
-				var actx = new (window.AudioContext || window.webkitAudioContext)();
-
-			    var env = actx.createGain();
-        		env.gain.value = 0;
-        		env.connect(actx.destination);
-
-        		button2.on('press',function(data){
-        			
-        			if(data == 1){
-			            env.gain.cancelScheduledValues(actx.currentTime);
-			            env.gain.setValueAtTime(0.0, actx.currentTime);
-			            env.gain.linearRampToValueAtTime(1,actx.currentTime + 0.02);
-			            env.gain.linearRampToValueAtTime(0.0,actx.currentTime + 1.0);
-			        }
-        		})
-        
-			    var sine = actx.createOscillator();
-			    sine.type = 'sine';
-			    sine.frequency.value = 400;
-			    
-			    sine.connect(env);
-			    sine.start(0);
-
-			    //set up db meter
-			    meter1.setup(actx,env);
-
-
-				/* misc methods */
-
-			    button1.mode = "aftertouch";
-
-			    multislider1.setNumberOfSliders(5);
-
-			    keyboard1.octaves = 2
-			    keyboard1.init()
-
-			    nx.add('position', {
-			    	x: 300,
-			    	y: 300,
-			    	w: 200,
-			    	h: 100,
-			    	parent: "tester",
-			    	name: 'boing'
+			    	} else {
+			    		player.stop()
+			    		clearInterval(graininterval)
+			    		graininterval = false;
+			    	}
+			    	
 			    })
 
 			}
 
+			function onegrain() {
+
+		    	player.stop()
+			    player.volume.value = nx.scale(grainpos.level,1,0,-40,5)
+					player.start(false,grainpos.start*wavegrain1.duration)
+		    	ampEnv.triggerAttackRelease(0.4);
+
+			}
+
+
 		</script>
+
 	</head>
 
-	<body style="background-color:#fff">
+	<body style="background-color:#ddd;font-family:courier;font-weight:200;">
 
-		  <canvas nx="button"></canvas>
-		  <canvas nx="dial"></canvas>
-		  <canvas nx="toggle"></canvas>
-		  <canvas nx="multislider"></canvas>
-		  <canvas nx="keyboard"></canvas>
-		  <canvas nx="range"></canvas>
-		  <canvas nx="slider"></canvas>
-		  <canvas nx="button"></canvas>
-		  <canvas nx="meter"></canvas>
+		<div style="margin:30px auto 0px;width:850px;overflow:auto">
 
+			<div style="text-align:left;font-size:12pt;padding:10px;background-color:#333;color:white;box-sizing:border-box">Interface</div>
 
-		  <div id="tester"></div>
+			<canvas nx="wavegrain" style="width:800px;height:270px;display:block;float:left;margin:5px 0px;cursor:none"></canvas>
 
-		  <!-- Try other nexusUI elements.
-		  See nexusosc.com for more. -->
+			<canvas nx="meter" style="width:40px;height:270px;display:block;float:left;margin:5px"></canvas>
 
-		  <style>
-		  	.nx {
-		  		display:block;
-		  		float:left;
-		  		margin:0px 10px;
-		  	}
+			<div style="clear:both"></div>
 
-		  </style>
+			<br>
+
+			<div style="text-align:left;font-weight:200;font-size:12pt;padding:10px;background-color:#333;color:white;box-sizing:border-box;margin-bottom:5px">Gesture Recorder</div>
+			<div style="float:left;">
+				<canvas nx="ghost" style="height:100px;width:200px"></canvas>
+			</div>
+			<div style="float:left;margin-left:10px">
+				<canvas nx="dial" style="height:100px;width:100px"></canvas><br>
+				<div style="text-align:center;font-size:11pt;font-weight:500">Speed</div>
+			</div>
+			<div style="float:left;margin-left:10px">
+				<canvas nx="dial" style="height:100px;width:100px"></canvas><br>
+				<div style="text-align:center;font-size:11pt;font-weight:500">Noise</div>
+			</div>
+			<div style="float:left;margin-left:10px">
+				<canvas nx="range" style="height:100px;width:420px"></canvas>
+				<div style="text-align:center;font-size:11pt;font-weight:500">Loop Points</div>
+			</div><br>
+	<!--		<div style="clear:both;"></div>
+			<div style="clear:both;margin-top:10px">
+				<canvas nx="tabs" style="width:850px;height:100px"></canvas>
+				<div style="text-align:center;font-size:11pt;font-weight:500">Playback Mode</div> -->
+			</div>
+
+		</div>
 
 	</body>
 	
