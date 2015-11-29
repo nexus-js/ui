@@ -5272,10 +5272,6 @@ var multislider = module.exports = function (target) {
 
 	*/
 	
-	this.val = new Object();
-	for (var i=0;i<this.sliders;i++) {
-		this.val[i] = 0.7;
-	}
 	this.sliderClicked = 0;
 	this.oldSliderToMove;
 	this.init();
@@ -5283,7 +5279,7 @@ var multislider = module.exports = function (target) {
 util.inherits(multislider, widget);
 
 multislider.prototype.init = function() {
-	this.val = new Object();
+	this.val = new Array();
 	for (var i=0;i<this.sliders;i++) {
 		this.val[i] = 0.7;
 	}

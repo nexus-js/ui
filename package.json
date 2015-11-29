@@ -1,6 +1,6 @@
 {
   "name": "nexusui",
-  "description": "JavaScript toolkit for music interfaces in mobile apps and web browsers",
+  "description": "Audio Interfaces for Web Audio and HTML5 Mobile Apps",
   "author": "Ben Taylor <taylorbf@gmail.com>",
   "contributors": [{
     "name": "Jesse Allison",
@@ -39,6 +39,6 @@
     "extend": "2.0.x"
   },
   "engine": "node >= 0.10.0",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "license": "New BSD License"
 }
