@@ -1786,9 +1786,13 @@ button.prototype.draw = function() {
 				// Draw Image if not touched
 				drawImage(this.image, 0, 0);
 			} else {
-				if (!this.imageTouch) {
+				if (this.imageTouch) {
+					// Draw Touch Image
+					drawImage(this.imageTouch, 0, 0)
 
-					drawImage(this.image, 0, 0);
+				} else {
+
+					drawImage(this.image, 0, 0)
 
 					// No touch image, apply highlighting
 					globalAlpha = 0.5;
@@ -1796,10 +1800,7 @@ button.prototype.draw = function() {
 					fillRect (0, 0, this.GUI.w, this.GUI.h);
 					globalAlpha = 1;
 					
-				} else {
-					// Draw Touch Image
-					drawImage(this.imageTouch, 0, 0);
-				}
+				} 
 			}
 			
 		} else {
@@ -1894,13 +1895,13 @@ button.prototype.release = function() {
 	@param {string} [src] Image source */
 button.prototype.setImage = function(image) {
 	this.image = new Image();
-	this.image.onload = function() { this.draw() }
+	this.image.onload = this.draw.bind(this)
 	this.image.src = image;
 }
 
 button.prototype.setHoverImage = function(image) {
 	this.imageHover = new Image();
-	this.imageHover.onload = function() { this.draw() }
+	this.imageHover.onload = this.draw.bind(this)
 	this.imageHover.src = image;
 }
 
@@ -1909,7 +1910,7 @@ button.prototype.setHoverImage = function(image) {
 	@param {string} [src] Image source */
 button.prototype.setTouchImage = function(image) {
 	this.imageTouch = new Image();
-	this.imageTouch.onload = this.draw();
+	this.imageTouch.onload = this.draw.bind(this)
 	this.imageTouch.src = image;
 }
 },{"../core/widget":3,"../utils/drawing":5,"util":51}],11:[function(require,module,exports){
