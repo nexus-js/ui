@@ -153,6 +153,10 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
  *object*<br> The widget's default size if not defined with HTML/CSS style. (Has properties 'width' and 'height', both in pixels)
 
 
+###widget.label###
+ *boolean*<br> Whether or not to draw a text label this widget.
+
+
 ###widget.offset###
  *object*<br> The widget's computed offset from the top left of the document. (Has properties 'top' and 'left', both in pixels)
 
@@ -187,10 +191,6 @@ All NexusUI interface widgets inherit from the widget class. The properties and 
 
 ###widget.deltaMove###
  *object*<br> Difference between the current touch/mouse position and the previous touch/mouse position, in pixels.
-
-
-###widget.label###
- *boolean*<br> Whether or not to draw a text label this widget.
 
 
 ###widget.isRecording###
