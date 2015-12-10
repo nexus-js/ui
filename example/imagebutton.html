@@ -1,0 +1,32 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script>
+
+			nx.onload = function() {
+				
+		    nx.colorize("accent", "#347");
+		    nx.colorize("border", "#bbb");
+		    nx.colorize("fill", "#eee");
+
+				/* log all events */
+
+				button1.setImage("images/cat1.jpg")
+				button1.setTouchImage("images/cat2.jpg")
+
+			}
+
+
+		</script>
+
+	</head>
+
+	<body>
+
+		  <canvas nx="button" style="width:300px;height:300px"></canvas>
+
+	</body>
+	
+</html>
