@@ -11,7 +11,7 @@
 			    nx.colorize("border", "#bbb");
 			    nx.colorize("fill", "#eee");
 
-			    keyboard1.octaves = 1;
+			    keyboard1.octaves = 3;
 			    keyboard1.init()
 
 				/* log all events */
@@ -25,22 +25,13 @@
 
 				}
 
+				var notes = [0,2,4,5,7,9,11];
+				for (i=0; i<notes.length; i++) { 
+					keyboard1.toggle( keyboard1.keys[ notes[i] ], true );
+				}
+
 			 
 			}
-
-
-
-			var a = {}
-
-
-			Object.defineProperty(a, 'test', {
-				set: function(value) {
-				   console.log('howdy')
-				   return this.test;
-			    }
-			});
-
-			a.test = 5;
 
 
 		</script>
@@ -48,7 +39,7 @@
 
 	<body>
 
-		  <canvas nx="keyboard" style="width:800px;height:300px"></canvas>
+		  <canvas nx="keyboard" style="width:800px;height:170px"></canvas>
 
 		  <div id="tester"></div>
 

@@ -3809,7 +3809,7 @@ keyboard.prototype.draw = function() {
 keyboard.prototype.toggle = function(key, data) {
 	if (this.mode=="button") {
 		if (key) {
-			if (data) {
+			if (data || data===false) {
 				key.on = data;
 			} else {
 				key.on = !key.on;
