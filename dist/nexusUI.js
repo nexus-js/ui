@@ -551,11 +551,11 @@ var widget = module.exports = function (target) {
   this.preTouchMove = this.preTouchMove.bind(this)
   this.preTouchRelease = this.preTouchRelease.bind(this)
 
-/** 
+/**
 
   @class widget
   All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by any NexusUI interface.
-  
+
 */
 
   /**  @property {string} canvasID ID attribute of the interface's HTML5 canvas */
@@ -589,7 +589,7 @@ var widget = module.exports = function (target) {
     /**  @property {object} defaultSize The widget's default size if not defined with HTML/CSS style. (Has properties 'width' and 'height', both in pixels) */
     this.defaultSize = { width: 100, height: 100 };
   }
-  
+
   /**  @property {boolean} label Whether or not to draw a text label this widget.   */
   this.label = false
   this.labelSize = 30
@@ -647,7 +647,7 @@ var widget = module.exports = function (target) {
   this.colors.border = nx.colors.border;
   this.colors.accentborder = nx.colors.accentborder;
   this.colors.black = nx.colors.black;
-  this.colors.white = nx.colors.white; 
+  this.colors.white = nx.colors.white;
   this.colors.highlight = nx.colors.highlight; */
   //interaction
   /**  @property {object} clickPos The most recent mouse/touch position when interating with a widget. (Has properties x and y) */
@@ -658,7 +658,7 @@ var widget = module.exports = function (target) {
   this.clicked = false;
   this.value = 0;
     /**
-      @property {object} val An object containing the core interactive values of the widget, which are also the widget's data output. 
+      @property {object} val An object containing the core interactive values of the widget, which are also the widget's data output.
     */
   this.val = new Object();
   this.pval = new Object();
@@ -676,7 +676,7 @@ var widget = module.exports = function (target) {
   //transmission
   if (transmit) {
     /**  @method sendsTo
-    Set the transmission protocol for this widget individually 
+    Set the transmission protocol for this widget individually
     @param {string or function} [destination] Protocol for transmitting data from this widget (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
     ```js
     dial1.sendsTo("ajax")
@@ -686,7 +686,7 @@ var widget = module.exports = function (target) {
     dial1.sendsTo(function(data) {
          //define a custom transmission function
     })
-    ```  
+    ```
     */
     this.sendsTo = transmit.setWidgetTransmit;
     this.destination = "js";
@@ -698,7 +698,9 @@ var widget = module.exports = function (target) {
     this.canvas.ontouchstart = this.preTouch;
     this.canvas.ontouchmove = this.preTouchMove;
     this.canvas.ontouchend = this.preTouchRelease;
-  } else {
+  }
+
+  if ('onmousedown' in document.documentElement) {
     this.canvas.addEventListener('mousedown', this.preClick, false);
   }
 
@@ -762,7 +764,7 @@ widget.prototype.preClick = function(e) {
   this.offset = domUtils.findPosition(this.canvas)
   this.clickPos = domUtils.getCursorPosition(e, this.offset);
   // need something like:
-  // if (this.clickPos.y < this.GUI.h) { 
+  // if (this.clickPos.y < this.GUI.h) {
   document.addEventListener("mousemove", this.preMove, false);
   document.addEventListener("mouseup", this.preRelease, false);
   this.clicked = true;
@@ -901,8 +903,8 @@ widget.prototype.makeRoundedBG = function() {
   this.bgTop = this.lineWidth;
   this.bgBottom = this.height - this.lineWidth;
   this.bgHeight = this.bgBottom - this.lineWidth;
-  this.bgWidth = this.bgRight - this.lineWidth; 
-  
+  this.bgWidth = this.bgRight - this.lineWidth;
+
   drawingUtils.makeRoundRect(this.context, this.bgLeft, this.bgTop, this.bgWidth, this.bgHeight);
 }
 
@@ -929,10 +931,10 @@ widget.prototype.getName = function() {
 }
 
 /** @method set
-Manually set a widget's value (that is, set any properties of a widget's .val). See widget.val or the .val property of individual widgets for more info. 
+Manually set a widget's value (that is, set any properties of a widget's .val). See widget.val or the .val property of individual widgets for more info.
 @param {object} [data] Parameter/value pairs in object notation.
 @param {boolean} [transmit] (optional) Whether or not to transmit new value after being set.
-Sets the value of an object. 
+Sets the value of an object.
 
 ```js
   position1.set({
@@ -1082,7 +1084,7 @@ widget.prototype.stretch = function() {
     }
     if (this.percent.h) {
       var newHeight = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("height").replace("px","");
-      newHeight *= this.percent.h/100 
+      newHeight *= this.percent.h/100
     } else {
       var newHeight = false;
     }
@@ -1109,7 +1111,7 @@ widget.prototype.resize = function(w,h) {
 
   this.init();
   this.draw();
-  
+
 }
 
 widget.prototype.normalize = function(value) {
@@ -1128,6 +1130,7 @@ widget.prototype.makeRoomForLabel = function() {
   this.labelY = this.height - this.labelSize/2;
   // must add the above code to widget.resize
 }
+
 },{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":47,"util":51}],4:[function(require,module,exports){
 
 /** @class utils 
