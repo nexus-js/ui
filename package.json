@@ -1,0 +1,44 @@
+{
+    "name": "es6-webpack-boilerplate",
+    "version": "0.0.1",
+    "description": "Boilerplate for es6 and webpack",
+    "main": "index.js",
+    "scripts": {
+        "start": "script/build",
+        "serve": "script/watch",
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/airamrguez/es6-webpack-boilerplate"
+    },
+    "keywords": [
+        "babel",
+        "es6",
+        "webpack",
+        "boilerplate"
+    ],
+    "author": "Airam Rguez",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/airamrguez/es6-webpack-boilerplate/issues"
+    },
+    "homepage": "https://github.com/airamrguez/es6-webpack-boilerplate",
+    "devDependencies": {
+        "babel-core": "^4.4.3",
+        "babel-jest": "^4.0.0",
+        "babel-loader": "^4.0.0",
+        "babelify": "^5.0.3",
+        "es6ify": "^1.6.0",
+        "jest": "^0.1.37",
+        "jshint": "^2.6.3",
+        "jshint-loader": "^0.8.3",
+        "uglify-js": "^2.4.16",
+        "webpack": "^1.5.3"
+    },
+    "jest": {
+        "scriptPreprocessor": "./node_modules/babel-jest",
+        "testFileExtensions": ["es6", "js"],
+        "moduleFileExtensions": ["js", "json", "es6"]
+    }
+}
