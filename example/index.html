@@ -9,13 +9,50 @@
 <body style="margin:0;padding;0">
   <div id="slider"></div>
   <div id="toggle"></div>
+  <div id="position"></div>
 </body>
 <script>
 
-  UI = {
-    toggle: mt.Toggle("#toggle"),
-    slider: mt.Slider("#slider"),
+  for (var i=0;i<10;i++) {
+    window["UI"+i] = {
+      toggle: mt.Toggle("#toggle"),
+      slider: mt.Slider("#slider"),
+      postion: mt.Position("#position"),
+    }
   }
 
+/*
+  class Test2 {
+    constructor() {
+      this.hee = "hay";
+    }
+    get value() {
+      return 10;
+    }
+  }
+
+  var tester2 = new Test2()
+
+  class Test {
+    constructor() {
+      this.hey = "ho";
+      Object.assign(this,tester2)
+      console.log(this.hey);
+      console.log(this.hee);
+      console.log(value);
+    }
+  }
+
+  let tester = new Test();
+  */
+
+
+
 </script>
+<style>
+svg {
+  margin:5px;
+}
+
+</style>
 </html>
