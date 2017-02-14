@@ -65,13 +65,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-	var Toggle = __webpack_require__(2);
-	var Slider = __webpack_require__(5);
-	var Position = __webpack_require__(10);
+	//let Toggle = require('./components/toggle');
+	//let Slider = require('./components/slider');
+	//let Position = require('./components/position');
+
+	var Interface = _interopRequire(__webpack_require__(11));
 
 	/*let Counter = require('./models/counter');
 	let StepRange = require('./models/range');
@@ -88,49 +92,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  _createClass(MusiciansToolkit, {
 	    Toggle: {
-	      value: (function (_Toggle) {
-	        var _ToggleWrapper = function Toggle(_x) {
-	          return _Toggle.apply(this, arguments);
-	        };
-
-	        _ToggleWrapper.toString = function () {
-	          return _Toggle.toString();
-	        };
-
-	        return _ToggleWrapper;
-	      })(function (parent) {
-	        return new Toggle(parent);
-	      })
+	      value: function Toggle(parent) {
+	        return new Interface.Toggle(parent);
+	      }
 	    },
 	    Slider: {
-	      value: (function (_Slider) {
-	        var _SliderWrapper = function Slider(_x2) {
-	          return _Slider.apply(this, arguments);
-	        };
-
-	        _SliderWrapper.toString = function () {
-	          return _Slider.toString();
-	        };
-
-	        return _SliderWrapper;
-	      })(function (parent) {
-	        return new Slider(parent);
-	      })
+	      value: function Slider(parent) {
+	        return new Interface.Slider(parent);
+	      }
 	    },
 	    Position: {
-	      value: (function (_Position) {
-	        var _PositionWrapper = function Position(_x3) {
-	          return _Position.apply(this, arguments);
-	        };
-
-	        _PositionWrapper.toString = function () {
-	          return _Position.toString();
-	        };
-
-	        return _PositionWrapper;
-	      })(function (parent) {
-	        return new Position(parent);
-	      })
+	      value: function Position(parent) {
+	        return new Interface.Position(parent);
+	      }
 	    }
 	  });
 
@@ -660,6 +634,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 
 	        this.element.style.backgroundColor = "#e7e7e7";
+	        this.element.style.borderRadius = "5px";
 
 	        this.knobRadius = 15;
 
@@ -745,6 +720,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Widget);
 
 	module.exports = Position;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	module.exports = {
+	  Position: __webpack_require__(10),
+	  Slider: __webpack_require__(5),
+	  Toggle: __webpack_require__(2)
+	};
 
 /***/ }
 /******/ ])
