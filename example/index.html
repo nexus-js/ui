@@ -5,47 +5,31 @@
   <meta charset="utf-8" />
   <title>Musician's Toolkit</title>
   <script src="../dist/mt.js"></script>
+  <script src="js/Tone9.js"></script>
 </head>
 <body style="margin:0;padding;0">
   <div id="slider"></div>
   <div id="toggle"></div>
+  <div id="range"></div>
   <div id="position"></div>
+  <div id="waveform"></div>
 </body>
 <script>
 
-  for (var i=0;i<10;i++) {
+  for (var i=0;i<5;i++) {
     window["UI"+i] = {
-      toggle: mt.Toggle("#toggle"),
-      slider: mt.Slider("#slider"),
-      postion: mt.Position("#position"),
+      toggle: new mt.Toggle("#toggle"),
+      slider: new mt.Slider("#slider"),
+      postion: new mt.Position("#position"),
+      range: new mt.Range("#range"),
     }
   }
 
-/*
-  class Test2 {
-    constructor() {
-      this.hee = "hay";
-    }
-    get value() {
-      return 10;
-    }
-  }
+  waveform1 = new mt.Waveform("#waveform")
 
-  var tester2 = new Test2()
-
-  class Test {
-    constructor() {
-      this.hey = "ho";
-      Object.assign(this,tester2)
-      console.log(this.hey);
-      console.log(this.hee);
-      console.log(value);
-    }
-  }
-
-  let tester = new Test();
-  */
-
+  var player = new Tone.Player("./media/piano-f3.mp3",function() {
+      waveform1.load(player.buffer._buffer)
+  })
 
 
 </script>
@@ -53,6 +37,5 @@
 svg {
   margin:5px;
 }
-
 </style>
 </html>
