@@ -280,7 +280,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Widget(parent, defaultSize) {
 	    _classCallCheck(this, Widget);
 
-	    this.parent = document.getElementById(parent.replace("#", ""));
+	    if (typeof parent === "string") {
+	      this.parent = document.getElementById(parent.replace("#", ""));
+	    } else if (parent instanceof HTMLElement) {
+	      this.parent = parent;
+	    } else if (parent instanceof SVGElement) {
+	      this.parent = parent;
+	    }
 	    this.width = defaultSize.w || 100;
 	    this.height = defaultSize.h || 100;
 	    this.mouse = {};
@@ -912,128 +918,104 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(6);
 	var RangeModel = __webpack_require__(15);
-	//let math = require('../util/math');
+	var math = __webpack_require__(8);
 	var ColorOps = __webpack_require__(16);
 	window.ColorOps = __webpack_require__(16);
 
-	var RangeSlider = (function () {
+	var Widget = _interopRequire(__webpack_require__(5));
+
+	var RangeSlider = (function (_Widget) {
 	  function RangeSlider(parent, colorIndex) {
 	    _classCallCheck(this, RangeSlider);
 
+	    _get(Object.getPrototypeOf(RangeSlider.prototype), "constructor", this).call(this, parent, { w: parent.getAttribute("width"), h: parent.getAttribute("height") });
 	    this.color = ColorOps.spin([230, 0, 100, 0], colorIndex * 60);
 	    this.color = this.color.map(function (v) {
 	      return Math.floor(v);
 	    });
 	    this.color.length = 3;
 	    this.color = "rgb(" + this.color.join(",") + ")";
-	    console.log(this.color);
-	    this.parent = parent;
-	    this.width = parent.getAttribute("width");
-	    this.height = parent.getAttribute("height");
-	    this.range = new RangeModel(0, 4);
-	    window.range = this.range;
-	    this.clicked = false;
-	    this.buildInterface();
+	    this.min = 0;
+	    this.max = 4;
+	    this.step = false;
+	    this.range = new RangeModel(this.min, this.max);
+	    this.mode = "draw";
+	    this.init();
 	    return this;
 	  }
 
+	  _inherits(RangeSlider, _Widget);
+
 	  _createClass(RangeSlider, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("g");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.parent.appendChild(this.element);
+	      }
+	    },
 	    buildInterface: {
 	      value: function buildInterface() {
-	        var _this = this;
-
-	        this.element = svg.create("rect");
-	        this.element.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
-	        this.element.setAttribute("height", this.height);
-	        this.element.setAttribute("x", this.range.start.normalized * this.width);
+	        this.element.setAttribute("x", 0);
 	        this.element.setAttribute("y", 0);
-	        this.element.setAttribute("fill", this.color);
-	        this.element.setAttribute("stroke", this.color);
-	        this.element.setAttribute("stroke-width", "1");
-	        this.element.setAttribute("fill-opacity", "0.4");
 
-	        this.element.addEventListener("mousedown", function (e) {
-	          _this.offset = dom.findPosition(_this.element);
-	          _this.center = e.pageX - _this.offset.left;
-	          console.log(_this.center);
-	          _this.range.center = _this.center * 4 / _this.width;
-	          _this.render();
-	          _this.clicked = true;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
+	        this.bar = svg.create("rect");
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.bar.setAttribute("height", this.height);
+	        this.bar.setAttribute("x", this.range.start.normalized * this.width);
+	        this.bar.setAttribute("y", 0);
+	        this.bar.setAttribute("fill", this.color);
+	        this.bar.setAttribute("stroke", this.color);
+	        this.bar.setAttribute("stroke-width", "1");
+	        this.bar.setAttribute("fill-opacity", "0.4");
 
-	        this.element.addEventListener("mousemove", function (e) {
-	          if (_this.clicked) {
-	            _this.center = e.pageX - _this.offset.left;
-	            console.log(_this.center);
-	            _this.range.center = _this.center * 4 / _this.width;
-	            console.log(_this.range.center);
-	            _this.render();
-	            e.preventDefault();
-	            e.stopPropagation();
-	          }
-	        });
+	        /*      this.arrowL = svg.create('rect');
+	              this.arrowL.setAttribute('width', 10);
+	              this.arrowL.setAttribute('height',this.height/2);
+	              this.arrowL.setAttribute('x',0);
+	              this.arrowL.setAttribute('y',this.height/4);
+	              this.arrowL.setAttribute('fill',this.color);
+	        
+	              this.arrowL.addEventListener('mousedown', (e) => {
+	                e.preventDefault();
+	                e.stopPropagation();
+	              }); */
 
-	        this.arrowL = svg.create("rect");
-	        this.arrowL.setAttribute("width", 10);
-	        this.arrowL.setAttribute("height", this.height / 2);
-	        this.arrowL.setAttribute("x", 0);
-	        this.arrowL.setAttribute("y", this.height / 4);
-	        this.arrowL.setAttribute("fill", this.color);
+	        //    this.parent.appendChild(this.arrowL);
 
-	        this.arrowL.addEventListener("mousedown", function (e) {
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-
-	        this.parent.appendChild(this.arrowL);
-
-	        this.parent.appendChild(this.element);
+	        this.element.appendChild(this.bar);
 	      }
 	    },
 	    render: {
 	      value: function render() {
-	        this.element.setAttribute("x", this.range.start.normalized * this.width);
-	        this.element.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.bar.setAttribute("x", this.range.start.normalized * this.width);
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
 	      }
 	    },
 	    click: {
 	      value: function click() {
-	        //  this.value = {
-	        //    x: this._value.x.updateNormal( this.mouse.x / this.height ),
-	        //    y: this._value.y.updateNormal( this.mouse.y / this.height )
-	        //  };
-	        console.log("main area clicked");
-
-	        // this.selections.push(new RangeSlider(''))
-
-	        // rules:
-	        // if not on an existing selection, create a selection
-	        // if on an existing selection, save x location
-	        // and check whether it is in 'resize' territory
-	        // possible a different interaction for touch -- 'range' style
-
+	        console.log(this.mouse.x);
+	        this.range.center = math.scale(this.mouse.x, 0, this.width, this.min, this.max);
 	        this.render();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
-	          // rules:
-	          // if not on an existing selection, expand the created selection
-	          // if on an existing selection, move it or resize it
-	          this.value = {
-	            x: this._value.x.updateNormal(this.mouse.x / this.height),
-	            y: this._value.y.updateNormal(this.mouse.y / this.height)
-	          };
+	          this.range.center = math.scale(this.mouse.x, 0, this.width, this.min, this.max);
 	          this.render();
 	        }
 	      }
@@ -1046,7 +1028,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 
 	  return RangeSlider;
-	})();
+	})(Widget);
 
 	module.exports = RangeSlider;
 
@@ -1295,7 +1277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Range, {
 	    center: {
 	      get: function () {
-	        return this.start + (this.end - this.start) / 2;
+	        return this.start.value + (this.end.value - this.start.value) / 2;
 	      },
 	      set: function (value) {
 	        this.size = this.end.value - this.start.value;
