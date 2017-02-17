@@ -25,7 +25,7 @@
     },
     "homepage": "https://github.com/airamrguez/es6-webpack-boilerplate",
     "devDependencies": {
-        "babel-core": "^4.4.3",
+        "babel-core": "^4.7.16",
         "babel-jest": "^4.0.0",
         "babel-loader": "^4.0.0",
         "babelify": "^5.0.3",
