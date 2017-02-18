@@ -69,9 +69,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Interface = _interopRequire(__webpack_require__(2));
+	var Interfaces = _interopRequire(__webpack_require__(2));
 	
-	var RangeModel = _interopRequire(__webpack_require__(14));
+	//import RangeModel from './models/range';
 	
 	/*let Counter = require('./models/counter');
 	let StepRange = require('./models/range');
@@ -85,34 +85,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _classCallCheck(this, MusiciansToolkit);
 	
 	  //  this.counter = new Counter()
-	  //  Object.assign(this,Interface);
-	  this.range = new RangeModel(0, 100);
-	  this.Toggle = Interface.Toggle;
-	  this.Slider = Interface.Slider;
-	  this.Position = Interface.Position;
-	  this.Waveform = Interface.Waveform;
-	  this.Range = Interface.Range;
-	}
+	  //  this.range = new RangeModel(0,100);
 	
-	/*
-	  Toggle(parent) {
-	    return new Interface.Toggle(parent);
+	  for (var key in Interfaces) {
+	    this[key] = Interfaces[key];
 	  }
-	
-	  Slider(parent) {
-	    return new Interface.Slider(parent);
-	  }
-	
-	  Position(parent) {
-	    return new Interface.Position(parent);
-	  }
-	
-	  Waveform(parent) {
-	    return new Interface.Waveform(parent);
-	  }
-	  */
-	
-	;
+	};
 	
 	module.exports = MusiciansToolkit;
 
@@ -124,10 +102,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	  Position: __webpack_require__(3),
-	  Slider: __webpack_require__(9),
-	  Toggle: __webpack_require__(10),
-	  Range: __webpack_require__(12),
-	  Waveform: __webpack_require__(16)
+	  Slider: __webpack_require__(10),
+	  Toggle: __webpack_require__(11),
+	  Range: __webpack_require__(13),
+	  Waveform: __webpack_require__(17)
 	};
 
 /***/ },
@@ -145,12 +123,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Widget = __webpack_require__(5);
-	var Step = __webpack_require__(7);
+	var Interface = __webpack_require__(5);
+	var Step = __webpack_require__(8);
 	
 	// next: turn knobR and knoby into this.knobR etc
 	
-	var Position = (function (_Widget) {
+	var Position = (function (_Interface) {
 	  function Position(parent) {
 	    _classCallCheck(this, Position);
 	
@@ -163,7 +141,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.init();
 	  }
 	
-	  _inherits(Position, _Widget);
+	  _inherits(Position, _Interface);
 	
 	  _createClass(Position, {
 	    buildInterface: {
@@ -204,7 +182,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    click: {
 	      value: function click() {
 	        this.value = {
-	          x: this._value.x.updateNormal(this.mouse.x / this.height),
+	          x: this._value.x.updateNormal(this.mouse.x / this.width),
 	          y: this._value.y.updateNormal(this.mouse.y / this.height)
 	        };
 	        this.render();
@@ -214,7 +192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function move() {
 	        if (this.clicked) {
 	          this.value = {
-	            x: this._value.x.updateNormal(this.mouse.x / this.height),
+	            x: this._value.x.updateNormal(this.mouse.x / this.width),
 	            y: this._value.y.updateNormal(this.mouse.y / this.height)
 	          };
 	          this.render();
@@ -251,7 +229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  return Position;
-	})(Widget);
+	})(Interface);
 	
 	module.exports = Position;
 
@@ -281,25 +259,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var dom = __webpack_require__(6);
+	var util = __webpack_require__(7);
 	
-	var Widget = (function () {
-	  function Widget(parent, defaultSize) {
-	    _classCallCheck(this, Widget);
+	var Interface = (function () {
+	  function Interface(args, options, defaults) {
+	    _classCallCheck(this, Interface);
 	
-	    if (typeof parent === "string") {
-	      this.parent = document.getElementById(parent.replace("#", ""));
-	    } else if (parent instanceof HTMLElement) {
-	      this.parent = parent;
-	    } else if (parent instanceof SVGElement) {
-	      this.parent = parent;
-	    }
-	    this.width = defaultSize.w || 100;
-	    this.height = defaultSize.h || 100;
+	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
 	  }
 	
-	  _createClass(Widget, {
+	  _createClass(Interface, {
+	    parseSettings: {
+	      value: function parseSettings(args, options, defaults) {
+	
+	        options.unshift("target");
+	        defaults.defaultSize = defaults.size.splice(0, 2);
+	        defaults.size = false;
+	
+	        var settings = {
+	          target: document.body,
+	          colors: {}, // should inherit from a colors module,
+	          snapWithParent: true,
+	          event: function event(v) {
+	            console.log(v);
+	          }
+	        };
+	
+	        for (var key in defaults) {
+	          settings[key] = defaults[key];
+	        }
+	
+	        for (var i = 0; i < args.length; i++) {
+	          // grabs the next argument
+	          var setting = args[i];
+	          // if it's an object, it must be the settings object
+	          if (util.isObject(setting)) {
+	            for (var key in setting) {
+	              settings[key] = setting[key];
+	            }
+	            // if it's a function, it must be the event setting
+	          } else if (typeof setting === "function") {
+	            settings.event = setting;
+	            // otherwise, consider it one of the widget's custom options
+	          } else if (options.length >= 1) {
+	            // grab the first option -- i.e. 'target'
+	            var key = options.splice(0, 1)[0];
+	            settings[key] = setting;
+	          }
+	        }
+	
+	        // handle common settings
+	        // ... target, colors, event, sizing...
+	
+	        if (typeof settings.target === "string") {
+	          this.parent = document.getElementById(settings.target.replace("#", ""));
+	        } else if (settings.target instanceof HTMLElement) {
+	          this.parent = parent;
+	        } else if (settings.target instanceof SVGElement) {
+	          this.parent = parent;
+	        }
+	
+	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
+	          this.width = settings.size[0];
+	          this.height = settings.size[1];
+	          this.parent.style.width = this.width;
+	          this.parent.style.height = this.height;
+	        } else if (settings.snapWithParent) {
+	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
+	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
+	        } else {
+	          settings.size = settings.defaultSize;
+	          this.width = settings.size[0];
+	          this.height = settings.size[1];
+	        }
+	
+	        return settings;
+	      }
+	    },
 	    init: {
 	      value: function init() {
 	        this.buildFrame();
@@ -332,7 +370,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    preClick: {
 	      value: function preClick(e) {
+	        // 10000 getComputedStyle calls takes 100 ms.
+	        // .:. one takes about .01ms
+	        this.width = window.getComputedStyle(this.element, null).getPropertyValue("width").replace("px", "");
+	        // 10000 getComputedStyle calls takes 40 ms.
+	        // .:. one takes about .004ms
 	        this.offset = dom.findPosition(this.element);
+	
 	        this.mouse.x = e.pageX - this.offset.left;
 	        this.mouse.y = e.pageY - this.offset.top;
 	        this.clicked = true;
@@ -383,10 +427,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  });
 	
-	  return Widget;
+	  return Interface;
 	})();
 	
-	module.exports = Widget;
+	module.exports = Interface;
 
 /***/ },
 /* 6 */
@@ -403,6 +447,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.isObject = function (obj) {
+	  if (typeof obj === "object" && !Array.isArray(obj) && obj !== null) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	};
+
+/***/ },
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -411,13 +469,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(8);
+	var math = __webpack_require__(9);
 	
 	var Step = (function () {
 	  function Step() {
 	    var min = arguments[0] === undefined ? 0 : arguments[0];
 	    var max = arguments[1] === undefined ? 1 : arguments[1];
 	    var step = arguments[2] === undefined ? false : arguments[2];
+	    var value = arguments[3] === undefined ? 0.5 : arguments[3];
 	
 	    _classCallCheck(this, Step);
 	
@@ -425,7 +484,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.min = min;
 	    this.max = max;
 	    this.step = step;
-	    this.value = 0.5;
+	    this.value = value;
+	    this.update(this.value);
 	  }
 	
 	  _createClass(Step, {
@@ -464,7 +524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Step;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -587,7 +647,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*/
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -601,56 +661,130 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Widget = __webpack_require__(5);
-	var Step = __webpack_require__(7);
+	var Interface = __webpack_require__(5);
+	var Step = __webpack_require__(8);
 	
 	// next: turn knobR and knoby into this.knobR etc
 	
-	var Slider = (function (_Widget) {
-	  function Slider(parent) {
+	var Slider = (function (_Interface) {
+	  function Slider() {
 	    _classCallCheck(this, Slider);
 	
-	    var defaultSize = { w: 20, h: 120 };
-	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, parent, defaultSize);
-	    this._value = new Step(0, 1000, 0.01);
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "relative",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      target: false,
+	      event: console.log
+	    };
+	
+	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    console.log(this.width, this.height);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    this.mode = this.settings.mode;
+	
+	    this.knob = this.settings.knob;
+	
+	    // this.step should eventually be get/set
+	    // updating it will update the _value step model
+	    this.step = this.settings.step; // float
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
 	    this.init();
 	  }
 	
-	  _inherits(Slider, _Widget);
+	  _inherits(Slider, _Interface);
 	
 	  _createClass(Slider, {
 	    buildInterface: {
 	      value: function buildInterface() {
-	        this.thickness = this.width / 2;
-	        var x1 = this.width / 2 - this.thickness / 2;
-	        var y1 = 0;
-	        var w = this.thickness;
-	        var h = this.height;
-	        var knobR = this.thickness * 0.8;
-	        var knoby = h - knobR - this.normalized * (h - knobR * 2);
+	        if (this.width < this.height) {
+	          this.orientation = "vertical";
+	        } else {
+	          this.orientation = "horizontal";
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
 	
 	        this.bar = svg.create("rect");
-	        this.bar.setAttribute("x", x1);
-	        this.bar.setAttribute("y", y1);
-	        this.bar.setAttribute("rx", w / 2);
-	        this.bar.setAttribute("ry", w / 2);
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
 	        this.bar.setAttribute("width", w);
 	        this.bar.setAttribute("height", h);
 	        this.bar.setAttribute("fill", "#e7e7e7");
 	
+	        // place the setAttribute x,y,width and height below into an if statement
+	        // re: vertical, horizontal.
+	
 	        this.fillbar = svg.create("rect");
-	        this.fillbar.setAttribute("x", x1);
-	        this.fillbar.setAttribute("y", knoby);
-	        this.fillbar.setAttribute("rx", w / 2);
-	        this.fillbar.setAttribute("ry", w / 2);
-	        this.fillbar.setAttribute("width", w);
-	        this.fillbar.setAttribute("height", h - knoby);
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
 	        this.fillbar.setAttribute("fill", "#d18");
 	
 	        this.knob = svg.create("circle");
-	        this.knob.setAttribute("cx", this.width / 2);
-	        this.knob.setAttribute("cy", knoby);
-	        this.knob.setAttribute("r", knobR);
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
 	        this.knob.setAttribute("fill", "#d18");
 	
 	        this.element.appendChild(this.bar);
@@ -660,40 +794,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
-	        var knobR = undefined;
-	        if (this.clicked) {
-	          knobR = this.thickness * 0.9;
-	        } else {
-	          knobR = this.thickness * 0.75;
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
 	        }
-	        this.knob.setAttribute("r", knobR);
+	        this.knob.setAttribute("r", this.knobData.r);
 	
-	        var knoby = knobR + this._value.normalized * (this.height - knobR * 2);
-	        this.knob.setAttribute("cy", knoby);
-	        this.fillbar.setAttribute("y", knoby);
-	        this.fillbar.setAttribute("height", this.height - knoby);
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("height", this.height - this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
 	      }
 	    },
 	    click: {
 	      value: function click() {
-	        var knobR = this.thickness * 0.9;
-	        this.value = this._value.updateNormal((this.mouse.y - knobR) / (this.height - knobR * 2));
-	        this.render();
+	        this.knobData.r = this.thickness * 0.9;
+	        this.move();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
-	          var knobR = this.thickness * 0.9;
-	          this.value = this._value.updateNormal((this.mouse.y - knobR) / (this.height - knobR * 2));
+	          if (this.orientation === "vertical") {
+	            this.value = this._value.updateNormal((this.mouse.y - this.knobData.r) / (this.height - this.knobData.r * 2));
+	          } else {
+	            this.value = this._value.updateNormal((this.mouse.x - this.knobData.r) / (this.width - this.knobData.r * 2));
+	          }
 	          this.render();
 	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
-	        var knobR = this.thickness * 0.9;
-	        this.value = this._value.updateNormal((this.mouse.y - knobR) / (this.height - knobR * 2));
 	        this.render();
 	      }
 	    },
@@ -713,12 +851,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  return Slider;
-	})(Widget);
+	})(Interface);
 	
 	module.exports = Slider;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -728,7 +866,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(11);
+	var ToggleModel = __webpack_require__(12);
 	
 	var Toggle = (function () {
 	  function Toggle(parent) {
@@ -822,7 +960,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -866,7 +1004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -880,14 +1018,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var math = __webpack_require__(8);
-	var Widget = __webpack_require__(5);
+	var math = __webpack_require__(9);
+	var Interface = __webpack_require__(5);
 	//let Step = require('../models/step');
-	var RangeSlider = __webpack_require__(13);
+	var RangeSlider = __webpack_require__(14);
 	
 	// next: turn knobR and knoby into this.knobR etc
 	
-	var Range = (function (_Widget) {
+	var Range = (function (_Interface) {
 	  function Range(parent) {
 	    _classCallCheck(this, Range);
 	
@@ -901,7 +1039,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.buildInterface();
 	  }
 	
-	  _inherits(Range, _Widget);
+	  _inherits(Range, _Interface);
 	
 	  _createClass(Range, {
 	    buildInterface: {
@@ -922,12 +1060,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  return Range;
-	})(Widget);
+	})(Interface);
 	
 	module.exports = Range;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -943,14 +1081,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var RangeModel = __webpack_require__(14);
-	var math = __webpack_require__(8);
-	var ColorOps = __webpack_require__(15);
-	window.ColorOps = __webpack_require__(15);
+	var RangeModel = __webpack_require__(15);
+	var math = __webpack_require__(9);
+	var ColorOps = __webpack_require__(16);
+	window.ColorOps = __webpack_require__(16);
 	
-	var Widget = _interopRequire(__webpack_require__(5));
+	var Interface = _interopRequire(__webpack_require__(5));
 	
-	var RangeSlider = (function (_Widget) {
+	var RangeSlider = (function (_Interface) {
 	  function RangeSlider(parent, colorIndex) {
 	    _classCallCheck(this, RangeSlider);
 	
@@ -970,7 +1108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  }
 	
-	  _inherits(RangeSlider, _Widget);
+	  _inherits(RangeSlider, _Interface);
 	
 	  _createClass(RangeSlider, {
 	    buildFrame: {
@@ -1016,9 +1154,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.arrowL = svg.create("rect");
 	        this.arrowL.setAttribute("width", 10);
-	        this.arrowL.setAttribute("height", this.height / 2);
+	        this.arrowL.setAttribute("height", this.height);
 	        this.arrowL.setAttribute("x", 0);
-	        this.arrowL.setAttribute("y", this.height / 4);
+	        this.arrowL.setAttribute("y", 0);
 	        this.arrowL.setAttribute("fill", this.color);
 	        this.arrowL.setAttribute("fill-opacity", "0.4");
 	
@@ -1029,9 +1167,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.arrowR = svg.create("rect");
 	        this.arrowR.setAttribute("width", 10);
-	        this.arrowR.setAttribute("height", this.height / 2);
+	        this.arrowR.setAttribute("height", this.height);
 	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
-	        this.arrowR.setAttribute("y", this.height / 4);
+	        this.arrowR.setAttribute("y", 0);
 	        this.arrowR.setAttribute("fill", this.color);
 	        this.arrowR.setAttribute("fill-opacity", "0.4");
 	
@@ -1076,12 +1214,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  return RangeSlider;
-	})(Widget);
+	})(Interface);
 	
 	module.exports = RangeSlider;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1092,7 +1230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Step = _interopRequire(__webpack_require__(7));
+	var Step = _interopRequire(__webpack_require__(8));
 	
 	var Range = (function () {
 	  function Range() {
@@ -1136,7 +1274,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	var colorFunctions = {
@@ -1377,7 +1515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1391,12 +1529,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Widget = __webpack_require__(5);
+	var Interface = __webpack_require__(5);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
-	var RangeSlider = __webpack_require__(13);
+	var RangeSlider = __webpack_require__(14);
 	
-	var Waveform = (function (_Widget) {
+	var Waveform = (function (_Interface) {
 	  function Waveform(parent) {
 	    _classCallCheck(this, Waveform);
 	
@@ -1415,7 +1553,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.init();
 	  }
 	
-	  _inherits(Waveform, _Widget);
+	  _inherits(Waveform, _Interface);
 	
 	  _createClass(Waveform, {
 	    buildInterface: {
@@ -1563,7 +1701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  return Waveform;
-	})(Widget);
+	})(Interface);
 	
 	module.exports = Waveform;
 	// 10 mins
