@@ -13,29 +13,27 @@
   <div id="range"></div>
   <div id="position"></div>
   <div id="waveform"></div>
+  <div id="button"></div>
 </body>
+<style>
+div {
+  width:500px;
+  margin:20px auto;
+}
+</style>
 <script>
 
-  for (var i=0;i<5;i++) {
-    window["UI"+i] = {
-      toggle: new mt.Toggle("#toggle"),
-      slider: new mt.Slider("#slider"),
-      postion: new mt.Position("#position"),
-      range: new mt.Range("#range"),
-    }
-  }
-
+  toggle = new mt.Toggle("#toggle",1);
+  slider = new mt.Slider("#slider");
+  var position = new mt.Position("#position");
+//  range: new mt.Range("#range");
   waveform1 = new mt.Waveform("#waveform")
+  button = new mt.Button("#button")
 
-  var player = new Tone.Player("./media/piano-f3.mp3",function() {
+  var player = new Tone.Player("./media/D-sharp.mp3",function() {
       waveform1.load(player.buffer._buffer)
   })
 
 
 </script>
-<style>
-svg {
-  margin:5px;
-}
-</style>
 </html>

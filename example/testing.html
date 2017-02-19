@@ -8,8 +8,8 @@
   <script src="js/Tone9.js"></script>
 </head>
 <body style="margin:0;padding;0">
-  <div id="vertical"></div>
-  <div id="horizontal"></div>
+  <div id="vertical" class=""></div>
+  <div id="horizontal" class="tester"></div>
   <div id="responsive"></div>
 </body>
 <style>
@@ -37,18 +37,35 @@ div {
   height:30px;
   margin:5px;
 }
+.mt-ui {
+  position:relative;
+  margin:0 auto;
+  display:block;
+}
 </style>
 <script>
 
   var element = "Slider"
 
-  var vertical = new mt[element]("#vertical", [0,100], 50)
+  var vertical = new mt[element]("#vertical", [0,100], 50, console.log)
+
+
   var horizontal = new mt[element]("#horizontal", {
     scale: [0,50],
     value: 10,
-    step: 10
+    step: 10,
+    event: console.log
   })
-  
+
+  /*
+  vertical.on('change', (v) => {
+    console.log(v);
+  });
+  horizontal.on('change', (v) => {
+    console.log(v);
+  });
+  */
+
   //var responsive = new mt[element]("#responsive", [0,100], 50)
 
 </script>
