@@ -8,17 +8,26 @@
   <script src="js/Tone9.js"></script>
 </head>
 <body style="margin:0;padding;0">
-  <div id="slider"></div>
-  <div id="toggle"></div>
-  <div id="range"></div>
-  <div id="position"></div>
-  <div id="waveform"></div>
-  <div id="button"></div>
+  <div id="all-interfaces">
+    <div id="slider"></div>
+    <div id="toggle"></div>
+    <div id="range"></div>
+    <div id="position"></div>
+    <div id="waveform"></div>
+    <div id="button"></div>
+    <div id="textbutton"></div>
+    <div id="radiobutton"></div>
+    <div id="number"></div>
+    <div id="dial"></div>
+  </div>
 </body>
 <style>
-div {
+#all-interfaces {
   width:500px;
   margin:20px auto;
+}
+.mt-ui {
+  margin:15px auto;
 }
 </style>
 <script>
@@ -29,6 +38,10 @@ div {
 //  range: new mt.Range("#range");
   waveform1 = new mt.Waveform("#waveform")
   button = new mt.Button("#button")
+  textbutton = new mt.TextButton("#textbutton")
+  radiobutton = new mt.RadioButton("#radiobutton")
+  number = new mt.Number("#number")
+  dial = new mt.Dial("#dial")
 
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
       waveform1.load(player.buffer._buffer)

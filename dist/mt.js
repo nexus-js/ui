@@ -106,7 +106,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Toggle: __webpack_require__(12),
 	  Range: __webpack_require__(14),
 	  Waveform: __webpack_require__(18),
-	  Button: __webpack_require__(19) };
+	  Button: __webpack_require__(19),
+	  TextButton: __webpack_require__(21),
+	  RadioButton: __webpack_require__(22),
+	  Number: __webpack_require__(23),
+	  Dial: __webpack_require__(24)
+	  /*  Multislider: require('./multislider'),
+	    Spectrograph: require('./spectrograph'),
+	    Meter: require('./meter'),
+	    Keyboard: require('./keyboard'),
+	    Matrix: require('./Matrix'),
+	    Tilt: require('./tilt') */
+	};
 
 /***/ },
 /* 3 */
@@ -243,17 +254,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var math = __webpack_require__(10);
 	
 	module.exports = {
 	
 	  create: function (type) {
 	    return document.createElementNS("http://www.w3.org/2000/svg", type);
+	  },
+	
+	  arc: function (x, y, radius, startAngle, endAngle) {
+	
+	    var start = math.toCartesian(radius, endAngle);
+	    var end = math.toCartesian(radius, startAngle);
+	
+	    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+	
+	    var d = ["M", start.x + x, start.y + y, "A", radius, radius, 0, largeArcFlag, 0, end.x + x, end.y + y].join(" ");
+	
+	    return d;
 	  }
 	
 	};
+	
+	/* */
 
 /***/ },
 /* 5 */
@@ -291,11 +318,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        defaults.defaultSize = defaults.size.splice(0, 2);
 	        defaults.size = false;
 	
+	        console.log(args);
+	
 	        var settings = {
 	          target: document.body,
 	          colors: {}, // should inherit from a colors module,
 	          snapWithParent: true,
-	          event: console.log
+	          event: console.log,
+	          component: false
 	        };
 	
 	        for (var key in defaults) {
@@ -326,12 +356,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // target
 	
+	        console.log(settings);
+	
 	        if (typeof settings.target === "string") {
 	          this.parent = document.getElementById(settings.target.replace("#", ""));
 	        } else if (settings.target instanceof HTMLElement) {
 	          this.parent = settings.target;
 	        } else if (settings.target instanceof SVGElement) {
 	          this.parent = settings.target;
+	        }
+	
+	        if (this.parent && this.parent instanceof HTMLElement && !settings.component) {
+	          if (this.parent.className) {
+	            this.parent.className += " mt-ui";
+	          } else {
+	            this.parent.className = "mt-ui";
+	          }
 	        }
 	
 	        // size
@@ -343,9 +383,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.parent.style.height = this.height;
 	        } else if (settings.snapWithParent) {
 	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
-	          this.width = this.width ? this.width : settings.defaultSize[0];
 	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
-	          this.height = this.height ? this.height : settings.defaultSize[1];
+	
+	          console.log("========");
+	          console.log(this.width);
+	          console.log(this.height);
+	          console.log(this.parent.style.width);
+	          console.log(this.parent.style.height);
+	
+	          if (!this.width || !this.parent.style.width) {
+	            this.width = settings.defaultSize[0];
+	            this.parent.style.width = this.width + "px";
+	          }
+	          if (!this.height || !this.parent.style.height) {
+	            this.height = settings.defaultSize[1];
+	            this.parent.style.height = this.height + "px";
+	          }
+	          //  this.width = this.width && this.parent.style.width ? this.width : settings.defaultSize[0];
+	          //  this.height = this.height && this.parent.style.width  ? this.height : settings.defaultSize[1];
 	        } else {
 	          settings.size = settings.defaultSize;
 	          this.width = settings.size[0];
@@ -396,13 +451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    finalTouches: {
 	      value: function finalTouches() {
-	        if (this.parent && this.parent instanceof HTMLElement) {
-	          if (this.parent.className) {
-	            this.parent.className += " mt-ui";
-	          } else {
-	            this.parent.className = "mt-ui";
-	          }
-	        }
+	        this.element.style.cursor = "pointer";
 	      }
 	    },
 	    preClick: {
@@ -490,7 +539,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	
 	exports.isObject = function (obj) {
-	  if (typeof obj === "object" && !Array.isArray(obj) && obj !== null && obj instanceof SVGElement === false) {
+	  if (typeof obj === "object" && !Array.isArray(obj) && obj !== null && obj instanceof SVGElement === false && obj instanceof HTMLElement === false) {
 	    return true;
 	  } else {
 	    return false;
@@ -918,6 +967,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var sin = Math.sin(angle);
 	  return { x: radius * cos, y: radius * sin * -1 };
 	};
+	/*
+	exports.polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+	  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+	
+	  return {
+	    x: centerX + (radius * Math.cos(angleInRadians)),
+	    y: centerY + (radius * Math.sin(angleInRadians))
+	  };
+	}  */
 	
 	exports.prune = function (data, scale) {
 	  return parseFloat(data.toFixed(scale));
@@ -2138,10 +2196,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(5);
+	var ButtonTemplate = __webpack_require__(20);
 	
-	var Button = (function (_Interface) {
+	var Button = (function (_ButtonTemplate) {
 	  function Button() {
 	    _classCallCheck(this, Button);
 	
@@ -2154,18 +2211,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    _get(Object.getPrototypeOf(Button.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    //this.parent = document.getElementById(parent.replace('#',''));
-	    this._state = new ToggleModel();
-	
 	    this.init();
-	
 	    this.render();
 	  }
 	
-	  _inherits(Button, _Interface);
+	  _inherits(Button, _ButtonTemplate);
 	
 	  _createClass(Button, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.pad = svg.create("circle");
+	        this.pad.setAttribute("cx", this.width / 2);
+	        this.pad.setAttribute("cy", this.height / 2);
+	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - 2);
+	        this.pad.setAttribute("fill", "#d18");
+	        this.pad.setAttribute("stroke", "#d18");
+	        this.pad.setAttribute("stroke-width", 4);
+	
+	        this.element.appendChild(this.pad);
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.pad.setAttribute("fill", "#e7e7e7");
+	          this.pad.setAttribute("stroke", "#ccc");
+	        } else {
+	          this.pad.setAttribute("fill", "#d18");
+	          this.pad.setAttribute("stroke", "#d18");
+	        }
+	      }
+	    }
+	  });
+	
+	  return Button;
+	})(ButtonTemplate);
+	
+	module.exports = Button;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var ToggleModel = __webpack_require__(13);
+	var Interface = __webpack_require__(5);
+	
+	var ButtonTemplate = (function (_Interface) {
+	  function ButtonTemplate(args, options, defaults) {
+	    _classCallCheck(this, ButtonTemplate);
+	
+	    _get(Object.getPrototypeOf(ButtonTemplate.prototype), "constructor", this).call(this, args, options, defaults);
+	
+	    this._state = new ToggleModel();
+	  }
+	
+	  _inherits(ButtonTemplate, _Interface);
+	
+	  _createClass(ButtonTemplate, {
 	    buildInterface: {
 	      value: function buildInterface() {
 	        this.pad = svg.create("circle");
@@ -2193,14 +2306,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    click: {
 	      value: function click() {
 	        this.turnOn();
-	        this.render();
 	        this.emit("change", this.state);
 	      }
 	    },
 	    release: {
 	      value: function release() {
 	        this.turnOff();
-	        this.render();
 	        this.emit("change", this.state);
 	      }
 	    },
@@ -2234,10 +2345,541 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  });
 	
-	  return Button;
+	  return ButtonTemplate;
 	})(Interface);
 	
-	module.exports = Button;
+	module.exports = ButtonTemplate;
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var ButtonTemplate = __webpack_require__(20);
+	
+	var TextButton = (function (_ButtonTemplate) {
+	  function TextButton() {
+	    _classCallCheck(this, TextButton);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [150, 50],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(TextButton.prototype), "constructor", this).call(this, arguments, options, defaults);
+	    this.text = {
+	      on: "Play",
+	      off: "Stop"
+	    };
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(TextButton, _ButtonTemplate);
+	
+	  _createClass(TextButton, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        var styles = "width: " + this.width + "px;";
+	        styles += "height: " + this.height + "px;";
+	        styles += "background-color: #e7e7e7;";
+	        styles += "color: #333;";
+	        styles += "display: flex;";
+	        styles += "justify-content: center;";
+	        styles += "align-items: center;";
+	        styles += "font-family: arial;";
+	        styles += "font-weight: 700;";
+	        styles += "font-size:" + this.height / 2 + ";";
+	        this.element.style.cssText += styles;
+	
+	        this.element.innerHTML = this.text.on;
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {}
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.element.style.backgroundColor = "#e7e7e7";
+	          this.element.style.color = "#333";
+	        } else {
+	          this.element.style.backgroundColor = "#d18";
+	          this.element.style.color = "#fff";
+	        }
+	      }
+	    }
+	  });
+	
+	  return TextButton;
+	})(ButtonTemplate);
+	
+	module.exports = TextButton;
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	//let svg = require('../util/svg');
+	var Interface = __webpack_require__(5);
+	var Button = __webpack_require__(19);
+	
+	var RadioButton = (function (_Interface) {
+	  function RadioButton() {
+	    _classCallCheck(this, RadioButton);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [120, 25],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(RadioButton.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.buttons = [];
+	    this.numberOfButtons = 4;
+	    this.active = -1;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(RadioButton, _Interface);
+	
+	  _createClass(RadioButton, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var buttonWidth = this.width / this.numberOfButtons;
+	        var buttonHeight = this.height;
+	
+	        for (var i = 0; i < this.numberOfButtons; i++) {
+	          var container = document.createElement("span");
+	
+	          var button = new Button(container, {
+	            size: [buttonWidth, buttonHeight],
+	            component: true }, this.update.bind(this, i));
+	
+	          this.buttons.push(button);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update(index, v) {
+	        console.log(v);
+	        this.active = index;
+	        // need to use v (value) here make sure it only outputs on press
+	        // and to allow to turn a button off if it is already on
+	        //  if (v) {
+	        for (var i = 0; i < this.buttons.length; i++) {
+	          if (i === this.active) {
+	            this.buttons[i].turnOn();
+	          } else {
+	            this.buttons[i].turnOff();
+	          }
+	        }
+	        //  }
+	        this.emit("change", this.active);
+	      }
+	    },
+	    render: {
+	      value: function render() {}
+	    }
+	  });
+	
+	  return RadioButton;
+	})(Interface);
+	
+	module.exports = RadioButton;
+	
+	/*  if (!this.state) {
+	    this.pad.setAttribute('fill', '#e7e7e7');
+	    this.pad.setAttribute('stroke', '#ccc');
+	  } else {
+	    this.pad.setAttribute('fill', '#d18');
+	    this.pad.setAttribute('stroke', '#d18');
+	  } */
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var Interface = __webpack_require__(5);
+	var Step = __webpack_require__(9);
+	var math = __webpack_require__(10);
+	
+	var Number = (function (_Interface) {
+	  function Number() {
+	    _classCallCheck(this, Number);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [60, 30],
+	      target: false,
+	      value: 0,
+	      min: 0,
+	      max: 10,
+	      step: 1
+	    };
+	
+	    _get(Object.getPrototypeOf(Number.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
+	    this.decimalPlaces = 2;
+	    this.actual = 0;
+	    this.max = this.settings.max;
+	    this.min = this.settings.min;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(Number, _Interface);
+	
+	  _createClass(Number, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("input");
+	        this.element.type = "text";
+	        var styles = "width: " + this.width + "px;";
+	        styles += "height: " + this.height + "px;";
+	        styles += "background-color: #e7e7e7;";
+	        styles += "color: #333;";
+	        styles += "font-family: arial;";
+	        styles += "font-weight: 500;";
+	        styles += "font-size:" + this.height / 2 + "px;";
+	        styles += "highlight: #d18;";
+	        styles += "border: none;";
+	        styles += "outline: none;";
+	        styles += "padding: " + this.height / 4 + "px " + this.height / 4 + "px;";
+	        styles += "box-sizing: border-box;";
+	        styles += "userSelect: none !important;";
+	        styles += "mozUserSelect: none !important;";
+	        styles += "webkitUserSelect: none !important;";
+	        this.element.style.cssText += styles;
+	        // to add eventually
+	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
+	
+	        this.element.value = this.value.value;
+	
+	        this.element.addEventListener("blur", (function () {
+	          console.log("blurred");
+	          this.element.style.backgroundColor = "#e7e7e7";
+	          this.element.style.color = "#333";
+	          if (this.element.value !== this.value.value) {
+	            this.value.update(parseFloat(this.element.value));
+	            this.render();
+	          }
+	        }).bind(this));
+	
+	        this.element.addEventListener("keydown", (function (e) {
+	          if (e.which < 48 || e.which > 57) {
+	            if (e.which !== 189 && e.which !== 190 && e.which !== 8) {
+	              e.preventDefault();
+	            }
+	          }
+	          if (e.which === 13) {
+	            this.element.blur();
+	          }
+	        }).bind(this));
+	
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {}
+	    },
+	    render: {
+	      value: function render() {
+	
+	        this.element.value = math.prune(this.value.value, this.decimalPlaces);
+	        //this.emit('change',this.value.value);
+	        /*
+	            if (!this.state) {
+	              this.element.style.backgroundColor = '#e7e7e7';
+	              this.element.style.color = '#333';
+	            } else {
+	              this.element.style.backgroundColor = '#d18';
+	              this.element.style.color = '#fff';
+	            }
+	        */
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.element.readOnly = true;
+	        this.actual = this.value.value;
+	        this.element.style.backgroundColor = "#d18";
+	        this.element.style.color = "#fff";
+	        this.initial = { y: this.mouse.y };
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	
+	          var newvalue = this.actual + (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
+	          this.value.update(newvalue);
+	
+	          //	this.actual -= (this.deltaMove.y*(this.rate*this.step));
+	          //	this.actual = math.clip(this.actual,this.min,this.max)
+	          //	this.val.value = Math.floor(this.actual / this.step) * this.step;
+	          //	this.val.value = math.prune(this.val.value,this.decimalPlaces);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        if (this.actual === this.value.value) {
+	          this.element.readOnly = false;
+	          this.element.focus();
+	          this.element.setSelectionRange(0, this.element.value.length);
+	          this.element.style.backgroundColor = "#d18";
+	          this.element.style.color = "#fff";
+	        } else {
+	          console.log("released and blurring...");
+	          document.body.focus();
+	        }
+	      }
+	    }
+	  });
+	
+	  return Number;
+	})(Interface);
+	
+	module.exports = Number;
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(10);
+	var Interface = __webpack_require__(5);
+	var Step = __webpack_require__(9);
+	
+	var Dial = (function (_Interface) {
+	  function Dial() {
+	    _classCallCheck(this, Dial);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      interaction: "radial", // vertical, horizontal
+	      mode: "relative", // absolute
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Dial.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.interaction = this.settings.interaction;
+	
+	    this.mode = this.settings.mode;
+	
+	    // this.step should eventually be get/set
+	    // updating it will update the _value step model
+	    this.step = this.settings.step; // float
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.init();
+	
+	    this.value = this._value.value;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(Dial, _Interface);
+	
+	  _createClass(Dial, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var center = {
+	          x: this.width / 2,
+	          y: this.height / 2
+	        };
+	
+	        var diameter = Math.min(this.width, this.height);
+	
+	        this.background = svg.create("circle");
+	        this.background.setAttribute("cx", center.x);
+	        this.background.setAttribute("cy", center.y);
+	        this.background.setAttribute("r", diameter / 2 - diameter / 40);
+	        this.background.setAttribute("fill", "#e7e7e7");
+	
+	        this.screw = svg.create("circle");
+	        this.screw.setAttribute("cx", center.x);
+	        this.screw.setAttribute("cy", center.y);
+	        this.screw.setAttribute("r", diameter / 12);
+	        this.screw.setAttribute("fill", "#d18");
+	
+	        /*  this.handle = svg.create('circle');
+	          this.handle.setAttribute('cx', center.x);
+	          this.handle.setAttribute('cy', center.y);
+	          this.handle.setAttribute('r', diameter/2-diameter/40);
+	          this.handle.setAttribute('fill', '#d18');
+	          this.handle.setAttribute('fill-opacity', '0.4');
+	          this.handle.setAttribute('stroke', '#d18');
+	          this.handle.setAttribute('stroke-width', diameter/20); */
+	
+	        var value = 0.7;
+	
+	        var handlePoints = {
+	          start: Math.PI * 1.5,
+	          end: math.clip(math.scale(value, 0, 0.5, Math.PI * 1.5, Math.PI * 0.5), Math.PI * 0.5, Math.PI * 1.5)
+	        };
+	        var handle2Points = {
+	          start: Math.PI * 2.5,
+	          end: math.clip(math.scale(value, 0.5, 1, Math.PI * 2.5, Math.PI * 1.5), Math.PI * 1.5, Math.PI * 2.5)
+	        };
+	
+	        var handlePath = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handlePoints.start, handlePoints.end);
+	
+	        var handle2Path = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handle2Points.start, handle2Points.end);
+	
+	        handle2Path.split().splice(0, 1, "L").join(" ");
+	
+	        this.handle = svg.create("path");
+	        this.handle.setAttribute("d", handlePath);
+	        this.handle.setAttribute("stroke", "#d18");
+	        this.handle.setAttribute("stroke-width", diameter / 20);
+	        this.handle.setAttribute("fill", "none");
+	
+	        handle2Path = "M" + center.x + " " + center.y + " " + handle2Path;
+	        this.handle2 = svg.create("path");
+	        this.handle2.setAttribute("d", handle2Path);
+	        this.handle2.setAttribute("stroke", "#d18");
+	        this.handle2.setAttribute("stroke-width", diameter / 20);
+	        this.handle2.setAttribute("fill", "none");
+	
+	        handlePath += " L" + center.x + " " + center.y;
+	        //handlePath2 += ' Z';
+	
+	        this.handleFill = svg.create("path");
+	        this.handleFill.setAttribute("d", handlePath);
+	        this.handleFill.setAttribute("fill", "#d18");
+	        this.handleFill.setAttribute("fill-opacity", "0.3");
+	
+	        this.handle2Fill = svg.create("path");
+	        this.handle2Fill.setAttribute("d", handle2Path);
+	        this.handle2Fill.setAttribute("fill", "#d18");
+	        this.handle2Fill.setAttribute("fill-opacity", "0.3");
+	
+	        this.element.appendChild(this.background);
+	        this.element.appendChild(this.handle);
+	        this.element.appendChild(this.handle2);
+	        this.element.appendChild(this.handleFill);
+	        this.element.appendChild(this.handle2Fill);
+	        this.element.appendChild(this.screw);
+	      }
+	    },
+	    render: {
+	      value: function render() {}
+	    },
+	    click: {
+	      value: function click() {
+	
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          if (this.orientation === "vertical") {
+	            this.value = this._value.updateNormal((this.mouse.y - this.knobData.r) / (this.height - this.knobData.r * 2));
+	          } else {
+	            this.value = this._value.updateNormal((this.mouse.x - this.knobData.r) / (this.width - this.knobData.r * 2));
+	          }
+	          if (this._value.changed) {
+	            this.emit("change", this.value);
+	          }
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (value) {
+	        return this._value.update(value);
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    }
+	  });
+	
+	  return Dial;
+	})(Interface);
+	
+	module.exports = Dial;
 
 /***/ }
 /******/ ])
