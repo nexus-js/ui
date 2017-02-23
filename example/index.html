@@ -19,6 +19,7 @@
     <div id="radiobutton"></div>
     <div id="number"></div>
     <div id="dial"></div>
+    <div id="piano"></div>
   </div>
 </body>
 <style>
@@ -42,6 +43,7 @@
   radiobutton = new mt.RadioButton("#radiobutton")
   number = new mt.Number("#number")
   dial = new mt.Dial("#dial")
+  piano = new mt.Piano("#piano")
 
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
       waveform1.load(player.buffer._buffer)

@@ -110,11 +110,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  TextButton: __webpack_require__(21),
 	  RadioButton: __webpack_require__(22),
 	  Number: __webpack_require__(23),
-	  Dial: __webpack_require__(24)
+	  Dial: __webpack_require__(24),
+	  Piano: __webpack_require__(25)
 	  /*  Multislider: require('./multislider'),
 	    Spectrograph: require('./spectrograph'),
 	    Meter: require('./meter'),
-	    Keyboard: require('./keyboard'),
 	    Matrix: require('./Matrix'),
 	    Tilt: require('./tilt') */
 	};
@@ -2662,7 +2662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function move() {
 	        if (this.clicked) {
 	
-	          var newvalue = this.actual + (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
+	          var newvalue = this.actual - (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
 	          this.value.update(newvalue);
 	
 	          //	this.actual -= (this.deltaMove.y*(this.rate*this.step));
@@ -2898,14 +2898,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	          };
 	          var position = math.toPolar(this.mouse.x - center.x, this.mouse.y - center.y);
 	          position.angle = (position.angle + Math.PI * 1.5) % (Math.PI * 2);
-	          if (!this.previousAngle || Math.abs(this.previousAngle - position.angle) < 5.5) {
-	            this.previousAngle = position.angle;
-	            this._value.updateNormal(position.angle / (Math.PI * 2));
-	            if (this._value.changed) {
-	              this.emit("change", this._value.value);
+	          if (this.previousAngle !== false && Math.abs(this.previousAngle - position.angle) > 1) {
+	            if (this.previousAngle > 6) {
+	              position.angle = Math.PI * 2;
+	            } else {
+	              position.angle = 0;
 	            }
-	            this.render();
 	          }
+	          this.previousAngle = position.angle;
+	
+	          this._value.updateNormal(position.angle / (Math.PI * 2));
+	          if (this._value.changed) {
+	            this.emit("change", this._value.value);
+	          }
+	          this.render();
 	        }
 	      }
 	    },
@@ -2931,6 +2937,259 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = Dial;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(5);
+	var ButtonTemplate = __webpack_require__(20);
+	
+	var PianoKey = (function (_ButtonTemplate) {
+	  function PianoKey() {
+	    _classCallCheck(this, PianoKey);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(PianoKey.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.note = this.settings.note;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(PianoKey, _ButtonTemplate);
+	
+	  _createClass(PianoKey, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        //let radius = Math.min(this.width,this.height) / 5;
+	        var radius = 5;
+	
+	        this.pad = svg.create("rect");
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        this.pad.setAttribute("width", this.width - 2);
+	        this.pad.setAttribute("height", this.height - 2);
+	        this.pad.setAttribute("rx", radius);
+	        this.pad.setAttribute("ry", radius);
+	        this.pad.setAttribute("fill", "#e7e7e7");
+	
+	        this.element.appendChild(this.pad);
+	
+	        this.element.addEventListener("mouseover", function () {
+	          if (_this.piano.interacting) {
+	            _this.turnOn();
+	            _this.piano.drag(_this.note, true);
+	            //this.click();
+	          }
+	        });
+	        this.element.addEventListener("mouseout", function () {
+	          if (_this.piano.interacting) {
+	            _this.turnOff();
+	            _this.piano.drag(_this.note, false);
+	          }
+	        });
+	        this.element.addEventListener("mouseup", function () {
+	          if (_this.piano.interacting) {
+	            _this.turnOff();
+	            _this.piano.drag(_this.note, false);
+	          }
+	        });
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.pad.setAttribute("fill", "#e7e7e7");
+	        } else {
+	          this.pad.setAttribute("fill", "#d18");
+	        }
+	      }
+	
+	      //  click() {
+	      //  this.turnOn();
+	      //  this.emit('change',this.state);
+	      //}
+	
+	    }
+	  });
+	
+	  return PianoKey;
+	})(ButtonTemplate);
+	
+	var Piano = (function (_Interface) {
+	  function Piano() {
+	    _classCallCheck(this, Piano);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [500, 150],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Piano.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.keyPattern = ["w", "b", "w", "b", "w", "w", "b", "w", "b", "w", "b", "w"];
+	
+	    this.range = {
+	      low: 24,
+	      high: 60
+	    };
+	
+	    this.range.size = this.range.high - this.range.low;
+	
+	    this.keys = [];
+	    this.active = -1;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(Piano, _Interface);
+	
+	  _createClass(Piano, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.element.style.position = "relative";
+	        this.element.style.display = "block";
+	        this.element.style.width = "100%";
+	        this.element.style.height = "100%";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var keyX = 0;
+	
+	        var keyPositions = [];
+	
+	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	
+	          keyPositions.push(keyX);
+	
+	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	          var nextScaleIndex = (i + 1 + this.range.low) % this.keyPattern.length;
+	          if (this.keyPattern[scaleIndex] === "w" && this.keyPattern[nextScaleIndex] === "w") {
+	            keyX += 1;
+	          } else {
+	            keyX += 0.5;
+	          }
+	        }
+	
+	        var buttonWidth = this.width / keyX;
+	        var buttonHeight = this.height / 2;
+	
+	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	
+	          var container = document.createElement("span");
+	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	          container.style.position = "absolute";
+	          container.style.left = keyPositions[i] * buttonWidth + "px";
+	          if (this.keyPattern[scaleIndex] === "w") {
+	            container.style.top = buttonHeight + "px";
+	          } else {
+	            container.style.top = "0px";
+	          }
+	
+	          var key = new PianoKey(container, {
+	            size: [buttonWidth, buttonHeight],
+	            component: true,
+	            note: i + this.range.low
+	          }, this.keyChange.bind(this, i + this.range.low));
+	
+	          key.piano = this;
+	
+	          this.keys.push(key);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    keyPress: {
+	
+	      //  update(index,v) {
+	      //    this.active = index;
+	
+	      //  this.buttons[i].turnOn();
+	      //  this.buttons[i].turnOff();
+	
+	      //  this.emit('change',this.active);
+	      //}
+	
+	      value: function keyPress() {}
+	    },
+	    keyRelease: {
+	      value: function keyRelease() {}
+	    },
+	    keyChange: {
+	      value: function keyChange(i, v) {
+	        // emit data for any key turning on/off
+	        console.log(this, i, v);
+	        if (v) {
+	          this.interacting = true;
+	        } else {
+	          this.interacting = false;
+	        }
+	      }
+	    },
+	    drag: {
+	      value: function drag(note, on) {
+	        this.emit("change", note, on);
+	      }
+	    },
+	    render: {
+	      value: function render() {}
+	    }
+	  });
+	
+	  return Piano;
+	})(Interface);
+	
+	module.exports = Piano;
+	
+	// turn on "hover" for other keys
+
+	// if mouse up, then turn off hover for other keys
+
+	/*  if (!this.state) {
+	    this.pad.setAttribute('fill', '#e7e7e7');
+	    this.pad.setAttribute('stroke', '#ccc');
+	  } else {
+	    this.pad.setAttribute('fill', '#d18');
+	    this.pad.setAttribute('stroke', '#d18');
+	  } */
 
 /***/ }
 /******/ ])
