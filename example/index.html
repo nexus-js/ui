@@ -20,6 +20,7 @@
     <div id="number"></div>
     <div id="dial"></div>
     <div id="piano"></div>
+    <div id="matrix"></div>
   </div>
 </body>
 <style>
@@ -44,6 +45,7 @@
   number = new mt.Number("#number")
   dial = new mt.Dial("#dial")
   piano = new mt.Piano("#piano")
+  matrix = new mt.Matrix("#matrix")
 
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
       waveform1.load(player.buffer._buffer)

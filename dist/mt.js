@@ -111,11 +111,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  RadioButton: __webpack_require__(22),
 	  Number: __webpack_require__(23),
 	  Dial: __webpack_require__(24),
-	  Piano: __webpack_require__(25)
+	  Piano: __webpack_require__(25),
+	  Matrix: __webpack_require__(26)
 	  /*  Multislider: require('./multislider'),
 	    Spectrograph: require('./spectrograph'),
 	    Meter: require('./meter'),
-	    Matrix: require('./Matrix'),
 	    Tilt: require('./tilt') */
 	};
 
@@ -318,8 +318,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        defaults.defaultSize = defaults.size.splice(0, 2);
 	        defaults.size = false;
 	
-	        console.log(args);
-	
 	        var settings = {
 	          target: document.body,
 	          colors: {}, // should inherit from a colors module,
@@ -356,8 +354,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // target
 	
-	        console.log(settings);
-	
 	        if (typeof settings.target === "string") {
 	          this.parent = document.getElementById(settings.target.replace("#", ""));
 	        } else if (settings.target instanceof HTMLElement) {
@@ -384,12 +380,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (settings.snapWithParent) {
 	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
 	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
-	
-	          console.log("========");
-	          console.log(this.width);
-	          console.log(this.height);
-	          console.log(this.parent.style.width);
-	          console.log(this.parent.style.height);
 	
 	          if (!this.width || !this.parent.style.width) {
 	            this.width = settings.defaultSize[0];
@@ -879,7 +869,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.min = min;
 	    this.max = max;
 	    this.step = step;
-	    console.log("value", value);
 	    this.value = value;
 	    this.changed = false;
 	    this.oldValue = false;
@@ -890,7 +879,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    update: {
 	      value: function update(newvalue) {
 	
-	        console.log("newvalue", newvalue);
 	        //  console.log(oldValue,newvalue,this.value);
 	        if (this.step) {
 	          this.value = Math.round(math.clip(newvalue, this.min, this.max) / this.step) * this.step;
@@ -903,7 +891,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	          this.changed = false;
 	        }
-	        console.log("this.value", this.value);
 	        return this.value;
 	      }
 	    },
@@ -915,9 +902,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    normalized: {
 	      get: function () {
-	        console.log("this.value", this.value);
-	        console.log("this.min", this.min);
-	        console.log("this.max", this.max);
 	        return math.normalize(this.value, this.min, this.max);
 	      }
 	    },
@@ -1370,8 +1354,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    flip: {
-	      value: function flip() {
-	        this._state.flip();
+	      value: function flip(value) {
+	        this._state.flip(value);
 	        this.render();
 	      }
 	    },
@@ -2960,7 +2944,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function PianoKey() {
 	    _classCallCheck(this, PianoKey);
 	
-	    var options = ["value"];
+	    var options = ["value", "note"];
 	
 	    var defaults = {
 	      size: [80, 80],
@@ -3009,7 +2993,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (_this.piano.interacting) {
 	            _this.turnOn();
 	            _this.piano.drag(_this.note, true);
-	            //this.click();
 	          }
 	        });
 	        this.element.addEventListener("mouseout", function () {
@@ -3190,6 +3173,405 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.pad.setAttribute('fill', '#d18');
 	    this.pad.setAttribute('stroke', '#d18');
 	  } */
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(5);
+	var ButtonTemplate = __webpack_require__(20);
+	var MatrixModel = __webpack_require__(27);
+	
+	var MatrixCell = (function (_ButtonTemplate) {
+	  function MatrixCell() {
+	    _classCallCheck(this, MatrixCell);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    //  this.row = this.settings.row;
+	    //  this.column = this.settings.column;
+	    //  this.index = this.settings.index
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(MatrixCell, _ButtonTemplate);
+	
+	  _createClass(MatrixCell, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.pad = svg.create("rect");
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        this.pad.setAttribute("width", this.width - 2);
+	        this.pad.setAttribute("height", this.height - 2);
+	        this.pad.setAttribute("fill", "#e7e7e7");
+	
+	        this.element.appendChild(this.pad);
+	
+	        this.element.addEventListener("mouseover", function () {
+	          if (_this.matrix.interacting) {
+	            _this.state = _this.matrix.pen;
+	            _this.matrix.drag(_this.index, true);
+	          }
+	        });
+	        // keep for button modes, though...
+	        /*    this.element.addEventListener('mouseout', () => {
+	              if (this.matrix.interacting) {
+	            //    this.turnOff();
+	                this.matrix.drag(this.index,false);
+	              }
+	            */
+	        this.element.addEventListener("mouseup", function () {
+	          if (_this.matrix.interacting) {
+	            _this.matrix.interacting = false;
+	            //  this.turnOff();
+	            //    this.matrix.drag(this.index,false);
+	          }
+	        });
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.pad.setAttribute("fill", "#e7e7e7");
+	        } else {
+	          this.pad.setAttribute("fill", "#d18");
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.flip();
+	        this.matrix.pen = this.state;
+	        this.emit("change", true);
+	      }
+	    },
+	    release: {
+	      value: function release() {}
+	    }
+	  });
+	
+	  return MatrixCell;
+	})(ButtonTemplate);
+	
+	var Matrix = (function (_Interface) {
+	  function Matrix() {
+	    _classCallCheck(this, Matrix);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [400, 200],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.rows = 5;
+	    this.columns = 10;
+	
+	    this.cells = [];
+	    this.active = -1;
+	
+	    this.model = new MatrixModel(this.rows, this.columns);
+	
+	    this.model.toggle.cell(4, 4);
+	    this.model.toggle.cell(3, 3);
+	
+	    this.model.format();
+	    this.init();
+	    //  this.render();
+	  }
+	
+	  _inherits(Matrix, _Interface);
+	
+	  _createClass(Matrix, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.element.style.position = "relative";
+	        this.element.style.display = "block";
+	        this.element.style.width = "100%";
+	        this.element.style.height = "100%";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var cellWidth = this.width / this.columns;
+	        var cellHeight = this.height / this.rows;
+	
+	        for (var i = 0; i < this.model.length; i++) {
+	
+	          var _location = this.model.locate(i);
+	          // {row,col}
+	
+	          var container = document.createElement("span");
+	          container.style.position = "absolute";
+	          container.style.left = _location.column * cellWidth + "px";
+	          container.style.top = _location.row * cellHeight + "px";
+	
+	          var cell = new MatrixCell(container, {
+	            size: [cellWidth, cellHeight],
+	            component: true
+	          }, this.keyChange.bind(this, i));
+	
+	          cell.matrix = this;
+	
+	          this.cells.push(cell);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    keyPress: {
+	
+	      //  update(index,v) {
+	      //    this.active = index;
+	
+	      //  this.buttons[i].turnOn();
+	      //  this.buttons[i].turnOff();
+	
+	      //  this.emit('change',this.active);
+	      //}
+	
+	      value: function keyPress() {}
+	    },
+	    keyRelease: {
+	      value: function keyRelease() {}
+	    },
+	    keyChange: {
+	      value: function keyChange(i, v) {
+	        // emit data for any key turning on/off
+	        if (v) {
+	          this.interacting = true;
+	        } else {
+	          this.interacting = false;
+	        }
+	      }
+	    },
+	    drag: {
+	      value: function drag(note, on) {
+	        this.emit("change", note, on);
+	      }
+	    },
+	    render: {
+	      value: function render() {}
+	    }
+	  });
+	
+	  return Matrix;
+	})(Interface);
+	
+	module.exports = Matrix;
+	
+	// turn on "hover" for other keys
+
+	// if mouse up, then turn off hover for other keys
+
+	/*  if (!this.state) {
+	    this.pad.setAttribute('fill', '#e7e7e7');
+	    this.pad.setAttribute('stroke', '#ccc');
+	  } else {
+	    this.pad.setAttribute('fill', '#d18');
+	    this.pad.setAttribute('stroke', '#d18');
+	  } */
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(10));
+	
+	var Matrix = (function () {
+	  function Matrix(rows, columns) {
+	    var _this = this;
+	
+	    _classCallCheck(this, Matrix);
+	
+	    // should also have ability to create with an existing matrix
+	    this.rows = rows;
+	    this.columns = columns;
+	    this.pattern = [];
+	    this.create(rows, columns);
+	    //  console.log(this.pattern);
+	    //  this.format();
+	
+	    this.toggle = {
+	      cell: function (row, column) {
+	        _this.pattern[row][column] = math.invert(_this.pattern[row][column]);
+	      },
+	      all: function () {},
+	      row: function () {},
+	      column: function () {}
+	    };
+	  }
+	
+	  _createClass(Matrix, {
+	    create: {
+	      value: function create(rows, columns) {
+	        var _this = this;
+	
+	        this.rows = rows;
+	        this.columns = columns;
+	        this.pattern = [];
+	        for (var row = 0; row < this.rows; row++) {
+	          this.pattern.push([]);
+	        }
+	        this.iterate(function (r, c) {
+	          _this.pattern[r][c] = 0;
+	        });
+	      }
+	    },
+	    iterate: {
+	      value: function iterate(f, f2) {
+	        for (var row = 0; row < this.rows; row++) {
+	          if (f2) {
+	            f2(row);
+	          }
+	          for (var column = 0; column < this.columns; column++) {
+	            f(row, column);
+	          }
+	        }
+	      }
+	    },
+	    format: {
+	      value: function format() {
+	        var _this = this;
+	
+	        var patternString = "";
+	        this.iterate(function (r, c) {
+	          patternString += _this.pattern[r][c] + " ";
+	        }, function () {
+	          patternString += "\n";
+	        });
+	        console.log(patternString);
+	        return patternString;
+	      }
+	    },
+	    update: {
+	      value: function update(pattern) {
+	        this.matrix = pattern;
+	      }
+	    },
+	    length: {
+	      get: function () {
+	        return this.rows * this.columns;
+	      }
+	    },
+	    locate: {
+	      value: function locate(index) {
+	        // returns row/col of cell
+	        return {
+	          row: ~ ~(index / this.columns),
+	          column: index % this.columns
+	        };
+	      }
+	    },
+	    indexOf: {
+	      value: function indexOf(row, column) {
+	        return column + row * this.columns;
+	        // returns row/col of cell
+	      }
+	      /*
+	        rotate(distance,direction) {
+	          //
+	        }
+	      
+	        flip() {
+	          //flip over an axis?
+	        }
+	      
+	        toggle(cell) {
+	          // should each cell be a toggle or step?
+	        } */
+	
+	    }
+	  });
+	
+	  return Matrix;
+	})();
+	
+	module.exports = Matrix;
+	
+	Matrix.prototype.rotate = {
+	  all: function () {},
+	  row: function () {},
+	  column: function () {}
+	};
+	
+	Matrix.prototype.populate = {
+	  all: function () {},
+	  row: function () {},
+	  column: function () {}
+	};
+	
+	Matrix.prototype.erase = {
+	  all: function () {},
+	  row: function () {},
+	  column: function () {}
+	};
+	
+	/* brainstorm:
+	  ** rotate single row or column
+	  ** randomly fill row with some probability
+	    populateRow([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
+	  invert row?
+	  erase row or column
+	  add/remove row or column
+	  toggle random cell
+	    performance:
+	  start sequencing
+	  stop sequencing
+	  sequencing modes -- direction w/ step, drunk, random, in pattern
+	  sequence rows too
+	  loop portion
+	  jump to column index
+	    matrix1.model.row[0].erase()
+	  vs
+	  matrix1.model.eraseRow(0)
+
+	  */
 
 /***/ }
 /******/ ])
