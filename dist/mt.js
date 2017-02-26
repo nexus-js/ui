@@ -3192,6 +3192,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(5);
 	var ButtonTemplate = __webpack_require__(20);
 	var MatrixModel = __webpack_require__(27);
+	var CounterModel = __webpack_require__(28);
+	//let Time = require('../core/time');
 	
 	var MatrixCell = (function (_ButtonTemplate) {
 	  function MatrixCell() {
@@ -3207,9 +3209,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    //  this.row = this.settings.row;
-	    //  this.column = this.settings.column;
-	    //  this.index = this.settings.index
+	    this.index = this.settings.index;
+	    this.row = this.settings.row;
+	    this.column = this.settings.column;
 	
 	    this.init();
 	    this.render();
@@ -3241,7 +3243,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.element.addEventListener("mouseover", function () {
 	          if (_this.matrix.interacting) {
-	            _this.state = _this.matrix.pen;
+	            console.log(_this.matrix.pen);
+	            _this.state = _this.matrix.model.set.cell(_this.row, _this.column, _this.matrix.pen);
+	            _this.matrix.model.format();
 	            _this.matrix.drag(_this.index, true);
 	          }
 	        });
@@ -3275,6 +3279,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.flip();
 	        this.matrix.pen = this.state;
 	        this.emit("change", true);
+	        this.matrix.model.format();
+	      }
+	    },
+	    flip: {
+	      value: function flip() {
+	        this.matrix.model.toggle.cell(this.row, this.column);
+	        //console.log('STATE: '+this.state);
 	      }
 	    },
 	    release: {
@@ -3299,18 +3310,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.rows = 5;
-	    this.columns = 10;
+	    this.rows = 10;
+	    this.columns = 20;
 	
 	    this.cells = [];
 	    this.active = -1;
 	
 	    this.model = new MatrixModel(this.rows, this.columns);
-	
-	    this.model.toggle.cell(4, 4);
-	    this.model.toggle.cell(3, 3);
+	    this.model.ui = this;
 	
 	    this.model.format();
+	
+	    //  this.sequence = { value: -1 };
+	    this.sequence = new CounterModel(0, this.columns);
+	    // this.pulse = new Time.Interval();
+	
 	    this.init();
 	    //  this.render();
 	  }
@@ -3346,7 +3360,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          var cell = new MatrixCell(container, {
 	            size: [cellWidth, cellHeight],
-	            component: true
+	            component: true,
+	            index: i,
+	            row: _location.row,
+	            column: _location.column
 	          }, this.keyChange.bind(this, i));
 	
 	          cell.matrix = this;
@@ -3356,17 +3373,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
+	    update: {
+	      value: function update() {
+	        var _this = this;
+	
+	        this.model.iterate(function (r, c, i) {
+	          if (_this.model.pattern[r][c] > 0) {
+	            _this.cells[i].state = true;
+	          } else {
+	            _this.cells[i].state = false;
+	          }
+	          /*  this.cells[i].pad.setAttribute('stroke','#fff');
+	            this.cells[i].pad.setAttribute('stroke-width','6');
+	          } else {
+	            this.cells[i].pad.setAttribute('stroke','none');
+	          } */
+	        });
+	      }
+	    },
 	    keyPress: {
-	
-	      //  update(index,v) {
-	      //    this.active = index;
-	
-	      //  this.buttons[i].turnOn();
-	      //  this.buttons[i].turnOff();
-	
-	      //  this.emit('change',this.active);
-	      //}
-	
 	      value: function keyPress() {}
 	    },
 	    keyRelease: {
@@ -3388,7 +3413,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    render: {
-	      value: function render() {}
+	      value: function render() {
+	        var _this = this;
+	
+	        if (this.sequence.value >= 0) {
+	          this.model.iterate(function (r, c, i) {
+	            if (c === _this.sequence.value) {
+	              _this.cells[i].pad.setAttribute("stroke", "#fff");
+	              _this.cells[i].pad.setAttribute("stroke-width", "6");
+	            } else {
+	              _this.cells[i].pad.setAttribute("stroke", "none");
+	            }
+	          });
+	        }
+	      }
+	    },
+	    start: {
+	      value: function start() {
+	        if (!this.invertal) {
+	          this.next();
+	          this.interval = setInterval(this.next.bind(this), 200);
+	        }
+	      }
+	    },
+	    stop: {
+	      value: function stop() {
+	        clearInterval(this.interval);
+	        this.interval = false;
+	      }
+	    },
+	    next: {
+	      value: function next() {
+	        //this.sequence.next();
+	        //  this.sequence.value = (this.sequence.value + 1) % this.columns;
+	        this.sequence.next();
+	        this.emit("change", this.model.column(this.sequence.value));
+	        this.render();
+	      }
+	      // introduce counter model and timing
+	
 	    }
 	  });
 	
@@ -3401,27 +3464,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// if mouse up, then turn off hover for other keys
 
-	/*  if (!this.state) {
-	    this.pad.setAttribute('fill', '#e7e7e7');
-	    this.pad.setAttribute('stroke', '#ccc');
-	  } else {
-	    this.pad.setAttribute('fill', '#d18');
-	    this.pad.setAttribute('stroke', '#d18');
-	  } */
-
 /***/ },
 /* 27 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = _interopRequire(__webpack_require__(10));
+	//import math from '../util/math';
 	
 	var Matrix = (function () {
 	  function Matrix(rows, columns) {
@@ -3434,17 +3487,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.columns = columns;
 	    this.pattern = [];
 	    this.create(rows, columns);
-	    //  console.log(this.pattern);
-	    //  this.format();
 	
 	    this.toggle = {
 	      cell: function (row, column) {
-	        _this.pattern[row][column] = math.invert(_this.pattern[row][column]);
+	        _this.pattern[row][column] = !_this.pattern[row][column]; // math.invert(this.pattern[row][column]);
+	        _this.ui.update();
+	        return _this.pattern[row][column];
 	      },
+	      all: function () {
+	        _this.iterate(function (r, c) {
+	          _this.toggle.cell(r, c);
+	        });
+	        _this.ui.update();
+	      },
+	      row: function (row) {
+	        for (var i = 0; i < _this.columns; i++) {
+	          _this.toggle.cell(row, i);
+	        }
+	        _this.ui.update();
+	      },
+	      column: function (column) {
+	        for (var i = 0; i < _this.rows; i++) {
+	          _this.toggle.cell(i, column);
+	        }
+	        _this.ui.update();
+	      }
+	    };
+	
+	    this.set = {
+	      cell: function (row, column, value) {
+	        _this.pattern[row][column] = value;
+	        return _this.pattern[row][column];
+	      } };
+	
+	    this.rotate = {
+	      all: function (amount) {
+	        for (var i = 0; i < _this.rows; i++) {
+	          var cut = _this.pattern[i].splice(_this.pattern[i].length - amount, amount);
+	          _this.pattern[i] = cut.concat(_this.pattern[i]);
+	        }
+	        _this.format();
+	        _this.ui.update();
+	      },
+	      row: function (row, amount) {
+	        var cut = _this.pattern[row].splice(_this.pattern[row].length - amount, amount);
+	        _this.pattern[row] = cut.concat(_this.pattern[row]);
+	        _this.format();
+	        _this.ui.update();
+	      } };
+	
+	    this.populate = {
 	      all: function () {},
 	      row: function () {},
 	      column: function () {}
 	    };
+	
+	    this.erase = {
+	      all: function () {},
+	      row: function () {},
+	      column: function () {}
+	    };
+	
+	    // end constructor
 	  }
 	
 	  _createClass(Matrix, {
@@ -3459,18 +3563,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.pattern.push([]);
 	        }
 	        this.iterate(function (r, c) {
-	          _this.pattern[r][c] = 0;
+	          _this.pattern[r][c] = false;
 	        });
 	      }
 	    },
 	    iterate: {
 	      value: function iterate(f, f2) {
+	        var i = 0;
 	        for (var row = 0; row < this.rows; row++) {
 	          if (f2) {
 	            f2(row);
 	          }
 	          for (var column = 0; column < this.columns; column++) {
-	            f(row, column);
+	            f(row, column, i);
+	            i++;
 	          }
 	        }
 	      }
@@ -3481,7 +3587,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var patternString = "";
 	        this.iterate(function (r, c) {
-	          patternString += _this.pattern[r][c] + " ";
+	          patternString += (_this.pattern[r][c] ? 1 : 0) + " ";
 	        }, function () {
 	          patternString += "\n";
 	        });
@@ -3491,7 +3597,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    update: {
 	      value: function update(pattern) {
-	        this.matrix = pattern;
+	        this.pattern = pattern || this.pattern;
 	      }
 	    },
 	    length: {
@@ -3513,19 +3619,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return column + row * this.columns;
 	        // returns row/col of cell
 	      }
-	      /*
-	        rotate(distance,direction) {
-	          //
-	        }
-	      
-	        flip() {
-	          //flip over an axis?
-	        }
-	      
-	        toggle(cell) {
-	          // should each cell be a toggle or step?
-	        } */
+	    },
+	    row: {
+	      value: (function (_row) {
+	        var _rowWrapper = function row(_x) {
+	          return _row.apply(this, arguments);
+	        };
 	
+	        _rowWrapper.toString = function () {
+	          return _row.toString();
+	        };
+	
+	        return _rowWrapper;
+	      })(function (row) {
+	        var data = [];
+	        for (var i = 0; i < this.columns; i++) {
+	          data.push(this.pattern[row] ? 1 : 0);
+	        }
+	        return data;
+	      })
+	    },
+	    column: {
+	      value: (function (_column) {
+	        var _columnWrapper = function column(_x2) {
+	          return _column.apply(this, arguments);
+	        };
+	
+	        _columnWrapper.toString = function () {
+	          return _column.toString();
+	        };
+	
+	        return _columnWrapper;
+	      })(function (column) {
+	        var data = [];
+	        for (var i = 0; i < this.rows; i++) {
+	          data.push(this.pattern[i][column] ? 1 : 0);
+	        }
+	        return data;
+	      }
+	
+	      /* brainstorm:
+	        ** rotate single row or column
+	        ** randomly fill row with some probability
+	          populateRow([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
+	        invert row?
+	        erase row or column
+	        add/remove row or column
+	        toggle random cell
+	          performance:
+	        start sequencing
+	        stop sequencing
+	        sequencing modes -- direction w/ step, drunk, random, in pattern
+	        sequence rows too
+	        loop portion
+	        jump to column index
+	          matrix1.model.row[0].erase()
+	        vs
+	        matrix1.model.eraseRow(0)
+	        vs
+	        matrix1.model.erase.row(0)
+	        */
+	
+	      )
 	    }
 	  });
 	
@@ -3534,44 +3689,90 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Matrix;
 	
-	Matrix.prototype.rotate = {
-	  all: function () {},
-	  row: function () {},
-	  column: function () {}
-	};
-	
-	Matrix.prototype.populate = {
-	  all: function () {},
-	  row: function () {},
-	  column: function () {}
-	};
-	
-	Matrix.prototype.erase = {
-	  all: function () {},
-	  row: function () {},
-	  column: function () {}
-	};
-	
-	/* brainstorm:
-	  ** rotate single row or column
-	  ** randomly fill row with some probability
-	    populateRow([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
-	  invert row?
-	  erase row or column
-	  add/remove row or column
-	  toggle random cell
-	    performance:
-	  start sequencing
-	  stop sequencing
-	  sequencing modes -- direction w/ step, drunk, random, in pattern
-	  sequence rows too
-	  loop portion
-	  jump to column index
-	    matrix1.model.row[0].erase()
-	  vs
-	  matrix1.model.eraseRow(0)
+	/*    all: () => {
+	     },
+	    row: () => {
+	     },
+	    column: () => {
+	     } */
 
-	  */
+	/*    column: () => {
+	 } */
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(10));
+	
+	var Counter = (function () {
+	  function Counter(min, max, mode, value) {
+	    _classCallCheck(this, Counter);
+	
+	    this.min = min || 0;
+	    this.max = max || 10;
+	    this.value = value || this.min - 1;
+	    this.mode = mode || "up";
+	  }
+	
+	  _createClass(Counter, {
+	    mode: {
+	      set: function (mode) {
+	        this._mode = mode;
+	        this.next = this[mode];
+	      },
+	      get: function () {
+	        return this._mode;
+	      }
+	    },
+	    up: {
+	      value: function up() {
+	        this.value++;
+	        if (this.value >= this.max) {
+	          this.value = this.min;
+	        }
+	        return this.value;
+	      }
+	    },
+	    down: {
+	      value: function down() {
+	        this.value--;
+	        if (this.value < this.min) {
+	          this.value = this.max;
+	        }
+	        return this.value;
+	      }
+	    },
+	    random: {
+	      value: function random() {
+	        this.value = math.ri(this.min, this.max);
+	      }
+	    },
+	    drunk: {
+	      value: function drunk() {
+	        this.value += math.pick(-1, 1);
+	        if (this.value < this.min) {
+	          this.value = this.max;
+	        }
+	        if (this.value >= this.max) {
+	          this.value = this.min;
+	        }
+	      }
+	    }
+	  });
+	
+	  return Counter;
+	})();
+	
+	module.exports = Counter;
 
 /***/ }
 /******/ ])

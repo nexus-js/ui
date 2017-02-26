@@ -1,0 +1,88 @@
+<html>
+<script src="../dist/mt.js"></script>
+<canvas id="viz" style="width:700px;height:400px;"></canvas>
+<div id="dial"></div>
+
+<script>
+
+
+var canvas = document.getElementById("viz");
+var canvasCtx = canvas.getContext("2d");
+
+canvas.width = parseInt(canvas.style.width);
+canvas.height = parseInt(canvas.style.height);
+
+
+var dial = new mt.Slider("#dial",{
+  scale: [0,1000],
+  event: (v) => {
+    if (osc) {
+      osc.frequency.value = v;
+    }
+  }
+});
+
+
+var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+var analyser = audioCtx.createAnalyser();
+
+var osc = audioCtx.createOscillator();
+osc.frequency.value = 2;
+osc.type = 'triangle';
+osc.connect(analyser);
+//analyser.connect(audioCtx.destination);
+osc.start();
+
+
+analyser.fftSize = 256;
+var bufferLength = analyser.frequencyBinCount;
+console.log(bufferLength);
+var dataArray = new Uint8Array(bufferLength);
+
+canvasCtx.fillStyle = 'rgb(240,240,240)';
+canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+function draw() {
+  drawVisual = requestAnimationFrame(draw);
+
+  analyser.getByteFrequencyData(dataArray);
+
+  canvasCtx.drawImage(canvas,1,0);
+
+  canvasCtx.fillStyle = 'rgb(240,240,240)';
+  canvasCtx.fillRect(0, 0, 1, canvas.height);
+
+  var value;
+
+  var size = (canvas.height / (bufferLength));
+  //size = 1;
+  //console.log(size);
+
+  var location = canvas.height;
+
+  canvasCtx.fillStyle = '#d18';
+
+  for(var i = 0; i < bufferLength; i = i+1) {
+
+    location -= size;
+
+    value = dataArray[i];
+    value /= 255;
+    //console.log(value);
+    //if (value > 0) {
+    //  console.log(value);
+    //}
+
+    canvasCtx.globalAlpha = value;
+  //  canvasCtx.fillStyle = 'rgb('+value*255+',50,50)'
+    canvasCtx.fillRect(0,location,1,size);
+
+  }
+
+  canvasCtx.globalAlpha = 1;
+};
+
+draw();
+</script>
+
+</html>
