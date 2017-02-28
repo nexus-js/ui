@@ -1,0 +1,81 @@
+<html>
+<script src="../dist/mt.js"></script>
+<script src="js/Tone9.js"></script>
+<canvas id="viz" style='width:800px;height:400px'></canvas>
+<div id="tog"></div>
+
+<script>
+
+
+var canvas = document.getElementById("viz");
+var canvasCtx = canvas.getContext("2d");
+
+canvas.width = parseInt(canvas.style.width);
+canvas.height = parseInt(canvas.style.height);
+
+
+var player = new Tone.Player("./media/Dream6_stream.mp3")
+//play as soon as the buffer is loaded
+player.autostart = true;
+player.loop = true;
+
+var toggle = new mt.Toggle('#tog',{
+  event: (v) => {
+    if (v) {
+      player.start();
+      player.seek(5);
+    } else {
+      player.stop();
+    }
+  }
+})
+
+
+var analyser = Tone.context.createAnalyser();
+
+player.connect(analyser);
+
+
+analyser.fftSize = 512;
+var bufferLength = analyser.frequencyBinCount;
+analyser.smoothingTimeConstant = 0.8;
+var dataArray = new Uint8Array(bufferLength);
+
+
+function draw() {
+  drawVisual = requestAnimationFrame(draw);
+
+  analyser.getByteFrequencyData(dataArray);
+
+  canvasCtx.fillStyle = 'rgb(240,240,240)';
+  canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+  var barWidth = (canvas.width / bufferLength);
+  var barHeight;
+  var x = 0;
+
+  var definition = 1;
+
+  canvasCtx.fillStyle = '#d18';
+  canvasCtx.beginPath();
+  canvasCtx.moveTo(0,canvas.height);
+
+  for(var i = 0; i < bufferLength; i = i+definition) {
+    var y = mt.average(dataArray.slice(i,i+definition));
+    y /= 255;
+    y *= canvas.height;
+
+    canvasCtx.lineTo(x,canvas.height-y);
+
+    x += (barWidth*definition);
+  }
+
+  canvasCtx.lineTo(canvas.width,canvas.height);
+  canvasCtx.closePath();
+  canvasCtx.fill();
+};
+
+draw();
+</script>
+
+</html>

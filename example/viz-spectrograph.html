@@ -1,9 +1,16 @@
 <html>
 <script src="../dist/mt.js"></script>
+<script src="js/Tone9.js"></script>
 <canvas id="viz" style="width:700px;height:400px;"></canvas>
 <div id="dial"></div>
 
 <script>
+
+
+var player = new Tone.Player("./media/Dream6_stream.mp3").toMaster();
+//play as soon as the buffer is loaded
+player.autostart = true;
+player.loop = true;
 
 
 var canvas = document.getElementById("viz");
@@ -16,28 +23,29 @@ canvas.height = parseInt(canvas.style.height);
 var dial = new mt.Slider("#dial",{
   scale: [0,1000],
   event: (v) => {
-    if (osc) {
-      osc.frequency.value = v;
-    }
+  //  if (osc) {
+  //    osc.frequency.value = v;
+  //  }
   }
 });
 
 
-var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-var analyser = audioCtx.createAnalyser();
+//var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+var analyser = Tone.context.createAnalyser();
 
-var osc = audioCtx.createOscillator();
+/*var osc = audioCtx.createOscillator();
 osc.frequency.value = 2;
 osc.type = 'triangle';
 osc.connect(analyser);
 //analyser.connect(audioCtx.destination);
-osc.start();
+osc.start(); */
 
 
 analyser.fftSize = 256;
 var bufferLength = analyser.frequencyBinCount;
-console.log(bufferLength);
 var dataArray = new Uint8Array(bufferLength);
+
+player.connect(analyser);
 
 canvasCtx.fillStyle = 'rgb(240,240,240)';
 canvasCtx.fillRect(0, 0, canvas.width, canvas.height);

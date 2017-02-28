@@ -8,6 +8,11 @@
   <script src="js/Tone9.js"></script>
 </head>
 <body style="margin:0;padding;0">
+  <div id="synth1">
+    <span id="slider"></span>
+    <span id="dial"></span>
+  </div>
+
   <div id="all-interfaces">
     <div id="slider"></div>
     <div id="toggle"></div>
@@ -31,6 +36,11 @@
 .mt-ui {
   margin:15px auto;
 }
+#synth1 {
+  margin: 50px auto;
+  display:block;
+  width: 300px;
+}
 </style>
 <script>
 
@@ -48,9 +58,10 @@
   matrix = new mt.Matrix("#matrix")
 
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
-      waveform1.load(player.buffer._buffer)
+    waveform1.load(player.buffer._buffer)
   })
 
+  var synth1 = mt.rack("synth1","Synth #1", true);
 
 </script>
 </html>

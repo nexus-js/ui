@@ -67,9 +67,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Rack = _interopRequire(__webpack_require__(29));
 	
 	//import RangeModel from './models/range';
 	
@@ -81,16 +87,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	let Binary = require('./models/toggle');
 	let Drunk = require('./models/drunk'); */
 	
-	var MusiciansToolkit = function MusiciansToolkit() {
-	  _classCallCheck(this, MusiciansToolkit);
+	var MusiciansToolkit = (function () {
+	  function MusiciansToolkit() {
+	    _classCallCheck(this, MusiciansToolkit);
 	
-	  //  this.counter = new Counter()
-	  //  this.range = new RangeModel(0,100);
+	    //  this.counter = new Counter()
+	    //  this.range = new RangeModel(0,100);
 	
-	  for (var key in Interfaces) {
-	    this[key] = Interfaces[key];
+	    for (var key in Interfaces) {
+	      this[key] = Interfaces[key];
+	    }
+	    for (key in math) {
+	      this[key] = math[key];
+	    }
 	  }
-	};
+	
+	  _createClass(MusiciansToolkit, {
+	    rack: {
+	      value: function rack(parent, title, open) {
+	        return new Rack(parent, title, open);
+	      }
+	    }
+	  });
+	
+	  return MusiciansToolkit;
+	})();
 	
 	module.exports = MusiciansToolkit;
 
@@ -134,8 +155,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
 	
 	var Position = (function (_Interface) {
 	  function Position() {
@@ -258,7 +279,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var math = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	
 	module.exports = {
 	
@@ -284,6 +305,117 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.clip = function (value, min, max) {
+	  return Math.min(Math.max(value, min), max);
+	};
+	
+	exports.normalize = function (value, min, max) {
+	  return (value - min) / (max - min);
+	};
+	
+	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
+	  return (inNum - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+	};
+	
+	exports.toPolar = function (x, y) {
+	  var r = Math.sqrt(x * x + y * y);
+	
+	  var theta = Math.atan2(y, x);
+	  if (theta < 0) {
+	    theta = theta + 2 * Math.PI;
+	  }
+	  return { radius: r, angle: theta };
+	};
+	
+	exports.toCartesian = function (radius, angle) {
+	  var cos = Math.cos(angle);
+	  var sin = Math.sin(angle);
+	  return { x: radius * cos, y: radius * sin * -1 };
+	};
+	/*
+	exports.polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+	  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+	
+	  return {
+	    x: centerX + (radius * Math.cos(angleInRadians)),
+	    y: centerY + (radius * Math.sin(angleInRadians))
+	  };
+	}  */
+	
+	exports.prune = function (data, scale) {
+	  return parseFloat(data.toFixed(scale));
+	};
+	
+	exports.invert = function (inNum) {
+	  return exports.scale(inNum, 1, 0, 0, 1);
+	};
+	
+	exports.mtof = function (midi) {
+	  return Math.pow(2, (midi - 69) / 12) * 440;
+	};
+	/*
+	exports.ri = function(scale) {
+	  return Math.floor(Math.random() * scale);
+	};
+	
+	exports.rf = function(scale) {
+	  return Math.random() * scale;
+	}; */
+	
+	exports.interp = function (loc, min, max) {
+	  return loc * (max - min) + min;
+	};
+	
+	exports.pick = function () {
+	  return arguments[~ ~(Math.random() * arguments.length)];
+	};
+	
+	exports.octave = function (num) {
+	  return Math.pow(2, num);
+	};
+	
+	exports.ri = function (bound1, bound2) {
+	  if (!bound2) {
+	    bound2 = bound1;
+	    bound1 = 0;
+	  }
+	  var low = Math.min(bound1, bound2);
+	  var high = Math.max(bound1, bound2);
+	  return Math.floor(Math.random() * (high - low) + low);
+	};
+	
+	exports.rf = function (bound1, bound2) {
+	  if (!bound2) {
+	    bound2 = bound1;
+	    bound1 = 0;
+	  }
+	  var low = Math.min(bound1, bound2);
+	  var high = Math.max(bound1, bound2);
+	  return Math.random() * (high - low) + low;
+	};
+	
+	exports.cycle = function (input, min, max) {
+	  input++;
+	  if (input >= max) {
+	    input = min;
+	  }
+	  return input;
+	};
+	
+	exports.average = function (data) {
+	  var total = 0;
+	  for (var i = 0; i < data.length; i++) {
+	    total += data[i];
+	  }
+	  return total / data.length;
+	};
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -295,9 +427,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(6);
-	var util = __webpack_require__(7);
-	var EventEmitter = __webpack_require__(8);
+	var dom = __webpack_require__(7);
+	var util = __webpack_require__(8);
+	var EventEmitter = __webpack_require__(9);
 	
 	var Interface = (function (_EventEmitter) {
 	  function Interface(args, options, defaults) {
@@ -510,7 +642,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interface;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -523,7 +655,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -537,7 +669,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -845,7 +977,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -854,7 +986,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	
 	var Step = (function () {
 	  function Step() {
@@ -919,138 +1051,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Step;
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	exports.clip = function (value, min, max) {
-	  return Math.min(Math.max(value, min), max);
-	};
-	
-	exports.normalize = function (value, min, max) {
-	  return (value - min) / (max - min);
-	};
-	
-	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
-	  return (inNum - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-	};
-	
-	exports.toPolar = function (x, y) {
-	  var r = Math.sqrt(x * x + y * y);
-	
-	  var theta = Math.atan2(y, x);
-	  if (theta < 0) {
-	    theta = theta + 2 * Math.PI;
-	  }
-	  return { radius: r, angle: theta };
-	};
-	
-	exports.toCartesian = function (radius, angle) {
-	  var cos = Math.cos(angle);
-	  var sin = Math.sin(angle);
-	  return { x: radius * cos, y: radius * sin * -1 };
-	};
-	/*
-	exports.polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-	  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
-	
-	  return {
-	    x: centerX + (radius * Math.cos(angleInRadians)),
-	    y: centerY + (radius * Math.sin(angleInRadians))
-	  };
-	}  */
-	
-	exports.prune = function (data, scale) {
-	  return parseFloat(data.toFixed(scale));
-	};
-	
-	exports.invert = function (inNum) {
-	  return exports.scale(inNum, 1, 0, 0, 1);
-	};
-	
-	exports.mtof = function (midi) {
-	  return Math.pow(2, (midi - 69) / 12) * 440;
-	};
-	
-	exports.ri = function (scale) {
-	  return Math.floor(Math.random() * scale);
-	};
-	
-	exports.rf = function (scale) {
-	  return Math.random() * scale;
-	};
-	
-	exports.interp = function (loc, min, max) {
-	  return loc * (max - min) + min;
-	};
-	
-	exports.pick = function () {
-	  return arguments[~ ~(Math.random() * arguments.length)];
-	};
-	
-	exports.octave = function (num) {
-	  return Math.pow(2, num);
-	};
-	
-	exports.ri = function (bound1, bound2) {
-	  if (!bound2) {
-	    bound2 = bound1;
-	    bound1 = 0;
-	  }
-	  var low = Math.min(bound1, bound2);
-	  var high = Math.max(bound1, bound2);
-	  return Math.floor(Math.random() * (high - low) + low);
-	};
-	
-	exports.rf = function (bound1, bound2) {
-	  if (!bound2) {
-	    bound2 = bound1;
-	    bound1 = 0;
-	  }
-	  var low = Math.min(bound1, bound2);
-	  var high = Math.max(bound1, bound2);
-	  return Math.random() * (high - low) + low;
-	};
-	
-	exports.cycle = function (input, min, max) {
-	  input++;
-	  if (input >= max) {
-	    input = min;
-	  }
-	  return input;
-	};
-	
-	/*
-	exports.lphistory = {}
-
-
-	exports.lp = function(tag,value,limit) {
-
-	  if (!this.lphistory[tag]) {
-	    this.lphistory[tag] = []
-	  }
-
-	  var total = 0;
-
-	  this.lphistory[tag].push(value)
-
-	  if (this.lphistory[tag].length>limit) {
-	    this.lphistory[tag].splice(0,1)
-	  }
-
-	  for (var i=0;i<this.lphistory[tag].length;i++) {
-	    total += this.lphistory[tag][i]
-	  }
-
-	  var newvalue = total / this.lphistory[tag].length;
-
-	  return newvalue;
-	}
-
-	*/
-
-/***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1065,8 +1065,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
 	
 	var Slider = (function (_Interface) {
 	  function Slider() {
@@ -1276,7 +1276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	
 	var Toggle = (function (_Interface) {
 	  function Toggle() {
@@ -1437,8 +1437,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var math = __webpack_require__(10);
-	var Interface = __webpack_require__(5);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	var RangeSlider = __webpack_require__(15);
 	
@@ -1501,11 +1501,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var RangeModel = __webpack_require__(16);
-	var math = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	var ColorOps = __webpack_require__(17);
 	window.ColorOps = __webpack_require__(17);
 	
-	var Interface = _interopRequire(__webpack_require__(5));
+	var Interface = _interopRequire(__webpack_require__(6));
 	
 	var RangeSlider = (function (_Interface) {
 	  function RangeSlider() {
@@ -1663,7 +1663,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Step = _interopRequire(__webpack_require__(9));
+	var Step = _interopRequire(__webpack_require__(10));
 	
 	var Range = (function () {
 	  function Range() {
@@ -1964,7 +1964,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
 	var RangeSlider = __webpack_require__(15);
@@ -2249,7 +2249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	
 	var ButtonTemplate = (function (_Interface) {
 	  function ButtonTemplate(args, options, defaults) {
@@ -2429,7 +2429,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	var Button = __webpack_require__(19);
 	
 	var RadioButton = (function (_Interface) {
@@ -2531,9 +2531,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
-	var math = __webpack_require__(10);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	
 	var Number = (function (_Interface) {
 	  function Number() {
@@ -2693,9 +2693,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var math = __webpack_require__(10);
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
 	
 	var Dial = (function (_Interface) {
 	  function Dial() {
@@ -2937,14 +2937,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(20);
 	
 	var PianoKey = (function (_ButtonTemplate) {
 	  function PianoKey() {
 	    _classCallCheck(this, PianoKey);
 	
-	    var options = ["value", "note"];
+	    var options = ["value", "note", "color"];
 	
 	    var defaults = {
 	      size: [80, 80],
@@ -2955,6 +2955,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(PianoKey.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this.note = this.settings.note;
+	    this.color = this.settings.color;
+	
+	    this.colors = {
+	      w: "#fff",
+	      b: "#666" };
 	
 	    this.init();
 	    this.render();
@@ -2978,6 +2983,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        //let radius = Math.min(this.width,this.height) / 5;
 	        var radius = 5;
 	
+	        console.log(this.colors[this.color]);
+	
 	        this.pad = svg.create("rect");
 	        this.pad.setAttribute("x", 1);
 	        this.pad.setAttribute("y", 1);
@@ -2985,7 +2992,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pad.setAttribute("height", this.height - 2);
 	        this.pad.setAttribute("rx", radius);
 	        this.pad.setAttribute("ry", radius);
-	        this.pad.setAttribute("fill", "#e7e7e7");
 	
 	        this.element.appendChild(this.pad);
 	
@@ -3012,7 +3018,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
+	          this.pad.setAttribute("fill", this.colors[this.color]);
+	          //  this.pad.setAttribute('fill', '#e7e7e7');
 	        } else {
 	          this.pad.setAttribute("fill", "#d18");
 	        }
@@ -3069,6 +3076,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.style.display = "block";
 	        this.element.style.width = "100%";
 	        this.element.style.height = "100%";
+	        this.element.style.backgroundColor = "#ddd";
 	        this.parent.appendChild(this.element);
 	      }
 	    },
@@ -3092,25 +3100,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	
-	        var buttonWidth = this.width / keyX;
-	        var buttonHeight = this.height / 2;
+	        var buttonWidth = (this.width - 20) / keyX;
+	        var buttonHeight = (this.height - 20) / 2;
 	
 	        for (var i = 0; i < this.range.high - this.range.low; i++) {
 	
 	          var container = document.createElement("span");
 	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
 	          container.style.position = "absolute";
-	          container.style.left = keyPositions[i] * buttonWidth + "px";
+	          container.style.left = keyPositions[i] * buttonWidth + 10 + "px";
 	          if (this.keyPattern[scaleIndex] === "w") {
-	            container.style.top = buttonHeight + "px";
+	            container.style.top = buttonHeight + 10 + "px";
 	          } else {
-	            container.style.top = "0px";
+	            container.style.top = "10px";
 	          }
 	
 	          var key = new PianoKey(container, {
 	            size: [buttonWidth, buttonHeight],
 	            component: true,
-	            note: i + this.range.low
+	            note: i + this.range.low,
+	            color: this.keyPattern[scaleIndex]
 	          }, this.keyChange.bind(this, i + this.range.low));
 	
 	          key.piano = this;
@@ -3189,7 +3198,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(20);
 	var MatrixModel = __webpack_require__(27);
 	var CounterModel = __webpack_require__(28);
@@ -3310,8 +3319,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.rows = 10;
-	    this.columns = 20;
+	    this.rows = 5;
+	    this.columns = 10;
 	
 	    this.cells = [];
 	    this.active = -1;
@@ -3711,7 +3720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = _interopRequire(__webpack_require__(10));
+	var math = _interopRequire(__webpack_require__(5));
 	
 	var Counter = (function () {
 	  function Counter(min, max, mode, value) {
@@ -3773,6 +3782,230 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Counter;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	/*
+	What does the API look like?
+	
+	
+	>> this is obviously the nicest.
+	mt.rack('#container');
+	  => is this the target or the parent?
+	  mt.rack({ parent: '#container' });
+	  mt.create.rack( '#container' );
+	
+	or
+	
+	var rack1 = new MT.Rack();
+	body.append(rack1.element);
+	
+	or
+	
+	mt.rack({
+	  slider1,
+	  toggle1,
+	  sequener1
+	});
+	
+	or
+	
+	mt.rack('#container',{
+	  mt.create.slider({
+	    top:10,
+	    left:10,
+	    width:50,
+	    height:100,
+	    min: 0,
+	    max: 100,
+	    step: 1
+	  }),
+	  mt.create.waveform({
+	    file: './path/to/file.mp3',
+	    width:500,
+	    height:100,
+	    mode: 'range'
+	  })
+	});
+	
+	But what about positioning them in space -- top/left??
+	
+	What about writing a declarative rack that is re-usable?
+	
+	
+	or
+	
+	mt.rack({
+	  parent: '#container',
+	  pre: () => {
+	    create some divs here, or some audio code
+	  },
+	  interface: {
+	    slider: mt.create.slider({
+	      top:10,
+	      left:10,
+	      width:50,
+	      height:100,
+	      min: 0,
+	      max: 100,
+	      step: 1
+	    }),
+	    wave: mt.create.waveform({
+	      file: './path/to/file.mp3',
+	      width:500,
+	      height:100,
+	      mode: 'range'
+	    })
+	  },
+	  init: () => {
+	
+	  }
+	});
+	
+	
+	
+	
+	
+	
+	
+	Eventually, a way to transform all elements inside a div
+	
+	synth = mt.transform('#container');
+	
+	then, synth.ui.slider1 will be a thing
+	
+	
+	
+	#chevron-arrow-left {
+	  display: inline-block;
+	  border-right: 3px solid #aaa;
+	  border-bottom: 3px solid #aaa;
+	  width: 8px; height: 8px;
+	  transform: rotate(-135deg);
+	}
+	
+	
+	*/
+	
+	var Rack = (function () {
+	  function Rack(target, name, open) {
+	    _classCallCheck(this, Rack);
+	
+	    this.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
+	    this.title = name;
+	    this.open = open;
+	    this.buildInterface();
+	  }
+	
+	  _createClass(Rack, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.parent.style.border = "solid 1px #ddd";
+	        //  this.parent.style.overflow = 'hidden';
+	        this.parent.style.padding = "0px";
+	        //  this.parent.style.display = 'inline-block';
+	        this.parent.style.userSelect = "none";
+	        this.parent.style.mozUserSelect = "none";
+	        this.parent.style.webkitUserSelect = "none";
+	
+	        this.contents = document.createElement("div");
+	
+	        while (this.parent.childNodes.length > 0) {
+	          this.contents.appendChild(this.parent.childNodes[0]);
+	        }
+	
+	        this.contents.style.padding = "10px";
+	
+	        //  this.parent.innerHTML = '<div>' + this.parent.innerHTML;
+	        //  this.parent.innerHTML += '</div>';
+	
+	        this.titleBar = document.createElement("div");
+	        this.titleBar.innerHTML = this.title;
+	        this.titleBar.style.fontFamily = "arial";
+	        this.titleBar.style.position = "relative";
+	        this.titleBar.style.color = "#888";
+	        this.titleBar.style.padding = "7px";
+	        //  this.titleBar.style.borderBottom = 'solid 1px #ddd';
+	        this.titleBar.style.fontSize = "12px";
+	        //  this.parent.insertBefore(this.titleBar,this.parent.firstChild);
+	
+	        this.button = document.createElement("div");
+	        this.button.style.position = "absolute";
+	        this.button.style.top = "5px";
+	        this.button.style.right = "5px";
+	        /*    this.button.style.display = 'inline-block';
+	            this.button.style.borderRight = '2px solid #555';
+	            this.button.style.borderBottom =  '2px solid #555';
+	            this.button.style.width = '7px';
+	            this.button.style.height = '7px';
+	            this.button.style.transform = 'rotate(-135deg)'; */
+	        this.button.innerHTML = "-";
+	        this.button.style.border = "solid 1px #ddd";
+	        this.button.style.padding = "0px 5px 2px";
+	        this.button.style.lineHeight = "12px";
+	        this.button.style.fontSize = "15px";
+	
+	        this.button.style.cursor = "pointer";
+	
+	        this.button.addEventListener("mouseover", function () {
+	          _this.button.style.backgroundColor = "#f3f3f3";
+	          //    this.button.style.color = '#fff';
+	        });
+	        this.button.addEventListener("mouseleave", function () {
+	          _this.button.style.backgroundColor = "#fff";
+	          //  this.button.style.color = '#ccc';
+	        });
+	        this.button.addEventListener("click", function () {
+	          if (_this.open) {
+	            _this.hide();
+	          } else {
+	            _this.show();
+	          }
+	        });
+	
+	        this.titleBar.appendChild(this.button);
+	
+	        this.parent.appendChild(this.titleBar);
+	        this.parent.appendChild(this.contents);
+	
+	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
+	        this.parent.style.width = width;
+	      }
+	    },
+	    show: {
+	      value: function show() {
+	        this.contents.style.display = "block";
+	        //  this.button.style.fontSize = '15px';
+	        //  this.button.style.padding = '0px 5px 2px';
+	        //  this.button.innerHTML = '-';
+	        this.open = true;
+	      }
+	    },
+	    hide: {
+	      value: function hide() {
+	        this.contents.style.display = "none";
+	        //  this.button.style.fontSize = '12px';
+	        //  this.button.style.padding = '0px 5px 0px';
+	        //  this.button.innerHTML = '+';
+	        this.open = false;
+	      }
+	    }
+	  });
+	
+	  return Rack;
+	})();
+	
+	module.exports = Rack;
 
 /***/ }
 /******/ ])
