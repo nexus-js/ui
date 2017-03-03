@@ -69,7 +69,7 @@ position1.on('*', function(data) {
 
 In addition, the interface can send OSC data through a network to other audio applications (or anything that understands OSC). We offer templates for several server paradigms:
 
-[nx-AjaxDemo](http://www.github.com/lsu-emdm/nx-AjaxDemo) offers a template for sending OSC via AJAX & PHP through a basic Apache server (Macs have one built-in, Windows users can use WAMP).
+[nx-AjaxDemo](http://www.github.com/lsu-emdm/nx-AjaxDemo) offers a template for sending OSC via AJAX & PHP through a basic Apache server (Macs have one built-in, Windows users can use WAMP) or PHP's cli server e.g.: `php -S 0.0.0.0:8000`.
 
 [nx-max7](http://www.github.com/lsu-emdm/nx-max7) offers a max7 template for receiving data from a NexusUI embedded with [jweb]
 
