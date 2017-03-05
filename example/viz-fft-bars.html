@@ -1,7 +1,7 @@
 <html>
 <script src="../dist/mt.js"></script>
 <script src="js/Tone9.js"></script>
-<canvas id="viz" style='width:800px;height:400px'></canvas>
+<canvas id="viz" style='width:800px;height:100px'></canvas>
 <div id="tog"></div>
 
 <script>
@@ -38,7 +38,7 @@ player.connect(analyser);
 
 analyser.fftSize = 512;
 var bufferLength = analyser.frequencyBinCount;
-analyser.smoothingTimeConstant = 0.8;
+analyser.smoothingTimeConstant = 0.9;
 var dataArray = new Uint8Array(bufferLength);
 
 
@@ -50,29 +50,24 @@ function draw() {
   canvasCtx.fillStyle = 'rgb(240,240,240)';
   canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
 
+
   var barWidth = (canvas.width / bufferLength);
   var barHeight;
   var x = 0;
 
-  var definition = 1;
-
-  canvasCtx.fillStyle = '#d18';
-  canvasCtx.beginPath();
-  canvasCtx.moveTo(0,canvas.height);
+  var definition = 10;
 
   for(var i = 0; i < bufferLength; i = i+definition) {
-    var y = mt.average(dataArray.slice(i,i+definition));
-    y /= 255;
-    y *= canvas.height;
+  //  barHeight = mt.average(dataArray.slice(i,i+definition));
+    barHeight = Math.max.apply(null, dataArray.slice(i,i+definition))
+    barHeight /= 255;
+    barHeight *= canvas.height;
 
-    canvasCtx.lineTo(x,canvas.height-y);
+    canvasCtx.fillStyle = '#d18';
+    canvasCtx.fillRect(x,canvas.height-barHeight,barWidth*definition,barHeight);
 
     x += (barWidth*definition);
   }
-
-  canvasCtx.lineTo(canvas.width,canvas.height);
-  canvasCtx.closePath();
-  canvasCtx.fill();
 };
 
 draw();

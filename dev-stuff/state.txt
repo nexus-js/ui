@@ -1,44 +1,34 @@
 Sharing a quick note about NexusUI and its future --
 
-When we (Jesse Allison and myself) developed NexusUI in 2012/2013, it was designed with a fairly experimental / hacker-y mindset, as a research project in an experimental music program. The original design goal was to create an interface that could be embedded with equal compatibility in many different environments — mobile apps, web, Max/MSP. Its primary use (in our department) was to enable students to hack together music instruments for mobile phones.
+When we (Jesse Allison and myself) developed NexusUI in 2012/2013, it was designed with a fairly experimental / hacker-y mindset, as a research project in an experimental music program. The original design goal was to create an interface that could be embedded with equal compatibility in many different environments — mobile apps, web, Max/MSP. Its primary use (in our department) was to enable students to quickly hack together music instruments for mobile phones.
 
-With the onset of web audio in the last few years, the use of the library has really transformed. Since graduating, I have not been keeping the library up-to-date with those changes. But I think now is the time to reconsider the scope of the library and many of its core features.
+With the rise of web audio in the last few years, the use of the library has really transformed. And, since graduating, I have unfortunately not been keeping the library up-to-date with those changing needs. But I think now is the time to reconsider the scope of the library and many of its core features.
 
-I am updating / rewriting the library to focus on web audio applications. It will be designed to fit one of its most common current uses — as a toolkit to help build interactive web audio instruments.
+I am updating / rewriting the library to focus on web audio applications. It will be designed to fit one of its most common current uses: as a toolkit to help build interactive web audio instruments.
 
-*( Can it still be used as a mobile interface for Max projects, communicating via OSC? Yes, and we'll have updated templates for that ability. But the standard design patterns will assume an integration with javascript and web audio. )*
-
-In some ways, this will not be all that different from how it is now. But there will be key differences, listed below.
+*(Can it still be used as a mobile interface for Max projects, communicating via OSC? Yes, and I'll share updated templates for that ability. But the standard design patterns will assume an integration with web audio.)*
 
 
 
+In some ways, this revision will not be all that different from how it is now. But there will be key differences:
 
-
-- SVG graphics
+- SVG graphics instead of canvas graphics
 - More conventional Javascript API (no global variable declarations)
-- Revised interfaces, focused on functionality rather than experimentation
-  - Fewer interfaces with more customization and settings
-- Revised docs format with more code examples and tutorials
+- Revised interfaces, focused on musicality & functionality rather than experimentalism
 - More accurate timing methods and ability to hook into external timing tools
+- A few methods for handling scales / tuning (but not a full Teoria competitor)
+- Ability to easily 'sync' two elements (such as a slider and a number)
+- Revised docs with more code examples and tutorials
 - Codebase => ES6 (babel/webpack)
 
 
 
 
-Also, a few additional new aspects of the library --
+This revision is about 50% complete. I don't want to put a release date here but I certainly hope to share it in the next month or two.
 
-- A few methods for handling scales / tuning (but not a full Teoria competitor)
-- Ability to 'sync' two elements (such as a slider and a number)
+So, what does this mean for NexusUI now? For existing bugs (of which there are many), I have taken note and am focusing on fixing them in this update. 
 
-
-
-I have been working on this revision for the past month, so it is well on its way, although not in a demo-able state yet. I don't want to put a release date here but I certainly hope to make it live in the next few months.
-
-I am putting much of my free time into this overhaul. 
-
-So, what does this mean for NexusUI now? For existing bugs (of which there are many), I am focusing on fixing them in this update. For quick fixes, I will still do my best to post patches.
-
-
+I hope this revision helps make NexusUI a more useful, flexible, and relevant project for you in the coming years.
 
 
 
