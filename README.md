@@ -1,35 +1,36 @@
-ES6 and webpack boilerplate.
+NexusUI rewrite
 ============================
 
-Simple JavaScript boilerplate for [babelify](https://github.com/babel/babelify) and [webpack](https://github.com/webpack/webpack).
+[all](./example/all.html)
 
-Tools
------
+[declarative](./example/declarative.html)
 
-- Babel
-- Webpack
-- JSHint
-- Jest
+[link](./example/link.html)
 
-Installing
-----------
+[size-testing](./example/size-testing.html)
 
-```bash
-$ git clone https://github.com/airamrguez/es6-webpack-boilerplate YourProjectName
-$ cd YourProjectName
-$ npm install
-```
+[sizing](./example/sizing.html)
 
-Building
---------
+[testing](./example/testing.html)
 
-```bash
-$ npm start
-```
+[timing](./example/timing.html)
 
-Testing
--------
+[tuning](./example/tuning.html)
 
-```bash
-$ npm test
-```
+[viz-fft-bars](./example/viz-fft-bars.html)
+
+[viz-fft](./example/viz-fft.html)
+
+[viz-fft2](./example/viz-fft2.html)
+
+[viz-fft3](./example/viz-fft3.html)
+
+[viz-meter-stereo](./example/viz-meter-stereo.html)
+
+[viz-meter](./example/viz-meter.html)
+
+[viz-osc](./example/viz-osc.html)
+
+[viz-spectrograph](./example/viz-spectrograph.html)
+
+[viz-spectrograph2](./example/viz-spectrograph2.html)
