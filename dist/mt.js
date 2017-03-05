@@ -3460,8 +3460,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.rows = 50;
-	    this.columns = 100;
+	    this.columns = 10;
+	    this.rows = 5;
 	
 	    this.cells = [];
 	    this.active = -1;
