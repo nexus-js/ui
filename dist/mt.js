@@ -67,30 +67,113 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var dom = _interopRequire(__webpack_require__(7));
+	
+	var Rack = _interopRequire(__webpack_require__(29));
+	
+	var Time = _interopRequire(__webpack_require__(30));
+	
+	var Tune = _interopRequire(__webpack_require__(35));
+	
 	//import RangeModel from './models/range';
 	
-	/*let Counter = require('./models/counter');
-	let StepRange = require('./models/range');
+	var Counter = __webpack_require__(28);
+	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
 	let Radio = require('./models/radio');
 	let Binary = require('./models/toggle');
 	let Drunk = require('./models/drunk'); */
 	
-	var MusiciansToolkit = function MusiciansToolkit() {
-	  _classCallCheck(this, MusiciansToolkit);
+	/**
+	Musicians Toolkit => created as mt.
+	*/
 	
-	  //  this.counter = new Counter()
-	  //  this.range = new RangeModel(0,100);
+	var MusiciansToolkit = (function () {
+	  function MusiciansToolkit(context) {
+	    _classCallCheck(this, MusiciansToolkit);
 	
-	  for (var key in Interfaces) {
-	    this[key] = Interfaces[key];
+	    //  this.range = new RangeModel(0,100);
+	
+	    for (var key in Interfaces) {
+	      this[key] = Interfaces[key];
+	    }
+	    for (key in math) {
+	      this[key] = math[key];
+	    }
+	
+	    var DefaultContext = window.AudioContext || window.webkitAudioContext;
+	    this.context = context || new DefaultContext();
+	
+	    this.time = new Time(this.context);
+	    this.tune = new Tune();
 	  }
-	};
+	
+	  _createClass(MusiciansToolkit, {
+	    rack: {
+	      value: function rack(parent, title, open) {
+	        return new Rack(parent, title, open);
+	      }
+	    },
+	    counter: {
+	      value: function counter(min, max, mode, value) {
+	        return new Counter(min, max, mode, value);
+	      }
+	    },
+	    transformSection: {
+	      value: function transformSection(parent) {
+	
+	        var container = dom.parseElement(parent);
+	
+	        // should be moved into own constructor?
+	        // called a Rack, an Interface, or an Instrument?'
+	        var rack = {
+	          ui: {}
+	        };
+	
+	        var elements = container.getElementsByTagName("*");
+	        elements = Array.from(elements);
+	        for (var i = 0; i < elements.length; i++) {
+	          var type = elements[i].getAttribute("mt");
+	          if (type) {
+	            var widget = this.transformInterface(elements[i], type);
+	            rack.ui[widget.id] = widget;
+	          }
+	        }
+	
+	        return rack;
+	      }
+	    },
+	    transformInterface: {
+	      value: function transformInterface(element, type) {
+	        var options = {};
+	        for (var i = 0; i < element.attributes.length; i++) {
+	          var att = element.attributes[i];
+	          try {
+	            options[att.nodeName] = eval(att.nodeValue);
+	          } catch (e) {
+	            options[att.nodeName] = att.nodeValue;
+	          }
+	          console.log(options[att.nodeName]);
+	        }
+	        type = type[0].toUpperCase() + type.slice(1);
+	        var widget = new this[type](element, options);
+	        widget.id = element.id;
+	        return widget;
+	      }
+	    }
+	  });
+	
+	  return MusiciansToolkit;
+	})();
 	
 	module.exports = MusiciansToolkit;
 
@@ -110,12 +193,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  TextButton: __webpack_require__(21),
 	  RadioButton: __webpack_require__(22),
 	  Number: __webpack_require__(23),
-	  Dial: __webpack_require__(24)
+	  Dial: __webpack_require__(24),
+	  Piano: __webpack_require__(25),
+	  Matrix: __webpack_require__(26)
 	  /*  Multislider: require('./multislider'),
 	    Spectrograph: require('./spectrograph'),
 	    Meter: require('./meter'),
-	    Keyboard: require('./keyboard'),
-	    Matrix: require('./Matrix'),
 	    Tilt: require('./tilt') */
 	};
 
@@ -134,8 +217,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
 	
 	var Position = (function (_Interface) {
 	  function Position() {
@@ -167,14 +250,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.element.style.backgroundColor = "#e7e7e7";
-	        this.element.style.borderRadius = "5px";
+	        //  this.element.style.borderRadius = '5px';
 	
-	        this.knobRadius = 15;
+	        this._minDimension = Math.min(this.width, this.height);
+	
+	        this.knobRadius = {
+	          off: ~ ~(this._minDimension / 100) * 5 + 5 };
+	        this.knobRadius.on = this.knobRadius.off * 2;
 	
 	        this.knob = svg.create("circle");
 	        this.knob.setAttribute("cx", this.width / 2);
 	        this.knob.setAttribute("cy", this.height / 2);
-	        this.knob.setAttribute("r", this.knobRadius);
+	        this.knob.setAttribute("r", this.knobRadius.off);
 	        this.knob.setAttribute("fill", "#d18");
 	
 	        this.element.appendChild(this.knob);
@@ -183,11 +270,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        if (this.clicked) {
-	          this.knobRadius = 30;
+	          //  this.knobRadius = 30;
+	          this.knob.setAttribute("r", this.knobRadius.on);
 	        } else {
-	          this.knobRadius = 15;
+	          //  this.knobRadius = 15;
+	          this.knob.setAttribute("r", this.knobRadius.off);
 	        }
-	        this.knob.setAttribute("r", this.knobRadius);
 	
 	        this.knobCoordinates = {
 	          x: this._value.x.normalized * this.width,
@@ -258,7 +346,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var math = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	
 	module.exports = {
 	
@@ -284,6 +372,117 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 5 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.clip = function (value, min, max) {
+	  return Math.min(Math.max(value, min), max);
+	};
+	
+	exports.normalize = function (value, min, max) {
+	  return (value - min) / (max - min);
+	};
+	
+	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
+	  return (inNum - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+	};
+	
+	exports.toPolar = function (x, y) {
+	  var r = Math.sqrt(x * x + y * y);
+	
+	  var theta = Math.atan2(y, x);
+	  if (theta < 0) {
+	    theta = theta + 2 * Math.PI;
+	  }
+	  return { radius: r, angle: theta };
+	};
+	
+	exports.toCartesian = function (radius, angle) {
+	  var cos = Math.cos(angle);
+	  var sin = Math.sin(angle);
+	  return { x: radius * cos, y: radius * sin * -1 };
+	};
+	/*
+	exports.polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+	  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+	
+	  return {
+	    x: centerX + (radius * Math.cos(angleInRadians)),
+	    y: centerY + (radius * Math.sin(angleInRadians))
+	  };
+	}  */
+	
+	exports.prune = function (data, scale) {
+	  return parseFloat(data.toFixed(scale));
+	};
+	
+	exports.invert = function (inNum) {
+	  return exports.scale(inNum, 1, 0, 0, 1);
+	};
+	
+	exports.mtof = function (midi) {
+	  return Math.pow(2, (midi - 69) / 12) * 440;
+	};
+	/*
+	exports.ri = function(scale) {
+	  return Math.floor(Math.random() * scale);
+	};
+	
+	exports.rf = function(scale) {
+	  return Math.random() * scale;
+	}; */
+	
+	exports.interp = function (loc, min, max) {
+	  return loc * (max - min) + min;
+	};
+	
+	exports.pick = function () {
+	  return arguments[~ ~(Math.random() * arguments.length)];
+	};
+	
+	exports.octave = function (num) {
+	  return Math.pow(2, num);
+	};
+	
+	exports.ri = function (bound1, bound2) {
+	  if (!bound2) {
+	    bound2 = bound1;
+	    bound1 = 0;
+	  }
+	  var low = Math.min(bound1, bound2);
+	  var high = Math.max(bound1, bound2);
+	  return Math.floor(Math.random() * (high - low) + low);
+	};
+	
+	exports.rf = function (bound1, bound2) {
+	  if (!bound2) {
+	    bound2 = bound1;
+	    bound1 = 0;
+	  }
+	  var low = Math.min(bound1, bound2);
+	  var high = Math.max(bound1, bound2);
+	  return Math.random() * (high - low) + low;
+	};
+	
+	exports.cycle = function (input, min, max) {
+	  input++;
+	  if (input >= max) {
+	    input = min;
+	  }
+	  return input;
+	};
+	
+	exports.average = function (data) {
+	  var total = 0;
+	  for (var i = 0; i < data.length; i++) {
+	    total += data[i];
+	  }
+	  return total / data.length;
+	};
+
+/***/ },
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -295,9 +494,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(6);
-	var util = __webpack_require__(7);
-	var EventEmitter = __webpack_require__(8);
+	var dom = __webpack_require__(7);
+	var util = __webpack_require__(8);
+	var EventEmitter = __webpack_require__(9);
 	
 	var Interface = (function (_EventEmitter) {
 	  function Interface(args, options, defaults) {
@@ -317,8 +516,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        options.unshift("target");
 	        defaults.defaultSize = defaults.size.splice(0, 2);
 	        defaults.size = false;
-	
-	        console.log(args);
 	
 	        var settings = {
 	          target: document.body,
@@ -356,8 +553,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        // target
 	
-	        console.log(settings);
-	
 	        if (typeof settings.target === "string") {
 	          this.parent = document.getElementById(settings.target.replace("#", ""));
 	        } else if (settings.target instanceof HTMLElement) {
@@ -384,18 +579,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (settings.snapWithParent) {
 	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
 	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
-	
-	          console.log("========");
+	          console.log(settings.target);
 	          console.log(this.width);
 	          console.log(this.height);
-	          console.log(this.parent.style.width);
-	          console.log(this.parent.style.height);
-	
-	          if (!this.width || !this.parent.style.width) {
+	          //  if (!this.width || !this.parent.style.width) {
+	          if (!this.width) {
 	            this.width = settings.defaultSize[0];
 	            this.parent.style.width = this.width + "px";
 	          }
-	          if (!this.height || !this.parent.style.height) {
+	          //  if (!this.height || !this.parent.style.height) {
+	          if (!this.height) {
 	            this.height = settings.defaultSize[1];
 	            this.parent.style.height = this.height + "px";
 	          }
@@ -520,7 +713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interface;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -531,9 +724,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var left = viewportOffset.left + window.scrollX;
 	  return { top: top, left: left };
 	};
+	
+	exports.parseElement = function (parent) {
+	  if (typeof parent === "string") {
+	    parent = document.getElementById(parent);
+	  }
+	
+	  if (parent instanceof HTMLElement) {
+	    return parent;
+	  } else {
+	    return "No valid parent argument";
+	  }
+	};
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -547,7 +752,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -855,7 +1060,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -864,7 +1069,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	
 	var Step = (function () {
 	  function Step() {
@@ -879,7 +1084,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.min = min;
 	    this.max = max;
 	    this.step = step;
-	    console.log("value", value);
 	    this.value = value;
 	    this.changed = false;
 	    this.oldValue = false;
@@ -890,7 +1094,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    update: {
 	      value: function update(newvalue) {
 	
-	        console.log("newvalue", newvalue);
 	        //  console.log(oldValue,newvalue,this.value);
 	        if (this.step) {
 	          this.value = Math.round(math.clip(newvalue, this.min, this.max) / this.step) * this.step;
@@ -903,7 +1106,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	          this.changed = false;
 	        }
-	        console.log("this.value", this.value);
 	        return this.value;
 	      }
 	    },
@@ -915,9 +1117,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    normalized: {
 	      get: function () {
-	        console.log("this.value", this.value);
-	        console.log("this.min", this.min);
-	        console.log("this.max", this.max);
 	        return math.normalize(this.value, this.min, this.max);
 	      }
 	    },
@@ -935,138 +1134,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Step;
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	exports.clip = function (value, min, max) {
-	  return Math.min(Math.max(value, min), max);
-	};
-	
-	exports.normalize = function (value, min, max) {
-	  return (value - min) / (max - min);
-	};
-	
-	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
-	  return (inNum - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-	};
-	
-	exports.toPolar = function (x, y) {
-	  var r = Math.sqrt(x * x + y * y);
-	
-	  var theta = Math.atan2(y, x);
-	  if (theta < 0) {
-	    theta = theta + 2 * Math.PI;
-	  }
-	  return { radius: r, angle: theta };
-	};
-	
-	exports.toCartesian = function (radius, angle) {
-	  var cos = Math.cos(angle);
-	  var sin = Math.sin(angle);
-	  return { x: radius * cos, y: radius * sin * -1 };
-	};
-	/*
-	exports.polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-	  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
-	
-	  return {
-	    x: centerX + (radius * Math.cos(angleInRadians)),
-	    y: centerY + (radius * Math.sin(angleInRadians))
-	  };
-	}  */
-	
-	exports.prune = function (data, scale) {
-	  return parseFloat(data.toFixed(scale));
-	};
-	
-	exports.invert = function (inNum) {
-	  return exports.scale(inNum, 1, 0, 0, 1);
-	};
-	
-	exports.mtof = function (midi) {
-	  return Math.pow(2, (midi - 69) / 12) * 440;
-	};
-	
-	exports.ri = function (scale) {
-	  return Math.floor(Math.random() * scale);
-	};
-	
-	exports.rf = function (scale) {
-	  return Math.random() * scale;
-	};
-	
-	exports.interp = function (loc, min, max) {
-	  return loc * (max - min) + min;
-	};
-	
-	exports.pick = function () {
-	  return arguments[~ ~(Math.random() * arguments.length)];
-	};
-	
-	exports.octave = function (num) {
-	  return Math.pow(2, num);
-	};
-	
-	exports.ri = function (bound1, bound2) {
-	  if (!bound2) {
-	    bound2 = bound1;
-	    bound1 = 0;
-	  }
-	  var low = Math.min(bound1, bound2);
-	  var high = Math.max(bound1, bound2);
-	  return Math.floor(Math.random() * (high - low) + low);
-	};
-	
-	exports.rf = function (bound1, bound2) {
-	  if (!bound2) {
-	    bound2 = bound1;
-	    bound1 = 0;
-	  }
-	  var low = Math.min(bound1, bound2);
-	  var high = Math.max(bound1, bound2);
-	  return Math.random() * (high - low) + low;
-	};
-	
-	exports.cycle = function (input, min, max) {
-	  input++;
-	  if (input >= max) {
-	    input = min;
-	  }
-	  return input;
-	};
-	
-	/*
-	exports.lphistory = {}
-
-
-	exports.lp = function(tag,value,limit) {
-
-	  if (!this.lphistory[tag]) {
-	    this.lphistory[tag] = []
-	  }
-
-	  var total = 0;
-
-	  this.lphistory[tag].push(value)
-
-	  if (this.lphistory[tag].length>limit) {
-	    this.lphistory[tag].splice(0,1)
-	  }
-
-	  for (var i=0;i<this.lphistory[tag].length;i++) {
-	    total += this.lphistory[tag][i]
-	  }
-
-	  var newvalue = total / this.lphistory[tag].length;
-
-	  return newvalue;
-	}
-
-	*/
-
-/***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1081,8 +1148,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	
+	/**
+	Slider interface
+	*/
 	
 	var Slider = (function (_Interface) {
 	  function Slider() {
@@ -1292,7 +1363,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	
 	var Toggle = (function (_Interface) {
 	  function Toggle() {
@@ -1320,22 +1391,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        //  if (this.height < this.width) {
+	
+	        if (this.height < this.width / 2) {
+	          this.knobSize = this.height / 2;
+	        } else {
+	          this.knobSize = this.width / 4;
+	        }
+	        //this.knobSize = Math.min(this.width,this.height)/2;
+	
 	        this.bar = svg.create("rect");
-	        this.bar.setAttribute("x", 0);
-	        this.bar.setAttribute("y", 5);
-	        this.bar.setAttribute("rx", 5);
-	        this.bar.setAttribute("ry", 5);
-	        this.bar.setAttribute("width", 35);
-	        this.bar.setAttribute("height", 10);
+	        this.bar.setAttribute("x", this.width / 2 - this.knobSize * 1.5);
+	        this.bar.setAttribute("y", this.height / 2 - this.knobSize / 2);
+	        this.bar.setAttribute("rx", this.knobSize / 2);
+	        this.bar.setAttribute("ry", this.knobSize / 2);
+	        this.bar.setAttribute("width", this.knobSize * 3);
+	        this.bar.setAttribute("height", this.knobSize);
 	        this.bar.setAttribute("fill", "#e7e7e7");
 	
 	        this.knob = svg.create("circle");
-	        this.knob.setAttribute("cx", 10);
-	        this.knob.setAttribute("cy", 10);
-	        this.knob.setAttribute("r", 10);
+	        this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
+	        this.knob.setAttribute("cy", this.height / 2);
+	        this.knob.setAttribute("r", this.knobSize);
 	        this.knob.setAttribute("fill", "#d18");
-	        //this.knob.setAttribute('stroke', '#fff');
-	        //this.knob.setAttribute('stroke-width', '3');
+	        /*
+	            } else {
+	        
+	              let knobSize = this.width/2
+	        
+	              this.bar = svg.create('rect');
+	              this.bar.setAttribute('x',0);
+	              this.bar.setAttribute('y',this.height/4);
+	              this.bar.setAttribute('rx',this.height/4);
+	              this.bar.setAttribute('ry',this.height/4);
+	              this.bar.setAttribute('width',this.width);
+	              this.bar.setAttribute('height',this.height/2);
+	              this.bar.setAttribute('fill', '#e7e7e7');
+	        
+	              this.knob = svg.create('circle');
+	              this.knob.setAttribute('cx',this.height/2);
+	              this.knob.setAttribute('cy',this.height/2);
+	              this.knob.setAttribute('r',this.height/2);
+	              this.knob.setAttribute('fill', '#d18');
+	        
+	            } */
 	
 	        this.element.appendChild(this.bar);
 	        this.element.appendChild(this.knob);
@@ -1344,10 +1443,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.knob.setAttribute("cx", 10);
+	          this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
 	          this.bar.setAttribute("fill", "#e7e7e7");
 	        } else {
-	          this.knob.setAttribute("cx", 25);
+	          this.knob.setAttribute("cx", this.width / 2 + this.knobSize);
 	          this.bar.setAttribute("fill", "#d18");
 	        }
 	      }
@@ -1370,8 +1469,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    flip: {
-	      value: function flip() {
-	        this._state.flip();
+	      value: function flip(value) {
+	        this._state.flip(value);
 	        this.render();
 	      }
 	    },
@@ -1453,8 +1552,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var math = __webpack_require__(10);
-	var Interface = __webpack_require__(5);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	var RangeSlider = __webpack_require__(15);
 	
@@ -1517,11 +1616,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var RangeModel = __webpack_require__(16);
-	var math = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	var ColorOps = __webpack_require__(17);
 	window.ColorOps = __webpack_require__(17);
 	
-	var Interface = _interopRequire(__webpack_require__(5));
+	var Interface = _interopRequire(__webpack_require__(6));
 	
 	var RangeSlider = (function (_Interface) {
 	  function RangeSlider() {
@@ -1679,7 +1778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Step = _interopRequire(__webpack_require__(9));
+	var Step = _interopRequire(__webpack_require__(10));
 	
 	var Range = (function () {
 	  function Range() {
@@ -1980,7 +2079,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
 	var RangeSlider = __webpack_require__(15);
@@ -2265,7 +2364,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	
 	var ButtonTemplate = (function (_Interface) {
 	  function ButtonTemplate(args, options, defaults) {
@@ -2392,6 +2491,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(TextButton, {
 	    buildFrame: {
 	      value: function buildFrame() {
+	        var textsize = this.height / 2;
+	        console.log(textsize);
+	        var textsize2 = this.width / (this.text.off.length + 2);
+	        console.log(textsize2);
+	        textsize = Math.min(textsize, textsize2);
 	        this.element = document.createElement("div");
 	        var styles = "width: " + this.width + "px;";
 	        styles += "height: " + this.height + "px;";
@@ -2402,7 +2506,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles += "align-items: center;";
 	        styles += "font-family: arial;";
 	        styles += "font-weight: 700;";
-	        styles += "font-size:" + this.height / 2 + ";";
+	        styles += "font-size:" + textsize + "px;";
 	        this.element.style.cssText += styles;
 	
 	        this.element.innerHTML = this.text.on;
@@ -2415,11 +2519,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.element.style.backgroundColor = "#e7e7e7";
-	          this.element.style.color = "#333";
+	          this.element.style.backgroundColor = "#e1e1e1";
+	          //    this.element.style.color = '#333';
 	        } else {
 	          this.element.style.backgroundColor = "#d18";
-	          this.element.style.color = "#fff";
+	          //  this.element.style.color = '#fff';
 	        }
 	      }
 	    }
@@ -2445,7 +2549,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var Interface = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	var Button = __webpack_require__(19);
 	
 	var RadioButton = (function (_Interface) {
@@ -2547,9 +2651,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
-	var math = __webpack_require__(10);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	var math = __webpack_require__(5);
 	
 	var Number = (function (_Interface) {
 	  function Number() {
@@ -2583,6 +2687,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Number, {
 	    buildFrame: {
 	      value: function buildFrame() {
+	        this._minDimension = Math.min(this.width, this.height);
+	
 	        this.element = document.createElement("input");
 	        this.element.type = "text";
 	        var styles = "width: " + this.width + "px;";
@@ -2591,15 +2697,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles += "color: #333;";
 	        styles += "font-family: arial;";
 	        styles += "font-weight: 500;";
-	        styles += "font-size:" + this.height / 2 + "px;";
+	        styles += "font-size:" + this._minDimension / 2 + "px;";
 	        styles += "highlight: #d18;";
 	        styles += "border: none;";
 	        styles += "outline: none;";
-	        styles += "padding: " + this.height / 4 + "px " + this.height / 4 + "px;";
+	        styles += "padding: " + this._minDimension / 4 + "px " + this._minDimension / 4 + "px;";
 	        styles += "box-sizing: border-box;";
-	        styles += "userSelect: none !important;";
-	        styles += "mozUserSelect: none !important;";
-	        styles += "webkitUserSelect: none !important;";
+	        styles += "userSelect: transparent;";
+	        styles += "mozUserSelect: transparent;";
+	        styles += "webkitUserSelect: transparent;";
 	        this.element.style.cssText += styles;
 	        // to add eventually
 	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
@@ -2662,7 +2768,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function move() {
 	        if (this.clicked) {
 	
-	          var newvalue = this.actual + (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
+	          var newvalue = this.actual - (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
 	          this.value.update(newvalue);
 	
 	          //	this.actual -= (this.deltaMove.y*(this.rate*this.step));
@@ -2709,9 +2815,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var math = __webpack_require__(10);
-	var Interface = __webpack_require__(5);
-	var Step = __webpack_require__(9);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
 	
 	var Dial = (function (_Interface) {
 	  function Dial() {
@@ -2898,14 +3004,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	          };
 	          var position = math.toPolar(this.mouse.x - center.x, this.mouse.y - center.y);
 	          position.angle = (position.angle + Math.PI * 1.5) % (Math.PI * 2);
-	          if (!this.previousAngle || Math.abs(this.previousAngle - position.angle) < 5.5) {
-	            this.previousAngle = position.angle;
-	            this._value.updateNormal(position.angle / (Math.PI * 2));
-	            if (this._value.changed) {
-	              this.emit("change", this._value.value);
+	          if (this.previousAngle !== false && Math.abs(this.previousAngle - position.angle) > 1) {
+	            if (this.previousAngle > 6) {
+	              position.angle = Math.PI * 2;
+	            } else {
+	              position.angle = 0;
 	            }
-	            this.render();
 	          }
+	          this.previousAngle = position.angle;
+	
+	          this._value.updateNormal(position.angle / (Math.PI * 2));
+	          if (this._value.changed) {
+	            this.emit("change", this._value.value);
+	          }
+	          this.render();
 	        }
 	      }
 	    },
@@ -2931,6 +3043,1936 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = Dial;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var ButtonTemplate = __webpack_require__(20);
+	
+	var PianoKey = (function (_ButtonTemplate) {
+	  function PianoKey() {
+	    _classCallCheck(this, PianoKey);
+	
+	    var options = ["value", "note", "color"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(PianoKey.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.note = this.settings.note;
+	    this.color = this.settings.color;
+	
+	    this.colors = {
+	      w: "#fff",
+	      b: "#666" };
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(PianoKey, _ButtonTemplate);
+	
+	  _createClass(PianoKey, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        //let radius = Math.min(this.width,this.height) / 5;
+	        var radius = 5;
+	
+	        this.pad = svg.create("rect");
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        if (this.width > 2) {
+	          this.pad.setAttribute("width", this.width - 2);
+	        } else {
+	          this.pad.setAttribute("width", this.width);
+	        }
+	        if (this.height > 2) {
+	          this.pad.setAttribute("height", this.height - 2);
+	        } else {
+	          this.pad.setAttribute("height", this.height);
+	        }
+	        this.pad.setAttribute("rx", radius);
+	        this.pad.setAttribute("ry", radius);
+	
+	        this.element.appendChild(this.pad);
+	
+	        this.element.addEventListener("mouseover", function () {
+	          if (_this.piano.interacting) {
+	            _this.turnOn();
+	            _this.piano.drag(_this.note, true);
+	          }
+	        });
+	        this.element.addEventListener("mouseout", function () {
+	          if (_this.piano.interacting) {
+	            _this.turnOff();
+	            _this.piano.drag(_this.note, false);
+	          }
+	        });
+	        this.element.addEventListener("mouseup", function () {
+	          if (_this.piano.interacting) {
+	            _this.turnOff();
+	            _this.piano.drag(_this.note, false);
+	          }
+	        });
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.pad.setAttribute("fill", this.colors[this.color]);
+	          //  this.pad.setAttribute('fill', '#e7e7e7');
+	        } else {
+	          this.pad.setAttribute("fill", "#d18");
+	        }
+	      }
+	
+	      //  click() {
+	      //  this.turnOn();
+	      //  this.emit('change',this.state);
+	      //}
+	
+	    }
+	  });
+	
+	  return PianoKey;
+	})(ButtonTemplate);
+	
+	var Piano = (function (_Interface) {
+	  function Piano() {
+	    _classCallCheck(this, Piano);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [500, 150],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Piano.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.keyPattern = ["w", "b", "w", "b", "w", "w", "b", "w", "b", "w", "b", "w"];
+	
+	    this.range = {
+	      low: 24,
+	      high: 60
+	    };
+	
+	    this.range.size = this.range.high - this.range.low;
+	
+	    this.keys = [];
+	    this.active = -1;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(Piano, _Interface);
+	
+	  _createClass(Piano, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.element.style.position = "relative";
+	        this.element.style.display = "block";
+	        this.element.style.width = "100%";
+	        this.element.style.height = "100%";
+	        this.element.style.backgroundColor = "#ddd";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var keyX = 0;
+	
+	        var keyPositions = [];
+	
+	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	
+	          keyPositions.push(keyX);
+	
+	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	          var nextScaleIndex = (i + 1 + this.range.low) % this.keyPattern.length;
+	          if (this.keyPattern[scaleIndex] === "w" && this.keyPattern[nextScaleIndex] === "w") {
+	            keyX += 1;
+	          } else {
+	            keyX += 0.5;
+	          }
+	        }
+	
+	        var padding = this.width / 40;
+	        var buttonWidth = (this.width - padding * 2) / keyX;
+	        var buttonHeight = (this.height - padding * 2) / 2;
+	
+	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	
+	          var container = document.createElement("span");
+	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	          container.style.position = "absolute";
+	          container.style.left = keyPositions[i] * buttonWidth + padding + "px";
+	          if (this.keyPattern[scaleIndex] === "w") {
+	            container.style.top = buttonHeight + padding + "px";
+	          } else {
+	            container.style.top = padding + "px";
+	          }
+	
+	          var key = new PianoKey(container, {
+	            size: [buttonWidth, buttonHeight],
+	            component: true,
+	            note: i + this.range.low,
+	            color: this.keyPattern[scaleIndex]
+	          }, this.keyChange.bind(this, i + this.range.low));
+	
+	          key.piano = this;
+	
+	          this.keys.push(key);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    keyPress: {
+	
+	      //  update(index,v) {
+	      //    this.active = index;
+	
+	      //  this.buttons[i].turnOn();
+	      //  this.buttons[i].turnOff();
+	
+	      //  this.emit('change',this.active);
+	      //}
+	
+	      value: function keyPress() {}
+	    },
+	    keyRelease: {
+	      value: function keyRelease() {}
+	    },
+	    keyChange: {
+	      value: function keyChange(i, v) {
+	        // emit data for any key turning on/off
+	        console.log(this, i, v);
+	        if (v) {
+	          this.interacting = true;
+	        } else {
+	          this.interacting = false;
+	        }
+	      }
+	    },
+	    drag: {
+	      value: function drag(note, on) {
+	        this.emit("change", note, on);
+	      }
+	    },
+	    render: {
+	      value: function render() {}
+	    }
+	  });
+	
+	  return Piano;
+	})(Interface);
+	
+	module.exports = Piano;
+	
+	// turn on "hover" for other keys
+
+	// if mouse up, then turn off hover for other keys
+
+	/*  if (!this.state) {
+	    this.pad.setAttribute('fill', '#e7e7e7');
+	    this.pad.setAttribute('stroke', '#ccc');
+	  } else {
+	    this.pad.setAttribute('fill', '#d18');
+	    this.pad.setAttribute('stroke', '#d18');
+	  } */
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var ButtonTemplate = __webpack_require__(20);
+	var MatrixModel = __webpack_require__(27);
+	var CounterModel = __webpack_require__(28);
+	//let Time = require('../core/time');
+	
+	var MatrixCell = (function (_ButtonTemplate) {
+	  function MatrixCell() {
+	    _classCallCheck(this, MatrixCell);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.index = this.settings.index;
+	    this.row = this.settings.row;
+	    this.column = this.settings.column;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(MatrixCell, _ButtonTemplate);
+	
+	  _createClass(MatrixCell, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.element.style.top = "0px";
+	        this.element.style.left = "0px";
+	        this.element.style.position = "absolute";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.pad = svg.create("rect");
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        if (this.width > 2) {
+	          this.pad.setAttribute("width", this.width - 2);
+	        } else {
+	          this.pad.setAttribute("width", this.width);
+	        }
+	        if (this.height > 2) {
+	          this.pad.setAttribute("height", this.height - 2);
+	        } else {
+	          this.pad.setAttribute("height", this.height);
+	        }
+	        //this.pad.setAttribute('height', this.height - 2);
+	        this.pad.setAttribute("fill", "#e7e7e7");
+	
+	        this.element.appendChild(this.pad);
+	
+	        this.element.addEventListener("mouseover", function () {
+	          if (_this.matrix.interacting) {
+	            console.log(_this.matrix.pen);
+	            _this.state = _this.matrix.model.set.cell(_this.row, _this.column, _this.matrix.pen);
+	            _this.matrix.model.format();
+	            _this.matrix.drag(_this.index, true);
+	          }
+	        });
+	        // keep for button modes, though...
+	        /*    this.element.addEventListener('mouseout', () => {
+	              if (this.matrix.interacting) {
+	            //    this.turnOff();
+	                this.matrix.drag(this.index,false);
+	              }
+	            */
+	        this.element.addEventListener("mouseup", function () {
+	          if (_this.matrix.interacting) {
+	            _this.matrix.interacting = false;
+	            //  this.turnOff();
+	            //    this.matrix.drag(this.index,false);
+	          }
+	        });
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.pad.setAttribute("fill", "#e7e7e7");
+	        } else {
+	          this.pad.setAttribute("fill", "#d18");
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.flip();
+	        this.matrix.pen = this.state;
+	        this.emit("change", true);
+	        this.matrix.model.format();
+	      }
+	    },
+	    flip: {
+	      value: function flip() {
+	        this.matrix.model.toggle.cell(this.row, this.column);
+	        //console.log('STATE: '+this.state);
+	      }
+	    },
+	    release: {
+	      value: function release() {}
+	    }
+	  });
+	
+	  return MatrixCell;
+	})(ButtonTemplate);
+	
+	var Matrix = (function (_Interface) {
+	  function Matrix() {
+	    _classCallCheck(this, Matrix);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [400, 200],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.rows = 50;
+	    this.columns = 100;
+	
+	    this.cells = [];
+	    this.active = -1;
+	
+	    this.model = new MatrixModel(this.rows, this.columns);
+	    this.model.ui = this;
+	
+	    this.model.format();
+	
+	    //  this.sequence = { value: -1 };
+	    this.sequence = new CounterModel(0, this.columns);
+	    // this.pulse = new Time.Interval();
+	
+	    this.init();
+	    //  this.render();
+	  }
+	
+	  _inherits(Matrix, _Interface);
+	
+	  _createClass(Matrix, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.element.style.position = "relative";
+	        this.element.style.display = "block";
+	        this.element.style.width = "100%";
+	        this.element.style.height = "100%";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var cellWidth = this.width / this.columns;
+	        var cellHeight = this.height / this.rows;
+	
+	        for (var i = 0; i < this.model.length; i++) {
+	
+	          var _location = this.model.locate(i);
+	          // {row,col}
+	
+	          var container = document.createElement("span");
+	          container.style.position = "absolute";
+	          container.style.left = _location.column * cellWidth + "px";
+	          container.style.top = _location.row * cellHeight + "px";
+	
+	          var cell = new MatrixCell(container, {
+	            size: [cellWidth, cellHeight],
+	            component: true,
+	            index: i,
+	            row: _location.row,
+	            column: _location.column
+	          }, this.keyChange.bind(this, i));
+	
+	          cell.matrix = this;
+	
+	          this.cells.push(cell);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update() {
+	        var _this = this;
+	
+	        this.model.iterate(function (r, c, i) {
+	          if (_this.model.pattern[r][c] > 0) {
+	            _this.cells[i].state = true;
+	          } else {
+	            _this.cells[i].state = false;
+	          }
+	          /*  this.cells[i].pad.setAttribute('stroke','#fff');
+	            this.cells[i].pad.setAttribute('stroke-width','6');
+	          } else {
+	            this.cells[i].pad.setAttribute('stroke','none');
+	          } */
+	        });
+	      }
+	    },
+	    keyPress: {
+	      value: function keyPress() {}
+	    },
+	    keyRelease: {
+	      value: function keyRelease() {}
+	    },
+	    keyChange: {
+	      value: function keyChange(i, v) {
+	        // emit data for any key turning on/off
+	        if (v) {
+	          this.interacting = true;
+	        } else {
+	          this.interacting = false;
+	        }
+	      }
+	    },
+	    drag: {
+	      value: function drag(note, on) {
+	        this.emit("change", note, on);
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        var _this = this;
+	
+	        if (this.sequence.value >= 0) {
+	          this.model.iterate(function (r, c, i) {
+	            if (c === _this.sequence.value) {
+	              _this.cells[i].pad.setAttribute("stroke", "#fff");
+	              _this.cells[i].pad.setAttribute("stroke-width", "6");
+	            } else {
+	              _this.cells[i].pad.setAttribute("stroke", "none");
+	            }
+	          });
+	        }
+	      }
+	    },
+	    start: {
+	      value: function start() {
+	        if (!this.invertal) {
+	          this.next();
+	          this.interval = setInterval(this.next.bind(this), 200);
+	        }
+	      }
+	    },
+	    stop: {
+	      value: function stop() {
+	        clearInterval(this.interval);
+	        this.interval = false;
+	      }
+	    },
+	    next: {
+	      value: function next() {
+	        //this.sequence.next();
+	        //  this.sequence.value = (this.sequence.value + 1) % this.columns;
+	        this.sequence.next();
+	        this.emit("change", this.model.column(this.sequence.value));
+	        this.render();
+	      }
+	      // introduce counter model and timing
+	
+	    }
+	  });
+	
+	  return Matrix;
+	})(Interface);
+	
+	module.exports = Matrix;
+	
+	// turn on "hover" for other keys
+
+	// if mouse up, then turn off hover for other keys
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	//import math from '../util/math';
+	
+	var Matrix = (function () {
+	  function Matrix(rows, columns) {
+	    var _this = this;
+	
+	    _classCallCheck(this, Matrix);
+	
+	    // should also have ability to create with an existing matrix
+	    this.rows = rows;
+	    this.columns = columns;
+	    this.pattern = [];
+	    this.create(rows, columns);
+	
+	    this.toggle = {
+	      cell: function (row, column) {
+	        _this.pattern[row][column] = !_this.pattern[row][column]; // math.invert(this.pattern[row][column]);
+	        _this.ui.update();
+	        return _this.pattern[row][column];
+	      },
+	      all: function () {
+	        _this.iterate(function (r, c) {
+	          _this.toggle.cell(r, c);
+	        });
+	        _this.ui.update();
+	      },
+	      row: function (row) {
+	        for (var i = 0; i < _this.columns; i++) {
+	          _this.toggle.cell(row, i);
+	        }
+	        _this.ui.update();
+	      },
+	      column: function (column) {
+	        for (var i = 0; i < _this.rows; i++) {
+	          _this.toggle.cell(i, column);
+	        }
+	        _this.ui.update();
+	      }
+	    };
+	
+	    this.set = {
+	      cell: function (row, column, value) {
+	        _this.pattern[row][column] = value;
+	        return _this.pattern[row][column];
+	      } };
+	
+	    this.rotate = {
+	      all: function (amount) {
+	        for (var i = 0; i < _this.rows; i++) {
+	          var cut = _this.pattern[i].splice(_this.pattern[i].length - amount, amount);
+	          _this.pattern[i] = cut.concat(_this.pattern[i]);
+	        }
+	        _this.format();
+	        _this.ui.update();
+	      },
+	      row: function (row, amount) {
+	        var cut = _this.pattern[row].splice(_this.pattern[row].length - amount, amount);
+	        _this.pattern[row] = cut.concat(_this.pattern[row]);
+	        _this.format();
+	        _this.ui.update();
+	      } };
+	
+	    this.populate = {
+	      all: function () {},
+	      row: function () {},
+	      column: function () {}
+	    };
+	
+	    this.erase = {
+	      all: function () {},
+	      row: function () {},
+	      column: function () {}
+	    };
+	
+	    // end constructor
+	  }
+	
+	  _createClass(Matrix, {
+	    create: {
+	      value: function create(rows, columns) {
+	        var _this = this;
+	
+	        this.rows = rows;
+	        this.columns = columns;
+	        this.pattern = [];
+	        for (var row = 0; row < this.rows; row++) {
+	          this.pattern.push([]);
+	        }
+	        this.iterate(function (r, c) {
+	          _this.pattern[r][c] = false;
+	        });
+	      }
+	    },
+	    iterate: {
+	      value: function iterate(f, f2) {
+	        var i = 0;
+	        for (var row = 0; row < this.rows; row++) {
+	          if (f2) {
+	            f2(row);
+	          }
+	          for (var column = 0; column < this.columns; column++) {
+	            f(row, column, i);
+	            i++;
+	          }
+	        }
+	      }
+	    },
+	    format: {
+	      value: function format() {
+	        var _this = this;
+	
+	        var patternString = "";
+	        this.iterate(function (r, c) {
+	          patternString += (_this.pattern[r][c] ? 1 : 0) + " ";
+	        }, function () {
+	          patternString += "\n";
+	        });
+	        console.log(patternString);
+	        return patternString;
+	      }
+	    },
+	    update: {
+	      value: function update(pattern) {
+	        this.pattern = pattern || this.pattern;
+	      }
+	    },
+	    length: {
+	      get: function () {
+	        return this.rows * this.columns;
+	      }
+	    },
+	    locate: {
+	      value: function locate(index) {
+	        // returns row/col of cell
+	        return {
+	          row: ~ ~(index / this.columns),
+	          column: index % this.columns
+	        };
+	      }
+	    },
+	    indexOf: {
+	      value: function indexOf(row, column) {
+	        return column + row * this.columns;
+	        // returns row/col of cell
+	      }
+	    },
+	    row: {
+	      value: (function (_row) {
+	        var _rowWrapper = function row(_x) {
+	          return _row.apply(this, arguments);
+	        };
+	
+	        _rowWrapper.toString = function () {
+	          return _row.toString();
+	        };
+	
+	        return _rowWrapper;
+	      })(function (row) {
+	        var data = [];
+	        for (var i = 0; i < this.columns; i++) {
+	          data.push(this.pattern[row] ? 1 : 0);
+	        }
+	        return data;
+	      })
+	    },
+	    column: {
+	      value: (function (_column) {
+	        var _columnWrapper = function column(_x2) {
+	          return _column.apply(this, arguments);
+	        };
+	
+	        _columnWrapper.toString = function () {
+	          return _column.toString();
+	        };
+	
+	        return _columnWrapper;
+	      })(function (column) {
+	        var data = [];
+	        for (var i = 0; i < this.rows; i++) {
+	          data.push(this.pattern[i][column] ? 1 : 0);
+	        }
+	        return data;
+	      }
+	
+	      /* brainstorm:
+	        ** rotate single row or column
+	        ** randomly fill row with some probability
+	          populateRow([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
+	        invert row?
+	        erase row or column
+	        add/remove row or column
+	        toggle random cell
+	          performance:
+	        start sequencing
+	        stop sequencing
+	        sequencing modes -- direction w/ step, drunk, random, in pattern
+	        sequence rows too
+	        loop portion
+	        jump to column index
+	          matrix1.model.row[0].erase()
+	        vs
+	        matrix1.model.eraseRow(0)
+	        vs
+	        matrix1.model.erase.row(0)
+	        */
+	
+	      )
+	    }
+	  });
+	
+	  return Matrix;
+	})();
+	
+	module.exports = Matrix;
+	
+	/*    all: () => {
+	     },
+	    row: () => {
+	     },
+	    column: () => {
+	     } */
+
+	/*    column: () => {
+	 } */
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Counter = (function () {
+	  function Counter(min, max, mode, value) {
+	    _classCallCheck(this, Counter);
+	
+	    this.min = min || 0;
+	    this.max = max || 10;
+	    this.value = value || this.min - 1;
+	    this.mode = mode || "up";
+	  }
+	
+	  _createClass(Counter, {
+	    mode: {
+	      set: function (mode) {
+	        this._mode = mode;
+	        this.next = this[mode];
+	      },
+	      get: function () {
+	        return this._mode;
+	      }
+	    },
+	    up: {
+	      value: function up() {
+	        this.value++;
+	        if (this.value >= this.max) {
+	          this.value = this.min;
+	        }
+	        return this.value;
+	      }
+	    },
+	    down: {
+	      value: function down() {
+	        this.value--;
+	        if (this.value < this.min) {
+	          this.value = this.max;
+	        }
+	        return this.value;
+	      }
+	    },
+	    random: {
+	      value: function random() {
+	        this.value = math.ri(this.min, this.max);
+	        return this.value;
+	      }
+	    },
+	    drunk: {
+	      value: function drunk() {
+	        this.value += math.pick(-1, 1);
+	        if (this.value < this.min) {
+	          this.value = this.max;
+	        }
+	        if (this.value >= this.max) {
+	          this.value = this.min;
+	        }
+	        return this.value;
+	      }
+	    }
+	  });
+	
+	  return Counter;
+	})();
+	
+	module.exports = Counter;
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	/*
+	What does the API look like?
+	
+	
+	>> this is obviously the nicest.
+	mt.rack('#container');
+	  => is this the target or the parent?
+	  mt.rack({ parent: '#container' });
+	  mt.create.rack( '#container' );
+	
+	or
+	
+	var rack1 = new MT.Rack();
+	body.append(rack1.element);
+	
+	or
+	
+	mt.rack({
+	  slider1,
+	  toggle1,
+	  sequener1
+	});
+	
+	or
+	
+	mt.rack('#container',{
+	  mt.create.slider({
+	    top:10,
+	    left:10,
+	    width:50,
+	    height:100,
+	    min: 0,
+	    max: 100,
+	    step: 1
+	  }),
+	  mt.create.waveform({
+	    file: './path/to/file.mp3',
+	    width:500,
+	    height:100,
+	    mode: 'range'
+	  })
+	});
+	
+	But what about positioning them in space -- top/left??
+	
+	What about writing a declarative rack that is re-usable?
+	
+	
+	or
+	
+	mt.rack({
+	  parent: '#container',
+	  pre: () => {
+	    create some divs here, or some audio code
+	  },
+	  interface: {
+	    slider: mt.create.slider({
+	      top:10,
+	      left:10,
+	      width:50,
+	      height:100,
+	      min: 0,
+	      max: 100,
+	      step: 1
+	    }),
+	    wave: mt.create.waveform({
+	      file: './path/to/file.mp3',
+	      width:500,
+	      height:100,
+	      mode: 'range'
+	    })
+	  },
+	  init: () => {
+	
+	  }
+	});
+	
+	
+	
+	
+	
+	
+	
+	Eventually, a way to transform all elements inside a div
+	
+	synth = mt.transform('#container');
+	
+	then, synth.ui.slider1 will be a thing
+	
+	
+	
+	#chevron-arrow-left {
+	  display: inline-block;
+	  border-right: 3px solid #aaa;
+	  border-bottom: 3px solid #aaa;
+	  width: 8px; height: 8px;
+	  transform: rotate(-135deg);
+	}
+	
+	
+	*/
+	
+	var Rack = (function () {
+	  function Rack(target, name, open) {
+	    _classCallCheck(this, Rack);
+	
+	    this.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
+	    this.title = name;
+	    this.open = open;
+	    this.buildInterface();
+	  }
+	
+	  _createClass(Rack, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.parent.style.border = "solid 1px #ddd";
+	        //  this.parent.style.overflow = 'hidden';
+	        this.parent.style.padding = "0px";
+	        //  this.parent.style.display = 'inline-block';
+	        this.parent.style.userSelect = "none";
+	        this.parent.style.mozUserSelect = "none";
+	        this.parent.style.webkitUserSelect = "none";
+	
+	        this.contents = document.createElement("div");
+	
+	        while (this.parent.childNodes.length > 0) {
+	          this.contents.appendChild(this.parent.childNodes[0]);
+	        }
+	
+	        this.contents.style.padding = "10px";
+	
+	        //  this.parent.innerHTML = '<div>' + this.parent.innerHTML;
+	        //  this.parent.innerHTML += '</div>';
+	
+	        this.titleBar = document.createElement("div");
+	        this.titleBar.innerHTML = this.title;
+	        this.titleBar.style.fontFamily = "arial";
+	        this.titleBar.style.position = "relative";
+	        this.titleBar.style.color = "#888";
+	        this.titleBar.style.padding = "7px";
+	        //  this.titleBar.style.borderBottom = 'solid 1px #ddd';
+	        this.titleBar.style.fontSize = "12px";
+	        //  this.parent.insertBefore(this.titleBar,this.parent.firstChild);
+	
+	        this.button = document.createElement("div");
+	        this.button.style.position = "absolute";
+	        this.button.style.top = "5px";
+	        this.button.style.right = "5px";
+	        /*    this.button.style.display = 'inline-block';
+	            this.button.style.borderRight = '2px solid #555';
+	            this.button.style.borderBottom =  '2px solid #555';
+	            this.button.style.width = '7px';
+	            this.button.style.height = '7px';
+	            this.button.style.transform = 'rotate(-135deg)'; */
+	        this.button.innerHTML = "-";
+	        this.button.style.border = "solid 1px #ddd";
+	        this.button.style.padding = "0px 5px 2px";
+	        this.button.style.lineHeight = "12px";
+	        this.button.style.fontSize = "15px";
+	
+	        this.button.style.cursor = "pointer";
+	
+	        this.button.addEventListener("mouseover", function () {
+	          _this.button.style.backgroundColor = "#f3f3f3";
+	          //    this.button.style.color = '#fff';
+	        });
+	        this.button.addEventListener("mouseleave", function () {
+	          _this.button.style.backgroundColor = "#fff";
+	          //  this.button.style.color = '#ccc';
+	        });
+	        this.button.addEventListener("click", function () {
+	          if (_this.open) {
+	            _this.hide();
+	          } else {
+	            _this.show();
+	          }
+	        });
+	
+	        this.titleBar.appendChild(this.button);
+	
+	        this.parent.appendChild(this.titleBar);
+	        this.parent.appendChild(this.contents);
+	
+	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
+	        this.parent.style.width = width;
+	      }
+	    },
+	    show: {
+	      value: function show() {
+	        this.contents.style.display = "block";
+	        //  this.button.style.fontSize = '15px';
+	        //  this.button.style.padding = '0px 5px 2px';
+	        //  this.button.innerHTML = '-';
+	        this.open = true;
+	      }
+	    },
+	    hide: {
+	      value: function hide() {
+	        this.contents.style.display = "none";
+	        //  this.button.style.fontSize = '12px';
+	        //  this.button.style.padding = '0px 5px 0px';
+	        //  this.button.innerHTML = '+';
+	        this.open = false;
+	      }
+	    }
+	  });
+	
+	  return Rack;
+	})();
+	
+	module.exports = Rack;
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var WAAClock = _interopRequire(__webpack_require__(31));
+	
+	var Interval = _interopRequire(__webpack_require__(34));
+	
+	var Time = (function () {
+	  function Time(context) {
+	    _classCallCheck(this, Time);
+	
+	    this.createClock(context);
+	  }
+	
+	  _createClass(Time, {
+	    createClock: {
+	      value: function createClock(context) {
+	        this.clock = new WAAClock(context);
+	        this.clock.start();
+	      }
+	    },
+	    interval: {
+	      value: function interval(rate, func, on) {
+	        return new Interval(rate, func, on, this.clock);
+	      }
+	    }
+	  });
+	
+	  return Time;
+	})();
+	
+	module.exports = Time;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var WAAClock = __webpack_require__(32)
+	
+	module.exports = WAAClock
+	if (typeof window !== 'undefined') window.WAAClock = WAAClock
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
+	
+	var CLOCK_DEFAULTS = {
+	  toleranceLate: 0.10,
+	  toleranceEarly: 0.001
+	}
+	
+	// ==================== Event ==================== //
+	var Event = function(clock, deadline, func) {
+	  this.clock = clock
+	  this.func = func
+	  this._cleared = false // Flag used to clear an event inside callback
+	
+	  this.toleranceLate = clock.toleranceLate
+	  this.toleranceEarly = clock.toleranceEarly
+	  this._latestTime = null
+	  this._earliestTime = null
+	  this.deadline = null
+	  this.repeatTime = null
+	
+	  this.schedule(deadline)
+	}
+	
+	// Unschedules the event
+	Event.prototype.clear = function() {
+	  this.clock._removeEvent(this)
+	  this._cleared = true
+	  return this
+	}
+	
+	// Sets the event to repeat every `time` seconds.
+	Event.prototype.repeat = function(time) {
+	  if (time === 0)
+	    throw new Error('delay cannot be 0')
+	  this.repeatTime = time
+	  if (!this.clock._hasEvent(this))
+	    this.schedule(this.deadline + this.repeatTime)
+	  return this
+	}
+	
+	// Sets the time tolerance of the event.
+	// The event will be executed in the interval `[deadline - early, deadline + late]`
+	// If the clock fails to execute the event in time, the event will be dropped.
+	Event.prototype.tolerance = function(values) {
+	  if (typeof values.late === 'number')
+	    this.toleranceLate = values.late
+	  if (typeof values.early === 'number')
+	    this.toleranceEarly = values.early
+	  this._refreshEarlyLateDates()
+	  if (this.clock._hasEvent(this)) {
+	    this.clock._removeEvent(this)
+	    this.clock._insertEvent(this)
+	  }
+	  return this
+	}
+	
+	// Returns true if the event is repeated, false otherwise
+	Event.prototype.isRepeated = function() { return this.repeatTime !== null }
+	
+	// Schedules the event to be ran before `deadline`.
+	// If the time is within the event tolerance, we handle the event immediately.
+	// If the event was already scheduled at a different time, it is rescheduled.
+	Event.prototype.schedule = function(deadline) {
+	  this._cleared = false
+	  this.deadline = deadline
+	  this._refreshEarlyLateDates()
+	
+	  if (this.clock.context.currentTime >= this._earliestTime) {
+	    this._execute()
+	  
+	  } else if (this.clock._hasEvent(this)) {
+	    this.clock._removeEvent(this)
+	    this.clock._insertEvent(this)
+	  
+	  } else this.clock._insertEvent(this)
+	}
+	
+	Event.prototype.timeStretch = function(tRef, ratio) {
+	  if (this.isRepeated())
+	    this.repeatTime = this.repeatTime * ratio
+	
+	  var deadline = tRef + ratio * (this.deadline - tRef)
+	  // If the deadline is too close or past, and the event has a repeat,
+	  // we calculate the next repeat possible in the stretched space.
+	  if (this.isRepeated()) {
+	    while (this.clock.context.currentTime >= deadline - this.toleranceEarly)
+	      deadline += this.repeatTime
+	  }
+	  this.schedule(deadline)
+	}
+	
+	// Executes the event
+	Event.prototype._execute = function() {
+	  if (this.clock._started === false) return
+	  this.clock._removeEvent(this)
+	
+	  if (this.clock.context.currentTime < this._latestTime)
+	    this.func(this)
+	  else {
+	    if (this.onexpired) this.onexpired(this)
+	    console.warn('event expired')
+	  }
+	  // In the case `schedule` is called inside `func`, we need to avoid
+	  // overrwriting with yet another `schedule`.
+	  if (!this.clock._hasEvent(this) && this.isRepeated() && !this._cleared)
+	    this.schedule(this.deadline + this.repeatTime) 
+	}
+	
+	// Updates cached times
+	Event.prototype._refreshEarlyLateDates = function() {
+	  this._latestTime = this.deadline + this.toleranceLate
+	  this._earliestTime = this.deadline - this.toleranceEarly
+	}
+	
+	// ==================== WAAClock ==================== //
+	var WAAClock = module.exports = function(context, opts) {
+	  var self = this
+	  opts = opts || {}
+	  this.tickMethod = opts.tickMethod || 'ScriptProcessorNode'
+	  this.toleranceEarly = opts.toleranceEarly || CLOCK_DEFAULTS.toleranceEarly
+	  this.toleranceLate = opts.toleranceLate || CLOCK_DEFAULTS.toleranceLate
+	  this.context = context
+	  this._events = []
+	  this._started = false
+	}
+	
+	// ---------- Public API ---------- //
+	// Schedules `func` to run after `delay` seconds.
+	WAAClock.prototype.setTimeout = function(func, delay) {
+	  return this._createEvent(func, this._absTime(delay))
+	}
+	
+	// Schedules `func` to run before `deadline`.
+	WAAClock.prototype.callbackAtTime = function(func, deadline) {
+	  return this._createEvent(func, deadline)
+	}
+	
+	// Stretches `deadline` and `repeat` of all scheduled `events` by `ratio`, keeping
+	// their relative distance to `tRef`. In fact this is equivalent to changing the tempo.
+	WAAClock.prototype.timeStretch = function(tRef, events, ratio) {
+	  events.forEach(function(event) { event.timeStretch(tRef, ratio) })
+	  return events
+	}
+	
+	// Removes all scheduled events and starts the clock 
+	WAAClock.prototype.start = function() {
+	  if (this._started === false) {
+	    var self = this
+	    this._started = true
+	    this._events = []
+	
+	    if (this.tickMethod === 'ScriptProcessorNode') {
+	      var bufferSize = 256
+	      // We have to keep a reference to the node to avoid garbage collection
+	      this._clockNode = this.context.createScriptProcessor(bufferSize, 1, 1)
+	      this._clockNode.connect(this.context.destination)
+	      this._clockNode.onaudioprocess = function () {
+	        process.nextTick(function() { self._tick() })
+	      }
+	    } else if (this.tickMethod === 'manual') null // _tick is called manually
+	
+	    else throw new Error('invalid tickMethod ' + this.tickMethod)
+	  }
+	}
+	
+	// Stops the clock
+	WAAClock.prototype.stop = function() {
+	  if (this._started === true) {
+	    this._started = false
+	    this._clockNode.disconnect()
+	  }  
+	}
+	
+	// ---------- Private ---------- //
+	
+	// This function is ran periodically, and at each tick it executes
+	// events for which `currentTime` is included in their tolerance interval.
+	WAAClock.prototype._tick = function() {
+	  var event = this._events.shift()
+	
+	  while(event && event._earliestTime <= this.context.currentTime) {
+	    event._execute()
+	    event = this._events.shift()
+	  }
+	
+	  // Put back the last event
+	  if(event) this._events.unshift(event)
+	}
+	
+	// Creates an event and insert it to the list
+	WAAClock.prototype._createEvent = function(func, deadline) {
+	  return new Event(this, deadline, func)
+	}
+	
+	// Inserts an event to the list
+	WAAClock.prototype._insertEvent = function(event) {
+	  this._events.splice(this._indexByTime(event._earliestTime), 0, event)
+	}
+	
+	// Removes an event from the list
+	WAAClock.prototype._removeEvent = function(event) {
+	  var ind = this._events.indexOf(event)
+	  if (ind !== -1) this._events.splice(ind, 1)
+	}
+	
+	// Returns true if `event` is in queue, false otherwise
+	WAAClock.prototype._hasEvent = function(event) {
+	 return this._events.indexOf(event) !== -1
+	}
+	
+	// Returns the index of the first event whose deadline is >= to `deadline`
+	WAAClock.prototype._indexByTime = function(deadline) {
+	  // performs a binary search
+	  var low = 0
+	    , high = this._events.length
+	    , mid
+	  while (low < high) {
+	    mid = Math.floor((low + high) / 2)
+	    if (this._events[mid]._earliestTime < deadline)
+	      low = mid + 1
+	    else high = mid
+	  }
+	  return low
+	}
+	
+	// Converts from relative time to absolute time
+	WAAClock.prototype._absTime = function(relTime) {
+	  return relTime + this.context.currentTime
+	}
+	
+	// Converts from absolute time to relative time 
+	WAAClock.prototype._relTime = function(absTime) {
+	  return absTime - this.context.currentTime
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
+	(function () {
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
+	    }
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+	
+	
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+	
+	
+	
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+	
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+	
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+	
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+	
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+	
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var Interval = (function () {
+	  function Interval(rate, func, on, clock) {
+	    _classCallCheck(this, Interval);
+	
+	    this.rate = rate;
+	    this.on = on;
+	    this.clock = clock;
+	
+	    this.pattern = [1];
+	    this.index = 0;
+	
+	    this.event = func ? func : function () {};
+	
+	    if (this.on) {
+	      this.start();
+	    }
+	  }
+	
+	  _createClass(Interval, {
+	    _event: {
+	      value: function _event() {
+	        if (this.pattern[this.index % this.pattern.length]) {
+	          this.event();
+	        }
+	        this.index++;
+	      }
+	    },
+	    stop: {
+	      value: function stop() {
+	        this.on = false;
+	        this.interval.clear();
+	      }
+	    },
+	    start: {
+	      value: function start() {
+	        this.on = true;
+	        this.interval = this.clock.callbackAtTime(this._event.bind(this), this.clock.context.currentTime).repeat(this.rate / 1000);
+	      }
+	    },
+	    ms: {
+	      value: function ms(newrate) {
+	        if (this.on) {
+	          var ratio = newrate / this.rate;
+	          this.rate = newrate;
+	          this.clock.timeStretch(this.clock.context.currentTime, [this.interval], ratio);
+	        } else {
+	          this.rate = newrate;
+	        }
+	      }
+	    }
+	  });
+	
+	  return Interval;
+	})();
+	
+	module.exports = Interval;
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var scales = _interopRequire(__webpack_require__(36));
+	
+	var Tune = (function () {
+	  function Tune() {
+	    _classCallCheck(this, Tune);
+	
+	    // the scale as ratios
+	    this.scale = [];
+	
+	    // i/o modes
+	    this.mode = {
+	      output: "frequency",
+	      input: "step"
+	    };
+	
+	    // ET major, for reference
+	    this.etmajor = [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116];
+	
+	    // Root frequency.
+	    this.tonic = 440; // * Math.pow(2,(60-69)/12);
+	
+	    this.scales = scales;
+	
+	    this.loadScale("ji_diatonic");
+	  }
+	
+	  _createClass(Tune, {
+	    tonicize: {
+	
+	      /* Set the tonic frequency */
+	
+	      value: function tonicize(newTonic) {
+	        this.tonic = newTonic;
+	      }
+	    },
+	    note: {
+	
+	      /* Return data in the mode you are in (freq, ratio, or midi) */
+	
+	      value: function note(input, octave) {
+	
+	        var newvalue = undefined;
+	
+	        if (this.mode.output === "frequency") {
+	          newvalue = this.frequency(input, octave);
+	        } else if (this.mode.output === "ratio") {
+	          newvalue = this.ratio(input, octave);
+	        } else if (this.mode.output === "MIDI") {
+	          newvalue = this.MIDI(input, octave);
+	        } else {
+	          newvalue = this.frequency(input, octave);
+	        }
+	
+	        return newvalue;
+	      }
+	    },
+	    frequency: {
+	
+	      /* Return freq data */
+	
+	      value: function frequency(stepIn, octaveIn) {
+	
+	        if (this.mode.input === "midi" || this.mode.input === "MIDI") {
+	          this.stepIn += 60;
+	        }
+	
+	        // what octave is our input
+	        var octave = Math.floor(stepIn / this.scale.length);
+	
+	        if (octaveIn) {
+	          octave += octaveIn;
+	        }
+	
+	        // which scale degree (0 - scale length) is our input
+	        var scaleDegree = stepIn % this.scale.length;
+	
+	        while (scaleDegree < 0) {
+	          scaleDegree += this.scale.length;
+	        }
+	
+	        var freq = this.tonic * this.scale[scaleDegree];
+	
+	        freq = freq * Math.pow(2, octave);
+	
+	        // truncate irrational numbers
+	        freq = Math.floor(freq * 100000000000) / 100000000000;
+	
+	        return freq;
+	      }
+	    },
+	    ratio: {
+	
+	      /* Force return ratio data */
+	
+	      value: function ratio(stepIn, octaveIn) {
+	
+	        if (this.mode.input === "midi" || this.mode.input === "MIDI") {
+	          this.stepIn += 60;
+	        }
+	
+	        // what octave is our input
+	        var octave = Math.floor(stepIn / this.scale.length);
+	
+	        if (octaveIn) {
+	          octave += octaveIn;
+	        }
+	
+	        // which scale degree (0 - scale length) is our input
+	        var scaleDegree = stepIn % this.scale.length;
+	
+	        // what ratio is our input to our key
+	        var ratio = Math.pow(2, octave) * this.scale[scaleDegree];
+	
+	        ratio = Math.floor(ratio * 100000000000) / 100000000000;
+	
+	        return ratio;
+	      }
+	    },
+	    MIDI: {
+	
+	      /* Force return adjusted MIDI data */
+	
+	      value: function MIDI(stepIn, octaveIn) {
+	
+	        var newvalue = this.frequency(stepIn, octaveIn);
+	
+	        var n = 69 + 12 * Math.log(newvalue / 440) / Math.log(2);
+	
+	        n = Math.floor(n * 1000000000) / 1000000000;
+	
+	        return n;
+	      }
+	    },
+	    loadScale: {
+	
+	      /* Load a new scale */
+	
+	      value: function loadScale(name) {
+	
+	        /* load the scale */
+	        var freqs = this.scales[name].frequencies;
+	        this.scale = [];
+	        for (var i = 0; i < freqs.length - 1; i++) {
+	          this.scale.push(freqs[i] / freqs[0]);
+	        }
+	
+	        /* visualize in console */
+	        console.log(" ");
+	        console.log("LOADED " + name);
+	        console.log(this.scales[name].description);
+	        console.log(this.scale);
+	        var vis = [];
+	        for (var i = 0; i < 100; i++) {
+	          vis[i] = " ";
+	        }
+	        for (var i = 0; i < this.scale.length; i++) {
+	          var spot = Math.round(this.scale[i] * 100 - 100);
+	          if (i < 10) {
+	            vis.splice(spot, 1, i + 1);
+	          } else {
+	            vis.splice(spot, 5, i + 1);
+	          }
+	        }
+	        var textvis = "";
+	        for (var i = 0; i < vis.length; i++) {
+	          textvis += vis[i];
+	        }
+	        console.log(name);
+	        console.log(textvis);
+	        // ET scale vis
+	        vis = [];
+	        for (var i = 0; i < 100; i++) {
+	          vis[i] = " ";
+	        }
+	        for (var i = 0; i < this.etmajor.length; i++) {
+	          var spot = Math.round(this.etmajor[i] / this.etmajor[0] * 100 - 100);
+	          if (i < 10) {
+	            vis.splice(spot, 1, i + 1);
+	          } else {
+	            vis.splice(spot, 5, i + 1);
+	          }
+	        }
+	        textvis = "";
+	        for (var i = 0; i < vis.length; i++) {
+	          textvis += vis[i];
+	        }
+	        console.log(textvis);
+	        console.log("equal-tempered major (reference)");
+	      }
+	    },
+	    search: {
+	
+	      /* Search the names of tunings
+	      	 Returns an array of names of tunings */
+	
+	      value: function search(letters) {
+	        var possible = [];
+	        for (var key in this.scales) {
+	          if (key.toLowerCase().indexOf(letters.toLowerCase()) !== -1) {
+	            possible.push(key);
+	          }
+	        }
+	        return possible;
+	      }
+	    },
+	    chord: {
+	
+	      /* Return a collection of notes as an array */
+	
+	      value: function chord(midis) {
+	        var output = [];
+	        for (var i = 0; i < midis.length; i++) {
+	          output.push(this.note(midis[i]));
+	        }
+	        return output;
+	      }
+	    },
+	    root: {
+	
+	      /* Change the tonic frequency? */
+	
+	      value: function root(newmidi, newfreq) {
+	        this.rootFreq = newfreq;
+	        // not working now ... needs much work.
+	        // setKey is not transposing now, either.
+	      }
+	    }
+	  });
+	
+	  return Tune;
+	})();
+	
+	module.exports = Tune;
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	module.exports = {
+	  ji_12: {
+	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 436.04260883433, 470.92601754108, 490.54793493862, 523.2511306012],
+	    description: "Basic JI with 7-limit tritone"
+	  },
+	  ji_12a: {
+	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 305.22982618403, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
+	    description: "7-limit 12-tone scale"
+	  },
+	  ji_12b: {
+	    frequencies: [261.6255653006, 272.52663052146, 290.69507255622, 305.22982618403, 327.03195662575, 343.38355445704, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
+	    description: "alternate 7-limit 12-tone scale"
+	  },
+	  ji_12c: {
+	    frequencies: [261.6255653006, 272.52663052146, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 367.91095120397, 392.4383479509, 418.60090448096, 436.04260883433, 457.84473927605, 490.54793493862, 523.2511306012],
+	    description: "Kurzweil 'Just with natural b7th', is Sauveur Just with 7/4"
+	  },
+	  et: {
+	    frequencies: [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116],
+	    description: "Et Major"
+	  },
+	  ji_diatonic: {
+	    frequencies: [261.6255653006, 294.32876096318, 327.03195662575, 348.83408706747, 392.4383479509, 436.04260883433, 490.54793493862],
+	    description: "Basic JI with 7-limit tritone"
+	  }
+	};
 
 /***/ }
 /******/ ])

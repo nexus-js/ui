@@ -1,0 +1,107 @@
+<html>
+<script src="../dist/mt.js"></script>
+<script src="js/Tone9.js"></script>
+<canvas id="viz" style="width:30px;height:100px;"></canvas>
+<div id="dial"></div>
+
+<script>
+
+var player = new Tone.Player("./media/Dream6_stream.mp0")
+//play as soon as the buffer is loaded
+player.autostart = true;
+player.loop = true;
+
+
+var canvas = document.getElementById("viz");
+var canvasCtx = canvas.getContext("2d");
+
+canvas.width = parseInt(canvas.style.width);
+canvas.height = parseInt(canvas.style.height);
+
+
+var dial = new mt.Slider("#dial",{
+  scale: [0,1000],
+  event: (v) => {
+  }
+});
+
+
+
+// for number of channels, create x analysers
+var analyser = Tone.context.createAnalyser();
+
+player.connect(analyser);
+
+analyser.fftSize = 1024;
+analyser.smoothingTimeConstant = 1;
+var bufferLength = analyser.frequencyBinCount;
+var dataArray = new Float32Array(bufferLength);
+
+
+// split the channels
+// splitter = context.createChannelSplitter();
+
+
+
+canvasCtx.fillStyle = 'rgb(240,240,240)';
+canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+// add linear gradient
+var grd = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+// light blue
+grd.addColorStop(0, '#f00');
+grd.addColorStop(0.2, '#ff0');
+grd.addColorStop(0.4, '#0f0');
+// dark blue
+grd.addColorStop(1, '#0f0');
+canvasCtx.fillStyle = grd;
+
+function draw() {
+
+  drawVisual = requestAnimationFrame(draw);
+
+  analyser.getFloatTimeDomainData(dataArray);
+
+  let rms = 0
+
+  for (let i = 0; i < dataArray.length; i++){
+       rms += (dataArray[i] * dataArray[i]);
+  }
+
+  rms = Math.sqrt(rms / dataArray.length);
+
+  db = 20 * Math.log10(rms);
+
+  canvasCtx.fillStyle = 'rgb(240,240,240)';
+  canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+//  var y = (canvas.height / 3) - db*10;
+//  var y = mt.scale(db,-50,10,canvas.height,0);
+  //var y = mt.scale(db,-50,5,canvas.height,0);
+//  var y = mt.scaleExp(db,-50,5,canvas.height,0);
+//  var y = mt.scale(rms,0,1,canvas.height,0);
+ //y -= 30;
+
+  if (db > -50) {
+
+    let linear = mt.normalize(db,-50,5);
+    let exp = linear * linear;
+    let y = mt.scale(exp,0,1,canvas.height,0);
+
+    canvasCtx.fillStyle = grd;
+    canvasCtx.fillRect(0,y,canvas.width,canvas.height - y);
+
+  }
+
+  for (var i=0;i<10;i++) {
+    canvasCtx.fillStyle = '#eee';
+    canvasCtx.fillRect(0,i*10,canvas.width,3);
+  }
+
+
+};
+
+draw();
+</script>
+
+</html>

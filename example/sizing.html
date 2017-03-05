@@ -8,22 +8,17 @@
   <script src="js/Tone9.js"></script>
 </head>
 <body style="margin:0;padding;0">
-  <div id="synth1">
-    <span id="slider"></span>
-    <span id="dial"></span>
-  </div>
-
   <div id="all-interfaces">
     <div id="slider"></div>
+    <div id="dial"></div>
     <div id="toggle"></div>
-    <div id="range"></div>
+  <!--  <div id="range"></div> -->
     <div id="position"></div>
     <div id="waveform"></div>
     <div id="button"></div>
     <div id="textbutton"></div>
     <div id="radiobutton"></div>
     <div id="number"></div>
-    <div id="dial"></div>
     <div id="piano"></div>
     <div id="matrix"></div>
   </div>
@@ -41,13 +36,19 @@
   display:block;
   width: 300px;
 }
+#all-interfaces > div {
+  width:300px;
+  height:100px;
+  border:solid 1px black;
+  margin:15px auto;
+}
 </style>
 <script>
 
   toggle = new mt.Toggle("#toggle",1);
   slider = new mt.Slider("#slider");
-  var position = new mt.Position("#position");
-//  range: new mt.Range("#range");
+  position = new mt.Position("#position");
+  //range: new mt.Range("#range");
   waveform1 = new mt.Waveform("#waveform")
   button = new mt.Button("#button")
   textbutton = new mt.TextButton("#textbutton")
@@ -60,8 +61,6 @@
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
     waveform1.load(player.buffer._buffer)
   })
-
-  var synth1 = mt.rack("synth1","Synth #1", true);
 
 </script>
 </html>

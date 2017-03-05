@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/mt.js"></script>
+  <script src="js/Tone9.js"></script>
+</head>
+<body style="margin:0;padding;0">
+  <div id="synth1" title="Synth #1" collapsible closed>
+    <div mt="slider" id="slider1" scale="[50,100]" step=1 event="volume" style="width:300px;height:20px;"></div>
+    <div mt="dial" id="dial1" min=50 max=100 ></div>
+    <div mt="matrix" id="matrix1" style="width:300px;height:150px;"></div>
+    <!-- or? -->
+    <div mt-type="matrix" mt-id="matrix1" style="width:300px;height:200px;"></div>
+  </div>
+  <div id="result"></div>
+</body>
+<style>
+.mt-ui {
+  margin:15px auto;
+}
+#synth1 {
+  margin: 50px auto;
+}
+</style>
+<script>
+
+  var rack = mt.transformSection('synth1')
+
+  rack.ui.dial1.event = (v) => {
+    document.getElementById('result').innerHTML = v;
+  }
+
+  function volume(v) {
+    document.getElementById('result').innerHTML = v;
+  }
+
+</script>
+</html>
