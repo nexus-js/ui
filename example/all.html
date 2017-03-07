@@ -53,7 +53,10 @@
   textbutton = new mt.TextButton("#textbutton")
   radiobutton = new mt.RadioButton("#radiobutton")
   number = new mt.Number("#number")
-  dial = new mt.Dial("#dial")
+  dial = new mt.Dial("#dial",{
+    scale: [0,128],
+    step: 1
+  })
   piano = new mt.Piano("#piano")
   matrix = new mt.Matrix("#matrix")
 
