@@ -77,15 +77,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var dom = _interopRequire(__webpack_require__(7));
 	
-	var Rack = _interopRequire(__webpack_require__(29));
+	var Rack = _interopRequire(__webpack_require__(30));
 	
-	var Time = _interopRequire(__webpack_require__(30));
+	var Time = _interopRequire(__webpack_require__(31));
 	
-	var Tune = _interopRequire(__webpack_require__(35));
+	var Tune = _interopRequire(__webpack_require__(36));
 	
 	//import RangeModel from './models/range';
 	
-	var Counter = __webpack_require__(28);
+	var Counter = __webpack_require__(29);
 	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
@@ -194,8 +194,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  RadioButton: __webpack_require__(22),
 	  Number: __webpack_require__(23),
 	  Dial: __webpack_require__(24),
-	  Piano: __webpack_require__(25),
-	  Matrix: __webpack_require__(26)
+	  Piano: __webpack_require__(26),
+	  Matrix: __webpack_require__(27)
 	  /*  Multislider: require('./multislider'),
 	    Spectrograph: require('./spectrograph'),
 	    Meter: require('./meter'),
@@ -236,8 +236,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(Position.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this._value = {
-	      x: new Step(0, 1000),
-	      y: new Step(0, 1000)
+	      x: new Step(0, 128, 1),
+	      y: new Step(0, 128, 1)
 	    };
 	
 	    this.init();
@@ -288,11 +288,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
-	        this.value = {
-	          x: this._value.x.updateNormal(this.mouse.x / this.width),
-	          y: this._value.y.updateNormal(this.mouse.y / this.height)
-	        };
-	        this.render();
+	        this.move();
 	      }
 	    },
 	    move: {
@@ -302,6 +298,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            x: this._value.x.updateNormal(this.mouse.x / this.width),
 	            y: this._value.y.updateNormal(this.mouse.y / this.height)
 	          };
+	          this.emit("change", this.value);
 	          this.render();
 	        }
 	      }
@@ -314,8 +311,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: {
 	      get: function () {
 	        return {
-	          x: this._value.value.x,
-	          y: this._value.value.y
+	          x: this._value.x.value,
+	          y: this._value.y.value
 	        };
 	      },
 	      set: function (value) {
@@ -1093,10 +1090,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Step, {
 	    update: {
 	      value: function update(newvalue) {
-	
-	        //  console.log(oldValue,newvalue,this.value);
 	        if (this.step) {
-	          this.value = Math.round(math.clip(newvalue, this.min, this.max) / this.step) * this.step;
+	          this.value = math.clip(Math.round(newvalue / this.step) * this.step, this.min, this.max);
 	        } else {
 	          this.value = math.clip(newvalue, this.min, this.max);
 	        }
@@ -1112,7 +1107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    updateNormal: {
 	      value: function updateNormal(value) {
 	        this.value = math.scale(value, 0, 1, this.min, this.max);
-	        return this.value;
+	        return this.update(this.value);
 	      }
 	    },
 	    normalized: {
@@ -1315,9 +1310,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          } else {
 	            this.value = this._value.updateNormal((this.mouse.x - this.knobData.r) / (this.width - this.knobData.r * 2));
 	          }
-	          if (this._value.changed) {
-	            this.emit("change", this.value);
-	          }
+	          //  if (this._value.changed) {
+	          this.emit("change", this.value);
+	          //  }
 	          this.render();
 	        }
 	      }
@@ -2491,10 +2486,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(TextButton, {
 	    buildFrame: {
 	      value: function buildFrame() {
-	        var textsize = this.height / 2;
-	        console.log(textsize);
+	        var textsize = this.height / 3;
 	        var textsize2 = this.width / (this.text.off.length + 2);
-	        console.log(textsize2);
 	        textsize = Math.min(textsize, textsize2);
 	        this.element = document.createElement("div");
 	        var styles = "width: " + this.width + "px;";
@@ -2806,6 +2799,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -2819,6 +2814,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(10);
 	
+	var Interaction = _interopRequireWildcard(__webpack_require__(25));
+	
 	var Dial = (function (_Interface) {
 	  function Dial() {
 	    _classCallCheck(this, Dial);
@@ -2827,11 +2824,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [80, 80],
-	      interaction: "radial", // vertical, horizontal
-	      mode: "relative", // absolute
+	      interaction: "radial", // radial, vertical, horizontal
+	      mode: "relative", // absolute, relative
 	      scale: [0, 1],
 	      step: 0,
-	      value: 0
+	      value: 20
 	    };
 	
 	    _get(Object.getPrototypeOf(Dial.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -2846,9 +2843,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
 	
+	    this.position = new Interaction.Drag(this.mode, this.interaction, [0, this.width], [0, this.height]);
+	
 	    this.init();
 	
 	    this.value = this._value.value;
+	
+	    this.position.value = this._value.normalized;
 	
 	    this.emit("change", this.value);
 	  }
@@ -2878,7 +2879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.screw.setAttribute("r", diameter / 12);
 	        this.screw.setAttribute("fill", "#d18");
 	
-	        var value = 0.3;
+	        var value = this.value;
 	
 	        var handlePoints = {
 	          start: Math.PI * 1.5,
@@ -2962,6 +2963,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          end: math.clip(math.scale(value, 0.5, 1, Math.PI * 2.5, Math.PI * 1.5), Math.PI * 1.5, Math.PI * 2.5)
 	        };
 	
+	        console.log(handlePoints.start);
+	
 	        var handlePath = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handlePoints.start, handlePoints.end);
 	        var handle2Path = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handle2Points.start, handle2Points.end);
 	
@@ -2977,7 +2980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.handle2Fill.setAttribute("d", handle2Path);
 	
 	        var arcEndingA = undefined;
-	        if (value < 0.5) {
+	        if (value <= 0.5) {
 	          arcEndingA = handlePoints.end;
 	        } else {
 	          arcEndingA = handle2Points.end;
@@ -2992,31 +2995,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	    click: {
 	      value: function click() {
 	        this.previousAngle = false;
+	        this.position.anchor = this.mouse;
+	        this.position.value = this._value.normalized - 0.75;
 	        this.move();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
-	          var center = {
-	            x: this.width / 2,
-	            y: this.height / 2
-	          };
-	          var position = math.toPolar(this.mouse.x - center.x, this.mouse.y - center.y);
-	          position.angle = (position.angle + Math.PI * 1.5) % (Math.PI * 2);
-	          if (this.previousAngle !== false && Math.abs(this.previousAngle - position.angle) > 1) {
-	            if (this.previousAngle > 6) {
-	              position.angle = Math.PI * 2;
+	
+	          this.position.update(this.mouse);
+	
+	          var angle = this.position.value * Math.PI * 2 - Math.PI * 0.5;
+	
+	          if (angle < 0) {
+	            angle += Math.PI * 2;
+	          }
+	
+	          if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
+	            if (this.previousAngle > 3) {
+	              angle = Math.PI * 2;
 	            } else {
-	              position.angle = 0;
+	              angle = 0;
 	            }
 	          }
-	          this.previousAngle = position.angle;
+	          this.previousAngle = angle;
+	          //    this.position.value %= Math.PI*2;
 	
-	          this._value.updateNormal(position.angle / (Math.PI * 2));
-	          if (this._value.changed) {
-	            this.emit("change", this._value.value);
-	          }
+	          this.value = this._value.updateNormal(angle / (Math.PI * 2));
+	          //if (this._value.changed) {
+	          this.emit("change", this._value.value);
+	          //}
 	          this.render();
 	        }
 	      }
@@ -3029,7 +3038,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._value.value;
 	      },
 	      set: function (value) {
-	        return this._value.update(value);
+	        var newval = this._value.update(value);
+	        this.render();
+	        return newval;
 	      }
 	    },
 	    normalized: {
@@ -3046,6 +3057,149 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	"use strict";
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	/*
+	  absolute/relative are property: mode
+	  radial/vertical/horizontal/2d are property: direction
+	
+	  plan :
+	
+	  if relative --
+	  NO on click, get value offset between current value and click value.
+	  NO on move, use click value - offset
+	  INSTEAD
+	  use delta -- bc vertical motion on dial is imoossible otherwise
+	
+	  but also allow to set sensitivity
+	
+	*/
+	
+	var Drag = exports.Drag = (function () {
+	  function Drag() {
+	    var mode = arguments[0] === undefined ? "absolute" : arguments[0];
+	    var direction = arguments[1] === undefined ? "vertical" : arguments[1];
+	    var xbound = arguments[2] === undefined ? [0, 100] : arguments[2];
+	    var ybound = arguments[3] === undefined ? [0, 100] : arguments[3];
+	
+	    _classCallCheck(this, Drag);
+	
+	    this.mode = mode;
+	    this.direction = direction;
+	    this.boundary = {
+	      min: {
+	        x: xbound[0],
+	        y: ybound[0]
+	      },
+	      max: {
+	        x: xbound[1],
+	        y: ybound[1]
+	      },
+	      center: {
+	        x: (xbound[1] - xbound[0]) / 2 + xbound[0],
+	        y: (ybound[1] - ybound[0]) / 2 + ybound[0]
+	      }
+	    };
+	    this.previous = 0;
+	    this.value = 0;
+	  }
+	
+	  _createClass(Drag, {
+	    anchor: {
+	      set: function (mouse) {
+	        this._anchor = this.convertPositionToValue(mouse);
+	      },
+	      get: function () {
+	        return this._anchor;
+	      }
+	    },
+	    update: {
+	      value: function update(mouse) {
+	        if (this.mode === "relative") {
+	          var increment = this.convertPositionToValue(mouse) - this.anchor;
+	          if (Math.abs(increment) > 0.5) {
+	            increment = 0;
+	          }
+	          this.anchor = mouse;
+	          this.value = this.value + increment;
+	        } else {
+	          this.value = this.convertPositionToValue(mouse);
+	        }
+	        //  this.value = math.clip(this.value,0,1);
+	      }
+	    },
+	    convertPositionToValue: {
+	      value: function convertPositionToValue(current) {
+	        switch (this.direction) {
+	          case "radial":
+	            var position = math.toPolar(current.x - this.boundary.center.x, current.y - this.boundary.center.y);
+	            // instead of using modulo, should simply adjust the lower values (0 - 0.5PI) to be higher (2PI - 2.5PI), then clip the numbers between 0.5 pi and 2.5 pi.
+	            //let angle = (position.angle + Math.PI*1.5) % (Math.PI*2);
+	            return position.angle / (Math.PI * 2);
+	          case "vertical":
+	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
+	          case "horizontal":
+	            return math.scale(current.x, this.boundary.min.x, this.boundary.max.x, 0, 1);
+	            //    case '2d':
+	
+	            //    break;
+	        }
+	      }
+	    }
+	  });
+	
+	  return Drag;
+	})();
+
+	/*
+	setup:
+	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
+	// dial.interaction.mode = 'relative'
+	// dial.interaction.direction = 'radial'
+
+	on click:
+	dial.interaction.anchor = this.mouse
+
+	on move:
+	dial.interaction.update(this.mouse);
+
+	console.log( dial.interaction.value ); should be a normalized value.
+
+
+	*/
+
+	/*
+	OLD
+	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
+	dial.interaction.mode = 'relative'
+	dial.interaction.direction = 'radial'
+	dial.interaction.origin = { x: this.mouse.x, y: this.mouse.y };
+	//dial.interaction.current = this.mouse
+
+	dial.interaction.update(this.mouse);
+
+	console.log( dial.interaction.value ); should be a normalized value.
+
+
+	*/
+
+/***/ },
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3313,7 +3467,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3329,8 +3483,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(20);
-	var MatrixModel = __webpack_require__(27);
-	var CounterModel = __webpack_require__(28);
+	var MatrixModel = __webpack_require__(28);
+	var CounterModel = __webpack_require__(29);
 	//let Time = require('../core/time');
 	
 	var MatrixCell = (function (_ButtonTemplate) {
@@ -3615,7 +3769,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// if mouse up, then turn off hover for other keys
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -3850,7 +4004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 } */
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3927,7 +4081,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4151,7 +4305,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4162,9 +4316,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(31));
+	var WAAClock = _interopRequire(__webpack_require__(32));
 	
-	var Interval = _interopRequire(__webpack_require__(34));
+	var Interval = _interopRequire(__webpack_require__(35));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -4193,17 +4347,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(32)
+	var WAAClock = __webpack_require__(33)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -4440,10 +4594,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -4629,7 +4783,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4696,7 +4850,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4707,7 +4861,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(36));
+	var scales = _interopRequire(__webpack_require__(37));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -4942,7 +5096,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 	"use strict";
