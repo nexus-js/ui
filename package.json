@@ -1,7 +1,7 @@
 {
-    "name": "es6-webpack-boilerplate",
-    "version": "0.0.1",
-    "description": "Boilerplate for es6 and webpack",
+    "name": "NexusUI: Musician's Toolkit",
+    "version": "1.9.1",
+    "description": "Web Audio Interfaces, Tuning, and Timing",
     "main": "index.js",
     "scripts": {
         "start": "script/build",
@@ -10,20 +10,16 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/airamrguez/es6-webpack-boilerplate"
+        "url": "https://github.com/nexus-js/nexusui"
     },
     "keywords": [
-        "babel",
-        "es6",
-        "webpack",
-        "boilerplate"
     ],
-    "author": "Airam Rguez",
+    "author": "Benjamin Taylor",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/airamrguez/es6-webpack-boilerplate/issues"
+        "url": "https://github.com/nexus-js/nexusui/issues"
     },
-    "homepage": "https://github.com/airamrguez/es6-webpack-boilerplate",
+    "homepage": "https://nexusui.github.com/",
     "devDependencies": {
         "babel-core": "^4.7.16",
         "babel-jest": "^4.0.0",
@@ -34,7 +30,9 @@
         "jshint": "^2.6.3",
         "jshint-loader": "^0.8.3",
         "uglify-js": "^2.4.16",
-        "webpack": "^1.5.3"
+        "webpack": "^1.5.3",
+        "waaclock": "^0.5.3",
+        "color-ops": "^2.0.0",
     },
     "jest": {
         "scriptPreprocessor": "./node_modules/babel-jest",
