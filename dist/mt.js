@@ -1310,9 +1310,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          } else {
 	            this.value = this._value.updateNormal((this.mouse.x - this.knobData.r) / (this.width - this.knobData.r * 2));
 	          }
-	          //  if (this._value.changed) {
 	          this.emit("change", this.value);
-	          //  }
 	          this.render();
 	        }
 	      }
@@ -2823,7 +2821,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["scale", "value"];
 	
 	    var defaults = {
-	      size: [80, 80],
+	      size: [75, 75],
 	      interaction: "radial", // radial, vertical, horizontal
 	      mode: "relative", // absolute, relative
 	      scale: [0, 1],
@@ -3087,6 +3085,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = _interopRequire(__webpack_require__(5));
 	
 	/*
+	how to use :
+	
+	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
+	// dial.interaction.mode = 'relative'
+	// dial.interaction.direction = 'radial'
+	
+	on click:
+	dial.interaction.anchor = this.mouse
+	
+	on move:
+	dial.interaction.update(this.mouse);
+	
+	console.log( dial.interaction.value ); should be a normalized value.
+	
+	*/
+	
+	/*
 	  absolute/relative are property: mode
 	  radial/vertical/horizontal/2d are property: direction
 	
@@ -3096,9 +3111,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  NO on click, get value offset between current value and click value.
 	  NO on move, use click value - offset
 	  INSTEAD
-	  use delta -- bc vertical motion on dial is imoossible otherwise
-	
-	  but also allow to set sensitivity
+	  use delta -- bc vertical motion on dial is impossible otherwise
+	  also allow to set sensitivity
 	
 	*/
 	
@@ -3153,7 +3167,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	          this.value = this.convertPositionToValue(mouse);
 	        }
-	        //  this.value = math.clip(this.value,0,1);
+	        // this.value = math.clip(this.value,0,1);
 	      }
 	    },
 	    convertPositionToValue: {
@@ -3179,38 +3193,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return Drag;
 	})();
-
-	/*
-	setup:
-	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
-	// dial.interaction.mode = 'relative'
-	// dial.interaction.direction = 'radial'
-
-	on click:
-	dial.interaction.anchor = this.mouse
-
-	on move:
-	dial.interaction.update(this.mouse);
-
-	console.log( dial.interaction.value ); should be a normalized value.
-
-
-	*/
-
-	/*
-	OLD
-	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
-	dial.interaction.mode = 'relative'
-	dial.interaction.direction = 'radial'
-	dial.interaction.origin = { x: this.mouse.x, y: this.mouse.y };
-	//dial.interaction.current = this.mouse
-
-	dial.interaction.update(this.mouse);
-
-	console.log( dial.interaction.value ); should be a normalized value.
-
-
-	*/
 
 /***/ },
 /* 26 */
