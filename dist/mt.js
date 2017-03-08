@@ -2824,7 +2824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [80, 80],
-	      interaction: "horizontal", // radial, vertical, horizontal
+	      interaction: "radial", // radial, vertical, horizontal
 	      mode: "relative", // absolute, relative
 	      scale: [0, 1],
 	      step: 0,
@@ -3129,7 +3129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    this.previous = 0;
 	    this.value = 0;
-	    this.sensitivity = 0.5;
+	    this.sensitivity = 1;
 	  }
 	
 	  _createClass(Drag, {
