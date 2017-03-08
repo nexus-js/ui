@@ -208,6 +208,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -220,6 +222,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(10);
 	
+	var Interaction = _interopRequireWildcard(__webpack_require__(25));
+	
 	var Position = (function (_Interface) {
 	  function Position() {
 	    _classCallCheck(this, Position);
@@ -227,7 +231,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["scale", "value"];
 	
 	    var defaults = {
-	      size: [200, 200]
+	      size: [200, 200],
+	      mode: "absolute"
 	      //scaleX, scaleY
 	      //valueX, valueY
 	      //stepX, stepY
@@ -236,11 +241,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(Position.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this._value = {
-	      x: new Step(0, 128, 1),
-	      y: new Step(0, 128, 1)
+	      x: new Step(0, 1, 0, 0.5),
+	      y: new Step(0, 1, 0, 0.5)
 	    };
 	
+	    this.mode = this.settings.mode;
+	
+	    this.position = {
+	      x: new Interaction.Drag(this.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Drag(this.mode, "vertical", [0, this.width], [this.height, 0])
+	    };
+	    this.position.x.value = this._value.x.normalized;
+	    this.position.y.value = this._value.y.normalized;
+	
 	    this.init();
+	    this.render();
 	  }
 	
 	  _inherits(Position, _Interface);
@@ -250,7 +265,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.element.style.backgroundColor = "#e7e7e7";
-	        //  this.element.style.borderRadius = '5px';
 	
 	        this._minDimension = Math.min(this.width, this.height);
 	
@@ -279,7 +293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.knobCoordinates = {
 	          x: this._value.x.normalized * this.width,
-	          y: this._value.y.normalized * this.height
+	          y: this.height - this._value.y.normalized * this.height
 	        };
 	
 	        this.knob.setAttribute("cx", this.knobCoordinates.x);
@@ -288,15 +302,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
+	        this.position.x.anchor = this.mouse;
+	        this.position.y.anchor = this.mouse;
 	        this.move();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
+	          this.position.x.update(this.mouse);
+	          this.position.y.update(this.mouse);
 	          this.value = {
-	            x: this._value.x.updateNormal(this.mouse.x / this.width),
-	            y: this._value.y.updateNormal(this.mouse.y / this.height)
+	            x: this._value.x.updateNormal(this.position.x.value),
+	            y: this._value.y.updateNormal(this.position.y.value)
 	          };
 	          this.emit("change", this.value);
 	          this.render();
@@ -3193,9 +3211,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
 	          case "horizontal":
 	            return math.scale(current.x, this.boundary.min.x, this.boundary.max.x, 0, 1);
-	            //    case '2d':
-	
-	            //    break;
+	            /*  case '2d':
+	                return {
+	                  x: math.scale(current.x,this.boundary.min.x,this.boundary.max.x,0,1),
+	                  y: math.scale(current.y,this.boundary.min.y,this.boundary.max.y,0,1)
+	                } */
 	        }
 	      }
 	    }
