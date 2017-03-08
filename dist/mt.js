@@ -2824,7 +2824,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [80, 80],
-	      interaction: "radial", // radial, vertical, horizontal
+	      interaction: "horizontal", // radial, vertical, horizontal
 	      mode: "relative", // absolute, relative
 	      scale: [0, 1],
 	      step: 0,
@@ -2843,13 +2843,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
 	
-	    this.position = new Interaction.Drag(this.mode, this.interaction, [0, this.width], [0, this.height]);
+	    this.position = new Interaction.Drag(this.mode, this.interaction, [0, this.width], [this.height, 0]);
 	
 	    this.init();
 	
 	    this.value = this._value.value;
 	
 	    this.position.value = this._value.normalized;
+	
+	    this.previousAngle = false;
 	
 	    this.emit("change", this.value);
 	  }
@@ -2963,8 +2965,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          end: math.clip(math.scale(value, 0.5, 1, Math.PI * 2.5, Math.PI * 1.5), Math.PI * 1.5, Math.PI * 2.5)
 	        };
 	
-	        console.log(handlePoints.start);
-	
 	        var handlePath = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handlePoints.start, handlePoints.end);
 	        var handle2Path = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handle2Points.start, handle2Points.end);
 	
@@ -2994,9 +2994,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
-	        this.previousAngle = false;
+	        if (this.mode === "relative") {
+	          this.previousAngle = false;
+	        }
 	        this.position.anchor = this.mouse;
-	        this.position.value = this._value.normalized - 0.75;
+	        this.position.value = this._value.normalized;
 	        this.move();
 	      }
 	    },
@@ -3006,17 +3008,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          this.position.update(this.mouse);
 	
-	          var angle = this.position.value * Math.PI * 2 - Math.PI * 0.5;
+	          var angle = this.position.value * Math.PI * 2;
 	
 	          if (angle < 0) {
 	            angle += Math.PI * 2;
 	          }
 	
-	          if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
-	            if (this.previousAngle > 3) {
-	              angle = Math.PI * 2;
-	            } else {
-	              angle = 0;
+	          if (this.mode === "relative") {
+	            if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
+	              if (this.previousAngle > 3) {
+	                angle = Math.PI * 2;
+	              } else {
+	                angle = 0;
+	              }
+	            }
+	          } else {
+	            if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
+	              if (this.previousAngle > 3) {
+	                angle = Math.PI * 2;
+	              } else {
+	                angle = 0;
+	              }
 	            }
 	          }
 	          this.previousAngle = angle;
@@ -3117,6 +3129,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	    this.previous = 0;
 	    this.value = 0;
+	    this.sensitivity = 0.5;
 	  }
 	
 	  _createClass(Drag, {
@@ -3136,7 +3149,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            increment = 0;
 	          }
 	          this.anchor = mouse;
-	          this.value = this.value + increment;
+	          this.value = this.value + increment * this.sensitivity;
 	        } else {
 	          this.value = this.convertPositionToValue(mouse);
 	        }
@@ -3149,8 +3162,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          case "radial":
 	            var position = math.toPolar(current.x - this.boundary.center.x, current.y - this.boundary.center.y);
 	            // instead of using modulo, should simply adjust the lower values (0 - 0.5PI) to be higher (2PI - 2.5PI), then clip the numbers between 0.5 pi and 2.5 pi.
-	            //let angle = (position.angle + Math.PI*1.5) % (Math.PI*2);
-	            return position.angle / (Math.PI * 2);
+	            position = position.angle / (Math.PI * 2);
+	            position = (position - 0.25) % 1;
+	            return position;
 	          case "vertical":
 	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
 	          case "horizontal":
