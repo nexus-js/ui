@@ -1,5 +1,5 @@
 {
-    "name": "NexusUI: Musician's Toolkit",
+    "name": "nexusui",
     "version": "1.9.1",
     "description": "Web Audio Interfaces, Tuning, and Timing",
     "main": "index.js",
@@ -32,7 +32,7 @@
         "uglify-js": "^2.4.16",
         "webpack": "^1.5.3",
         "waaclock": "^0.5.3",
-        "color-ops": "^2.0.0",
+        "color-ops": "^2.0.0"
     },
     "jest": {
         "scriptPreprocessor": "./node_modules/babel-jest",
