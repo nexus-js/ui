@@ -1134,6 +1134,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -1145,6 +1147,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(10);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(25));
 	
 	/**
 	Slider interface
@@ -1182,6 +1186,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.init();
 	
 	    this.value = this._value.value;
+	
+	    this.position = new Interaction.Drag(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
 	
 	    this.emit("change", this.value);
 	  }
@@ -1240,9 +1247,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("height", h);
 	        this.bar.setAttribute("fill", "#e7e7e7");
 	
-	        // place the setAttribute x,y,width and height below into an if statement
-	        // re: vertical, horizontal.
-	
 	        this.fillbar = svg.create("rect");
 	        if (this.orientation === "vertical") {
 	          this.fillbar.setAttribute("x", x);
@@ -1285,9 +1289,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        if (this.orientation === "vertical") {
 	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
-	          this.knob.setAttribute("cy", this.knobData.level);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("height", this.height - this.knobData.level);
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
 	        } else {
 	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
 	          this.knob.setAttribute("cx", this.knobData.level);
@@ -1299,17 +1303,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    click: {
 	      value: function click() {
 	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
 	        this.move();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
-	          if (this.orientation === "vertical") {
-	            this.value = this._value.updateNormal((this.mouse.y - this.knobData.r) / (this.height - this.knobData.r * 2));
-	          } else {
-	            this.value = this._value.updateNormal((this.mouse.x - this.knobData.r) / (this.width - this.knobData.r * 2));
-	          }
+	          this.position.update(this.mouse);
+	
+	          this.value = this._value.updateNormal(this.position.value);
+	
+	          /*    if (this.orientation === 'vertical') {
+	                this.value = this._value.updateNormal( (this.mouse.y - this.knobData.r) / (this.height-this.knobData.r*2)   );
+	              } else {
+	                this.value = this._value.updateNormal( (this.mouse.x - this.knobData.r) / (this.width-this.knobData.r*2)   );
+	              } */
+	
 	          this.emit("change", this.value);
 	          this.render();
 	        }
@@ -3167,7 +3177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	          this.value = this.convertPositionToValue(mouse);
 	        }
-	        // this.value = math.clip(this.value,0,1);
+	        this.value = math.clip(this.value, 0, 1);
 	      }
 	    },
 	    convertPositionToValue: {
