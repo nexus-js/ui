@@ -1129,6 +1129,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Step);
 	
 	    //Object.assign(this,{min,max,step});
+	    //Cannot use Object.assign because not supported in Safari.
+	    //I would expect for Babel to take care of this but it is now.
 	    this.min = min;
 	    this.max = max;
 	    this.step = step;
@@ -1167,9 +1169,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    up: {
+	
+	      // move this.value up by this.step
+	      // keep it in bounds of min and max
+	
 	      value: function up() {}
 	    },
 	    down: {
+	
+	      // move this.value down by this.step
+	      // keep it in bounds of min and max
+	
 	      value: function down() {}
 	    }
 	  });
@@ -1787,13 +1797,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Toggle, {
 	    flip: {
 	      value: function flip(state) {
-	        console.log("flipping", this.state);
 	        if (state || state === false) {
 	          this.state = state;
 	        } else {
 	          this.state = !this.state;
 	        }
-	        console.log("to", this.state);
 	      }
 	    },
 	    on: {
@@ -3483,7 +3491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
-	      mode: "aftertouch",
+	      mode: "toggle",
 	      value: 0
 	    };
 	
@@ -4090,7 +4098,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _classCallCheck(this, Matrix);
 	
-	    // should also have ability to create with an existing matrix
+	    // should also have ability to create using an existing matrix (2d array)
 	    this.rows = rows;
 	    this.columns = columns;
 	    this.pattern = [];
@@ -4144,12 +4152,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this.ui.update();
 	      } };
 	
+	    // the idea behind populate is to be able to set a whole row or colum to 0 or 1
+	    // IF the value is a float, such as 0.7, then it would become a probability
+	    // so populate(0.7) would give each cell a 70% chance of being 1
 	    this.populate = {
 	      all: function () {},
 	      row: function () {},
 	      column: function () {}
 	    };
 	
+	    // essentiall populate(0) so i'm not sure if this is necessary but is nice
 	    this.erase = {
 	      all: function () {},
 	      row: function () {},
@@ -4199,7 +4211,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, function () {
 	          patternString += "\n";
 	        });
-	        console.log(patternString);
 	        return patternString;
 	      }
 	    },
@@ -4215,7 +4226,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    locate: {
 	      value: function locate(index) {
-	        // returns row/col of cell
+	        // returns row and column of cell by index
 	        return {
 	          row: ~ ~(index / this.columns),
 	          column: index % this.columns
@@ -4225,7 +4236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    indexOf: {
 	      value: function indexOf(row, column) {
 	        return column + row * this.columns;
-	        // returns row/col of cell
+	        // returns index of cell by row and column
 	      }
 	    },
 	    row: {
@@ -4267,26 +4278,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	
 	      /* brainstorm:
-	        ** rotate single row or column
-	        ** randomly fill row with some probability
+	         rotate single row or column
+	         randomly fill row with some probability
 	          populateRow([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
 	        invert row?
 	        erase row or column
-	        add/remove row or column
-	        toggle random cell
+	        ** add/remove row or column <= there is no function for this yet.
+	        toggle random cell ?
 	          performance:
+	        // these should probably be methods of the matrix interface in interfaces/matrix.js
+	        // or should they be here?
 	        start sequencing
 	        stop sequencing
-	        sequencing modes -- direction w/ step, drunk, random, in pattern
-	        sequence rows too
+	        sequencing modes -- direction w/ step, drunk, random, pattern
+	        sequence vertically too
 	        loop portion
 	        jump to column index
-	          matrix1.model.row[0].erase()
-	        vs
-	        matrix1.model.eraseRow(0)
-	        vs
-	        matrix1.model.erase.row(0)
-	        */
+	       */
 	
 	      )
 	    }
@@ -4297,15 +4305,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Matrix;
 	
-	/*    all: () => {
-	     },
+	/*  all: () => {
+	      // set the whole matrix using a 2d array as input
+	    },
 	    row: () => {
-	     },
+	      // set a row using an array as input
+	    },
 	    column: () => {
-	     } */
+	      // set a row using an array as input
+	    } */
 
-	/*    column: () => {
-	 } */
+	/*  column: () => {
+	      // rotate the values in a column
+	      // i.e. 1 2 3 4   becomes 4 1 2 3
+	    } */
 
 /***/ },
 /* 29 */
