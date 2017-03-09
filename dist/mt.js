@@ -379,6 +379,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var d = ["M", start.x + x, start.y + y, "A", radius, radius, 0, largeArcFlag, 0, end.x + x, end.y + y].join(" ");
 	
 	    return d;
+	  },
+	
+	  radialGradient: function (defs, numberOfStops) {
+	
+	    var id = "gradient" + math.ri(100000000000);
+	    var stops = [];
+	
+	    var gradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
+	    gradient.setAttribute("id", id);
+	    gradient.setAttribute("cx", "50%");
+	    gradient.setAttribute("cy", "50%");
+	    gradient.setAttribute("r", "50%");
+	
+	    defs.appendChild(gradient);
+	
+	    for (var i = 0; i < numberOfStops; i++) {
+	      var _stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+	      _stop.setAttribute("id", "stop" + i);
+	      //stop.setAttribute('offset', '70%');
+	      //stop.setAttribute('stop-color', 'White');
+	      gradient.appendChild(_stop);
+	      stops.push(_stop);
+	    }
+	
+	    return {
+	      id: id,
+	      stops: stops,
+	      element: gradient
+	    };
 	  }
 	
 	};
@@ -2327,10 +2356,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
+	      mode: "aftertouch", // default, aftertouch, impulse, toggle
 	      value: 0
 	    };
 	
 	    _get(Object.getPrototypeOf(Button.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.aftertouch = this.settings.aftertouch;
+	    this.mode = this.settings.mode;
+	
 	    this.init();
 	    this.render();
 	  }
@@ -2349,6 +2383,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pad.setAttribute("stroke-width", 4);
 	
 	        this.element.appendChild(this.pad);
+	
+	        // only used if in 'aftertouch' mode
+	        this.defs = svg.create("defs");
+	        this.element.appendChild(this.defs);
+	
+	        this.gradient = svg.radialGradient(this.defs, 2);
+	
+	        this.gradient.stops[0].setAttribute("offset", "60%");
+	        this.gradient.stops[0].setAttribute("stop-color", "#d18");
+	
+	        this.gradient.stops[1].setAttribute("offset", "150%");
+	        this.gradient.stops[1].setAttribute("stop-color", "#eee");
 	      }
 	    },
 	    render: {
@@ -2357,8 +2403,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.pad.setAttribute("fill", "#e7e7e7");
 	          this.pad.setAttribute("stroke", "#ccc");
 	        } else {
+	          if (this.mode === "aftertouch") {
+	            this.pad.setAttribute("stroke", "url(#" + this.gradient.id + ")");
+	            this.gradient.element.setAttribute("cx", this.position.x * 100 + "%");
+	            this.gradient.element.setAttribute("cy", this.position.y * 100 + "%");
+	          } else {
+	            this.pad.setAttribute("stroke", "#d18");
+	          }
 	          this.pad.setAttribute("fill", "#d18");
-	          this.pad.setAttribute("stroke", "#d18");
 	        }
 	      }
 	    }
@@ -2393,6 +2445,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(ButtonTemplate.prototype), "constructor", this).call(this, args, options, defaults);
 	
+	    this.mode = this.settings.mode || "button";
+	
+	    this.position = {
+	      x: 0,
+	      y: 0
+	    };
+	
 	    this._state = new ToggleModel();
 	  }
 	
@@ -2425,14 +2484,71 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
-	        this.turnOn();
-	        this.emit("change", this.state);
+	        switch (this.mode) {
+	          case "impulse":
+	            this.turnOn();
+	            if (this.timeout) {
+	              clearTimeout(this.timeout);
+	            }
+	            this.timeout = setTimeout(this.turnOff.bind(this), 30);
+	            this.emit("change", this.state);
+	            break;
+	          case "button":
+	            this.turnOn();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.position = {
+	              x: this.mouse.x / this.width,
+	              y: this.mouse.y / this.height
+	            };
+	            this.turnOn();
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	          case "toggle":
+	            this.flip();
+	            this.emit("change", this.state);
+	            break;
+	        }
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.mode === "aftertouch") {
+	          this.position = {
+	            x: this.mouse.x / this.width,
+	            y: this.mouse.y / this.height
+	          };
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
+	          this.render();
+	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
-	        this.turnOff();
-	        this.emit("change", this.state);
+	        switch (this.mode) {
+	          case "button":
+	            this.turnOff();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.turnOff();
+	            this.position = {
+	              x: this.mouse.x / this.width,
+	              y: this.mouse.y / this.height
+	            };
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	        }
 	      }
 	    },
 	    state: {
@@ -3251,6 +3367,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
+	      //  'mode': 'toggle',
 	      value: 0
 	    };
 	
