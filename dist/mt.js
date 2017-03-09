@@ -185,15 +185,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	  Position: __webpack_require__(3),
-	  Slider: __webpack_require__(11),
-	  Toggle: __webpack_require__(12),
-	  Range: __webpack_require__(14),
-	  Waveform: __webpack_require__(18),
-	  Button: __webpack_require__(19),
-	  TextButton: __webpack_require__(21),
-	  RadioButton: __webpack_require__(22),
-	  Number: __webpack_require__(23),
-	  Dial: __webpack_require__(24),
+	  Slider: __webpack_require__(12),
+	  Toggle: __webpack_require__(13),
+	  Range: __webpack_require__(15),
+	  Waveform: __webpack_require__(19),
+	  Button: __webpack_require__(20),
+	  TextButton: __webpack_require__(22),
+	  RadioButton: __webpack_require__(23),
+	  Number: __webpack_require__(24),
+	  Dial: __webpack_require__(25),
 	  Piano: __webpack_require__(26),
 	  Matrix: __webpack_require__(27)
 	  /*  Multislider: require('./multislider'),
@@ -222,7 +222,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(10);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(25));
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
 	
 	var Position = (function (_Interface) {
 	  function Position() {
@@ -248,8 +248,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.mode = this.settings.mode;
 	
 	    this.position = {
-	      x: new Interaction.Drag(this.mode, "horizontal", [0, this.width], [this.height, 0]),
-	      y: new Interaction.Drag(this.mode, "vertical", [0, this.width], [this.height, 0])
+	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
 	    };
 	    this.position.x.value = this._value.x.normalized;
 	    this.position.y.value = this._value.y.normalized;
@@ -701,8 +701,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // 10000 getComputedStyle calls takes 40 ms.
 	        // .:. one takes about .004ms
 	        this.offset = dom.findPosition(this.element);
-	        this.mouse.x = e.pageX - this.offset.left;
-	        this.mouse.y = e.pageY - this.offset.top;
+	        this.mouse = dom.locateMouse(e, this.offset);
 	        this.clicked = true;
 	        this.click();
 	        this.moveEvent = document.addEventListener("mousemove", this.boundPreMove);
@@ -716,8 +715,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	
 	        if (!this.wait) {
-	          this.mouse.x = e.pageX - this.offset.left;
-	          this.mouse.y = e.pageY - this.offset.top;
+	          this.mouse = dom.locateMouse(e, this.offset);
 	          this.move();
 	          this.wait = true;
 	          setTimeout(function () {
@@ -730,8 +728,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    preRelease: {
 	      value: function preRelease(e) {
-	        this.mouse.x = e.pageX - this.offset.left;
-	        this.mouse.y = e.pageY - this.offset.top;
+	        this.mouse = dom.locateMouse(e, this.offset);
 	        this.clicked = false;
 	        this.release();
 	        document.removeEventListener("mousemove", this.boundPreMove);
@@ -779,6 +776,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } else {
 	    return "No valid parent argument";
 	  }
+	};
+	
+	exports.locateMouse = function (e, offset) {
+	  return {
+	    x: e.pageX - offset.left,
+	    y: e.pageY - offset.top
+	  };
 	};
 
 /***/ },
@@ -1181,6 +1185,226 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	"use strict";
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var ToggleModel = _interopRequire(__webpack_require__(14));
+	
+	/*
+	how to use :
+	
+	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
+	// dial.interaction.mode = 'relative'
+	// dial.interaction.direction = 'radial'
+	
+	on click:
+	dial.interaction.anchor = this.mouse
+	
+	on move:
+	dial.interaction.update(this.mouse);
+	
+	console.log( dial.interaction.value ); should be a normalized value.
+	
+	*/
+	
+	/*
+	  absolute/relative are property: mode
+	  radial/vertical/horizontal/2d are property: direction
+	
+	  plan :
+	
+	  if relative --
+	  NO on click, get value offset between current value and click value.
+	  NO on move, use click value - offset
+	  INSTEAD
+	  use delta -- bc vertical motion on dial is impossible otherwise
+	  also allow to set sensitivity
+	
+	*/
+	
+	var Handle = exports.Handle = (function () {
+	  function Handle() {
+	    var mode = arguments[0] === undefined ? "absolute" : arguments[0];
+	    var direction = arguments[1] === undefined ? "vertical" : arguments[1];
+	    var xbound = arguments[2] === undefined ? [0, 100] : arguments[2];
+	    var ybound = arguments[3] === undefined ? [0, 100] : arguments[3];
+	
+	    _classCallCheck(this, Handle);
+	
+	    this.mode = mode;
+	    this.direction = direction;
+	    this.boundary = {
+	      min: {
+	        x: xbound[0],
+	        y: ybound[0]
+	      },
+	      max: {
+	        x: xbound[1],
+	        y: ybound[1]
+	      },
+	      center: {
+	        x: (xbound[1] - xbound[0]) / 2 + xbound[0],
+	        y: (ybound[1] - ybound[0]) / 2 + ybound[0]
+	      }
+	    };
+	    this.previous = 0;
+	    this.value = 0;
+	    this.sensitivity = 1;
+	  }
+	
+	  _createClass(Handle, {
+	    anchor: {
+	      set: function (mouse) {
+	        this._anchor = this.convertPositionToValue(mouse);
+	      },
+	      get: function () {
+	        return this._anchor;
+	      }
+	    },
+	    update: {
+	      value: function update(mouse) {
+	        if (this.mode === "relative") {
+	          var increment = this.convertPositionToValue(mouse) - this.anchor;
+	          if (Math.abs(increment) > 0.5) {
+	            increment = 0;
+	          }
+	          this.anchor = mouse;
+	          this.value = this.value + increment * this.sensitivity;
+	        } else {
+	          this.value = this.convertPositionToValue(mouse);
+	        }
+	        this.value = math.clip(this.value, 0, 1);
+	      }
+	    },
+	    convertPositionToValue: {
+	      value: function convertPositionToValue(current) {
+	        switch (this.direction) {
+	          case "radial":
+	            var position = math.toPolar(current.x - this.boundary.center.x, current.y - this.boundary.center.y);
+	            // instead of using modulo, should simply adjust the lower values (0 - 0.5PI) to be higher (2PI - 2.5PI), then clip the numbers between 0.5 pi and 2.5 pi.
+	            position = position.angle / (Math.PI * 2);
+	            position = (position - 0.25) % 1;
+	            return position;
+	          case "vertical":
+	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
+	          case "horizontal":
+	            return math.scale(current.x, this.boundary.min.x, this.boundary.max.x, 0, 1);
+	            /*  case '2d':
+	                return {
+	                  x: math.scale(current.x,this.boundary.min.x,this.boundary.max.x,0,1),
+	                  y: math.scale(current.y,this.boundary.min.y,this.boundary.max.y,0,1)
+	                } */
+	        }
+	      }
+	    }
+	  });
+	
+	  return Handle;
+	})();
+	
+	var Button = exports.Button = (function () {
+	  function Button() {
+	    var mode = arguments[0] === undefined ? "button" : arguments[0];
+	
+	    _classCallCheck(this, Button);
+	
+	    this.mode = mode;
+	    this.state = new ToggleModel();
+	    this.paintbrush = false;
+	  }
+	
+	  _createClass(Button, {
+	    click: {
+	      value: function click() {
+	        switch (this.mode) {
+	          case "impulse":
+	            this.state.on();
+	            if (this.timeout) {
+	              clearTimeout(this.timeout);
+	            }
+	            this.timeout = setTimeout(this.state.off.bind(this), 30);
+	            this.emit("change", this.state);
+	            break;
+	          case "button":
+	            this.turnOn();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.position = {
+	              x: this.mouse.x / this.width,
+	              y: this.mouse.y / this.height
+	            };
+	            this.turnOn();
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	          case "toggle":
+	            this.flip();
+	            this.emit("change", this.state);
+	            break;
+	        }
+	        console.log("clicked");
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.mode === "aftertouch") {
+	          this.position = {
+	            x: this.mouse.x / this.width,
+	            y: this.mouse.y / this.height
+	          };
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        switch (this.mode) {
+	          case "button":
+	            this.turnOff();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.turnOff();
+	            this.position = {
+	              x: this.mouse.x / this.width,
+	              y: this.mouse.y / this.height
+	            };
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	        }
+	      }
+	    }
+	  });
+	
+	  return Button;
+	})();
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1195,7 +1419,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(10);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(25));
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
 	
 	/**
 	Slider interface
@@ -1234,7 +1458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.value = this._value.value;
 	
-	    this.position = new Interaction.Drag(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
 	    this.position.value = this._value.normalized;
 	
 	    this.emit("change", this.value);
@@ -1398,7 +1622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Slider;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1412,7 +1636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(13);
+	var ToggleModel = __webpack_require__(14);
 	var Interface = __webpack_require__(6);
 	
 	var Toggle = (function (_Interface) {
@@ -1544,7 +1768,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1563,11 +1787,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Toggle, {
 	    flip: {
 	      value: function flip(state) {
+	        console.log("flipping", this.state);
 	        if (state || state === false) {
 	          this.state = state;
 	        } else {
 	          this.state = !this.state;
 	        }
+	        console.log("to", this.state);
 	      }
 	    },
 	    on: {
@@ -1588,7 +1814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1605,7 +1831,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
-	var RangeSlider = __webpack_require__(15);
+	var RangeSlider = __webpack_require__(16);
 	
 	// next: turn knobR and knoby into this.knobR etc
 	
@@ -1649,7 +1875,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1665,10 +1891,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var RangeModel = __webpack_require__(16);
+	var RangeModel = __webpack_require__(17);
 	var math = __webpack_require__(5);
-	var ColorOps = __webpack_require__(17);
-	window.ColorOps = __webpack_require__(17);
+	var ColorOps = __webpack_require__(18);
+	window.ColorOps = __webpack_require__(18);
 	
 	var Interface = _interopRequire(__webpack_require__(6));
 	
@@ -1817,7 +2043,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = RangeSlider;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1874,7 +2100,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports) {
 
 	var colorFunctions = {
@@ -2115,7 +2341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2132,7 +2358,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
-	var RangeSlider = __webpack_require__(15);
+	var RangeSlider = __webpack_require__(16);
 	
 	var Waveform = (function (_Interface) {
 	  function Waveform() {
@@ -2331,7 +2557,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2345,7 +2571,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ButtonTemplate = __webpack_require__(20);
+	var ButtonTemplate = __webpack_require__(21);
 	
 	var Button = (function (_ButtonTemplate) {
 	  function Button() {
@@ -2356,7 +2582,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
-	      mode: "aftertouch", // default, aftertouch, impulse, toggle
+	      mode: "aftertouch", // button, aftertouch, impulse, toggle
 	      value: 0
 	    };
 	
@@ -2390,10 +2616,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.gradient = svg.radialGradient(this.defs, 2);
 	
-	        this.gradient.stops[0].setAttribute("offset", "60%");
+	        this.gradient.stops[0].setAttribute("offset", "30%");
 	        this.gradient.stops[0].setAttribute("stop-color", "#d18");
 	
-	        this.gradient.stops[1].setAttribute("offset", "150%");
+	        this.gradient.stops[1].setAttribute("offset", "100%");
 	        this.gradient.stops[1].setAttribute("stop-color", "#eee");
 	      }
 	    },
@@ -2422,7 +2648,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Button;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2436,7 +2662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(13);
+	var ToggleModel = __webpack_require__(14);
 	var Interface = __webpack_require__(6);
 	
 	var ButtonTemplate = (function (_Interface) {
@@ -2482,8 +2708,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    click: {
-	      value: function click() {
+	    down: {
+	      value: function down(paintbrush) {
 	        switch (this.mode) {
 	          case "impulse":
 	            this.turnOn();
@@ -2509,15 +2735,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	              y: this.position.y });
 	            break;
 	          case "toggle":
-	            this.flip();
+	            console.log(paintbrush);
+	            this.flip(paintbrush);
 	            this.emit("change", this.state);
 	            break;
 	        }
 	      }
 	    },
-	    move: {
-	      value: function move() {
+	    bend: {
+	      value: function bend(mouse) {
 	        if (this.mode === "aftertouch") {
+	          this.mouse = mouse || this.mouse;
 	          this.position = {
 	            x: this.mouse.x / this.width,
 	            y: this.mouse.y / this.height
@@ -2530,8 +2758,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    release: {
-	      value: function release() {
+	    up: {
+	      value: function up() {
 	        switch (this.mode) {
 	          case "button":
 	            this.turnOff();
@@ -2551,6 +2779,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
+	    click: {
+	
+	      /* overwritable interaction handlers */
+	
+	      value: function click() {
+	        this.down();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        this.bend();
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.up();
+	      }
+	    },
 	    state: {
 	      get: function () {
 	        return this._state.state;
@@ -2562,8 +2808,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    flip: {
-	      value: function flip() {
-	        this._state.flip();
+	      value: function flip(value) {
+	        this._state.flip(value);
 	        this.render();
 	      }
 	    },
@@ -2587,7 +2833,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = ButtonTemplate;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2600,7 +2846,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var ButtonTemplate = __webpack_require__(20);
+	var ButtonTemplate = __webpack_require__(21);
 	
 	var TextButton = (function (_ButtonTemplate) {
 	  function TextButton() {
@@ -2670,7 +2916,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = TextButton;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2685,7 +2931,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//let svg = require('../util/svg');
 	var Interface = __webpack_require__(6);
-	var Button = __webpack_require__(19);
+	var Button = __webpack_require__(20);
 	
 	var RadioButton = (function (_Interface) {
 	  function RadioButton() {
@@ -2773,7 +3019,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2936,7 +3182,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Number;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2956,7 +3202,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(10);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(25));
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
 	
 	var Dial = (function (_Interface) {
 	  function Dial() {
@@ -2985,7 +3231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
 	
-	    this.position = new Interaction.Drag(this.mode, this.interaction, [0, this.width], [this.height, 0]);
+	    this.position = new Interaction.Handle(this.mode, this.interaction, [0, this.width], [this.height, 0]);
 	
 	    this.init();
 	
@@ -3210,137 +3456,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Dial;
 
 /***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	"use strict";
-	
-	var math = _interopRequire(__webpack_require__(5));
-	
-	/*
-	how to use :
-	
-	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
-	// dial.interaction.mode = 'relative'
-	// dial.interaction.direction = 'radial'
-	
-	on click:
-	dial.interaction.anchor = this.mouse
-	
-	on move:
-	dial.interaction.update(this.mouse);
-	
-	console.log( dial.interaction.value ); should be a normalized value.
-	
-	*/
-	
-	/*
-	  absolute/relative are property: mode
-	  radial/vertical/horizontal/2d are property: direction
-	
-	  plan :
-	
-	  if relative --
-	  NO on click, get value offset between current value and click value.
-	  NO on move, use click value - offset
-	  INSTEAD
-	  use delta -- bc vertical motion on dial is impossible otherwise
-	  also allow to set sensitivity
-	
-	*/
-	
-	var Drag = exports.Drag = (function () {
-	  function Drag() {
-	    var mode = arguments[0] === undefined ? "absolute" : arguments[0];
-	    var direction = arguments[1] === undefined ? "vertical" : arguments[1];
-	    var xbound = arguments[2] === undefined ? [0, 100] : arguments[2];
-	    var ybound = arguments[3] === undefined ? [0, 100] : arguments[3];
-	
-	    _classCallCheck(this, Drag);
-	
-	    this.mode = mode;
-	    this.direction = direction;
-	    this.boundary = {
-	      min: {
-	        x: xbound[0],
-	        y: ybound[0]
-	      },
-	      max: {
-	        x: xbound[1],
-	        y: ybound[1]
-	      },
-	      center: {
-	        x: (xbound[1] - xbound[0]) / 2 + xbound[0],
-	        y: (ybound[1] - ybound[0]) / 2 + ybound[0]
-	      }
-	    };
-	    this.previous = 0;
-	    this.value = 0;
-	    this.sensitivity = 1;
-	  }
-	
-	  _createClass(Drag, {
-	    anchor: {
-	      set: function (mouse) {
-	        this._anchor = this.convertPositionToValue(mouse);
-	      },
-	      get: function () {
-	        return this._anchor;
-	      }
-	    },
-	    update: {
-	      value: function update(mouse) {
-	        if (this.mode === "relative") {
-	          var increment = this.convertPositionToValue(mouse) - this.anchor;
-	          if (Math.abs(increment) > 0.5) {
-	            increment = 0;
-	          }
-	          this.anchor = mouse;
-	          this.value = this.value + increment * this.sensitivity;
-	        } else {
-	          this.value = this.convertPositionToValue(mouse);
-	        }
-	        this.value = math.clip(this.value, 0, 1);
-	      }
-	    },
-	    convertPositionToValue: {
-	      value: function convertPositionToValue(current) {
-	        switch (this.direction) {
-	          case "radial":
-	            var position = math.toPolar(current.x - this.boundary.center.x, current.y - this.boundary.center.y);
-	            // instead of using modulo, should simply adjust the lower values (0 - 0.5PI) to be higher (2PI - 2.5PI), then clip the numbers between 0.5 pi and 2.5 pi.
-	            position = position.angle / (Math.PI * 2);
-	            position = (position - 0.25) % 1;
-	            return position;
-	          case "vertical":
-	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
-	          case "horizontal":
-	            return math.scale(current.x, this.boundary.min.x, this.boundary.max.x, 0, 1);
-	            /*  case '2d':
-	                return {
-	                  x: math.scale(current.x,this.boundary.min.x,this.boundary.max.x,0,1),
-	                  y: math.scale(current.y,this.boundary.min.y,this.boundary.max.y,0,1)
-	                } */
-	        }
-	      }
-	    }
-	  });
-	
-	  return Drag;
-	})();
-
-/***/ },
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3355,8 +3470,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(20);
+	var ButtonTemplate = __webpack_require__(21);
 	
 	var PianoKey = (function (_ButtonTemplate) {
 	  function PianoKey() {
@@ -3367,7 +3483,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
-	      //  'mode': 'toggle',
+	      mode: "aftertouch",
 	      value: 0
 	    };
 	
@@ -3420,41 +3536,89 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.element.appendChild(this.pad);
 	
-	        this.element.addEventListener("mouseover", function () {
+	        /* events */
+	
+	        this.click = function () {
+	          _this.piano.interacting = true;
+	          console.log(_this.state);
+	          _this.piano.paintbrush = !_this.state;
+	          _this.down(_this.piano.paintbrush);
+	        };
+	        this.pad.addEventListener("mouseover", function () {
 	          if (_this.piano.interacting) {
-	            _this.turnOn();
-	            _this.piano.drag(_this.note, true);
+	            _this.down(_this.piano.paintbrush);
 	          }
 	        });
-	        this.element.addEventListener("mouseout", function () {
+	
+	        this.move = function () {};
+	        this.pad.addEventListener("mousemove", function (e) {
 	          if (_this.piano.interacting) {
-	            _this.turnOff();
-	            _this.piano.drag(_this.note, false);
+	            if (!_this.offset) {
+	              _this.offset = dom.findPosition(_this.element);
+	            }
+	            _this.mouse = dom.locateMouse(e, _this.offset);
+	            _this.bend();
 	          }
 	        });
-	        this.element.addEventListener("mouseup", function () {
+	
+	        this.release = function () {
+	          _this.piano.interacting = false;
+	        };
+	        this.pad.addEventListener("mouseup", function () {
 	          if (_this.piano.interacting) {
-	            _this.turnOff();
-	            _this.piano.drag(_this.note, false);
+	            _this.up();
 	          }
 	        });
+	        this.pad.addEventListener("mouseout", function () {
+	          if (_this.piano.interacting) {
+	            _this.up();
+	          }
+	        });
+	
+	        /* events
+	        this.down = this.click;
+	        this.pressure = this.move;
+	        this.up = this.release;
+	         this.click = () => {
+	          this.piano.interacting = true;
+	          this.down();
+	          this.toggleTo = this.state;
+	          console.log('click');
+	        };
+	        this.move = () => {
+	        // must revise this so that the current button is being played ... maybe a separate mousemove handler needs to be created?
+	        // this.pressure();
+	          console.log('move');
+	        };
+	        this.release = () => {
+	          this.piano.interacting = false;
+	          this.up();
+	          console.log('release');
+	        };
+	        this.pad.addEventListener('mouseup', () => {
+	          this.piano.interacting = false;
+	        });
+	        this.pad.addEventListener('mouseover', () => {
+	          if (this.piano.interacting) {
+	            this.down();
+	            console.log('over');
+	          }
+	        });
+	        this.pad.addEventListener('mouseout', () => {
+	          if (this.piano.interacting) {
+	            this.up();
+	          }
+	        }); */
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors[this.color]);
-	          //  this.pad.setAttribute('fill', '#e7e7e7');
 	        } else {
 	          this.pad.setAttribute("fill", "#d18");
 	        }
 	      }
-	
-	      //  click() {
-	      //  this.turnOn();
-	      //  this.emit('change',this.state);
-	      //}
-	
 	    }
 	  });
 	
@@ -3477,6 +3641,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.keyPattern = ["w", "b", "w", "b", "w", "w", "b", "w", "b", "w", "b", "w"];
 	
+	    this.paintbrush = false;
+	
 	    this.range = {
 	      low: 24,
 	      high: 60
@@ -3485,7 +3651,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.range.size = this.range.high - this.range.low;
 	
 	    this.keys = [];
-	    this.active = -1;
+	    //  this.active = -1;
+	
+	    this.toggleTo = false;
 	
 	    this.init();
 	    this.render();
@@ -3574,12 +3742,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    keyChange: {
 	      value: function keyChange(i, v) {
 	        // emit data for any key turning on/off
-	        console.log(this, i, v);
-	        if (v) {
-	          this.interacting = true;
-	        } else {
-	          this.interacting = false;
-	        }
+	        // i is the note index
+	        // v is whether it is on or off
+	        // console.log(this,i,v);
+	        this.emit("change", i, v);
+	        // rename to (note,on)
 	      }
 	    },
 	    drag: {
@@ -3601,13 +3768,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	// if mouse up, then turn off hover for other keys
 
-	/*  if (!this.state) {
-	    this.pad.setAttribute('fill', '#e7e7e7');
-	    this.pad.setAttribute('stroke', '#ccc');
-	  } else {
-	    this.pad.setAttribute('fill', '#d18');
-	    this.pad.setAttribute('stroke', '#d18');
-	  } */
+	// loop through and render the keys?
 
 /***/ },
 /* 27 */
@@ -3625,7 +3786,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(20);
+	var ButtonTemplate = __webpack_require__(21);
 	var MatrixModel = __webpack_require__(28);
 	var CounterModel = __webpack_require__(29);
 	//let Time = require('../core/time');
