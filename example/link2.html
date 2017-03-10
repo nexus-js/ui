@@ -11,6 +11,9 @@
   <div id="all-interfaces">
     <div id="slider"></div>
     <div id="number"></div>
+
+    <div id="dial"></div>
+    <div id="number2"></div>
   </div>
 </body>
 <style>
@@ -34,16 +37,19 @@
     step: 1
   })
 
-  slider.on('change',(v) => {
-    number.value.update(v);
-    number.render();
+  dial = new mt.Dial("#dial",{
+    scale: [0,100],
+    size: [100,100],
+    step: 1
   })
-  number.on('change',(v) => {
-    slider._value.update(v);
-    // should be: slider.value
-    slider.render();
+  number2 = new mt.Number("#number2",{
+    min: 0,
+    max: 100,
+    step: 1
   })
 
+  number.link(slider);
+  number2.link(dial);
   /* goal:
     number  - needs ability to set without output.
             - should adopt the min/max of the other element

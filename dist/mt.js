@@ -185,8 +185,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	  Position: __webpack_require__(3),
-	  Slider: __webpack_require__(12),
-	  Toggle: __webpack_require__(13),
+	  Slider: __webpack_require__(13),
+	  Toggle: __webpack_require__(14),
 	  Range: __webpack_require__(15),
 	  Waveform: __webpack_require__(19),
 	  Button: __webpack_require__(20),
@@ -1208,7 +1208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var ToggleModel = _interopRequire(__webpack_require__(14));
+	var ToggleModel = _interopRequire(__webpack_require__(12));
 	
 	/*
 	how to use :
@@ -1411,6 +1411,50 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var Toggle = (function () {
+	  function Toggle() {
+	    _classCallCheck(this, Toggle);
+	
+	    this.state = false;
+	  }
+	
+	  _createClass(Toggle, {
+	    flip: {
+	      value: function flip(state) {
+	        if (state || state === false) {
+	          this.state = state;
+	        } else {
+	          this.state = !this.state;
+	        }
+	      }
+	    },
+	    on: {
+	      value: function on() {
+	        this.state = true;
+	      }
+	    },
+	    off: {
+	      value: function off() {
+	        this.state = false;
+	      }
+	    }
+	  });
+	
+	  return Toggle;
+	})();
+	
+	module.exports = Toggle;
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1466,10 +1510,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.init();
 	
-	    this.value = this._value.value;
-	
 	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
 	    this.position.value = this._value.normalized;
+	
+	    this.value = this._value.value;
 	
 	    this.emit("change", this.value);
 	  }
@@ -1602,7 +1646,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              } */
 	
 	          this.emit("change", this.value);
-	          this.render();
+	          //  this.render();
 	        }
 	      }
 	    },
@@ -1616,7 +1660,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._value.value;
 	      },
 	      set: function (value) {
-	        return this._value.update(value);
+	        this._value.update(value);
+	        this.position.value = this._value.normalized;
+	        this.render();
 	      }
 	    },
 	    normalized: {
@@ -1632,7 +1678,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Slider;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1646,7 +1692,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(14);
+	var ToggleModel = __webpack_require__(12);
 	var Interface = __webpack_require__(6);
 	
 	var Toggle = (function (_Interface) {
@@ -1774,50 +1820,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return Toggle;
 	})(Interface);
-	
-	module.exports = Toggle;
-
-/***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var Toggle = (function () {
-	  function Toggle() {
-	    _classCallCheck(this, Toggle);
-	
-	    this.state = false;
-	  }
-	
-	  _createClass(Toggle, {
-	    flip: {
-	      value: function flip(state) {
-	        if (state || state === false) {
-	          this.state = state;
-	        } else {
-	          this.state = !this.state;
-	        }
-	      }
-	    },
-	    on: {
-	      value: function on() {
-	        this.state = true;
-	      }
-	    },
-	    off: {
-	      value: function off() {
-	        this.state = false;
-	      }
-	    }
-	  });
-	
-	  return Toggle;
-	})();
 	
 	module.exports = Toggle;
 
@@ -2670,7 +2672,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(14);
+	var ToggleModel = __webpack_require__(12);
 	var Interface = __webpack_require__(6);
 	
 	var ButtonTemplate = (function (_Interface) {
@@ -3119,6 +3121,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          if (e.which === 13) {
 	            this.element.blur();
+	            this.value.update(this.element.value);
+	            this.emit("change", this.value.value);
+	            this.render();
 	          }
 	        }).bind(this));
 	
@@ -3132,16 +3137,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function render() {
 	
 	        this.element.value = math.prune(this.value.value, this.decimalPlaces);
-	        //this.emit('change',this.value.value);
-	        /*
-	            if (!this.state) {
-	              this.element.style.backgroundColor = '#e7e7e7';
-	              this.element.style.color = '#333';
-	            } else {
-	              this.element.style.backgroundColor = '#d18';
-	              this.element.style.color = '#fff';
-	            }
-	        */
 	      }
 	    },
 	    click: {
@@ -3160,11 +3155,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var newvalue = this.actual - (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
 	          this.value.update(newvalue);
 	
-	          //	this.actual -= (this.deltaMove.y*(this.rate*this.step));
-	          //	this.actual = math.clip(this.actual,this.min,this.max)
-	          //	this.val.value = Math.floor(this.actual / this.step) * this.step;
-	          //	this.val.value = math.prune(this.val.value,this.decimalPlaces);
 	          this.render();
+	          this.emit("change", this.value.value);
 	        }
 	      }
 	    },
@@ -3177,9 +3169,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.element.style.backgroundColor = "#d18";
 	          this.element.style.color = "#fff";
 	        } else {
-	          console.log("released and blurring...");
 	          document.body.focus();
 	        }
+	      }
+	    },
+	    link: {
+	
+	      /*
+	      number - should adopt the min/max of the other element
+	       number.link(slider)
+	      */
+	
+	      value: function link(destination) {
+	        var _this = this;
+	
+	        destination.on("change", function (v) {
+	          _this.passiveUpdate(v);
+	        });
+	        this.on("change", function (v) {
+	          destination.value = v;
+	        });
+	        /*  return {
+	            listener1: listener1,
+	            listener2: listener2,
+	            destroy: () => {
+	              listener1.remove() (or similar)
+	              listener2.remove() (or similar)
+	            }
+	          } */
+	      }
+	    },
+	    passiveUpdate: {
+	      value: function passiveUpdate(v) {
+	        this.value.update(v);
+	        this.render();
 	      }
 	    }
 	  });
