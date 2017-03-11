@@ -1836,21 +1836,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let svg = require('../util/svg');
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	//let Step = require('../models/step');
 	var RangeSlider = __webpack_require__(16);
 	
-	// next: turn knobR and knoby into this.knobR etc
-	
 	var Range = (function (_Interface) {
-	  function Range(parent) {
+	  function Range() {
 	    _classCallCheck(this, Range);
 	
 	    //settings would include how many sliders and their location ?
 	    //and their ranges
-	    var defaultSize = { w: 200, h: 40 };
-	    _get(Object.getPrototypeOf(Range.prototype), "constructor", this).call(this, parent, defaultSize);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [200, 30],
+	      mode: "relative", // absolute, relative
+	      scale: [0, 10],
+	      step: 1,
+	      value: [[7, 9], [1, 3]],
+	      maxSliders: 5
+	    };
+	
+	    _get(Object.getPrototypeOf(Range.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.min = this.settings.scale[0];
+	    this.max = this.settings.scale[1];
+	    this.step = this.settings.step;
+	    this.maxSliders = this.settings.maxSliders;
+	    this.value = this.settings.value;
 	    this.sliders = [];
-	    this.sliderCount = 0;
 	    this.buildFrame();
 	    this.buildInterface();
 	  }
@@ -1860,15 +1873,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Range, {
 	    buildInterface: {
 	      value: function buildInterface() {
+	        console.log(this.value);
 	        this.element.style.backgroundColor = "#e7e7e7";
-	        this.addSlider();
+	        for (var i = 0; i < this.value.length; i++) {
+	          var value = this.value[i];
+	          this.addSlider(value[0], value[1]);
+	        }
 	      }
 	    },
 	    addSlider: {
-	      value: function addSlider() {
-	        var component = new RangeSlider(this.element, 0);
-	        component.range.start.value = math.rf(0, 1);
-	        component.range.end.value = math.rf(1, 2);
+	      value: function addSlider(start, end) {
+	
+	        // arguments: parent, options
+	        var component = new RangeSlider(this.element, {
+	          min: this.min,
+	          max: this.max,
+	          step: this.step
+	        });
+	
+	        component.range.start.value = start || math.interp(0.25, this.min, this.max);
+	        component.range.end.value = end || math.interp(0.75, this.min, this.max);
 	        component.render();
 	        this.sliders.push(component);
 	      }
@@ -1919,6 +1943,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(RangeSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
+	    this.min = this.settings.min;
+	    this.max = this.settings.max;
+	    this.step = this.settings.step;
+	
 	    var colorIndex = 0;
 	    this.color = ColorOps.spin([230, 0, 100, 0], colorIndex * 60);
 	    this.color = this.color.map(function (v) {
@@ -1926,10 +1954,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	    this.color.length = 3;
 	    this.color = "rgb(" + this.color.join(",") + ")";
-	    this.min = 0;
-	    this.max = 4;
-	    this.step = false;
-	    this.range = new RangeModel(this.min, this.max, 0.2);
+	    //  this.min = 0;
+	    //  this.max = 4;
+	    //  this.step = false;
+	    this.range = new RangeModel(this.min, this.max, this.step);
 	    this.mode = "draw";
 	    this.init();
 	    return this;
@@ -1980,12 +2008,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("fill-opacity", "0.4");
 	
 	        this.arrowL = svg.create("rect");
-	        this.arrowL.setAttribute("width", 10);
+	        this.arrowL.setAttribute("width", 3);
 	        this.arrowL.setAttribute("height", this.height);
 	        this.arrowL.setAttribute("x", 0);
 	        this.arrowL.setAttribute("y", 0);
 	        this.arrowL.setAttribute("fill", this.color);
-	        this.arrowL.setAttribute("fill-opacity", "0.4");
+	        this.arrowL.setAttribute("fill-opacity", "0.7");
 	
 	        this.arrowL.addEventListener("mousedown", function (e) {
 	          e.preventDefault();
@@ -1993,12 +2021,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	
 	        this.arrowR = svg.create("rect");
-	        this.arrowR.setAttribute("width", 10);
+	        this.arrowR.setAttribute("width", 3);
 	        this.arrowR.setAttribute("height", this.height);
 	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
 	        this.arrowR.setAttribute("y", 0);
 	        this.arrowR.setAttribute("fill", this.color);
-	        this.arrowR.setAttribute("fill-opacity", "0.4");
+	        this.arrowR.setAttribute("fill-opacity", "0.7");
 	
 	        this.arrowR.addEventListener("mousedown", function (e) {
 	          e.preventDefault();
@@ -2015,9 +2043,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        console.log("this.range.start.normalized", this.range.start.normalized);
 	        console.log("this.width", this.width);
 	        this.ref.setAttribute("transform", "translate(" + this.range.start.normalized * this.width + ", 0)");
-	        //  this.bar.setAttribute('x',this.range.start.normalized * this.width);
 	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
-	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 10);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 3);
 	      }
 	    },
 	    click: {
