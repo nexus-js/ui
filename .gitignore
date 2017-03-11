@@ -1,4 +1,3 @@
 node_modules
 api
-dist/mt.js
-dist/mt.map
+dist

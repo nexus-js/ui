@@ -1351,8 +1351,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            break;
 	          case "aftertouch":
 	            this.position = {
-	              x: this.mouse.x / this.width,
-	              y: this.mouse.y / this.height
+	              x: math.clip(this.mouse.x / this.width, 0, 1),
+	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	            };
 	            this.turnOn();
 	            this.emit("change", {
@@ -1365,15 +1365,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.emit("change", this.state);
 	            break;
 	        }
-	        console.log("clicked");
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.mode === "aftertouch") {
 	          this.position = {
-	            x: this.mouse.x / this.width,
-	            y: this.mouse.y / this.height
+	            x: math.clip(this.mouse.x / this.width, 0, 1),
+	            y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	          };
 	          this.emit("change", {
 	            state: this.state,
@@ -1394,7 +1393,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.turnOff();
 	            this.position = {
 	              x: this.mouse.x / this.width,
-	              y: this.mouse.y / this.height
+	              y: 1 - this.mouse.y / this.height
 	            };
 	            this.emit("change", {
 	              state: this.state,
@@ -2642,7 +2641,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (this.mode === "aftertouch") {
 	            this.pad.setAttribute("stroke", "url(#" + this.gradient.id + ")");
 	            this.gradient.element.setAttribute("cx", this.position.x * 100 + "%");
-	            this.gradient.element.setAttribute("cy", this.position.y * 100 + "%");
+	            this.gradient.element.setAttribute("cy", (1 - this.position.y) * 100 + "%");
 	          } else {
 	            this.pad.setAttribute("stroke", "#d18");
 	          }
@@ -2672,6 +2671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
 	var ToggleModel = __webpack_require__(12);
 	var Interface = __webpack_require__(6);
 	
@@ -2735,8 +2735,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            break;
 	          case "aftertouch":
 	            this.position = {
-	              x: this.mouse.x / this.width,
-	              y: this.mouse.y / this.height
+	              x: math.clip(this.mouse.x / this.width, 0, 1),
+	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	            };
 	            this.turnOn();
 	            this.emit("change", {
@@ -2745,7 +2745,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	              y: this.position.y });
 	            break;
 	          case "toggle":
-	            console.log(paintbrush);
 	            this.flip(paintbrush);
 	            this.emit("change", this.state);
 	            break;
@@ -2757,8 +2756,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.mode === "aftertouch") {
 	          this.mouse = mouse || this.mouse;
 	          this.position = {
-	            x: this.mouse.x / this.width,
-	            y: this.mouse.y / this.height
+	            x: math.clip(this.mouse.x / this.width, 0, 1),
+	            y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	          };
 	          this.emit("change", {
 	            state: this.state,
@@ -2778,8 +2777,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          case "aftertouch":
 	            this.turnOff();
 	            this.position = {
-	              x: this.mouse.x / this.width,
-	              y: this.mouse.y / this.height
+	              x: math.clip(this.mouse.x / this.width, 0, 1),
+	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	            };
 	            this.emit("change", {
 	              state: this.state,
@@ -3514,7 +3513,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
-	      mode: "toggle",
+	      mode: "button",
 	      value: 0
 	    };
 	
@@ -3571,7 +3570,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.click = function () {
 	          _this.piano.interacting = true;
-	          console.log(_this.state);
 	          _this.piano.paintbrush = !_this.state;
 	          _this.down(_this.piano.paintbrush);
 	        };
@@ -3605,41 +3603,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _this.up();
 	          }
 	        });
-	
-	        /* events
-	        this.down = this.click;
-	        this.pressure = this.move;
-	        this.up = this.release;
-	         this.click = () => {
-	          this.piano.interacting = true;
-	          this.down();
-	          this.toggleTo = this.state;
-	          console.log('click');
-	        };
-	        this.move = () => {
-	        // must revise this so that the current button is being played ... maybe a separate mousemove handler needs to be created?
-	        // this.pressure();
-	          console.log('move');
-	        };
-	        this.release = () => {
-	          this.piano.interacting = false;
-	          this.up();
-	          console.log('release');
-	        };
-	        this.pad.addEventListener('mouseup', () => {
-	          this.piano.interacting = false;
-	        });
-	        this.pad.addEventListener('mouseover', () => {
-	          if (this.piano.interacting) {
-	            this.down();
-	            console.log('over');
-	          }
-	        });
-	        this.pad.addEventListener('mouseout', () => {
-	          if (this.piano.interacting) {
-	            this.up();
-	          }
-	        }); */
 	      }
 	    },
 	    render: {
@@ -3816,6 +3779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(21);
 	var MatrixModel = __webpack_require__(28);
@@ -3831,6 +3795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
+	      mode: "toggle",
 	      value: 0
 	    };
 	
@@ -3839,6 +3804,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.index = this.settings.index;
 	    this.row = this.settings.row;
 	    this.column = this.settings.column;
+	
+	    this.interacting = false;
+	    this.paintbrush = false;
 	
 	    this.init();
 	    this.render();
@@ -3880,26 +3848,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.element.appendChild(this.pad);
 	
-	        this.element.addEventListener("mouseover", function () {
+	        /* events */
+	
+	        this.click = function () {
+	          _this.matrix.interacting = true;
+	          _this.matrix.paintbrush = !_this.state;
+	          _this.down(_this.matrix.paintbrush);
+	        };
+	        this.pad.addEventListener("mouseover", function () {
 	          if (_this.matrix.interacting) {
-	            console.log(_this.matrix.pen);
-	            _this.state = _this.matrix.model.set.cell(_this.row, _this.column, _this.matrix.pen);
-	            _this.matrix.model.format();
-	            _this.matrix.drag(_this.index, true);
+	            _this.down(_this.matrix.paintbrush);
 	          }
 	        });
-	        // keep for button modes, though...
-	        /*    this.element.addEventListener('mouseout', () => {
-	              if (this.matrix.interacting) {
-	            //    this.turnOff();
-	                this.matrix.drag(this.index,false);
-	              }
-	            */
-	        this.element.addEventListener("mouseup", function () {
+	
+	        this.move = function () {};
+	        this.pad.addEventListener("mousemove", function (e) {
 	          if (_this.matrix.interacting) {
-	            _this.matrix.interacting = false;
-	            //  this.turnOff();
-	            //    this.matrix.drag(this.index,false);
+	            if (!_this.offset) {
+	              _this.offset = dom.findPosition(_this.element);
+	            }
+	            _this.mouse = dom.locateMouse(e, _this.offset);
+	            _this.bend();
+	          }
+	        });
+	
+	        this.release = function () {
+	          _this.matrix.interacting = false;
+	        };
+	        this.pad.addEventListener("mouseup", function () {
+	          if (_this.matrix.interacting) {
+	            _this.up();
+	          }
+	        });
+	        this.pad.addEventListener("mouseout", function () {
+	          if (_this.matrix.interacting) {
+	            _this.up();
 	          }
 	        });
 	      }
@@ -3912,23 +3895,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.pad.setAttribute("fill", "#d18");
 	        }
 	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.flip();
-	        this.matrix.pen = this.state;
-	        this.emit("change", true);
-	        this.matrix.model.format();
-	      }
-	    },
-	    flip: {
-	      value: function flip() {
-	        this.matrix.model.toggle.cell(this.row, this.column);
-	        //console.log('STATE: '+this.state);
-	      }
-	    },
-	    release: {
-	      value: function release() {}
 	    }
 	  });
 	
@@ -4022,33 +3988,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	          } else {
 	            _this.cells[i].state = false;
 	          }
-	          /*  this.cells[i].pad.setAttribute('stroke','#fff');
-	            this.cells[i].pad.setAttribute('stroke-width','6');
-	          } else {
-	            this.cells[i].pad.setAttribute('stroke','none');
-	          } */
 	        });
 	      }
-	    },
-	    keyPress: {
-	      value: function keyPress() {}
-	    },
-	    keyRelease: {
-	      value: function keyRelease() {}
 	    },
 	    keyChange: {
 	      value: function keyChange(i, v) {
 	        // emit data for any key turning on/off
-	        if (v) {
-	          this.interacting = true;
-	        } else {
-	          this.interacting = false;
-	        }
-	      }
-	    },
-	    drag: {
-	      value: function drag(note, on) {
-	        this.emit("change", note, on);
+	        // i is the note index
+	        // v is whether it is on or off
+	        // console.log(this,i,v);
+	        this.emit("change", i, v);
+	        // rename to (note,on)
 	      }
 	    },
 	    render: {
@@ -4098,10 +4048,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = Matrix;
-	
-	// turn on "hover" for other keys
-
-	// if mouse up, then turn off hover for other keys
 
 /***/ },
 /* 28 */
