@@ -79,9 +79,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Rack = _interopRequire(__webpack_require__(30));
 	
-	var Time = _interopRequire(__webpack_require__(31));
+	var Time = _interopRequire(__webpack_require__(32));
 	
-	var Tune = _interopRequire(__webpack_require__(36));
+	var Tune = _interopRequire(__webpack_require__(37));
 	
 	//import RangeModel from './models/range';
 	
@@ -94,14 +94,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	let Drunk = require('./models/drunk'); */
 	
 	/**
-	Musicians Toolkit => created as mt.
+	Musician's Toolkit => created as mt
 	*/
 	
 	var MusiciansToolkit = (function () {
 	  function MusiciansToolkit(context) {
 	    _classCallCheck(this, MusiciansToolkit);
-	
-	    //  this.range = new RangeModel(0,100);
 	
 	    for (var key in Interfaces) {
 	      this[key] = Interfaces[key];
@@ -162,7 +160,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          } catch (e) {
 	            options[att.nodeName] = att.nodeValue;
 	          }
-	          console.log(options[att.nodeName]);
 	        }
 	        type = type[0].toUpperCase() + type.slice(1);
 	        var widget = new this[type](element, options);
@@ -2591,7 +2588,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
-	      mode: "aftertouch", // button, aftertouch, impulse, toggle
+	      mode: "button", // button, aftertouch, impulse, toggle
 	      value: 0
 	    };
 	
@@ -2870,10 +2867,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    _get(Object.getPrototypeOf(TextButton.prototype), "constructor", this).call(this, arguments, options, defaults);
-	    this.text = {
-	      on: "Play",
-	      off: "Stop"
-	    };
+	    this.text = "Play";
+	    this._alternateText = false;
+	
 	    this.init();
 	    this.render();
 	  }
@@ -2884,8 +2880,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildFrame: {
 	      value: function buildFrame() {
 	        var textsize = this.height / 3;
-	        var textsize2 = this.width / (this.text.off.length + 2);
+	        var textsize2 = this.width / (this.text.length + 2);
 	        textsize = Math.min(textsize, textsize2);
+	        if (this.alternateText) {
+	          var textsize3 = this.width / (this.alternateText.length + 2);
+	          textsize = Math.min(textsize, textsize3);
+	        }
 	        this.element = document.createElement("div");
 	        var styles = "width: " + this.width + "px;";
 	        styles += "height: " + this.height + "px;";
@@ -2899,7 +2899,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles += "font-size:" + textsize + "px;";
 	        this.element.style.cssText += styles;
 	
-	        this.element.innerHTML = this.text.on;
+	        this.element.innerHTML = this.text;
 	        this.parent.appendChild(this.element);
 	      }
 	    },
@@ -2910,11 +2910,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function render() {
 	        if (!this.state) {
 	          this.element.style.backgroundColor = "#e1e1e1";
-	          //    this.element.style.color = '#333';
+	          if (this.alternateText) {
+	            this.element.innerHTML = this.text;
+	          }
 	        } else {
 	          this.element.style.backgroundColor = "#d18";
-	          //  this.element.style.color = '#fff';
+	          if (this.alternateText) {
+	            this.element.innerHTML = this.alternateText;
+	          }
 	        }
+	      }
+	    },
+	    alternateText: {
+	      get: function () {
+	        return this._alternateText;
+	      },
+	      set: function (text) {
+	        if (text) {
+	          this.mode = "toggle";
+	        } else {
+	          this.mode = "button";
+	        }
+	        this._alternateText = text;
 	      }
 	    }
 	  });
@@ -2984,6 +3001,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          var button = new Button(container, {
 	            size: [buttonWidth, buttonHeight],
+	            mode: "toggle",
 	            component: true }, this.update.bind(this, i));
 	
 	          this.buttons.push(button);
@@ -2992,8 +3010,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    update: {
-	      value: function update(index, v) {
-	        console.log(v);
+	      value: function update(index) {
 	        this.active = index;
 	        // need to use v (value) here make sure it only outputs on press
 	        // and to allow to turn a button off if it is already on
@@ -4368,9 +4385,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 30 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
@@ -4379,60 +4398,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	/*
 	What does the API look like?
 	
+	1) Main concept:
+	synth = mt.rack('#container');
 	
-	>> this is obviously the nicest.
-	mt.rack('#container');
-	  => is this the target or the parent?
-	  mt.rack({ parent: '#container' });
-	  mt.create.rack( '#container' );
+	Transform all elements inside a div
+	synth.ui.slider1 will hold the first slider interface
 	
-	or
 	
-	var rack1 = new MT.Rack();
-	body.append(rack1.element);
-	
-	or
-	
-	mt.rack({
-	  slider1,
-	  toggle1,
-	  sequener1
-	});
-	
-	or
+	2) What about writing a rack that is re-usable?
+	Could also take JSON
 	
 	mt.rack('#container',{
-	  mt.create.slider({
-	    top:10,
-	    left:10,
-	    width:50,
-	    height:100,
-	    min: 0,
-	    max: 100,
-	    step: 1
-	  }),
-	  mt.create.waveform({
-	    file: './path/to/file.mp3',
-	    width:500,
-	    height:100,
-	    mode: 'range'
-	  })
-	});
-	
-	But what about positioning them in space -- top/left??
-	
-	What about writing a declarative rack that is re-usable?
-	
-	
-	or
-	
-	mt.rack({
-	  parent: '#container',
 	  pre: () => {
 	    create some divs here, or some audio code
 	  },
 	  interface: {
-	    slider: mt.create.slider({
+	    slider1: mt.create.slider({
 	      top:10,
 	      left:10,
 	      width:50,
@@ -4441,7 +4422,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      max: 100,
 	      step: 1
 	    }),
-	    wave: mt.create.waveform({
+	    wave1: mt.create.waveform({
 	      file: './path/to/file.mp3',
 	      width:500,
 	      height:100,
@@ -4449,39 +4430,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	    })
 	  },
 	  init: () => {
-	
+	    // some audio init code goes here...
 	  }
 	});
 	
-	
-	
-	
-	
-	
-	
-	Eventually, a way to transform all elements inside a div
-	
-	synth = mt.transform('#container');
-	
-	then, synth.ui.slider1 will be a thing
-	
-	
-	
-	#chevron-arrow-left {
-	  display: inline-block;
-	  border-right: 3px solid #aaa;
-	  border-bottom: 3px solid #aaa;
-	  width: 8px; height: 8px;
-	  transform: rotate(-135deg);
-	}
-	
-	
 	*/
+	
+	var transform = _interopRequireWildcard(__webpack_require__(31));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
 	    _classCallCheck(this, Rack);
 	
+	    this.target = target;
 	    this.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
 	    this.title = name;
 	    this.open = open;
@@ -4494,9 +4455,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	
 	        this.parent.style.border = "solid 1px #ddd";
-	        //  this.parent.style.overflow = 'hidden';
 	        this.parent.style.padding = "0px";
-	        //  this.parent.style.display = 'inline-block';
 	        this.parent.style.userSelect = "none";
 	        this.parent.style.mozUserSelect = "none";
 	        this.parent.style.webkitUserSelect = "none";
@@ -4509,44 +4468,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.contents.style.padding = "10px";
 	
-	        //  this.parent.innerHTML = '<div>' + this.parent.innerHTML;
-	        //  this.parent.innerHTML += '</div>';
-	
 	        this.titleBar = document.createElement("div");
 	        this.titleBar.innerHTML = this.title;
 	        this.titleBar.style.fontFamily = "arial";
 	        this.titleBar.style.position = "relative";
 	        this.titleBar.style.color = "#888";
 	        this.titleBar.style.padding = "7px";
-	        //  this.titleBar.style.borderBottom = 'solid 1px #ddd';
+	        this.titleBar.style.backgroundColor = "#f7f7f7";
 	        this.titleBar.style.fontSize = "12px";
-	        //  this.parent.insertBefore(this.titleBar,this.parent.firstChild);
 	
 	        this.button = document.createElement("div");
 	        this.button.style.position = "absolute";
 	        this.button.style.top = "5px";
 	        this.button.style.right = "5px";
-	        /*    this.button.style.display = 'inline-block';
-	            this.button.style.borderRight = '2px solid #555';
-	            this.button.style.borderBottom =  '2px solid #555';
-	            this.button.style.width = '7px';
-	            this.button.style.height = '7px';
-	            this.button.style.transform = 'rotate(-135deg)'; */
 	        this.button.innerHTML = "-";
 	        this.button.style.border = "solid 1px #ddd";
 	        this.button.style.padding = "0px 5px 2px";
 	        this.button.style.lineHeight = "12px";
 	        this.button.style.fontSize = "15px";
+	        this.button.style.backgroundColor = "#fff";
 	
 	        this.button.style.cursor = "pointer";
 	
 	        this.button.addEventListener("mouseover", function () {
-	          _this.button.style.backgroundColor = "#f3f3f3";
-	          //    this.button.style.color = '#fff';
+	          _this.button.style.backgroundColor = "#f7f7f7";
 	        });
 	        this.button.addEventListener("mouseleave", function () {
 	          _this.button.style.backgroundColor = "#fff";
-	          //  this.button.style.color = '#ccc';
 	        });
 	        this.button.addEventListener("click", function () {
 	          if (_this.open) {
@@ -4563,23 +4511,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
 	        this.parent.style.width = width;
+	
+	        this.ui = transform.section(this.target);
 	      }
 	    },
 	    show: {
 	      value: function show() {
 	        this.contents.style.display = "block";
-	        //  this.button.style.fontSize = '15px';
-	        //  this.button.style.padding = '0px 5px 2px';
-	        //  this.button.innerHTML = '-';
 	        this.open = true;
 	      }
 	    },
 	    hide: {
 	      value: function hide() {
 	        this.contents.style.display = "none";
-	        //  this.button.style.fontSize = '12px';
-	        //  this.button.style.padding = '0px 5px 0px';
-	        //  this.button.innerHTML = '+';
 	        this.open = false;
 	      }
 	    }
@@ -4598,13 +4542,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	"use strict";
+	
+	var dom = _interopRequire(__webpack_require__(7));
+	
+	var Interfaces = _interopRequire(__webpack_require__(2));
+	
+	var element = function (element, type) {
+	  var options = {};
+	  for (var i = 0; i < element.attributes.length; i++) {
+	    var att = element.attributes[i];
+	    //  try {
+	    //    options[att.nodeName] = eval(att.nodeValue);
+	    //  } catch(e) {
+	    options[att.nodeName] = att.nodeValue;
+	    //  }
+	  }
+	  type = type[0].toUpperCase() + type.slice(1);
+	  var widget = new Interfaces[type](element, options);
+	  widget.id = element.id;
+	  return widget;
+	};
+	
+	var section = function (parent) {
+	
+	  var container = dom.parseElement(parent);
+	
+	  var ui = {};
+	
+	  var elements = container.getElementsByTagName("*");
+	  elements = Array.from(elements);
+	  for (var i = 0; i < elements.length; i++) {
+	    var type = elements[i].getAttribute("mt");
+	    if (type) {
+	      var widget = element(elements[i], type);
+	      ui[widget.id] = widget;
+	    }
+	  }
+	
+	  return ui;
+	};
+	
+	exports.section = section;
+	exports.element = element;
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(32));
+	var WAAClock = _interopRequire(__webpack_require__(33));
 	
-	var Interval = _interopRequire(__webpack_require__(35));
+	var Interval = _interopRequire(__webpack_require__(36));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -4633,17 +4632,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(33)
+	var WAAClock = __webpack_require__(34)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -4880,10 +4879,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)))
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -5069,7 +5068,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5136,7 +5135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5147,7 +5146,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(37));
+	var scales = _interopRequire(__webpack_require__(38));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -5382,7 +5381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports) {
 
 	"use strict";
