@@ -77,11 +77,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var dom = _interopRequire(__webpack_require__(7));
 	
-	var Rack = _interopRequire(__webpack_require__(30));
+	var Rack = _interopRequire(__webpack_require__(31));
 	
-	var Time = _interopRequire(__webpack_require__(32));
+	var Time = _interopRequire(__webpack_require__(33));
 	
-	var Tune = _interopRequire(__webpack_require__(37));
+	var Tune = _interopRequire(__webpack_require__(38));
 	
 	//import RangeModel from './models/range';
 	
@@ -185,14 +185,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Slider: __webpack_require__(13),
 	  Toggle: __webpack_require__(14),
 	  Range: __webpack_require__(15),
-	  Waveform: __webpack_require__(16),
+	  Waveform: __webpack_require__(19),
 	  Button: __webpack_require__(20),
 	  TextButton: __webpack_require__(22),
 	  RadioButton: __webpack_require__(23),
 	  Number: __webpack_require__(24),
 	  Dial: __webpack_require__(25),
 	  Piano: __webpack_require__(26),
-	  Matrix: __webpack_require__(27)
+	  Matrix: __webpack_require__(27),
+	  Pan: __webpack_require__(30)
 	  /*  Multislider: require('./multislider'),
 	    Spectrograph: require('./spectrograph'),
 	    Meter: require('./meter'),
@@ -520,6 +521,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    total += data[i];
 	  }
 	  return total / data.length;
+	};
+	
+	exports.distance = function (x1, y1, x2, y2) {
+	  // calculate distance here;
+	  return x1 + y1 + x2 + y2;
 	};
 
 /***/ },
@@ -1848,7 +1854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let svg = require('../util/svg');
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var RangeSlider = __webpack_require__(17);
+	var RangeSlider = __webpack_require__(16);
 	
 	var Range = (function (_Interface) {
 	  function Range() {
@@ -1861,7 +1867,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [200, 30],
-	      mode: "drag", // select, scale? drag? range?
+	      mode: "select", // select, scale? drag? range?
 	      scale: [0, 20],
 	      step: 1,
 	      value: [[7, 9], [1, 3]],
@@ -1877,8 +1883,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.maxSliders = this.settings.maxSliders;
 	    this.value = this.settings.value;
 	    this.sliders = [];
-	    this.buildFrame();
-	    this.buildInterface();
+	    //  this.buildFrame();
+	    //  this.buildInterface();
+	    //  this.attachListeners();
+	    this.init();
 	  }
 	
 	  _inherits(Range, _Interface);
@@ -1916,11 +1924,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	        start = start || math.interp(0.25, this.min, this.max);
 	        end = end || math.interp(0.75, this.min, this.max);
 	        component.range.move(start, end);
-	        component.position.center.value = math.normalize(component.range.center, this.min, this.max);
-	        component.position.size.value = math.normalize(component.range.size, this.min, this.max);
+	
+	        if (this.mode === "drag") {
+	          component.position.center.value = math.normalize(component.range.center, this.min, this.max);
+	          component.position.size.value = math.normalize(component.range.size, this.min, this.max);
+	        } else if (this.mode === "select") {
+	          component.position.center.value = math.normalize(component.range.center, this.min, this.max);
+	        }
 	        component.render();
 	        this.sliders.push(component);
+	        return component;
 	      }
+	    },
+	    click: {
+	      value: function click() {
+	        var slider = this.addSlider();
+	        slider.mouse = this.mouse;
+	        //  slider.preClick();
+	      }
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {}
 	    }
 	  });
 	
@@ -1931,222 +1958,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	//let Step = require('../models/step');
-	//let math = require('../util/math');
-	var RangeSlider = __webpack_require__(17);
-	
-	var Waveform = (function (_Interface) {
-	  function Waveform() {
-	    _classCallCheck(this, Waveform);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [400, 150]
-	      //scaleX, scaleY
-	      //valueX, valueY
-	      //stepX, stepY
-	    };
-	
-	    _get(Object.getPrototypeOf(Waveform.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.selections = [];
-	    this.times = [{ dur: 10, format: 1 }, { dur: 50, format: 1 }, { dur: 100, format: 1 }, { dur: 200, format: 1 }, { dur: 500, format: 1 }, { dur: 1000, format: 1 }, { dur: 2000, format: 1 }, { dur: 5000, format: 1 }, { dur: 10000, format: 3 }, { dur: 15000, format: 3 }, { dur: 60000, format: 3 }, // 1 min
-	    { dur: 120000, format: 3 }, // 2 mins
-	    { dur: 300000, format: 3 }, // 5 mins
-	    { dur: 600000, format: 3 }];
-	    this.timescale = false;
-	
-	    this.definition = 2;
-	    this.pieces = ~ ~(this.width / this.definition);
-	
-	    this.init();
-	  }
-	
-	  _inherits(Waveform, _Interface);
-	
-	  _createClass(Waveform, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	        this.element.style.borderRadius = "5px";
-	      }
-	    },
-	    buildWaveform: {
-	      value: function buildWaveform() {
-	        for (var i = 0; i < this.buffer.length; i++) {
-	          var waveTop = i * this.waveHeight;
-	          var waveCenter = waveTop + this.waveHeight / 2;
-	          for (var j = 0; j < this.buffer[i].length; j++) {
-	            var ht1 = waveCenter - this.buffer[i][j][0] * this.waveHeight;
-	            var ht2 = waveCenter + Math.abs(this.buffer[i][j][1] * this.waveHeight);
-	            ht2 = ht2 - ht1;
-	
-	            var rect = svg.create("rect");
-	            rect.setAttribute("x", j * this.definition);
-	            rect.setAttribute("y", ht1);
-	            rect.setAttribute("width", this.definition);
-	            rect.setAttribute("height", ht2);
-	            rect.setAttribute("fill", "black");
-	
-	            this.element.appendChild(rect);
-	          }
-	        }
-	      }
-	    },
-	    render: {
-	      /*
-	        buildSelection() {
-	          let starttime = math.rf(this.duration);
-	          let endtime =  starttime + 0.2;
-	      
-	          let startx = this.width * starttime / this.duration;
-	          let endx = this.width * endtime / this.duration;
-	      
-	          let rect = svg.create('rect');
-	          rect.setAttribute('x',startx);
-	          rect.setAttribute('y',0);
-	          rect.setAttribute('width',endx - startx);
-	          rect.setAttribute('height',this.height);
-	          rect.setAttribute('fill','#d19');
-	          rect.setAttribute('stroke','#d19');
-	          rect.setAttribute('stroke-width','1');
-	          rect.setAttribute('fill-opacity','0.5');
-	      
-	          rect.addEventListener('mousedown', (e) => {
-	            console.log('selection clicked');
-	            e.preventDefault();
-	            e.stopPropagation()
-	          });
-	      
-	          this.element.appendChild( rect );
-	        } */
-	
-	      value: function render() {}
-	    },
-	    click: {
-	      value: function click() {
-	        //  this.value = {
-	        //    x: this._value.x.updateNormal( this.mouse.x / this.height ),
-	        //    y: this._value.y.updateNormal( this.mouse.y / this.height )
-	        //  };
-	
-	        this.selections.push(new RangeSlider(this.element));
-	        //will need to include this in settings: this.mouse.x / this.width
-	
-	        // rules:
-	        // if not on an existing selection, create a selection
-	        // if on an existing selection, save x location
-	        // and check whether it is in 'resize' territory
-	        // possible a different interaction for touch -- 'range' style
-	
-	        this.render();
-	      }
-	    },
-	    move: {
-	      value: function move() {}
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    load: {
-	      value: function load(buffer) {
-	
-	        this.channels = buffer.numberOfChannels;
-	        this.duration = buffer.duration;
-	        this.sampleRate = buffer.sampleRate;
-	        this.waveHeight = this.height / this.channels;
-	
-	        // timescale
-	        this.durationMS = this.duration * 1000;
-	        this.timescale = 0;
-	        while (~ ~(this.durationMS / this.times[this.timescale].dur) > 7 && this.timescale < this.times.length) {
-	          this.timescale++;
-	        }
-	        this.timescale = this.times[this.timescale];
-	
-	        this.rawbuffer = [];
-	        this.buffer = [];
-	
-	        // reduce/crush buffers
-	        for (var i = 0; i < this.channels; i++) {
-	          this.rawbuffer.push(buffer.getChannelData(0));
-	          this.buffer.push([]);
-	
-	          // counts faster (sacrificing some accuracy) through larger buffers.
-	          // a 5 second sample will only look at every 2nd sample.
-	          // a 10 second buffer will only look at every 3rd sample.
-	          var countinc = ~ ~(this.rawbuffer[0].length / (this.sampleRate * 5)) + 1;
-	
-	          var groupsize = ~ ~(this.rawbuffer[i].length / this.pieces);
-	          var cmax = 0;
-	          var cmin = 0;
-	          var group = 0;
-	          for (var j = 0; j < this.rawbuffer[i].length; j += countinc) {
-	            if (this.rawbuffer[i][j] > 0) {
-	              cmax = Math.max(cmax, this.rawbuffer[i][j]);
-	            } else {
-	              cmin = Math.min(cmin, this.rawbuffer[i][j]);
-	            }
-	            if (j > group * groupsize) {
-	              this.buffer[i].push([cmax, cmin]);
-	              group++;
-	              cmin = 0;
-	              cmax = 0;
-	            }
-	          }
-	        }
-	
-	        this.buildWaveform();
-	
-	        //this.val.starttime = Math.round(this.val.start * this.durationMS);
-	        //this.val.stoptime = Math.round(this.val.stop * this.durationMS);
-	        //this.val.looptime = Math.round(this.val.size * this.durationMS);
-	      }
-	    }
-	  });
-	
-	  return Waveform;
-	})(Interface);
-	
-	module.exports = Waveform;
-	// 10 mins
-
-	//  this.knobCoordinates = {
-	//    x: this._value.x.normalized * this.width,
-	//    y: this._value.y.normalized * this.height
-	//  };
-
-	//  if (this.clicked) {
-	// rules:
-	// if not on an existing selection, expand the created selection
-	// if on an existing selection, move it or resize it
-	/*    this.value = {
-	      x: this._value.x.updateNormal( this.mouse.x / this.height ),
-	      y: this._value.y.updateNormal( this.mouse.y / this.height )
-	    };
-	    this.render();
-	  } */
-
-/***/ },
-/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2164,10 +1975,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var RangeModel = __webpack_require__(18);
+	var RangeModel = __webpack_require__(17);
 	var math = __webpack_require__(5);
-	var ColorOps = __webpack_require__(19);
-	window.ColorOps = __webpack_require__(19);
+	var ColorOps = __webpack_require__(18);
+	window.ColorOps = __webpack_require__(18);
 	
 	var Interface = _interopRequire(__webpack_require__(6));
 	
@@ -2181,7 +1992,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [0, 0],
-	      mode: "drag"
+	      mode: "select"
 	      //scaleX, scaleY
 	      //valueX, valueY
 	      //stepX, stepY
@@ -2214,10 +2025,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.position = {
 	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
 	        start: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
-	        end: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]) };
+	        end: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0])
+	        //  size: new Interaction.Handle('relative','vertical',[0,this.width],[this.height,0])
+	      };
 	    }
-	
-	    console.log(this.position);
 	
 	    this.init();
 	    return this;
@@ -2300,8 +2111,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
-	        console.log("this.range.start.normalized", this.range.start.normalized);
-	        console.log("this.range.end.normalized", this.range.end);
 	        this.ref.setAttribute("transform", "translate(" + this.range.start.normalized * this.width + ", 0)");
 	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
 	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 3);
@@ -2310,9 +2119,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    click: {
 	      value: function click() {
 	        this.hasMoved = false;
+	        console.log("slider clicked");
 	
-	        this.position.center.anchor = this.mouse;
-	        this.position.size.anchor = this.mouse;
+	        if (this.mode === "drag") {
+	          this.position.center.anchor = this.mouse;
+	          this.position.size.anchor = this.mouse;
+	        } else if (this.mode === "select") {
+	          this.position.center.anchor = this.mouse;
+	        }
 	        //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
 	        this.render();
 	      }
@@ -2331,10 +2145,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.range.size = math.scale(this.position.size.value, 0, 1, this.min, this.max);
 	
 	            this.render();
+	          } else if (this.mode === "select") {
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            this.render();
 	          }
-	          //else if (this.mode==='select') {
-	
-	          //      }
 	        }
 	      }
 	    },
@@ -2388,11 +2203,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = RangeSlider;
-	
-	//  size: new Interaction.Handle('relative','vertical',[0,this.width],[this.height,0])
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2454,6 +2267,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (value) {
 	        var size = this.end.value - this.start.value;
+	        console.log("====");
+	        console.log(this.start.value);
+	        console.log(this.end.value);
 	        this.start.update(value - size / 2);
 	        this.end.update(this.start.value + size);
 	      }
@@ -2500,7 +2316,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports) {
 
 	var colorFunctions = {
@@ -2739,6 +2555,222 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = colorFunctions;
 
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	//let Step = require('../models/step');
+	//let math = require('../util/math');
+	var RangeSlider = __webpack_require__(16);
+	
+	var Waveform = (function (_Interface) {
+	  function Waveform() {
+	    _classCallCheck(this, Waveform);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [400, 150]
+	      //scaleX, scaleY
+	      //valueX, valueY
+	      //stepX, stepY
+	    };
+	
+	    _get(Object.getPrototypeOf(Waveform.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.selections = [];
+	    this.times = [{ dur: 10, format: 1 }, { dur: 50, format: 1 }, { dur: 100, format: 1 }, { dur: 200, format: 1 }, { dur: 500, format: 1 }, { dur: 1000, format: 1 }, { dur: 2000, format: 1 }, { dur: 5000, format: 1 }, { dur: 10000, format: 3 }, { dur: 15000, format: 3 }, { dur: 60000, format: 3 }, // 1 min
+	    { dur: 120000, format: 3 }, // 2 mins
+	    { dur: 300000, format: 3 }, // 5 mins
+	    { dur: 600000, format: 3 }];
+	    this.timescale = false;
+	
+	    this.definition = 2;
+	    this.pieces = ~ ~(this.width / this.definition);
+	
+	    this.init();
+	  }
+	
+	  _inherits(Waveform, _Interface);
+	
+	  _createClass(Waveform, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	        this.element.style.borderRadius = "5px";
+	      }
+	    },
+	    buildWaveform: {
+	      value: function buildWaveform() {
+	        for (var i = 0; i < this.buffer.length; i++) {
+	          var waveTop = i * this.waveHeight;
+	          var waveCenter = waveTop + this.waveHeight / 2;
+	          for (var j = 0; j < this.buffer[i].length; j++) {
+	            var ht1 = waveCenter - this.buffer[i][j][0] * this.waveHeight;
+	            var ht2 = waveCenter + Math.abs(this.buffer[i][j][1] * this.waveHeight);
+	            ht2 = ht2 - ht1;
+	
+	            var rect = svg.create("rect");
+	            rect.setAttribute("x", j * this.definition);
+	            rect.setAttribute("y", ht1);
+	            rect.setAttribute("width", this.definition);
+	            rect.setAttribute("height", ht2);
+	            rect.setAttribute("fill", "black");
+	
+	            this.element.appendChild(rect);
+	          }
+	        }
+	      }
+	    },
+	    render: {
+	      /*
+	        buildSelection() {
+	          let starttime = math.rf(this.duration);
+	          let endtime =  starttime + 0.2;
+	      
+	          let startx = this.width * starttime / this.duration;
+	          let endx = this.width * endtime / this.duration;
+	      
+	          let rect = svg.create('rect');
+	          rect.setAttribute('x',startx);
+	          rect.setAttribute('y',0);
+	          rect.setAttribute('width',endx - startx);
+	          rect.setAttribute('height',this.height);
+	          rect.setAttribute('fill','#d19');
+	          rect.setAttribute('stroke','#d19');
+	          rect.setAttribute('stroke-width','1');
+	          rect.setAttribute('fill-opacity','0.5');
+	      
+	          rect.addEventListener('mousedown', (e) => {
+	            console.log('selection clicked');
+	            e.preventDefault();
+	            e.stopPropagation()
+	          });
+	      
+	          this.element.appendChild( rect );
+	        } */
+	
+	      value: function render() {}
+	    },
+	    click: {
+	      value: function click() {
+	        //  this.value = {
+	        //    x: this._value.x.updateNormal( this.mouse.x / this.height ),
+	        //    y: this._value.y.updateNormal( this.mouse.y / this.height )
+	        //  };
+	
+	        this.selections.push(new RangeSlider(this.element));
+	        //will need to include this in settings: this.mouse.x / this.width
+	
+	        // rules:
+	        // if not on an existing selection, create a selection
+	        // if on an existing selection, save x location
+	        // and check whether it is in 'resize' territory
+	        // possible a different interaction for touch -- 'range' style
+	
+	        this.render();
+	      }
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    load: {
+	      value: function load(buffer) {
+	
+	        this.channels = buffer.numberOfChannels;
+	        this.duration = buffer.duration;
+	        this.sampleRate = buffer.sampleRate;
+	        this.waveHeight = this.height / this.channels;
+	
+	        // timescale
+	        this.durationMS = this.duration * 1000;
+	        this.timescale = 0;
+	        while (~ ~(this.durationMS / this.times[this.timescale].dur) > 7 && this.timescale < this.times.length) {
+	          this.timescale++;
+	        }
+	        this.timescale = this.times[this.timescale];
+	
+	        this.rawbuffer = [];
+	        this.buffer = [];
+	
+	        // reduce/crush buffers
+	        for (var i = 0; i < this.channels; i++) {
+	          this.rawbuffer.push(buffer.getChannelData(0));
+	          this.buffer.push([]);
+	
+	          // counts faster (sacrificing some accuracy) through larger buffers.
+	          // a 5 second sample will only look at every 2nd sample.
+	          // a 10 second buffer will only look at every 3rd sample.
+	          var countinc = ~ ~(this.rawbuffer[0].length / (this.sampleRate * 5)) + 1;
+	
+	          var groupsize = ~ ~(this.rawbuffer[i].length / this.pieces);
+	          var cmax = 0;
+	          var cmin = 0;
+	          var group = 0;
+	          for (var j = 0; j < this.rawbuffer[i].length; j += countinc) {
+	            if (this.rawbuffer[i][j] > 0) {
+	              cmax = Math.max(cmax, this.rawbuffer[i][j]);
+	            } else {
+	              cmin = Math.min(cmin, this.rawbuffer[i][j]);
+	            }
+	            if (j > group * groupsize) {
+	              this.buffer[i].push([cmax, cmin]);
+	              group++;
+	              cmin = 0;
+	              cmax = 0;
+	            }
+	          }
+	        }
+	
+	        this.buildWaveform();
+	
+	        //this.val.starttime = Math.round(this.val.start * this.durationMS);
+	        //this.val.stoptime = Math.round(this.val.stop * this.durationMS);
+	        //this.val.looptime = Math.round(this.val.size * this.durationMS);
+	      }
+	    }
+	  });
+	
+	  return Waveform;
+	})(Interface);
+	
+	module.exports = Waveform;
+	// 10 mins
+
+	//  this.knobCoordinates = {
+	//    x: this._value.x.normalized * this.width,
+	//    y: this._value.y.normalized * this.height
+	//  };
+
+	//  if (this.clicked) {
+	// rules:
+	// if not on an existing selection, expand the created selection
+	// if on an existing selection, move it or resize it
+	/*    this.value = {
+	      x: this._value.x.updateNormal( this.mouse.x / this.height ),
+	      y: this._value.y.updateNormal( this.mouse.y / this.height )
+	    };
+	    this.render();
+	  } */
 
 /***/ },
 /* 20 */
@@ -4571,6 +4603,186 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
+	
+	var Pan = (function (_Interface) {
+	  function Pan() {
+	    _classCallCheck(this, Pan);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [200, 200],
+	      mode: "absolute"
+	    };
+	
+	    _get(Object.getPrototypeOf(Pan.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._value = {
+	      x: new Step(0, 1, 0, 0.5),
+	      y: new Step(0, 1, 0, 0.5)
+	    };
+	
+	    this.mode = this.settings.mode;
+	
+	    this.position = {
+	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
+	    };
+	    this.position.x.value = this._value.x.normalized;
+	    this.position.y.value = this._value.y.normalized;
+	
+	    this.speakers = [[0.25, 0.5], [0.75, 0.5]];
+	
+	    this.levels = [];
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(Pan, _Interface);
+	
+	  _createClass(Pan, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	
+	        this._minDimension = Math.min(this.width, this.height);
+	
+	        this.knobRadius = {
+	          off: ~ ~(this._minDimension / 100) * 5 + 5 };
+	        this.knobRadius.on = this.knobRadius.off * 2;
+	
+	        this.knob = svg.create("circle");
+	        this.knob.setAttribute("cx", this.width / 2);
+	        this.knob.setAttribute("cy", this.height / 2);
+	        this.knob.setAttribute("r", this.knobRadius.off);
+	        this.knob.setAttribute("fill", "#ccc");
+	
+	        this.element.appendChild(this.knob);
+	
+	        // add speakers
+	
+	        this.speakerElements = [];
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = svg.create("circle");
+	          var speaker = this.speakers[i];
+	          speakerElement.setAttribute("cx", speaker[0] * this.width);
+	          speakerElement.setAttribute("cy", speaker[1] * this.height);
+	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
+	          speakerElement.setAttribute("fill", "#d18");
+	          speakerElement.setAttribute("fill-opacity", "0");
+	          speakerElement.setAttribute("stroke", "#d18");
+	
+	          this.element.appendChild(speakerElement);
+	
+	          this.speakerElements.push(speakerElement);
+	        }
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (this.clicked) {
+	          this.knob.setAttribute("r", this.knobRadius.on);
+	        } else {
+	          this.knob.setAttribute("r", this.knobRadius.off);
+	        }
+	
+	        this.knobCoordinates = {
+	          x: this._value.x.normalized * this.width,
+	          y: this.height - this._value.y.normalized * this.height
+	        };
+	
+	        this.knob.setAttribute("cx", this.knobCoordinates.x);
+	        this.knob.setAttribute("cy", this.knobCoordinates.y);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.position.x.anchor = this.mouse;
+	        this.position.y.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        var _this = this;
+	
+	        if (this.clicked) {
+	          this.position.x.update(this.mouse);
+	          this.position.y.update(this.mouse);
+	          this.value = {
+	            x: this._value.x.updateNormal(this.position.x.value),
+	            y: this._value.y.updateNormal(this.position.y.value)
+	          };
+	          this.levels = [];
+	          this.speakers.forEach(function (s) {
+	            var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.value.x, _this.value.y);
+	            var level = distance / _this.width;
+	            _this.levels.push(level);
+	          });
+	          this.emit("change", this.levels);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return {
+	          x: this._value.x.value,
+	          y: this._value.y.value
+	        };
+	      },
+	      set: function (value) {
+	        return {
+	          x: this._value.x.update(value.x),
+	          y: this._value.y.update(value.y)
+	        };
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return {
+	          x: this._value.x.normalized,
+	          y: this._value.y.normalized
+	        };
+	      }
+	    }
+	  });
+	
+	  return Pan;
+	})(Interface);
+	
+	module.exports = Pan;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	/*
@@ -4614,7 +4826,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(31));
+	var transform = _interopRequireWildcard(__webpack_require__(32));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
@@ -4713,7 +4925,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4768,7 +4980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4779,9 +4991,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(33));
+	var WAAClock = _interopRequire(__webpack_require__(34));
 	
-	var Interval = _interopRequire(__webpack_require__(36));
+	var Interval = _interopRequire(__webpack_require__(37));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -4810,17 +5022,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(34)
+	var WAAClock = __webpack_require__(35)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -5057,10 +5269,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)))
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -5246,7 +5458,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5313,7 +5525,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5324,7 +5536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(38));
+	var scales = _interopRequire(__webpack_require__(39));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -5559,7 +5771,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports) {
 
 	"use strict";
