@@ -185,7 +185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Slider: __webpack_require__(13),
 	  Toggle: __webpack_require__(14),
 	  Range: __webpack_require__(15),
-	  Waveform: __webpack_require__(19),
+	  Waveform: __webpack_require__(16),
 	  Button: __webpack_require__(20),
 	  TextButton: __webpack_require__(22),
 	  RadioButton: __webpack_require__(23),
@@ -530,6 +530,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
 	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
@@ -543,6 +545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Interface(args, options, defaults) {
 	    _classCallCheck(this, Interface);
 	
+	    _get(Object.getPrototypeOf(Interface.prototype), "constructor", this).call(this);
 	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
@@ -620,9 +623,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (settings.snapWithParent) {
 	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
 	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
-	          console.log(settings.target);
-	          console.log(this.width);
-	          console.log(this.height);
 	          //  if (!this.width || !this.parent.style.width) {
 	          if (!this.width) {
 	            this.width = settings.defaultSize[0];
@@ -1116,12 +1116,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = __webpack_require__(5);
 	
+	/**
+	  Creates a steppable value with minimum, maximum, and step size. This is used in many interfaces to constrict their values to certain ranges.
+	  @param {number} [min=0] minimum
+	  @param {number} [max=1] maximum
+	  @param {number} [step=0]
+	  @param {number} [value=0] initial value
+	  @returns {Object} Step
+	*/
+	
 	var Step = (function () {
 	  function Step() {
 	    var min = arguments[0] === undefined ? 0 : arguments[0];
 	    var max = arguments[1] === undefined ? 1 : arguments[1];
-	    var step = arguments[2] === undefined ? false : arguments[2];
-	    var value = arguments[3] === undefined ? 0.5 : arguments[3];
+	    var step = arguments[2] === undefined ? 0 : arguments[2];
+	    var value = arguments[3] === undefined ? 0 : arguments[3];
 	
 	    _classCallCheck(this, Step);
 	
@@ -1139,11 +1148,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  _createClass(Step, {
 	    update: {
-	      value: function update(newvalue) {
+	
+	      /**
+	        Update with a new value. The value will be auto-adjusted to fit the min/max/step.
+	        @param {number} value
+	      */
+	
+	      value: function update(value) {
 	        if (this.step) {
-	          this.value = math.clip(Math.round(newvalue / this.step) * this.step, this.min, this.max);
+	          this.value = math.clip(Math.round(value / this.step) * this.step, this.min, this.max);
 	        } else {
-	          this.value = math.clip(newvalue, this.min, this.max);
+	          this.value = math.clip(value, this.min, this.max);
 	        }
 	        if (this.oldValue !== this.value) {
 	          this.oldValue = this.value;
@@ -1155,29 +1170,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    updateNormal: {
+	
+	      /**
+	        Update with a normalized value 0-1.
+	        @param {number} value
+	      */
+	
 	      value: function updateNormal(value) {
 	        this.value = math.scale(value, 0, 1, this.min, this.max);
 	        return this.update(this.value);
 	      }
 	    },
 	    normalized: {
+	
+	      /**
+	        Get a normalized version of this.value . Not settable.
+	      */
+	
 	      get: function () {
 	        return math.normalize(this.value, this.min, this.max);
 	      }
-	    },
-	    up: {
-	
-	      // move this.value up by this.step
-	      // keep it in bounds of min and max
-	
-	      value: function up() {}
-	    },
-	    down: {
-	
-	      // move this.value down by this.step
-	      // keep it in bounds of min and max
-	
-	      value: function down() {}
 	    }
 	  });
 	
@@ -1210,12 +1222,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	/*
 	how to use :
 	
-	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
+	dial.interaction = new Handle('radial','relative',this.width,this.height);
 	// dial.interaction.mode = 'relative'
 	// dial.interaction.direction = 'radial'
 	
 	on click:
-	dial.interaction.anchor = this.mouse
+	dial.interaction.anchor = this.mouse;
 	
 	on move:
 	dial.interaction.update(this.mouse);
@@ -1836,7 +1848,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let svg = require('../util/svg');
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var RangeSlider = __webpack_require__(16);
+	var RangeSlider = __webpack_require__(17);
 	
 	var Range = (function (_Interface) {
 	  function Range() {
@@ -1849,8 +1861,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [200, 30],
-	      mode: "relative", // absolute, relative
-	      scale: [0, 10],
+	      mode: "drag", // select, scale? drag? range?
+	      scale: [0, 20],
 	      step: 1,
 	      value: [[7, 9], [1, 3]],
 	      maxSliders: 5
@@ -1860,6 +1872,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.min = this.settings.scale[0];
 	    this.max = this.settings.scale[1];
+	    this.mode = this.settings.mode;
 	    this.step = this.settings.step;
 	    this.maxSliders = this.settings.maxSliders;
 	    this.value = this.settings.value;
@@ -1873,7 +1886,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Range, {
 	    buildInterface: {
 	      value: function buildInterface() {
-	        console.log(this.value);
 	        this.element.style.backgroundColor = "#e7e7e7";
 	        for (var i = 0; i < this.value.length; i++) {
 	          var value = this.value[i];
@@ -1888,11 +1900,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var component = new RangeSlider(this.element, {
 	          min: this.min,
 	          max: this.max,
-	          step: this.step
+	          step: this.step,
+	          mode: this.mode
 	        });
 	
-	        component.range.start.value = start || math.interp(0.25, this.min, this.max);
-	        component.range.end.value = end || math.interp(0.75, this.min, this.max);
+	        //  component.range.start.value = start || math.interp(0.25,this.min,this.max);
+	        //  component.range.end.value = end ||  math.interp(0.75,this.min,this.max);
+	        //  console.log( start || math.interp(0.25,this.min,this.max) );
+	        //   component.start = start || math.interp(0.25,this.min,this.max);
+	        //   console.log(component.start);
+	        /*  component.end = end ||  math.interp(0.75,this.min,this.max);
+	          component.render();
+	          this.sliders.push( component ); */
+	
+	        start = start || math.interp(0.25, this.min, this.max);
+	        end = end || math.interp(0.75, this.min, this.max);
+	        component.range.move(start, end);
+	        component.position.center.value = math.normalize(component.range.center, this.min, this.max);
+	        component.position.size.value = math.normalize(component.range.size, this.min, this.max);
 	        component.render();
 	        this.sliders.push(component);
 	      }
@@ -1910,6 +1935,224 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	//let Step = require('../models/step');
+	//let math = require('../util/math');
+	var RangeSlider = __webpack_require__(17);
+	
+	var Waveform = (function (_Interface) {
+	  function Waveform() {
+	    _classCallCheck(this, Waveform);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [400, 150]
+	      //scaleX, scaleY
+	      //valueX, valueY
+	      //stepX, stepY
+	    };
+	
+	    _get(Object.getPrototypeOf(Waveform.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.selections = [];
+	    this.times = [{ dur: 10, format: 1 }, { dur: 50, format: 1 }, { dur: 100, format: 1 }, { dur: 200, format: 1 }, { dur: 500, format: 1 }, { dur: 1000, format: 1 }, { dur: 2000, format: 1 }, { dur: 5000, format: 1 }, { dur: 10000, format: 3 }, { dur: 15000, format: 3 }, { dur: 60000, format: 3 }, // 1 min
+	    { dur: 120000, format: 3 }, // 2 mins
+	    { dur: 300000, format: 3 }, // 5 mins
+	    { dur: 600000, format: 3 }];
+	    this.timescale = false;
+	
+	    this.definition = 2;
+	    this.pieces = ~ ~(this.width / this.definition);
+	
+	    this.init();
+	  }
+	
+	  _inherits(Waveform, _Interface);
+	
+	  _createClass(Waveform, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	        this.element.style.borderRadius = "5px";
+	      }
+	    },
+	    buildWaveform: {
+	      value: function buildWaveform() {
+	        for (var i = 0; i < this.buffer.length; i++) {
+	          var waveTop = i * this.waveHeight;
+	          var waveCenter = waveTop + this.waveHeight / 2;
+	          for (var j = 0; j < this.buffer[i].length; j++) {
+	            var ht1 = waveCenter - this.buffer[i][j][0] * this.waveHeight;
+	            var ht2 = waveCenter + Math.abs(this.buffer[i][j][1] * this.waveHeight);
+	            ht2 = ht2 - ht1;
+	
+	            var rect = svg.create("rect");
+	            rect.setAttribute("x", j * this.definition);
+	            rect.setAttribute("y", ht1);
+	            rect.setAttribute("width", this.definition);
+	            rect.setAttribute("height", ht2);
+	            rect.setAttribute("fill", "black");
+	
+	            this.element.appendChild(rect);
+	          }
+	        }
+	      }
+	    },
+	    render: {
+	      /*
+	        buildSelection() {
+	          let starttime = math.rf(this.duration);
+	          let endtime =  starttime + 0.2;
+	      
+	          let startx = this.width * starttime / this.duration;
+	          let endx = this.width * endtime / this.duration;
+	      
+	          let rect = svg.create('rect');
+	          rect.setAttribute('x',startx);
+	          rect.setAttribute('y',0);
+	          rect.setAttribute('width',endx - startx);
+	          rect.setAttribute('height',this.height);
+	          rect.setAttribute('fill','#d19');
+	          rect.setAttribute('stroke','#d19');
+	          rect.setAttribute('stroke-width','1');
+	          rect.setAttribute('fill-opacity','0.5');
+	      
+	          rect.addEventListener('mousedown', (e) => {
+	            console.log('selection clicked');
+	            e.preventDefault();
+	            e.stopPropagation()
+	          });
+	      
+	          this.element.appendChild( rect );
+	        } */
+	
+	      value: function render() {}
+	    },
+	    click: {
+	      value: function click() {
+	        //  this.value = {
+	        //    x: this._value.x.updateNormal( this.mouse.x / this.height ),
+	        //    y: this._value.y.updateNormal( this.mouse.y / this.height )
+	        //  };
+	
+	        this.selections.push(new RangeSlider(this.element));
+	        //will need to include this in settings: this.mouse.x / this.width
+	
+	        // rules:
+	        // if not on an existing selection, create a selection
+	        // if on an existing selection, save x location
+	        // and check whether it is in 'resize' territory
+	        // possible a different interaction for touch -- 'range' style
+	
+	        this.render();
+	      }
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    load: {
+	      value: function load(buffer) {
+	
+	        this.channels = buffer.numberOfChannels;
+	        this.duration = buffer.duration;
+	        this.sampleRate = buffer.sampleRate;
+	        this.waveHeight = this.height / this.channels;
+	
+	        // timescale
+	        this.durationMS = this.duration * 1000;
+	        this.timescale = 0;
+	        while (~ ~(this.durationMS / this.times[this.timescale].dur) > 7 && this.timescale < this.times.length) {
+	          this.timescale++;
+	        }
+	        this.timescale = this.times[this.timescale];
+	
+	        this.rawbuffer = [];
+	        this.buffer = [];
+	
+	        // reduce/crush buffers
+	        for (var i = 0; i < this.channels; i++) {
+	          this.rawbuffer.push(buffer.getChannelData(0));
+	          this.buffer.push([]);
+	
+	          // counts faster (sacrificing some accuracy) through larger buffers.
+	          // a 5 second sample will only look at every 2nd sample.
+	          // a 10 second buffer will only look at every 3rd sample.
+	          var countinc = ~ ~(this.rawbuffer[0].length / (this.sampleRate * 5)) + 1;
+	
+	          var groupsize = ~ ~(this.rawbuffer[i].length / this.pieces);
+	          var cmax = 0;
+	          var cmin = 0;
+	          var group = 0;
+	          for (var j = 0; j < this.rawbuffer[i].length; j += countinc) {
+	            if (this.rawbuffer[i][j] > 0) {
+	              cmax = Math.max(cmax, this.rawbuffer[i][j]);
+	            } else {
+	              cmin = Math.min(cmin, this.rawbuffer[i][j]);
+	            }
+	            if (j > group * groupsize) {
+	              this.buffer[i].push([cmax, cmin]);
+	              group++;
+	              cmin = 0;
+	              cmax = 0;
+	            }
+	          }
+	        }
+	
+	        this.buildWaveform();
+	
+	        //this.val.starttime = Math.round(this.val.start * this.durationMS);
+	        //this.val.stoptime = Math.round(this.val.stop * this.durationMS);
+	        //this.val.looptime = Math.round(this.val.size * this.durationMS);
+	      }
+	    }
+	  });
+	
+	  return Waveform;
+	})(Interface);
+	
+	module.exports = Waveform;
+	// 10 mins
+
+	//  this.knobCoordinates = {
+	//    x: this._value.x.normalized * this.width,
+	//    y: this._value.y.normalized * this.height
+	//  };
+
+	//  if (this.clicked) {
+	// rules:
+	// if not on an existing selection, expand the created selection
+	// if on an existing selection, move it or resize it
+	/*    this.value = {
+	      x: this._value.x.updateNormal( this.mouse.x / this.height ),
+	      y: this._value.y.updateNormal( this.mouse.y / this.height )
+	    };
+	    this.render();
+	  } */
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1921,21 +2164,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var RangeModel = __webpack_require__(17);
+	var RangeModel = __webpack_require__(18);
 	var math = __webpack_require__(5);
-	var ColorOps = __webpack_require__(18);
-	window.ColorOps = __webpack_require__(18);
+	var ColorOps = __webpack_require__(19);
+	window.ColorOps = __webpack_require__(19);
 	
 	var Interface = _interopRequire(__webpack_require__(6));
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
 	
 	var RangeSlider = (function (_Interface) {
 	  function RangeSlider() {
 	    _classCallCheck(this, RangeSlider);
 	
-	    var options = ["scale", "value"];
+	    var options = [];
 	
 	    var defaults = {
-	      size: [0, 0]
+	      size: [0, 0],
+	      mode: "drag"
 	      //scaleX, scaleY
 	      //valueX, valueY
 	      //stepX, stepY
@@ -1946,6 +2192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.min = this.settings.min;
 	    this.max = this.settings.max;
 	    this.step = this.settings.step;
+	    this.mode = this.settings.mode;
 	
 	    var colorIndex = 0;
 	    this.color = ColorOps.spin([230, 0, 100, 0], colorIndex * 60);
@@ -1954,11 +2201,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	    this.color.length = 3;
 	    this.color = "rgb(" + this.color.join(",") + ")";
-	    //  this.min = 0;
-	    //  this.max = 4;
-	    //  this.step = false;
+	
 	    this.range = new RangeModel(this.min, this.max, this.step);
-	    this.mode = "draw";
+	
+	    if (this.mode === "drag") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        size: new Interaction.Handle("relative", "vertical", [0, this.width], [this.height, 0])
+	      };
+	      this.position.size.sensitivity = 0.2;
+	    } else if (this.mode === "select") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        start: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        end: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]) };
+	    }
+	
+	    console.log(this.position);
+	
 	    this.init();
 	    return this;
 	  }
@@ -2041,7 +2301,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        console.log("this.range.start.normalized", this.range.start.normalized);
-	        console.log("this.width", this.width);
+	        console.log("this.range.end.normalized", this.range.end);
 	        this.ref.setAttribute("transform", "translate(" + this.range.start.normalized * this.width + ", 0)");
 	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
 	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 3);
@@ -2049,23 +2309,77 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
-	        console.log(this.mouse.x);
-	        console.log(this.width);
-	        this.range.center = math.scale(this.mouse.x, 0, this.width, this.min, this.max);
+	        this.hasMoved = false;
+	
+	        this.position.center.anchor = this.mouse;
+	        this.position.size.anchor = this.mouse;
+	        //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
 	        this.render();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
-	          this.range.center = math.scale(this.mouse.x, 0, this.width, this.min, this.max);
-	          this.render();
+	          this.hasMoved = true;
+	          if (this.mode === "drag") {
+	
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
+	
+	            this.position.size.update(this.mouse);
+	            this.range.size = math.scale(this.position.size.value, 0, 1, this.min, this.max);
+	
+	            this.render();
+	          }
+	          //else if (this.mode==='select') {
+	
+	          //      }
 	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
+	        if (!this.hasMoved) {
+	          this.destroy();
+	        }
 	        this.render();
+	      }
+	    },
+	    start: {
+	      get: function () {
+	        return this.range.start.value;
+	      },
+	      set: function (value) {
+	        //  console.log("start is being set to", value);
+	        this.range.start.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    end: {
+	      get: function () {
+	        return this.range.end.value;
+	      },
+	      set: function (value) {
+	        //  console.log("end is being set to", value);
+	        this.range.end.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    updatePosition: {
+	      value: function updatePosition() {
+	        //  console.log("updatePosition is being set");
+	        var start = this.range.start.normalized;
+	        //        console.log("updatePosition start", start);
+	        var end = this.range.end.normalized;
+	        //        console.log("updatePosition end", end);
+	        var center = (end + start) / 2;
+	        var size = end - start;
+	
+	        //    console.log("updatePosition center", center);
+	        //        console.log("updatePosition size", size);
+	        this.position.center.update(center);
+	        this.position.size.update(size);
 	      }
 	    }
 	  });
@@ -2074,9 +2388,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = RangeSlider;
+	
+	//  size: new Interaction.Handle('relative','vertical',[0,this.width],[this.height,0])
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2089,6 +2405,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Step = _interopRequire(__webpack_require__(10));
 	
+	/**
+	  Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.
+	  @param {number} [min=0] minimum
+	  @param {number} [max=1] maximum
+	  @param {number} [step=0]
+	  @returns {Object} Step
+	*/
+	
 	var Range = (function () {
 	  function Range() {
 	    var min = arguments[0] === undefined ? 0 : arguments[0];
@@ -2097,33 +2421,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _classCallCheck(this, Range);
 	
+	    /**
+	      {number} Minimum value of the range
+	    */
 	    this.min = min;
+	
+	    /**
+	      {number} Maximum value of the range
+	    */
 	    this.max = max;
+	
+	    /**
+	      {Step} Start value of the range selection
+	    */
 	    this.start = new Step(min, max, step);
+	
+	    /**
+	      {Step} End value of the range selection
+	    */
 	    this.end = new Step(min, max, step);
-	    this.start.value = 0.4;
-	    this.end.value = 0.6;
-	    this.size = (max - min) / 2;
 	  }
 	
 	  _createClass(Range, {
 	    center: {
+	
+	      /**
+	        {number} Center of the range selection
+	      */
+	
 	      get: function () {
 	        return this.start.value + (this.end.value - this.start.value) / 2;
 	      },
 	      set: function (value) {
-	        console.log("this.end.value", this.end.value);
-	        console.log("this.start.value", this.start.value);
-	        this.size = this.end.value - this.start.value;
-	        console.log("this.size", this.size);
-	        this.start.update(value - this.size / 2);
-	        this.end.update(value + this.size / 2);
+	        var size = this.end.value - this.start.value;
+	        this.start.update(value - size / 2);
+	        this.end.update(this.start.value + size);
 	      }
+	    },
+	    size: {
 	
-	      //move(start,end) {
-	      //  this.size =
-	      //}
+	      /**
+	        {number} Size of the range selection
+	      */
 	
+	      get: function () {
+	        return this.end.value - this.start.value;
+	      },
+	      set: function (size) {
+	        var center = this.center;
+	        this.start.update(center - size / 2);
+	        // Ensure that the range slsection _is_ the size desired, even if it changes the center.
+	        this.end.update(this.start.value + size);
+	        //this.end.update(center + size/2);
+	      }
+	    },
+	    move: {
+	
+	      /**
+	        Move the range selection
+	        @param {number} start New start value of the range selection
+	        @param {number} end New end value of the range selection
+	      */
+	
+	      value: function move(start, end) {
+	        if (start) {
+	          this.start.update(start);
+	        }
+	        if (end) {
+	          this.end.update(end);
+	        }
+	      }
 	    }
 	  });
 	
@@ -2133,7 +2500,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports) {
 
 	var colorFunctions = {
@@ -2372,222 +2739,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = colorFunctions;
 
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	//let Step = require('../models/step');
-	//let math = require('../util/math');
-	var RangeSlider = __webpack_require__(16);
-	
-	var Waveform = (function (_Interface) {
-	  function Waveform() {
-	    _classCallCheck(this, Waveform);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [400, 150]
-	      //scaleX, scaleY
-	      //valueX, valueY
-	      //stepX, stepY
-	    };
-	
-	    _get(Object.getPrototypeOf(Waveform.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.selections = [];
-	    this.times = [{ dur: 10, format: 1 }, { dur: 50, format: 1 }, { dur: 100, format: 1 }, { dur: 200, format: 1 }, { dur: 500, format: 1 }, { dur: 1000, format: 1 }, { dur: 2000, format: 1 }, { dur: 5000, format: 1 }, { dur: 10000, format: 3 }, { dur: 15000, format: 3 }, { dur: 60000, format: 3 }, // 1 min
-	    { dur: 120000, format: 3 }, // 2 mins
-	    { dur: 300000, format: 3 }, // 5 mins
-	    { dur: 600000, format: 3 }];
-	    this.timescale = false;
-	
-	    this.definition = 2;
-	    this.pieces = ~ ~(this.width / this.definition);
-	
-	    this.init();
-	  }
-	
-	  _inherits(Waveform, _Interface);
-	
-	  _createClass(Waveform, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	        this.element.style.borderRadius = "5px";
-	      }
-	    },
-	    buildWaveform: {
-	      value: function buildWaveform() {
-	        for (var i = 0; i < this.buffer.length; i++) {
-	          var waveTop = i * this.waveHeight;
-	          var waveCenter = waveTop + this.waveHeight / 2;
-	          for (var j = 0; j < this.buffer[i].length; j++) {
-	            var ht1 = waveCenter - this.buffer[i][j][0] * this.waveHeight;
-	            var ht2 = waveCenter + Math.abs(this.buffer[i][j][1] * this.waveHeight);
-	            ht2 = ht2 - ht1;
-	
-	            var rect = svg.create("rect");
-	            rect.setAttribute("x", j * this.definition);
-	            rect.setAttribute("y", ht1);
-	            rect.setAttribute("width", this.definition);
-	            rect.setAttribute("height", ht2);
-	            rect.setAttribute("fill", "black");
-	
-	            this.element.appendChild(rect);
-	          }
-	        }
-	      }
-	    },
-	    render: {
-	      /*
-	        buildSelection() {
-	          let starttime = math.rf(this.duration);
-	          let endtime =  starttime + 0.2;
-	      
-	          let startx = this.width * starttime / this.duration;
-	          let endx = this.width * endtime / this.duration;
-	      
-	          let rect = svg.create('rect');
-	          rect.setAttribute('x',startx);
-	          rect.setAttribute('y',0);
-	          rect.setAttribute('width',endx - startx);
-	          rect.setAttribute('height',this.height);
-	          rect.setAttribute('fill','#d19');
-	          rect.setAttribute('stroke','#d19');
-	          rect.setAttribute('stroke-width','1');
-	          rect.setAttribute('fill-opacity','0.5');
-	      
-	          rect.addEventListener('mousedown', (e) => {
-	            console.log('selection clicked');
-	            e.preventDefault();
-	            e.stopPropagation()
-	          });
-	      
-	          this.element.appendChild( rect );
-	        } */
-	
-	      value: function render() {}
-	    },
-	    click: {
-	      value: function click() {
-	        //  this.value = {
-	        //    x: this._value.x.updateNormal( this.mouse.x / this.height ),
-	        //    y: this._value.y.updateNormal( this.mouse.y / this.height )
-	        //  };
-	
-	        this.selections.push(new RangeSlider(this.element));
-	        //will need to include this in settings: this.mouse.x / this.width
-	
-	        // rules:
-	        // if not on an existing selection, create a selection
-	        // if on an existing selection, save x location
-	        // and check whether it is in 'resize' territory
-	        // possible a different interaction for touch -- 'range' style
-	
-	        this.render();
-	      }
-	    },
-	    move: {
-	      value: function move() {}
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    load: {
-	      value: function load(buffer) {
-	
-	        this.channels = buffer.numberOfChannels;
-	        this.duration = buffer.duration;
-	        this.sampleRate = buffer.sampleRate;
-	        this.waveHeight = this.height / this.channels;
-	
-	        // timescale
-	        this.durationMS = this.duration * 1000;
-	        this.timescale = 0;
-	        while (~ ~(this.durationMS / this.times[this.timescale].dur) > 7 && this.timescale < this.times.length) {
-	          this.timescale++;
-	        }
-	        this.timescale = this.times[this.timescale];
-	
-	        this.rawbuffer = [];
-	        this.buffer = [];
-	
-	        // reduce/crush buffers
-	        for (var i = 0; i < this.channels; i++) {
-	          this.rawbuffer.push(buffer.getChannelData(0));
-	          this.buffer.push([]);
-	
-	          // counts faster (sacrificing some accuracy) through larger buffers.
-	          // a 5 second sample will only look at every 2nd sample.
-	          // a 10 second buffer will only look at every 3rd sample.
-	          var countinc = ~ ~(this.rawbuffer[0].length / (this.sampleRate * 5)) + 1;
-	
-	          var groupsize = ~ ~(this.rawbuffer[i].length / this.pieces);
-	          var cmax = 0;
-	          var cmin = 0;
-	          var group = 0;
-	          for (var j = 0; j < this.rawbuffer[i].length; j += countinc) {
-	            if (this.rawbuffer[i][j] > 0) {
-	              cmax = Math.max(cmax, this.rawbuffer[i][j]);
-	            } else {
-	              cmin = Math.min(cmin, this.rawbuffer[i][j]);
-	            }
-	            if (j > group * groupsize) {
-	              this.buffer[i].push([cmax, cmin]);
-	              group++;
-	              cmin = 0;
-	              cmax = 0;
-	            }
-	          }
-	        }
-	
-	        this.buildWaveform();
-	
-	        //this.val.starttime = Math.round(this.val.start * this.durationMS);
-	        //this.val.stoptime = Math.round(this.val.stop * this.durationMS);
-	        //this.val.looptime = Math.round(this.val.size * this.durationMS);
-	      }
-	    }
-	  });
-	
-	  return Waveform;
-	})(Interface);
-	
-	module.exports = Waveform;
-	// 10 mins
-
-	//  this.knobCoordinates = {
-	//    x: this._value.x.normalized * this.width,
-	//    y: this._value.y.normalized * this.height
-	//  };
-
-	//  if (this.clicked) {
-	// rules:
-	// if not on an existing selection, expand the created selection
-	// if on an existing selection, move it or resize it
-	/*    this.value = {
-	      x: this._value.x.updateNormal( this.mouse.x / this.height ),
-	      y: this._value.y.updateNormal( this.mouse.y / this.height )
-	    };
-	    this.render();
-	  } */
 
 /***/ },
 /* 20 */
