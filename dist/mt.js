@@ -524,8 +524,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	exports.distance = function (x1, y1, x2, y2) {
-	  // calculate distance here;
-	  return x1 + y1 + x2 + y2;
+	  var a = x1 - x2;
+	  var b = y1 - y2;
+	  return Math.sqrt(a * a + b * b);
+	};
+	
+	exports.gainToDB = function (gain) {
+	  return 20 * Math.log10(gain);
 	};
 
 /***/ },
@@ -4620,11 +4625,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Pan() {
 	    _classCallCheck(this, Pan);
 	
-	    var options = ["scale", "value"];
+	    var options = ["range"];
 	
 	    var defaults = {
 	      size: [200, 200],
-	      mode: "absolute"
+	      range: 100,
+	      mode: "relative"
 	    };
 	
 	    _get(Object.getPrototypeOf(Pan.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -4644,6 +4650,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.position.y.value = this._value.y.normalized;
 	
 	    this.speakers = [[0.25, 0.5], [0.75, 0.5]];
+	
+	    this.range = this.settings.range;
 	
 	    this.levels = [];
 	
@@ -4695,12 +4703,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
-	        if (this.clicked) {
-	          this.knob.setAttribute("r", this.knobRadius.on);
-	        } else {
-	          this.knob.setAttribute("r", this.knobRadius.off);
-	        }
-	
 	        this.knobCoordinates = {
 	          x: this._value.x.normalized * this.width,
 	          y: this.height - this._value.y.normalized * this.height
@@ -4724,15 +4726,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.clicked) {
 	          this.position.x.update(this.mouse);
 	          this.position.y.update(this.mouse);
+	          // position.x and position.y are normalized
+	          // so are the levels
+	          // likely don't need this.value at all -- only used for drawing
+	          // not going to be a 'step' or 'min' and 'max' in this one.
 	          this.value = {
 	            x: this._value.x.updateNormal(this.position.x.value),
 	            y: this._value.y.updateNormal(this.position.y.value)
 	          };
 	          this.levels = [];
-	          this.speakers.forEach(function (s) {
-	            var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.value.x, _this.value.y);
-	            var level = distance / _this.width;
+	          this.speakers.forEach(function (s, i) {
+	            var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, _this.position.y.value * _this.height);
+	            var level = math.clip(1 - distance / _this.range, 0, 1);
 	            _this.levels.push(level);
+	            _this.speakerElements[i].setAttribute("fill-opacity", level);
 	          });
 	          this.emit("change", this.levels);
 	          this.render();
