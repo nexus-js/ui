@@ -5840,6 +5840,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	var SliderTemplate = __webpack_require__(41);
 	
+	var TiltSlider = (function (_SliderTemplate) {
+	  function TiltSlider() {
+	    _classCallCheck(this, TiltSlider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "relative",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(TiltSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	  }
+	
+	  _inherits(TiltSlider, _SliderTemplate);
+	
+	  return TiltSlider;
+	})(SliderTemplate);
+	
 	var Tilt = (function (_Interface) {
 	  function Tilt() {
 	    _classCallCheck(this, Tilt);
@@ -5893,7 +5917,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          container.style.margin = "10px";
 	          container.style.position = "relative";
 	
-	          var slider = new SliderTemplate(container, {
+	          var slider = new TiltSlider(container, {
 	            size: [sliderWidth, sliderHeight],
 	            scale: [0, 1],
 	            step: 0,
@@ -5967,22 +5991,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interaction = _interopRequireWildcard(__webpack_require__(11));
 	
 	var SliderTemplate = (function (_Interface) {
-	  function SliderTemplate() {
+	  function SliderTemplate(args, options, defaults) {
 	    _classCallCheck(this, SliderTemplate);
 	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [120, 20],
-	      orientation: "vertical",
-	      mode: "relative",
-	      scale: [0, 1],
-	      step: 0,
-	      value: 0,
-	      hasKnob: true
-	    };
-	
-	    _get(Object.getPrototypeOf(SliderTemplate.prototype), "constructor", this).call(this, arguments, options, defaults);
+	    _get(Object.getPrototypeOf(SliderTemplate.prototype), "constructor", this).call(this, args, options, defaults);
 	
 	    this.orientation = this.settings.orientation;
 	
@@ -6118,33 +6130,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    click: {
-	      value: function click() {
+	    down: {
+	      value: function down() {
+	        this.clicked = true;
 	        this.knobData.r = this.thickness * 0.9;
 	        this.position.anchor = this.mouse;
-	        this.move();
+	        this.slide();
 	      }
 	    },
-	    move: {
-	      value: function move() {
+	    slide: {
+	      value: function slide() {
 	        if (this.clicked) {
 	          this.position.update(this.mouse);
-	
 	          this.value = this._value.updateNormal(this.position.value);
-	
-	          /*    if (this.orientation === 'vertical') {
-	                this.value = this._value.updateNormal( (this.mouse.y - this.knobData.r) / (this.height-this.knobData.r*2)   );
-	              } else {
-	                this.value = this._value.updateNormal( (this.mouse.x - this.knobData.r) / (this.width-this.knobData.r*2)   );
-	              } */
-	
 	          this.emit("change", this.value);
-	          //  this.render();
 	        }
 	      }
 	    },
-	    release: {
-	      value: function release() {
+	    up: {
+	      value: function up() {
+	        this.clicked = false;
 	        this.render();
 	      }
 	    },
@@ -6185,8 +6190,76 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var math = __webpack_require__(5);
+	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var SliderTemplate = __webpack_require__(41);
+	
+	var SingleSlider = (function (_SliderTemplate) {
+	  function SingleSlider() {
+	    var _this = this;
+	
+	    _classCallCheck(this, SingleSlider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "absolute",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(SingleSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    /* events */
+	
+	    this.click = function () {
+	      _this.multislider.interacting = true;
+	      _this.down();
+	    };
+	    this.element.addEventListener("mouseover", function (e) {
+	      if (_this.multislider.interacting) {
+	        if (!_this.offset) {
+	          _this.offset = dom.findPosition(_this.element);
+	        }
+	        _this.mouse = dom.locateMouse(e, _this.offset);
+	        _this.down();
+	      }
+	    });
+	
+	    this.move = function () {};
+	    this.element.addEventListener("mousemove", function (e) {
+	      if (_this.multislider.interacting) {
+	        if (!_this.offset) {
+	          _this.offset = dom.findPosition(_this.element);
+	        }
+	        _this.mouse = dom.locateMouse(e, _this.offset);
+	        _this.slide();
+	      }
+	    });
+	
+	    this.release = function () {
+	      _this.multislider.interacting = false;
+	    };
+	    this.element.addEventListener("mouseup", function () {
+	      if (_this.multislider.interacting) {
+	        _this.up();
+	      }
+	    });
+	    this.element.addEventListener("mouseout", function () {
+	      if (_this.multislider.interacting) {
+	        _this.up();
+	      }
+	    });
+	  }
+	
+	  _inherits(SingleSlider, _SliderTemplate);
+	
+	  return SingleSlider;
+	})(SliderTemplate);
 	
 	var Multislider = (function (_Interface) {
 	  function Multislider() {
@@ -6211,6 +6284,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.sliders = [];
 	
+	    this.interacting = false;
+	
 	    this.init();
 	  }
 	
@@ -6232,7 +6307,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < this.numberOfSliders; i++) {
 	          var container = document.createElement("span");
 	
-	          var slider = new SliderTemplate(container, {
+	          var slider = new SingleSlider(container, {
 	            size: [sliderWidth, sliderHeight],
 	            scale: [this.min, this.max],
 	            step: this.step,
@@ -6240,6 +6315,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            value: math.average([this.min, this.max]),
 	            hasKnob: false,
 	            component: true }, this.emit.bind(i));
+	          slider.multislider = this;
 	          this.sliders.push(slider);
 	          this.element.appendChild(container);
 	        }
