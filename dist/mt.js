@@ -6214,6 +6214,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(SingleSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
+	    /* style changes */
+	
+	    this.bar.setAttribute("x", 0);
+	    this.bar.setAttribute("transform", "translate(0,0)");
+	    this.bar.setAttribute("rx", 0); // corner radius
+	    this.bar.setAttribute("ry", 0);
+	    this.bar.setAttribute("width", this.width);
+	    this.bar.setAttribute("height", this.height);
+	
+	    this.fillbar.setAttribute("x", 0);
+	    this.fillbar.setAttribute("transform", "translate(0,0)");
+	    this.fillbar.setAttribute("rx", 0); // corner radius
+	    this.fillbar.setAttribute("ry", 0);
+	    this.fillbar.setAttribute("width", this.width);
+	    this.fillbar.setAttribute("height", this.height);
+	
 	    /* events */
 	
 	    this.click = function () {
@@ -6269,7 +6285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [200, 100],
-	      numberOfSliders: 10,
+	      numberOfSliders: 5,
 	      scale: [0, 100],
 	      step: 1,
 	      value: [0]
@@ -6311,7 +6327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            size: [sliderWidth, sliderHeight],
 	            scale: [this.min, this.max],
 	            step: this.step,
-	            mode: "relative",
+	            mode: "absolute",
 	            value: math.average([this.min, this.max]),
 	            hasKnob: false,
 	            component: true }, this.emit.bind(i));
