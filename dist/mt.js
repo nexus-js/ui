@@ -193,12 +193,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Dial: __webpack_require__(25),
 	  Piano: __webpack_require__(26),
 	  Matrix: __webpack_require__(27),
-	  Pan: __webpack_require__(30)
-	  /*  Multislider: require('./multislider'),
-	    Spectrograph: require('./spectrograph'),
-	    Meter: require('./meter'),
-	    Tilt: require('./tilt') */
-	};
+	  Pan: __webpack_require__(30),
+	  Tilt: __webpack_require__(40),
+	  Multislider: __webpack_require__(42) };
+	
+	/*  Spectrograph: require('./spectrograph'),
+	  Meter: require('./meter'), */
 
 /***/ },
 /* 3 */
@@ -1510,7 +1510,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      mode: "relative",
 	      scale: [0, 1],
 	      step: 0,
-	      value: 0
+	      value: 0,
+	      hasKnob: true
 	    };
 	
 	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -1519,7 +1520,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.mode = this.settings.mode;
 	
-	    this.knob = this.settings.knob;
+	    this.hasKnob = this.settings.hasKnob;
 	
 	    // this.step should eventually be get/set
 	    // updating it will update the _value step model
@@ -1622,6 +1623,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.appendChild(this.bar);
 	        this.element.appendChild(this.fillbar);
 	        this.element.appendChild(this.knob);
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "transparent");
+	        }
 	      }
 	    },
 	    render: {
@@ -2803,7 +2808,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
-	      mode: "button", // button, aftertouch, impulse, toggle
+	      mode: "aftertouch", // button, aftertouch, impulse, toggle
 	      value: 0
 	    };
 	
@@ -4656,6 +4661,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.levels = [];
 	
 	    this.init();
+	
+	    this.calculateLevels();
 	    this.render();
 	  }
 	
@@ -4721,8 +4728,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    move: {
 	      value: function move() {
-	        var _this = this;
-	
 	        if (this.clicked) {
 	          this.position.x.update(this.mouse);
 	          this.position.y.update(this.mouse);
@@ -4730,17 +4735,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          // so are the levels
 	          // likely don't need this.value at all -- only used for drawing
 	          // not going to be a 'step' or 'min' and 'max' in this one.
-	          this.value = {
-	            x: this._value.x.updateNormal(this.position.x.value),
-	            y: this._value.y.updateNormal(this.position.y.value)
-	          };
-	          this.levels = [];
-	          this.speakers.forEach(function (s, i) {
-	            var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, _this.position.y.value * _this.height);
-	            var level = math.clip(1 - distance / _this.range, 0, 1);
-	            _this.levels.push(level);
-	            _this.speakerElements[i].setAttribute("fill-opacity", level);
-	          });
+	          this.calculateLevels();
 	          this.emit("change", this.levels);
 	          this.render();
 	        }
@@ -4771,6 +4766,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	          x: this._value.x.normalized,
 	          y: this._value.y.normalized
 	        };
+	      }
+	    },
+	    calculateLevels: {
+	      value: function calculateLevels() {
+	        var _this = this;
+	
+	        this.value = {
+	          x: this._value.x.updateNormal(this.position.x.value),
+	          y: this._value.y.updateNormal(this.position.y.value)
+	        };
+	        this.levels = [];
+	        this.speakers.forEach(function (s, i) {
+	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, _this.position.y.value * _this.height);
+	          var level = math.clip(1 - distance / _this.range, 0, 1);
+	          _this.levels.push(level);
+	          _this.speakerElements[i].setAttribute("fill-opacity", level);
+	        });
 	      }
 	    }
 	  });
@@ -5809,6 +5821,436 @@ return /******/ (function(modules) { // webpackBootstrap
 	    description: "Basic JI with 7-limit tritone"
 	  }
 	};
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var SliderTemplate = __webpack_require__(41);
+	
+	var Tilt = (function (_Interface) {
+	  function Tilt() {
+	    _classCallCheck(this, Tilt);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Tilt.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.sliders = [];
+	
+	    this.active = false;
+	
+	    this.init();
+	
+	    // add event listener for device orientation
+	
+	    this.boundUpdate = this.update.bind(this);
+	    //	this.boundMozTilt = this.mozTilt.bind(this)
+	
+	    if (window.DeviceOrientationEvent) {
+	      window.addEventListener("deviceorientation", this.boundUpdate, false);
+	    } /*else if (window.OrientationEvent) {
+	      //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
+	      } else {
+	      	console.log('Not supported on your device or browser.');
+	      } */
+	  }
+	
+	  _inherits(Tilt, _Interface);
+	
+	  _createClass(Tilt, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var sliderWidth = this.width - 20;
+	        var sliderHeight = (this.height - 20) / 3;
+	
+	        for (var i = 0; i < 3; i++) {
+	          var container = document.createElement("span");
+	          container.style.margin = "10px";
+	          container.style.position = "relative";
+	
+	          var slider = new SliderTemplate(container, {
+	            size: [sliderWidth, sliderHeight],
+	            scale: [0, 1],
+	            step: 0,
+	            mode: "relative",
+	            hasKnob: false,
+	            component: true });
+	          slider.click = slider.preClick = function () {};
+	          slider.move = slider.preMove = function () {};
+	          slider.release = slider.preRelease = function () {};
+	          this.sliders.push(slider);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update(v) {
+	        if (this.active) {
+	
+	          var x = v.beta;
+	          var y = v.gamma;
+	
+	          // take the original -90 to 90 scale and normalize it 0-1
+	          x = math.scale(x, -90, 90, 0, 1);
+	          y = math.scale(y, -90, 90, 0, 1);
+	
+	          this.sliders[0].value = x;
+	          this.sliders[1].value = y;
+	
+	          this.emit("change", {
+	            x: x,
+	            y: y
+	          });
+	        }
+	
+	        // eventually would be great to have a Step here so that someone could map it to 0-1000 by 100
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.active = !this.active;
+	        // should also dim the interface if inactive
+	      }
+	    }
+	  });
+	
+	  return Tilt;
+	})(Interface);
+	
+	module.exports = Tilt;
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
+	
+	var SliderTemplate = (function (_Interface) {
+	  function SliderTemplate() {
+	    _classCallCheck(this, SliderTemplate);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "relative",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(SliderTemplate.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    this.mode = this.settings.mode;
+	
+	    this.hasKnob = this.settings.hasKnob;
+	
+	    // this.step should eventually be get/set
+	    // updating it will update the _value step model
+	    this.step = this.settings.step; // float
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.init();
+	
+	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
+	
+	    this.value = this._value.value;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(SliderTemplate, _Interface);
+	
+	  _createClass(SliderTemplate, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        if (this.width < this.height) {
+	          this.orientation = "vertical";
+	        } else {
+	          this.orientation = "horizontal";
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.normalized * h;
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * w;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
+	
+	        this.bar = svg.create("rect");
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
+	        this.bar.setAttribute("width", w);
+	        this.bar.setAttribute("height", h);
+	        this.bar.setAttribute("fill", "#e7e7e7");
+	
+	        this.fillbar = svg.create("rect");
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
+	        this.fillbar.setAttribute("fill", "#d18");
+	
+	        this.knob = svg.create("circle");
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	        this.knob.setAttribute("fill", "#d18");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "none");
+	        }
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this._value.normalized * this.height;
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * this.width;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.update(this.mouse);
+	
+	          this.value = this._value.updateNormal(this.position.value);
+	
+	          /*    if (this.orientation === 'vertical') {
+	                this.value = this._value.updateNormal( (this.mouse.y - this.knobData.r) / (this.height-this.knobData.r*2)   );
+	              } else {
+	                this.value = this._value.updateNormal( (this.mouse.x - this.knobData.r) / (this.width-this.knobData.r*2)   );
+	              } */
+	
+	          this.emit("change", this.value);
+	          //  this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (value) {
+	        this._value.update(value);
+	        this.position.value = this._value.normalized;
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    }
+	  });
+	
+	  return SliderTemplate;
+	})(Interface);
+	
+	module.exports = SliderTemplate;
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var SliderTemplate = __webpack_require__(41);
+	
+	var Multislider = (function (_Interface) {
+	  function Multislider() {
+	    _classCallCheck(this, Multislider);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [200, 100],
+	      numberOfSliders: 10,
+	      scale: [0, 100],
+	      step: 1,
+	      value: [0]
+	    };
+	
+	    _get(Object.getPrototypeOf(Multislider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.min = this.settings.scale[0];
+	    this.max = this.settings.scale[1];
+	    this.step = this.settings.step;
+	    this.numberOfSliders = this.settings.numberOfSliders;
+	
+	    this.sliders = [];
+	
+	    this.init();
+	  }
+	
+	  _inherits(Multislider, _Interface);
+	
+	  _createClass(Multislider, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var sliderWidth = this.width / this.numberOfSliders;
+	        var sliderHeight = this.height;
+	
+	        for (var i = 0; i < this.numberOfSliders; i++) {
+	          var container = document.createElement("span");
+	
+	          var slider = new SliderTemplate(container, {
+	            size: [sliderWidth, sliderHeight],
+	            scale: [this.min, this.max],
+	            step: this.step,
+	            mode: "relative",
+	            value: math.average([this.min, this.max]),
+	            hasKnob: false,
+	            component: true }, this.emit.bind(i));
+	          this.sliders.push(slider);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    }
+	  });
+	
+	  return Multislider;
+	})(Interface);
+	
+	module.exports = Multislider;
 
 /***/ }
 /******/ ])

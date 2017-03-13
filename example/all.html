@@ -25,6 +25,11 @@
     <div id="piano"></div>
     <div id="matrix"></div>
     <div id="pan"></div>
+    <div id="tilt"></div>
+    <div id="multislider"></div>
+    <br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br />
   </div>
 </body>
 <style>
@@ -61,6 +66,8 @@
   piano = new mt.Piano("#piano")
   matrix = new mt.Matrix("#matrix")
   pan = new mt.Pan("#pan")
+  tilt = new mt.Tilt("#tilt")
+  multislider = new mt.Multislider("#multislider")
 
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
     waveform1.load(player.buffer._buffer)
