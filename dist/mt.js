@@ -6488,7 +6488,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.position.x.value = this._value.x.normalized;
 	    this.position.y.value = this._value.y.normalized;
 	
-	    this.speakers = [[0.25, 0.5], [0.75, 0.5]];
+	    this.speakers = [[0.5, 0.2], [0.7, 0.3], [0.8, 0.5], [0.7, 0.7], [0.5, 0.8], [0.3, 0.7], [0.2, 0.5], [0.3, 0.3]];
 	
 	    this.range = this.settings.range;
 	
@@ -6511,7 +6511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this._minDimension = Math.min(this.width, this.height);
 	
 	        this.knobRadius = {
-	          off: ~ ~(this._minDimension / 100) * 5 + 5 };
+	          off: ~ ~(this._minDimension / 100) * 3 + 5 };
 	        this.knobRadius.on = this.knobRadius.off * 2;
 	
 	        this.knob = svg.create("circle");
@@ -6612,7 +6612,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	        this.levels = [];
 	        this.speakers.forEach(function (s, i) {
-	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, _this.position.y.value * _this.height);
+	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, (1 - _this.position.y.value) * _this.height);
 	          var level = math.clip(1 - distance / _this.range, 0, 1);
 	          _this.levels.push(level);
 	          _this.speakerElements[i].setAttribute("fill-opacity", level);
