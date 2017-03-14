@@ -6329,7 +6329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      numberOfSliders: 5,
 	      scale: [0, 100],
 	      step: 1,
-	      value: [0]
+	      value: [70, 60, 50, 40, 30]
 	    };
 	
 	    _get(Object.getPrototypeOf(Multislider.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -6338,6 +6338,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.max = this.settings.scale[1];
 	    this.step = this.settings.step;
 	    this.numberOfSliders = this.settings.numberOfSliders;
+	    this.value = this.settings.value;
 	
 	    this.sliders = [];
 	
@@ -6358,6 +6359,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        console.log(this.value);
+	
 	        var sliderWidth = this.width / this.numberOfSliders;
 	        var sliderHeight = this.height;
 	
@@ -6369,7 +6372,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            scale: [this.min, this.max],
 	            step: this.step,
 	            mode: "absolute",
-	            value: math.average([this.min, this.max]),
+	            value: this.value[i],
 	            hasKnob: false,
 	            component: true }, this.update.bind(this, i));
 	          slider.multislider = this;
@@ -6488,7 +6491,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.position.x.value = this._value.x.normalized;
 	    this.position.y.value = this._value.y.normalized;
 	
-	    this.speakers = [[0.5, 0.2], [0.7, 0.3], [0.8, 0.5], [0.7, 0.7], [0.5, 0.8], [0.3, 0.7], [0.2, 0.5], [0.3, 0.3]];
+	    this.speakers = [[0.5, 0.2], [0.75, 0.25], [0.8, 0.5], [0.75, 0.75], [0.5, 0.8], [0.25, 0.75], [0.2, 0.5], [0.25, 0.25]];
 	
 	    this.range = this.settings.range;
 	
