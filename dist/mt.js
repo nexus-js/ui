@@ -193,12 +193,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Dial: __webpack_require__(25),
 	  Piano: __webpack_require__(26),
 	  Matrix: __webpack_require__(27),
-	  Pan: __webpack_require__(30),
+	  Pan3D: __webpack_require__(44),
 	  Tilt: __webpack_require__(40),
-	  Multislider: __webpack_require__(42) };
-	
-	/*  Spectrograph: require('./spectrograph'),
-	  Meter: require('./meter'), */
+	  Multislider: __webpack_require__(42),
+	  Pan: __webpack_require__(30)
+	  /*  Spectrograph: require('./spectrograph'),
+	    Meter: require('./meter'), */
+	};
 
 /***/ },
 /* 3 */
@@ -4540,65 +4541,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
+	var Drunk = _interopRequire(__webpack_require__(43));
+	
 	var Counter = (function () {
-	  function Counter(min, max, mode, value) {
-	    _classCallCheck(this, Counter);
+	    function Counter(min, max, mode, value) {
+	        _classCallCheck(this, Counter);
 	
-	    this.min = min || 0;
-	    this.max = max || 10;
-	    this.value = value || this.min - 1;
-	    this.mode = mode || "up";
-	  }
-	
-	  _createClass(Counter, {
-	    mode: {
-	      set: function (mode) {
-	        this._mode = mode;
-	        this.next = this[mode];
-	      },
-	      get: function () {
-	        return this._mode;
-	      }
-	    },
-	    up: {
-	      value: function up() {
-	        this.value++;
-	        if (this.value >= this.max) {
-	          this.value = this.min;
-	        }
-	        return this.value;
-	      }
-	    },
-	    down: {
-	      value: function down() {
-	        this.value--;
-	        if (this.value < this.min) {
-	          this.value = this.max;
-	        }
-	        return this.value;
-	      }
-	    },
-	    random: {
-	      value: function random() {
-	        this.value = math.ri(this.min, this.max);
-	        return this.value;
-	      }
-	    },
-	    drunk: {
-	      value: function drunk() {
-	        this.value += math.pick(-1, 1);
-	        if (this.value < this.min) {
-	          this.value = this.max;
-	        }
-	        if (this.value >= this.max) {
-	          this.value = this.min;
-	        }
-	        return this.value;
-	      }
+	        this.min = min || 0;
+	        this.max = max || 10;
+	        this.value = value || this.min - 1;
+	        this.mode = mode || "up";
 	    }
-	  });
 	
-	  return Counter;
+	    _createClass(Counter, {
+	        mode: {
+	            set: function (mode) {
+	                this._mode = mode;
+	                this.next = this[mode];
+	            },
+	            get: function () {
+	                return this._mode;
+	            }
+	        },
+	        up: {
+	            value: function up() {
+	                this.value++;
+	                if (this.value >= this.max) {
+	                    this.value = this.min;
+	                }
+	                return this.value;
+	            }
+	        },
+	        down: {
+	            value: function down() {
+	                this.value--;
+	                if (this.value < this.min) {
+	                    this.value = this.max;
+	                }
+	                return this.value;
+	            }
+	        },
+	        random: {
+	            value: function random() {
+	                this.value = math.ri(this.min, this.max);
+	                return this.value;
+	            }
+	        },
+	        drunk: {
+	
+	            /*
+	              drunk() {
+	                this.value += math.pick(-1,1);
+	                if (this.value < this.min) {
+	                  this.value = this.max;
+	                }
+	                if (this.value >= this.max) {
+	                  this.value = this.min;
+	                }
+	                return this.value;
+	              }
+	            */
+	
+	            value: function drunk() {
+	                return new Drunk(this.min, this.max, this.value, 1);
+	            }
+	        }
+	    });
+	
+	    return Counter;
 	})();
 	
 	module.exports = Counter;
@@ -4609,9 +4619,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
 	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 	
@@ -4619,176 +4627,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(10);
+	var Slider = _interopRequire(__webpack_require__(13));
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(11));
-	
-	var Pan = (function (_Interface) {
+	var Pan = (function (_Slider) {
 	  function Pan() {
 	    _classCallCheck(this, Pan);
 	
-	    var options = ["range"];
-	
-	    var defaults = {
-	      size: [200, 200],
-	      range: 100,
-	      mode: "relative"
-	    };
-	
-	    _get(Object.getPrototypeOf(Pan.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this._value = {
-	      x: new Step(0, 1, 0, 0.5),
-	      y: new Step(0, 1, 0, 0.5)
-	    };
-	
-	    this.mode = this.settings.mode;
-	
-	    this.position = {
-	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
-	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
-	    };
-	    this.position.x.value = this._value.x.normalized;
-	    this.position.y.value = this._value.y.normalized;
-	
-	    this.speakers = [[0.25, 0.5], [0.75, 0.5]];
-	
-	    this.range = this.settings.range;
-	
-	    this.levels = [];
-	
-	    this.init();
-	
-	    this.calculateLevels();
-	    this.render();
+	    _get(Object.getPrototypeOf(Pan.prototype), "constructor", this).call(this, arguments);
 	  }
 	
-	  _inherits(Pan, _Interface);
-	
-	  _createClass(Pan, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	
-	        this._minDimension = Math.min(this.width, this.height);
-	
-	        this.knobRadius = {
-	          off: ~ ~(this._minDimension / 100) * 5 + 5 };
-	        this.knobRadius.on = this.knobRadius.off * 2;
-	
-	        this.knob = svg.create("circle");
-	        this.knob.setAttribute("cx", this.width / 2);
-	        this.knob.setAttribute("cy", this.height / 2);
-	        this.knob.setAttribute("r", this.knobRadius.off);
-	        this.knob.setAttribute("fill", "#ccc");
-	
-	        this.element.appendChild(this.knob);
-	
-	        // add speakers
-	
-	        this.speakerElements = [];
-	
-	        for (var i = 0; i < this.speakers.length; i++) {
-	          var speakerElement = svg.create("circle");
-	          var speaker = this.speakers[i];
-	          speakerElement.setAttribute("cx", speaker[0] * this.width);
-	          speakerElement.setAttribute("cy", speaker[1] * this.height);
-	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
-	          speakerElement.setAttribute("fill", "#d18");
-	          speakerElement.setAttribute("fill-opacity", "0");
-	          speakerElement.setAttribute("stroke", "#d18");
-	
-	          this.element.appendChild(speakerElement);
-	
-	          this.speakerElements.push(speakerElement);
-	        }
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        this.knobCoordinates = {
-	          x: this._value.x.normalized * this.width,
-	          y: this.height - this._value.y.normalized * this.height
-	        };
-	
-	        this.knob.setAttribute("cx", this.knobCoordinates.x);
-	        this.knob.setAttribute("cy", this.knobCoordinates.y);
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.position.x.anchor = this.mouse;
-	        this.position.y.anchor = this.mouse;
-	        this.move();
-	      }
-	    },
-	    move: {
-	      value: function move() {
-	        if (this.clicked) {
-	          this.position.x.update(this.mouse);
-	          this.position.y.update(this.mouse);
-	          // position.x and position.y are normalized
-	          // so are the levels
-	          // likely don't need this.value at all -- only used for drawing
-	          // not going to be a 'step' or 'min' and 'max' in this one.
-	          this.calculateLevels();
-	          this.emit("change", this.levels);
-	          this.render();
-	        }
-	      }
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    value: {
-	      get: function () {
-	        return {
-	          x: this._value.x.value,
-	          y: this._value.y.value
-	        };
-	      },
-	      set: function (value) {
-	        return {
-	          x: this._value.x.update(value.x),
-	          y: this._value.y.update(value.y)
-	        };
-	      }
-	    },
-	    normalized: {
-	      get: function () {
-	        return {
-	          x: this._value.x.normalized,
-	          y: this._value.y.normalized
-	        };
-	      }
-	    },
-	    calculateLevels: {
-	      value: function calculateLevels() {
-	        var _this = this;
-	
-	        this.value = {
-	          x: this._value.x.updateNormal(this.position.x.value),
-	          y: this._value.y.updateNormal(this.position.y.value)
-	        };
-	        this.levels = [];
-	        this.speakers.forEach(function (s, i) {
-	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, _this.position.y.value * _this.height);
-	          var level = math.clip(1 - distance / _this.range, 0, 1);
-	          _this.levels.push(level);
-	          _this.speakerElements[i].setAttribute("fill-opacity", level);
-	        });
-	      }
-	    }
-	  });
+	  _inherits(Pan, _Slider);
 	
 	  return Pan;
-	})(Interface);
+	})(Slider);
 	
 	module.exports = Pan;
 
@@ -6330,11 +6181,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	            mode: "absolute",
 	            value: math.average([this.min, this.max]),
 	            hasKnob: false,
-	            component: true }, this.emit.bind(i));
+	            component: true }, this.update.bind(this, i));
 	          slider.multislider = this;
 	          this.sliders.push(slider);
 	          this.element.appendChild(container);
 	        }
+	      }
+	    },
+	    update: {
+	      value: function update(index, value) {
+	        this.emit("change", {
+	          index: index,
+	          value: value
+	        });
 	      }
 	    }
 	  });
@@ -6343,6 +6202,239 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = Multislider;
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Drunk = (function () {
+	    function Drunk(min, max, value, increment) {
+	        _classCallCheck(this, Drunk);
+	
+	        this.min = min || 0;
+	        this.max = max || 10;
+	        this.value = value || (min + max) / 2;
+	        this.increment = increment || 1;
+	    }
+	
+	    _createClass(Drunk, {
+	        step: {
+	            value: function step() {
+	                this.value += math.pick(-1 * increment, increment);
+	                if (this.value < this.min) {
+	                    this.value = this.max;
+	                }
+	                if (this.value >= this.max) {
+	                    this.value = this.min;
+	                }
+	                return this.value;
+	            }
+	        }
+	    });
+	
+	    return Drunk;
+	})();
+	
+	module.exports = Drunk;
+
+/***/ },
+/* 44 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
+	
+	var Pan3D = (function (_Interface) {
+	  function Pan3D() {
+	    _classCallCheck(this, Pan3D);
+	
+	    var options = ["range"];
+	
+	    var defaults = {
+	      size: [200, 200],
+	      range: 100,
+	      mode: "absolute"
+	    };
+	
+	    _get(Object.getPrototypeOf(Pan3D.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._value = {
+	      x: new Step(0, 1, 0, 0.5),
+	      y: new Step(0, 1, 0, 0.5)
+	    };
+	
+	    this.mode = this.settings.mode;
+	
+	    this.position = {
+	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
+	    };
+	    this.position.x.value = this._value.x.normalized;
+	    this.position.y.value = this._value.y.normalized;
+	
+	    this.speakers = [[0.25, 0.5], [0.75, 0.5]];
+	
+	    this.range = this.settings.range;
+	
+	    this.levels = [];
+	
+	    this.init();
+	
+	    this.calculateLevels();
+	    this.render();
+	  }
+	
+	  _inherits(Pan3D, _Interface);
+	
+	  _createClass(Pan3D, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	
+	        this._minDimension = Math.min(this.width, this.height);
+	
+	        this.knobRadius = {
+	          off: ~ ~(this._minDimension / 100) * 5 + 5 };
+	        this.knobRadius.on = this.knobRadius.off * 2;
+	
+	        this.knob = svg.create("circle");
+	        this.knob.setAttribute("cx", this.width / 2);
+	        this.knob.setAttribute("cy", this.height / 2);
+	        this.knob.setAttribute("r", this.knobRadius.off);
+	        this.knob.setAttribute("fill", "#ccc");
+	
+	        this.element.appendChild(this.knob);
+	
+	        // add speakers
+	
+	        this.speakerElements = [];
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = svg.create("circle");
+	          var speaker = this.speakers[i];
+	          speakerElement.setAttribute("cx", speaker[0] * this.width);
+	          speakerElement.setAttribute("cy", speaker[1] * this.height);
+	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
+	          speakerElement.setAttribute("fill", "#d18");
+	          speakerElement.setAttribute("fill-opacity", "0");
+	          speakerElement.setAttribute("stroke", "#d18");
+	
+	          this.element.appendChild(speakerElement);
+	
+	          this.speakerElements.push(speakerElement);
+	        }
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        this.knobCoordinates = {
+	          x: this._value.x.normalized * this.width,
+	          y: this.height - this._value.y.normalized * this.height
+	        };
+	
+	        this.knob.setAttribute("cx", this.knobCoordinates.x);
+	        this.knob.setAttribute("cy", this.knobCoordinates.y);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.position.x.anchor = this.mouse;
+	        this.position.y.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.x.update(this.mouse);
+	          this.position.y.update(this.mouse);
+	          // position.x and position.y are normalized
+	          // so are the levels
+	          // likely don't need this.value at all -- only used for drawing
+	          // not going to be a 'step' or 'min' and 'max' in this one.
+	          this.calculateLevels();
+	          this.emit("change", this.levels);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return {
+	          x: this._value.x.value,
+	          y: this._value.y.value
+	        };
+	      },
+	      set: function (value) {
+	        return {
+	          x: this._value.x.update(value.x),
+	          y: this._value.y.update(value.y)
+	        };
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return {
+	          x: this._value.x.normalized,
+	          y: this._value.y.normalized
+	        };
+	      }
+	    },
+	    calculateLevels: {
+	      value: function calculateLevels() {
+	        var _this = this;
+	
+	        this.value = {
+	          x: this._value.x.updateNormal(this.position.x.value),
+	          y: this._value.y.updateNormal(this.position.y.value)
+	        };
+	        this.levels = [];
+	        this.speakers.forEach(function (s, i) {
+	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, _this.position.y.value * _this.height);
+	          var level = math.clip(1 - distance / _this.range, 0, 1);
+	          _this.levels.push(level);
+	          _this.speakerElements[i].setAttribute("fill-opacity", level);
+	        });
+	      }
+	    }
+	  });
+	
+	  return Pan3D;
+	})(Interface);
+	
+	module.exports = Pan3D;
 
 /***/ }
 /******/ ])
