@@ -8,11 +8,8 @@
   <script src="js/Tone9.js"></script>
 </head>
 <body style="margin:0;padding;0">
-  <div id="synth1">
-    <span id="dial"></span>
-  </div>
-
   <div id="all-interfaces">
+    <div mt="Dial" id="dial"></div>
     <div mt="Slider" id="slider"></div>
     <div mt="Toggle" id="toggle"></div>
     <div mt="Range" id="range"></div>
@@ -28,6 +25,7 @@
     <div mt="Tilt" id="tilt"></div>
     <div mt="Multislider" id="multislider"></div>
     <div mt="Pan" id="pan"></div>
+    <div mt="Envelope" id="envelope"></div>
     <br /><br /><br /><br /><br />
     <br /><br /><br /><br /><br />
     <br /><br /><br /><br /><br />
@@ -51,13 +49,11 @@
 </style>
 <script>
 
-  instrument = mt.rack('all-interfaces')
+  instrument = mt.rack('all-interfaces','All Interfaces', true);
 
-/*  var player = new Tone.Player("./media/D-sharp.mp3",function() {
-    waveform1.load(player.buffer._buffer)
+  var player = new Tone.Player("./media/D-sharp.mp3",function() {
+    instrument.ui.waveform.load(player.buffer._buffer)
   })
-
-  var synth1 = mt.rack("synth1","Synth #1", true); */
 
 </script>
 </html>
