@@ -77,11 +77,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var dom = _interopRequire(__webpack_require__(7));
 	
-	var Rack = _interopRequire(__webpack_require__(31));
+	var Rack = _interopRequire(__webpack_require__(37));
 	
-	var Time = _interopRequire(__webpack_require__(33));
+	var Time = _interopRequire(__webpack_require__(39));
 	
-	var Tune = _interopRequire(__webpack_require__(38));
+	var Tune = _interopRequire(__webpack_require__(44));
 	
 	//import RangeModel from './models/range';
 	
@@ -193,10 +193,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Dial: __webpack_require__(25),
 	  Piano: __webpack_require__(26),
 	  Matrix: __webpack_require__(27),
-	  Pan3D: __webpack_require__(44),
-	  Tilt: __webpack_require__(40),
-	  Multislider: __webpack_require__(42),
-	  Pan: __webpack_require__(30)
+	  Pan3D: __webpack_require__(31),
+	  Tilt: __webpack_require__(32),
+	  Multislider: __webpack_require__(34),
+	  Pan: __webpack_require__(35),
+	  Envelope: __webpack_require__(36)
 	  /*  Spectrograph: require('./spectrograph'),
 	    Meter: require('./meter'), */
 	};
@@ -4534,7 +4535,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(43));
+	var Drunk = _interopRequire(__webpack_require__(30));
 	
 	var Counter = (function () {
 	    function Counter(min, max, mode, value) {
@@ -4542,7 +4543,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.min = min || 0;
 	        this.max = max || 10;
-	        this.value = value || this.min - 1;
+	        this.value = value || this.min;
 	        this.mode = mode || "up";
 	    }
 	
@@ -4596,7 +4597,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	            */
 	
 	            value: function drunk() {
-	                return new Drunk(this.min, this.max, this.value, 1);
+	                var drnk = new Drunk(this.min, this.max, this.value, 1);
+	                this.value = drnk.step();
+	                if (this.value < this.min) {
+	                    this.value = this.max;
+	                }
+	                if (this.value >= this.max) {
+	                    this.value = this.min;
+	                }
+	                return this.value;
 	            }
 	        }
 	    });
@@ -4608,6 +4617,765 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Drunk = (function () {
+	    function Drunk(min, max, value, increment) {
+	        _classCallCheck(this, Drunk);
+	
+	        this.min = min || 0;
+	        this.max = max || 10;
+	        this.value = value || 0;
+	        this.increment = increment || 1;
+	    }
+	
+	    _createClass(Drunk, {
+	        step: {
+	            value: function step() {
+	                this.value += math.pick(-1 * this.increment, this.increment);
+	                return this.value;
+	            }
+	        }
+	    });
+	
+	    return Drunk;
+	})();
+	
+	module.exports = Drunk;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
+	
+	var Pan3D = (function (_Interface) {
+	  function Pan3D() {
+	    _classCallCheck(this, Pan3D);
+	
+	    var options = ["range"];
+	
+	    var defaults = {
+	      size: [200, 200],
+	      range: 100,
+	      mode: "absolute"
+	    };
+	
+	    _get(Object.getPrototypeOf(Pan3D.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._value = {
+	      x: new Step(0, 1, 0, 0.5),
+	      y: new Step(0, 1, 0, 0.5)
+	    };
+	
+	    this.mode = this.settings.mode;
+	
+	    this.position = {
+	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
+	    };
+	    this.position.x.value = this._value.x.normalized;
+	    this.position.y.value = this._value.y.normalized;
+	
+	    this.speakers = [[0.5, 0.2], [0.75, 0.25], [0.8, 0.5], [0.75, 0.75], [0.5, 0.8], [0.25, 0.75], [0.2, 0.5], [0.25, 0.25]];
+	
+	    this.range = this.settings.range;
+	
+	    this.levels = [];
+	
+	    this.init();
+	
+	    this.calculateLevels();
+	    this.render();
+	  }
+	
+	  _inherits(Pan3D, _Interface);
+	
+	  _createClass(Pan3D, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	
+	        this._minDimension = Math.min(this.width, this.height);
+	
+	        this.knobRadius = {
+	          off: ~ ~(this._minDimension / 100) * 3 + 5 };
+	        this.knobRadius.on = this.knobRadius.off * 2;
+	
+	        this.knob = svg.create("circle");
+	        this.knob.setAttribute("cx", this.width / 2);
+	        this.knob.setAttribute("cy", this.height / 2);
+	        this.knob.setAttribute("r", this.knobRadius.off);
+	        this.knob.setAttribute("fill", "#ccc");
+	
+	        this.element.appendChild(this.knob);
+	
+	        // add speakers
+	
+	        this.speakerElements = [];
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = svg.create("circle");
+	          var speaker = this.speakers[i];
+	          speakerElement.setAttribute("cx", speaker[0] * this.width);
+	          speakerElement.setAttribute("cy", speaker[1] * this.height);
+	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
+	          speakerElement.setAttribute("fill", "#d18");
+	          speakerElement.setAttribute("fill-opacity", "0");
+	          speakerElement.setAttribute("stroke", "#d18");
+	
+	          this.element.appendChild(speakerElement);
+	
+	          this.speakerElements.push(speakerElement);
+	        }
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        this.knobCoordinates = {
+	          x: this._value.x.normalized * this.width,
+	          y: this.height - this._value.y.normalized * this.height
+	        };
+	
+	        this.knob.setAttribute("cx", this.knobCoordinates.x);
+	        this.knob.setAttribute("cy", this.knobCoordinates.y);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.position.x.anchor = this.mouse;
+	        this.position.y.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.x.update(this.mouse);
+	          this.position.y.update(this.mouse);
+	          // position.x and position.y are normalized
+	          // so are the levels
+	          // likely don't need this.value at all -- only used for drawing
+	          // not going to be a 'step' or 'min' and 'max' in this one.
+	          this.calculateLevels();
+	          this.emit("change", this.levels);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return {
+	          x: this._value.x.value,
+	          y: this._value.y.value
+	        };
+	      },
+	      set: function (value) {
+	        return {
+	          x: this._value.x.update(value.x),
+	          y: this._value.y.update(value.y)
+	        };
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return {
+	          x: this._value.x.normalized,
+	          y: this._value.y.normalized
+	        };
+	      }
+	    },
+	    calculateLevels: {
+	      value: function calculateLevels() {
+	        var _this = this;
+	
+	        this.value = {
+	          x: this._value.x.updateNormal(this.position.x.value),
+	          y: this._value.y.updateNormal(this.position.y.value)
+	        };
+	        this.levels = [];
+	        this.speakers.forEach(function (s, i) {
+	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, (1 - _this.position.y.value) * _this.height);
+	          var level = math.clip(1 - distance / _this.range, 0, 1);
+	          _this.levels.push(level);
+	          _this.speakerElements[i].setAttribute("fill-opacity", level);
+	        });
+	      }
+	    }
+	  });
+	
+	  return Pan3D;
+	})(Interface);
+	
+	module.exports = Pan3D;
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var SliderTemplate = __webpack_require__(33);
+	
+	var TiltSlider = (function (_SliderTemplate) {
+	  function TiltSlider() {
+	    _classCallCheck(this, TiltSlider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "relative",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(TiltSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	  }
+	
+	  _inherits(TiltSlider, _SliderTemplate);
+	
+	  return TiltSlider;
+	})(SliderTemplate);
+	
+	var Tilt = (function (_Interface) {
+	  function Tilt() {
+	    _classCallCheck(this, Tilt);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Tilt.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.sliders = [];
+	
+	    this.active = false;
+	
+	    this.init();
+	
+	    // add event listener for device orientation
+	
+	    this.boundUpdate = this.update.bind(this);
+	    //	this.boundMozTilt = this.mozTilt.bind(this)
+	
+	    if (window.DeviceOrientationEvent) {
+	      window.addEventListener("deviceorientation", this.boundUpdate, false);
+	    } /*else if (window.OrientationEvent) {
+	      //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
+	      } else {
+	      	console.log('Not supported on your device or browser.');
+	      } */
+	  }
+	
+	  _inherits(Tilt, _Interface);
+	
+	  _createClass(Tilt, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var sliderWidth = this.width - 20;
+	        var sliderHeight = (this.height - 20) / 3;
+	
+	        for (var i = 0; i < 3; i++) {
+	          var container = document.createElement("span");
+	          container.style.margin = "10px";
+	          container.style.position = "relative";
+	
+	          var slider = new TiltSlider(container, {
+	            size: [sliderWidth, sliderHeight],
+	            scale: [0, 1],
+	            step: 0,
+	            mode: "relative",
+	            hasKnob: false,
+	            component: true });
+	          slider.click = slider.preClick = function () {};
+	          slider.move = slider.preMove = function () {};
+	          slider.release = slider.preRelease = function () {};
+	          this.sliders.push(slider);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update(v) {
+	        if (this.active) {
+	
+	          var x = v.beta;
+	          var y = v.gamma;
+	
+	          // take the original -90 to 90 scale and normalize it 0-1
+	          x = math.scale(x, -90, 90, 0, 1);
+	          y = math.scale(y, -90, 90, 0, 1);
+	
+	          this.sliders[0].value = x;
+	          this.sliders[1].value = y;
+	
+	          this.emit("change", {
+	            x: x,
+	            y: y
+	          });
+	        }
+	
+	        // eventually would be great to have a Step here so that someone could map it to 0-1000 by 100
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.active = !this.active;
+	        // should also dim the interface if inactive
+	      }
+	    }
+	  });
+	
+	  return Tilt;
+	})(Interface);
+	
+	module.exports = Tilt;
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(10);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(11));
+	
+	var SliderTemplate = (function (_Interface) {
+	  function SliderTemplate(args, options, defaults) {
+	    _classCallCheck(this, SliderTemplate);
+	
+	    _get(Object.getPrototypeOf(SliderTemplate.prototype), "constructor", this).call(this, args, options, defaults);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    this.mode = this.settings.mode;
+	
+	    this.hasKnob = this.settings.hasKnob;
+	
+	    // this.step should eventually be get/set
+	    // updating it will update the _value step model
+	    this.step = this.settings.step; // float
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.init();
+	
+	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
+	
+	    this.value = this._value.value;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(SliderTemplate, _Interface);
+	
+	  _createClass(SliderTemplate, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        if (this.width < this.height) {
+	          this.orientation = "vertical";
+	        } else {
+	          this.orientation = "horizontal";
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.normalized * h;
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * w;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
+	
+	        this.bar = svg.create("rect");
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
+	        this.bar.setAttribute("width", w);
+	        this.bar.setAttribute("height", h);
+	        this.bar.setAttribute("fill", "#e7e7e7");
+	
+	        this.fillbar = svg.create("rect");
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
+	        this.fillbar.setAttribute("fill", "#d18");
+	
+	        this.knob = svg.create("circle");
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	        this.knob.setAttribute("fill", "#d18");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "none");
+	        }
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this._value.normalized * this.height;
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * this.width;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
+	      }
+	    },
+	    down: {
+	      value: function down() {
+	        this.clicked = true;
+	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
+	        this.slide();
+	      }
+	    },
+	    slide: {
+	      value: function slide() {
+	        if (this.clicked) {
+	          this.position.update(this.mouse);
+	          this.value = this._value.updateNormal(this.position.value);
+	          this.emit("change", this.value);
+	        }
+	      }
+	    },
+	    up: {
+	      value: function up() {
+	        this.clicked = false;
+	        this.render();
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (value) {
+	        this._value.update(value);
+	        this.position.value = this._value.normalized;
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    }
+	  });
+	
+	  return SliderTemplate;
+	})(Interface);
+	
+	module.exports = SliderTemplate;
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var dom = __webpack_require__(7);
+	var Interface = __webpack_require__(6);
+	var SliderTemplate = __webpack_require__(33);
+	
+	var SingleSlider = (function (_SliderTemplate) {
+	  function SingleSlider() {
+	    var _this = this;
+	
+	    _classCallCheck(this, SingleSlider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "absolute",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(SingleSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    /* style changes */
+	
+	    this.bar.setAttribute("x", 0);
+	    this.bar.setAttribute("transform", "translate(0,0)");
+	    this.bar.setAttribute("rx", 0); // corner radius
+	    this.bar.setAttribute("ry", 0);
+	    this.bar.setAttribute("width", this.width);
+	    this.bar.setAttribute("height", this.height);
+	
+	    this.fillbar.setAttribute("x", 0);
+	    this.fillbar.setAttribute("transform", "translate(0,0)");
+	    this.fillbar.setAttribute("rx", 0); // corner radius
+	    this.fillbar.setAttribute("ry", 0);
+	    this.fillbar.setAttribute("width", this.width);
+	    this.fillbar.setAttribute("height", this.height);
+	
+	    /* events */
+	
+	    this.click = function () {
+	      _this.multislider.interacting = true;
+	      _this.down();
+	    };
+	    this.element.addEventListener("mouseover", function (e) {
+	      if (_this.multislider.interacting) {
+	        if (!_this.offset) {
+	          _this.offset = dom.findPosition(_this.element);
+	        }
+	        _this.mouse = dom.locateMouse(e, _this.offset);
+	        _this.down();
+	      }
+	    });
+	
+	    this.move = function () {};
+	    this.element.addEventListener("mousemove", function (e) {
+	      if (_this.multislider.interacting) {
+	        if (!_this.offset) {
+	          _this.offset = dom.findPosition(_this.element);
+	        }
+	        _this.mouse = dom.locateMouse(e, _this.offset);
+	        _this.slide();
+	      }
+	    });
+	
+	    this.release = function () {
+	      _this.multislider.interacting = false;
+	    };
+	    this.element.addEventListener("mouseup", function () {
+	      if (_this.multislider.interacting) {
+	        _this.up();
+	      }
+	    });
+	    this.element.addEventListener("mouseout", function () {
+	      if (_this.multislider.interacting) {
+	        _this.up();
+	      }
+	    });
+	  }
+	
+	  _inherits(SingleSlider, _SliderTemplate);
+	
+	  return SingleSlider;
+	})(SliderTemplate);
+	
+	var Multislider = (function (_Interface) {
+	  function Multislider() {
+	    _classCallCheck(this, Multislider);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [200, 100],
+	      numberOfSliders: 5,
+	      scale: [0, 100],
+	      step: 1,
+	      value: [70, 60, 50, 40, 30]
+	    };
+	
+	    _get(Object.getPrototypeOf(Multislider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.min = this.settings.scale[0];
+	    this.max = this.settings.scale[1];
+	    this.step = this.settings.step;
+	    this.numberOfSliders = this.settings.numberOfSliders;
+	    this.value = this.settings.value;
+	
+	    this.sliders = [];
+	
+	    this.interacting = false;
+	
+	    this.init();
+	  }
+	
+	  _inherits(Multislider, _Interface);
+	
+	  _createClass(Multislider, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        console.log(this.value);
+	
+	        var sliderWidth = this.width / this.numberOfSliders;
+	        var sliderHeight = this.height;
+	
+	        for (var i = 0; i < this.numberOfSliders; i++) {
+	          var container = document.createElement("span");
+	
+	          var slider = new SingleSlider(container, {
+	            size: [sliderWidth, sliderHeight],
+	            scale: [this.min, this.max],
+	            step: this.step,
+	            mode: "absolute",
+	            value: this.value[i],
+	            hasKnob: false,
+	            component: true }, this.update.bind(this, i));
+	          slider.multislider = this;
+	          this.sliders.push(slider);
+	          this.element.appendChild(container);
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update(index, value) {
+	        this.emit("change", {
+	          index: index,
+	          value: value
+	        });
+	      }
+	    }
+	  });
+	
+	  return Multislider;
+	})(Interface);
+	
+	module.exports = Multislider;
+
+/***/ },
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4834,7 +5602,290 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan;
 
 /***/ },
-/* 31 */
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = __webpack_require__(5);
+	var svg = __webpack_require__(4);
+	//let dom = require('../util/dom');
+	var Interface = __webpack_require__(6);
+	
+	var Point = function Point(point, envelope) {
+	
+	  this.x = point.x;
+	  this.y = point.y;
+	  this.envelope = envelope;
+	
+	  this.element = svg.create("circle");
+	  this.element.setAttribute("r", 5);
+	  this.element.setAttribute("fill", "#d18");
+	
+	  this.envelope.element.appendChild(this.element);
+	
+	  this.move = function (x, y) {
+	    // scale / clip the location here
+	    this.x = x;
+	    this.y = y;
+	    this.location = this.getCoordinates();
+	    this.element.setAttribute("cx", this.location.x);
+	    this.element.setAttribute("cy", this.location.y);
+	  };
+	
+	  this.getCoordinates = function () {
+	    return {
+	      x: this.x * this.envelope.width,
+	      y: (1 - this.y) * this.envelope.height
+	    };
+	  };
+	
+	  this.move(this.x, this.y);
+	
+	  this.destroy = function () {
+	    this.envelope.element.removeChild(this.element);
+	  };
+	};
+	
+	var Envelope = (function (_Interface) {
+	  function Envelope() {
+	    _classCallCheck(this, Envelope);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [300, 150]
+	    };
+	
+	    _get(Object.getPrototypeOf(Envelope.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    //this.points = [ [0,1], [1,0], [1,1] ]
+	
+	    this.points = [{
+	      x: 0.1,
+	      y: 0.4
+	    }, {
+	      x: 0.35,
+	      y: 0.6
+	    }, {
+	      x: 0.65,
+	      y: 0.2
+	    }, {
+	      x: 0.9,
+	      y: 0.4
+	    }];
+	
+	    this.nodes = [];
+	
+	    this.selected = false;
+	
+	    this.init();
+	  }
+	
+	  _inherits(Envelope, _Interface);
+	
+	  _createClass(Envelope, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	
+	        this.points.forEach(function (point) {
+	          var node = new Point(point, _this);
+	          _this.nodes.push(node);
+	        });
+	
+	        this.line = svg.create("polyline");
+	        this.line.setAttribute("stroke", "#d18");
+	        this.line.setAttribute("stroke-width", 2);
+	        this.line.setAttribute("fill", "none");
+	
+	        this.element.appendChild(this.line);
+	
+	        this.fill = svg.create("polyline");
+	        this.fill.setAttribute("fill", "#d18");
+	        this.fill.setAttribute("fill-opacity", "0.2");
+	
+	        this.element.appendChild(this.fill);
+	
+	        this.calculatePath();
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        //  this.nodes[this.selected].move( this.points )
+	        this.calculatePath();
+	      }
+	    },
+	    calculatePoints: {
+	      value: function calculatePoints() {
+	        var _this = this;
+	
+	        this.points = [];
+	        this.nodes.forEach(function (node) {
+	          _this.points.push({ x: node.x, y: node.y });
+	        });
+	      }
+	    },
+	    calculatePath: {
+	      value: function calculatePath() {
+	
+	        // should re-order points here ?
+	
+	        //stroke data
+	        var data = "0 " + this.nodes[0].location.y + ", ";
+	
+	        // data should be re-ordered based on x location.
+	        // whatever function adds a node should add it at the right index
+	
+	        this.nodes.forEach(function (node) {
+	          //  let location = node.getCoordinates();
+	          data += node.location.x + " " + node.location.y + ", ";
+	        });
+	
+	        //  data += point.x*this.width+' '+ point.y*this.height+', ';
+	        data += this.width + " " + this.nodes[this.nodes.length - 1].location.y;
+	
+	        this.line.setAttribute("points", data);
+	
+	        // fill data
+	        // add bottom corners
+	
+	        data += ", " + this.width + " " + this.height + ", ";
+	        data += "0 " + this.height;
+	
+	        this.fill.setAttribute("points", data);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        // find nearest node and set this.selected (index)
+	        this.hasMoved = false;
+	        this.selected = this.findNearestNode();
+	
+	        this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
+	        this.scaleNode(this.selected);
+	
+	        // must do this b/c new node may have been created
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	        this.render();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.hasMoved = true;
+	
+	          this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
+	          this.scaleNode(this.selected);
+	
+	          this.calculatePoints();
+	          this.emit("change", this.points);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	
+	        if (!this.hasMoved) {
+	          this.nodes[this.selected].destroy();
+	          this.nodes.splice(this.selected, 1);
+	        }
+	
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	        this.render();
+	
+	        // reset this.selected
+	        this.selected = null;
+	      }
+	    },
+	    findNearestNode: {
+	      value: function findNearestNode() {
+	        var nearestIndex = null;
+	        var nearestDist = 1000;
+	        var before = false;
+	        var x = this.mouse.x / this.width;
+	        var y = 1 - this.mouse.y / this.height;
+	        var nodes = this.nodes;
+	        for (var i = 0; i < nodes.length; i++) {
+	          var distance = Math.sqrt(Math.pow(nodes[i].x - x, 2), Math.pow(nodes[i].y - -y, 2));
+	
+	          if (distance < nearestDist) {
+	            nearestDist = distance;
+	            nearestIndex = i;
+	            before = x > nodes[i].x;
+	          }
+	        }
+	
+	        if (nearestDist > 0.05) {
+	          if (before) {
+	            nearestIndex++;
+	          }
+	          this.nodes.splice(nearestIndex, 0, new Point({
+	            x: this.mouse.x / this.width,
+	            y: 1 - this.mouse.y / this.height
+	          }, this));
+	          this.hasMoved = true;
+	        }
+	
+	        return nearestIndex;
+	      }
+	    },
+	    scaleNode: {
+	      value: function scaleNode(nodeIndex) {
+	        var i = nodeIndex;
+	        var prevX = 0;
+	        var nextX = this.width;
+	
+	        var actualX = this.nodes[i].x;
+	        var actualY = this.nodes[i].y;
+	        var clippedX = math.clip(actualX, 0, 1);
+	        var clippedY = math.clip(actualY, 0, 1);
+	
+	        this.nodes[i].move(clippedX, clippedY);
+	
+	        // find x value of nodes to the right and left
+	        if (i > 0) {
+	          prevX = this.nodes[i - 1].x;
+	        }
+	        if (this.nodes.length > i + 1) {
+	          nextX = this.nodes[i + 1].x;
+	        }
+	
+	        if (this.nodes[i].x < prevX) {
+	          this.nodes.splice(i - 1, 0, this.nodes.splice(i, 1)[0]);
+	          i = i - 1;
+	          this.selected = i;
+	        }
+	
+	        if (this.nodes[i].x > nextX) {
+	          this.nodes.splice(i + 1, 0, this.nodes.splice(i, 1)[0]);
+	          i = i + 1;
+	          this.selected = i;
+	        }
+	      }
+	    }
+	  });
+	
+	  return Envelope;
+	})(Interface);
+	
+	module.exports = Envelope;
+
+/***/ },
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4886,7 +5937,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(32));
+	var transform = _interopRequireWildcard(__webpack_require__(38));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
@@ -4985,7 +6036,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 32 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5040,7 +6091,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 33 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5051,9 +6102,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(34));
+	var WAAClock = _interopRequire(__webpack_require__(40));
 	
-	var Interval = _interopRequire(__webpack_require__(37));
+	var Interval = _interopRequire(__webpack_require__(43));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -5082,17 +6133,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 34 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(35)
+	var WAAClock = __webpack_require__(41)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 35 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -5329,10 +6380,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)))
 
 /***/ },
-/* 36 */
+/* 42 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -5518,7 +6569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 37 */
+/* 43 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5585,7 +6636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 38 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5596,7 +6647,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(39));
+	var scales = _interopRequire(__webpack_require__(45));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -5831,7 +6882,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 39 */
+/* 45 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5862,772 +6913,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    description: "Basic JI with 7-limit tritone"
 	  }
 	};
-
-/***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(41);
-	
-	var TiltSlider = (function (_SliderTemplate) {
-	  function TiltSlider() {
-	    _classCallCheck(this, TiltSlider);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [120, 20],
-	      orientation: "vertical",
-	      mode: "relative",
-	      scale: [0, 1],
-	      step: 0,
-	      value: 0,
-	      hasKnob: true
-	    };
-	
-	    _get(Object.getPrototypeOf(TiltSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
-	  }
-	
-	  _inherits(TiltSlider, _SliderTemplate);
-	
-	  return TiltSlider;
-	})(SliderTemplate);
-	
-	var Tilt = (function (_Interface) {
-	  function Tilt() {
-	    _classCallCheck(this, Tilt);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [80, 80],
-	      value: 0
-	    };
-	
-	    _get(Object.getPrototypeOf(Tilt.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.sliders = [];
-	
-	    this.active = false;
-	
-	    this.init();
-	
-	    // add event listener for device orientation
-	
-	    this.boundUpdate = this.update.bind(this);
-	    //	this.boundMozTilt = this.mozTilt.bind(this)
-	
-	    if (window.DeviceOrientationEvent) {
-	      window.addEventListener("deviceorientation", this.boundUpdate, false);
-	    } /*else if (window.OrientationEvent) {
-	      //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
-	      } else {
-	      	console.log('Not supported on your device or browser.');
-	      } */
-	  }
-	
-	  _inherits(Tilt, _Interface);
-	
-	  _createClass(Tilt, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = document.createElement("div");
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        var sliderWidth = this.width - 20;
-	        var sliderHeight = (this.height - 20) / 3;
-	
-	        for (var i = 0; i < 3; i++) {
-	          var container = document.createElement("span");
-	          container.style.margin = "10px";
-	          container.style.position = "relative";
-	
-	          var slider = new TiltSlider(container, {
-	            size: [sliderWidth, sliderHeight],
-	            scale: [0, 1],
-	            step: 0,
-	            mode: "relative",
-	            hasKnob: false,
-	            component: true });
-	          slider.click = slider.preClick = function () {};
-	          slider.move = slider.preMove = function () {};
-	          slider.release = slider.preRelease = function () {};
-	          this.sliders.push(slider);
-	          this.element.appendChild(container);
-	        }
-	      }
-	    },
-	    update: {
-	      value: function update(v) {
-	        if (this.active) {
-	
-	          var x = v.beta;
-	          var y = v.gamma;
-	
-	          // take the original -90 to 90 scale and normalize it 0-1
-	          x = math.scale(x, -90, 90, 0, 1);
-	          y = math.scale(y, -90, 90, 0, 1);
-	
-	          this.sliders[0].value = x;
-	          this.sliders[1].value = y;
-	
-	          this.emit("change", {
-	            x: x,
-	            y: y
-	          });
-	        }
-	
-	        // eventually would be great to have a Step here so that someone could map it to 0-1000 by 100
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.active = !this.active;
-	        // should also dim the interface if inactive
-	      }
-	    }
-	  });
-	
-	  return Tilt;
-	})(Interface);
-	
-	module.exports = Tilt;
-
-/***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(10);
-	
-	var Interaction = _interopRequireWildcard(__webpack_require__(11));
-	
-	var SliderTemplate = (function (_Interface) {
-	  function SliderTemplate(args, options, defaults) {
-	    _classCallCheck(this, SliderTemplate);
-	
-	    _get(Object.getPrototypeOf(SliderTemplate.prototype), "constructor", this).call(this, args, options, defaults);
-	
-	    this.orientation = this.settings.orientation;
-	
-	    this.mode = this.settings.mode;
-	
-	    this.hasKnob = this.settings.hasKnob;
-	
-	    // this.step should eventually be get/set
-	    // updating it will update the _value step model
-	    this.step = this.settings.step; // float
-	
-	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
-	
-	    this.init();
-	
-	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
-	    this.position.value = this._value.normalized;
-	
-	    this.value = this._value.value;
-	
-	    this.emit("change", this.value);
-	  }
-	
-	  _inherits(SliderTemplate, _Interface);
-	
-	  _createClass(SliderTemplate, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        if (this.width < this.height) {
-	          this.orientation = "vertical";
-	        } else {
-	          this.orientation = "horizontal";
-	        }
-	
-	        var x = undefined,
-	            y = undefined,
-	            w = undefined,
-	            h = undefined,
-	            barOffset = undefined,
-	            cornerRadius = undefined;
-	        this.knobData = {
-	          level: 0,
-	          r: 0
-	        };
-	
-	        if (this.orientation === "vertical") {
-	          this.thickness = this.width / 2;
-	          x = this.width / 2;
-	          y = 0;
-	          w = this.thickness;
-	          h = this.height;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = h - this.normalized * h;
-	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
-	          cornerRadius = w / 2;
-	        } else {
-	          this.thickness = this.height / 2;
-	          x = 0;
-	          y = this.height / 2;
-	          w = this.width;
-	          h = this.thickness;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = this.normalized * w;
-	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
-	          cornerRadius = h / 2;
-	        }
-	
-	        this.bar = svg.create("rect");
-	        this.bar.setAttribute("x", x);
-	        this.bar.setAttribute("y", y);
-	        this.bar.setAttribute("transform", barOffset);
-	        this.bar.setAttribute("rx", cornerRadius); // corner radius
-	        this.bar.setAttribute("ry", cornerRadius);
-	        this.bar.setAttribute("width", w);
-	        this.bar.setAttribute("height", h);
-	        this.bar.setAttribute("fill", "#e7e7e7");
-	
-	        this.fillbar = svg.create("rect");
-	        if (this.orientation === "vertical") {
-	          this.fillbar.setAttribute("x", x);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("width", w);
-	          this.fillbar.setAttribute("height", h - this.knobData.level);
-	        } else {
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("y", y);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	          this.fillbar.setAttribute("height", h);
-	        }
-	        this.fillbar.setAttribute("transform", barOffset);
-	        this.fillbar.setAttribute("rx", cornerRadius);
-	        this.fillbar.setAttribute("ry", cornerRadius);
-	        this.fillbar.setAttribute("fill", "#d18");
-	
-	        this.knob = svg.create("circle");
-	        if (this.orientation === "vertical") {
-	          this.knob.setAttribute("cx", x);
-	          this.knob.setAttribute("cy", this.knobData.level);
-	        } else {
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.knob.setAttribute("cy", y);
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	        this.knob.setAttribute("fill", "#d18");
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
-	        this.element.appendChild(this.knob);
-	
-	        if (!this.hasKnob) {
-	          this.knob.setAttribute("fill", "none");
-	        }
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        if (!this.clicked) {
-	          this.knobData.r = this.thickness * 0.75;
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	
-	        if (this.orientation === "vertical") {
-	          this.knobData.level = this._value.normalized * this.height;
-	          this.knob.setAttribute("cy", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("height", this.knobData.level);
-	        } else {
-	          this.knobData.level = this._value.normalized * this.width;
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	        }
-	      }
-	    },
-	    down: {
-	      value: function down() {
-	        this.clicked = true;
-	        this.knobData.r = this.thickness * 0.9;
-	        this.position.anchor = this.mouse;
-	        this.slide();
-	      }
-	    },
-	    slide: {
-	      value: function slide() {
-	        if (this.clicked) {
-	          this.position.update(this.mouse);
-	          this.value = this._value.updateNormal(this.position.value);
-	          this.emit("change", this.value);
-	        }
-	      }
-	    },
-	    up: {
-	      value: function up() {
-	        this.clicked = false;
-	        this.render();
-	      }
-	    },
-	    value: {
-	      get: function () {
-	        return this._value.value;
-	      },
-	      set: function (value) {
-	        this._value.update(value);
-	        this.position.value = this._value.normalized;
-	        this.render();
-	      }
-	    },
-	    normalized: {
-	      get: function () {
-	        return this._value.normalized;
-	      }
-	    }
-	  });
-	
-	  return SliderTemplate;
-	})(Interface);
-	
-	module.exports = SliderTemplate;
-
-/***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var math = __webpack_require__(5);
-	var dom = __webpack_require__(7);
-	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(41);
-	
-	var SingleSlider = (function (_SliderTemplate) {
-	  function SingleSlider() {
-	    var _this = this;
-	
-	    _classCallCheck(this, SingleSlider);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [120, 20],
-	      orientation: "vertical",
-	      mode: "absolute",
-	      scale: [0, 1],
-	      step: 0,
-	      value: 0,
-	      hasKnob: true
-	    };
-	
-	    _get(Object.getPrototypeOf(SingleSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    /* style changes */
-	
-	    this.bar.setAttribute("x", 0);
-	    this.bar.setAttribute("transform", "translate(0,0)");
-	    this.bar.setAttribute("rx", 0); // corner radius
-	    this.bar.setAttribute("ry", 0);
-	    this.bar.setAttribute("width", this.width);
-	    this.bar.setAttribute("height", this.height);
-	
-	    this.fillbar.setAttribute("x", 0);
-	    this.fillbar.setAttribute("transform", "translate(0,0)");
-	    this.fillbar.setAttribute("rx", 0); // corner radius
-	    this.fillbar.setAttribute("ry", 0);
-	    this.fillbar.setAttribute("width", this.width);
-	    this.fillbar.setAttribute("height", this.height);
-	
-	    /* events */
-	
-	    this.click = function () {
-	      _this.multislider.interacting = true;
-	      _this.down();
-	    };
-	    this.element.addEventListener("mouseover", function (e) {
-	      if (_this.multislider.interacting) {
-	        if (!_this.offset) {
-	          _this.offset = dom.findPosition(_this.element);
-	        }
-	        _this.mouse = dom.locateMouse(e, _this.offset);
-	        _this.down();
-	      }
-	    });
-	
-	    this.move = function () {};
-	    this.element.addEventListener("mousemove", function (e) {
-	      if (_this.multislider.interacting) {
-	        if (!_this.offset) {
-	          _this.offset = dom.findPosition(_this.element);
-	        }
-	        _this.mouse = dom.locateMouse(e, _this.offset);
-	        _this.slide();
-	      }
-	    });
-	
-	    this.release = function () {
-	      _this.multislider.interacting = false;
-	    };
-	    this.element.addEventListener("mouseup", function () {
-	      if (_this.multislider.interacting) {
-	        _this.up();
-	      }
-	    });
-	    this.element.addEventListener("mouseout", function () {
-	      if (_this.multislider.interacting) {
-	        _this.up();
-	      }
-	    });
-	  }
-	
-	  _inherits(SingleSlider, _SliderTemplate);
-	
-	  return SingleSlider;
-	})(SliderTemplate);
-	
-	var Multislider = (function (_Interface) {
-	  function Multislider() {
-	    _classCallCheck(this, Multislider);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [200, 100],
-	      numberOfSliders: 5,
-	      scale: [0, 100],
-	      step: 1,
-	      value: [70, 60, 50, 40, 30]
-	    };
-	
-	    _get(Object.getPrototypeOf(Multislider.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.min = this.settings.scale[0];
-	    this.max = this.settings.scale[1];
-	    this.step = this.settings.step;
-	    this.numberOfSliders = this.settings.numberOfSliders;
-	    this.value = this.settings.value;
-	
-	    this.sliders = [];
-	
-	    this.interacting = false;
-	
-	    this.init();
-	  }
-	
-	  _inherits(Multislider, _Interface);
-	
-	  _createClass(Multislider, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = document.createElement("div");
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        console.log(this.value);
-	
-	        var sliderWidth = this.width / this.numberOfSliders;
-	        var sliderHeight = this.height;
-	
-	        for (var i = 0; i < this.numberOfSliders; i++) {
-	          var container = document.createElement("span");
-	
-	          var slider = new SingleSlider(container, {
-	            size: [sliderWidth, sliderHeight],
-	            scale: [this.min, this.max],
-	            step: this.step,
-	            mode: "absolute",
-	            value: this.value[i],
-	            hasKnob: false,
-	            component: true }, this.update.bind(this, i));
-	          slider.multislider = this;
-	          this.sliders.push(slider);
-	          this.element.appendChild(container);
-	        }
-	      }
-	    },
-	    update: {
-	      value: function update(index, value) {
-	        this.emit("change", {
-	          index: index,
-	          value: value
-	        });
-	      }
-	    }
-	  });
-	
-	  return Multislider;
-	})(Interface);
-	
-	module.exports = Multislider;
-
-/***/ },
-/* 43 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var math = _interopRequire(__webpack_require__(5));
-	
-	var Drunk = (function () {
-	    function Drunk(min, max, value, increment) {
-	        _classCallCheck(this, Drunk);
-	
-	        this.min = min || 0;
-	        this.max = max || 10;
-	        this.value = value || (min + max) / 2;
-	        this.increment = increment || 1;
-	    }
-	
-	    _createClass(Drunk, {
-	        step: {
-	            value: function step() {
-	                this.value += math.pick(-1 * increment, increment);
-	                if (this.value < this.min) {
-	                    this.value = this.max;
-	                }
-	                if (this.value >= this.max) {
-	                    this.value = this.min;
-	                }
-	                return this.value;
-	            }
-	        }
-	    });
-	
-	    return Drunk;
-	})();
-	
-	module.exports = Drunk;
-
-/***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(10);
-	
-	var Interaction = _interopRequireWildcard(__webpack_require__(11));
-	
-	var Pan3D = (function (_Interface) {
-	  function Pan3D() {
-	    _classCallCheck(this, Pan3D);
-	
-	    var options = ["range"];
-	
-	    var defaults = {
-	      size: [200, 200],
-	      range: 100,
-	      mode: "absolute"
-	    };
-	
-	    _get(Object.getPrototypeOf(Pan3D.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this._value = {
-	      x: new Step(0, 1, 0, 0.5),
-	      y: new Step(0, 1, 0, 0.5)
-	    };
-	
-	    this.mode = this.settings.mode;
-	
-	    this.position = {
-	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
-	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
-	    };
-	    this.position.x.value = this._value.x.normalized;
-	    this.position.y.value = this._value.y.normalized;
-	
-	    this.speakers = [[0.5, 0.2], [0.75, 0.25], [0.8, 0.5], [0.75, 0.75], [0.5, 0.8], [0.25, 0.75], [0.2, 0.5], [0.25, 0.25]];
-	
-	    this.range = this.settings.range;
-	
-	    this.levels = [];
-	
-	    this.init();
-	
-	    this.calculateLevels();
-	    this.render();
-	  }
-	
-	  _inherits(Pan3D, _Interface);
-	
-	  _createClass(Pan3D, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	
-	        this._minDimension = Math.min(this.width, this.height);
-	
-	        this.knobRadius = {
-	          off: ~ ~(this._minDimension / 100) * 3 + 5 };
-	        this.knobRadius.on = this.knobRadius.off * 2;
-	
-	        this.knob = svg.create("circle");
-	        this.knob.setAttribute("cx", this.width / 2);
-	        this.knob.setAttribute("cy", this.height / 2);
-	        this.knob.setAttribute("r", this.knobRadius.off);
-	        this.knob.setAttribute("fill", "#ccc");
-	
-	        this.element.appendChild(this.knob);
-	
-	        // add speakers
-	
-	        this.speakerElements = [];
-	
-	        for (var i = 0; i < this.speakers.length; i++) {
-	          var speakerElement = svg.create("circle");
-	          var speaker = this.speakers[i];
-	          speakerElement.setAttribute("cx", speaker[0] * this.width);
-	          speakerElement.setAttribute("cy", speaker[1] * this.height);
-	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
-	          speakerElement.setAttribute("fill", "#d18");
-	          speakerElement.setAttribute("fill-opacity", "0");
-	          speakerElement.setAttribute("stroke", "#d18");
-	
-	          this.element.appendChild(speakerElement);
-	
-	          this.speakerElements.push(speakerElement);
-	        }
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        this.knobCoordinates = {
-	          x: this._value.x.normalized * this.width,
-	          y: this.height - this._value.y.normalized * this.height
-	        };
-	
-	        this.knob.setAttribute("cx", this.knobCoordinates.x);
-	        this.knob.setAttribute("cy", this.knobCoordinates.y);
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.position.x.anchor = this.mouse;
-	        this.position.y.anchor = this.mouse;
-	        this.move();
-	      }
-	    },
-	    move: {
-	      value: function move() {
-	        if (this.clicked) {
-	          this.position.x.update(this.mouse);
-	          this.position.y.update(this.mouse);
-	          // position.x and position.y are normalized
-	          // so are the levels
-	          // likely don't need this.value at all -- only used for drawing
-	          // not going to be a 'step' or 'min' and 'max' in this one.
-	          this.calculateLevels();
-	          this.emit("change", this.levels);
-	          this.render();
-	        }
-	      }
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    value: {
-	      get: function () {
-	        return {
-	          x: this._value.x.value,
-	          y: this._value.y.value
-	        };
-	      },
-	      set: function (value) {
-	        return {
-	          x: this._value.x.update(value.x),
-	          y: this._value.y.update(value.y)
-	        };
-	      }
-	    },
-	    normalized: {
-	      get: function () {
-	        return {
-	          x: this._value.x.normalized,
-	          y: this._value.y.normalized
-	        };
-	      }
-	    },
-	    calculateLevels: {
-	      value: function calculateLevels() {
-	        var _this = this;
-	
-	        this.value = {
-	          x: this._value.x.updateNormal(this.position.x.value),
-	          y: this._value.y.updateNormal(this.position.y.value)
-	        };
-	        this.levels = [];
-	        this.speakers.forEach(function (s, i) {
-	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, (1 - _this.position.y.value) * _this.height);
-	          var level = math.clip(1 - distance / _this.range, 0, 1);
-	          _this.levels.push(level);
-	          _this.speakerElements[i].setAttribute("fill-opacity", level);
-	        });
-	      }
-	    }
-	  });
-	
-	  return Pan3D;
-	})(Interface);
-	
-	module.exports = Pan3D;
 
 /***/ }
 /******/ ])
