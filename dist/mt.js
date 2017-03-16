@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var dom = _interopRequire(__webpack_require__(7));
+	//import dom from './util/dom';
 	
 	var Rack = _interopRequire(__webpack_require__(37));
 	
@@ -124,47 +124,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    counter: {
 	      value: function counter(min, max, mode, value) {
 	        return new Counter(min, max, mode, value);
-	      }
-	    },
-	    transformSection: {
-	      value: function transformSection(parent) {
-	
-	        var container = dom.parseElement(parent);
-	
-	        // should be moved into own constructor?
-	        // called a Rack, an Interface, or an Instrument?'
-	        var rack = {
-	          ui: {}
-	        };
-	
-	        var elements = container.getElementsByTagName("*");
-	        elements = Array.from(elements);
-	        for (var i = 0; i < elements.length; i++) {
-	          var type = elements[i].getAttribute("mt");
-	          if (type) {
-	            var widget = this.transformInterface(elements[i], type);
-	            rack.ui[widget.id] = widget;
-	          }
-	        }
-	
-	        return rack;
-	      }
-	    },
-	    transformInterface: {
-	      value: function transformInterface(element, type) {
-	        var options = {};
-	        for (var i = 0; i < element.attributes.length; i++) {
-	          var att = element.attributes[i];
-	          try {
-	            options[att.nodeName] = eval(att.nodeValue);
-	          } catch (e) {
-	            options[att.nodeName] = att.nodeValue;
-	          }
-	        }
-	        type = type[0].toUpperCase() + type.slice(1);
-	        var widget = new this[type](element, options);
-	        widget.id = element.id;
-	        return widget;
 	      }
 	    }
 	  });
@@ -552,6 +511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var dom = __webpack_require__(7);
 	var util = __webpack_require__(8);
+	var touch = __webpack_require__(46);
 	var EventEmitter = __webpack_require__(9);
 	
 	var Interface = (function (_EventEmitter) {
@@ -685,6 +645,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function attachListeners() {
 	        var _this = this;
 	
+	        // Setup interaction
+	        if (touch.exists) {
+	          this.element.addEventListener("touchstart", function (evt) {
+	            return _this.preTouch(evt);
+	          });
+	          this.element.addEventListener("touchmove", function (evt) {
+	            return _this.preTouchMove(evt);
+	          });
+	          this.element.addEventListener("touchend", function (evt) {
+	            return _this.preTouchRelease(evt);
+	          });
+	        }
 	        this.boundPreMove = function (evt) {
 	          return _this.preMove(evt);
 	        };
@@ -755,6 +727,66 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    release: {
 	      value: function release() {}
+	    },
+	    preTouch: {
+	
+	      /* touch */
+	
+	      value: function preTouch(e) {
+	        if (this.element instanceof HTMLElement) {
+	          this.width = window.getComputedStyle(this.element, null).getPropertyValue("width").replace("px", "");
+	        }
+	        this.offset = dom.findPosition(this.element);
+	        this.mouse = dom.locateTouch(e, this.offset);
+	        this.clicked = true;
+	        this.touch(e);
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    preTouchMove: {
+	      value: function preTouchMove(e) {
+	        var _this = this;
+	
+	        if (this.clicked) {
+	          if (!this.wait) {
+	            this.mouse = dom.locateTouch(e, this.offset);
+	            this.move();
+	            this.wait = true;
+	            setTimeout(function () {
+	              _this.wait = false;
+	            }, 25);
+	          }
+	          this.touchMove();
+	          e.preventDefault();
+	          e.stopPropagation();
+	        }
+	      }
+	    },
+	    preTouchRelease: {
+	      value: function preTouchRelease(e) {
+	        //  if (e.targetTouches.length<=1) {
+	        this.mouse = dom.locateTouch(e, this.offset);
+	        this.clicked = false;
+	        this.touchRelease();
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    touch: {
+	      value: function touch() {
+	        this.click();
+	      }
+	    },
+	    touchMove: {
+	      value: function touchMove() {
+	        this.move();
+	      }
+	    },
+	    touchRelease: {
+	      value: function touchRelease() {
+	        this.release();
+	      }
 	    }
 	  });
 	
@@ -792,6 +824,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return {
 	    x: e.pageX - offset.left,
 	    y: e.pageY - offset.top
+	  };
+	};
+	
+	exports.locateTouch = function (e, offset) {
+	  return {
+	    x: e.targetTouches.length ? e.targetTouches[0].pageX - offset.left : false,
+	    y: e.targetTouches.length ? e.targetTouches[0].pageY - offset.top : false
 	  };
 	};
 
@@ -6916,6 +6955,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    description: "Basic JI with 7-limit tritone"
 	  }
 	};
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.exists = "ontouchstart" in document.documentElement;
 
 /***/ }
 /******/ ])
