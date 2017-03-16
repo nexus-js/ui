@@ -177,25 +177,25 @@ counter.drunk(); // produces one tick up or down. Will be a mode in the future.
 radio = mt.radio(6, 3, 4, 9); //9 is outside bounds and ignored
 // [0,0,0,1,1,0]
 
-select(5); //turns off all buttons, then turns on the selected button
+radio.select(5); //turns off all buttons, then turns on the selected button
 // [0,0,0,0,0,1]
 
-flip(); //flips all indices
+radio.flip(); //flips all indices
 // [1,1,1,1,1,0]
 
-flip(0,2,3); //flips the specified indices
+radio.flip(0,2,3); //flips the specified indices
 // [0,1,0,0,1,1]
 
-on(); //turns on all indices
+radio.on(); //turns on all indices
 // [1,1,1,1,1,1]
 
-off(); //turns off all indices
+radio.off(); //turns off all indices
 // [0,0,0,0,0,0]
 
-on(1,4); //turns on specified indices
+radio.on(1,4); //turns on specified indices
 // [0,1,0,0,1,0]
 
-off(1,3,8); //turns off specified indices. Note that anything already off or outside bounds is ignored
+radio.off(1,3,8); //turns off specified indices. Note that anything already off or outside bounds is ignored
 // [0,0,0,0,1,0]
 ```
 
