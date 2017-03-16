@@ -146,22 +146,70 @@ The library comes with functions to aid composing
 **mt.counter()**
 
 ```
-counter = mt.counter( ... )
-// I don't remember what the arguments are, please check the code
+counter = mt.counter(min, max, mode, value);
+// Each argument is optional. Defaults: min=0, max=10, mode=up, value=min
 
-counter.next() // ticks to the next number
-counter.value // returns the current value
+counter.mode; //sets the starting counting mode
+counter.next(); // ticks to the next number
+counter.up(); // ticks up once
+counter.down(); // ticks down once
+counter.value; // returns the current value
+counter.min; // counter.value cannot be below this value after tick
+counter.max; // counter.value cannot be above this value after tick
+counter.random(); // returns an integer between min and max. Will be a mode in the future.
+counter.drunk(); // produces one tick up or down. Will be a mode in the future.
 ```
 
-Other helpers are ...
-
 **mt.drunk()**
+```
+```
 
 **mt.matrix()**
+```
+```
 
+**mt.radio()**
+```
+// Radio(length, ...onVals)
+// The first argument (optional, default: 3) sets the size of the radio.
+// Each additional argument turns 'on' a radio button at specified 0-index.
 
+radio = mt.radio(6, 3, 4, 9); //9 is outside bounds and ignored
+// [0,0,0,1,1,0]
 
+select(5); //turns off all buttons, then turns on the selected button
+// [0,0,0,0,0,1]
 
+flip(); //flips all indices
+// [1,1,1,1,1,0]
+
+flip(0,2,3); //flips the specified indices
+// [0,1,0,0,1,1]
+
+on(); //turns on all indices
+// [1,1,1,1,1,1]
+
+off(); //turns off all indices
+// [0,0,0,0,0,0]
+
+on(1,4); //turns on specified indices
+// [0,1,0,0,1,0]
+
+off(1,3,8); //turns off specified indices. Note that anything already off or outside bounds is ignored
+// [0,0,0,0,1,0]
+```
+
+**mt.range()**
+```
+```
+
+**mt.step()**
+```
+```
+
+**mt.toggle()**
+```
+```
 
 ## Misc...
 
