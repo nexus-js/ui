@@ -578,7 +578,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          target: document.body,
 	          colors: {}, // should inherit from a colors module,
 	          snapWithParent: true,
-	          event: console.log,
+	          event: console.log.bind(console),
 	          component: false
 	        };
 	
@@ -6074,8 +6074,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  var ui = {};
 	
-	  var elements = container.getElementsByTagName("*");
-	  elements = Array.from(elements);
+	  var htmlElements = container.getElementsByTagName("*");
+	  var elements = [];
+	  for (var i = 0; i < htmlElements.length; i++) {
+	    elements.push(htmlElements[i]);
+	  }
 	  for (var i = 0; i < elements.length; i++) {
 	    var type = elements[i].getAttribute("mt");
 	    if (type) {
