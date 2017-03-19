@@ -3797,6 +3797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(22);
+	var touch = __webpack_require__(9);
 	
 	var PianoKey = (function (_ButtonTemplate) {
 	  function PianoKey() {
@@ -3862,41 +3863,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        /* events */
 	
-	        this.click = function () {
-	          _this.piano.interacting = true;
-	          _this.piano.paintbrush = !_this.state;
-	          _this.down(_this.piano.paintbrush);
-	        };
-	        this.pad.addEventListener("mouseover", function () {
-	          if (_this.piano.interacting) {
+	        if (!touch.exists) {
+	
+	          this.click = function () {
+	            _this.piano.interacting = true;
+	            _this.piano.paintbrush = !_this.state;
 	            _this.down(_this.piano.paintbrush);
-	          }
-	        });
-	
-	        this.move = function () {};
-	        this.pad.addEventListener("mousemove", function (e) {
-	          if (_this.piano.interacting) {
-	            if (!_this.offset) {
-	              _this.offset = dom.findPosition(_this.element);
+	          };
+	          this.pad.addEventListener("mouseover", function () {
+	            if (_this.piano.interacting) {
+	              _this.down(_this.piano.paintbrush);
 	            }
-	            _this.mouse = dom.locateMouse(e, _this.offset);
-	            _this.bend();
-	          }
-	        });
+	          });
 	
-	        this.release = function () {
-	          _this.piano.interacting = false;
-	        };
-	        this.pad.addEventListener("mouseup", function () {
-	          if (_this.piano.interacting) {
-	            _this.up();
-	          }
-	        });
-	        this.pad.addEventListener("mouseout", function () {
-	          if (_this.piano.interacting) {
-	            _this.up();
-	          }
-	        });
+	          this.move = function () {};
+	          this.pad.addEventListener("mousemove", function (e) {
+	            if (_this.piano.interacting) {
+	              if (!_this.offset) {
+	                _this.offset = dom.findPosition(_this.element);
+	              }
+	              _this.mouse = dom.locateMouse(e, _this.offset);
+	              _this.bend();
+	            }
+	          });
+	
+	          this.release = function () {
+	            _this.piano.interacting = false;
+	          };
+	          this.pad.addEventListener("mouseup", function () {
+	            if (_this.piano.interacting) {
+	              _this.up();
+	            }
+	          });
+	          this.pad.addEventListener("mouseout", function () {
+	            if (_this.piano.interacting) {
+	              _this.up();
+	            }
+	          });
+	        }
 	      }
 	    },
 	    render: {
@@ -4006,26 +4010,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          key.piano = this;
 	
+	          if (touch.exists) {
+	            key.pad.index = i;
+	            key.preClick = key.preMove = key.preRelease = function () {};
+	            key.click = key.move = key.release = function () {};
+	            key.preTouch = key.preTouchMove = key.preTouchRelease = function () {};
+	            key.touch = key.touchMove = key.touchRelease = function () {};
+	          }
+	
 	          this.keys.push(key);
 	          this.element.appendChild(container);
 	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
 	      }
-	    },
-	    keyPress: {
-	
-	      //  update(index,v) {
-	      //    this.active = index;
-	
-	      //  this.buttons[i].turnOn();
-	      //  this.buttons[i].turnOff();
-	
-	      //  this.emit('change',this.active);
-	      //}
-	
-	      value: function keyPress() {}
-	    },
-	    keyRelease: {
-	      value: function keyRelease() {}
 	    },
 	    keyChange: {
 	      value: function keyChange(i, v) {
@@ -4044,6 +4043,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {}
+	    },
+	    addTouchListeners: {
+	      value: function addTouchListeners() {
+	        var _this = this;
+	
+	        this.preClick = this.preMove = this.preRelease = function () {};
+	        this.click = this.move = this.release = function () {};
+	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
+	        this.touch = this.touchMove = this.touchRelease = function () {};
+	
+	        this.currentElement = false;
+	
+	        this.element.addEventListener("touchstart", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var key = _this.keys[element.index];
+	          _this.paintbrush = !key.state;
+	          key.down(_this.paintbrush);
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchmove", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var key = _this.keys[element.index];
+	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement) {
+	              var pastKey = _this.keys[_this.currentElement];
+	              pastKey.up();
+	            }
+	            key.down(_this.paintbrush);
+	          } else {
+	            key.bend();
+	          }
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchend", function (e) {
+	          // no touches to calculate because none remaining
+	          var key = _this.keys[_this.currentElement];
+	          key.up();
+	          _this.interacting = false;
+	          _this.currentElement = false;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	      }
 	    }
 	  });
 	
@@ -4052,10 +4100,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Piano;
 	
-	// turn on "hover" for other keys
-
-	// if mouse up, then turn off hover for other keys
-
 	// loop through and render the keys?
 
 /***/ },
@@ -4208,7 +4252,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [400, 200],
 	      target: false,
-	      value: 0
+	      value: 0,
+	      mode: "toggle"
 	    };
 	
 	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -4218,6 +4263,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.cells = [];
 	    this.active = -1;
+	
+	    this.mode = this.settings.mode;
 	
 	    this.model = new MatrixModel(this.rows, this.columns);
 	    this.model.ui = this;
@@ -4266,7 +4313,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            component: true,
 	            index: i,
 	            row: _location.row,
-	            column: _location.column
+	            column: _location.column,
+	            mode: this.mode
 	          }, this.keyChange.bind(this, i));
 	
 	          cell.matrix = this;
@@ -4366,6 +4414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var cell = _this.cells[element.index];
 	          _this.paintbrush = !cell.state;
 	          cell.down(_this.paintbrush);
+	          _this.currentElement = element.index;
 	          e.preventDefault();
 	          e.stopPropagation();
 	        });
@@ -4374,6 +4423,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
 	          var cell = _this.cells[element.index];
 	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement >= 0) {
+	              var pastCell = _this.cells[_this.currentElement];
+	              pastCell.up();
+	            }
 	            cell.down(_this.paintbrush);
 	          } else {
 	            cell.bend();
@@ -4384,8 +4437,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	
 	        this.element.addEventListener("touchend", function (e) {
-	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-	          var cell = _this.cells[element.index];
+	          // no touches to calculate because none remaining
+	          var cell = _this.cells[_this.currentElement];
 	          cell.up();
 	          _this.interacting = false;
 	          _this.currentElement = false;
