@@ -5385,6 +5385,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var SliderTemplate = __webpack_require__(34);
+	var touch = __webpack_require__(9);
 	
 	var SingleSlider = (function (_SliderTemplate) {
 	  function SingleSlider() {
@@ -5424,44 +5425,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    /* events */
 	
-	    this.click = function () {
-	      _this.multislider.interacting = true;
-	      _this.down();
-	    };
-	    this.element.addEventListener("mouseover", function (e) {
-	      if (_this.multislider.interacting) {
-	        if (!_this.offset) {
-	          _this.offset = dom.findPosition(_this.element);
-	        }
-	        _this.mouse = dom.locateMouse(e, _this.offset);
+	    if (!touch.exists) {
+	
+	      this.click = function () {
+	        _this.multislider.interacting = true;
 	        _this.down();
-	      }
-	    });
-	
-	    this.move = function () {};
-	    this.element.addEventListener("mousemove", function (e) {
-	      if (_this.multislider.interacting) {
-	        if (!_this.offset) {
-	          _this.offset = dom.findPosition(_this.element);
+	      };
+	      this.element.addEventListener("mouseover", function (e) {
+	        if (_this.multislider.interacting) {
+	          if (!_this.offset) {
+	            _this.offset = dom.findPosition(_this.element);
+	          }
+	          _this.mouse = dom.locateMouse(e, _this.offset);
+	          _this.down();
 	        }
-	        _this.mouse = dom.locateMouse(e, _this.offset);
-	        _this.slide();
-	      }
-	    });
+	      });
 	
-	    this.release = function () {
-	      _this.multislider.interacting = false;
-	    };
-	    this.element.addEventListener("mouseup", function () {
-	      if (_this.multislider.interacting) {
-	        _this.up();
-	      }
-	    });
-	    this.element.addEventListener("mouseout", function () {
-	      if (_this.multislider.interacting) {
-	        _this.up();
-	      }
-	    });
+	      this.move = function () {};
+	      this.element.addEventListener("mousemove", function (e) {
+	        if (_this.multislider.interacting) {
+	          if (!_this.offset) {
+	            _this.offset = dom.findPosition(_this.element);
+	          }
+	          _this.mouse = dom.locateMouse(e, _this.offset);
+	          _this.slide();
+	        }
+	      });
+	
+	      this.release = function () {
+	        _this.multislider.interacting = false;
+	      };
+	      this.element.addEventListener("mouseup", function () {
+	        if (_this.multislider.interacting) {
+	          _this.up();
+	        }
+	      });
+	      this.element.addEventListener("mouseout", function () {
+	        if (_this.multislider.interacting) {
+	          _this.up();
+	        }
+	      });
+	    }
 	  }
 	
 	  _inherits(SingleSlider, _SliderTemplate);
@@ -5527,8 +5531,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	            hasKnob: false,
 	            component: true }, this.update.bind(this, i));
 	          slider.multislider = this;
+	
+	          if (touch.exists) {
+	            slider.bar.index = i;
+	            slider.fillbar.index = i;
+	            slider.preClick = slider.preMove = slider.preRelease = function () {};
+	            slider.click = slider.move = slider.release = function () {};
+	            slider.preTouch = slider.preTouchMove = slider.preTouchRelease = function () {};
+	            slider.touch = slider.touchMove = slider.touchRelease = function () {};
+	          }
+	
 	          this.sliders.push(slider);
 	          this.element.appendChild(container);
+	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
 	        }
 	      }
 	    },
@@ -5537,6 +5554,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.emit("change", {
 	          index: index,
 	          value: value
+	        });
+	      }
+	    },
+	    addTouchListeners: {
+	      value: function addTouchListeners() {
+	        var _this = this;
+	
+	        this.preClick = this.preMove = this.preRelease = function () {};
+	        this.click = this.move = this.release = function () {};
+	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
+	        this.touch = this.touchMove = this.touchRelease = function () {};
+	
+	        this.currentElement = false;
+	
+	        this.element.addEventListener("touchstart", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var slider = _this.sliders[element.index];
+	          if (!slider.offset) {
+	            slider.offset = dom.findPosition(slider.element);
+	          }
+	          slider.mouse = dom.locateMouse(e, slider.offset);
+	          slider.down();
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchmove", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var slider = _this.sliders[element.index];
+	          if (!slider.offset) {
+	            slider.offset = dom.findPosition(slider.element);
+	          }
+	          slider.mouse = dom.locateMouse(e, slider.offset);
+	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement >= 0) {
+	              var pastslider = _this.sliders[_this.currentElement];
+	              pastslider.up();
+	            }
+	            slider.down();
+	          } else {
+	            slider.slide();
+	          }
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchend", function (e) {
+	          // no touches to calculate because none remaining
+	          var slider = _this.sliders[_this.currentElement];
+	          slider.up();
+	          _this.interacting = false;
+	          _this.currentElement = false;
+	          e.preventDefault();
+	          e.stopPropagation();
 	        });
 	      }
 	    }
