@@ -242,6 +242,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.element.style.backgroundColor = "#e7e7e7";
+	        this.knob = svg.create("circle");
+	        this.element.appendChild(this.knob);
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.position.x.resize([0, this.width], [this.height, 0]);
+	        this.position.y.resize([0, this.width], [this.height, 0]);
 	
 	        this._minDimension = Math.min(this.width, this.height);
 	
@@ -249,13 +259,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          off: ~ ~(this._minDimension / 100) * 5 + 5 };
 	        this.knobRadius.on = this.knobRadius.off * 2;
 	
-	        this.knob = svg.create("circle");
 	        this.knob.setAttribute("cx", this.width / 2);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobRadius.off);
 	        this.knob.setAttribute("fill", "#d18");
-	
-	        this.element.appendChild(this.knob);
 	      }
 	    },
 	    render: {
@@ -802,6 +809,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function touchRelease() {
 	        this.release();
 	      }
+	    },
+	    resize: {
+	      value: function resize(w, h) {
+	        this.width = w;
+	        this.height = h;
+	        this.parent.style.width = this.width + "px";
+	        this.parent.style.height = this.height + "px";
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {}
 	    }
 	  });
 	
@@ -1337,26 +1358,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.mode = mode;
 	    this.direction = direction;
-	    this.boundary = {
-	      min: {
-	        x: xbound[0],
-	        y: ybound[0]
-	      },
-	      max: {
-	        x: xbound[1],
-	        y: ybound[1]
-	      },
-	      center: {
-	        x: (xbound[1] - xbound[0]) / 2 + xbound[0],
-	        y: (ybound[1] - ybound[0]) / 2 + ybound[0]
-	      }
-	    };
 	    this.previous = 0;
 	    this.value = 0;
 	    this.sensitivity = 1;
+	    this.resize(xbound, ybound);
 	  }
 	
 	  _createClass(Handle, {
+	    resize: {
+	      value: function resize(xbound, ybound) {
+	        this.boundary = {
+	          min: {
+	            x: xbound[0],
+	            y: ybound[0]
+	          },
+	          max: {
+	            x: xbound[1],
+	            y: ybound[1]
+	          },
+	          center: {
+	            x: (xbound[1] - xbound[0]) / 2 + xbound[0],
+	            y: (ybound[1] - ybound[0]) / 2 + ybound[0]
+	          }
+	        };
+	      }
+	    },
 	    anchor: {
 	      set: function (mouse) {
 	        this._anchor = this.convertPositionToValue(mouse);
@@ -1594,6 +1620,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.init();
 	
+	    // issue -- position should be created here, but 'resize interface' is called from within this.init, which tries to resize the position element.....
 	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
 	    this.position.value = this._value.normalized;
 	
@@ -1607,10 +1634,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Slider, {
 	    buildInterface: {
 	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
 	        if (this.width < this.height) {
 	          this.orientation = "vertical";
 	        } else {
 	          this.orientation = "horizontal";
+	        }
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
 	        }
 	
 	        var x = undefined,
@@ -1646,7 +1692,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          cornerRadius = h / 2;
 	        }
 	
-	        this.bar = svg.create("rect");
 	        this.bar.setAttribute("x", x);
 	        this.bar.setAttribute("y", y);
 	        this.bar.setAttribute("transform", barOffset);
@@ -1656,7 +1701,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("height", h);
 	        this.bar.setAttribute("fill", "#e7e7e7");
 	
-	        this.fillbar = svg.create("rect");
 	        if (this.orientation === "vertical") {
 	          this.fillbar.setAttribute("x", x);
 	          this.fillbar.setAttribute("y", this.knobData.level);
@@ -1673,7 +1717,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.fillbar.setAttribute("ry", cornerRadius);
 	        this.fillbar.setAttribute("fill", "#d18");
 	
-	        this.knob = svg.create("circle");
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
 	          this.knob.setAttribute("cy", this.knobData.level);
@@ -1683,10 +1726,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
 	        this.knob.setAttribute("fill", "#d18");
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
-	        this.element.appendChild(this.knob);
 	
 	        if (!this.hasKnob) {
 	          this.knob.setAttribute("fill", "transparent");
@@ -1802,16 +1841,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        //  if (this.height < this.width) {
+	        this.bar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
 	
 	        if (this.height < this.width / 2) {
 	          this.knobSize = this.height / 2;
 	        } else {
 	          this.knobSize = this.width / 4;
 	        }
-	        //this.knobSize = Math.min(this.width,this.height)/2;
 	
-	        this.bar = svg.create("rect");
 	        this.bar.setAttribute("x", this.width / 2 - this.knobSize * 1.5);
 	        this.bar.setAttribute("y", this.height / 2 - this.knobSize / 2);
 	        this.bar.setAttribute("rx", this.knobSize / 2);
@@ -1820,35 +1866,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("height", this.knobSize);
 	        this.bar.setAttribute("fill", "#e7e7e7");
 	
-	        this.knob = svg.create("circle");
 	        this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobSize);
 	        this.knob.setAttribute("fill", "#d18");
-	        /*
-	            } else {
-	        
-	              let knobSize = this.width/2
-	        
-	              this.bar = svg.create('rect');
-	              this.bar.setAttribute('x',0);
-	              this.bar.setAttribute('y',this.height/4);
-	              this.bar.setAttribute('rx',this.height/4);
-	              this.bar.setAttribute('ry',this.height/4);
-	              this.bar.setAttribute('width',this.width);
-	              this.bar.setAttribute('height',this.height/2);
-	              this.bar.setAttribute('fill', '#e7e7e7');
-	        
-	              this.knob = svg.create('circle');
-	              this.knob.setAttribute('cx',this.height/2);
-	              this.knob.setAttribute('cy',this.height/2);
-	              this.knob.setAttribute('r',this.height/2);
-	              this.knob.setAttribute('fill', '#d18');
-	        
-	            } */
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.knob);
 	      }
 	    },
 	    render: {
@@ -1968,6 +1989,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {}
+	    },
 	    addSlider: {
 	      value: function addSlider(start, end) {
 	
@@ -2022,6 +2046,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = Range;
+	
+	// how to tell slider what size to move to?
+	//  this.sliders.forEach((slider) => {
+	//    slider.resize();
+	//  });
 
 /***/ },
 /* 17 */
@@ -2884,13 +2913,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	        this.pad = svg.create("circle");
-	        this.pad.setAttribute("cx", this.width / 2);
-	        this.pad.setAttribute("cy", this.height / 2);
-	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - 2);
-	        this.pad.setAttribute("fill", "#d18");
-	        this.pad.setAttribute("stroke", "#d18");
-	        this.pad.setAttribute("stroke-width", 4);
-	
 	        this.element.appendChild(this.pad);
 	
 	        // only used if in 'aftertouch' mode
@@ -2899,11 +2921,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.gradient = svg.radialGradient(this.defs, 2);
 	
-	        this.gradient.stops[0].setAttribute("offset", "30%");
+	        this.gradient.stops[0].setAttribute("offset", "80%");
 	        this.gradient.stops[0].setAttribute("stop-color", "#d18");
 	
-	        this.gradient.stops[1].setAttribute("offset", "100%");
+	        this.gradient.stops[1].setAttribute("offset", "110%");
 	        this.gradient.stops[1].setAttribute("stop-color", "#eee");
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.pad.setAttribute("cx", this.width / 2);
+	        this.pad.setAttribute("cy", this.height / 2);
+	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - this.width / 40);
+	        this.pad.setAttribute("stroke-width", this.width / 20);
 	      }
 	    },
 	    render: {
@@ -3156,6 +3189,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(TextButton, {
 	    buildFrame: {
 	      value: function buildFrame() {
+	
+	        this.element = document.createElement("div");
+	
+	        this.element.innerHTML = this.text;
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
 	        var textsize = this.height / 3;
 	        var textsize2 = this.width / (this.text.length + 2);
 	        textsize = Math.min(textsize, textsize2);
@@ -3163,25 +3210,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var textsize3 = this.width / (this.alternateText.length + 2);
 	          textsize = Math.min(textsize, textsize3);
 	        }
-	        this.element = document.createElement("div");
 	        var styles = "width: " + this.width + "px;";
 	        styles += "height: " + this.height + "px;";
 	        styles += "background-color: #e7e7e7;";
 	        styles += "color: #333;";
-	        styles += "display: flex;";
-	        styles += "justify-content: center;";
-	        styles += "align-items: center;";
+	        styles += "padding: " + (this.height - textsize) / 2 + "px 0px;";
+	        styles += "box-sizing: border-box;";
+	        styles += "text-align: center;";
 	        styles += "font-family: arial;";
 	        styles += "font-weight: 700;";
 	        styles += "font-size:" + textsize + "px;";
 	        this.element.style.cssText += styles;
-	
-	        this.element.innerHTML = this.text;
-	        this.parent.appendChild(this.element);
 	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {}
 	    },
 	    render: {
 	      value: function render() {
@@ -3371,33 +3411,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Number, {
 	    buildFrame: {
 	      value: function buildFrame() {
-	        this._minDimension = Math.min(this.width, this.height);
-	
 	        this.element = document.createElement("input");
 	        this.element.type = "text";
-	        var styles = "width: " + this.width + "px;";
-	        styles += "height: " + this.height + "px;";
-	        styles += "background-color: #e7e7e7;";
-	        styles += "color: #333;";
-	        styles += "font-family: arial;";
-	        styles += "font-weight: 500;";
-	        styles += "font-size:" + this._minDimension / 2 + "px;";
-	        styles += "highlight: #d18;";
-	        styles += "border: none;";
-	        styles += "outline: none;";
-	        styles += "padding: " + this._minDimension / 4 + "px " + this._minDimension / 4 + "px;";
-	        styles += "box-sizing: border-box;";
-	        styles += "userSelect: transparent;";
-	        styles += "mozUserSelect: transparent;";
-	        styles += "webkitUserSelect: transparent;";
-	        this.element.style.cssText += styles;
-	        // to add eventually
-	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
-	
-	        this.element.value = this.value.value;
 	
 	        this.element.addEventListener("blur", (function () {
-	          console.log("blurred");
 	          this.element.style.backgroundColor = "#e7e7e7";
 	          this.element.style.color = "#333";
 	          if (this.element.value !== this.value.value) {
@@ -3424,7 +3441,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    buildInterface: {
-	      value: function buildInterface() {}
+	      value: function buildInterface() {
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this._minDimension = Math.min(this.width, this.height);
+	
+	        var styles = "width: " + this.width + "px;";
+	        styles += "height: " + this.height + "px;";
+	        styles += "background-color: #e7e7e7;";
+	        styles += "color: #333;";
+	        styles += "font-family: arial;";
+	        styles += "font-weight: 500;";
+	        styles += "font-size:" + this._minDimension / 2 + "px;";
+	        styles += "highlight: #d18;";
+	        styles += "border: none;";
+	        styles += "outline: none;";
+	        styles += "padding: " + this._minDimension / 4 + "px " + this._minDimension / 4 + "px;";
+	        styles += "box-sizing: border-box;";
+	        styles += "userSelect: transparent;";
+	        styles += "mozUserSelect: transparent;";
+	        styles += "webkitUserSelect: transparent;";
+	        this.element.style.cssText += styles;
+	        // to add eventually
+	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
+	
+	        this.element.value = this.value.value;
+	      }
 	    },
 	    render: {
 	      value: function render() {
@@ -3574,6 +3620,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        this.background = svg.create("circle");
+	        this.screw = svg.create("circle");
+	        this.handle = svg.create("path");
+	        this.handle2 = svg.create("path");
+	        this.handleFill = svg.create("path");
+	        this.handle2Fill = svg.create("path");
+	        this.handleLine = svg.create("path");
+	
+	        this.element.appendChild(this.background);
+	        this.element.appendChild(this.handle);
+	        this.element.appendChild(this.handle2);
+	        this.element.appendChild(this.handleFill);
+	        this.element.appendChild(this.handle2Fill);
+	        this.element.appendChild(this.handleLine);
+	        this.element.appendChild(this.screw);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.position.resize([0, this.width], [this.height, 0]);
+	
 	        var center = {
 	          x: this.width / 2,
 	          y: this.height / 2
@@ -3581,13 +3651,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var diameter = Math.min(this.width, this.height);
 	
-	        this.background = svg.create("circle");
 	        this.background.setAttribute("cx", center.x);
 	        this.background.setAttribute("cy", center.y);
 	        this.background.setAttribute("r", diameter / 2 - diameter / 40);
 	        this.background.setAttribute("fill", "#e7e7e7");
 	
-	        this.screw = svg.create("circle");
 	        this.screw.setAttribute("cx", center.x);
 	        this.screw.setAttribute("cy", center.y);
 	        this.screw.setAttribute("r", diameter / 12);
@@ -3607,13 +3675,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var handlePath = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handlePoints.start, handlePoints.end);
 	        var handle2Path = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handle2Points.start, handle2Points.end);
 	
-	        this.handle = svg.create("path");
 	        this.handle.setAttribute("d", handlePath);
 	        this.handle.setAttribute("stroke", "#d18");
 	        this.handle.setAttribute("stroke-width", diameter / 20);
 	        this.handle.setAttribute("fill", "none");
 	
-	        this.handle2 = svg.create("path");
 	        this.handle2.setAttribute("d", handle2Path);
 	        this.handle2.setAttribute("stroke", "#d18");
 	        this.handle2.setAttribute("stroke-width", diameter / 20);
@@ -3621,14 +3687,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        handlePath += " L " + center.x + " " + center.y;
 	
-	        this.handleFill = svg.create("path");
 	        this.handleFill.setAttribute("d", handlePath);
 	        this.handleFill.setAttribute("fill", "#d18");
 	        this.handleFill.setAttribute("fill-opacity", "0.3");
 	
 	        handle2Path += " L " + center.x + " " + center.y;
 	
-	        this.handle2Fill = svg.create("path");
 	        this.handle2Fill.setAttribute("d", handle2Path);
 	        this.handle2Fill.setAttribute("fill", "#d18");
 	        this.handle2Fill.setAttribute("fill-opacity", "0.3");
@@ -3643,18 +3707,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var arcEndingX = center.x + Math.cos(arcEndingA) * (diameter / 2);
 	        var arcEndingY = center.y + Math.sin(arcEndingA) * (diameter / 2) * -1;
 	
-	        this.handleLine = svg.create("path");
 	        this.handleLine.setAttribute("d", "M " + center.x + " " + center.y + " L " + arcEndingX + " " + arcEndingY);
 	        this.handleLine.setAttribute("stroke", "#d18");
 	        this.handleLine.setAttribute("stroke-width", diameter / 20);
-	
-	        this.element.appendChild(this.background);
-	        this.element.appendChild(this.handle);
-	        this.element.appendChild(this.handle2);
-	        this.element.appendChild(this.handleFill);
-	        this.element.appendChild(this.handle2Fill);
-	        this.element.appendChild(this.handleLine);
-	        this.element.appendChild(this.screw);
 	      }
 	    },
 	    render: {
@@ -4857,7 +4912,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [200, 200],
-	      range: 100,
+	      range: 0.5,
 	      mode: "absolute"
 	    };
 	
@@ -4896,6 +4951,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.element.style.backgroundColor = "#e7e7e7";
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.knob);
+	
+	        // add speakers
+	        this.speakerElements = [];
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = svg.create("circle");
+	
+	          this.element.appendChild(speakerElement);
+	
+	          this.speakerElements.push(speakerElement);
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
 	
 	        this._minDimension = Math.min(this.width, this.height);
 	
@@ -4903,20 +4977,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          off: ~ ~(this._minDimension / 100) * 3 + 5 };
 	        this.knobRadius.on = this.knobRadius.off * 2;
 	
-	        this.knob = svg.create("circle");
 	        this.knob.setAttribute("cx", this.width / 2);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobRadius.off);
 	        this.knob.setAttribute("fill", "#ccc");
 	
-	        this.element.appendChild(this.knob);
-	
-	        // add speakers
-	
-	        this.speakerElements = [];
-	
 	        for (var i = 0; i < this.speakers.length; i++) {
-	          var speakerElement = svg.create("circle");
+	          var speakerElement = this.speakerElements[i];
 	          var speaker = this.speakers[i];
 	          speakerElement.setAttribute("cx", speaker[0] * this.width);
 	          speakerElement.setAttribute("cy", speaker[1] * this.height);
@@ -4924,11 +4991,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	          speakerElement.setAttribute("fill", "#d18");
 	          speakerElement.setAttribute("fill-opacity", "0");
 	          speakerElement.setAttribute("stroke", "#d18");
-	
-	          this.element.appendChild(speakerElement);
-	
-	          this.speakerElements.push(speakerElement);
 	        }
+	
+	        this.position.x.resize([0, this.width], [this.height, 0]);
+	        this.position.y.resize([0, this.width], [this.height, 0]);
+	
+	        // next, need to
+	        // resize positions
+	        // calculate speaker distances
+	        this.calculateLevels();
+	        this.render();
 	      }
 	    },
 	    render: {
@@ -5002,7 +5074,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.levels = [];
 	        this.speakers.forEach(function (s, i) {
 	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, (1 - _this.position.y.value) * _this.height);
-	          var level = math.clip(1 - distance / _this.range, 0, 1);
+	          var level = math.clip(1 - distance / (_this.range * _this.width), 0, 1);
 	          _this.levels.push(level);
 	          _this.speakerElements[i].setAttribute("fill-opacity", level);
 	        });
@@ -5692,6 +5764,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Pan, {
 	    buildInterface: {
 	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	
 	        if (this.width < this.height) {
 	          this.orientation = "vertical";
 	        } else {
@@ -5731,7 +5822,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          cornerRadius = h / 2;
 	        }
 	
-	        this.bar = svg.create("rect");
 	        this.bar.setAttribute("x", x);
 	        this.bar.setAttribute("y", y);
 	        this.bar.setAttribute("transform", barOffset);
@@ -5741,7 +5831,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("height", h);
 	        this.bar.setAttribute("fill", "#e7e7e7");
 	
-	        this.fillbar = svg.create("rect");
 	        if (this.orientation === "vertical") {
 	          this.fillbar.setAttribute("x", x);
 	          this.fillbar.setAttribute("y", this.knobData.level);
@@ -5758,7 +5847,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.fillbar.setAttribute("ry", cornerRadius);
 	        this.fillbar.setAttribute("fill", "none");
 	
-	        this.knob = svg.create("circle");
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
 	          this.knob.setAttribute("cy", this.knobData.level);
@@ -5768,10 +5856,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
 	        this.knob.setAttribute("fill", "#d18");
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
-	        this.element.appendChild(this.knob);
 	
 	        if (!this.hasKnob) {
 	          this.knob.setAttribute("fill", "transparent");
