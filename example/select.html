@@ -6,7 +6,7 @@
 		<script>
 
 			nx.onload = function() {
-				
+
 			    nx.colorize("accent", "#347");
 			    nx.colorize("border", "#bbb");
 			    nx.colorize("fill", "#eee");
@@ -17,7 +17,7 @@
 
 					nx.widgets[key].on('*', function(data) {
 						var d = document.getElementById("tester");
-						console.log(data.text)
+						console.log(data)
 						d.innerHTML = data.value + "<br>" + d.innerHTML
 					})
 
@@ -25,7 +25,7 @@
 
 				nx.widgets["select1"].set({text:"six"})
 
-			 
+
 			}
 
 
@@ -48,5 +48,5 @@
 		  <div id="tester" style="clear:both"></div>
 
 	</body>
-	
+
 </html>

@@ -8,15 +8,15 @@
 
 
 			var player = new Tone.Player("./audio/prelude.mp3").toMaster();
-  
+
 			Tone.Buffer.onload = function() {
-				
+
 				wavegrain1.setBuffer( player._buffer._buffer )
 
 			}
 
 			nx.onload = function() {
-				
+
 			    nx.colorize("accent", "#1ac");
 
 			    meter1.bars = 30
@@ -59,5 +59,5 @@
 		</div>
 
 	</body>
-	
+
 </html>

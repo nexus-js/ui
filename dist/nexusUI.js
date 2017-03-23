@@ -48,14 +48,14 @@ window.onload = function() {
 };
 },{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":52,"webfontloader":53}],2:[function(require,module,exports){
 
-/** 
+/**
   @title NexusUI API
   @overview NexusUI is a JavaScript toolkit for easily creating musical interfaces in web browsers. Interfaces are rendered on HTML5 canvases and are ideal for web audio projects, mobile apps, or for sending OSC to external audio applications like Max.
   @author Ben Taylor, Jesse Allison, Yemin Oh, Sébastien Piquemal
   @copyright &copy; 2011-2014
   @license MIT
- */ 
- 
+ */
+
 
 var timingUtils = require('../utils/timing');
 var drawingUtils = require('../utils/drawing');
@@ -67,11 +67,11 @@ var transmit = require('../utils/transmit');
 
 var manager = module.exports = function() {
 
-/** 
+/**
 
   @class nx
   @description Central nexusUI manager with shared utility functions for all nexusUI objects
-  
+
 */
 
   EventEmitter.apply(this)
@@ -85,8 +85,8 @@ var manager = module.exports = function() {
   this.showLabels = false;
   this.starttime = new Date().getTime();
   if (transmit) {
-    /**  
-    @method sendsTo 
+    /**
+    @method sendsTo
     @param {string or function} [destination] Protocol for transmitting data from interfaces (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
     ```js
     nx.sendsTo("ajax")
@@ -99,8 +99,8 @@ var manager = module.exports = function() {
     ```
     */
     this.sendsTo = transmit.setGlobalTransmit;
-    /**  
-    @method setAjaxPath 
+    /**
+    @method setAjaxPath
     @param {string} [path] If sending via AJAX, define the path to ajax destination
     */
     this.setAjaxPath = transmit.setAjaxPath;
@@ -121,8 +121,9 @@ var manager = module.exports = function() {
   this.fontSize = 14;
   this.fontWeight = "normal";
 
-  this.context = new(window.AudioContext || window.webkitAudioContext)()
- 
+  var audioContext = window.AudioContext || window.webkitAudioContext;
+  this.context = new audioContext();
+
   this.sys = navigator.userAgent.toLowerCase();
   this.isAndroid = this.sys.indexOf("android") > -1;
   this.isMobile = this.sys.indexOf("mobile") > -1;
@@ -133,16 +134,16 @@ var manager = module.exports = function() {
 
   /* extra colors */
 
-  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.5,this.colors.border); // colors.border + [20% Darker] => colors.darkborder 
-  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.15,this.colors.accent);    
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.5,this.colors.border); // colors.border + [20% Darker] => colors.darkborder
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.15,this.colors.accent);
 
 }
 
 util.inherits(manager, EventEmitter)
 
 
-/** 
-  @method add 
+/**
+  @method add
   Adds a NexusUI element to the webpage. This will create an HTML5 canvas and draw the interface on it.
   @param {string} [type] NexusUI widget type (i.e. "dial").
   @param {object} [settings] (Optional.) Extra settings for the new widget. This settings object may have any of the following properties: x (integer in px), y, w (width), h (height), name (widget's OSC name and canvas ID), parent (the ID of the element you wish to add the canvas into). If no settings are provided, the element will be at default size and appended to the body of the HTML document.
@@ -180,7 +181,7 @@ manager.prototype.add = function(type, args) {
           } else if (args.parent instanceof HTMLElement){
             parent = args.parent;
           } else if (args.parent instanceof jQuery){
-            parent = args.parent[0];            
+            parent = args.parent[0];
           }
         }
         if (args.name) {
@@ -195,7 +196,7 @@ manager.prototype.add = function(type, args) {
   }
 }
 
-/** @method transform 
+/** @method transform
 Transform an existing canvas into a NexusUI widget.
 @param {string} [canvasID] The ID of the canvas to be transformed.
 @param {string} [type] (Optional.) Specify which type of widget the canvas will become. If no type is given, the canvas must have an nx attribute with a valid widget type.
@@ -259,7 +260,7 @@ manager.prototype.transform = function(canvas, type) {
   return newObj;
 }
 
-/** @method transmit 
+/** @method transmit
 The "output" instructions for sending a widget's data to another application or to a JS callback. Inherited by each widget and executed when each widget is interacted with or its value changes. Set using nx.sendsTo() to ensure that all widgets inherit the new function correctly.
 @param {object} [data] The data to be transmitted. Each property of the object will become its own OSC message. (This works with objects nested to up to 2 levels).
 */
@@ -268,14 +269,14 @@ manager.prototype.transmit = function(data, passive) {
   //console.log(passive + " manager.transmit")
     this.makeOSC(this.emit, data, passive);
     this.emit('*',data, passive);
-} 
+}
 
-/** 
+/**
   @method colorize
   @param {string} [aspect] Which part of ui to change, i.e. "accent" "fill", "border"
   @param {string} [color] Hex or rgb color code
   Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
-  
+
   ```js
   nx.colorize("#00ff00") // changes the accent color by default
   nx.colorize("border", "#000000") // changes the border color
@@ -283,18 +284,18 @@ manager.prototype.transmit = function(data, passive) {
 
 **/
 manager.prototype.colorize = function(aspect, newCol) {
-  
+
   if (!newCol) {
     // just sending in a color value colorizes the accent
     newCol = aspect;
     aspect = "accent";
   }
-  
+
   this.colors[aspect] = newCol;
 
-  this.colors.borderhl = drawingUtils.shadeBlendConvert(0.1,this.colors.border,this.colors.black); // colors.border + [20% Darker] => colors.darkborder 
-  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.3,this.colors.accent);  
-  
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(0.1,this.colors.border,this.colors.black); // colors.border + [20% Darker] => colors.darkborder
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.3,this.colors.accent);
+
   for (var key in this.widgets) {
     this.widgets[key].colors[aspect] = newCol;
     this.widgets[key].colors["borderhl"] = this.colors.borderhl;
@@ -304,11 +305,11 @@ manager.prototype.colorize = function(aspect, newCol) {
   }
 
 }
-  
 
-/** @method setThrottlePeriod 
+
+/** @method setThrottlePeriod
 Set throttle time of nx.throttle, which controls rapid network transmissions of widget data.
-@param {integer} [throttle time] Throttle time in milliseconds. 
+@param {integer} [throttle time] Throttle time in milliseconds.
 */
 manager.prototype.setThrottlePeriod = function(newThrottle) {
   this.throttlePeriod = newThrottle;
@@ -319,42 +320,42 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
 
 
 
-  /*  
+  /*
    *    GUI
    */
 
 /**  @property {object} colors The interface's color settings. Set with nx.colorize(). */
-manager.prototype.colors = { 
-  "accent": "#ff5500", 
-  "fill": "#eeeeee", 
+manager.prototype.colors = {
+  "accent": "#ff5500",
+  "fill": "#eeeeee",
   "border": "#e3e3e3",
   "mid": "#1af",
   "black": "#000000",
   "white": "#FFFFFF"
 };
 
-/**  @method startPulse 
+/**  @method startPulse
   Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
 */
 manager.prototype.startPulse = function() {
   this.pulseInt = setInterval("nx.pulse()", 30);
 }
 
-/**  @method stopPulse 
+/**  @method stopPulse
   Stop the animation pulse interval.
 */
 manager.prototype.stopPulse = function() {
   clearInterval(this.pulseInt);
 }
 
-/**  @method pulse 
+/**  @method pulse
   Animation pulse which executes all functions stored in the nx.aniItems array.
 */
 manager.prototype.pulse = function() {
   for (var i=0;i<this.aniItems.length;i++) {
     this.aniItems[i]();
   }
-} 
+}
 
 manager.prototype.addAni = function(fn) {
 
@@ -363,10 +364,9 @@ manager.prototype.addAni = function(fn) {
 manager.prototype.removeAni = function(fn) {
   this.aniItems.splice(this.aniItems.indexOf(fn));
 }
-  
+
 manager.prototype.addStylesheet = function() {
-  var htmlstr = '<style>'
-    + 'select {'
+  var cssString = 'select {'
     + 'width: 150px;'
     + 'padding: 5px 5px;'
     + 'font-size: 16px;'
@@ -374,19 +374,18 @@ manager.prototype.addStylesheet = function() {
     + 'border: solid 2px #e4e4e4;'
     + 'border-radius: 0;'
     + '-webkit-appearance: none;'
-    //+ 'border: 0;'
     + 'outline: none;'
-   // + 'cursor:pointer;'
+    + 'cursor:pointer;'
     + 'background-color:#EEE;'
     + 'font-family:"open sans";'
     + '}'
     + ''
     + 'input[type=text]::-moz-selection { background: transparent; }'
-    + 'input[type=text]::selection { background: transparent; }'   
-    + 'input[type=text]::-webkit-selection { background: transparent; }' 
+    + 'input[type=text]::selection { background: transparent; }'
+    + 'input[type=text]::-webkit-selection { background: transparent; }'
     + ''
     + 'canvas { '
-   // + 'cursor:pointer;'
+    + 'cursor:pointer;'
     + 'border-radius:0px;'
     + 'moz-border-radius:0px;'
     + 'webkit-border-radius:0px;'
@@ -396,17 +395,24 @@ manager.prototype.addStylesheet = function() {
     + '}'
     + ''
     + 'input[type=text] { '
-   // + 'cursor:pointer;'
     + 'border-radius:5px;'
     + 'moz-border-radius:5px;'
     + 'webkit-border-radius:5px;'
     + 'box-sizing:border-box;'
     + '-moz-box-sizing:border-box;'
     + '-webkit-box-sizing:border-box;'
-    + '}'
-    + '</style>';
+    + '}';
 
-  document.head.innerHTML = document.head.innerHTML + htmlstr
+    var head = document.head;
+    var style = document.createElement('style');
+
+    style.type = 'text/css';
+    if (style.styleSheet){
+      style.styleSheet.cssText = cssString;
+    } else {
+      style.appendChild(document.createTextNode(cssString));
+    }
+    head.appendChild(style);
 }
 
 /**  @method setViewport
@@ -441,7 +447,7 @@ manager.prototype.setProp = function(prop,val) {
     for (var key in this.widgets) {
       this.widgets[key][prop] = val;
       this.widgets[key].draw()
-    } 
+    }
   }
 }
 
@@ -465,7 +471,7 @@ manager.prototype.calculateDigits = function(value) {
   return {
     wholes: nondecimals,
     decimals: decimals,
-    total: nondecimals + decimals, 
+    total: nondecimals + decimals,
   }
 }
 
@@ -510,7 +516,7 @@ manager.prototype.skin = function(name) {
 manager.prototype.labelSize = function(size) {
   for (var key in this.widgets) {
     var widget = this.widgets[key]
-     
+
     if (widget.label) {
       var newheight = widget.GUI.h + size
       widget.labelSize = size
@@ -521,16 +527,13 @@ manager.prototype.labelSize = function(size) {
   }
   var textLabels = document.querySelectorAll(".nxlabel");
   console.log(textLabels)
- 
+
   for (var i = 0; i < textLabels.length; i++) {
       console.log(textLabels[i])
       textLabels[i].style.fontSize = size/2.8+"px"
       console.log(textLabels[i].style.fontSize)
   }
 }
-
-
-
 
 },{"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":47,"util":51}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
@@ -698,9 +701,8 @@ var widget = module.exports = function (target) {
     this.canvas.ontouchstart = this.preTouch;
     this.canvas.ontouchmove = this.preTouchMove;
     this.canvas.ontouchend = this.preTouchRelease;
-  }
-
-  if ('onmousedown' in document.documentElement) {
+  } else {
+//  if ('onmousedown' in document.documentElement) {
     this.canvas.addEventListener('mousedown', this.preClick, false);
   }
 
@@ -776,7 +778,7 @@ widget.prototype.preClick = function(e) {
   document.body.style.userSelect = "none";
   document.body.style.mozUserSelect = "none";
   document.body.style.webkitUserSelect = "none";
-  document.body.style.cursor = "none"
+  document.body.style.cursor = "pointer";
 }
 
 widget.prototype.preMove = function(e) {
@@ -799,7 +801,7 @@ widget.prototype.preRelease = function(e) {
   document.body.style.userSelect = "text";
   document.body.style.mozUserSelect = "text";
   document.body.style.webkitUserSelect = "text";
-  document.body.style.cursor = "pointer"
+  document.body.style.cursor = "default";
 }
 
 widget.prototype.preTouch = function(e) {
@@ -6269,8 +6271,8 @@ range.prototype.move = function() {
 var util = require('util');
 var widget = require('../core/widget');
 
-/** 
-	@class select    
+/**
+	@class select
 	HTML-style option selector. Outputs the chosen text string. <br> **Note:** Currently the canvas is actaully replaced by an HTML select object. Any inline style on your canvas may be lost in this transformation. To style the resultant select element, we recommend creating CSS styles for the select object using its ID or the select tag.
 	```html
 	<canvas nx="select" choices="sine,saw,square"></canvas>
@@ -6281,8 +6283,8 @@ var widget = require('../core/widget');
 var select = module.exports = function (target) {
 	this.defaultSize = { width: 200, height: 30 };
 	widget.call(this, target);
-	
-	/** @property {array} choices Desired choices, as an array of strings. Can be initialized with a "choices" HTML attribute of comma-separated text (see example above). 
+
+	/** @property {array} choices Desired choices, as an array of strings. Can be initialized with a "choices" HTML attribute of comma-separated text (see example above).
 	```js
 	select1.choices = ["PartA", "PartB", "GoNuts"]
 	select1.init()
@@ -6290,23 +6292,23 @@ var select = module.exports = function (target) {
 	*/
 	this.choices = [ ];
 
-	/** @property {object}  val   
+	/** @property {object}  val
 		| &nbsp; | data
 		| --- | ---
 		| *value* | Text string of option chosen
 	*/
 	this.val = new Object();
 
-	
+
 	this.canvas.ontouchstart = null;
 	this.canvas.ontouchmove = null;
 	this.canvas.ontouchend = null;
-	
+
 	if (this.canvas.getAttribute("choices")) {
 		this.choices = this.canvas.getAttribute("choices");
 		this.choices = this.choices.split(",");
 	}
-	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'
 	var canv = this.canvas
 	var cstyle = this.canvas.style
 	var parent = canv.parentNode
@@ -6340,7 +6342,7 @@ select.prototype.init = function() {
 	for (i = 0; i < optlength; i++) {
 	  this.canvas.options[i] = null;
 	}
-	
+
 	for (var i=0;i<this.choices.length;i++) {
 		var option=document.createElement("option");
 		option.text = this.choices[i];
@@ -6354,6 +6356,7 @@ select.prototype.init = function() {
 
 select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
+	this.val.value = thisselect.selectedIndex;
 	this.transmit(this.val);
 }
 
@@ -6366,6 +6369,7 @@ select.prototype.draw = function() {
     this.canvas.style.border = "solid 2px "+this.colors.border;
 
 }
+
 },{"../core/widget":3,"util":51}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
