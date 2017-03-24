@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+	</head>
+
+	<body>
+
+		<style>
+			.nx {
+				float:left;
+				margin:5px;
+			}
+		</style>
+
+
+		<canvas nx="matrix" style="width:500px;height:300px"></canvas>
+
+
+	</body>
+  <script>
+
+    nx.onload = function() {
+
+        nx.colorize("accent", "#347");
+        nx.colorize("border", "#bbb");
+        nx.colorize("fill", "#eee");
+
+        multislider1.on('*',function(data) {
+          var a = data.list;
+          console.log(a)
+        })
+
+        multislider1.set({
+          1: 0.5
+        })
+
+    }
+
+
+  </script>
+</html>
