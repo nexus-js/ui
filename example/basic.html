@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script type="text/javascript" src="js/Tone.js"></script>
+	</head>
+
+	<body>
+
+		<style>
+      body {
+        margin:0;
+        padding:0;
+      }
+      #instrument {
+        width: 640px;
+        margin:30px auto;
+      }
+      .lower-control {
+        height:65px;
+        width:65px;
+        display:block;
+      }
+      .pair {
+        display:inline-block;
+        margin:10px 5px;
+      }
+      .pair div {
+        text-align:center;
+        font-family:helvetica;
+        font-size:9pt;
+        font-weight:500;
+        color:#aaa;
+        margin:10px 0px;
+      }
+		</style>
+
+
+    <div id="instrument">
+
+		    <canvas nx="matrix" style="width:640px;height:320px;display:block;"></canvas>
+        <div class="pair">
+          <canvas nx="toggle" class="lower-control"></canvas>
+          <div>Start</div>
+        </div>
+        <div class="pair">
+          <canvas nx="dial" class="lower-control" min=50 max=1000 step=1></canvas>
+          <div>Speed (ms)</div>
+        </div>
+        <div class="pair">
+          <canvas nx="dial" class="lower-control" min=0 max=20 step=1></canvas>
+          <div>Harmonicity</div>
+        </div>
+        <div class="pair">
+          <canvas nx="dial" class="lower-control" min=0 max=200 step=1></canvas>
+          <div>Depth</div>
+        </div>
+        <div class="pair">
+          <canvas nx="dial" class="lower-control" min=0 max=10000 step=1></canvas>
+          <div>Duration</div>
+        </div>
+        <div class="pair">
+          <canvas nx="dial" class="lower-control" min=0 max=1 step=0.01></canvas>
+          <div>Delay</div>
+        </div>
+        <div class="pair">
+          <canvas nx="dial" class="lower-control" min=0 max=1 step=0.01></canvas>
+          <div>Reverb</div>
+        </div>
+        <div class="pair">
+          <canvas nx="dial" class="lower-control" min=50 max=2000 step=1></canvas>
+          <div>Filter</div>
+        </div>
+
+    </div>
+
+
+	</body>
+  <script>
+
+    //create a synth and connect it to the master output (your speakers)
+    var synth = new Tone.PolySynth(10, Tone.FMSynth, {
+      modulationEnvelope: {
+        attack:0,
+        decay:0,
+        sustain:1,
+        release:0
+      },
+      portamento: 0.001,
+      modulation:{
+        type: "sine"
+      },
+      oscillator:{
+        type: "triangle"
+      },
+      envelope: {
+        attack:0,
+        decay:0,
+        sustain:1,
+        release:0
+      },
+    })
+
+    var feedbackDelay = new Tone.FeedbackDelay(0.1, 0.5)
+    feedbackDelay.feedback.value = 0.9;
+    var freeverb = new Tone.Freeverb().toMaster();
+    var filter = new Tone.Filter(600, "lowpass");
+    var duration = 0;
+
+    synth.chain(feedbackDelay,filter,freeverb,Tone.Master);
+
+    nx.onload = function() {
+
+        nx.colorize("accent", "#347");
+        nx.colorize("border", "#bbb");
+        nx.colorize("fill", "#eee");
+
+        nx.widgets.matrix1.col = 16;
+        nx.widgets.matrix1.row = 8;
+        nx.widgets.matrix1.init();
+
+        nx.widgets.toggle1.on('*',function(data) {
+          if (data.value) {
+            Tone.Transport.start();
+          } else {
+            Tone.Transport.stop();
+          }
+        })
+
+        nx.widgets.dial1.on('*',function(data) {
+          loop.interval = data.value/1000;
+        })
+        nx.widgets.dial1.set({value: 100},true);
+
+        nx.widgets.dial2.on('*',function(data) {
+          synth.set("harmonicity", data.value);
+        })
+        nx.widgets.dial2.set({value: 2},true);
+
+        nx.widgets.dial3.on('*',function(data) {
+          synth.set("modulationIndex", data.value);
+        })
+        nx.widgets.dial3.set({value: 10},true);
+
+        nx.widgets.dial4.on('*',function(data) {
+          duration = data.value/1000;
+        })
+        nx.widgets.dial4.set({value: 5000},true);
+
+        nx.widgets.dial5.on('*',function(data) {
+          feedbackDelay.wet.value = data.value;
+        })
+        nx.widgets.dial5.set({value: 0},true);
+
+        nx.widgets.dial6.on('*',function(data) {
+          freeverb.wet.value = data.value;
+        })
+        nx.widgets.dial6.set({value: 0.1},true);
+
+        nx.widgets.dial7.on('*',function(data) {
+          filter.frequency.value = data.value;
+        })
+        nx.widgets.dial7.set({value: 600},true);
+
+
+        loop.start();
+
+    }
+
+
+
+    loop = new Tone.Loop(function(time){
+
+      nx.widgets.matrix1.place++;
+      nx.widgets.matrix1.place %= nx.widgets.matrix1.col;
+      nx.widgets.matrix1.draw();
+      var notes = nx.widgets.matrix1.matrix[ nx.widgets.matrix1.place ]
+      for (var i=0; i<notes.length; i++) {
+        if (notes[i]) {
+          var frequency = (nx.widgets.matrix1.row-i+1)*100
+          synth.triggerAttackRelease(frequency, duration, time);
+        }
+      }
+    }, .1);
+
+
+  </script>
+</html>

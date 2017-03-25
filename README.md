@@ -4,7 +4,7 @@
 
 **Contributors:** Yemin Oh, Sébastien Piquemal, Andrew Bernstein, Jason Sigal
 
-**Overview:** NexusUI is a JS toolkit for easily designing musical interfaces for mobile apps and web browsers, with emphasis on rapid prototyping and integration with Max/MSP.
+**Overview:** NexusUI is a JavaScript toolkit for easily designing musical interfaces in web browsers and mobile apps, with emphasis on rapid prototyping and integration with web audio.
 
 **Project Site:** http://www.nexusosc.com
 
@@ -17,7 +17,7 @@ Download nexusUI.js (in the /dist folder of this repo) and link to it in the hea
 
 ```html
 <head>
-   <script src="nexusUI.js"></script>
+   <script src="path/to/nexusUI.js"></script>
 </head>
 ```
 
@@ -65,7 +65,7 @@ position1.on('*', function(data) {
 
 #### OSC Templates 
 
-**(These templates may use past versions of NexusUI.js)**
+**(These templates are not up-to-date, and use past versions of NexusUI.js)**
 
 In addition, the interface can send OSC data through a network to other audio applications (or anything that understands OSC). We offer templates for several server paradigms:
 
@@ -74,11 +74,6 @@ In addition, the interface can send OSC data through a network to other audio ap
 [nx-max7](http://www.github.com/lsu-emdm/nx-max7) offers a max7 template for receiving data from a NexusUI embedded with [jweb]
 
 [nx-webAudio](http://www.github.com/lsu-emdm/nx-webAudio) offers a basic web audio project using NexusUI.
-
-
-#### Additional NexusUI Tools
-
-[Braid](http://braid.nexusosc.com) offers a drag-and-drop interface for creating web audio instruments using Gibber.lib.
 
 
 ### Build instructions

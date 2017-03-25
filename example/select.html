@@ -1,0 +1,52 @@
+<!doctype html>
+   	<html>
+	<head>
+		<title>NexusUI Demo</title>
+		<script type="text/javascript" src="../dist/nexusUI.js"></script>
+		<script>
+
+			nx.onload = function() {
+
+			    nx.colorize("accent", "#347");
+			    nx.colorize("border", "#bbb");
+			    nx.colorize("fill", "#eee");
+
+				/* log all events */
+
+				for (var key in nx.widgets) {
+
+					nx.widgets[key].on('*', function(data) {
+						var d = document.getElementById("tester");
+						console.log(data)
+						d.innerHTML = data.value + "<br>" + d.innerHTML
+					})
+
+				}
+
+				nx.widgets["select1"].set({text:"six"})
+
+
+			}
+
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<style>
+			.nx {
+				float:left;
+				margin:5px;
+			}
+		</style>
+
+
+		  <canvas nx="select" choices="four,five,six" style="width:300px;height:100px"></canvas>
+
+		  <div id="tester" style="clear:both"></div>
+
+	</body>
+
+</html>

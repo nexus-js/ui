@@ -46,16 +46,16 @@ window.onload = function() {
   nx.startPulse();
   
 };
-},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":52,"webfontloader":53}],2:[function(require,module,exports){
+},{"./lib/core/manager":2,"./lib/utils/dom":4,"./lib/utils/drawing":5,"./lib/utils/math":6,"extend":45,"webfontloader":46}],2:[function(require,module,exports){
 
-/** 
+/**
   @title NexusUI API
   @overview NexusUI is a JavaScript toolkit for easily creating musical interfaces in web browsers. Interfaces are rendered on HTML5 canvases and are ideal for web audio projects, mobile apps, or for sending OSC to external audio applications like Max.
   @author Ben Taylor, Jesse Allison, Yemin Oh, Sébastien Piquemal
   @copyright &copy; 2011-2014
   @license MIT
- */ 
- 
+ */
+
 
 var timingUtils = require('../utils/timing');
 var drawingUtils = require('../utils/drawing');
@@ -67,11 +67,11 @@ var transmit = require('../utils/transmit');
 
 var manager = module.exports = function() {
 
-/** 
+/**
 
   @class nx
   @description Central nexusUI manager with shared utility functions for all nexusUI objects
-  
+
 */
 
   EventEmitter.apply(this)
@@ -85,8 +85,8 @@ var manager = module.exports = function() {
   this.showLabels = false;
   this.starttime = new Date().getTime();
   if (transmit) {
-    /**  
-    @method sendsTo 
+    /**
+    @method sendsTo
     @param {string or function} [destination] Protocol for transmitting data from interfaces (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
     ```js
     nx.sendsTo("ajax")
@@ -99,8 +99,8 @@ var manager = module.exports = function() {
     ```
     */
     this.sendsTo = transmit.setGlobalTransmit;
-    /**  
-    @method setAjaxPath 
+    /**
+    @method setAjaxPath
     @param {string} [path] If sending via AJAX, define the path to ajax destination
     */
     this.setAjaxPath = transmit.setAjaxPath;
@@ -121,8 +121,9 @@ var manager = module.exports = function() {
   this.fontSize = 14;
   this.fontWeight = "normal";
 
-  this.context = new(window.AudioContext || window.webkitAudioContext)()
- 
+  var audioContext = window.AudioContext || window.webkitAudioContext;
+  this.context = new audioContext();
+
   this.sys = navigator.userAgent.toLowerCase();
   this.isAndroid = this.sys.indexOf("android") > -1;
   this.isMobile = this.sys.indexOf("mobile") > -1;
@@ -133,16 +134,16 @@ var manager = module.exports = function() {
 
   /* extra colors */
 
-  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.5,this.colors.border); // colors.border + [20% Darker] => colors.darkborder 
-  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.15,this.colors.accent);    
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(-0.5,this.colors.border); // colors.border + [20% Darker] => colors.darkborder
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.15,this.colors.accent);
 
 }
 
 util.inherits(manager, EventEmitter)
 
 
-/** 
-  @method add 
+/**
+  @method add
   Adds a NexusUI element to the webpage. This will create an HTML5 canvas and draw the interface on it.
   @param {string} [type] NexusUI widget type (i.e. "dial").
   @param {object} [settings] (Optional.) Extra settings for the new widget. This settings object may have any of the following properties: x (integer in px), y, w (width), h (height), name (widget's OSC name and canvas ID), parent (the ID of the element you wish to add the canvas into). If no settings are provided, the element will be at default size and appended to the body of the HTML document.
@@ -180,7 +181,7 @@ manager.prototype.add = function(type, args) {
           } else if (args.parent instanceof HTMLElement){
             parent = args.parent;
           } else if (args.parent instanceof jQuery){
-            parent = args.parent[0];            
+            parent = args.parent[0];
           }
         }
         if (args.name) {
@@ -195,7 +196,7 @@ manager.prototype.add = function(type, args) {
   }
 }
 
-/** @method transform 
+/** @method transform
 Transform an existing canvas into a NexusUI widget.
 @param {string} [canvasID] The ID of the canvas to be transformed.
 @param {string} [type] (Optional.) Specify which type of widget the canvas will become. If no type is given, the canvas must have an nx attribute with a valid widget type.
@@ -259,7 +260,7 @@ manager.prototype.transform = function(canvas, type) {
   return newObj;
 }
 
-/** @method transmit 
+/** @method transmit
 The "output" instructions for sending a widget's data to another application or to a JS callback. Inherited by each widget and executed when each widget is interacted with or its value changes. Set using nx.sendsTo() to ensure that all widgets inherit the new function correctly.
 @param {object} [data] The data to be transmitted. Each property of the object will become its own OSC message. (This works with objects nested to up to 2 levels).
 */
@@ -268,14 +269,14 @@ manager.prototype.transmit = function(data, passive) {
   //console.log(passive + " manager.transmit")
     this.makeOSC(this.emit, data, passive);
     this.emit('*',data, passive);
-} 
+}
 
-/** 
+/**
   @method colorize
   @param {string} [aspect] Which part of ui to change, i.e. "accent" "fill", "border"
   @param {string} [color] Hex or rgb color code
   Change the color of all nexus objects, by aspect ([fill, accent, border, accentborder]
-  
+
   ```js
   nx.colorize("#00ff00") // changes the accent color by default
   nx.colorize("border", "#000000") // changes the border color
@@ -283,18 +284,18 @@ manager.prototype.transmit = function(data, passive) {
 
 **/
 manager.prototype.colorize = function(aspect, newCol) {
-  
+
   if (!newCol) {
     // just sending in a color value colorizes the accent
     newCol = aspect;
     aspect = "accent";
   }
-  
+
   this.colors[aspect] = newCol;
 
-  this.colors.borderhl = drawingUtils.shadeBlendConvert(0.1,this.colors.border,this.colors.black); // colors.border + [20% Darker] => colors.darkborder 
-  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.3,this.colors.accent);  
-  
+  this.colors.borderhl = drawingUtils.shadeBlendConvert(0.1,this.colors.border,this.colors.black); // colors.border + [20% Darker] => colors.darkborder
+  this.colors.accenthl = drawingUtils.shadeBlendConvert(0.3,this.colors.accent);
+
   for (var key in this.widgets) {
     this.widgets[key].colors[aspect] = newCol;
     this.widgets[key].colors["borderhl"] = this.colors.borderhl;
@@ -304,11 +305,11 @@ manager.prototype.colorize = function(aspect, newCol) {
   }
 
 }
-  
 
-/** @method setThrottlePeriod 
+
+/** @method setThrottlePeriod
 Set throttle time of nx.throttle, which controls rapid network transmissions of widget data.
-@param {integer} [throttle time] Throttle time in milliseconds. 
+@param {integer} [throttle time] Throttle time in milliseconds.
 */
 manager.prototype.setThrottlePeriod = function(newThrottle) {
   this.throttlePeriod = newThrottle;
@@ -319,42 +320,42 @@ manager.prototype.setThrottlePeriod = function(newThrottle) {
 
 
 
-  /*  
+  /*
    *    GUI
    */
 
 /**  @property {object} colors The interface's color settings. Set with nx.colorize(). */
-manager.prototype.colors = { 
-  "accent": "#ff5500", 
-  "fill": "#eeeeee", 
+manager.prototype.colors = {
+  "accent": "#ff5500",
+  "fill": "#eeeeee",
   "border": "#e3e3e3",
   "mid": "#1af",
   "black": "#000000",
   "white": "#FFFFFF"
 };
 
-/**  @method startPulse 
+/**  @method startPulse
   Start an animation interval for animated widgets (calls nx.pulse() every 30 ms). Executed by default when NexusUI loads.
 */
 manager.prototype.startPulse = function() {
   this.pulseInt = setInterval("nx.pulse()", 30);
 }
 
-/**  @method stopPulse 
+/**  @method stopPulse
   Stop the animation pulse interval.
 */
 manager.prototype.stopPulse = function() {
   clearInterval(this.pulseInt);
 }
 
-/**  @method pulse 
+/**  @method pulse
   Animation pulse which executes all functions stored in the nx.aniItems array.
 */
 manager.prototype.pulse = function() {
   for (var i=0;i<this.aniItems.length;i++) {
     this.aniItems[i]();
   }
-} 
+}
 
 manager.prototype.addAni = function(fn) {
 
@@ -363,10 +364,9 @@ manager.prototype.addAni = function(fn) {
 manager.prototype.removeAni = function(fn) {
   this.aniItems.splice(this.aniItems.indexOf(fn));
 }
-  
+
 manager.prototype.addStylesheet = function() {
-  var htmlstr = '<style>'
-    + 'select {'
+  var cssString = 'select {'
     + 'width: 150px;'
     + 'padding: 5px 5px;'
     + 'font-size: 16px;'
@@ -374,19 +374,18 @@ manager.prototype.addStylesheet = function() {
     + 'border: solid 2px #e4e4e4;'
     + 'border-radius: 0;'
     + '-webkit-appearance: none;'
-    //+ 'border: 0;'
     + 'outline: none;'
-   // + 'cursor:pointer;'
+    + 'cursor:pointer;'
     + 'background-color:#EEE;'
     + 'font-family:"open sans";'
     + '}'
     + ''
     + 'input[type=text]::-moz-selection { background: transparent; }'
-    + 'input[type=text]::selection { background: transparent; }'   
-    + 'input[type=text]::-webkit-selection { background: transparent; }' 
+    + 'input[type=text]::selection { background: transparent; }'
+    + 'input[type=text]::-webkit-selection { background: transparent; }'
     + ''
     + 'canvas { '
-   // + 'cursor:pointer;'
+    + 'cursor:pointer;'
     + 'border-radius:0px;'
     + 'moz-border-radius:0px;'
     + 'webkit-border-radius:0px;'
@@ -396,17 +395,24 @@ manager.prototype.addStylesheet = function() {
     + '}'
     + ''
     + 'input[type=text] { '
-   // + 'cursor:pointer;'
     + 'border-radius:5px;'
     + 'moz-border-radius:5px;'
     + 'webkit-border-radius:5px;'
     + 'box-sizing:border-box;'
     + '-moz-box-sizing:border-box;'
     + '-webkit-box-sizing:border-box;'
-    + '}'
-    + '</style>';
+    + '}';
 
-  document.head.innerHTML = document.head.innerHTML + htmlstr
+    var head = document.head;
+    var style = document.createElement('style');
+
+    style.type = 'text/css';
+    if (style.styleSheet){
+      style.styleSheet.cssText = cssString;
+    } else {
+      style.appendChild(document.createTextNode(cssString));
+    }
+    head.appendChild(style);
 }
 
 /**  @method setViewport
@@ -441,7 +447,7 @@ manager.prototype.setProp = function(prop,val) {
     for (var key in this.widgets) {
       this.widgets[key][prop] = val;
       this.widgets[key].draw()
-    } 
+    }
   }
 }
 
@@ -465,7 +471,7 @@ manager.prototype.calculateDigits = function(value) {
   return {
     wholes: nondecimals,
     decimals: decimals,
-    total: nondecimals + decimals, 
+    total: nondecimals + decimals,
   }
 }
 
@@ -510,7 +516,7 @@ manager.prototype.skin = function(name) {
 manager.prototype.labelSize = function(size) {
   for (var key in this.widgets) {
     var widget = this.widgets[key]
-     
+
     if (widget.label) {
       var newheight = widget.GUI.h + size
       widget.labelSize = size
@@ -521,7 +527,7 @@ manager.prototype.labelSize = function(size) {
   }
   var textLabels = document.querySelectorAll(".nxlabel");
   console.log(textLabels)
- 
+
   for (var i = 0; i < textLabels.length; i++) {
       console.log(textLabels[i])
       textLabels[i].style.fontSize = size/2.8+"px"
@@ -529,10 +535,7 @@ manager.prototype.labelSize = function(size) {
   }
 }
 
-
-
-
-},{"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"../widgets":18,"events":47,"util":51}],3:[function(require,module,exports){
+},{"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"../widgets":16,"events":40,"util":44}],3:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter;
 var util = require('util');
 var domUtils = require('../utils/dom');
@@ -551,11 +554,11 @@ var widget = module.exports = function (target) {
   this.preTouchMove = this.preTouchMove.bind(this)
   this.preTouchRelease = this.preTouchRelease.bind(this)
 
-/** 
+/**
 
   @class widget
   All NexusUI interface widgets inherit from the widget class. The properties and methods of the widget class are usable by any NexusUI interface.
-  
+
 */
 
   /**  @property {string} canvasID ID attribute of the interface's HTML5 canvas */
@@ -589,7 +592,7 @@ var widget = module.exports = function (target) {
     /**  @property {object} defaultSize The widget's default size if not defined with HTML/CSS style. (Has properties 'width' and 'height', both in pixels) */
     this.defaultSize = { width: 100, height: 100 };
   }
-  
+
   /**  @property {boolean} label Whether or not to draw a text label this widget.   */
   this.label = false
   this.labelSize = 30
@@ -647,7 +650,7 @@ var widget = module.exports = function (target) {
   this.colors.border = nx.colors.border;
   this.colors.accentborder = nx.colors.accentborder;
   this.colors.black = nx.colors.black;
-  this.colors.white = nx.colors.white; 
+  this.colors.white = nx.colors.white;
   this.colors.highlight = nx.colors.highlight; */
   //interaction
   /**  @property {object} clickPos The most recent mouse/touch position when interating with a widget. (Has properties x and y) */
@@ -658,7 +661,7 @@ var widget = module.exports = function (target) {
   this.clicked = false;
   this.value = 0;
     /**
-      @property {object} val An object containing the core interactive values of the widget, which are also the widget's data output. 
+      @property {object} val An object containing the core interactive values of the widget, which are also the widget's data output.
     */
   this.val = new Object();
   this.pval = new Object();
@@ -676,7 +679,7 @@ var widget = module.exports = function (target) {
   //transmission
   if (transmit) {
     /**  @method sendsTo
-    Set the transmission protocol for this widget individually 
+    Set the transmission protocol for this widget individually
     @param {string or function} [destination] Protocol for transmitting data from this widget (i.e. "js", "ajax", "ios", "max", or "node"). Also accepts custom functions.
     ```js
     dial1.sendsTo("ajax")
@@ -686,7 +689,7 @@ var widget = module.exports = function (target) {
     dial1.sendsTo(function(data) {
          //define a custom transmission function
     })
-    ```  
+    ```
     */
     this.sendsTo = transmit.setWidgetTransmit;
     this.destination = "js";
@@ -699,6 +702,7 @@ var widget = module.exports = function (target) {
     this.canvas.ontouchmove = this.preTouchMove;
     this.canvas.ontouchend = this.preTouchRelease;
   } else {
+//  if ('onmousedown' in document.documentElement) {
     this.canvas.addEventListener('mousedown', this.preClick, false);
   }
 
@@ -762,7 +766,7 @@ widget.prototype.preClick = function(e) {
   this.offset = domUtils.findPosition(this.canvas)
   this.clickPos = domUtils.getCursorPosition(e, this.offset);
   // need something like:
-  // if (this.clickPos.y < this.GUI.h) { 
+  // if (this.clickPos.y < this.GUI.h) {
   document.addEventListener("mousemove", this.preMove, false);
   document.addEventListener("mouseup", this.preRelease, false);
   this.clicked = true;
@@ -774,7 +778,7 @@ widget.prototype.preClick = function(e) {
   document.body.style.userSelect = "none";
   document.body.style.mozUserSelect = "none";
   document.body.style.webkitUserSelect = "none";
-  document.body.style.cursor = "none"
+  document.body.style.cursor = "pointer";
 }
 
 widget.prototype.preMove = function(e) {
@@ -797,7 +801,7 @@ widget.prototype.preRelease = function(e) {
   document.body.style.userSelect = "text";
   document.body.style.mozUserSelect = "text";
   document.body.style.webkitUserSelect = "text";
-  document.body.style.cursor = "pointer"
+  document.body.style.cursor = "default";
 }
 
 widget.prototype.preTouch = function(e) {
@@ -901,8 +905,8 @@ widget.prototype.makeRoundedBG = function() {
   this.bgTop = this.lineWidth;
   this.bgBottom = this.height - this.lineWidth;
   this.bgHeight = this.bgBottom - this.lineWidth;
-  this.bgWidth = this.bgRight - this.lineWidth; 
-  
+  this.bgWidth = this.bgRight - this.lineWidth;
+
   drawingUtils.makeRoundRect(this.context, this.bgLeft, this.bgTop, this.bgWidth, this.bgHeight);
 }
 
@@ -929,10 +933,10 @@ widget.prototype.getName = function() {
 }
 
 /** @method set
-Manually set a widget's value (that is, set any properties of a widget's .val). See widget.val or the .val property of individual widgets for more info. 
+Manually set a widget's value (that is, set any properties of a widget's .val). See widget.val or the .val property of individual widgets for more info.
 @param {object} [data] Parameter/value pairs in object notation.
 @param {boolean} [transmit] (optional) Whether or not to transmit new value after being set.
-Sets the value of an object. 
+Sets the value of an object.
 
 ```js
   position1.set({
@@ -1082,7 +1086,7 @@ widget.prototype.stretch = function() {
     }
     if (this.percent.h) {
       var newHeight = window.getComputedStyle(this.canvas.parentNode, null).getPropertyValue("height").replace("px","");
-      newHeight *= this.percent.h/100 
+      newHeight *= this.percent.h/100
     } else {
       var newHeight = false;
     }
@@ -1109,7 +1113,7 @@ widget.prototype.resize = function(w,h) {
 
   this.init();
   this.draw();
-  
+
 }
 
 widget.prototype.normalize = function(value) {
@@ -1128,7 +1132,8 @@ widget.prototype.makeRoomForLabel = function() {
   this.labelY = this.height - this.labelSize/2;
   // must add the above code to widget.resize
 }
-},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":47,"util":51}],4:[function(require,module,exports){
+
+},{"../utils/dom":4,"../utils/drawing":5,"../utils/timing":7,"../utils/transmit":8,"events":40,"util":44}],4:[function(require,module,exports){
 
 /** @class utils 
   Shared utility functions. These functions are exposed as methods of nx in NexusUI projects, i.e. .mtof() here can be accessed in your project with nx.mtof().
@@ -1694,7 +1699,7 @@ banner.prototype.click = function() {
 		window.location = this.link;
 	}
 }
-},{"../core/widget":3,"util":51}],10:[function(require,module,exports){
+},{"../core/widget":3,"util":44}],10:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -1913,7 +1918,7 @@ button.prototype.setTouchImage = function(image) {
 	this.imageTouch.onload = this.draw.bind(this)
 	this.imageTouch.src = image;
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":51}],11:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":44}],11:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -2013,7 +2018,7 @@ colors.prototype.click = function(e) {
 colors.prototype.move = function(e) {
 	this.click(e);
 }
-},{"../core/widget":3,"util":51}],12:[function(require,module,exports){
+},{"../core/widget":3,"util":44}],12:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -2081,7 +2086,7 @@ comment.prototype.draw = function() {
 	}
 	this.wrapText(this.val.text, 6, 3+this.size, this.GUI.w-6, this.size);
 }
-},{"../core/widget":3,"util":51}],13:[function(require,module,exports){
+},{"../core/widget":3,"util":44}],13:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -2169,7 +2174,7 @@ crossfade.prototype.move = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],14:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],14:[function(require,module,exports){
 var math = require('../utils/math');
 var util = require('util');
 var widget = require('../core/widget');
@@ -2377,7 +2382,7 @@ dial.prototype.aniBounce = function() {
 }
 
 
-},{"../core/widget":3,"../utils/math":6,"util":51}],15:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],15:[function(require,module,exports){
 var startTime = 0;
 
 var math = require('../utils/math')
@@ -2683,707 +2688,7 @@ envelope.prototype.findNearestNode = function(x, y, nodes) {
 
 	return nearestIndex;
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],16:[function(require,module,exports){
-var math = require('../utils/math')
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class ghost (alpha) 
-	Interface gesture capture / playback (in development)    
-	
-	```html
-	<canvas nx="ghost"></canvas>
-	```
-	<canvas nx="ghost" style="margin-left:25px"></canvas>
-*/
-
-var ghost = module.exports = function(target) {
-	
-	this.defaultSize = { width: 100, height: 50 };
-	widget.call(this, target);
-	
-	//define unique attributes
-	this.recording = false;
-	this.playing = false;
-	this.maxLength = 2000;
-	this.components = new Array();
-	this.buffer = new Array();
-	//this.moment is for the record head
-	this.moment = 0;
-	//this.needle is for the playback head
-	this.needle = 0;
-	this.val = new Object();
-	this.rate = 1;
-	this.start = 0;
-	this.end = 1;
-	this.size = 0;
-	this.looping = true;
-	this.boundLog = this.log.bind(this)
-	this.direction = 1;
-	//settings
-	this.noise = 0;
-	this.loopstart = 0;
-	this.loopend = 0;
-	this.mode = "linear";   // linear,bounce,random,wander,pattern/dream
-	//init
-	this.init();
-
-	this.boundAdv = this.advance.bind(this);
-	nx.aniItems.push(this.boundAdv)
-
-}
-
-util.inherits(ghost, widget);
-
-
-ghost.prototype.init = function() {
-	this.draw();
-}
-
-ghost.prototype.watch = function() {
-}
-	
-	//sets a new component to be recorded
-ghost.prototype.connect = function(target) {
-	var compIndex = this.components.length;
-	this.components.push(target);
-	target.tapeNum = compIndex;
-	target.isRecording = true;
-	target.recorder = this;
-	this.buffer[compIndex] = new Object();
-	for (var key in target.val) {
-		this.buffer[compIndex][key] = new Array();
-	}
-	
-}
-	
-	//the actual recording function
-ghost.prototype.write = function(index, val) {
-	if (this.moment>=this.maxLength) {
-		this.stop();
-	}
-	for (var key in val) {
-		if (this.buffer[index][key]) {
-			// if an array or object, must make a copy, otherwise it is a reference to the original and will not record properly
-			if (typeof val[key] == "object") {
-				if (Array.isArray(val[key])) {
-				//	this.buffer[index][key][this.moment] = val[key].slice()
-				//	above line should work, but is still only a reference, not a copy
-					this.buffer[index][key][this.moment] = JSON.parse(JSON.stringify(val[key]))
-				} else {
-					this.buffer[index][key][this.moment] = {}
-					for (var subkey in val[key]) {
-						this.buffer[index][key][this.moment][subkey] = val[key][subkey]
-					}
-				}
-			} else {
-				this.buffer[index][key][this.moment] = val[key];
-			}
-		}
-	}
-	this.draw();
-}
-	
-
-ghost.prototype.draw = function() {
-
-	with (this.context) {
-		fillStyle = this.colors.fill;
-		fillRect(0,0,this.GUI.w,this.GUI.h)
-	}
-
-	var quad = this.GUI.w/4;
-	var quad2 = this.GUI.w-quad;
-	
-	if (!this.recording) {
-		with (this.context) {
-			fillStyle = "#e33";
-			beginPath()
-			arc(quad,this.GUI.h/2,quad*0.8,0,Math.PI*2)
-			fill()
-			closePath();
-			textAlign = "center"
-			textBaseline = "middle"
-			font = "normal "+this.GUI.h/6+"px courier"
-			fillStyle = this.colors.fill
-			fillText("rec",quad,this.GUI.h/2)
-		}
-	} else {
-		with (this.context) {
-			fillStyle = "#e33";
-			fillRect(quad*0.4,quad*0.4,quad*1.2,quad*1.2)
-		}
-	}
-	
-	if (!this.playing) {
-		with (this.context) {
-			fillStyle = this.colors.border
-			beginPath()
-			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
-			fill()
-			closePath()
-			textAlign = "center"
-			textBaseline = "middle"
-			font = "normal "+this.GUI.h/6+"px courier"
-			fillStyle = this.colors.fill
-			fillText("play",quad2,this.GUI.h/2)
-		}
-	} else {
-		with (this.context) {
-			strokeStyle = this.colors.border
-			lineWidth = this.GUI.w/30
-			beginPath()
-			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
-			stroke()
-			closePath()
-			var sec = ~~(this.needle/30)
-			textAlign = "center"
-			textBaseline = "middle"
-			font = "normal "+this.GUI.h/3+"px courier"
-			fillStyle = this.colors.border
-			fillText(sec,quad2,this.GUI.h/2+2)
-		}
-	}
-}
-
-ghost.prototype.record = function() {
-	if (!this.playing) {
-		this.components = new Array();
-		for (var key in nx.widgets) {
-			this.connect(nx.widgets[key]);
-		}
-	}
-	this.moment = 0;
-	nx.aniItems.push(this.boundLog)
-	this.recording = true;
-}
-
-ghost.prototype.log = function() {
-	for (var i=0;i<this.components.length;i++) {
-		var sender = this.components[i];
-		this.write(this.components[i].tapeNum,this.components[i].val);
-	}
-	this.moment++;
-}
-
-ghost.prototype.stop = function() {
-	nx.removeAni(this.boundLog);
-	this.size = this.moment;
-	this.recording = false;
-
-/*	for ()
-	for (var j=0;j<this.buffer[sender.tapeNum][key].length;j++) {
-		if (this.buffer[sender.tapeNum][key][j] != this.buffer[sender.tapeNum][key][0]) {
-			changed = true;
-			console.log(key + " changes")
-			break;
-		}
-	} */
-
-	this.draw();
-}
-
-
-ghost.prototype.scan = function(x) {
-
-	this.pneedle = this.needle - this.direction
-	if (this.pneedle <= 0) {
-		this.pneedle = this.size-1
-	} else if (this.pneedle >= this.size-1) {
-		this.pneedle = 0
-	}
-
-
-	// loop through the widgets that were recorded
-	for (var i=0;i<this.components.length;i++) {
-		//sender is the current widget we're looking at
-		var sender = this.components[i];
-		//loop through the widget's gesture buffer
-		for (var key in this.buffer[sender.tapeNum]) {
-			if (this.buffer[sender.tapeNum][key]) {
-
-				//create a new val object
-				var val = new Object();
-				//make sure we're not looking out of bounds of the buffer
-				var max = this.buffer[sender.tapeNum][key][~~this.needle+1] ? this.buffer[sender.tapeNum][key][~~this.needle+1] : this.buffer[sender.tapeNum][key][~~this.needle]
-
-			//	var changed = false;
-
-				//is this value the first
-		/*		if (this.buffer[sender.tapeNum][key][~~this.needle-this.direction] == undefined) {
-			
-					for (var j=0;j<this.buffer[sender.tapeNum][key].length;j++) {
-						if (this.buffer[sender.tapeNum][key][j] != this.buffer[sender.tapeNum][key][0]) {
-							changed = true;
-							break;
-						}
-					}
-				} else if (this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.needle-this.direction]) {
-					changed = true;
-				} */
-
-
-
-				if (this.buffer[sender.tapeNum][key][~~this.needle] != this.buffer[sender.tapeNum][key][~~this.pneedle]) {
-	
-					// if it's a number, interpolate
-					if (typeof this.buffer[sender.tapeNum][key][~~this.needle] == "number") {
-						// create the value pair
-						val[key] = nx.interp(this.needle - ~~this.needle, this.buffer[sender.tapeNum][key][~~this.needle], max)
-						val[key] += Math.random() * this.noise - this.noise/2;
-						val[key] = nx.clip(val[key],0,1)
-						//set the widget with the value from the buffer
-						sender.set(val, true)
-					} else {
-						// otherwise, transfer the closest val as is
-						val[key] = this.buffer[sender.tapeNum][key][~~this.needle]
-						sender.set(val, true)
-						
-					}
-
-					
-				}
-			}
-		}
-	}
-}
-
-
-
-//this.moment is for the record head
-//this.needle is for the playback head
-
-ghost.prototype.play = function(rate,start,end) {
-	rate ? this.rate = rate : false;
-	if (start || this.start) {
-		//this.needle = this.moment-1;
-		this.start = start ? start : this.start;
-		this.needle = this.start
-	} else {
-		this.needle = this.moment-1;
-		this.start = 0;
-	} 
-	if (this.mode=="linear") {
-		this.direction = 1;
-	}
-	end ? this.end = end : this.end = 1
-	this.playing = true;
-}
-
-ghost.prototype.pause = function() {
-	this.playing = false;
-}
-
-ghost.prototype.loop = function() {
-	
-}
-
-ghost.prototype.advance = function() {
-	if (this.playing) {
-		if (this.mode == "linear" || this.mode == "bounce") {
-			this.needle += this.rate*this.direction;
-		} else if (this.mode=="random") {
-			this.needle = nx.random((this.end-this.start)*this.size)+this.start*this.size;
-		} else if (this.mode=="wander") {
-			var dir = 3
-			this.needle > this.size*0.75 ? dir-- : null;
-			this.needle < this.size*0.25 ? dir++ : null;
-			this.needle += this.rate*this.direction * (nx.random(dir)-1);
-		}
-
-		if (this.needle/this.size < this.end && this.needle/this.size >= this.start) {
-			this.scan();
-		} else if (this.looping) {
-			if (this.mode=="linear") {
-				this.needle = this.start*this.size;
-			} else {
-				this.direction = this.direction * -1
-			}
-		} else {
-			this.playing = false;
-		}
-		this.draw();
-	}
-}
-	
-
-ghost.prototype.click = function(e) {
-	if (this.clickPos.x<this.GUI.w/2) {
-		if (this.recording) {
-			this.stop()
-		} else {
-			this.pause()
-			this.record()
-		}
-	} else {
-		if (this.playing) {
-			this.pause();
-		} else {
-			this.play();
-		}
-		this.draw();
-	}
-}
-},{"../core/widget":3,"../utils/math":6,"util":51}],17:[function(require,module,exports){
-var math = require('../utils/math')
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class ghostlist (alpha) 
-	Interface gesture capture / playback (in development)    
-	
-	```html
-	<canvas nx="ghostlist"></canvas>
-	```
-	<canvas nx="ghostlist" style="margin-left:25px"></canvas>
-*/
-
-var ghostlist = module.exports = function(target) {
-	
-	this.defaultSize = { width: 100, height: 50 };
-	widget.call(this, target);
-	
-	//define unique attributes
-	this.recording = false;
-	this.playing = false;
-	this.maxLength = 2000;
-	this.components = new Array();
-	//the recording buffer
-	this.buffer = new Array();
-	//the playback info
-	this.playbuffer = []
-	this.playIndex = 0
-	this.playbufferSize = 0
-	//this.moment is for the record head
-	this.moment = 0;
-	//this.needle is for the playback head
-	this.needle = 0;
-	this.val = new Object();
-	this.rate = 1;
-	this.start = 0;
-	this.end = 1;
-	this.size = 0;
-	this.looping = true;
-	this.boundLog = this.log.bind(this)
-	this.direction = 1;
-	//settings
-	this.noise = 0;
-	this.loopstart = 0;
-	this.loopend = 0;
-	this.mode = "linear";   // linear,bounce,random,wander,pattern/dream
-	//init
-	this.init();
-
-	this.boundAdv = this.advance.bind(this);
-	nx.aniItems.push(this.boundAdv)
-
-}
-
-util.inherits(ghostlist, widget);
-
-
-ghostlist.prototype.init = function() {
-	this.draw();
-}
-
-ghostlist.prototype.watch = function() {
-}
-	
-	//sets a new component to be recorded
-ghostlist.prototype.connect = function(target) {
-	var compIndex = this.components.length;
-	this.components.push(target);
-	target.tapeNum = compIndex;
-	target.isRecording = true;
-	target.recorder = this;
-	this.buffer[compIndex] = new Object();
-	for (var key in target.val) {
-		this.buffer[compIndex][key] = new Array();
-	}
-	
-}
-	
-	//the actual recording function
-ghostlist.prototype.write = function(index, val) {
-	if (this.moment>=this.maxLength) {
-		this.stop();
-	}
-	for (var key in val) {
-		if (this.buffer[index][key]) {
-			/*if (!this.actuated) {
-				//if ignored because widget currently being set with .set
-				this.buffer[index][key][this.moment] = {}
-					for (var subkey in val[key]) {
-						this.buffer[index][key][this.moment][subkey] = val[key][subkey]
-					}
-
-			} else { */
-				// if an array or object, must make a copy, otherwise it is a reference to the original and will not record properly
-				if (typeof val[key] == "object") {
-					if (Array.isArray(val[key])) {
-					//	this.buffer[index][key][this.moment] = val[key].slice()
-					//	above line should work, but is still only a reference, not a copy
-						if (this.components[index].actuated) {
-							this.buffer[index][key][this.moment] = JSON.parse(JSON.stringify(val[key]))
-						} else {
-							this.buffer[index][key][this.moment] = false;
-						}
-					} else {
-						this.buffer[index][key][this.moment] = {}
-						for (var subkey in val[key]) {
-							if (this.components[index].actuated) {
-								this.buffer[index][key][this.moment][subkey] = val[key][subkey]
-							} else {
-								this.buffer[index][key][this.moment][subkey] = false;
-							}
-						}
-					}
-				} else {
-					
-					if (this.components[index].actuated) {
-						this.buffer[index][key][this.moment] = val[key];
-					} else {
-						this.buffer[index][key][this.moment] = false;
-					}
-				}
-		//	}
-		}
-	}
-	this.draw();
-}
-	
-
-ghostlist.prototype.draw = function() {
-
-	with (this.context) {
-		fillStyle = this.colors.fill;
-		fillRect(0,0,this.GUI.w,this.GUI.h)
-	}
-
-	var quad = this.GUI.w/4;
-	var quad2 = this.GUI.w-quad;
-	
-	if (!this.recording) {
-		with (this.context) {
-			fillStyle = "#e33";
-			beginPath()
-			arc(quad,this.GUI.h/2,quad*0.8,0,Math.PI*2)
-			fill()
-			closePath();
-			textAlign = "center"
-			textBaseline = "middle"
-			font = "normal "+this.GUI.h/6+"px courier"
-			fillStyle = this.colors.fill
-			fillText("rec",quad,this.GUI.h/2)
-		}
-	} else {
-		with (this.context) {
-			fillStyle = "#e33";
-			fillRect(quad*0.4,quad*0.4,quad*1.2,quad*1.2)
-		}
-	}
-	
-	if (!this.playing) {
-		with (this.context) {
-			fillStyle = this.colors.border
-			beginPath()
-			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
-			fill()
-			closePath()
-			textAlign = "center"
-			textBaseline = "middle"
-			font = "normal "+this.GUI.h/6+"px courier"
-			fillStyle = this.colors.fill
-			fillText("play",quad2,this.GUI.h/2)
-		}
-	} else {
-		with (this.context) {
-			strokeStyle = this.colors.border
-			lineWidth = this.GUI.w/30
-			beginPath()
-			arc(quad2,this.GUI.h/2,quad*0.8,0,Math.PI*2)
-			stroke()
-			closePath()
-			var sec = ~~(this.needle/30)
-			textAlign = "center"
-			textBaseline = "middle"
-			font = "normal "+this.GUI.h/3+"px courier"
-			fillStyle = this.colors.border
-			fillText(sec,quad2,this.GUI.h/2+2)
-		}
-	}
-}
-
-ghostlist.prototype.record = function() {
-//	if (!this.playing) {
-		this.components = new Array();
-		for (var key in nx.widgets) {
-			this.connect(nx.widgets[key]);
-		}
-//	}
-	this.moment = 0;
-	nx.aniItems.push(this.boundLog)
-	this.recording = true;
-}
-
-ghostlist.prototype.log = function() {
-	for (var i=0;i<this.components.length;i++) {
-		var sender = this.components[i];
-		var val = {}
-		if (!sender.clicked) {
-			for (var key in sender.val) {
-				val[key] = false
-			}
-		} else {
-			val = sender.val
-			if (!jest.nexttitle) {
-				jest.nexttitle = sender.canvasID
-			}
-		}
-		this.write(this.components[i].tapeNum,val);
-	}
-	this.moment++;
-}
-
-ghostlist.prototype.stop = function() {
-	nx.removeAni(this.boundLog);
-	this.size = this.moment;
-	this.recording = false;
-	this.draw();
-}
-
-
-ghostlist.prototype.scan = function(x) {
-
-	// loop through the widgets that were recorded
-	for (var i=0;i<this.components.length;i++) {
-		//sender is the current widget we're looking at
-		var sender = this.components[i];
-		//loop through the widget's recorded val keys
-		for (var key in this.playbuffer[sender.tapeNum]) {
-
-			//console.log(this.playbuffer[sender.tapeNum][key])
-			//
-			//playbuffer is the whole buffer
-			//sender.tapeNum is the nx.widget index & this.component index
-			//[key] is the val property that was recorded, i.e. x and y for 
-			//so this returns an array for each val property. that array contains n moments of recorded data
-
-			if (this.playbuffer[sender.tapeNum][key]) {
-
-				//create a new val object
-				var val = new Object();
-				//make sure we're not looking out of bounds of the buffer
-				var max = this.playbuffer[sender.tapeNum][key][~~this.needle+1] ? this.playbuffer[sender.tapeNum][key][~~this.needle+1] : this.playbuffer[sender.tapeNum][key][~~this.needle]
-				//console.log("1")
-				if (this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction] != undefined && this.playbuffer[sender.tapeNum][key][~~this.needle] !== this.playbuffer[sender.tapeNum][key][~~this.needle-this.direction]) {
-					// if it's a number, interpolate
-					if (typeof this.playbuffer[sender.tapeNum][key][~~this.needle] == "number") {
-						// create the value pair
-						val[key] = nx.interp(this.needle - ~~this.needle, this.playbuffer[sender.tapeNum][key][~~this.needle], max)
-						val[key] += Math.random() * this.noise - this.noise/2;
-						val[key] = nx.clip(val[key],0,1)
-						//set the widget with the value from the buffer
-						//console.log(val)
-						sender.set(val, true);
-					} else {
-						// otherwise, transfer the closest val as is
-						val[key] = this.playbuffer[sender.tapeNum][key][~~this.needle]
-						
-						if (val[key] || val[key]===0) {
-							//console.log(val)
-							sender.set(val, true)
-						}
-						
-					}
-				}
-			}
-		}
-	}
-}
-
-
-
-//this.moment is for the record head
-//this.needle is for the playback head
-
-ghostlist.prototype.play = function(rate,start,end) {
-	rate ? this.rate = rate : false;
-	if (start) {
-		this.needle = this.moment-1;
-		this.start = start;
-	} else {
-		this.needle = this.moment-1;
-		this.start = 0;
-	} 
-	if (this.mode=="linear") {
-		this.direction = 1;
-	}
-	end ? this.end = end : this.end = 1
-	this.playing = true;
-}
-
-ghostlist.prototype.pause = function() {
-	this.playing = false;
-}
-
-ghostlist.prototype.loop = function() {
-	
-}
-
-ghostlist.prototype.advance = function() {
-	if (this.playing) {
-		if (this.mode == "linear" || this.mode == "bounce") {
-			this.needle += this.rate*this.direction;
-		} else if (this.mode=="random") {
-			this.needle = nx.random((this.end-this.start)*this.playbufferSize)+this.start*this.playbufferSize;
-		} else if (this.mode=="wander") {
-			var dir = 3
-			this.needle > this.playbufferSize*0.75 ? dir-- : null;
-			this.needle < this.playbufferSize*0.25 ? dir++ : null;
-			this.needle += this.rate*this.direction * (nx.random(dir)-1);
-		}
-
-		if (this.needle/this.playbufferSize < this.end && this.needle/this.playbufferSize > this.start) {
-			this.scan();
-		} else if (this.looping) {
-			if (this.mode=="linear") {
-			//	this.needle = this.start*this.playbufferSize + 1;
-				this.needle = 0;
-				this.next = this.jest.next()
-				this.playbuffer = this.next.buffer
-				this.playbufferSize = this.next.len
-			} else {
-				this.direction = this.direction * -1
-			}
-		} else {
-			this.playing = false;
-		}
-		this.draw();
-		this.jest.drawvis(this.needle/this.playbufferSize)
-	}
-}
-	
-
-ghostlist.prototype.click = function(e) {
-	if (this.clickPos.x<this.GUI.w/2) {
-		if (this.recording) {
-			this.stop()
-		} else {
-			this.record()
-		}
-	} else {
-		if (this.playing) {
-			this.pause();
-		} else {
-			this.play();
-		}
-		this.draw();
-	}
-}
-},{"../core/widget":3,"../utils/math":6,"util":51}],18:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],16:[function(require,module,exports){
 module.exports = {
   banner: require('./banner'),
   button: require('./button'),
@@ -3392,21 +2697,17 @@ module.exports = {
   crossfade: require('./crossfade'),
   dial: require('./dial'),
   envelope: require('./envelope'),
-  ghost: require('./ghost'),
-  ghostlist: require('./ghostlist'),
   joints: require('./joints'),
   keyboard: require('./keyboard'),
   matrix: require('./matrix'),
   message: require('./message'),
   meter: require('./meter'),
   metro: require('./metro'),
-  metroball: require('./metroball'),
   motion: require('./motion'),
   mouse: require('./mouse'),
   multislider: require('./multislider'),
   multitouch: require('./multitouch'),
   number: require('./number'),
-  panel: require('./panel'),
   position: require('./position'),
   range: require('./range'),
   select: require('./select'),
@@ -3416,14 +2717,12 @@ module.exports = {
   text: require('./text'),
   tilt: require('./tilt'),
   toggle: require('./toggle'),
-  trace: require('./trace'),
   typewriter: require('./typewriter'),
   vinyl: require('./vinyl'),
   waveform: require('./waveform'),
-  wavegrain: require('./wavegrain'),
-  windows: require('./windows')
 }
-},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./ghost":16,"./ghostlist":17,"./joints":19,"./keyboard":20,"./matrix":21,"./message":22,"./meter":23,"./metro":24,"./metroball":25,"./motion":26,"./mouse":27,"./multislider":28,"./multitouch":29,"./number":30,"./panel":31,"./position":32,"./range":33,"./select":34,"./slider":35,"./string":36,"./tabs":37,"./text":38,"./tilt":39,"./toggle":40,"./trace":41,"./typewriter":42,"./vinyl":43,"./waveform":44,"./wavegrain":45,"./windows":46}],19:[function(require,module,exports){
+
+},{"./banner":9,"./button":10,"./colors":11,"./comment":12,"./crossfade":13,"./dial":14,"./envelope":15,"./joints":17,"./keyboard":18,"./matrix":19,"./message":20,"./meter":21,"./metro":22,"./motion":23,"./mouse":24,"./multislider":25,"./multitouch":26,"./number":27,"./position":28,"./range":29,"./select":30,"./slider":31,"./string":32,"./tabs":33,"./text":34,"./tilt":35,"./toggle":36,"./typewriter":37,"./vinyl":38,"./waveform":39}],17:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -3620,7 +2919,7 @@ joints.prototype.aniBounce = function() {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":51}],20:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],18:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var drawing = require('../utils/drawing');
@@ -3955,7 +3254,7 @@ keyboard.prototype.release = function(e) {
 
 
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],21:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":44}],19:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -4405,7 +3704,7 @@ matrix.prototype.life = function() {
   return false;
 }
 
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],22:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":44}],20:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -4477,7 +3776,7 @@ message.prototype.click = function(e) {
 message.prototype.release = function(e) {
 	this.draw();
 }
-},{"../core/widget":3,"util":51}],23:[function(require,module,exports){
+},{"../core/widget":3,"util":44}],21:[function(require,module,exports){
 var util = require('util');
 var drawing = require('../utils/drawing');
 var widget = require('../core/widget');
@@ -4600,7 +3899,7 @@ meter.prototype.draw = function(){
 }
     
     
-},{"../core/widget":3,"../utils/drawing":5,"util":51}],24:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":44}],22:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -4714,271 +4013,7 @@ metro.prototype.advance = function() {
 metro.prototype.customDestroy = function() {
 	nx.removeAni(this.advance.bind(this))
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],25:[function(require,module,exports){
-var math = require('../utils/math');
-var drawing = require('../utils/drawing');
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class metroball
-	Bouncy-balls for rhythms
-	```html
-	<canvas nx="metroball"></canvas>
-	```
-	<!-- <canvas nx="metroball" style="margin-left:25px"></canvas> -->
-*/
-
-
-var metroball = module.exports = function (target) {
-	this.defaultSize = { width: 300, height: 200 };
-	widget.call(this, target);
-	
-	
-	//define unique attributes
-	this.CurrentBalls = new Array();
-	this.ballpos = new Object();
-	this.clickField = null;
-	this.globalMetro;
-	this.tempo = 1;
-	this.tempoMarker = 150;
-	this.quantize = false;
-	this.tiltLR;
-	this.tiltFB;
-	this.z;
-
-	/** @property {object}  val   
-		| &nbsp; | data
-		| --- | ---
-		| *x* | x position of the bouncing ball
-		| *side* | 0 or 1 int (which side is hit)
-		| *ball* | Which ball is doing the bouncing
-		| *all* | All three values together in a string
-	*/
-	this.val = {
-		x: false,
-		side: false,
-		ball: false,
-		all: false
-	}
-
-	nx.aniItems.push(this.metro.bind(this));
-
-	this.init();
-}
-util.inherits(metroball, widget);
-
-metroball.prototype.init = function() {
-	//this.metro();
-	this.draw()
-}
-
-metroball.prototype.metro = function() {
-	with (this.context) {
-		clearRect(0,0, this.GUI.w, this.GUI.h);
-	}
-	this.drawSpaces();
-	this.drawBalls();
-	this.drawLabel();
-}
-
-metroball.prototype.drawSpaces = function() {
-	
-	with (this.context) {
-
-		fillStyle = this.colors.fill;
-		fillRect(0,0,this.GUI.w,this.GUI.h)
-		
-		fillStyle=this.colors.border;
-		fillRect(0,0,this.GUI.w,this.GUI.h/4)
-
-		font="normal "+this.GUI.h/8+"px "+nx.font;
-		textAlign = "center";
-		textBaseline = "middle"
-		fillText("add",this.GUI.w/2,this.GUI.h/1.66)
-
-
-		fillStyle = this.colors.fill;
-		fillText("delete",this.GUI.w/2,this.GUI.h/8)
-		
-	}
-}
-
-metroball.prototype.drawBalls = function() {
-	with (this.context) {
-		for (var i=0;i<this.CurrentBalls.length;i++) {
-			this.CurrentBalls[i].move();
-			this.CurrentBalls[i].draw();
-		}
-	}
-}
-
-metroball.prototype.click = function(e) {
-	
-	this.ballpos = this.clickPos;
-
-	if (this.clickPos.y < this.GUI.h/4) {
-		this.deleteMB(this.ballpos);
-	} else {
-		this.addNewMB(this.ballpos);
-	}
-	
-
-}
-
-metroball.prototype.move = function(e) {
-	this.ballpos = this.clickPos;
-	
-	if (this.clickPos.y < this.GUI.h/4) {
-		this.deleteMB(this.ballpos);
-	} else {
-		this.addNewMB(this.ballpos);
-	}
-}
-
-metroball.prototype.release = function(e) {
-	this.clickField = null;
-}
-
-
-metroball.prototype.deleteMB = function(ballpos) {
-	//delete in reverse order
-	for (var i=this.CurrentBalls.length-1;i>=0;i--) {
-		if (Math.abs(this.CurrentBalls[i].xpos-ballpos.x)<10) {
-			this.CurrentBalls[i].kill();
-		}
-	}
-	
-	//reset CurrentBalls
-	for (var i=0;i<this.CurrentBalls.length;i++) {
-		this.CurrentBalls[i].thisIndex=i;
-	}
-}
-
-	
-metroball.prototype.addNewMB = function(ballpos) {
-	var nextIndex = this.CurrentBalls.length;
-	this.CurrentBalls[nextIndex] = new this.Ball(nextIndex, ballpos.x, ballpos.y, this);
-}
-
-
-metroball.prototype.toggleQuantization = function() {
-	if (!this.quantize) {
-		this.quantize = true;
-	} else {
-		this.quantize = false;
-	}
-}
-
-/* Tilt */
-
-metroball.prototype.tilt = function(direction) {
-	
-	var scaledX = math.prune(this.tiltLR/90,3);
-	var scaledY = math.prune(this.tiltFB/90,3);
-	var scaledZ = math.prune(this.z,3);
-	tilt = scaledX * 10;
-	this.tempo = Math.pow(scaledY+1,3);
-}
-
-
-metroball.prototype.Ball = function(thisIndex, thisX, thisY, parent) {
-
-	
-	this.thisIndex = thisIndex;
-	this.color = parent.colors.accent;
-	this.space = {
-		ypos1: 0,
-		ypos2: parent.height,
-		xpos1: 0,
-		xpos2: parent.width,
-		hgt: parent.height,
-		wid: parent.width
-	}
-	this.xpos = thisX;
-	this.ypos = thisY;
-	this.size = 10;
-	this.direction = 1;
-	this.speed = (parent.height-this.ypos)/20;
-	this.speedQ = 5;
-	
-	if (this.quantize) {
-		this.ypos = parent.height-13;
-	}
-	
-	this.move = function() {
-		if (!this.quantize) {
-			this.ypos = this.ypos + (this.speed * this.direction * parent.tempo);
-		} else {
-			this.ypos = this.ypos + (this.speedQ * this.direction * parent.tempo);	
-		}
-		
-		if (this.ypos>(parent.height-this.size-2) || this.ypos<(this.size+2) ) {
-			this.bounce();
-		}
-		
-		if (this.ypos<this.space.ypos+this.size) {
-			this.ypos=this.space.ypos+this.size+5;
-		} else if (this.ypos>this.space.ypos+this.space.hgt-this.size) {
-			this.ypos=this.space.ypos+this.space.hgt-this.size-5;
-		}
-		
-		
-		if (this.xpos<this.space.xpos) {
-			this.xpos = this.space.xpos2;	
-		} else if (this.xpos>this.space.xpos2) {
-			this.xpos = this.space.xpos;	
-		}
-		
-	}
-	
-	this.bounce = function() {
-		var dirMsg = this.direction/2+1;
-		this.bounceside = (this.direction+1)/2;
-		this.direction = this.direction * (-1);
-		var xMsg = math.prune(this.xpos/this.space.wid, 3);
-		this.val = {
-			x: xMsg,
-			side: this.bounceside,
-			ball: this.thisIndex,
-			all: xMsg + " " + this.bounceside + " " + this.thisIndex
-		}
-		parent.transmit(this.val);
-	}
-	
-	this.kill = function() {
-		parent.CurrentBalls.splice(this.thisIndex,1);
-	}
-	
-	this.draw = function() {
-		
-		with (parent.context) {
-			beginPath();
-			fillStyle = this.color;
-			if (this.direction==1) {
-				this.radius = this.size * (Math.abs((this.ypos-this.space.ypos-this.space.hgt/2)/(this.space.hgt-this.space.ypos)*2));
-				this.radius = this.radius/2 + this.size/2;
-				
-				this.radius = this.size;
-				
-				this.radius = this.speed;
-				
-				this.radius = Math.abs(15-this.speed);
-				
-			} else {
-				this.radius = this.size * Math.abs(2-(Math.abs((this.ypos-this.space.ypos-this.space.hgt/2)/(this.space.hgt-this.space.ypos)*2)));
-				this.radius = this.radius/2 + this.size/2;
-				
-				this.radius = this.size;
-				
-				this.radius = Math.abs(15-this.speed);
-			}
-			arc(this.xpos, this.ypos, this.radius, 0, Math.PI*2, true);
-			fill();
-		}	
-	}	
-}
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],26:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],23:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5143,7 +4178,7 @@ motion.prototype.customDestroy = function() {
 	this.active = false;
 	window.removeEventListener("devicemotion",this.motionlistener,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],27:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],24:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math');
@@ -5243,7 +4278,7 @@ mouse.prototype.move = function(e) {
 mouse.prototype.customDestroy = function() {
 	window.removeEventListener("mousemove",  this.boundmove, false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],28:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],25:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5398,7 +4433,7 @@ multislider.prototype.setSliderValue = function(slider,value) {
 	this.transmit(msg);
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":51}],29:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],26:[function(require,module,exports){
 var math = require('../utils/math');
 var drawing = require('../utils/drawing');
 var util = require('util');
@@ -5603,7 +4638,7 @@ multitouch.prototype.sendit = function() {
 	}
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":51}],30:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"../utils/math":6,"util":44}],27:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -5828,32 +4863,7 @@ number.prototype.release = function(e) {
 	}
 }
 
-},{"../core/widget":3,"../utils/math":6,"util":51}],31:[function(require,module,exports){
-var util = require('util');
-var widget = require('../core/widget');
-
-// panel for max duplication -- maybe this object is unnecessary.
-
-var panel = module.exports = function (target) {
-	this.defaultSize = { width: 100, height: 100 };
-	widget.call(this, target);
-}
-util.inherits(panel, widget);
-
-panel.prototype.init = function() {
-	this.draw();
-}
-
-panel.prototype.draw = function() {
-	this.erase();
-	this.makeRoundedBG();
-	with (this.context) {
-		fillStyle = this.colors.border;
-		lineWidth = this.lineWidth;
-		fill();
-	}
-}
-},{"../core/widget":3,"util":51}],32:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],28:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6063,7 +5073,7 @@ position.prototype.aniBounce = function() {
 position.prototype.customDestroy = function() {
 	nx.removeAni(this.aniBounce);
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],33:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],29:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -6262,12 +5272,12 @@ range.prototype.move = function() {
 
 	}
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],34:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],30:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
-/** 
-	@class select    
+/**
+	@class select
 	HTML-style option selector. Outputs the chosen text string. <br> **Note:** Currently the canvas is actaully replaced by an HTML select object. Any inline style on your canvas may be lost in this transformation. To style the resultant select element, we recommend creating CSS styles for the select object using its ID or the select tag.
 	```html
 	<canvas nx="select" choices="sine,saw,square"></canvas>
@@ -6278,8 +5288,8 @@ var widget = require('../core/widget');
 var select = module.exports = function (target) {
 	this.defaultSize = { width: 200, height: 30 };
 	widget.call(this, target);
-	
-	/** @property {array} choices Desired choices, as an array of strings. Can be initialized with a "choices" HTML attribute of comma-separated text (see example above). 
+
+	/** @property {array} choices Desired choices, as an array of strings. Can be initialized with a "choices" HTML attribute of comma-separated text (see example above).
 	```js
 	select1.choices = ["PartA", "PartB", "GoNuts"]
 	select1.init()
@@ -6287,28 +5297,28 @@ var select = module.exports = function (target) {
 	*/
 	this.choices = [ ];
 
-	/** @property {object}  val   
+	/** @property {object}  val
 		| &nbsp; | data
 		| --- | ---
 		| *value* | Text string of option chosen
 	*/
 	this.val = new Object();
 
-	
+
 	this.canvas.ontouchstart = null;
 	this.canvas.ontouchmove = null;
 	this.canvas.ontouchend = null;
-	
+
 	if (this.canvas.getAttribute("choices")) {
 		this.choices = this.canvas.getAttribute("choices");
 		this.choices = this.choices.split(",");
 	}
-	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'                   
+	var htmlstr = '<select id="'+this.canvasID+'" class="nx" nx="select" style="height:'+this.GUI.h+'px;width:'+this.GUI.w+'px;" onchange="'+this.canvasID+'.change(this)"></select><canvas height="1px" width="1px" style="display:none"></canvas>'
 	var canv = this.canvas
 	var cstyle = this.canvas.style
-	var parent = canv.parentNode;
-	var newdiv = document.createElement("span");
-	newdiv.innerHTML = htmlstr;
+	var parent = canv.parentNode
+	var newdiv = document.createElement("span")
+	newdiv.innerHTML = htmlstr
 	newdiv.className = "nx"
 	parent.replaceChild(newdiv,canv)
 	this.sel = document.getElementById(this.canvasID)
@@ -6337,7 +5347,7 @@ select.prototype.init = function() {
 	for (i = 0; i < optlength; i++) {
 	  this.canvas.options[i] = null;
 	}
-	
+
 	for (var i=0;i<this.choices.length;i++) {
 		var option=document.createElement("option");
 		option.text = this.choices[i];
@@ -6351,6 +5361,7 @@ select.prototype.init = function() {
 
 select.prototype.change = function(thisselect) {
 	this.val.text = thisselect.value;
+	this.val.value = thisselect.selectedIndex;
 	this.transmit(this.val);
 }
 
@@ -6363,7 +5374,8 @@ select.prototype.draw = function() {
     this.canvas.style.border = "solid 2px "+this.colors.border;
 
 }
-},{"../core/widget":3,"util":51}],35:[function(require,module,exports){
+
+},{"../core/widget":3,"util":44}],31:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6579,7 +5591,7 @@ slider.prototype.move = function() {
 	this.val.value = math.prune(this.rangify(normalval),3)
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],36:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],32:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6779,7 +5791,7 @@ string.prototype.pluck = function(which) {
 string.prototype.customDestroy = function() {
 	nx.removeAni(this.draw.bind(this));
 }
-},{"../core/widget":3,"util":51}],37:[function(require,module,exports){
+},{"../core/widget":3,"util":44}],33:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -6871,7 +5883,7 @@ tabs.prototype.click = function() {
 	this.transmit(this.val)
 	this.draw();
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],38:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],34:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 
@@ -6958,7 +5970,7 @@ text.prototype.draw = function() {
     this.canvas.style.backgroundColor = this.colors.fill;
     this.canvas.style.color = this.colors.black;
 }
-},{"../core/widget":3,"util":51}],39:[function(require,module,exports){
+},{"../core/widget":3,"util":44}],35:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7095,7 +6107,7 @@ tilt.prototype.customDestroy = function() {
 	window.removeEventListener("deviceorientation",this.boundChromeTilt,false);
 	window.removeEventListener("mozOrientation",this.boundMozTilt,false);
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],40:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],36:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -7167,109 +6179,7 @@ toggle.prototype.click = function() {
 	this.draw();
 	this.transmit(this.val);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":51}],41:[function(require,module,exports){
-var math = require('../utils/math')
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class trace      
-	Path/gesture drawing canvas
-	```html
-	<canvas nx="trace"></canvas>
-	```
-	<canvas nx="trace" style="margin-left:25px"></canvas>
-*/
-
-var trace = module.exports = function (target) {
-
-	// define a default size
-	this.defaultSize = { width: 200, height: 200 };
-
-	widget.call(this, target);
-	
-	/** @property {integer} nodeSize Size of path node graphic. */
-	this.nodeSize = 8;
-
-	/** @property {object}  val   val is an object containing the main interactive / actionable aspects of the widget.
-		| &nbsp; | data
-		| --- | ---
-		| *path* | array of objects containing x/y of each path node
-	*/
-	this.val = {
-		path: []
-	}
-
-	this.limit = 20;
-	this.space = 0;
-	
-	this.init();
-}
-
-// inherit the widget object template
-util.inherits(trace, widget);
-
-// .init() is called automatically when the widget is created on a webpage.
-trace.prototype.init = function() {
-	this.nodeSize = Math.min(this.GUI.h,this.GUI.w)/10;
-	this.nodeSize = Math.max(this.nodeSize,10)
-	this.draw();
-}
-
-// .draw() should be used for any graphics activity
-trace.prototype.draw = function() {
-	this.erase();
-	with (this.context) {
-
-		fillStyle = this.colors.fill;
-		fillRect(0,0,this.GUI.w,this.GUI.h);
-		fillStyle = this.colors.fill;
-
-		globalAlpha = 0.7;
-		for (var i=0;i<this.val.path.length;i++) {
-			var drawingX = this.val.path[i].x * this.GUI.w
-			var drawingY = this.val.path[i].y * this.GUI.h
-
-			beginPath();
-				fillStyle = this.colors.accent;
-				arc(drawingX, drawingY, this.nodeSize, 0, Math.PI*2, true);					
-				fill();
-			closePath();
-
-		}
-		globalAlpha = 1;
-
-	}
-	
-	this.drawLabel();
-}
-
-trace.prototype.click = function() {
-	this.val.path = []
-	this.space = 0;
-	this.move()
-	this.draw()
-}
-
-trace.prototype.move = function() {
-	this.space++
-	if (this.space>2 && this.val.path.length<this.limit) {
-		this.space = 0
-		var x = math.clip(this.clickPos.x,0,this.GUI.w) / this.GUI.w
-		var y = math.clip(this.clickPos.y,0,this.GUI.h) / this.GUI.h
-		this.val.path.push({ x: x, y: y })
-		/*if (this.val.path.length>=this.limit) {
-			this.val.path = this.val.path.slice(1)
-		} */
-	}
-	this.draw();
-}
-
-trace.prototype.release = function() {
-	this.transmit(this.val);
-}
-
-},{"../core/widget":3,"../utils/math":6,"util":51}],42:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":44}],37:[function(require,module,exports){
 var drawing = require('../utils/drawing');
 var util = require('util');
 var widget = require('../core/widget');
@@ -7517,7 +6427,7 @@ typewriter.prototype.customDestroy = function() {
 	window.removeEventListener("keydown", this.boundType);
 	window.removeEventListener("keyup", this.boundUntype);
 }
-},{"../core/widget":3,"../utils/drawing":5,"util":51}],43:[function(require,module,exports){
+},{"../core/widget":3,"../utils/drawing":5,"util":44}],38:[function(require,module,exports){
 var math = require('../utils/math')
 var util = require('util');
 var widget = require('../core/widget');
@@ -7664,7 +6574,7 @@ vinyl.prototype.spin = function() {
 vinyl.prototype.customDestroy = function() {
 	nx.removeAni(this.spin.bind(this));
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],44:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],39:[function(require,module,exports){
 var util = require('util');
 var widget = require('../core/widget');
 var math = require('../utils/math')
@@ -8029,587 +6939,7 @@ waveform.prototype.move = function() {
 	this.draw();
 
 }
-},{"../core/widget":3,"../utils/math":6,"util":51}],45:[function(require,module,exports){
-var util = require('util');
-var widget = require('../core/widget');
-var math = require('../utils/math')
-
-/** 
-	@class wavegrain      
-	wavegrain visualizer and selecter
-	```html
-	<canvas nx="wavegrain"></canvas>
-	```
-*/
-
-var wavegrain = module.exports = function (target) {
-	this.defaultSize = { width: 400, height: 125 };
-	widget.call(this, target);
-
-	/** @property {object}  val  Object containing core interactive aspects of widget, which are also its data output. Has the following properties: 
-		| &nbsp; | data
-		| --- | ---
-		| *starttime* | wavegrain selection start position in milliseconds (integer)
-		| *stoptime* | wavegrain selection end position in milliseconds (integer)
-		| *looptime* | Selection size, in milliseconds (integer)
-	*/
-	this.val = {
-		starttime: 0,
-		stoptime: 0,
-		looptime: 50,
-		start: 0,
-		stop: 0,
-		size: 0,
-		level: 0,
-		state: "off"
-	}
-
-	this.handle;
-	this.relhandle;
-	this.cap;
-	this.firsttouch = "start";
-
-	/** @property {Array} buffer  Contains multiple arrays of reduced buffer data, for visualization */
-	this.buffer = []
-
-	if (nx.isMobile) {
-		/** @property {integer} definition  Horizontal definition of the visualization. Value of 3 means the wavegrain will be represented in 3 pixel chunks. Higher numbers (4+) lead to a smaller graphics load. Smaller numbers (1-3) look better. Default is 1 for desktop renders, 3 for mobile renders. */
-		this.definition = 1;
-	} else {
-		this.definition = 1;
-	}
-
-	this.pieces = false;
-
-	/** @property {integer} channels  How many channels in the wavegrain */
-	this.channels = 1
-	this.rawbuffer = []
-
-	this.times = [
-		{ dur: 10 , format: 1 },
-		{ dur: 50 , format: 1 },
-		{ dur: 100 , format: 1 },
-		{ dur: 200 , format: 1 },
-		{ dur: 500 , format: 1 },
-		{ dur: 1000 , format: 1 },
-		{ dur: 2000 , format: 1 },
-		{ dur: 5000 , format: 1 },
-		{ dur: 10000 , format: 3 },
-		{ dur: 15000 , format: 3 },
-		{ dur: 60000 , format: 3 }, // 1 min
-		{ dur: 120000 , format: 3 }, // 2 mins
-		{ dur: 300000 , format: 3 }, // 5 mins
-		{ dur: 600000 , format: 3 }, // 10 mins
-	]
-	this.timescale = false
-
-	// to do --
-	// // sample rate adjustments
-	// .select(500,1000)
-
-	/** @property {string}  mode  Mode of interaction. "edge" mode lets you drag each edge of the wavegrain individually. "area" mode (default) lets you drag the wavegrain as a whole (with parallel mouse movement) or scale the wavegrain as a whole (with transverse mouse movement) */
-	this.mode = "area" // modes: "edge", "area"
-	this.touchdown = new Object();
-	this.init();
-}
-util.inherits(wavegrain, widget);
-
-wavegrain.prototype.init = function() {
-
-	this.pieces = ~~(this.GUI.w/this.definition);
-
-	this.draw();
-}
-
-
-/** 
-  @method setBuffer 
-  Load a web audio AudioBuffer into the wavegrain ui, for analysis and visualization.
-  @param {AudioBuffer} [buffer] The buffer to be loaded.
-  */
-wavegrain.prototype.setBuffer = function(prebuff) {
-
-	this.channels = prebuff.numberOfChannels
-	this.duration = prebuff.duration
-	this.sampleRate = prebuff.sampleRate
-	this.waveHeight = this.GUI.h / this.channels
-
-	// timescale
-	this.durationMS = (this.duration * 1000) 
-	this.timescale = 0
-	while (~~(this.durationMS/this.times[this.timescale].dur) > 7 && this.timescale < this.times.length ) {
-		this.timescale++;
-	}
-	this.timescale = this.times[this.timescale]
-
-	this.rawbuffer = []
-	this.buffer = []
-
-	// reduce/crush buffers
-	for (var i=0;i<this.channels;i++) {
-		this.rawbuffer.push(prebuff.getChannelData(0))
-		this.buffer.push([])
-
-		// counts faster (& less accurately) through larger buffers.
-		// for every 5 seconds in the buffer, our counter skips 1.
-		// so a 10 second buffer will only look at every 3rd sample
-		//   when calculating wavegrain.
-		var countinc = ~~(this.rawbuffer[0].length / (this.sampleRate*5)) + 1
-
-		var groupsize = ~~(this.rawbuffer[i].length/this.pieces)
-		var cmax = 0
-		var cmin = 0
-		var group = 0
-		var vis = []
-		for (var j=0;j<this.rawbuffer[i].length;j += countinc) {
-			if (this.rawbuffer[i][j]>0) {
-				cmax = Math.max(cmax,this.rawbuffer[i][j])
-			} else {
-				cmin = Math.min(cmin,this.rawbuffer[i][j])
-			}
-			if (j > group * groupsize) {
-				this.buffer[i].push([cmax,cmin])
-				group++
-				cmin = 0
-				cmax = 0
-			}
-		}
-	}
-
-	if (this.val.start && this.val.stop) {
-
-	}
-
-	this.val.starttime = Math.round(this.val.start * this.durationMS)
-	this.val.stoptime = Math.round(this.val.stop * this.durationMS)
-	//this.val.looptime = Math.round(this.val.size * this.durationMS)
-	
-
-	this.draw()
-
-}
-
-/** 
-  @method select 
-  Set the selection start and end points.
-  @param {integer} [start] Selection start point in milliseconds
-  @param {integer} [end] Selection end point in milliseconds
-  */
-wavegrain.prototype.select = function(start,stop) {
-	this.val.start = math.clip(start / this.durationMS,0,1)
-	this.val.stop = math.clip(stop / this.durationMS,0,1)
-	this.val.size = this.val.stop - this.val.start
-	this.val.starttime = start
-	this.val.stoptime = stop
-	this.val.looptime = start - stop
-	this.transmit(this.val)
-	this.draw()
-}
-
-
-wavegrain.prototype.draw = function() {
-	//this.erase();
-
-	with (this.context) {
-		//bg
-		fillStyle = this.colors.fill;
-		fillRect(0,0,this.GUI.w,this.GUI.h);
-
-		//waveform
-		for (var i=0;i<this.buffer.length;i++) {
-			fillStyle = this.colors.black
-			this.waveTop = i*this.waveHeight;
-			this.waveCenter = this.waveTop + this.waveHeight/2
-			for (var j=0;j<this.buffer[i].length;j++) {
-				var ht1 = this.waveCenter - this.buffer[i][j][0]*this.waveHeight
-				var ht2 = this.waveCenter + Math.abs(this.buffer[i][j][1]*this.waveHeight)
-				ht2 = ht2 - ht1
-				fillRect( j*this.definition, ht1 , this.definition, ht2)
-			}
-			this.buffer[i]
-
-		}
-
-		//time bar - top
-		globalAlpha = 0.3
-		fillStyle = this.colors.border
-		fillRect(0,0,this.GUI.w,16)
-		globalAlpha = 1
-
-
-		textBaseline = "middle"
-		textAlign = "left"
-		fontSize = "8px"
-
-		//time lines
-		if (this.timescale) {
-			for (var i=1; i<this.durationMS/this.timescale.dur; i++) {
-				var x = (i * this.timescale.dur) / this.durationMS
-				x *= this.GUI.w
-				fillStyle = this.colors.border
-				fillRect(x,0,1,this.GUI.h)
-				fillStyle = this.colors.black
-				globalAlpha = 0.6
-				fillText(this.msToTime(i * this.timescale.dur,this.timescale.format),x+5,8)
-				globalAlpha = 1
-			}	
-		} 
-		
-
-		if (this.val.state=="on") {
-			// range selection
-			var x1 = this.val.start*this.GUI.w;
-			var y1 = this.val.level * this.GUI.h;
-			var x2 = this.val.stop*this.GUI.w;
-			var y2 = this.GUI.h;
-		   
-			fillStyle = this.colors.accent;
-			strokeStyle = this.colors.accent;
-			lineWidth = 2
-		
-			globalAlpha = 0.3	
-			beginPath()
-			//arc(x1,y1,x2-x1,0,Math.PI*2,false)
-			arc(x1,y1,30,0,Math.PI*2,false)
-			fill()
-			globalAlpha = 0.7
-			stroke()
-		
-		/*	globalAlpha = 0.1
-			fillRect(x1,0,x2-x1,y2);
-			globalAlpha = 0.3
-			strokeRect(x1,0,x2-x1,y2);
-			globalAlpha = 1
-			fillRect(x1,y1,x2-x1,y2-y1);
-			strokeRect(x1,y1,x2-x1,y2-y1); */
-			globalAlpha = 1
-		}
-
-		
-	}
-
-}
-
-wavegrain.prototype.msToTime = function(rawms,format) {
-
-  var format = format ? format : 2
-
-  var s = ~~(rawms / 1000)
-  var secs = s % 60;
-  s = (s - secs) / 60;
-  var mins = s % 60;
-  var hrs = (s - mins) / 60;
-  var ms = rawms % 1000
-
-  //correct digits
-  secs = (secs < 10 && mins) ? secs + '0' : secs;
-  //ms = (ms < 10 && secs) ? ms + '0' : ms;
-
-  if (format==1) {
-  	return secs + '.' + ms;
-  } else if (format==2) {
-  	return mins + ':' + secs + '.' + ms;
-  } else if (format==3) {
-  	return mins + ':' + secs;
-  }
-
-}
-
-wavegrain.prototype.click = function() {
-	if (this.durationMS) {
-		this.val.state = "on"
-		this.move();
-	//	this.tick();
-	//	this.interval = setInterval(this.tick.bind(this),this.val.looptime)
-	}
-}
-
-wavegrain.prototype.move = function() {
-
-	if (this.clickPos.x < 0) { this.clickPos.x = 0 }
-	if (this.clickPos.x > this.GUI.w) { this.clickPos.x = this.GUI.w }
-	if (this.clickPos.y < 0) { this.clickPos.y = 0 }
-	if (this.clickPos.y > this.GUI.h) { this.clickPos.y = this.GUI.h }
-
-	this.val.state = "on"
-	if (this.durationMS) {
-		this.val.start = this.clickPos.x/this.GUI.w - (this.val.looptime/this.durationMS)/2
-
-		this.val.size = this.val.looptime/this.durationMS
-
-	//	this.val.start = math.clip(this.val.start,0,1-this.val.size)
-
-		this.val.stop = this.val.start + this.val.size
-
-		this.val.starttime = Math.round(this.val.start * this.durationMS)
-		this.val.looptime = Math.round(this.val.size * this.durationMS)
-		this.val.stoptime = this.val.starttime + this.val.looptime
-
-		this.val.level = this.clickPos.y / this.GUI.h
-
-		this.transmit(this.val);
-	
-		this.draw();
-	}
-
-}
-
-
-wavegrain.prototype.release = function() {
-	this.val.state = "off"
-	this.transmit(this.val);
-	this.draw()
-//	clearInterval(this.interval)
-}
-
-wavegrain.prototype.tick = function() {
-	this.val.state = "on"
-	this.transmit(this.val);
-}
-},{"../core/widget":3,"../utils/math":6,"util":51}],46:[function(require,module,exports){
-var math = require('../utils/math')
-var util = require('util');
-var widget = require('../core/widget');
-
-/** 
-	@class windows      
-	Scalable windows
-	```html
-	<canvas nx="windows"></canvas>
-	```
-	<canvas nx="windows" style="margin-left:25px"></canvas>
-*/
-
-var windows = module.exports = function (target) {
-
-	this.defaultSize = { width: 200, height: 200 };
-
-	widget.call(this, target);
-
-	this.val = {
-		items: [],
-		add: false,
-		remove: false,
-		change: false
-	}
-
-	//this.val.items = []
-	this.size = .25;
-	this.meta = false;
-	this.resizing = false;
-	
-	this.init();
-
-	document.addEventListener('keydown',function(e) {
-		if (e.shiftKey && !this.meta) {
-			this.meta = true;
-			this.draw();
-		}
-	}.bind(this))
-	document.addEventListener('keyup',function(e) {
-		if (!e.shiftKey && this.meta) {
-			this.meta = false;
-			this.draw();
-		}
-	}.bind(this))
-}
-util.inherits(windows, widget);
-
-windows.prototype.init = function() {
-	this.draw();
-}
-
-windows.prototype.add = function(x,y,w,h) {
-	this.val.items.push({
-		x: x,
-		y: y,
-		w: w,
-		h: h
-	})
-	this.draw();
-}
-
-windows.prototype.setWindow = function(index, loc) {
-	this.val.items[index] = loc;
-	this.draw();
-}
-
-windows.prototype.remove = function(index) {
-	this.val.items.splice(index,1)
-	this.val.add = false
-	this.val.remove = index
-	this.val.change = false
-	/* this.val = {
-		remove: index,
-		items: this.val.items
-	} */
-	this.transmit(this.val)
-	this.draw();
-}
-
-windows.prototype.draw = function() {
-//	this.erase()
-	with (this.context) {
-
-		if (!this.meta) {
-			fillStyle = this.colors.fill;
-		} else {
-			fillStyle = this.colors.border;
-		}
-
-		fillRect(0,0,this.GUI.w,this.GUI.h);
-
-		globalAlpha = 0.8;
-	
-		for (var i=0;i<this.val.items.length;i++) {
-			fillStyle = this.colors.accent;
-			var x = this.val.items[i].x*this.GUI.w
-			var y = this.val.items[i].y*this.GUI.h
-			var w = this.val.items[i].w*this.GUI.w
-			var h = this.val.items[i].h*this.GUI.h
-			fillRect(x,y,w,h)
-		    
-			strokeStyle = this.colors.fill;
-			lineWidth = 1;
-		    strokeRect(x+w-10,y+h-10,10,10)
-		  //  strokeRect((this.val.items[i].x + this.val.items[i].w/2)*this.GUI.w - 10, (this.val.items[i].y + this.val.items[i].h/2)*this.GUI.h - 10,10,10)
-		}
-
-		globalAlpha = 1;
-
-	}
-	
-	this.drawLabel();
-}
-
-windows.prototype.click = function() {
-
-	this.holds = false;
-	var cx = this.clickPos.x / this.GUI.w;
-	var cy = this.clickPos.y / this.GUI.h;
-	for (var i=0;i<this.val.items.length;i++) {
-		if (nx.isInside({ x: cx, y: cy }, this.val.items[i])) {
-			this.holds = i;
-			if (this.clickPos.x > (this.val.items[i].x+this.val.items[i].w)*this.GUI.w - 10 && this.clickPos.x < (this.val.items[i].x+this.val.items[i].w)*this.GUI.w && this.clickPos.y > (this.val.items[i].y+this.val.items[i].h)*this.GUI.h - 10 && this.clickPos.y < (this.val.items[i].y+this.val.items[i].h)*this.GUI.h) {
-				this.resizing = true;
-			}
-		}
-	}
-
-	if (this.holds===false) {
-		this.val.items.push({
-			x: cx,
-			y: cy,
-			w: this.size,
-			h: this.size
-		})
-		this.holds = this.val.items.length-1;
-		this.hasMoved = true;
-		this.val.add = this.val.items[this.holds]
-		this.val.remove = false
-		this.val.change = false
-		/* this.val = {
-			add: this.val.items[this.holds],
-			items: this.val.items
-		} */
-		this.transmit(this.val)
-	}
-	if (this.meta) {
-		for (var i=0;i<this.val.items.length;i++) {
-			this.val.items[i].tx = this.val.items[i].x
-			this.val.items[i].ty = this.val.items[i].y
-		}
-		this.tx = cx
-		this.ty = cy
-	}
-	this.draw();
-}
-
-windows.prototype.move = function() {
-	var cx = this.clickPos.x / this.GUI.w;
-	var cy = this.clickPos.y / this.GUI.h;
-	if (this.resizing) {
-		if (!this.meta) {
-			this.val.items[this.holds].w = cx - this.val.items[this.holds].x
-			this.val.items[this.holds].h = cy - this.val.items[this.holds].y
-			this.val.items[this.holds] = this.restrict(this.val.items[this.holds])
-		} else {
-			for (var i=0;i<this.val.items.length;i++) {
-				this.val.items[i].w = cx - this.val.items[this.holds].x
-				this.val.items[i].h = cy - this.val.items[this.holds].y
-				this.val.items[i] = this.restrict(this.val.items[i])
-			}
-		}
-	} else {
-		if (!this.meta) {
-			this.val.items[this.holds].x = cx;
-			this.val.items[this.holds].y = cy;	
-			this.val.items[this.holds] = this.restrict(this.val.items[this.holds])
-		} else {
-			for (var i=0;i<this.val.items.length;i++) {
-				this.val.items[i].x = (cx - this.tx) + this.val.items[i].tx;
-				this.val.items[i].y = (cy - this.ty) + this.val.items[i].ty;
-				this.val.items[i] = this.restrict(this.val.items[i])	
-			}
-		}	
-	}
-
-
-	
-	this.val.change = true;
-	this.val.add = false;
-	this.val.remove = false;
-	/*this.val = {
-		change: true,
-		items: this.val.items
-	} */
-	this.transmit(this.val)
-	this.draw();
-}
-
-windows.prototype.release = function() {
-	if (!this.hasMoved) {
-		if (this.meta) {
-			this.val.add = false
-			this.val.remove = "all"
-			this.val.change = false
-			/*this.val = {
-				remove: "all",
-				items: this.val.items
-			} */
-			this.val.items = []
-		} else {
-			this.val.add = false
-			this.val.remove = this.holds
-			this.val.change = false
-		/*	this.val = {
-				remove: this.holds,
-				items: this.val.items
-			} */
-			this.val.items.splice(this.holds,1)
-		}
-	}
-	this.resizing = false;
-	this.transmit(this.val);
-	this.draw();
-}
-
-windows.prototype.restrict = function(item) {
-	if (item.x < 0) {
-		item.x = 0
-	}
-	if (item.y < 0) {
-		item.y = 0
-	}
-	if (item.x + item.w > 1) {
-		item.x = 1 - item.w
-	}
-	if (item.y + item.h > 1) {
-		item.y = 1 - item.h
-	}	
-	return item;
-}
-},{"../core/widget":3,"../utils/math":6,"util":51}],47:[function(require,module,exports){
+},{"../core/widget":3,"../utils/math":6,"util":44}],40:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8912,7 +7242,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],48:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8937,7 +7267,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],49:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -9002,14 +7332,14 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],50:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],51:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9584,7 +7914,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":50,"_process":49,"inherits":48}],52:[function(require,module,exports){
+},{"./support/isBuffer":43,"_process":42,"inherits":41}],45:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 var undefined;
@@ -9667,7 +7997,7 @@ module.exports = function extend() {
 };
 
 
-},{}],53:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /* Web Font Loader v1.6.10 - (c) Adobe Systems, Google. License: Apache 2.0 */
 (function(){function aa(a,b,c){return a.call.apply(a.bind,arguments)}function ba(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var c=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(c,d);return a.apply(b,c)}}return function(){return a.apply(b,arguments)}}function n(a,b,c){n=Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?aa:ba;return n.apply(null,arguments)}var p=Date.now||function(){return+new Date};function q(a,b){this.F=a;this.k=b||a;this.H=this.k.document}var ca=!!window.FontFace;q.prototype.createElement=function(a,b,c){a=this.H.createElement(a);if(b)for(var d in b)b.hasOwnProperty(d)&&("style"==d?a.style.cssText=b[d]:a.setAttribute(d,b[d]));c&&a.appendChild(this.H.createTextNode(c));return a};function s(a,b,c){a=a.H.getElementsByTagName(b)[0];a||(a=document.documentElement);a.insertBefore(c,a.lastChild)}
 function t(a,b,c){b=b||[];c=c||[];for(var d=a.className.split(/\s+/),e=0;e<b.length;e+=1){for(var f=!1,g=0;g<d.length;g+=1)if(b[e]===d[g]){f=!0;break}f||d.push(b[e])}b=[];for(e=0;e<d.length;e+=1){f=!1;for(g=0;g<c.length;g+=1)if(d[e]===c[g]){f=!0;break}f||b.push(d[e])}a.className=b.join(" ").replace(/\s+/g," ").replace(/^\s+|\s+$/,"")}function u(a,b){for(var c=a.className.split(/\s+/),d=0,e=c.length;d<e;d++)if(c[d]==b)return!0;return!1}
