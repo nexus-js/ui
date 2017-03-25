@@ -6,26 +6,20 @@
 		<script type="text/javascript" src="js/Tone.js"></script>
 		<script>
 
-			var sampler = new Tone.Sampler({
-					0 : "./audio/splash.mp3"
-				},{
-					player: {
-						loop: true,
-					}
-			}).toMaster();
+			var sampler = new Tone.Sampler( "./audio/splash.mp3" ).toMaster();
+      sampler.loop = 1
 
-
-			Tone.Buffer.onload = function() {
+			Tone.Buffer.on('load', function() {
 
 				//Load the buffer into the waveform GUI.
 				//Any Web Audio AudioBuffer can be loaded.
 				//For Tone.js, these are found in _buffers.
 
-				waveform1.setBuffer( sampler._buffers[0]._buffer )
+				waveform1.setBuffer( sampler.buffer._buffer )
 				waveform1.select(1500,1800)
 				sampler.triggerAttack('0')
 
-			}
+			})
 
 			nx.onload = function() {
 
