@@ -13,8 +13,6 @@ Then run `npm start` to begin the build script that will run while you develop. 
 
 The build script also runs jshint which will give you specific information on syntax errors — really any JavaScript not conforming to strict ES6. I usually get about a half dozen warnings per save, so don't feel bad when you experience the same.
 
-Right now there is one standing warning about using `eval` in one location. It is on my to-do list to replace eval, but I haven't yet figured out how to write a better solution.
-
 
 
 ## Overview
@@ -33,7 +31,11 @@ There are a few other categories within the project, most importantly:
 
 ## What can you do?
 
-Some options --
+Check the Issues for a list of all needs.
+
+
+
+Michael Scott-Nelson, you may specifically be interested in the following --
 
 - Work on the models. I've only written about half of them. This would be a huge time saver, and is a relatively independent endeavor b/c they're purely abstract. Completion levels:
   - Counter: 90% 
@@ -47,16 +49,12 @@ Some options --
   - Range (as in range slider): 30%
   - Step: 100%
   - Toggle: 100%
-- Convert the audio visualization interfaces. I wrote them in standalone HTML files. They need to be turned into interfaces within the project, following the same pattern as the other interfaces (a class, in its own file, that inherits from `/core/interface.js`, and can be created in the same way that other interfaces are created.)
-- There are more interfaces that I haven't started yet. You could implement any of them, following the pattern already established. They are:  **Tilt**, **Pan**, **Multislider**, **Envelope**, **TextRadio**, **Transport**. I have graphic designs for some of them already, which I can send you.
 
 
 
 ## So
 
-Pick what you think would be most interesting for you. Whatever you choose, I can give you more info.
-
-And, if after all this you decide to work on Grapph instead, that's all right too : )
+Pick what you think would be most interesting for you. Whatever you choose, I can give you more info if you ask!
 
 
 

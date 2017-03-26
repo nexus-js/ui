@@ -117,6 +117,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.time = new Time(this.context);
 	        this.tune = new Tune();
+	
+	        this.colors = 0;
 	    }
 	
 	    _createClass(MusiciansToolkit, {
@@ -823,6 +825,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    sizeInterface: {
 	      value: function sizeInterface() {}
+	    },
+	    empty: {
+	      value: function empty() {
+	        while (this.element.lastChild) {
+	          this.element.removeChild(this.element.lastChild);
+	        }
+	      }
+	    },
+	    destroy: {
+	      value: function destroy() {
+	        this.empty();
+	        this.parent.removeChild(this.element);
+	        // this.removeEvents -- look this up in event emitter API
+	        // or should this be called through mt.ui.destroy("slider1")
+	        // or could just delete or this.instrument.ui[this.id] = null ...
+	      }
 	    }
 	  });
 	
@@ -1990,7 +2008,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    sizeInterface: {
-	      value: function sizeInterface() {}
+	      value: function sizeInterface() {
+	        var _this = this;
+	
+	        // how to tell slider what size to move to?
+	        this.sliders.forEach(function (slider) {
+	          slider.resize(_this.width, _this.height);
+	        });
+	      }
 	    },
 	    addSlider: {
 	      value: function addSlider(start, end) {
@@ -2046,11 +2071,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = Range;
-	
-	// how to tell slider what size to move to?
-	//  this.sliders.forEach((slider) => {
-	//    slider.resize();
-	//  });
 
 /***/ },
 /* 17 */
@@ -2074,6 +2094,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var RangeModel = __webpack_require__(18);
 	var math = __webpack_require__(5);
 	var ColorOps = __webpack_require__(19);
+	// is this needed? where is it used?
 	window.ColorOps = __webpack_require__(19);
 	
 	var Interface = _interopRequire(__webpack_require__(6));
@@ -2136,8 +2157,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildFrame: {
 	      value: function buildFrame() {
 	        this.element = svg.create("svg");
-	        this.element.setAttribute("width", this.width);
-	        this.element.setAttribute("height", this.height);
 	        this.element.setAttribute("x", 0);
 	        this.element.setAttribute("y", 0);
 	        this.parent.appendChild(this.element);
@@ -2167,16 +2186,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar = svg.create("rect");
 	        this.bar.setAttribute("x", 0);
 	        this.bar.setAttribute("y", 0);
-	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
-	        this.bar.setAttribute("height", this.height);
 	        this.bar.setAttribute("fill", this.color);
 	        this.bar.setAttribute("stroke", this.color);
 	        this.bar.setAttribute("stroke-width", "0");
 	        this.bar.setAttribute("fill-opacity", "0.4");
 	
 	        this.arrowL = svg.create("rect");
-	        this.arrowL.setAttribute("width", 3);
-	        this.arrowL.setAttribute("height", this.height);
 	        this.arrowL.setAttribute("x", 0);
 	        this.arrowL.setAttribute("y", 0);
 	        this.arrowL.setAttribute("fill", this.color);
@@ -2188,10 +2203,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	
 	        this.arrowR = svg.create("rect");
-	        this.arrowR.setAttribute("width", 3);
-	        this.arrowR.setAttribute("height", this.height);
-	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
-	        this.arrowR.setAttribute("y", 0);
 	        this.arrowR.setAttribute("fill", this.color);
 	        this.arrowR.setAttribute("fill-opacity", "0.7");
 	
@@ -2203,6 +2214,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.ref.appendChild(this.arrowL);
 	        this.ref.appendChild(this.arrowR);
 	        this.ref.appendChild(this.bar);
+	
+	        this.resize();
+	      }
+	    },
+	    resize: {
+	      value: function resize(w, h) {
+	        this.width = w || this.width;
+	        this.height = h || this.height;
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.bar.setAttribute("height", this.height);
+	        this.arrowL.setAttribute("width", 3);
+	        this.arrowL.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("width", 3);
+	        this.arrowR.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
+	        this.arrowR.setAttribute("y", 0);
+	        if (this.mode === "drag") {
+	          this.positoin.center.resize([0, this.width], [this.height, 0]);
+	          this.position.size.resize([0, this.width], [this.height, 0]);
+	        } else if (this.mode === "select") {
+	          this.position.center.resize([0, this.width], [this.height, 0]);
+	          this.position.start.resize([0, this.width], [this.height, 0]);
+	          this.position.end.resize([0, this.width], [this.height, 0]);
+	        }
+	        this.render();
 	      }
 	    },
 	    render: {
@@ -2697,6 +2735,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.definition = 2;
 	    this.pieces = ~ ~(this.width / this.definition);
 	
+	    this.channels = 1;
+	
 	    this.init();
 	  }
 	
@@ -2708,6 +2748,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.element.style.backgroundColor = "#e7e7e7";
 	        this.element.style.borderRadius = "5px";
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.waveHeight = this.height / this.channels;
+	
+	        this.empty();
+	        if (this.buffer) {
+	          this.buildWaveform();
+	        }
 	      }
 	    },
 	    buildWaveform: {
@@ -3004,14 +3057,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	        this.pad = svg.create("circle");
-	        this.pad.setAttribute("cx", this.width / 2);
-	        this.pad.setAttribute("cy", this.height / 2);
-	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - 2);
 	        this.pad.setAttribute("fill", "#d18");
 	        this.pad.setAttribute("stroke", "#d18");
 	        this.pad.setAttribute("stroke-width", 4);
 	
 	        this.element.appendChild(this.pad);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	        this.pad.setAttribute("cx", this.width / 2);
+	        this.pad.setAttribute("cy", this.height / 2);
+	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - 2);
 	      }
 	    },
 	    render: {
@@ -3310,19 +3369,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        var buttonWidth = this.width / this.numberOfButtons;
-	        var buttonHeight = this.height;
-	
 	        for (var i = 0; i < this.numberOfButtons; i++) {
 	          var container = document.createElement("span");
 	
 	          var button = new Button(container, {
-	            size: [buttonWidth, buttonHeight],
 	            mode: "toggle",
 	            component: true }, this.update.bind(this, i));
 	
 	          this.buttons.push(button);
 	          this.element.appendChild(container);
+	        }
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var buttonWidth = this.width / this.numberOfButtons;
+	        var buttonHeight = this.height;
+	
+	        for (var i = 0; i < this.numberOfButtons; i++) {
+	          this.buttons[i].resize(buttonWidth, buttonHeight);
 	        }
 	      }
 	    },
@@ -3895,25 +3963,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        var _this = this;
 	
-	        //let radius = Math.min(this.width,this.height) / 5;
-	        var radius = 5;
-	
 	        this.pad = svg.create("rect");
-	        this.pad.setAttribute("x", 1);
-	        this.pad.setAttribute("y", 1);
-	        if (this.width > 2) {
-	          this.pad.setAttribute("width", this.width - 2);
-	        } else {
-	          this.pad.setAttribute("width", this.width);
-	        }
-	        if (this.height > 2) {
-	          this.pad.setAttribute("height", this.height - 2);
-	        } else {
-	          this.pad.setAttribute("height", this.height);
-	        }
-	        this.pad.setAttribute("rx", radius);
-	        this.pad.setAttribute("ry", radius);
-	
 	        this.element.appendChild(this.pad);
 	
 	        /* events */
@@ -3956,6 +4006,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	          });
 	        }
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        //let radius = Math.min(this.width,this.height) / 5;
+	        var radius = 5;
+	
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        if (this.width > 2) {
+	          this.pad.setAttribute("width", this.width - 2);
+	        } else {
+	          this.pad.setAttribute("width", this.width);
+	        }
+	        if (this.height > 2) {
+	          this.pad.setAttribute("height", this.height - 2);
+	        } else {
+	          this.pad.setAttribute("height", this.height);
+	        }
+	        this.pad.setAttribute("rx", radius);
+	        this.pad.setAttribute("ry", radius);
 	      }
 	    },
 	    render: {
@@ -4023,6 +4095,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	
+	          var container = document.createElement("span");
+	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	
+	          var key = new PianoKey(container, {
+	            component: true,
+	            note: i + this.range.low,
+	            color: this.keyPattern[scaleIndex]
+	          }, this.keyChange.bind(this, i + this.range.low));
+	
+	          key.piano = this;
+	          //  key.scaleIndex =
+	
+	          if (touch.exists) {
+	            key.pad.index = i;
+	            key.preClick = key.preMove = key.preRelease = function () {};
+	            key.click = key.move = key.release = function () {};
+	            key.preTouch = key.preTouchMove = key.preTouchRelease = function () {};
+	            key.touch = key.touchMove = key.touchRelease = function () {};
+	          }
+	
+	          this.keys.push(key);
+	          this.element.appendChild(container);
+	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
 	        var keyX = 0;
 	
 	        var keyPositions = [];
@@ -4039,45 +4145,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	            keyX += 0.5;
 	          }
 	        }
+	        var keysWide = keyX;
 	
 	        var padding = this.width / 40;
-	        var buttonWidth = (this.width - padding * 2) / keyX;
+	        var buttonWidth = (this.width - padding * 2) / keysWide;
 	        var buttonHeight = (this.height - padding * 2) / 2;
 	
-	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	        for (var i = 0; i < this.keys.length; i++) {
 	
-	          var container = document.createElement("span");
-	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	          var container = this.keys[i].parent;
+	          //  let scaleIndex = this.keys[i].index;
 	          container.style.position = "absolute";
 	          container.style.left = keyPositions[i] * buttonWidth + padding + "px";
-	          if (this.keyPattern[scaleIndex] === "w") {
+	          if (this.keys[i].color === "w") {
 	            container.style.top = buttonHeight + padding + "px";
 	          } else {
 	            container.style.top = padding + "px";
 	          }
 	
-	          var key = new PianoKey(container, {
-	            size: [buttonWidth, buttonHeight],
-	            component: true,
-	            note: i + this.range.low,
-	            color: this.keyPattern[scaleIndex]
-	          }, this.keyChange.bind(this, i + this.range.low));
-	
-	          key.piano = this;
-	
-	          if (touch.exists) {
-	            key.pad.index = i;
-	            key.preClick = key.preMove = key.preRelease = function () {};
-	            key.click = key.move = key.release = function () {};
-	            key.preTouch = key.preTouchMove = key.preTouchRelease = function () {};
-	            key.touch = key.touchMove = key.touchRelease = function () {};
-	          }
-	
-	          this.keys.push(key);
-	          this.element.appendChild(container);
-	        }
-	        if (touch.exists) {
-	          this.addTouchListeners();
+	          this.keys[i].resize(buttonWidth, buttonHeight);
 	        }
 	      }
 	    },
@@ -4225,22 +4311,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	
 	        this.pad = svg.create("rect");
-	        this.pad.setAttribute("x", 1);
-	        this.pad.setAttribute("y", 1);
-	        if (this.width > 2) {
-	          this.pad.setAttribute("width", this.width - 2);
-	        } else {
-	          this.pad.setAttribute("width", this.width);
-	        }
-	        if (this.height > 2) {
-	          this.pad.setAttribute("height", this.height - 2);
-	        } else {
-	          this.pad.setAttribute("height", this.height);
-	        }
-	        //this.pad.setAttribute('height', this.height - 2);
-	        this.pad.setAttribute("fill", "#e7e7e7");
-	
 	        this.element.appendChild(this.pad);
+	
+	        this.sizeInterface();
 	
 	        /* events */
 	
@@ -4282,6 +4355,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	          });
 	        }
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        if (this.width > 2) {
+	          this.pad.setAttribute("width", this.width - 2);
+	        } else {
+	          this.pad.setAttribute("width", this.width);
+	        }
+	        if (this.height > 2) {
+	          this.pad.setAttribute("height", this.height - 2);
+	        } else {
+	          this.pad.setAttribute("height", this.height);
+	        }
+	        //this.pad.setAttribute('height', this.height - 2);
+	        this.pad.setAttribute("fill", "#e7e7e7");
 	      }
 	    },
 	    render: {
@@ -4350,21 +4442,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        var cellWidth = this.width / this.columns;
-	        var cellHeight = this.height / this.rows;
-	
 	        for (var i = 0; i < this.model.length; i++) {
 	
 	          var _location = this.model.locate(i);
-	          // {row,col}
+	          // returns {row,col}
 	
 	          var container = document.createElement("span");
 	          container.style.position = "absolute";
-	          container.style.left = _location.column * cellWidth + "px";
-	          container.style.top = _location.row * cellHeight + "px";
 	
 	          var cell = new MatrixCell(container, {
-	            size: [cellWidth, cellHeight],
 	            component: true,
 	            index: i,
 	            row: _location.row,
@@ -4386,6 +4472,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        if (touch.exists) {
 	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var cellWidth = this.width / this.columns;
+	        var cellHeight = this.height / this.rows;
+	
+	        for (var i = 0; i < this.cells.length; i++) {
+	          var container = this.cells[i].parent;
+	          container.style.left = this.cells[i].column * cellWidth + "px";
+	          container.style.top = this.cells[i].row * cellHeight + "px";
+	          this.cells[i].resize(cellWidth, cellHeight);
 	        }
 	      }
 	    },
@@ -5289,10 +5390,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        if (this.width < this.height) {
-	          this.orientation = "vertical";
-	        } else {
-	          this.orientation = "horizontal";
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (!this.settings.orientation) {
+	          if (this.width < this.height) {
+	            this.orientation = "vertical";
+	          } else {
+	            this.orientation = "horizontal";
+	          }
 	        }
 	
 	        var x = undefined,
@@ -5328,7 +5445,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          cornerRadius = h / 2;
 	        }
 	
-	        this.bar = svg.create("rect");
 	        this.bar.setAttribute("x", x);
 	        this.bar.setAttribute("y", y);
 	        this.bar.setAttribute("transform", barOffset);
@@ -5338,7 +5454,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("height", h);
 	        this.bar.setAttribute("fill", "#e7e7e7");
 	
-	        this.fillbar = svg.create("rect");
 	        if (this.orientation === "vertical") {
 	          this.fillbar.setAttribute("x", x);
 	          this.fillbar.setAttribute("y", this.knobData.level);
@@ -5355,7 +5470,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.fillbar.setAttribute("ry", cornerRadius);
 	        this.fillbar.setAttribute("fill", "#d18");
 	
-	        this.knob = svg.create("circle");
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
 	          this.knob.setAttribute("cy", this.knobData.level);
@@ -5366,12 +5480,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.knob.setAttribute("r", this.knobData.r);
 	        this.knob.setAttribute("fill", "#d18");
 	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
-	        this.element.appendChild(this.knob);
-	
 	        if (!this.hasKnob) {
 	          this.knob.setAttribute("fill", "none");
+	        }
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
 	        }
 	      }
 	    },
@@ -5479,22 +5593,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(SingleSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    /* style changes */
-	
-	    this.bar.setAttribute("x", 0);
-	    this.bar.setAttribute("transform", "translate(0,0)");
-	    this.bar.setAttribute("rx", 0); // corner radius
-	    this.bar.setAttribute("ry", 0);
-	    this.bar.setAttribute("width", this.width);
-	    this.bar.setAttribute("height", this.height);
-	
-	    this.fillbar.setAttribute("x", 0);
-	    this.fillbar.setAttribute("transform", "translate(0,0)");
-	    this.fillbar.setAttribute("rx", 0); // corner radius
-	    this.fillbar.setAttribute("ry", 0);
-	    this.fillbar.setAttribute("width", this.width);
-	    this.fillbar.setAttribute("height", this.height);
-	
 	    /* events */
 	
 	    if (!touch.exists) {
@@ -5538,9 +5636,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      });
 	    }
+	
+	    this.customStyle();
 	  }
 	
 	  _inherits(SingleSlider, _SliderTemplate);
+	
+	  _createClass(SingleSlider, {
+	    customStyle: {
+	      value: function customStyle() {
+	
+	        /* style changes */
+	
+	        this.bar.setAttribute("x", 0);
+	        this.bar.setAttribute("transform", "translate(0,0)");
+	        this.bar.setAttribute("rx", 0); // corner radius
+	        this.bar.setAttribute("ry", 0);
+	        this.bar.setAttribute("width", this.width);
+	        this.bar.setAttribute("height", this.height);
+	
+	        this.fillbar.setAttribute("x", 0);
+	        this.fillbar.setAttribute("transform", "translate(0,0)");
+	        this.fillbar.setAttribute("rx", 0); // corner radius
+	        this.fillbar.setAttribute("ry", 0);
+	        this.fillbar.setAttribute("width", this.width);
+	        this.fillbar.setAttribute("height", this.height);
+	      }
+	    }
+	  });
 	
 	  return SingleSlider;
 	})(SliderTemplate);
@@ -5586,19 +5709,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        console.log(this.value);
-	
-	        var sliderWidth = this.width / this.numberOfSliders;
-	        var sliderHeight = this.height;
-	
 	        for (var i = 0; i < this.numberOfSliders; i++) {
 	          var container = document.createElement("span");
 	
 	          var slider = new SingleSlider(container, {
-	            size: [sliderWidth, sliderHeight],
 	            scale: [this.min, this.max],
 	            step: this.step,
 	            mode: "absolute",
+	            orientation: "vertical",
 	            value: this.value[i],
 	            hasKnob: false,
 	            component: true }, this.update.bind(this, i));
@@ -5618,6 +5736,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        if (touch.exists) {
 	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var sliderWidth = this.width / this.numberOfSliders;
+	        var sliderHeight = this.height;
+	
+	        for (var i = 0; i < this.sliders.length; i++) {
+	          this.sliders[i].resize(sliderWidth, sliderHeight);
+	          this.sliders[i].customStyle();
 	        }
 	      }
 	    },
@@ -5957,15 +6088,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.envelope = envelope;
 	
 	  this.element = svg.create("circle");
-	  this.element.setAttribute("r", 5);
 	  this.element.setAttribute("fill", "#d18");
 	
 	  this.envelope.element.appendChild(this.element);
 	
+	  this.resize = function () {
+	    var r = ~ ~(Math.min(this.envelope.width, this.envelope.height) / 50) + 2;
+	    this.element.setAttribute("r", r);
+	  };
+	
 	  this.move = function (x, y) {
 	    // scale / clip the location here
-	    this.x = x;
-	    this.y = y;
+	    this.x = x >= 0 ? x : this.x;
+	    this.y = y >= 0 ? y : this.y;
 	    this.location = this.getCoordinates();
 	    this.element.setAttribute("cx", this.location.x);
 	    this.element.setAttribute("cy", this.location.y);
@@ -5979,6 +6114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  this.move(this.x, this.y);
+	  this.resize();
 	
 	  this.destroy = function () {
 	    this.envelope.element.removeChild(this.element);
@@ -5996,8 +6132,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	
 	    _get(Object.getPrototypeOf(Envelope.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    //this.points = [ [0,1], [1,0], [1,1] ]
 	
 	    this.points = [{
 	      x: 0.1,
@@ -6047,7 +6181,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.element.appendChild(this.fill);
 	
-	        this.calculatePath();
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        for (var i = 0; i < this.nodes.length; i++) {
+	          this.nodes[i].resize();
+	          this.nodes[i].move();
+	        }
+	
+	        this.render();
 	      }
 	    },
 	    render: {
@@ -6114,6 +6259,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
+	          this.mouse.x = math.clip(this.mouse.x, 0, this.width);
+	          console.log(this.mouse.x);
 	          this.hasMoved = true;
 	
 	          this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
@@ -6183,6 +6330,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var actualY = this.nodes[i].y;
 	        var clippedX = math.clip(actualX, 0, 1);
 	        var clippedY = math.clip(actualY, 0, 1);
+	
+	        console.log(clippedX);
 	
 	        this.nodes[i].move(clippedX, clippedY);
 	
