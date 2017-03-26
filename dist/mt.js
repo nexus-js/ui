@@ -837,9 +837,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function destroy() {
 	        this.empty();
 	        this.parent.removeChild(this.element);
-	        // this.removeEvents -- look this up in event emitter API
-	        // or should this be called through mt.ui.destroy("slider1")
-	        // or could just delete or this.instrument.ui[this.id] = null ...
+	        this.removeAllListeners();
+	        if (this.instrument) {
+	          delete this.instrument.ui[this.id];
+	        }
 	      }
 	    }
 	  });
