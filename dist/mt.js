@@ -79,17 +79,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import dom from './util/dom';
 	
-	var Rack = _interopRequire(__webpack_require__(38));
+	var Rack = _interopRequire(__webpack_require__(36));
 	
-	var Time = _interopRequire(__webpack_require__(40));
+	var Time = _interopRequire(__webpack_require__(38));
 	
-	var Tune = _interopRequire(__webpack_require__(45));
+	var Tune = _interopRequire(__webpack_require__(43));
 	
 	//import RangeModel from './models/range';
 	
-	var Counter = __webpack_require__(30);
-	var Radio = __webpack_require__(47);
-	var Drunk = __webpack_require__(31);
+	var Counter = __webpack_require__(28);
+	var Radio = __webpack_require__(45);
+	var Drunk = __webpack_require__(29);
 	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
@@ -161,22 +161,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	  Position: __webpack_require__(3),
-	  Slider: __webpack_require__(14),
-	  Toggle: __webpack_require__(15),
-	  Range: __webpack_require__(16),
-	  Waveform: __webpack_require__(20),
-	  Button: __webpack_require__(21),
-	  TextButton: __webpack_require__(23),
-	  RadioButton: __webpack_require__(24),
-	  Number: __webpack_require__(25),
-	  Dial: __webpack_require__(26),
-	  Piano: __webpack_require__(27),
-	  Matrix: __webpack_require__(28),
-	  Pan3D: __webpack_require__(32),
-	  Tilt: __webpack_require__(33),
-	  Multislider: __webpack_require__(35),
-	  Pan: __webpack_require__(36),
-	  Envelope: __webpack_require__(37)
+	  Slider: __webpack_require__(10),
+	  Toggle: __webpack_require__(11),
+	  Range: __webpack_require__(12),
+	  Waveform: __webpack_require__(16),
+	  Button: __webpack_require__(17),
+	  TextButton: __webpack_require__(19),
+	  RadioButton: __webpack_require__(20),
+	  Number: __webpack_require__(21),
+	  Dial: __webpack_require__(22),
+	  Piano: __webpack_require__(23),
+	  Matrix: __webpack_require__(26),
+	  Pan3D: __webpack_require__(30),
+	  Tilt: __webpack_require__(31),
+	  Multislider: __webpack_require__(33),
+	  Pan: __webpack_require__(34),
+	  Envelope: __webpack_require__(35)
 	  /*  Spectrograph: require('./spectrograph'),
 	    Meter: require('./meter'), */
 	};
@@ -199,9 +199,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var Step = __webpack_require__(7);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(8));
 	
 	var Position = (function (_Interface) {
 	  function Position() {
@@ -243,7 +243,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
 	        this.knob = svg.create("circle");
 	        this.element.appendChild(this.knob);
 	        this.sizeInterface();
@@ -264,7 +263,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.knob.setAttribute("cx", this.width / 2);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobRadius.off);
-	        this.knob.setAttribute("fill", "#d18");
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.knob.setAttribute("fill", this.colors.accent);
 	      }
 	    },
 	    render: {
@@ -536,10 +540,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
-	var util = __webpack_require__(8);
-	var touch = __webpack_require__(9);
-	var EventEmitter = __webpack_require__(10);
+	var dom = __webpack_require__(24);
+	var util = __webpack_require__(46);
+	var touch = __webpack_require__(25);
+	var EventEmitter = __webpack_require__(47);
 	
 	var Interface = (function (_EventEmitter) {
 	  function Interface(args, options, defaults) {
@@ -549,6 +553,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
+	    this._colors = {};
+	    this.colors = Object.defineProperties({
+	      fill: "#ccc", // should be e6e6e6
+	      accent: "#0ab",
+	      dark: "#444",
+	      border: "#aaa"
+	    }, {
+	      test: {
+	        set: function (v) {
+	          this._colors.dark = v;
+	          this.colorInterface();
+	        },
+	        get: function () {
+	          return this._colors.dark;
+	        },
+	        configurable: true,
+	        enumerable: true
+	      }
+	    });
 	  }
 	
 	  _inherits(Interface, _EventEmitter);
@@ -657,6 +680,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.buildFrame();
 	        this.attachListeners();
 	        this.buildInterface();
+	        //this.sizeInterface(); should probably add this here instead of in each interface
+	        this.colorInterface();
+	        //or
+	        //this.update.build()
+	        //this.update.size()
+	        //this.update.colors()
+	        //or this.render.state()
 	        this.finalTouches();
 	      }
 	    },
@@ -667,6 +697,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.setAttribute("height", this.height);
 	        this.parent.appendChild(this.element);
 	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {}
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {}
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {}
 	    },
 	    attachListeners: {
 	      value: function attachListeners() {
@@ -823,9 +862,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.sizeInterface();
 	      }
 	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {}
-	    },
 	    empty: {
 	      value: function empty() {
 	        while (this.element.lastChild) {
@@ -852,375 +888,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 7 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	exports.findPosition = function (el) {
-	  var viewportOffset = el.getBoundingClientRect();
-	  var top = viewportOffset.top + window.scrollY;
-	  var left = viewportOffset.left + window.scrollX;
-	  return { top: top, left: left };
-	};
-	
-	exports.parseElement = function (parent) {
-	  if (typeof parent === "string") {
-	    parent = document.getElementById(parent);
-	  }
-	
-	  if (parent instanceof HTMLElement) {
-	    return parent;
-	  } else {
-	    return "No valid parent argument";
-	  }
-	};
-	
-	exports.locateMouse = function (e, offset) {
-	  return {
-	    x: e.pageX - offset.left,
-	    y: e.pageY - offset.top
-	  };
-	};
-	
-	exports.locateTouch = function (e, offset) {
-	  return {
-	    x: e.targetTouches.length ? e.targetTouches[0].pageX - offset.left : false,
-	    y: e.targetTouches.length ? e.targetTouches[0].pageY - offset.top : false
-	  };
-	};
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	exports.isObject = function (obj) {
-	  if (typeof obj === "object" && !Array.isArray(obj) && obj !== null && obj instanceof SVGElement === false && obj instanceof HTMLElement === false) {
-	    return true;
-	  } else {
-	    return false;
-	  }
-	};
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	exports.exists = "ontouchstart" in document.documentElement;
-
-/***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	// Copyright Joyent, Inc. and other Node contributors.
-	//
-	// Permission is hereby granted, free of charge, to any person obtaining a
-	// copy of this software and associated documentation files (the
-	// "Software"), to deal in the Software without restriction, including
-	// without limitation the rights to use, copy, modify, merge, publish,
-	// distribute, sublicense, and/or sell copies of the Software, and to permit
-	// persons to whom the Software is furnished to do so, subject to the
-	// following conditions:
-	//
-	// The above copyright notice and this permission notice shall be included
-	// in all copies or substantial portions of the Software.
-	//
-	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-	// USE OR OTHER DEALINGS IN THE SOFTWARE.
-	
-	function EventEmitter() {
-	  this._events = this._events || {};
-	  this._maxListeners = this._maxListeners || undefined;
-	}
-	module.exports = EventEmitter;
-	
-	// Backwards-compat with node 0.10.x
-	EventEmitter.EventEmitter = EventEmitter;
-	
-	EventEmitter.prototype._events = undefined;
-	EventEmitter.prototype._maxListeners = undefined;
-	
-	// By default EventEmitters will print a warning if more than 10 listeners are
-	// added to it. This is a useful default which helps finding memory leaks.
-	EventEmitter.defaultMaxListeners = 10;
-	
-	// Obviously not all Emitters should be limited to 10. This function allows
-	// that to be increased. Set to zero for unlimited.
-	EventEmitter.prototype.setMaxListeners = function(n) {
-	  if (!isNumber(n) || n < 0 || isNaN(n))
-	    throw TypeError('n must be a positive number');
-	  this._maxListeners = n;
-	  return this;
-	};
-	
-	EventEmitter.prototype.emit = function(type) {
-	  var er, handler, len, args, i, listeners;
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // If there is no 'error' event listener then throw.
-	  if (type === 'error') {
-	    if (!this._events.error ||
-	        (isObject(this._events.error) && !this._events.error.length)) {
-	      er = arguments[1];
-	      if (er instanceof Error) {
-	        throw er; // Unhandled 'error' event
-	      } else {
-	        // At least give some kind of context to the user
-	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
-	        err.context = er;
-	        throw err;
-	      }
-	    }
-	  }
-	
-	  handler = this._events[type];
-	
-	  if (isUndefined(handler))
-	    return false;
-	
-	  if (isFunction(handler)) {
-	    switch (arguments.length) {
-	      // fast cases
-	      case 1:
-	        handler.call(this);
-	        break;
-	      case 2:
-	        handler.call(this, arguments[1]);
-	        break;
-	      case 3:
-	        handler.call(this, arguments[1], arguments[2]);
-	        break;
-	      // slower
-	      default:
-	        args = Array.prototype.slice.call(arguments, 1);
-	        handler.apply(this, args);
-	    }
-	  } else if (isObject(handler)) {
-	    args = Array.prototype.slice.call(arguments, 1);
-	    listeners = handler.slice();
-	    len = listeners.length;
-	    for (i = 0; i < len; i++)
-	      listeners[i].apply(this, args);
-	  }
-	
-	  return true;
-	};
-	
-	EventEmitter.prototype.addListener = function(type, listener) {
-	  var m;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events)
-	    this._events = {};
-	
-	  // To avoid recursion in the case that type === "newListener"! Before
-	  // adding it to the listeners, first emit "newListener".
-	  if (this._events.newListener)
-	    this.emit('newListener', type,
-	              isFunction(listener.listener) ?
-	              listener.listener : listener);
-	
-	  if (!this._events[type])
-	    // Optimize the case of one listener. Don't need the extra array object.
-	    this._events[type] = listener;
-	  else if (isObject(this._events[type]))
-	    // If we've already got an array, just append.
-	    this._events[type].push(listener);
-	  else
-	    // Adding the second element, need to change to array.
-	    this._events[type] = [this._events[type], listener];
-	
-	  // Check for listener leak
-	  if (isObject(this._events[type]) && !this._events[type].warned) {
-	    if (!isUndefined(this._maxListeners)) {
-	      m = this._maxListeners;
-	    } else {
-	      m = EventEmitter.defaultMaxListeners;
-	    }
-	
-	    if (m && m > 0 && this._events[type].length > m) {
-	      this._events[type].warned = true;
-	      console.error('(node) warning: possible EventEmitter memory ' +
-	                    'leak detected. %d listeners added. ' +
-	                    'Use emitter.setMaxListeners() to increase limit.',
-	                    this._events[type].length);
-	      if (typeof console.trace === 'function') {
-	        // not supported in IE 10
-	        console.trace();
-	      }
-	    }
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-	
-	EventEmitter.prototype.once = function(type, listener) {
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  var fired = false;
-	
-	  function g() {
-	    this.removeListener(type, g);
-	
-	    if (!fired) {
-	      fired = true;
-	      listener.apply(this, arguments);
-	    }
-	  }
-	
-	  g.listener = listener;
-	  this.on(type, g);
-	
-	  return this;
-	};
-	
-	// emits a 'removeListener' event iff the listener was removed
-	EventEmitter.prototype.removeListener = function(type, listener) {
-	  var list, position, length, i;
-	
-	  if (!isFunction(listener))
-	    throw TypeError('listener must be a function');
-	
-	  if (!this._events || !this._events[type])
-	    return this;
-	
-	  list = this._events[type];
-	  length = list.length;
-	  position = -1;
-	
-	  if (list === listener ||
-	      (isFunction(list.listener) && list.listener === listener)) {
-	    delete this._events[type];
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	
-	  } else if (isObject(list)) {
-	    for (i = length; i-- > 0;) {
-	      if (list[i] === listener ||
-	          (list[i].listener && list[i].listener === listener)) {
-	        position = i;
-	        break;
-	      }
-	    }
-	
-	    if (position < 0)
-	      return this;
-	
-	    if (list.length === 1) {
-	      list.length = 0;
-	      delete this._events[type];
-	    } else {
-	      list.splice(position, 1);
-	    }
-	
-	    if (this._events.removeListener)
-	      this.emit('removeListener', type, listener);
-	  }
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.removeAllListeners = function(type) {
-	  var key, listeners;
-	
-	  if (!this._events)
-	    return this;
-	
-	  // not listening for removeListener, no need to emit
-	  if (!this._events.removeListener) {
-	    if (arguments.length === 0)
-	      this._events = {};
-	    else if (this._events[type])
-	      delete this._events[type];
-	    return this;
-	  }
-	
-	  // emit removeListener for all listeners on all events
-	  if (arguments.length === 0) {
-	    for (key in this._events) {
-	      if (key === 'removeListener') continue;
-	      this.removeAllListeners(key);
-	    }
-	    this.removeAllListeners('removeListener');
-	    this._events = {};
-	    return this;
-	  }
-	
-	  listeners = this._events[type];
-	
-	  if (isFunction(listeners)) {
-	    this.removeListener(type, listeners);
-	  } else if (listeners) {
-	    // LIFO order
-	    while (listeners.length)
-	      this.removeListener(type, listeners[listeners.length - 1]);
-	  }
-	  delete this._events[type];
-	
-	  return this;
-	};
-	
-	EventEmitter.prototype.listeners = function(type) {
-	  var ret;
-	  if (!this._events || !this._events[type])
-	    ret = [];
-	  else if (isFunction(this._events[type]))
-	    ret = [this._events[type]];
-	  else
-	    ret = this._events[type].slice();
-	  return ret;
-	};
-	
-	EventEmitter.prototype.listenerCount = function(type) {
-	  if (this._events) {
-	    var evlistener = this._events[type];
-	
-	    if (isFunction(evlistener))
-	      return 1;
-	    else if (evlistener)
-	      return evlistener.length;
-	  }
-	  return 0;
-	};
-	
-	EventEmitter.listenerCount = function(emitter, type) {
-	  return emitter.listenerCount(type);
-	};
-	
-	function isFunction(arg) {
-	  return typeof arg === 'function';
-	}
-	
-	function isNumber(arg) {
-	  return typeof arg === 'number';
-	}
-	
-	function isObject(arg) {
-	  return typeof arg === 'object' && arg !== null;
-	}
-	
-	function isUndefined(arg) {
-	  return arg === void 0;
-	}
-
-
-/***/ },
-/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1314,7 +981,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Step;
 
 /***/ },
-/* 12 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1332,7 +999,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var ToggleModel = _interopRequire(__webpack_require__(13));
+	var ToggleModel = _interopRequire(__webpack_require__(9));
 	
 	/*
 	how to use :
@@ -1538,7 +1205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 13 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1582,7 +1249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 14 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1599,9 +1266,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var Step = __webpack_require__(7);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(8));
 	
 	/**
 	Slider interface
@@ -1718,7 +1385,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("ry", cornerRadius);
 	        this.bar.setAttribute("width", w);
 	        this.bar.setAttribute("height", h);
-	        this.bar.setAttribute("fill", "#e7e7e7");
 	
 	        if (this.orientation === "vertical") {
 	          this.fillbar.setAttribute("x", x);
@@ -1734,7 +1400,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.fillbar.setAttribute("transform", barOffset);
 	        this.fillbar.setAttribute("rx", cornerRadius);
 	        this.fillbar.setAttribute("ry", cornerRadius);
-	        this.fillbar.setAttribute("fill", "#d18");
 	
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
@@ -1744,11 +1409,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.knob.setAttribute("cy", y);
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
-	        this.knob.setAttribute("fill", "#d18");
 	
 	        if (!this.hasKnob) {
 	          this.knob.setAttribute("fill", "transparent");
 	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.fillbar.setAttribute("fill", this.colors.accent);
+	        this.knob.setAttribute("fill", this.colors.accent);
 	      }
 	    },
 	    render: {
@@ -1817,7 +1488,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Slider;
 
 /***/ },
-/* 15 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1831,7 +1502,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(13);
+	var ToggleModel = __webpack_require__(9);
 	var Interface = __webpack_require__(6);
 	
 	var Toggle = (function (_Interface) {
@@ -1883,22 +1554,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("ry", this.knobSize / 2);
 	        this.bar.setAttribute("width", this.knobSize * 3);
 	        this.bar.setAttribute("height", this.knobSize);
-	        this.bar.setAttribute("fill", "#e7e7e7");
 	
 	        this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobSize);
-	        this.knob.setAttribute("fill", "#d18");
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.knob.setAttribute("fill", this.colors.accent);
+	        this.render();
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
 	          this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
-	          this.bar.setAttribute("fill", "#e7e7e7");
+	          this.bar.setAttribute("fill", this.colors.fill);
 	        } else {
 	          this.knob.setAttribute("cx", this.width / 2 + this.knobSize);
-	          this.bar.setAttribute("fill", "#d18");
+	          this.bar.setAttribute("fill", this.colors.accent);
 	        }
 	      }
 	    },
@@ -1945,7 +1620,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 16 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1961,7 +1636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let svg = require('../util/svg');
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var RangeSlider = __webpack_require__(17);
+	var RangeSlider = __webpack_require__(13);
 	
 	var Range = (function (_Interface) {
 	  function Range() {
@@ -2001,11 +1676,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Range, {
 	    buildInterface: {
 	      value: function buildInterface() {
-	        this.element.style.backgroundColor = "#e7e7e7";
 	        for (var i = 0; i < this.value.length; i++) {
 	          var value = this.value[i];
 	          this.addSlider(value[0], value[1]);
 	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
 	      }
 	    },
 	    sizeInterface: {
@@ -2074,7 +1753,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 17 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2092,15 +1771,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var RangeModel = __webpack_require__(18);
+	var RangeModel = __webpack_require__(14);
 	var math = __webpack_require__(5);
-	var ColorOps = __webpack_require__(19);
+	var ColorOps = __webpack_require__(15);
 	// is this needed? where is it used?
-	window.ColorOps = __webpack_require__(19);
+	window.ColorOps = __webpack_require__(15);
 	
 	var Interface = _interopRequire(__webpack_require__(6));
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(8));
 	
 	var RangeSlider = (function (_Interface) {
 	  function RangeSlider() {
@@ -2123,13 +1802,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.step = this.settings.step;
 	    this.mode = this.settings.mode;
 	
-	    var colorIndex = 0;
-	    this.color = ColorOps.spin([230, 0, 100, 0], colorIndex * 60);
-	    this.color = this.color.map(function (v) {
-	      return Math.floor(v);
-	    });
-	    this.color.length = 3;
-	    this.color = "rgb(" + this.color.join(",") + ")";
+	    /*  let colorIndex = 0;
+	      this.color = ColorOps.spin([230,0,100,0],colorIndex * 60);
+	      this.color = this.color.map((v) => { return Math.floor(v); });
+	      this.color.length = 3;
+	      this.color = 'rgb('+this.color.join(',')+')'; */
 	
 	    this.range = new RangeModel(this.min, this.max, this.step);
 	
@@ -2187,15 +1864,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar = svg.create("rect");
 	        this.bar.setAttribute("x", 0);
 	        this.bar.setAttribute("y", 0);
-	        this.bar.setAttribute("fill", this.color);
-	        this.bar.setAttribute("stroke", this.color);
 	        this.bar.setAttribute("stroke-width", "0");
 	        this.bar.setAttribute("fill-opacity", "0.4");
 	
 	        this.arrowL = svg.create("rect");
 	        this.arrowL.setAttribute("x", 0);
 	        this.arrowL.setAttribute("y", 0);
-	        this.arrowL.setAttribute("fill", this.color);
 	        this.arrowL.setAttribute("fill-opacity", "0.7");
 	
 	        this.arrowL.addEventListener("mousedown", function (e) {
@@ -2204,7 +1878,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	
 	        this.arrowR = svg.create("rect");
-	        this.arrowR.setAttribute("fill", this.color);
 	        this.arrowR.setAttribute("fill-opacity", "0.7");
 	
 	        this.arrowR.addEventListener("mousedown", function (e) {
@@ -2217,6 +1890,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.ref.appendChild(this.bar);
 	
 	        this.resize();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.accent);
+	        this.bar.setAttribute("stroke", this.colors.accent);
+	        this.arrowL.setAttribute("fill", this.colors.accent);
+	        this.arrowR.setAttribute("fill", this.colors.accent);
 	      }
 	    },
 	    resize: {
@@ -2340,7 +2021,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = RangeSlider;
 
 /***/ },
-/* 18 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2351,7 +2032,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Step = _interopRequire(__webpack_require__(11));
+	var Step = _interopRequire(__webpack_require__(7));
 	
 	/**
 	  Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.
@@ -2451,7 +2132,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 19 */
+/* 15 */
 /***/ function(module, exports) {
 
 	var colorFunctions = {
@@ -2692,7 +2373,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2709,7 +2390,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
-	var RangeSlider = __webpack_require__(17);
+	var RangeSlider = __webpack_require__(13);
 	
 	var Waveform = (function (_Interface) {
 	  function Waveform() {
@@ -2738,6 +2419,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.channels = 1;
 	
+	    this.wavePieces = [];
+	
 	    this.init();
 	  }
 	
@@ -2747,7 +2430,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
 	        this.element.style.borderRadius = "5px";
 	
 	        this.sizeInterface();
@@ -2761,6 +2443,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.empty();
 	        if (this.buffer) {
 	          this.buildWaveform();
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	
+	        if (this.wavePieces) {
+	          for (var i = 0; i < this.wavePieces.length; i++) {
+	            this.wavePieces[i].setAttribute("fill", this.colors.dark);
+	          }
 	        }
 	      }
 	    },
@@ -2779,7 +2472,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            rect.setAttribute("y", ht1);
 	            rect.setAttribute("width", this.definition);
 	            rect.setAttribute("height", ht2);
-	            rect.setAttribute("fill", "black");
+	            rect.setAttribute("fill", this.colors.dark);
+	            this.wavePieces.push(rect);
 	
 	            this.element.appendChild(rect);
 	          }
@@ -2923,7 +2617,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 21 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2937,7 +2631,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ButtonTemplate = __webpack_require__(22);
+	var ButtonTemplate = __webpack_require__(18);
 	
 	var Button = (function (_ButtonTemplate) {
 	  function Button() {
@@ -2976,10 +2670,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.gradient = svg.radialGradient(this.defs, 2);
 	
 	        this.gradient.stops[0].setAttribute("offset", "80%");
-	        this.gradient.stops[0].setAttribute("stop-color", "#d18");
 	
 	        this.gradient.stops[1].setAttribute("offset", "110%");
-	        this.gradient.stops[1].setAttribute("stop-color", "#eee");
 	
 	        this.sizeInterface();
 	      }
@@ -2993,20 +2685,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pad.setAttribute("stroke-width", this.width / 20);
 	      }
 	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	
+	        this.gradient.stops[0].setAttribute("stop-color", this.colors.accent);
+	        this.gradient.stops[1].setAttribute("stop-color", this.colors.fill);
+	        this.render();
+	      }
+	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
-	          this.pad.setAttribute("stroke", "#ccc");
+	          this.pad.setAttribute("fill", this.colors.fill);
+	          this.pad.setAttribute("stroke", this.colors.border);
 	        } else {
 	          if (this.mode === "aftertouch") {
 	            this.pad.setAttribute("stroke", "url(#" + this.gradient.id + ")");
 	            this.gradient.element.setAttribute("cx", this.position.x * 100 + "%");
 	            this.gradient.element.setAttribute("cy", (1 - this.position.y) * 100 + "%");
 	          } else {
-	            this.pad.setAttribute("stroke", "#d18");
+	            this.pad.setAttribute("stroke", this.colors.accent);
 	          }
-	          this.pad.setAttribute("fill", "#d18");
+	          this.pad.setAttribute("fill", this.colors.accent);
 	        }
 	      }
 	    }
@@ -3018,7 +2718,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Button;
 
 /***/ },
-/* 22 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3033,7 +2733,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
-	var ToggleModel = __webpack_require__(13);
+	var ToggleModel = __webpack_require__(9);
 	var Interface = __webpack_require__(6);
 	
 	var ButtonTemplate = (function (_Interface) {
@@ -3209,7 +2909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = ButtonTemplate;
 
 /***/ },
-/* 23 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3222,7 +2922,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var ButtonTemplate = __webpack_require__(22);
+	var ButtonTemplate = __webpack_require__(18);
 	
 	var TextButton = (function (_ButtonTemplate) {
 	  function TextButton() {
@@ -3261,6 +2961,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.sizeInterface();
 	      }
 	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.color = this.colors.dark;
+	        this.render();
+	      }
+	    },
 	    sizeInterface: {
 	      value: function sizeInterface() {
 	        var textsize = this.height / 3;
@@ -3286,12 +2992,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.element.style.backgroundColor = "#e1e1e1";
+	          this.element.style.backgroundColor = this.colors.fill;
 	          if (this.alternateText) {
 	            this.element.innerHTML = this.text;
 	          }
 	        } else {
-	          this.element.style.backgroundColor = "#d18";
+	          this.element.style.backgroundColor = this.colors.accent;
 	          if (this.alternateText) {
 	            this.element.innerHTML = this.alternateText;
 	          }
@@ -3319,7 +3025,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = TextButton;
 
 /***/ },
-/* 24 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3334,7 +3040,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//let svg = require('../util/svg');
 	var Interface = __webpack_require__(6);
-	var Button = __webpack_require__(21);
+	var Button = __webpack_require__(17);
 	
 	var RadioButton = (function (_Interface) {
 	  function RadioButton() {
@@ -3431,7 +3137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 25 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3445,7 +3151,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var Step = __webpack_require__(7);
 	var math = __webpack_require__(5);
 	
 	var Number = (function (_Interface) {
@@ -3621,7 +3327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Number;
 
 /***/ },
-/* 26 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3639,9 +3345,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var Step = __webpack_require__(7);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(8));
 	
 	var Dial = (function (_Interface) {
 	  function Dial() {
@@ -3723,12 +3429,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.background.setAttribute("cx", center.x);
 	        this.background.setAttribute("cy", center.y);
 	        this.background.setAttribute("r", diameter / 2 - diameter / 40);
-	        this.background.setAttribute("fill", "#e7e7e7");
 	
 	        this.screw.setAttribute("cx", center.x);
 	        this.screw.setAttribute("cy", center.y);
 	        this.screw.setAttribute("r", diameter / 12);
-	        this.screw.setAttribute("fill", "#d18");
 	
 	        var value = this.value;
 	
@@ -3745,25 +3449,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var handle2Path = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handle2Points.start, handle2Points.end);
 	
 	        this.handle.setAttribute("d", handlePath);
-	        this.handle.setAttribute("stroke", "#d18");
 	        this.handle.setAttribute("stroke-width", diameter / 20);
 	        this.handle.setAttribute("fill", "none");
 	
 	        this.handle2.setAttribute("d", handle2Path);
-	        this.handle2.setAttribute("stroke", "#d18");
 	        this.handle2.setAttribute("stroke-width", diameter / 20);
 	        this.handle2.setAttribute("fill", "none");
 	
 	        handlePath += " L " + center.x + " " + center.y;
 	
 	        this.handleFill.setAttribute("d", handlePath);
-	        this.handleFill.setAttribute("fill", "#d18");
 	        this.handleFill.setAttribute("fill-opacity", "0.3");
 	
 	        handle2Path += " L " + center.x + " " + center.y;
 	
 	        this.handle2Fill.setAttribute("d", handle2Path);
-	        this.handle2Fill.setAttribute("fill", "#d18");
 	        this.handle2Fill.setAttribute("fill-opacity", "0.3");
 	
 	        var arcEndingA = undefined;
@@ -3777,8 +3477,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var arcEndingY = center.y + Math.sin(arcEndingA) * (diameter / 2) * -1;
 	
 	        this.handleLine.setAttribute("d", "M " + center.x + " " + center.y + " L " + arcEndingX + " " + arcEndingY);
-	        this.handleLine.setAttribute("stroke", "#d18");
 	        this.handleLine.setAttribute("stroke-width", diameter / 20);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.background.setAttribute("fill", this.colors.fill);
+	        this.screw.setAttribute("fill", this.colors.accent);
+	        this.handle.setAttribute("stroke", this.colors.accent);
+	        this.handle2.setAttribute("stroke", this.colors.accent);
+	        this.handleFill.setAttribute("fill", this.colors.accent);
+	        this.handle2Fill.setAttribute("fill", this.colors.accent);
+	        this.handleLine.setAttribute("stroke", this.colors.accent);
 	      }
 	    },
 	    render: {
@@ -3904,7 +3614,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Dial;
 
 /***/ },
-/* 27 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3918,10 +3628,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
+	var dom = __webpack_require__(24);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(22);
-	var touch = __webpack_require__(9);
+	var ButtonTemplate = __webpack_require__(18);
+	var touch = __webpack_require__(25);
 	
 	var PianoKey = (function (_ButtonTemplate) {
 	  function PianoKey() {
@@ -4245,7 +3955,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	// loop through and render the keys?
 
 /***/ },
-/* 28 */
+/* 24 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.findPosition = function (el) {
+	  var viewportOffset = el.getBoundingClientRect();
+	  var top = viewportOffset.top + window.scrollY;
+	  var left = viewportOffset.left + window.scrollX;
+	  return { top: top, left: left };
+	};
+	
+	exports.parseElement = function (parent) {
+	  if (typeof parent === "string") {
+	    parent = document.getElementById(parent);
+	  }
+	
+	  if (parent instanceof HTMLElement) {
+	    return parent;
+	  } else {
+	    return "No valid parent argument";
+	  }
+	};
+	
+	exports.locateMouse = function (e, offset) {
+	  return {
+	    x: e.pageX - offset.left,
+	    y: e.pageY - offset.top
+	  };
+	};
+	
+	exports.locateTouch = function (e, offset) {
+	  return {
+	    x: e.targetTouches.length ? e.targetTouches[0].pageX - offset.left : false,
+	    y: e.targetTouches.length ? e.targetTouches[0].pageY - offset.top : false
+	  };
+	};
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.exists = "ontouchstart" in document.documentElement;
+
+/***/ },
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4259,13 +4016,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
+	var dom = __webpack_require__(24);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(22);
-	var MatrixModel = __webpack_require__(29);
-	var CounterModel = __webpack_require__(30);
+	var ButtonTemplate = __webpack_require__(18);
+	var MatrixModel = __webpack_require__(27);
+	var CounterModel = __webpack_require__(28);
 	//let Time = require('../core/time');
-	var touch = __webpack_require__(9);
+	var touch = __webpack_require__(25);
 	
 	var MatrixCell = (function (_ButtonTemplate) {
 	  function MatrixCell() {
@@ -4612,7 +4369,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Matrix;
 
 /***/ },
-/* 29 */
+/* 27 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4852,7 +4609,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } */
 
 /***/ },
-/* 30 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4865,7 +4622,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(31));
+	var Drunk = _interopRequire(__webpack_require__(29));
 	
 	var Counter = (function () {
 	    function Counter(min, max, mode, value) {
@@ -4946,7 +4703,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ },
-/* 31 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4984,7 +4741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Drunk;
 
 /***/ },
-/* 32 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5002,9 +4759,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var Step = __webpack_require__(7);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(8));
 	
 	var Pan3D = (function (_Interface) {
 	  function Pan3D() {
@@ -5190,7 +4947,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan3D;
 
 /***/ },
-/* 33 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5205,7 +4962,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(34);
+	var SliderTemplate = __webpack_require__(32);
 	
 	var TiltSlider = (function (_SliderTemplate) {
 	  function TiltSlider() {
@@ -5215,7 +4972,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [120, 20],
-	      orientation: "vertical",
+	      orientation: "horizontal",
 	      mode: "relative",
 	      scale: [0, 1],
 	      step: 0,
@@ -5336,7 +5093,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tilt;
 
 /***/ },
-/* 34 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5353,9 +5110,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var Step = __webpack_require__(7);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(8));
 	
 	var SliderTemplate = (function (_Interface) {
 	  function SliderTemplate(args, options, defaults) {
@@ -5556,7 +5313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = SliderTemplate;
 
 /***/ },
-/* 35 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5569,10 +5326,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(7);
+	var dom = __webpack_require__(24);
 	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(34);
-	var touch = __webpack_require__(9);
+	var SliderTemplate = __webpack_require__(32);
+	var touch = __webpack_require__(25);
 	
 	var SingleSlider = (function (_SliderTemplate) {
 	  function SingleSlider() {
@@ -5825,7 +5582,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Multislider;
 
 /***/ },
-/* 36 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5843,9 +5600,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var Step = __webpack_require__(7);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(8));
 	
 	/**
 	Pan interface
@@ -6064,7 +5821,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan;
 
 /***/ },
-/* 37 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6365,7 +6122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Envelope;
 
 /***/ },
-/* 38 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6417,7 +6174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(39));
+	var transform = _interopRequireWildcard(__webpack_require__(37));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
@@ -6516,7 +6273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 39 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6528,7 +6285,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	"use strict";
 	
-	var dom = _interopRequire(__webpack_require__(7));
+	var dom = _interopRequire(__webpack_require__(24));
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
@@ -6574,7 +6331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 40 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6585,9 +6342,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(41));
+	var WAAClock = _interopRequire(__webpack_require__(39));
 	
-	var Interval = _interopRequire(__webpack_require__(44));
+	var Interval = _interopRequire(__webpack_require__(42));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -6616,17 +6373,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 41 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(42)
+	var WAAClock = __webpack_require__(40)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 42 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -6863,10 +6620,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)))
 
 /***/ },
-/* 43 */
+/* 41 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -7052,7 +6809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 44 */
+/* 42 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7119,7 +6876,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 45 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7130,7 +6887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(46));
+	var scales = _interopRequire(__webpack_require__(44));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -7365,7 +7122,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 46 */
+/* 44 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7398,7 +7155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 47 */
+/* 45 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7522,6 +7279,328 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Radio;
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.isObject = function (obj) {
+	  if (typeof obj === "object" && !Array.isArray(obj) && obj !== null && obj instanceof SVGElement === false && obj instanceof HTMLElement === false) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	};
+
+/***/ },
+/* 47 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+	
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+	
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+	
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+	
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+	
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      } else {
+	        // At least give some kind of context to the user
+	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+	        err.context = er;
+	        throw err;
+	      }
+	    }
+	  }
+	
+	  handler = this._events[type];
+	
+	  if (isUndefined(handler))
+	    return false;
+	
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+	
+	  return true;
+	};
+	
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+	
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+	
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+	
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+	
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  var fired = false;
+	
+	  function g() {
+	    this.removeListener(type, g);
+	
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+	
+	  g.listener = listener;
+	  this.on(type, g);
+	
+	  return this;
+	};
+	
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events || !this._events[type])
+	    return this;
+	
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+	
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+	
+	    if (position < 0)
+	      return this;
+	
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+	
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+	
+	  if (!this._events)
+	    return this;
+	
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+	
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+	
+	  listeners = this._events[type];
+	
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+	
+	EventEmitter.prototype.listenerCount = function(type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+	
+	    if (isFunction(evlistener))
+	      return 1;
+	    else if (evlistener)
+	      return evlistener.length;
+	  }
+	  return 0;
+	};
+	
+	EventEmitter.listenerCount = function(emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
 
 /***/ }
 /******/ ])
