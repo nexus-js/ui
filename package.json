@@ -36,7 +36,8 @@
     "eventemitter2": "0.4.x",
     "vinyl-source-stream": "1.0.x",
     "jsdox": "0.2.x",
-    "extend": "2.0.x"
+    "extend": "2.0.x",
+    "webfontloader": "1.6.x"
   },
   "engine": "node >= 0.10.0",
   "version": "1.2.0",
