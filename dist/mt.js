@@ -79,17 +79,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import dom from './util/dom';
 	
-	var Rack = _interopRequire(__webpack_require__(42));
+	var Rack = _interopRequire(__webpack_require__(41));
 	
-	var Time = _interopRequire(__webpack_require__(44));
+	var Time = _interopRequire(__webpack_require__(43));
 	
-	var Tune = _interopRequire(__webpack_require__(49));
+	var Tune = _interopRequire(__webpack_require__(48));
 	
 	//import RangeModel from './models/range';
 	
 	var Counter = __webpack_require__(30);
-	var Radio = __webpack_require__(51);
+	var Radio = __webpack_require__(50);
 	var Drunk = __webpack_require__(31);
+	var Sequence = __webpack_require__(51);
 	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
@@ -142,9 +143,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        },
 	        drunk: {
-	            value: function drunk(min, max, value, increment) {
-	                return new Drunk(min, max, value, increment);
+	            value: function drunk(min, max, value, increment, loop) {
+	                return new Drunk(min, max, value, increment, loop);
 	            }
+	        },
+	        sequence: {
+	            value: (function (_sequence) {
+	                var _sequenceWrapper = function sequence(_x, _x2, _x3, _x4) {
+	                    return _sequence.apply(this, arguments);
+	                };
+	
+	                _sequenceWrapper.toString = function () {
+	                    return _sequence.toString();
+	                };
+	
+	                return _sequenceWrapper;
+	            })(function (sequence, mode, position, cacheSize) {
+	                return new Sequence(sequence, mode, position, cacheSize);
+	            })
 	        }
 	    });
 	
@@ -179,8 +195,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Envelope: __webpack_require__(37),
 	  Spectrogram: __webpack_require__(38),
 	  Meter: __webpack_require__(39),
-	  FFT: __webpack_require__(40),
-	  Oscilloscope: __webpack_require__(41)
+	  Oscilloscope: __webpack_require__(40)
 	};
 
 /***/ },
@@ -5008,29 +5023,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	        },
 	        drunk: {
-	
-	            /*
-	              drunk() {
-	                this.value += math.pick(-1,1);
-	                if (this.value < this.min) {
-	                  this.value = this.max;
-	                }
-	                if (this.value >= this.max) {
-	                  this.value = this.min;
-	                }
-	                return this.value;
-	              }
-	            */
-	
 	            value: function drunk() {
-	                var drnk = new Drunk(this.min, this.max, this.value, 1);
+	                var drnk = new Drunk(this.min, this.max, this.value, 1, true);
 	                this.value = drnk.step();
-	                if (this.value < this.min) {
-	                    this.value = this.max;
-	                }
-	                if (this.value >= this.max) {
-	                    this.value = this.min;
-	                }
 	                return this.value;
 	            }
 	        }
@@ -5056,19 +5051,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = _interopRequire(__webpack_require__(5));
 	
 	var Drunk = (function () {
-	    function Drunk(min, max, value, increment) {
+	    function Drunk(min, max, value, increment, loop) {
 	        _classCallCheck(this, Drunk);
 	
 	        this.min = min || 0;
-	        this.max = max || 10;
+	        this.max = max || 9;
 	        this.value = value || 0;
 	        this.increment = increment || 1;
+	        this.loop = loop;
 	    }
 	
 	    _createClass(Drunk, {
 	        step: {
 	            value: function step() {
 	                this.value += math.pick(-1 * this.increment, this.increment);
+	                if (this.value > this.max) {
+	                    if (this.loop) {
+	                        this.value = this.min;
+	                    } else {
+	                        this.value -= this.increment;
+	                    }
+	                }
+	
+	                if (this.value < this.min) {
+	                    if (this.loop) {
+	                        this.value = this.max;
+	                    } else {
+	                        this.value += this.increment;
+	                    }
+	                }
 	                return this.value;
 	            }
 	        }
@@ -6745,129 +6756,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let math = require('../util/math');
 	var Interface = __webpack_require__(6);
 	
-	var Spectrogram = (function (_Interface) {
-	  function Spectrogram() {
-	    _classCallCheck(this, Spectrogram);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [300, 150]
-	    };
-	
-	    _get(Object.getPrototypeOf(Spectrogram.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.context = mt.context;
-	
-	    this.analyser = this.context.createAnalyser();
-	    this.analyser.fftSize = 2048;
-	    this.bufferLength = this.analyser.frequencyBinCount;
-	    this.dataArray = new Uint8Array(this.bufferLength);
-	    this.analyser.getByteTimeDomainData(this.dataArray);
-	
-	    this.active = true;
-	
-	    this.init();
-	  }
-	
-	  _inherits(Spectrogram, _Interface);
-	
-	  _createClass(Spectrogram, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.canvas = new dom.SmartCanvas(this.parent);
-	        this.element = this.canvas.element;
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	        this.sizeInterface();
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	        this.canvas.resize(this.width, this.height);
-	      }
-	    },
-	    colorInterface: {
-	      value: function colorInterface() {
-	        this.canvas.element.style.backgroundColor = this.colors.fill;
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	
-	        if (this.active) {
-	          requestAnimationFrame(this.render.bind(this));
-	        }
-	
-	        this.analyser.getByteTimeDomainData(this.dataArray);
-	
-	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
-	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
-	
-	        this.canvas.context.lineWidth = ~ ~(this.height / 100 + 2);
-	        this.canvas.context.strokeStyle = "#d18";
-	
-	        this.canvas.context.beginPath();
-	
-	        var sliceWidth = this.canvas.element.width * 1 / this.bufferLength;
-	        var x = 0;
-	
-	        for (var i = 0; i < this.bufferLength; i++) {
-	
-	          var v = this.dataArray[i] / 128;
-	          var y = v * this.canvas.element.height / 2;
-	
-	          if (i === 0) {
-	            this.canvas.context.moveTo(x, y);
-	          } else {
-	            this.canvas.context.lineTo(x, y);
-	          }
-	
-	          x += sliceWidth;
-	        }
-	
-	        this.canvas.context.stroke();
-	      }
-	    },
-	    watch: {
-	      value: function watch(node) {
-	        node.connect(this.analyser);
-	        this.render();
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.active = !this.active;
-	        this.render();
-	      }
-	    }
-	  });
-	
-	  return Spectrogram;
-	})(Interface);
-	
-	module.exports = Spectrogram;
-
-/***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var dom = __webpack_require__(7);
-	//let math = require('../util/math');
-	var Interface = __webpack_require__(6);
-	
 	var Oscilloscope = (function (_Interface) {
 	  function Oscilloscope() {
 	    _classCallCheck(this, Oscilloscope);
@@ -6974,7 +6862,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Oscilloscope;
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7026,7 +6914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(43));
+	var transform = _interopRequireWildcard(__webpack_require__(42));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
@@ -7125,7 +7013,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7183,7 +7071,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7194,9 +7082,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(45));
+	var WAAClock = _interopRequire(__webpack_require__(44));
 	
-	var Interval = _interopRequire(__webpack_require__(48));
+	var Interval = _interopRequire(__webpack_require__(47));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -7225,17 +7113,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(46)
+	var WAAClock = __webpack_require__(45)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -7472,10 +7360,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(47)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -7661,7 +7549,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7728,7 +7616,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7739,7 +7627,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(50));
+	var scales = _interopRequire(__webpack_require__(49));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -7974,7 +7862,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -8007,7 +7895,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -8131,6 +8019,126 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Radio;
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Drunk = _interopRequire(__webpack_require__(31));
+	
+	var Sequence = (function () {
+	    function Sequence(sequence, mode, position, cacheSize) {
+	        _classCallCheck(this, Sequence);
+	
+	        this.seq = sequence || [1, 2, 3, 4];
+	        this.mode = mode || "up";
+	        this.pos = position || 0;
+	        this.value = this.seq[this.pos];
+	
+	        //TODO: implement a cache for stepping back through previous values. There should also be an accompanying 'mode' for stepping forward/redoing the previous set of values
+	        this.cacheSize = cacheSize || 256;
+	    }
+	
+	    _createClass(Sequence, {
+	        setMode: {
+	            value: function setMode(mode) {
+	                mode = mode.toLowerCase();
+	                //TODO: allow user defined modes to be set
+	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
+	                    console.error("The only modes currently allowed are: up, down, random, drunk");
+	                    return "mode: " + this.mode;
+	                }
+	                this.mode = mode;
+	                return "mode: " + mode;
+	            }
+	        },
+	        next: {
+	            value: function next() {
+	                return this[this.mode]();
+	            }
+	        },
+	        up: {
+	            value: function up() {
+	                if (this.pos === this.seq.length - 1) {
+	                    this.pos = 0;
+	                } else {
+	                    this.pos++;
+	                }
+	
+	                this.value = this.seq[this.pos];
+	                return this.value;
+	            }
+	        },
+	        down: {
+	            value: function down() {
+	                if (this.pos === 0) {
+	                    this.pos = this.seq.length - 1;
+	                } else {
+	                    this.pos--;
+	                }
+	
+	                this.value = this.seq[this.pos];
+	                return this.value;
+	            }
+	        },
+	        random: {
+	            value: function random() {
+	                this.pos = math.ri(0, this.seq.length);
+	                this.value = this.seq[this.pos];
+	                return this.value;
+	            }
+	        },
+	        drunk: {
+	            value: function drunk() {
+	                var drnk = new Drunk(0, this.seq.length - 1, this.pos, 1, true);
+	                this.pos = drnk.step();
+	                this.value = this.seq[this.pos];
+	                return this.value;
+	            }
+	
+	            /* TODO: This whole function, if desired, needs to be implemented with async.
+	                output(start = 0, stop = this.seq.length - 1) {
+	                    //stop values below start will loop back around and output values up to stop value
+	                    if (stop > this.seq.length - 1) {
+	                        stop = this.seq.length - 1;
+	                        console.warn('Sequence stop request exceeds length of sequence. Outputting to end of sequence');
+	                    }
+	                      if (start < 0 || stop < 0) {
+	                        console.error('Sequence start and stop values must be positive.');
+	                        return;
+	                    }
+	                      if (stop < start) {
+	                        for (let i = start; i < this.seq.length; i++) {
+	                            return this.seq[i];
+	                        }
+	                        for (let i = 0; i < start; i++) {
+	                            return this.seq[i];
+	                        }
+	                    } else {
+	                        for (let i = start; i <= stop; i++) {
+	                            return this.seq[i];
+	                        }
+	                    }
+	                }
+	            */
+	
+	        }
+	    });
+	
+	    return Sequence;
+	})();
+	
+	module.exports = Sequence;
 
 /***/ }
 /******/ ])
