@@ -3049,7 +3049,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Button.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.aftertouch = this.settings.aftertouch;
 	    this.mode = this.settings.mode;
 	
 	    this.init();
@@ -3070,9 +3069,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.gradient = svg.radialGradient(this.defs, 2);
 	
-	        this.gradient.stops[0].setAttribute("offset", "80%");
+	        this.gradient.stops[0].setAttribute("offset", "30%");
 	
-	        this.gradient.stops[1].setAttribute("offset", "110%");
+	        this.gradient.stops[1].setAttribute("offset", "100%");
 	
 	        this.sizeInterface();
 	      }
