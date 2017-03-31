@@ -25,14 +25,17 @@ body{
 	padding-bottom:20px;
 }
 
+.tutorial h2 {
+	font-size:35px;
+}
 .tutorial h3 {
-	display:none;
+	font-size:30px;
 }
 
 .tutorial .properties, .tutorial .methods, .tutorial .example {
-	border-top: solid 2px #ccc;
+/*	border-top: solid 2px #ccc;
 	margin-top:20px;
-	padding:10px 0px;
+	padding:10px 0px; */
 }
 
 .tutorial .property-name, .tutorial .method-name {

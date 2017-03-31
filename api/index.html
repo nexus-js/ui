@@ -1,0 +1,304 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>  | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href="https://fonts.googleapis.com/css?family=Hind:400,500" rel="stylesheet">
+  <script src="jquery.js"></script>
+  <link rel='stylesheet' href='../docs/source/prism/prism.css' />
+  <script src="../docs/source/prism/prism.js"></script>
+</head>
+<body class='documentation'>
+
+
+  <div id="sidebar" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
+
+    <h2>Getting Started</h2>
+    <a href="">Creating Interfaces</a><br />
+    <a href="">Creating a Rack</a><br />
+
+    <h2>Interfaces</h2>
+
+    <h3>Core</h3>
+    <a href="javascript:doc('button')">mt.button</a><br />
+    <a href="#dial">mt.dial</a><br />
+    <a href="">mt.number</a><br />
+    <a href="">mt.position</a><br />
+    <a href="">mt.slider</a><br />
+    <a href="">mt.toggle</a><br />
+    <a href="">mt.radiobutton</a><br />
+    <a href="">mt.range</a><br />
+    <a href="">mt.textbutton</a><br />
+
+    <h3>Complex</h3>
+    <a href="">mt.envelope</a><br />
+    <a href="">mt.matrix</a><br />
+    <a href="">mt.multislider</a><br />
+    <a href="">mt.piano</a><br />
+    <a href="">mt.waveform</a><br />
+
+
+    <h3>Mobile</h3>
+    <a href="">mt.tilt</a><br />
+
+    <h3>Spatialization</h3>
+    <a href="">mt.pan</a><br />
+    <a href="">mt.pan3d</a><br />
+
+    <h3>Visualization</h3>
+    <a href="">mt.meter</a><br />
+    <a href="">mt.oscilloscope</a><br />
+    <a href="">mt.spectragram</a><br />
+
+
+    <h2>Tuning</h2>
+    <a href="">mt.note</a><br />
+    <a href="">mt.tune</a><br />
+
+    <h2>Timing</h2>
+    <a href="">mt.interval</a><br />
+
+    <h2>Models</h2>
+    <a href="">mt.counter</a><br />
+    <a href="">mt.sequence</a><br />
+    <a href="">mt.drunk</a><br />
+    <a href="">mt.matrix</a><br />
+
+    <h2>Helpers</h2>
+    <a href="">mt.ri (random integer)</a><br />
+    <a href="">mt.rf (random float)</a><br />
+    <a href="">mt.clip</a><br />
+    <a href="">mt.scale</a><br />
+    <a href="">mt.mtof</a><br />
+    <a href="">mt.interp</a><br />
+    <a href="">mt.pick</a><br />
+    <a href="">mt.octave</a><br />
+    <a href="">mt.cycle</a><br />
+    <a href="">mt.average</a><br />
+  </div>
+  <div id="tutorial" class="tutorial">
+
+    <h2>Button</h2>
+
+    <div class="overview">
+      A circular button with optional aftertouch.
+    </div>
+
+
+    <div class="code-basic">
+      Basic:
+      <pre class="property-example"><code class="language-javascript">var dial = new mt.dial('#dial')</code></pre>
+    </div>
+    <div class="code-advanced">
+      Advanced:
+      <pre class="property-example"><code class="language-javascript">var dial = new mt.dial('#dial',{
+    mode: 'toggle',
+    state: true,
+    size: [100,100],
+    event: (v) => {
+      alert(v);
+    }
+  })</code></pre>
+    </div>
+
+    <!-- creation demo
+    <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+  -->
+
+    <div class="options">
+      <h4>Options</h4>
+      <pre>
+        <code>
+  size: [80,80]
+  event: console.log
+        </code>
+      </pre>
+    </div>
+
+
+    <div class="properties">
+
+      <div class="property-name">mode</div>
+      <div class="property-type">string</div>
+      <div class="property-description">Interaction mode. Options are: aftertouch, toggle, button, impulse </div>
+      <pre class="property-example"><code class="language-javascript">dial.mode = 'toggle'</code></pre>
+
+      <div class="property-name">state</div>
+      <div class="property-type">boolean</div>
+      <div class="property-description">Whether the button is pressed or not</div>
+      <pre class="property-example"><code class="language-javascript">dial.state = true</code></pre>
+
+
+    </div>
+
+    <div class="methods">
+
+      <div class="method-name">turnOn()</div>
+      <div class="method-description">Press the button</div>
+      <pre class="method-example"><code class="language-javascript">dial.turnOn()</code></pre>
+
+      <div class="method-name">turnOff()</div>
+      <div class="method-description">Unpress the button</div>
+      <pre class="method-example"><code class="language-javascript">dial.turnOff()</code></pre>
+
+      <div class="method-name">flip( state )</div>
+      <div class="method-description">Toggle the button to its opposite state</div>
+      <pre class="method-example"><code class="language-javascript">dial.flip()</code></pre>
+
+    </div>
+
+
+    <div class="example">
+      <h3>Example: Aftertouch Mode</h3>
+      <!-- creation demo -->
+      <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    </div>
+    <div class="example">
+      <h3>Example: Toggle Mode</h3>
+      <!-- creation demo -->
+      <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    </div>
+    <div class="example">
+      <h3>Example: Automating a Button</h3>
+      <!-- creation demo -->
+      <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+      <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    </div>
+
+
+
+
+
+  </div>
+
+</body>
+
+<script>
+
+  var API = {}
+  $.getJSON('api.json', function(data) {
+    data.forEach(function(entry) {
+      API[entry.name] = entry
+    })
+  });
+
+  function doc(name) {
+    var entry = API[name];
+    htmlstr = ''
+            + name;
+
+    $("#tutorial").html(htmlstr)
+  }
+
+</script>
+<style>
+
+  body {
+    font-family: 'Hind', courier;
+    padding:0;
+    margin:0;
+  }
+
+  #sidebar {
+    position:fixed;
+    width:225px;
+    border-right:solid 1px #aaa;
+    height:100%;
+    overflow:auto;
+    padding:0px 20px 20px;
+    box-sizing:border-box;
+  }
+  #tutorial {
+    width: calc(100% - 225px)
+    float:left;
+  }
+
+  h1, h2, h3 {
+    line-height: 1em;
+    padding:0;
+    font-weight:500;
+  }
+  h1 {
+    margin:20px 0px 5px;
+  }
+  h2 {
+    margin:20px 0px 5px;
+    font-size:20px;
+  }
+  h3 {
+    margin:10px 0px 5px;
+    font-size:16px;
+  }
+  a {
+    line-height:1.3em;
+    color:#555;
+    text-decoration:none;
+  }
+  a:hover {
+    text-decoration:underline;
+  }
+
+
+
+  /* Doc Tutorial Entry */
+  .tutorial {
+  	margin-left: 225px;
+  	border-left: solid 1px #aaa;
+  	width: calc(100% - 200);
+  	padding:0px 20px;
+  	height:100%;
+  	overflow:auto;
+  	box-sizing:border-box;
+  	font-weight: 400;
+  	font-size:15px;
+  }
+
+  .tutorial .overview {
+  	padding-bottom:20px;
+  }
+
+  .tutorial h2 {
+  	font-size:35px;
+  }
+  .tutorial h3 {
+  	font-size:30px;
+  }
+
+  .tutorial .properties, .tutorial .methods, .tutorial .example {
+  /*	border-top: solid 2px #ccc;
+  	margin-top:20px;
+  	padding:10px 0px; */
+  }
+
+  .tutorial .property-name, .tutorial .method-name {
+  	font-weight:500;
+  	padding:30px 20px 0px 0px;
+  	font-size: 22px;
+  	display:inline-block;
+
+  }
+  .tutorial .property-type, .tutorial .method-type {
+  	display:inline-block;
+  	font-style:italic;
+  	color:#aaa;
+  }
+  .tutorial .property-description, .tutorial .method-description {
+  	padding:5px 0px;
+  	font-size:15px;
+  	color:#333;
+  	letter-spacing: 0.2px;
+  }
+  .tutorial .property-example, .tutorial .method-example {
+  	padding:20px;
+  }
+
+  .tutorial .example {
+    margin-top:50px;
+  }
+
+</style>
+</html>

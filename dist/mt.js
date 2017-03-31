@@ -562,6 +562,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var touch = __webpack_require__(9);
 	var EventEmitter = __webpack_require__(10);
 	
+	/**
+	Interface
+	*/
+	
 	var Interface = (function (_EventEmitter) {
 	  function Interface(args, options, defaults) {
 	    _classCallCheck(this, Interface);
@@ -869,6 +873,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    resize: {
+	
+	      /**
+	      resize
+	      */
+	
 	      value: function resize(w, h) {
 	        this.width = w;
 	        this.height = h;
@@ -3034,6 +3043,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var ButtonTemplate = __webpack_require__(22);
 	
+	/**
+	Button
+	*/
+	
 	var Button = (function (_ButtonTemplate) {
 	  function Button() {
 	    _classCallCheck(this, Button);
@@ -3094,6 +3107,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    render: {
+	
+	      /**
+	      render
+	      */
+	
 	      value: function render() {
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors.fill);
@@ -3135,6 +3153,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = __webpack_require__(5);
 	var ToggleModel = __webpack_require__(13);
 	var Interface = __webpack_require__(6);
+	
+	/**
+	Button Template
+	*/
 	
 	var ButtonTemplate = (function (_Interface) {
 	  function ButtonTemplate(args, options, defaults) {
@@ -3284,6 +3306,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    flip: {
+	      /**
+	      flip
+	      */
+	
 	      value: function flip(value) {
 	        this._state.flip(value);
 	        this.render();
@@ -5955,6 +5981,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	/**
 	Pan interface
+	
+	@description Stereo crossfader.
+	
+	@example
+	<div></div>
+	
+	@tutorial
+	Here is some extra text.
 	*/
 	
 	var Pan = (function (_Interface) {
@@ -6555,8 +6589,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var definition = this.canvas.element.width / 50;
 	
 	        for (var i = 0; i < this.bufferLength; i = i + definition) {
-	          //  console.log(i);
-	          //  barHeight = mt.average(dataArray.slice(i,i+definition));
 	          barHeight = Math.max.apply(null, this.dataArray.slice(i, i + definition));
 	          barHeight /= 255;
 	          barHeight *= this.canvas.element.height;
