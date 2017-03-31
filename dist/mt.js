@@ -3038,7 +3038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Button() {
 	    _classCallCheck(this, Button);
 	
-	    var options = ["value"];
+	    var options = ["mode"];
 	
 	    var defaults = {
 	      size: [80, 80],

@@ -1,72 +1,91 @@
-<h1>Musician's Toolkit</h1>
 
-<h2>Getting Started</h2>
-<a href="">Creating Interfaces</a><br />
+<div id="sidebar">
 
-<h2>Interfaces</h2>
+  <h2>Getting Started</h2>
+  <a href="">Creating Interfaces</a><br />
 
-<h3>Core</h3>
-<a href="">mt.button</a><br />
-<a href="">mt.dial</a><br />
-<a href="">mt.number</a><br />
-<a href="">mt.position</a><br />
-<a href="">mt.slider</a><br />
-<a href="">mt.toggle</a><br />
-<a href="">mt.radiobutton</a><br />
-<a href="">mt.range</a><br />
-<a href="">mt.textbutton</a><br />
+  <h2>Interfaces</h2>
 
-<h3>Complex</h3>
-<a href="">mt.envelope</a><br />
-<a href="">mt.matrix</a><br />
-<a href="">mt.multislider</a><br />
-<a href="">mt.piano</a><br />
-<a href="">mt.waveform</a><br />
+  <h3>Core</h3>
+  <a href="">mt.button</a><br />
+  <a href="">mt.dial</a><br />
+  <a href="">mt.number</a><br />
+  <a href="">mt.position</a><br />
+  <a href="">mt.slider</a><br />
+  <a href="">mt.toggle</a><br />
+  <a href="">mt.radiobutton</a><br />
+  <a href="">mt.range</a><br />
+  <a href="">mt.textbutton</a><br />
 
-
-<h3>Mobile</h3>
-<a href="">mt.tilt</a><br />
-
-<h3>Spatialization</h3>
-<a href="">mt.pan</a><br />
-<a href="">mt.pan3d</a><br />
-
-<h3>Visualization</h3>
-<a href="">mt.meter</a><br />
-<a href="">mt.oscilloscope</a><br />
-<a href="">mt.spectragram</a><br />
+  <h3>Complex</h3>
+  <a href="">mt.envelope</a><br />
+  <a href="">mt.matrix</a><br />
+  <a href="">mt.multislider</a><br />
+  <a href="">mt.piano</a><br />
+  <a href="">mt.waveform</a><br />
 
 
-<h2>Tuning</h2>
-<a href="">mt.note</a><br />
+  <h3>Mobile</h3>
+  <a href="">mt.tilt</a><br />
 
-<h2>Timing</h2>
-<a href="">mt.interval</a><br />
+  <h3>Spatialization</h3>
+  <a href="">mt.pan</a><br />
+  <a href="">mt.pan3d</a><br />
 
-<h2>Models</h2>
-<a href="">mt.counter</a><br />
-<a href="">mt.sequence</a><br />
-<a href="">mt.drunk</a><br />
-<a href="">mt.matrix</a><br />
+  <h3>Visualization</h3>
+  <a href="">mt.meter</a><br />
+  <a href="">mt.oscilloscope</a><br />
+  <a href="">mt.spectragram</a><br />
 
-<h2>Helpers</h2>
-<a href="">mt.ri (random integer)</a><br />
-<a href="">mt.rf (random float value)</a><br />
-<a href="">mt.clip</a><br />
-<a href="">mt.scale</a><br />
-<a href="">mt.mtof</a><br />
-<a href="">mt.interp</a><br />
-<a href="">mt.pick</a><br />
-<a href="">mt.octave</a><br />
-<a href="">mt.cycle</a><br />
-<a href="">mt.average</a><br />
+
+  <h2>Tuning</h2>
+  <a href="">mt.note</a><br />
+
+  <h2>Timing</h2>
+  <a href="">mt.interval</a><br />
+
+  <h2>Models</h2>
+  <a href="">mt.counter</a><br />
+  <a href="">mt.sequence</a><br />
+  <a href="">mt.drunk</a><br />
+  <a href="">mt.matrix</a><br />
+
+  <h2>Helpers</h2>
+  <a href="">mt.ri (random integer)</a><br />
+  <a href="">mt.rf (random float value)</a><br />
+  <a href="">mt.clip</a><br />
+  <a href="">mt.scale</a><br />
+  <a href="">mt.mtof</a><br />
+  <a href="">mt.interp</a><br />
+  <a href="">mt.pick</a><br />
+  <a href="">mt.octave</a><br />
+  <a href="">mt.cycle</a><br />
+  <a href="">mt.average</a><br />
+</div>
+<div id="tutorial">
+
+</div>
 
 
 <style>
 body {
   font-family: helvetica;
-  padding:10px;
 }
+
+
+#sidebar {
+  float:left;
+  width:200px;
+  border-right:solid 1px #aaa;
+  height:100%;
+  overflow:auto;
+  padding:0px 15px;
+}
+#tutorial {
+  width: calc(100% - 201px)
+  float:left;
+}
+
 h1, h2, h3 {
   line-height: 1em;
   padding:0;
@@ -75,10 +94,12 @@ h1 {
   margin:20px 0px 5px;
 }
 h2 {
-  margin:30px 0px 5px;
+  margin:20px 0px 5px;
+  font-size:20px;
 }
 h3 {
   margin:10px 0px 5px;
+  font-size:16px;
 }
 a {
   line-height:1.3em;
