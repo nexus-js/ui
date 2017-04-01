@@ -3044,7 +3044,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ButtonTemplate = __webpack_require__(22);
 	
 	/**
-	Button
+	* Button
+	*
+	* @description Circular button with optional aftertouch.
+	*
+	* @example
+	* var button = mt.button('#button')
+	*
+	* @example
+	* var button = mt.button('#button',{
+	*   mode: 'toggle',
+	*   state: true,
+	*   size: [100,100],
+	*   event: function(v) {
+	*     alert(v);
+	*   }
+	* })
+	*
+	* @options
+	* 'size': [80,80],
+	* 'target': false,
+	* 'mode': 'aftertouch',
+	* 'value': 0
+	*
+	* @tutorial
+	* Aftertouch mode
+	* ygGMxq
+	* Here is some tutorial text
+	*
+	* @tutorial
+	* Toggle mode
+	* ygGMxq
+	* Here is some tutorial text 2
 	*/
 	
 	var Button = (function (_ButtonTemplate) {
@@ -3062,6 +3093,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Button.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
+	    /**
+	    Interaction mode
+	    @type {string}
+	    @example button.mode = 'toggle';
+	    */
 	    this.mode = this.settings.mode;
 	
 	    this.init();
@@ -3109,7 +3145,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	
 	      /**
-	      render
+	      * Update the visual interface using its current state
+	      *
+	      * @example
+	      * button.render();
 	      */
 	
 	      value: function render() {

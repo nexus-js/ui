@@ -8,6 +8,7 @@
   <script src="jquery.js"></script>
   <link rel='stylesheet' href='../docs/source/prism/prism.css' />
   <script src="../docs/source/prism/prism.js"></script>
+  <script src="js/moustache.min.js"></script>
 </head>
 <body class='documentation'>
 
@@ -21,7 +22,7 @@
     <h2>Interfaces</h2>
 
     <h3>Core</h3>
-    <a href="javascript:doc('button')">mt.button</a><br />
+    <a href="javascript:doc('Button')">mt.button</a><br />
     <a href="#dial">mt.dial</a><br />
     <a href="">mt.number</a><br />
     <a href="">mt.position</a><br />
@@ -43,7 +44,7 @@
     <a href="">mt.tilt</a><br />
 
     <h3>Spatialization</h3>
-    <a href="">mt.pan</a><br />
+    <a href="javascript:doc('Pan')">mt.pan</a><br />
     <a href="">mt.pan3d</a><br />
 
     <h3>Visualization</h3>
@@ -77,100 +78,85 @@
     <a href="">mt.cycle</a><br />
     <a href="">mt.average</a><br />
   </div>
+
   <div id="tutorial" class="tutorial">
 
-    <h2>Button</h2>
+    <div id="target"></div>
+
+    <script id="template" type="x-tmpl-mustache">
+    <h2>{{ name }}</h2>
 
     <div class="overview">
-      A circular button with optional aftertouch.
+    {{ description }}
     </div>
 
 
-    <div class="code-basic">
-      Basic:
-      <pre class="property-example"><code class="language-javascript">var dial = new mt.dial('#dial')</code></pre>
-    </div>
-    <div class="code-advanced">
-      Advanced:
-      <pre class="property-example"><code class="language-javascript">var dial = new mt.dial('#dial',{
-    mode: 'toggle',
-    state: true,
-    size: [100,100],
-    event: (v) => {
-      alert(v);
-    }
-  })</code></pre>
-    </div>
+    {{#examples}}
+      <div class="code-basic">
+        {{title}}:
+        <pre class="property-example"><code class="language-javascript">{{ description }}</code></pre>
+      </div>
+    {{/examples}}
 
-    <!-- creation demo
-    <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-  -->
 
     <div class="options">
       <h4>Options</h4>
-      <pre>
-        <code>
-  size: [80,80]
-  event: console.log
-        </code>
-      </pre>
+      <pre><code>{{ options }}</code></pre>
     </div>
 
 
     <div class="properties">
 
-      <div class="property-name">mode</div>
-      <div class="property-type">string</div>
-      <div class="property-description">Interaction mode. Options are: aftertouch, toggle, button, impulse </div>
-      <pre class="property-example"><code class="language-javascript">dial.mode = 'toggle'</code></pre>
-
-      <div class="property-name">state</div>
-      <div class="property-type">boolean</div>
-      <div class="property-description">Whether the button is pressed or not</div>
-      <pre class="property-example"><code class="language-javascript">dial.state = true</code></pre>
-
+      {{#properties}}
+        <div class="property-name">{{ name }}</div>
+        <div class="property-type">{{ type }}</div>
+        <div class="property-description">{{ description }}</div>
+        {{ #example }}
+          <pre class="property-example"><code class="language-javascript">{{ code }}</code></pre>
+        {{ /example }}
+      {{/properties}}
 
     </div>
 
     <div class="methods">
 
-      <div class="method-name">turnOn()</div>
-      <div class="method-description">Press the button</div>
-      <pre class="method-example"><code class="language-javascript">dial.turnOn()</code></pre>
-
-      <div class="method-name">turnOff()</div>
-      <div class="method-description">Unpress the button</div>
-      <pre class="method-example"><code class="language-javascript">dial.turnOff()</code></pre>
-
-      <div class="method-name">flip( state )</div>
-      <div class="method-description">Toggle the button to its opposite state</div>
-      <pre class="method-example"><code class="language-javascript">dial.flip()</code></pre>
+      {{#methods}}
+        <div class="method-name">{{ name }}()</div>
+        <div class="method-description">{{ description }}</div>
+        {{ #example }}
+          <pre class="method-example"><code class="language-javascript">{{ code }}</code></pre>
+        {{ /example }}
+      {{/methods}}
 
     </div>
-
 
     <div class="example">
-      <h3>Example: Aftertouch Mode</h3>
-      <!-- creation demo -->
-      <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-      <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-    </div>
-    <div class="example">
-      <h3>Example: Toggle Mode</h3>
-      <!-- creation demo -->
-      <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-      <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-    </div>
-    <div class="example">
-      <h3>Example: Automating a Button</h3>
-      <!-- creation demo -->
-      <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-      <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+      {{#tutorials}}
+        <h2>{{name}}</h2>
+        {{description}}
+      {{/tutorials}}
+
     </div>
 
+    </script>
 
 
+      <!--  <div class="example">
+          <h3>Example: Aftertouch Mode</h3>
+          <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+        </div>
+        <div class="example">
+          <h3>Example: Toggle Mode</h3>
+          <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+        </div>
+        <div class="example">
+          <h3>Example: Automating a Button</h3>
+          <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+        </div> -->
 
 
   </div>
@@ -179,20 +165,124 @@
 
 <script>
 
+  var Unformatted = {}
   var API = {}
+
   $.getJSON('api.json', function(data) {
     data.forEach(function(entry) {
-      API[entry.name] = entry
+      Unformatted[entry.name] = entry
     })
+    console.log(Unformatted)
+
+    for (var key in Unformatted) {
+      var unformatted = Unformatted[key]
+      var entry = {
+        name: unformatted.name,
+        examples: unformatted.examples
+      }
+      var exampleTypes = ['Basic', 'Options']
+      if (entry.examples) {
+        for (var i=0; i<entry.examples.length;i++) {
+          entry.examples[i].title = exampleTypes[i];
+        }
+      }
+      for (var i=0; i<unformatted.tags.length;i++) {
+        entry[unformatted.tags[i].title] = unformatted.tags[i].description
+      }
+
+      // collect members
+      var members = unformatted.members.instance
+
+      //get inherited members
+
+      //sort members
+      entry.properties = []
+      entry.methods = []
+      for (var i=0; i<members.length;i++) {
+        if (members[i].kind=="function") {
+          var method = {
+            name: members[i].name,
+            parameters: [],
+            description: members[i].description.children[0].children[0].value,
+            returns: false,
+            example: false,
+          }
+          for (var j=0; j<members[i].tags.length; j++) {
+            var tag = members[i].tags[j]
+            switch (tag.title) {
+              case 'type':
+                method.type = tag.type.name
+                break;
+              case 'example':
+                method.example = {
+                  code: tag.description
+                }
+                break;
+            }
+          }
+        /*  parameters
+        for (var j=0; j<members[i].length; j++) {
+
+        } */
+          entry.methods.push(method)
+        } else {
+          var property = {
+            name: members[i].name,
+            description: members[i].description.children[0].children[0].value,
+            type: '',
+            example: false
+          }
+          for (var j=0; j<members[i].tags.length; j++) {
+            var tag = members[i].tags[j]
+            switch (tag.title) {
+              case 'type':
+                property.type = tag.type.name
+                break;
+              case 'example':
+                property.example = {
+                  code: tag.description
+                }
+                break;
+            }
+          }
+          entry.properties.push(property);
+        }
+      }
+
+      entry.tutorials = []
+      for (var i=0; i<unformatted.tags.length;i++) {
+        if (unformatted.tags[i].title == 'tutorial') {
+          entry.tutorials.push( {
+            description: unformatted.tags[i].description,
+            name: "Example"
+          })
+        }
+      }
+
+
+
+      API[key] = entry
+    }
   });
 
   function doc(name) {
     var entry = API[name];
-    htmlstr = ''
-            + name;
-
-    $("#tutorial").html(htmlstr)
+    var template = $('#template').html();
+    Mustache.parse(template);   // optional, speeds up future uses
+    var rendered = Mustache.render(template, entry);
+    $('#target').html(rendered);
+    Prism.highlightAll();
   }
+</script>
+<script>
+
+function loadUser() {
+  var template = $('#template').html();
+  Mustache.parse(template);   // optional, speeds up future uses
+  var rendered = Mustache.render(template, {name: "Luke"});
+  $('#target').html(rendered);
+}
+
 
 </script>
 <style>

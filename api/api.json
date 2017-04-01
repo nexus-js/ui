@@ -423,7 +423,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Button",
+              "value": "Circular button with optional aftertouch.",
               "position": {
                 "start": {
                   "line": 1,
@@ -432,8 +432,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 7,
-                  "offset": 6
+                  "column": 42,
+                  "offset": 41
                 },
                 "indent": []
               }
@@ -447,8 +447,8 @@
             },
             "end": {
               "line": 1,
-              "column": 7,
-              "offset": 6
+              "column": 42,
+              "offset": 41
             },
             "indent": []
           }
@@ -462,35 +462,74 @@
         },
         "end": {
           "line": 1,
-          "column": 7,
-          "offset": 6
+          "column": 42,
+          "offset": 41
         }
       }
     },
-    "tags": [],
+    "tags": [
+      {
+        "title": "description",
+        "description": "Circular button with optional aftertouch.",
+        "lineNumber": 3
+      },
+      {
+        "title": "example",
+        "description": "var button = mt.button('#button')",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
+        "lineNumber": 8
+      },
+      {
+        "title": "options",
+        "description": "'size': [80,80],\n'target': false,\n'mode': 'aftertouch',\n'value': 0",
+        "lineNumber": 18
+      },
+      {
+        "title": "tutorial",
+        "description": "Aftertouch mode\nygGMxq\nHere is some tutorial text",
+        "lineNumber": 24
+      },
+      {
+        "title": "tutorial",
+        "description": "Toggle mode\nygGMxq\nHere is some tutorial text 2",
+        "lineNumber": 29
+      }
+    ],
     "loc": {
       "start": {
         "line": 6,
         "column": 0
       },
       "end": {
-        "line": 8,
+        "line": 39,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 10,
+          "line": 41,
           "column": 0
         },
         "end": {
-          "line": 84,
+          "line": 124,
           "column": 1
         }
       },
       "file": "/Library/WebServer/Documents/mt/lib/interfaces/button.js"
     },
+    "examples": [
+      {
+        "description": "var button = mt.button('#button')"
+      },
+      {
+        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
+      }
+    ],
     "name": "Button",
     "augments": [
       {
@@ -510,7 +549,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "render",
+                    "value": "Interaction mode",
                     "position": {
                       "start": {
                         "line": 1,
@@ -519,8 +558,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 17,
+                        "offset": 16
                       },
                       "indent": []
                     }
@@ -534,8 +573,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "column": 17,
+                    "offset": 16
                   },
                   "indent": []
                 }
@@ -549,35 +588,163 @@
               },
               "end": {
                 "line": 1,
-                "column": 7,
-                "offset": 6
+                "column": 17,
+                "offset": 16
               }
             }
           },
-          "tags": [],
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "example",
+              "description": "button.mode = 'toggle';",
+              "lineNumber": 3
+            }
+          ],
           "loc": {
             "start": {
-              "line": 64,
+              "line": 58,
+              "column": 4
+            },
+            "end": {
+              "line": 62,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 63,
+                "column": 4
+              },
+              "end": {
+                "line": 63,
+                "column": 35
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/button.js"
+          },
+          "examples": [
+            {
+              "description": "button.mode = 'toggle';"
+            }
+          ],
+          "name": "mode",
+          "memberof": "Button",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Button",
+              "kind": "class"
+            },
+            {
+              "name": "mode",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Button#mode"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Update the visual interface using its current state",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 52,
+                        "offset": 51
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "example",
+              "description": "button.render();",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 102,
               "column": 2
             },
             "end": {
-              "line": 66,
+              "line": 107,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 68,
+                "line": 108,
                 "column": 2
               },
               "end": {
-                "line": 82,
+                "line": 122,
                 "column": 3
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/button.js"
           },
+          "examples": [
+            {
+              "description": "button.render();"
+            }
+          ],
           "name": "render",
           "kind": "function",
           "memberof": "Button",
