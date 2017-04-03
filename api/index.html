@@ -9,6 +9,7 @@
   <link rel='stylesheet' href='../docs/source/prism/prism.css' />
   <script src="../docs/source/prism/prism.js"></script>
   <script src="js/moustache.min.js"></script>
+  <script src="../dist/mt.js"></script>
 </head>
 <body class='documentation'>
 
@@ -86,8 +87,10 @@
     <script id="template" type="x-tmpl-mustache">
     <h2>{{ name }}</h2>
 
-    <div class="overview">
+    <div class="overview" >
     {{ description }}
+    <br /><br />
+    {{{ demo }}}
     </div>
 
 
@@ -121,7 +124,11 @@
     <div class="methods">
 
       {{#methods}}
-        <div class="method-name">{{ name }}()</div>
+        <div class="method-name">{{ name }}(
+          {{#parameters}}
+            {{name}}{{^last}}, {{/last}}
+          {{/parameters}}
+        )</div>
         <div class="method-description">{{ description }}</div>
         {{ #example }}
           <pre class="method-example"><code class="language-javascript">{{ code }}</code></pre>
@@ -133,31 +140,16 @@
     <div class="example">
 
       {{#tutorials}}
-        <h2>{{name}}</h2>
-        {{description}}
+        <div class="example">
+          <h3>Example: {{name}}</h3>
+          {{{codepen}}}
+          {{description}}
+        </div>
       {{/tutorials}}
 
     </div>
 
     </script>
-
-
-      <!--  <div class="example">
-          <h3>Example: Aftertouch Mode</h3>
-          <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-        </div>
-        <div class="example">
-          <h3>Example: Toggle Mode</h3>
-          <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-        </div>
-        <div class="example">
-          <h3>Example: Automating a Button</h3>
-          <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="ygGMxq" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">ygGMxq</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-        </div> -->
-
 
   </div>
 
@@ -194,6 +186,17 @@
       var members = unformatted.members.instance
 
       //get inherited members
+      if (unformatted.augments) {
+        for (var i=0; i<unformatted.augments.length;i++) {
+          let name = unformatted.augments[i].name
+          if (name != "EventEmitter") {
+            members = members.concat(Unformatted[name].members.instance)
+            if (Unformatted[name].augments) {
+              unformatted.augments.push( Unformatted[name].augments[0] )
+            }
+          }
+        }
+      }
 
       //sort members
       entry.properties = []
@@ -220,10 +223,17 @@
                 break;
             }
           }
-        /*  parameters
-        for (var j=0; j<members[i].length; j++) {
+          /*  parameters */
+          if (members[i].params) {
+            for (var j=0; j<members[i].params.length; j++) {
+              method.parameters.push({
+                name: members[i].params[j].name
+              //  type: members[i].params[j].name,
+              })
+            }
+            method.parameters[ method.parameters.length - 1 ].last = true;
+          }
 
-        } */
           entry.methods.push(method)
         } else {
           var property = {
@@ -249,12 +259,29 @@
         }
       }
 
+      /* alphabetize members */
+    //  for (var i=0; i<entry.properties.length;i++) {
+        entry.properties.sort(function(a, b) {
+            return a.name.localeCompare(b.name);
+        });
+            entry.methods.sort(function(a, b) {
+                return a.name.localeCompare(b.name);
+            });
+    //  }
+
+
+
       entry.tutorials = []
       for (var i=0; i<unformatted.tags.length;i++) {
         if (unformatted.tags[i].title == 'tutorial') {
+          var contents = unformatted.tags[i].description
+          var name = contents.split("\n")[0]
+          var codepen = contents.split("\n")[1]
+          var description = contents.split("\n")[2]
           entry.tutorials.push( {
-            description: unformatted.tags[i].description,
-            name: "Example"
+            description: description,
+            name: name,
+            codepen: '<p data-height="265" data-theme-id="0" data-slug-hash="'+codepen+'" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="'+codepen+'" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/'+codepen+'/">'+codepen+'</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p><scr'+'ipt async src="https://production-assets.codepen.io/assets/embed/ei.js"></scr'+'ipt>'
           })
         }
       }
@@ -272,6 +299,7 @@
     var rendered = Mustache.render(template, entry);
     $('#target').html(rendered);
     Prism.highlightAll();
+    mt.rack("target");
   }
 </script>
 <script>

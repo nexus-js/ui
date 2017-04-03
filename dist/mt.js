@@ -87,6 +87,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import RangeModel from './models/range';
 	
+	var Transform = _interopRequire(__webpack_require__(42));
+	
 	var Counter = __webpack_require__(30);
 	var Radio = __webpack_require__(50);
 	var Drunk = __webpack_require__(31);
@@ -120,6 +122,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.tune = new Tune();
 	
 	        this.colors = 0;
+	
+	        this.transform = Transform;
 	    }
 	
 	    _createClass(MusiciansToolkit, {
@@ -3047,6 +3051,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	* Button
 	*
 	* @description Circular button with optional aftertouch.
+	*
+	* @demo <span mt="button"></span>
 	*
 	* @example
 	* var button = mt.button('#button')

@@ -474,29 +474,34 @@
         "lineNumber": 3
       },
       {
-        "title": "example",
-        "description": "var button = mt.button('#button')",
+        "title": "demo",
+        "description": "<span mt=\"button\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
+        "description": "var button = mt.button('#button')",
+        "lineNumber": 7
+      },
+      {
+        "title": "example",
         "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
-        "lineNumber": 8
+        "lineNumber": 10
       },
       {
         "title": "options",
         "description": "'size': [80,80],\n'target': false,\n'mode': 'aftertouch',\n'value': 0",
-        "lineNumber": 18
+        "lineNumber": 20
       },
       {
         "title": "tutorial",
         "description": "Aftertouch mode\nygGMxq\nHere is some tutorial text",
-        "lineNumber": 24
+        "lineNumber": 26
       },
       {
         "title": "tutorial",
         "description": "Toggle mode\nygGMxq\nHere is some tutorial text 2",
-        "lineNumber": 29
+        "lineNumber": 31
       }
     ],
     "loc": {
@@ -505,18 +510,18 @@
         "column": 0
       },
       "end": {
-        "line": 39,
+        "line": 41,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 41,
+          "line": 43,
           "column": 0
         },
         "end": {
-          "line": 124,
+          "line": 126,
           "column": 1
         }
       },
@@ -611,22 +616,22 @@
           ],
           "loc": {
             "start": {
-              "line": 58,
+              "line": 60,
               "column": 4
             },
             "end": {
-              "line": 62,
+              "line": 64,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 63,
+                "line": 65,
                 "column": 4
               },
               "end": {
-                "line": 63,
+                "line": 65,
                 "column": 35
               }
             },
@@ -719,22 +724,22 @@
           ],
           "loc": {
             "start": {
-              "line": 102,
+              "line": 104,
               "column": 2
             },
             "end": {
-              "line": 107,
+              "line": 109,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 108,
+                "line": 110,
                 "column": 2
               },
               "end": {
-                "line": 122,
+                "line": 124,
                 "column": 3
               }
             },
@@ -1052,22 +1057,22 @@
     "tags": [],
     "loc": {
       "start": {
-        "line": 22,
+        "line": 23,
         "column": 0
       },
       "end": {
-        "line": 24,
+        "line": 25,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 26,
+          "line": 27,
           "column": 0
         },
         "end": {
-          "line": 66,
+          "line": 69,
           "column": 1
         }
       },
