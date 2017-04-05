@@ -70,7 +70,7 @@
           "column": 0
         },
         "end": {
-          "line": 163,
+          "line": 181,
           "column": 1
         }
       },
@@ -95,7 +95,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "flip",
+                    "value": "Whether the button is on (pressed) or off (not pressed)",
                     "position": {
                       "start": {
                         "line": 1,
@@ -104,8 +104,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 5,
-                        "offset": 4
+                        "column": 56,
+                        "offset": 55
                       },
                       "indent": []
                     }
@@ -119,8 +119,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 56,
+                    "offset": 55
                   },
                   "indent": []
                 }
@@ -134,44 +134,232 @@
               },
               "end": {
                 "line": 1,
-                "column": 5,
-                "offset": 4
+                "column": 56,
+                "offset": 55
               }
             }
           },
-          "tags": [],
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            },
+            {
+              "title": "example",
+              "description": "button.state = true;",
+              "lineNumber": 3
+            }
+          ],
           "loc": {
             "start": {
-              "line": 147,
+              "line": 139,
               "column": 2
             },
             "end": {
-              "line": 149,
+              "line": 143,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 150,
+                "line": 144,
                 "column": 2
               },
               "end": {
-                "line": 153,
+                "line": 146,
                 "column": 3
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
           },
-          "name": "flip",
-          "kind": "function",
-          "params": [
+          "examples": [
             {
-              "title": "param",
-              "name": "value",
-              "lineNumber": 150
+              "description": "button.state = true;"
             }
           ],
+          "name": "state",
+          "kind": "member",
+          "memberof": "ButtonTemplate",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "ButtonTemplate",
+              "kind": "class"
+            },
+            {
+              "name": "state",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "ButtonTemplate#state"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Change the button to its alternate state (off=>on, on=>off), or flip it to a specified state.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 94,
+                        "offset": 93
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 94,
+                    "offset": 93
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 94,
+                "offset": 93
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{boolean} (Optional) State to flip to.",
+              "lineNumber": 2,
+              "type": null,
+              "name": "value"
+            },
+            {
+              "title": "example",
+              "description": "button.flip();",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 153,
+              "column": 2
+            },
+            "end": {
+              "line": 157,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 158,
+                "column": 2
+              },
+              "end": {
+                "line": 161,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+          },
+          "params": [
+            {
+              "name": "value",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{boolean} (Optional) State to flip to.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 39,
+                            "offset": 38
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  }
+                }
+              }
+            }
+          ],
+          "examples": [
+            {
+              "description": "button.flip();"
+            }
+          ],
+          "name": "flip",
+          "kind": "function",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
@@ -191,6 +379,226 @@
             }
           ],
           "namespace": "ButtonTemplate#flip"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Turn the button's state to true.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 33,
+                        "offset": 32
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 33,
+                    "offset": 32
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 33,
+                "offset": 32
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "example",
+              "description": "button.turnOn();",
+              "lineNumber": 2
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 163,
+              "column": 2
+            },
+            "end": {
+              "line": 166,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 167,
+                "column": 2
+              },
+              "end": {
+                "line": 170,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+          },
+          "examples": [
+            {
+              "description": "button.turnOn();"
+            }
+          ],
+          "name": "turnOn",
+          "kind": "function",
+          "memberof": "ButtonTemplate",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "ButtonTemplate",
+              "kind": "class"
+            },
+            {
+              "name": "turnOn",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "ButtonTemplate#turnOn"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Turn the button's state to false.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 34,
+                        "offset": 33
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 34,
+                    "offset": 33
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 34,
+                "offset": 33
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "example",
+              "description": "button.turnOff();",
+              "lineNumber": 2
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 172,
+              "column": 2
+            },
+            "end": {
+              "line": 175,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 176,
+                "column": 2
+              },
+              "end": {
+                "line": 179,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+          },
+          "examples": [
+            {
+              "description": "button.turnOff();"
+            }
+          ],
+          "name": "turnOff",
+          "kind": "function",
+          "memberof": "ButtonTemplate",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "ButtonTemplate",
+              "kind": "class"
+            },
+            {
+              "name": "turnOff",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "ButtonTemplate#turnOff"
         }
       ],
       "static": [],
@@ -275,7 +683,7 @@
           "column": 0
         },
         "end": {
-          "line": 308,
+          "line": 319,
           "column": 1
         }
       },
@@ -300,7 +708,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "resize",
+                    "value": "Resize the interface",
                     "position": {
                       "start": {
                         "line": 1,
@@ -309,8 +717,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 7,
-                        "offset": 6
+                        "column": 21,
+                        "offset": 20
                       },
                       "indent": []
                     }
@@ -324,8 +732,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "column": 21,
+                    "offset": 20
                   },
                   "indent": []
                 }
@@ -339,49 +747,186 @@
               },
               "end": {
                 "line": 1,
-                "column": 7,
-                "offset": 6
+                "column": 21,
+                "offset": 20
               }
             }
           },
-          "tags": [],
+          "tags": [
+            {
+              "title": "param",
+              "description": "{number} New width in pixels",
+              "lineNumber": 2,
+              "type": null,
+              "name": "width"
+            },
+            {
+              "title": "param",
+              "description": "{number} New height in pixels",
+              "lineNumber": 3,
+              "type": null,
+              "name": "height"
+            },
+            {
+              "title": "example",
+              "description": "button.resize(100,100);",
+              "lineNumber": 5
+            }
+          ],
           "loc": {
             "start": {
               "line": 280,
               "column": 2
             },
             "end": {
-              "line": 282,
+              "line": 287,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 283,
+                "line": 288,
                 "column": 2
               },
               "end": {
-                "line": 291,
+                "line": 296,
                 "column": 3
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/core/interface.js"
           },
-          "name": "resize",
-          "kind": "function",
           "params": [
+            {
+              "name": "width",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New width in pixels",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 29,
+                            "offset": 28
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 29,
+                        "offset": 28
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 29,
+                    "offset": 28
+                  }
+                }
+              }
+            },
+            {
+              "name": "height",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New height in pixels",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 30,
+                            "offset": 29
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 30,
+                        "offset": 29
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 30,
+                    "offset": 29
+                  }
+                }
+              }
+            },
             {
               "title": "param",
               "name": "w",
-              "lineNumber": 283
+              "lineNumber": 288
             },
             {
               "title": "param",
               "name": "h",
-              "lineNumber": 283
+              "lineNumber": 288
             }
           ],
+          "examples": [
+            {
+              "description": "button.resize(100,100);"
+            }
+          ],
+          "name": "resize",
+          "kind": "function",
           "memberof": "Interface",
           "scope": "instance",
           "members": {
@@ -401,6 +946,116 @@
             }
           ],
           "namespace": "Interface#resize"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Remove the interface from the page and cancel its event listener(s).",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 69,
+                        "offset": 68
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 69,
+                    "offset": 68
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 69,
+                "offset": 68
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "example",
+              "description": "button.destroy());",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 304,
+              "column": 2
+            },
+            "end": {
+              "line": 309,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 310,
+                "column": 2
+              },
+              "end": {
+                "line": 317,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/core/interface.js"
+          },
+          "examples": [
+            {
+              "description": "button.destroy());"
+            }
+          ],
+          "name": "destroy",
+          "kind": "function",
+          "memberof": "Interface",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Interface",
+              "kind": "class"
+            },
+            {
+              "name": "destroy",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Interface#destroy"
         }
       ],
       "static": [],
@@ -489,19 +1144,19 @@
         "lineNumber": 10
       },
       {
-        "title": "options",
-        "description": "'size': [80,80],\n'target': false,\n'mode': 'aftertouch',\n'value': 0",
+        "title": "output",
+        "description": "In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.\nIn <b>aftertouch mode</b>, the output data is an object containing properties for the state of the object. the normalized x value (0-1) of interaction, and the normalized y value (0-1) of interaction.",
         "lineNumber": 20
       },
       {
         "title": "tutorial",
         "description": "Aftertouch mode\nygGMxq\nHere is some tutorial text",
-        "lineNumber": 26
+        "lineNumber": 24
       },
       {
         "title": "tutorial",
         "description": "Toggle mode\nygGMxq\nHere is some tutorial text 2",
-        "lineNumber": 31
+        "lineNumber": 29
       }
     ],
     "loc": {
@@ -510,18 +1165,18 @@
         "column": 0
       },
       "end": {
-        "line": 41,
+        "line": 39,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 43,
+          "line": 41,
           "column": 0
         },
         "end": {
-          "line": 126,
+          "line": 124,
           "column": 1
         }
       },
@@ -616,22 +1271,22 @@
           ],
           "loc": {
             "start": {
-              "line": 60,
+              "line": 58,
               "column": 4
             },
             "end": {
-              "line": 64,
+              "line": 62,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 65,
+                "line": 63,
                 "column": 4
               },
               "end": {
-                "line": 65,
+                "line": 63,
                 "column": 35
               }
             },
@@ -661,7 +1316,135 @@
             }
           ],
           "namespace": "Button#mode"
+        }
+      ],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Button",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Button"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Dial with radial or linear interaction.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 40,
+                  "offset": 39
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 40,
+              "offset": 39
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
         },
+        "end": {
+          "line": 1,
+          "column": 40,
+          "offset": 39
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "Dial with radial or linear interaction.",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span mt=\"dial\"></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "Basic\nvar dial = mt.dial('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "Events\ndial.on('change', function(v) {\n  // v is a number containing the dial's current value\n console.log(v);\n}",
+        "lineNumber": 10
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 10,
+        "column": 0
+      },
+      "end": {
+        "line": 26,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 28,
+          "column": 0
+        },
+        "end": {
+          "line": 322,
+          "column": 1
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+    },
+    "examples": [
+      {
+        "description": "Basic\nvar dial = mt.dial('#target')"
+      },
+      {
+        "description": "Events\ndial.on('change', function(v) {\n  // v is a number containing the dial's current value\n console.log(v);\n}"
+      }
+    ],
+    "name": "Dial",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
+    "kind": "class",
+    "members": {
+      "instance": [
         {
           "description": {
             "type": "root",
@@ -671,7 +1454,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Update the visual interface using its current state",
+                    "value": "Absolute mode (dial value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: \"relative\".",
                     "position": {
                       "start": {
                         "line": 1,
@@ -680,8 +1463,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 52,
-                        "offset": 51
+                        "column": 156,
+                        "offset": 155
                       },
                       "indent": []
                     }
@@ -695,8 +1478,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 52,
-                    "offset": 51
+                    "column": 156,
+                    "offset": 155
                   },
                   "indent": []
                 }
@@ -710,49 +1493,57 @@
               },
               "end": {
                 "line": 1,
-                "column": 52,
-                "offset": 51
+                "column": 156,
+                "offset": 155
               }
             }
           },
           "tags": [
             {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
               "title": "example",
-              "description": "button.render();",
+              "description": "dial.mode = \"absolute\";",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 104,
-              "column": 2
+              "line": 47,
+              "column": 4
             },
             "end": {
-              "line": 109,
-              "column": 4
+              "line": 51,
+              "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 110,
-                "column": 2
+                "line": 52,
+                "column": 4
               },
               "end": {
-                "line": 124,
-                "column": 3
+                "line": 52,
+                "column": 35
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/button.js"
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
           },
           "examples": [
             {
-              "description": "button.render();"
+              "description": "dial.mode = \"absolute\";"
             }
           ],
-          "name": "render",
-          "kind": "function",
-          "memberof": "Button",
+          "name": "mode",
+          "memberof": "Dial",
           "scope": "instance",
           "members": {
             "instance": [],
@@ -761,16 +1552,604 @@
           },
           "path": [
             {
-              "name": "Button",
+              "name": "Dial",
               "kind": "class"
             },
             {
-              "name": "render",
-              "kind": "function",
+              "name": "mode",
               "scope": "instance"
             }
           ],
-          "namespace": "Button#render"
+          "namespace": "Dial#mode"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The increment that the dial's value changes by.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 48,
+                        "offset": 47
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 48,
+                    "offset": 47
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 48,
+                "offset": 47
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "dial.step = 5;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 56,
+              "column": 4
+            },
+            "end": {
+              "line": 60,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 61,
+                "column": 4
+              },
+              "end": {
+                "line": 61,
+                "column": 35
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+          },
+          "examples": [
+            {
+              "description": "dial.step = 5;"
+            }
+          ],
+          "name": "step",
+          "memberof": "Dial",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Dial",
+              "kind": "class"
+            },
+            {
+              "name": "step",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Dial#step"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Lower limit of the dial's output range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "dial.min = 100;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 63,
+              "column": 4
+            },
+            "end": {
+              "line": 67,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 68,
+                "column": 4
+              },
+              "end": {
+                "line": 68,
+                "column": 33
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+          },
+          "examples": [
+            {
+              "description": "dial.min = 100;"
+            }
+          ],
+          "name": "min",
+          "memberof": "Dial",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Dial",
+              "kind": "class"
+            },
+            {
+              "name": "min",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Dial#min"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Upper limit of the dial's output range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "dial.max = 1000;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 70,
+              "column": 4
+            },
+            "end": {
+              "line": 74,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 75,
+                "column": 4
+              },
+              "end": {
+                "line": 75,
+                "column": 33
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+          },
+          "examples": [
+            {
+              "description": "dial.max = 1000;"
+            }
+          ],
+          "name": "max",
+          "memberof": "Dial",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Dial",
+              "kind": "class"
+            },
+            {
+              "name": "max",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Dial#max"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 103,
+                        "offset": 102
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 103,
+                    "offset": 102
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 103,
+                "offset": 102
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "dial.value = 10;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 294,
+              "column": 2
+            },
+            "end": {
+              "line": 298,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 299,
+                "column": 2
+              },
+              "end": {
+                "line": 301,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+          },
+          "examples": [
+            {
+              "description": "dial.value = 10;"
+            }
+          ],
+          "name": "value",
+          "kind": "member",
+          "memberof": "Dial",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Dial",
+              "kind": "class"
+            },
+            {
+              "name": "value",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Dial#value"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Normalized value of the dial. It will automatically be adjust to fit min/max/step settings.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 92,
+                        "offset": 91
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 92,
+                    "offset": 91
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 92,
+                "offset": 91
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "dial.normalized = 0.5;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 309,
+              "column": 2
+            },
+            "end": {
+              "line": 313,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 314,
+                "column": 2
+              },
+              "end": {
+                "line": 316,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+          },
+          "examples": [
+            {
+              "description": "dial.normalized = 0.5;"
+            }
+          ],
+          "name": "normalized",
+          "kind": "member",
+          "memberof": "Dial",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Dial",
+              "kind": "class"
+            },
+            {
+              "name": "normalized",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Dial#normalized"
         }
       ],
       "static": [],
@@ -778,11 +2157,791 @@
     },
     "path": [
       {
-        "name": "Button",
+        "name": "Dial",
         "kind": "class"
       }
     ],
-    "namespace": "Button"
+    "namespace": "Dial"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Draggable and editable number interface",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 40,
+                  "offset": 39
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 40,
+              "offset": 39
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 40,
+          "offset": 39
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "Draggable and editable number interface",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span mt=\"number\"></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var number = mt.number('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "output",
+        "description": "Number value",
+        "lineNumber": 10
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 11,
+        "column": 0
+      },
+      "end": {
+        "line": 24,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 27,
+          "column": 0
+        },
+        "end": {
+          "line": 218,
+          "column": 1
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+    },
+    "examples": [
+      {
+        "description": "var number = mt.number('#target')"
+      }
+    ],
+    "name": "Number",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
+    "kind": "class",
+    "members": {
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The interface's current value. If set manually, will update the interface and trigger the output event.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 104,
+                        "offset": 103
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 104,
+                    "offset": 103
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 104,
+                "offset": 103
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "number.value = 10;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 44,
+              "column": 4
+            },
+            "end": {
+              "line": 48,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 49,
+                "column": 4
+              },
+              "end": {
+                "line": 49,
+                "column": 102
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+          },
+          "examples": [
+            {
+              "description": "number.value = 10;"
+            }
+          ],
+          "name": "value",
+          "memberof": "Number",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Number",
+              "kind": "class"
+            },
+            {
+              "name": "value",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Number#value"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Upper limit of the number's output range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 41,
+                "offset": 40
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "number.max = 1000;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 59,
+              "column": 4
+            },
+            "end": {
+              "line": 63,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 64,
+                "column": 4
+              },
+              "end": {
+                "line": 64,
+                "column": 33
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+          },
+          "examples": [
+            {
+              "description": "number.max = 1000;"
+            }
+          ],
+          "name": "max",
+          "memberof": "Number",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Number",
+              "kind": "class"
+            },
+            {
+              "name": "max",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Number#max"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Lower limit of the number's output range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 41,
+                "offset": 40
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "number.min = 1000;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 66,
+              "column": 4
+            },
+            "end": {
+              "line": 70,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 71,
+                "column": 4
+              },
+              "end": {
+                "line": 71,
+                "column": 33
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+          },
+          "examples": [
+            {
+              "description": "number.min = 1000;"
+            }
+          ],
+          "name": "min",
+          "memberof": "Number",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Number",
+              "kind": "class"
+            },
+            {
+              "name": "min",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Number#min"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The increment that the number's value changes by.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 50,
+                    "offset": 49
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 50,
+                "offset": 49
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "number.step = 5;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 73,
+              "column": 4
+            },
+            "end": {
+              "line": 77,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 78,
+                "column": 4
+              },
+              "end": {
+                "line": 78,
+                "column": 35
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+          },
+          "examples": [
+            {
+              "description": "number.step = 5;"
+            }
+          ],
+          "name": "step",
+          "memberof": "Number",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Number",
+              "kind": "class"
+            },
+            {
+              "name": "step",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Number#step"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Connect this number interface to a dial or slider",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 50,
+                    "offset": 49
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 50,
+                "offset": 49
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "Element to connect to.",
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "Interface"
+              },
+              "name": "element"
+            },
+            {
+              "title": "example",
+              "description": "number.link(slider)",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 190,
+              "column": 2
+            },
+            "end": {
+              "line": 194,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 195,
+                "column": 2
+              },
+              "end": {
+                "line": 210,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+          },
+          "params": [
+            {
+              "name": "element",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Element to connect to.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 23,
+                            "offset": 22
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 23,
+                        "offset": 22
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 23,
+                    "offset": 22
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "Interface"
+              }
+            },
+            {
+              "title": "param",
+              "name": "destination",
+              "lineNumber": 195
+            }
+          ],
+          "examples": [
+            {
+              "description": "number.link(slider)"
+            }
+          ],
+          "name": "link",
+          "kind": "function",
+          "memberof": "Number",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Number",
+              "kind": "class"
+            },
+            {
+              "name": "link",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Number#link"
+        }
+      ],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Number",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Number"
   },
   {
     "description": {
@@ -902,6 +3061,367 @@
       }
     ],
     "namespace": "Pan"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "2-dimensional touch slider",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 27,
+                  "offset": 26
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 27,
+              "offset": 26
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 27,
+          "offset": 26
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "2-dimensional touch slider",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span mt=\"position\"></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var position = mt.position('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "output",
+        "description": "x and y values",
+        "lineNumber": 10
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 12,
+        "column": 0
+      },
+      "end": {
+        "line": 25,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 27,
+          "column": 0
+        },
+        "end": {
+          "line": 183,
+          "column": 1
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+    },
+    "examples": [
+      {
+        "description": "var position = mt.position('#target')"
+      }
+    ],
+    "name": "Position",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
+    "kind": "class",
+    "members": {
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Absolute mode (position's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: \"absolute\".",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 162,
+                        "offset": 161
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 162,
+                    "offset": 161
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 162,
+                "offset": 161
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "example",
+              "description": "dial.mode = \"relative\";",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 64,
+              "column": 4
+            },
+            "end": {
+              "line": 68,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 69,
+                "column": 4
+              },
+              "end": {
+                "line": 69,
+                "column": 35
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "examples": [
+            {
+              "description": "dial.mode = \"relative\";"
+            }
+          ],
+          "name": "mode",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "mode",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#mode"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The interface's x and y values. When set, it will automatically adjust to fit min/max/step settings of the interface.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 118,
+                        "offset": 117
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 118,
+                    "offset": 117
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 118,
+                "offset": 117
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "position.value = {\n x: 0.5,\n y: 0.5\n};",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 154,
+              "column": 2
+            },
+            "end": {
+              "line": 161,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 162,
+                "column": 2
+              },
+              "end": {
+                "line": 167,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "examples": [
+            {
+              "description": "position.value = {\n x: 0.5,\n y: 0.5\n};"
+            }
+          ],
+          "name": "value",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "value",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#value"
+        }
+      ],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Position",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Position"
   },
   {
     "description": {

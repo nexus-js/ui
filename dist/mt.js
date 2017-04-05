@@ -224,6 +224,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
+	/* NEEDS
+	way to set min/max/step of x and y via settings
+	*/
+	
+	/**
+	* Position
+	*
+	* @description 2-dimensional touch slider
+	*
+	* @demo <span mt="position"></span>
+	*
+	* @example
+	* var position = mt.position('#target')
+	*
+	* @output
+	* x and y values
+	*
+	*/
+	
 	var Position = (function (_Interface) {
 	  function Position() {
 	    _classCallCheck(this, Position);
@@ -232,19 +251,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [200, 200],
-	      mode: "absolute"
-	      //scaleX, scaleY
-	      //valueX, valueY
-	      //stepX, stepY
+	      mode: "absolute",
+	      xmin: 0,
+	      xmax: 1,
+	      xstep: 0,
+	      ymin: 0,
+	      ymax: 1,
+	      ystep: 0
 	    };
 	
 	    _get(Object.getPrototypeOf(Position.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.scale = {
+	      x: {
+	        min: this.settings.xmin,
+	        max: this.settings.xmax,
+	        step: this.settings.xstep },
+	      y: {
+	        min: this.settings.ymin,
+	        max: this.settings.ymax,
+	        step: this.settings.ystep } };
 	
 	    this._value = {
 	      x: new Step(0, 1, 0, 0.5),
 	      y: new Step(0, 1, 0, 0.5)
 	    };
 	
+	    /**
+	    Absolute mode (position's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "absolute".
+	    @type {string}
+	    @example dial.mode = "relative";
+	    */
 	    this.mode = this.settings.mode;
 	
 	    this.position = {
@@ -338,6 +375,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    value: {
+	
+	      /**
+	      * The interface's x and y values. When set, it will automatically adjust to fit min/max/step settings of the interface.
+	      * @type {object}
+	      * @example position.value = {
+	      *  x: 0.5,
+	      *  y: 0.5
+	      * };
+	      */
+	
 	      get: function () {
 	        return {
 	          x: this._value.x.value,
@@ -879,7 +926,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    resize: {
 	
 	      /**
-	      resize
+	      * Resize the interface
+	      * @param width {number} New width in pixels
+	      * @param height {number} New height in pixels
+	      *
+	      * @example
+	      * button.resize(100,100);
 	      */
 	
 	      value: function resize(w, h) {
@@ -900,6 +952,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    destroy: {
+	
+	      /**
+	      * Remove the interface from the page and cancel its event listener(s).
+	      *
+	      * @example
+	      * button.destroy());
+	      */
+	
 	      value: function destroy() {
 	        this.empty();
 	        this.parent.removeChild(this.element);
@@ -3067,11 +3127,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	*   }
 	* })
 	*
-	* @options
-	* 'size': [80,80],
-	* 'target': false,
-	* 'mode': 'aftertouch',
-	* 'value': 0
+	* @output
+	* In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.
+	* In <b>aftertouch mode</b>, the output data is an object containing properties for the state of the object. the normalized x value (0-1) of interaction, and the normalized y value (0-1) of interaction.
 	*
 	* @tutorial
 	* Aftertouch mode
@@ -3150,7 +3208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	
-	      /**
+	      /*
 	      * Update the visual interface using its current state
 	      *
 	      * @example
@@ -3341,6 +3399,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    state: {
+	
+	      /**
+	      Whether the button is on (pressed) or off (not pressed)
+	      @type {boolean}
+	      @example button.state = true;
+	      */
+	
 	      get: function () {
 	        return this._state.state;
 	      },
@@ -3351,8 +3416,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    flip: {
+	
 	      /**
-	      flip
+	      Change the button to its alternate state (off=>on, on=>off), or flip it to a specified state.
+	      @param value {boolean} (Optional) State to flip to.
+	      @example button.flip();
 	      */
 	
 	      value: function flip(value) {
@@ -3361,12 +3429,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    turnOn: {
+	
+	      /**
+	      Turn the button's state to true.
+	      @example button.turnOn();
+	      */
+	
 	      value: function turnOn() {
 	        this._state.on();
 	        this.render();
 	      }
 	    },
 	    turnOff: {
+	
+	      /**
+	      Turn the button's state to false.
+	      @example button.turnOff();
+	      */
+	
 	      value: function turnOff() {
 	        this._state.off();
 	        this.render();
@@ -3625,6 +3705,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Step = __webpack_require__(11);
 	var math = __webpack_require__(5);
 	
+	/* NEEDS
+	turn value, min, max, and step into getter/setters
+	*/
+	
+	/**
+	* Number
+	*
+	* @description Draggable and editable number interface
+	*
+	* @demo <span mt="number"></span>
+	*
+	* @example
+	* var number = mt.number('#target')
+	*
+	* @output
+	* Number value
+	*
+	*/
+	
 	var Number = (function (_Interface) {
 	  function Number() {
 	    _classCallCheck(this, Number);
@@ -3642,11 +3741,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Number.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
+	    /**
+	    The interface's current value. If set manually, will update the interface and trigger the output event.
+	    @type {number}
+	    @example number.value = 10;
+	    */
 	    this.value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
+	
+	    /*
+	    Default: 2. How many decimal places to clip the number's visual rendering to. This does not affect number's actual value output -- for that, set the step property to .01, .1, or 1.
+	    @type {number}
+	    @example number.decimalPlaces = 2;
+	    */
 	    this.decimalPlaces = 2;
 	    this.actual = 0;
+	
+	    /**
+	    Upper limit of the number's output range
+	    @type {number}
+	    @example number.max = 1000;
+	    */
 	    this.max = this.settings.max;
+	
+	    /**
+	    Lower limit of the number's output range
+	    @type {number}
+	    @example number.min = 1000;
+	    */
 	    this.min = this.settings.min;
+	
+	    /**
+	    The increment that the number's value changes by.
+	    @type {number}
+	    @example number.step = 5;
+	    */
+	    this.step = this.settings.step;
 	
 	    this.init();
 	    this.render();
@@ -3764,6 +3893,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      number - should adopt the min/max of the other element
 	       number.link(slider)
 	      */
+	      /**
+	      Connect this number interface to a dial or slider
+	      @param {Interface} element Element to connect to.
+	      @example number.link(slider)
+	      */
 	
 	      value: function link(destination) {
 	        var _this = this;
@@ -3820,6 +3954,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
+	/**
+	* Dial
+	*
+	* @description Dial with radial or linear interaction.
+	*
+	* @demo <span mt="dial"></span>
+	*
+	* @example Basic
+	* var dial = mt.dial('#target')
+	*
+	* @example Events
+	* dial.on('change', function(v) {
+	*   // v is a number containing the dial's current value
+	*  console.log(v);
+	* }
+	*
+	*/
+	
 	var Dial = (function (_Interface) {
 	  function Dial() {
 	    _classCallCheck(this, Dial);
@@ -3839,11 +3991,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.interaction = this.settings.interaction;
 	
+	    /**
+	    Absolute mode (dial value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	    @type {string}
+	    @example dial.mode = "absolute";
+	    */
 	    this.mode = this.settings.mode;
 	
 	    // this.step should eventually be get/set
 	    // updating it will update the _value step model
+	    /**
+	    The increment that the dial's value changes by.
+	    @type {number}
+	    @example dial.step = 5;
+	    */
 	    this.step = this.settings.step; // float
+	
+	    /**
+	    Lower limit of the dial's output range
+	    @type {number}
+	    @example dial.min = 100;
+	    */
+	    this.min = this.settings.min;
+	
+	    /**
+	    Upper limit of the dial's output range
+	    @type {number}
+	    @example dial.max = 1000;
+	    */
+	    this.max = this.settings.max;
 	
 	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
 	
@@ -4063,6 +4239,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function release() {}
 	    },
 	    value: {
+	
+	      /**
+	      Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.
+	      @type {number}
+	      @example dial.value = 10;
+	      */
+	
 	      get: function () {
 	        return this._value.value;
 	      },
@@ -4073,8 +4256,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    normalized: {
+	
+	      /**
+	      Normalized value of the dial. It will automatically be adjust to fit min/max/step settings.
+	      @type {number}
+	      @example dial.normalized = 0.5;
+	      */
+	
 	      get: function () {
 	        return this._value.normalized;
+	      },
+	      set: function (v) {
+	        this._value.updateNormal(v);
 	      }
 	    }
 	  });
@@ -7008,8 +7201,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        var _this = this;
 	
-	        this.parent.style.border = "solid 1px #ddd";
-	        this.parent.style.padding = "0px";
+	        /*  this.parent.style.border = 'solid 1px #ddd';
+	          this.parent.style.padding = '0px'; */
 	        this.parent.style.userSelect = "none";
 	        this.parent.style.mozUserSelect = "none";
 	        this.parent.style.webkitUserSelect = "none";
@@ -7022,45 +7215,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.contents.style.padding = "10px";
 	
-	        this.titleBar = document.createElement("div");
-	        this.titleBar.innerHTML = this.title;
-	        this.titleBar.style.fontFamily = "arial";
-	        this.titleBar.style.position = "relative";
-	        this.titleBar.style.color = "#888";
-	        this.titleBar.style.padding = "7px";
-	        this.titleBar.style.backgroundColor = "#f7f7f7";
-	        this.titleBar.style.fontSize = "12px";
+	        if (this.title) {
+	          this.titleBar.innerHTML = this.title;
+	          this.titleBar = document.createElement("div");
+	          this.titleBar.style.fontFamily = "arial";
+	          this.titleBar.style.position = "relative";
+	          this.titleBar.style.color = "#888";
+	          this.titleBar.style.padding = "7px";
+	          this.titleBar.style.backgroundColor = "#f7f7f7";
+	          this.titleBar.style.fontSize = "12px";
 	
-	        this.button = document.createElement("div");
-	        this.button.style.position = "absolute";
-	        this.button.style.top = "5px";
-	        this.button.style.right = "5px";
-	        this.button.innerHTML = "-";
-	        this.button.style.border = "solid 1px #ddd";
-	        this.button.style.padding = "0px 5px 2px";
-	        this.button.style.lineHeight = "12px";
-	        this.button.style.fontSize = "15px";
-	        this.button.style.backgroundColor = "#fff";
+	          this.button = document.createElement("div");
+	          this.button.style.position = "absolute";
+	          this.button.style.top = "5px";
+	          this.button.style.right = "5px";
+	          this.button.innerHTML = "-";
+	          this.button.style.border = "solid 1px #ddd";
+	          this.button.style.padding = "0px 5px 2px";
+	          this.button.style.lineHeight = "12px";
+	          this.button.style.fontSize = "15px";
+	          this.button.style.backgroundColor = "#fff";
 	
-	        this.button.style.cursor = "pointer";
+	          this.button.style.cursor = "pointer";
 	
-	        this.button.addEventListener("mouseover", function () {
-	          _this.button.style.backgroundColor = "#f7f7f7";
-	        });
-	        this.button.addEventListener("mouseleave", function () {
-	          _this.button.style.backgroundColor = "#fff";
-	        });
-	        this.button.addEventListener("click", function () {
-	          if (_this.open) {
-	            _this.hide();
-	          } else {
-	            _this.show();
-	          }
-	        });
+	          this.button.addEventListener("mouseover", function () {
+	            _this.button.style.backgroundColor = "#f7f7f7";
+	          });
+	          this.button.addEventListener("mouseleave", function () {
+	            _this.button.style.backgroundColor = "#fff";
+	          });
+	          this.button.addEventListener("click", function () {
+	            if (_this.open) {
+	              _this.hide();
+	            } else {
+	              _this.show();
+	            }
+	          });
 	
-	        this.titleBar.appendChild(this.button);
+	          this.titleBar.appendChild(this.button);
 	
-	        this.parent.appendChild(this.titleBar);
+	          this.parent.appendChild(this.titleBar);
+	        }
 	        this.parent.appendChild(this.contents);
 	
 	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
