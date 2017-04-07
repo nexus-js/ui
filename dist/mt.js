@@ -1412,7 +1412,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function update(value) {
 	        if (this.step) {
-	          this.value = math.clip(Math.round(value / this.step) * this.step, this.min, this.max);
+	          // this.value = math.clip(Math.round(value / (this.step)) * this.step, this.min,this.max);
+	          this.value = math.clip(Math.round((value - this.min) / this.step) * this.step + this.min, this.min, this.max);
 	        } else {
 	          this.value = math.clip(value, this.min, this.max);
 	        }
@@ -3773,10 +3774,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Step = __webpack_require__(11);
 	var math = __webpack_require__(5);
 	
-	/* NEEDS
-	turn value, min, max, and step into getter/setters
-	*/
-	
 	/**
 	* Number
 	*
@@ -3806,12 +3803,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Number.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    /**
-	    The interface's current value. If set manually, will update the interface and trigger the output event.
-	    @type {number}
-	    @example number.value = 10;
-	    */
-	    this.value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
+	    this._value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
 	
 	    /*
 	    Default: 2. How many decimal places to clip the number's visual rendering to. This does not affect number's actual value output -- for that, set the step property to .01, .1, or 1.
@@ -3821,26 +3813,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.decimalPlaces = 2;
 	    this.actual = 0;
 	
-	    /**
-	    Upper limit of the number's output range
-	    @type {number}
-	    @example number.max = 1000;
-	    */
-	    this.max = this.settings.max;
+	    this.max = this._value.max;
 	
-	    /**
-	    Lower limit of the number's output range
-	    @type {number}
-	    @example number.min = 1000;
-	    */
-	    this.min = this.settings.min;
+	    this.min = this._value.min;
 	
-	    /**
-	    The increment that the number's value changes by.
-	    @type {number}
-	    @example number.step = 5;
-	    */
-	    this.step = this.settings.step;
+	    this.step = this._value.step;
 	
 	    this.init();
 	    this.render();
@@ -3857,8 +3834,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.addEventListener("blur", (function () {
 	          this.element.style.backgroundColor = "#e7e7e7";
 	          this.element.style.color = "#333";
-	          if (this.element.value !== this.value.value) {
-	            this.value.update(parseFloat(this.element.value));
+	          if (this.element.value !== this.value) {
+	            this.value = parseFloat(this.element.value);
 	            this.render();
 	          }
 	        }).bind(this));
@@ -3871,8 +3848,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          if (e.which === 13) {
 	            this.element.blur();
-	            this.value.update(this.element.value);
-	            this.emit("change", this.value.value);
+	            this.value = this.element.value;
+	            this.emit("change", this.value);
 	            this.render();
 	          }
 	        }).bind(this));
@@ -3909,19 +3886,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // to add eventually
 	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
 	
-	        this.element.value = this.value.value;
+	        this.element.value = this.value;
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	
-	        this.element.value = math.prune(this.value.value, this.decimalPlaces);
+	        this.element.value = math.prune(this.value, this.decimalPlaces);
 	      }
 	    },
 	    click: {
 	      value: function click() {
 	        this.element.readOnly = true;
-	        this.actual = this.value.value;
+	        this.actual = this.value;
 	        this.element.style.backgroundColor = "#d18";
 	        this.element.style.color = "#fff";
 	        this.initial = { y: this.mouse.y };
@@ -3932,16 +3909,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.clicked) {
 	
 	          var newvalue = this.actual - (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
-	          this.value.update(newvalue);
+	          this.value = newvalue;
 	
 	          this.render();
-	          this.emit("change", this.value.value);
+	          this.emit("change", this.value);
 	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
-	        if (this.actual === this.value.value) {
+	        if (this.actual === this.value) {
 	          this.element.readOnly = false;
 	          this.element.focus();
 	          this.element.setSelectionRange(0, this.element.value.length);
@@ -3954,10 +3931,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    link: {
 	
-	      /*
-	      number - should adopt the min/max of the other element
-	       number.link(slider)
-	      */
 	      /**
 	      Connect this number interface to a dial or slider
 	      @param {Interface} element Element to connect to.
@@ -3967,6 +3940,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function link(destination) {
 	        var _this = this;
 	
+	        this.min = destination.min;
+	        this.max = destination.max;
+	        this.step = destination.step;
 	        destination.on("change", function (v) {
 	          _this.passiveUpdate(v);
 	        });
@@ -3985,8 +3961,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    passiveUpdate: {
 	      value: function passiveUpdate(v) {
-	        this.value.update(v);
+	        this.value = v;
 	        this.render();
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The interface's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example number.value = 10;
+	      */
+	
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (v) {
+	        this._value.update(v);
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the number's output range
+	      @type {number}
+	      @example number.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the number's output range
+	      @type {number}
+	      @example number.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the number's value changes by.
+	      @type {number}
+	      @example number.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
 	      }
 	    }
 	  });

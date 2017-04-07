@@ -439,7 +439,7 @@ mt.tune.root = 120;
     var rendered = Mustache.render(template, entry);
     $('#target').html(rendered);
     Prism.highlightAll();
-    mt.rack("target");
+    instrument = mt.rack("target");
     $(".example-toggle").click(function() {
       $(this).parent().find(".example").toggle();
     })
@@ -450,7 +450,7 @@ mt.tune.root = 120;
     $('#target').empty();
     $("#"+name).clone().appendTo('#target').show()
     Prism.highlightAll();
-    mt.rack("target");
+    instrument = mt.rack("target");
   }
 </script>
 <style>
