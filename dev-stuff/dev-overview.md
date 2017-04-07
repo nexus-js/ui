@@ -5,7 +5,7 @@ You'll need to install:
 - Webpack: `sudo npm install -g webpack`
 - Possibly more? Let me know if you get any errors while proceeding.
 
-Clone the repository. In Terminal, navigate to the folder containing the project. 
+Clone the repository. In Terminal, navigate to the folder containing the project.
 
 Run `npm install`
 
@@ -13,7 +13,7 @@ Then run `npm start` to begin the build script that will run while you develop. 
 
 The build script also runs jshint which will give you specific information on syntax errors — really any JavaScript not conforming to strict ES6. I usually get about a half dozen warnings per save, so don't feel bad when you experience the same.
 
-
+Build documentation using this script: `documentation build lib/** -f json -o api/api.json -w`
 
 ## Overview
 
@@ -38,14 +38,14 @@ Check the Issues for a list of all needs.
 Michael Scott-Nelson, you may specifically be interested in the following --
 
 - Work on the models. I've only written about half of them. This would be a huge time saver, and is a relatively independent endeavor b/c they're purely abstract. Completion levels:
-  - Counter: 90% 
+  - Counter: 90%
     - Its 'drunk' mode should be hooked up to the drunk model once that's created
     - It should have a 'pattern' mode that lets you give it a series of values to iterate through
   - Drunk: 0%
     - You can guess what this does
   - Matrix: 70%
     - Several methods still missing — this is one of the main compositional tools of the library, so I'm trying to give it some features.
-  - Radio (as in radio button): 0% 
+  - Radio (as in radio button): 0%
   - Range (as in range slider): 30%
   - Step: 100%
   - Toggle: 100%
@@ -55,8 +55,3 @@ Michael Scott-Nelson, you may specifically be interested in the following --
 ## So
 
 Pick what you think would be most interesting for you. Whatever you choose, I can give you more info if you ask!
-
-
-
- 
-

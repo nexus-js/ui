@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
-	var math = _interopRequire(__webpack_require__(5));
+	var math = _interopRequire(__webpack_require__(6));
 	
 	//import dom from './util/dom';
 	
@@ -181,7 +181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	  Position: __webpack_require__(3),
-	  Slider: __webpack_require__(14),
+	  Slider: __webpack_require__(4),
 	  Toggle: __webpack_require__(15),
 	  Range: __webpack_require__(16),
 	  Waveform: __webpack_require__(20),
@@ -218,11 +218,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var svg = __webpack_require__(5);
+	var Interface = __webpack_require__(7);
+	var Step = __webpack_require__(12);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(13));
 	
 	/* NEEDS
 	way to set min/max/step of x and y via settings
@@ -252,29 +252,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [200, 200],
 	      mode: "absolute",
-	      xmin: 0,
-	      xmax: 1,
-	      xstep: 0,
-	      ymin: 0,
-	      ymax: 1,
-	      ystep: 0
+	      minX: 0,
+	      maxX: 1,
+	      stepX: 0,
+	      valueX: 0,
+	      minY: 0,
+	      maxY: 1,
+	      stepY: 0,
+	      valueY: 0
 	    };
 	
 	    _get(Object.getPrototypeOf(Position.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.scale = {
-	      x: {
-	        min: this.settings.xmin,
-	        max: this.settings.xmax,
-	        step: this.settings.xstep },
-	      y: {
-	        min: this.settings.ymin,
-	        max: this.settings.ymax,
-	        step: this.settings.ystep } };
-	
 	    this._value = {
-	      x: new Step(0, 1, 0, 0.5),
-	      y: new Step(0, 1, 0, 0.5)
+	      x: new Step(this.settings.minX, this.settings.maxX, this.settings.stepX, this.settings.valueX),
+	      y: new Step(this.settings.minY, this.settings.maxY, this.settings.stepY, this.settings.valueY)
 	    };
 	
 	    /**
@@ -293,6 +285,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.init();
 	    this.render();
+	
+	    this._test = { x: 5, y: 5 };
+	
+	    this.test = Object.defineProperties({}, {
+	      x: {
+	        get: function () {
+	          console.log(this);
+	          return this._test.x;
+	        },
+	        set: function (v) {
+	          this._test.x = v;
+	        },
+	        configurable: true,
+	        enumerable: true
+	      },
+	      y: {
+	        get: function () {
+	          return this._test.y;
+	        },
+	        set: function (v) {
+	          this._test.y = v;
+	        },
+	        configurable: true,
+	        enumerable: true
+	      }
+	    });
 	  }
 	
 	  _inherits(Position, _Interface);
@@ -392,10 +410,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        };
 	      },
 	      set: function (value) {
-	        return {
-	          x: this._value.x.update(value.x),
-	          y: this._value.y.update(value.y)
-	        };
+	        if (value.x || value.x === 0) {
+	          this._value.x.update(value.x);
+	        }
+	        if (value.x || value.x === 0) {
+	          this._value.y.update(value.y);
+	        }
 	      }
 	    },
 	    normalized: {
@@ -404,6 +424,75 @@ return /******/ (function(modules) { // webpackBootstrap
 	          x: this._value.x.normalized,
 	          y: this._value.y.normalized
 	        };
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      * The lower limit of values on the x and y axes
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return {
+	          x: this._value.x.min,
+	          y: this._value.y.min
+	        };
+	      },
+	      set: function (v) {
+	        if (v.x || v.x === 0) {
+	          this._value.x.min = v.x;
+	        }
+	        if (v.x || v.x === 0) {
+	          this._value.y.min = v.y;
+	        }
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      * The upper limit of values on the x and y axes
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return {
+	          x: this._value.x.max,
+	          y: this._value.y.max
+	        };
+	      },
+	      set: function (v) {
+	        if (v.x || v.x === 0) {
+	          this._value.x.max = v.x;
+	        }
+	        if (v.x || v.x === 0) {
+	          this._value.y.max = v.y;
+	        }
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      * The incremental step of values on the x and y axes
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return {
+	          x: this._value.x.step,
+	          y: this._value.y.step
+	        };
+	      },
+	      set: function (v) {
+	        if (v.x || v.x === 0) {
+	          this._value.x.step = v.x;
+	        }
+	        if (v.x || v.x === 0) {
+	          this._value.y.step = v.y;
+	        }
 	      }
 	    }
 	  });
@@ -419,7 +508,254 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var math = __webpack_require__(5);
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(5);
+	var Interface = __webpack_require__(7);
+	var Step = __webpack_require__(12);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(13));
+	
+	/**
+	* Slider
+	*
+	* @description Horizontal or vertical slider with settable interaction modes.
+	*
+	* @demo <span mt="slider"></span>
+	*
+	* @example
+	* var slider = mt.slider('#target')
+	*
+	*/
+	
+	var Slider = (function (_Interface) {
+	  function Slider() {
+	    _classCallCheck(this, Slider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "relative",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    this.mode = this.settings.mode;
+	
+	    this.hasKnob = this.settings.hasKnob;
+	
+	    // this.step should eventually be get/set
+	    // updating it will update the _value step model
+	    this.step = this.settings.step; // float
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.init();
+	
+	    // issue -- position should be created here, but 'resize interface' is called from within this.init, which tries to resize the position element.....
+	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
+	
+	    this.value = this._value.value;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(Slider, _Interface);
+	
+	  _createClass(Slider, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (this.width < this.height) {
+	          this.orientation = "vertical";
+	        } else {
+	          this.orientation = "horizontal";
+	        }
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
+	
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
+	        this.bar.setAttribute("width", w);
+	        this.bar.setAttribute("height", h);
+	
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
+	
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "transparent");
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.fillbar.setAttribute("fill", this.colors.accent);
+	        this.knob.setAttribute("fill", this.colors.accent);
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.update(this.mouse);
+	
+	          this.value = this._value.updateNormal(this.position.value);
+	
+	          this.emit("change", this.value);
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (value) {
+	        this._value.update(value);
+	        this.position.value = this._value.normalized;
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    }
+	  });
+	
+	  return Slider;
+	})(Interface);
+	
+	module.exports = Slider;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var math = __webpack_require__(6);
 	
 	module.exports = {
 	
@@ -473,7 +809,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* */
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -594,7 +930,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -607,11 +943,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
-	var util = __webpack_require__(8);
-	var touch = __webpack_require__(9);
-	var EventEmitter = __webpack_require__(10);
+	var svg = __webpack_require__(5);
+	var dom = __webpack_require__(8);
+	var util = __webpack_require__(9);
+	var touch = __webpack_require__(10);
+	var EventEmitter = __webpack_require__(11);
 	
 	/**
 	Interface
@@ -977,7 +1313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interface;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1031,7 +1367,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1045,7 +1381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1053,7 +1389,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.exists = "ontouchstart" in document.documentElement;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -1361,7 +1697,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1370,7 +1706,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(5);
+	var math = __webpack_require__(6);
 	
 	/**
 	  Creates a steppable value with minimum, maximum, and step size. This is used in many interfaces to constrict their values to certain ranges.
@@ -1456,7 +1792,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Step;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1472,9 +1808,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	"use strict";
 	
-	var math = _interopRequire(__webpack_require__(5));
+	var math = _interopRequire(__webpack_require__(6));
 	
-	var ToggleModel = _interopRequire(__webpack_require__(13));
+	var ToggleModel = _interopRequire(__webpack_require__(14));
 	
 	/*
 	how to use :
@@ -1680,7 +2016,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1724,253 +2060,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
-	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
-	
-	/**
-	* Slider
-	*
-	* @description Horizontal or vertical slider with settable interaction modes.
-	*
-	* @demo <span mt="slider"></span>
-	*
-	* @example
-	* var slider = mt.slider('#target')
-	*
-	*/
-	
-	var Slider = (function (_Interface) {
-	  function Slider() {
-	    _classCallCheck(this, Slider);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [120, 20],
-	      orientation: "vertical",
-	      mode: "relative",
-	      scale: [0, 1],
-	      step: 0,
-	      value: 0,
-	      hasKnob: true
-	    };
-	
-	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.orientation = this.settings.orientation;
-	
-	    this.mode = this.settings.mode;
-	
-	    this.hasKnob = this.settings.hasKnob;
-	
-	    // this.step should eventually be get/set
-	    // updating it will update the _value step model
-	    this.step = this.settings.step; // float
-	
-	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
-	
-	    this.init();
-	
-	    // issue -- position should be created here, but 'resize interface' is called from within this.init, which tries to resize the position element.....
-	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
-	    this.position.value = this._value.normalized;
-	
-	    this.value = this._value.value;
-	
-	    this.emit("change", this.value);
-	  }
-	
-	  _inherits(Slider, _Interface);
-	
-	  _createClass(Slider, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.bar = svg.create("rect");
-	        this.fillbar = svg.create("rect");
-	        this.knob = svg.create("circle");
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
-	        this.element.appendChild(this.knob);
-	
-	        this.sizeInterface();
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        if (this.width < this.height) {
-	          this.orientation = "vertical";
-	        } else {
-	          this.orientation = "horizontal";
-	        }
-	
-	        if (this.position) {
-	          this.position.resize([0, this.width], [this.height, 0]);
-	        }
-	
-	        var x = undefined,
-	            y = undefined,
-	            w = undefined,
-	            h = undefined,
-	            barOffset = undefined,
-	            cornerRadius = undefined;
-	        this.knobData = {
-	          level: 0,
-	          r: 0
-	        };
-	
-	        if (this.orientation === "vertical") {
-	          this.thickness = this.width / 2;
-	          x = this.width / 2;
-	          y = 0;
-	          w = this.thickness;
-	          h = this.height;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
-	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
-	          cornerRadius = w / 2;
-	        } else {
-	          this.thickness = this.height / 2;
-	          x = 0;
-	          y = this.height / 2;
-	          w = this.width;
-	          h = this.thickness;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
-	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
-	          cornerRadius = h / 2;
-	        }
-	
-	        this.bar.setAttribute("x", x);
-	        this.bar.setAttribute("y", y);
-	        this.bar.setAttribute("transform", barOffset);
-	        this.bar.setAttribute("rx", cornerRadius); // corner radius
-	        this.bar.setAttribute("ry", cornerRadius);
-	        this.bar.setAttribute("width", w);
-	        this.bar.setAttribute("height", h);
-	
-	        if (this.orientation === "vertical") {
-	          this.fillbar.setAttribute("x", x);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("width", w);
-	          this.fillbar.setAttribute("height", h - this.knobData.level);
-	        } else {
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("y", y);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	          this.fillbar.setAttribute("height", h);
-	        }
-	        this.fillbar.setAttribute("transform", barOffset);
-	        this.fillbar.setAttribute("rx", cornerRadius);
-	        this.fillbar.setAttribute("ry", cornerRadius);
-	
-	        if (this.orientation === "vertical") {
-	          this.knob.setAttribute("cx", x);
-	          this.knob.setAttribute("cy", this.knobData.level);
-	        } else {
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.knob.setAttribute("cy", y);
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	
-	        if (!this.hasKnob) {
-	          this.knob.setAttribute("fill", "transparent");
-	        }
-	      }
-	    },
-	    colorInterface: {
-	      value: function colorInterface() {
-	        this.bar.setAttribute("fill", this.colors.fill);
-	        this.fillbar.setAttribute("fill", this.colors.accent);
-	        this.knob.setAttribute("fill", this.colors.accent);
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        if (!this.clicked) {
-	          this.knobData.r = this.thickness * 0.75;
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	
-	        if (this.orientation === "vertical") {
-	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
-	          this.knob.setAttribute("cy", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("height", this.knobData.level);
-	        } else {
-	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	        }
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.knobData.r = this.thickness * 0.9;
-	        this.position.anchor = this.mouse;
-	        this.move();
-	      }
-	    },
-	    move: {
-	      value: function move() {
-	        if (this.clicked) {
-	          this.position.update(this.mouse);
-	
-	          this.value = this._value.updateNormal(this.position.value);
-	
-	          this.emit("change", this.value);
-	        }
-	      }
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    value: {
-	      get: function () {
-	        return this._value.value;
-	      },
-	      set: function (value) {
-	        this._value.update(value);
-	        this.position.value = this._value.normalized;
-	        this.render();
-	      }
-	    },
-	    normalized: {
-	      get: function () {
-	        return this._value.normalized;
-	      }
-	    }
-	  });
-	
-	  return Slider;
-	})(Interface);
-	
-	module.exports = Slider;
-
-/***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1984,9 +2073,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(6);
+	var svg = __webpack_require__(5);
+	var ToggleModel = __webpack_require__(14);
+	var Interface = __webpack_require__(7);
 	
 	/**
 	* Toggle
@@ -2129,8 +2218,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
+	var math = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
 	var RangeSlider = __webpack_require__(17);
 	
 	/**
@@ -2277,16 +2366,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
+	var svg = __webpack_require__(5);
 	var RangeModel = __webpack_require__(18);
-	var math = __webpack_require__(5);
+	var math = __webpack_require__(6);
 	var ColorOps = __webpack_require__(19);
 	// is this needed? where is it used?
 	window.ColorOps = __webpack_require__(19);
 	
-	var Interface = _interopRequire(__webpack_require__(6));
+	var Interface = _interopRequire(__webpack_require__(7));
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(13));
 	
 	var RangeSlider = (function (_Interface) {
 	  function RangeSlider() {
@@ -2539,7 +2628,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Step = _interopRequire(__webpack_require__(11));
+	var Step = _interopRequire(__webpack_require__(12));
 	
 	/**
 	  Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.
@@ -2893,8 +2982,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
+	var svg = __webpack_require__(5);
+	var Interface = __webpack_require__(7);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
 	var RangeSlider = __webpack_require__(17);
@@ -3149,7 +3238,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
+	var svg = __webpack_require__(5);
 	var ButtonTemplate = __webpack_require__(22);
 	
 	/**
@@ -3297,10 +3386,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var math = __webpack_require__(5);
-	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(6);
+	var svg = __webpack_require__(5);
+	var math = __webpack_require__(6);
+	var ToggleModel = __webpack_require__(14);
+	var Interface = __webpack_require__(7);
 	
 	/**
 	Button Template
@@ -3647,7 +3736,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var Interface = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
 	var Button = __webpack_require__(21);
 	
 	/**
@@ -3770,9 +3859,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
-	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(7);
+	var Step = __webpack_require__(12);
+	var math = __webpack_require__(6);
 	
 	/**
 	* Number
@@ -3883,6 +3972,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles += "mozUserSelect: transparent;";
 	        styles += "webkitUserSelect: transparent;";
 	        this.element.style.cssText += styles;
+	
 	        // to add eventually
 	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
 	
@@ -3897,28 +3987,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
+	        this.hasMoved = false;
 	        this.element.readOnly = true;
 	        this.actual = this.value;
-	        this.element.style.backgroundColor = "#d18";
-	        this.element.style.color = "#fff";
+	        //  this.element.style.backgroundColor = '#d18';
+	        //  this.element.style.color = '#fff';
 	        this.initial = { y: this.mouse.y };
 	      }
 	    },
 	    move: {
 	      value: function move() {
+	        this.hasMoved = true;
 	        if (this.clicked) {
 	
 	          var newvalue = this.actual - (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
 	          this.value = newvalue;
 	
 	          this.render();
-	          this.emit("change", this.value);
+	          if (this._value.changed) {
+	            this.emit("change", this.value);
+	          }
 	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
-	        if (this.actual === this.value) {
+	        if (!this.hasMoved) {
 	          this.element.readOnly = false;
 	          this.element.focus();
 	          this.element.setSelectionRange(0, this.element.value.length);
@@ -3978,6 +4072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (v) {
 	        this._value.update(v);
+	        this.render();
 	      }
 	    },
 	    min: {
@@ -4048,12 +4143,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var svg = __webpack_require__(5);
+	var math = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
+	var Step = __webpack_require__(12);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(13));
 	
 	/**
 	* Dial
@@ -4386,11 +4481,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
-	var Interface = __webpack_require__(6);
+	var svg = __webpack_require__(5);
+	var dom = __webpack_require__(8);
+	var Interface = __webpack_require__(7);
 	var ButtonTemplate = __webpack_require__(22);
-	var touch = __webpack_require__(9);
+	var touch = __webpack_require__(10);
 	
 	var PianoKey = (function (_ButtonTemplate) {
 	  function PianoKey() {
@@ -4739,14 +4834,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
-	var Interface = __webpack_require__(6);
+	var svg = __webpack_require__(5);
+	var dom = __webpack_require__(8);
+	var Interface = __webpack_require__(7);
 	var ButtonTemplate = __webpack_require__(22);
 	var MatrixModel = __webpack_require__(29);
 	var CounterModel = __webpack_require__(30);
 	//let Time = require('../core/time');
-	var touch = __webpack_require__(9);
+	var touch = __webpack_require__(10);
 	
 	var MatrixCell = (function (_ButtonTemplate) {
 	  function MatrixCell() {
@@ -5356,7 +5451,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = _interopRequire(__webpack_require__(5));
+	var math = _interopRequire(__webpack_require__(6));
 	
 	var Drunk = _interopRequire(__webpack_require__(31));
 	
@@ -5430,7 +5525,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = _interopRequire(__webpack_require__(5));
+	var math = _interopRequire(__webpack_require__(6));
 	
 	var Drunk = (function () {
 	    function Drunk(min, max, value, increment, loop) {
@@ -5488,12 +5583,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var svg = __webpack_require__(5);
+	var math = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
+	var Step = __webpack_require__(12);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(13));
 	
 	/* NEEDS
 	should be renamed pan2d, really... */
@@ -5707,8 +5802,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
+	var math = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
 	var SliderTemplate = __webpack_require__(34);
 	
 	var TiltSlider = (function (_SliderTemplate) {
@@ -5867,11 +5962,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var svg = __webpack_require__(5);
+	var Interface = __webpack_require__(7);
+	var Step = __webpack_require__(12);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(13));
 	
 	var SliderTemplate = (function (_Interface) {
 	  function SliderTemplate(args, options, defaults) {
@@ -6085,10 +6180,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(7);
-	var Interface = __webpack_require__(6);
+	var dom = __webpack_require__(8);
+	var Interface = __webpack_require__(7);
 	var SliderTemplate = __webpack_require__(34);
-	var touch = __webpack_require__(9);
+	var touch = __webpack_require__(10);
 	
 	var SingleSlider = (function (_SliderTemplate) {
 	  function SingleSlider() {
@@ -6368,12 +6463,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
+	var svg = __webpack_require__(5);
+	var math = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
+	var Step = __webpack_require__(12);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	var Interaction = _interopRequireWildcard(__webpack_require__(13));
 	
 	/**
 	* Pan
@@ -6613,10 +6708,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(5);
-	var svg = __webpack_require__(4);
+	var math = __webpack_require__(6);
+	var svg = __webpack_require__(5);
 	//let dom = require('../util/dom');
-	var Interface = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
 	
 	var Point = function Point(point, envelope) {
 	
@@ -6926,9 +7021,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(7);
+	var dom = __webpack_require__(8);
 	//let math = require('../util/math');
-	var Interface = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
 	
 	/**
 	* Spectrogram
@@ -7053,9 +7148,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(7);
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
+	var dom = __webpack_require__(8);
+	var math = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
 	
 	/**
 	* Meter
@@ -7215,9 +7310,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(7);
+	var dom = __webpack_require__(8);
 	//let math = require('../util/math');
-	var Interface = __webpack_require__(6);
+	var Interface = __webpack_require__(7);
 	
 	/**
 	* Oscilloscope
@@ -7502,7 +7597,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	"use strict";
 	
-	var dom = _interopRequire(__webpack_require__(7));
+	var dom = _interopRequire(__webpack_require__(8));
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
@@ -8509,7 +8604,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = _interopRequire(__webpack_require__(5));
+	var math = _interopRequire(__webpack_require__(6));
 	
 	var Drunk = _interopRequire(__webpack_require__(31));
 	
