@@ -1392,7 +1392,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    //Object.assign(this,{min,max,step});
 	    //Cannot use Object.assign because not supported in Safari.
-	    //I would expect for Babel to take care of this but it is now.
+	    //I would expect for Babel to take care of this but it is not.
 	    this.min = min;
 	    this.max = max;
 	    this.step = step;
@@ -1745,7 +1745,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	/**
-	Slider interface
+	* Slider
+	*
+	* @description Horizontal or vertical slider with settable interaction modes.
+	*
+	* @demo <span mt="slider"></span>
+	*
+	* @example
+	* var slider = mt.slider('#target')
+	*
 	*/
 	
 	var Slider = (function (_Interface) {
@@ -1979,6 +1987,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ToggleModel = __webpack_require__(13);
 	var Interface = __webpack_require__(6);
 	
+	/**
+	* Toggle
+	*
+	* @description Binary switch
+	*
+	* @demo <span mt="toggle"></span>
+	*
+	* @example
+	* var toggle = mt.toggle('#target')
+	*
+	*/
+	
 	var Toggle = (function (_Interface) {
 	  function Toggle() {
 	    _classCallCheck(this, Toggle);
@@ -2111,6 +2131,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
 	var RangeSlider = __webpack_require__(17);
+	
+	/**
+	* Range
+	*
+	* @description Range slider
+	*
+	* @demo <div mt="Range"></div>
+	*
+	* @example
+	* var range = mt.range('#target')
+	*
+	*/
 	
 	var Range = (function (_Interface) {
 	  function Range() {
@@ -2866,6 +2898,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let math = require('../util/math');
 	var RangeSlider = __webpack_require__(17);
 	
+	/**
+	* Waveform
+	*
+	* @description Audio waveform visualization with region selection
+	*
+	* @demo <span mt="waveform"></span>
+	*
+	* @example
+	* var waveform = mt.waveform('#target')
+	*
+	*/
+	
 	var Waveform = (function (_Interface) {
 	  function Waveform() {
 	    _classCallCheck(this, Waveform);
@@ -3475,6 +3519,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var ButtonTemplate = __webpack_require__(22);
 	
+	/**
+	* TextButton
+	*
+	* @description Text button
+	*
+	* @demo <span mt="textButton"></span>
+	*
+	* @example
+	* var textbutton = mt.textbutton('#target')
+	*
+	*/
+	
 	var TextButton = (function (_ButtonTemplate) {
 	  function TextButton() {
 	    _classCallCheck(this, TextButton);
@@ -3592,6 +3648,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let svg = require('../util/svg');
 	var Interface = __webpack_require__(6);
 	var Button = __webpack_require__(21);
+	
+	/**
+	* RadioButton
+	*
+	* @description An array of buttons. By default, selecting one button will deselect all other buttons, but this can be customized using the API below.
+	*
+	* @demo <div mt="RadioButton"></div>
+	*
+	* @example
+	* var radiobutton = mt.radiobutton('#target')
+	*
+	*/
 	
 	var RadioButton = (function (_Interface) {
 	  function RadioButton() {
@@ -3718,9 +3786,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var number = mt.number('#target')
-	*
-	* @output
-	* Number value
 	*
 	*/
 	
@@ -3961,14 +4026,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @demo <span mt="dial"></span>
 	*
-	* @example Basic
+	* @example
 	* var dial = mt.dial('#target')
-	*
-	* @example Events
-	* dial.on('change', function(v) {
-	*   // v is a number containing the dial's current value
-	*  console.log(v);
-	* }
 	*
 	*/
 	
@@ -4419,6 +4478,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return PianoKey;
 	})(ButtonTemplate);
 	
+	/**
+	* Piano
+	*
+	* @description Piano keyboard interface
+	*
+	* @demo <div mt="piano"></div>
+	*
+	* @example
+	* var piano = mt.piano('#target')
+	*
+	*/
+	
 	var Piano = (function (_Interface) {
 	  function Piano() {
 	    _classCallCheck(this, Piano);
@@ -4764,6 +4835,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return MatrixCell;
 	})(ButtonTemplate);
+	
+	/**
+	* Matrix
+	*
+	* @description Grid of buttons with built-in step sequencer.
+	*
+	* @demo <div mt="matrix"></div>
+	*
+	* @example
+	* var matrix = mt.matrix('#target')
+	*
+	*/
 	
 	var Matrix = (function (_Interface) {
 	  function Matrix() {
@@ -5376,6 +5459,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
+	/* NEEDS
+	should be renamed pan2d, really... */
+	
+	/**
+	* Pan3D
+	*
+	* @description Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.
+	*
+	* @demo <span mt="pan3D"></span>
+	*
+	* @example
+	* var pan3d = mt.pan3d('#target')
+	*
+	*/
+	
 	var Pan3D = (function (_Interface) {
 	  function Pan3D() {
 	    _classCallCheck(this, Pan3D);
@@ -5600,6 +5698,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  return TiltSlider;
 	})(SliderTemplate);
+	
+	/**
+	* Tilt
+	*
+	* @description 2- or 3-axis tilt sensor (depending on your device and browser).
+	*
+	* @demo <span mt="tilt"></span>
+	*
+	* @example
+	* var tilt = mt.tilt('#target')
+	*
+	*/
 	
 	var Tilt = (function (_Interface) {
 	  function Tilt() {
@@ -6039,6 +6149,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return SingleSlider;
 	})(SliderTemplate);
 	
+	/**
+	* Multislider
+	*
+	* @description Multislider
+	*
+	* @demo <span mt="multislider"></span>
+	*
+	* @example
+	* var multislider = mt.multislider('#target')
+	*
+	*/
+	
 	var Multislider = (function (_Interface) {
 	  function Multislider() {
 	    _classCallCheck(this, Multislider);
@@ -6218,15 +6340,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	/**
-	Pan interface
-	
-	@description Stereo crossfader.
-	
-	@example
-	<div></div>
-	
-	@tutorial
-	Here is some extra text.
+	* Pan
+	*
+	* @description Stereo crossfader.
+	*
+	* @demo <span mt="pan"></span>
+	*
+	* @example
+	* var pan = mt.pan('#target')
+	*
 	*/
 	
 	var Pan = (function (_Interface) {
@@ -6500,6 +6622,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	};
 	
+	/**
+	* Envelope
+	*
+	* @description Interactive linear ramp visualization.
+	*
+	* @demo <span mt="envelope"></span>
+	*
+	* @example
+	* var envelope = mt.envelope('#target')
+	*
+	*/
+	
 	var Envelope = (function (_Interface) {
 	  function Envelope() {
 	    _classCallCheck(this, Envelope);
@@ -6760,6 +6894,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let math = require('../util/math');
 	var Interface = __webpack_require__(6);
 	
+	/**
+	* Spectrogram
+	*
+	* @description Audio spectrum visualization
+	*
+	* @demo <span mt="spectrogram"></span>
+	*
+	* @example
+	* var spectrogram = mt.spectrogram('#target')
+	*
+	*/
+	
 	var Spectrogram = (function (_Interface) {
 	  function Spectrogram() {
 	    _classCallCheck(this, Spectrogram);
@@ -6874,6 +7020,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
+	
+	/**
+	* Meter
+	*
+	* @description Decibel meter
+	*
+	* @demo <span mt="meter"></span>
+	*
+	* @example
+	* var meter = mt.meter('#target')
+	*
+	*/
 	
 	var Meter = (function (_Interface) {
 	  function Meter() {
@@ -7024,6 +7182,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	//let math = require('../util/math');
 	var Interface = __webpack_require__(6);
+	
+	/**
+	* Oscilloscope
+	*
+	* @description Visualizes a waveform's stream of values.
+	*
+	* @demo <span mt="oscilloscope"></span>
+	*
+	* @example
+	* var oscilloscope = mt.oscilloscope('#target')
+	*
+	*/
 	
 	var Oscilloscope = (function (_Interface) {
 	  function Oscilloscope() {
