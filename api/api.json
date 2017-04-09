@@ -3843,22 +3843,22 @@
     ],
     "loc": {
       "start": {
-        "line": 129,
+        "line": 128,
         "column": 0
       },
       "end": {
-        "line": 139,
+        "line": 138,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 141,
+          "line": 140,
           "column": 0
         },
         "end": {
-          "line": 330,
+          "line": 329,
           "column": 1
         }
       },
@@ -3967,22 +3967,22 @@
     ],
     "loc": {
       "start": {
-        "line": 12,
+        "line": 9,
         "column": 0
       },
       "end": {
-        "line": 25,
+        "line": 22,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 27,
+          "line": 24,
           "column": 0
         },
         "end": {
-          "line": 259,
+          "line": 285,
           "column": 1
         }
       },
@@ -4003,6 +4003,928 @@
     "kind": "class",
     "members": {
       "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The interface's x value. When set, it will automatically adjust to fit min/max/step settings of the interface.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 111,
+                        "offset": 110
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 111,
+                    "offset": 110
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 111,
+                "offset": 110
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "position.x = 0.5;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 133,
+              "column": 2
+            },
+            "end": {
+              "line": 137,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 139,
+                "column": 2
+              },
+              "end": {
+                "line": 141,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "examples": [
+            {
+              "description": "position.x = 0.5;"
+            }
+          ],
+          "name": "x",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "x",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#x"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The interface's y values. When set, it will automatically adjust to fit min/max/step settings of the interface.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 112,
+                        "offset": 111
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 112,
+                    "offset": 111
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 112,
+                "offset": 111
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "position.x = 0.5;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 152,
+              "column": 2
+            },
+            "end": {
+              "line": 156,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 158,
+                "column": 2
+              },
+              "end": {
+                "line": 160,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "examples": [
+            {
+              "description": "position.x = 0.5;"
+            }
+          ],
+          "name": "y",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "y",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#y"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The lower limit of value on the x axis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 180,
+              "column": 2
+            },
+            "end": {
+              "line": 184,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 185,
+                "column": 2
+              },
+              "end": {
+                "line": 187,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "name": "minX",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "minX",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#minX"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The lower limit of value on the y axis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 194,
+              "column": 2
+            },
+            "end": {
+              "line": 198,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 199,
+                "column": 2
+              },
+              "end": {
+                "line": 201,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "name": "minY",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "minY",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#minY"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The upper limit of value on the x axis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 209,
+              "column": 2
+            },
+            "end": {
+              "line": 213,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 214,
+                "column": 2
+              },
+              "end": {
+                "line": 216,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "name": "maxX",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "maxX",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#maxX"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The upper limit of value on the y axis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 224,
+              "column": 2
+            },
+            "end": {
+              "line": 228,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 229,
+                "column": 2
+              },
+              "end": {
+                "line": 231,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "name": "maxY",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "maxY",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#maxY"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The incremental step of values on the x axis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 45,
+                        "offset": 44
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 45,
+                    "offset": 44
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 45,
+                "offset": 44
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 239,
+              "column": 2
+            },
+            "end": {
+              "line": 243,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 244,
+                "column": 2
+              },
+              "end": {
+                "line": 246,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "name": "stepX",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "stepX",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#stepX"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The incremental step of values on the y axis",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 45,
+                        "offset": 44
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 45,
+                    "offset": 44
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 45,
+                "offset": 44
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "object"
+              }
+            },
+            {
+              "title": "example",
+              "description": "",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 254,
+              "column": 2
+            },
+            "end": {
+              "line": 258,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 259,
+                "column": 2
+              },
+              "end": {
+                "line": 261,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+          },
+          "name": "stepY",
+          "kind": "member",
+          "memberof": "Position",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Position",
+              "kind": "class"
+            },
+            {
+              "name": "stepY",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Position#stepY"
+        },
         {
           "description": {
             "type": "root",
@@ -4074,23 +4996,23 @@
           ],
           "loc": {
             "start": {
-              "line": 53,
-              "column": 4
+              "line": 269,
+              "column": 2
             },
             "end": {
-              "line": 57,
-              "column": 6
+              "line": 273,
+              "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 58,
-                "column": 4
+                "line": 274,
+                "column": 2
               },
               "end": {
-                "line": 58,
-                "column": 35
+                "line": 276,
+                "column": 3
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
@@ -4101,6 +5023,7 @@
             }
           ],
           "name": "mode",
+          "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
@@ -4115,471 +5038,11 @@
             },
             {
               "name": "mode",
+              "kind": "member",
               "scope": "instance"
             }
           ],
           "namespace": "Position#mode"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The interface's x and y values. When set, it will automatically adjust to fit min/max/step settings of the interface.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 118,
-                        "offset": 117
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 118,
-                    "offset": 117
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 118,
-                "offset": 117
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "object"
-              }
-            },
-            {
-              "title": "example",
-              "description": "position.value = {\n x: 0.5,\n y: 0.5\n};",
-              "lineNumber": 3
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 161,
-              "column": 2
-            },
-            "end": {
-              "line": 168,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 169,
-                "column": 2
-              },
-              "end": {
-                "line": 174,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
-          },
-          "examples": [
-            {
-              "description": "position.value = {\n x: 0.5,\n y: 0.5\n};"
-            }
-          ],
-          "name": "value",
-          "kind": "member",
-          "memberof": "Position",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Position",
-              "kind": "class"
-            },
-            {
-              "name": "value",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Position#value"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The lower limit of values on the x and y axes",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 46,
-                        "offset": 45
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 46,
-                    "offset": 45
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 46,
-                "offset": 45
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "object"
-              }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 194,
-              "column": 2
-            },
-            "end": {
-              "line": 198,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 199,
-                "column": 2
-              },
-              "end": {
-                "line": 204,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
-          },
-          "name": "min",
-          "kind": "member",
-          "memberof": "Position",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Position",
-              "kind": "class"
-            },
-            {
-              "name": "min",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Position#min"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The upper limit of values on the x and y axes",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 46,
-                        "offset": 45
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 46,
-                    "offset": 45
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 46,
-                "offset": 45
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "object"
-              }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 215,
-              "column": 2
-            },
-            "end": {
-              "line": 219,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 220,
-                "column": 2
-              },
-              "end": {
-                "line": 225,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
-          },
-          "name": "max",
-          "kind": "member",
-          "memberof": "Position",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Position",
-              "kind": "class"
-            },
-            {
-              "name": "max",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Position#max"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The incremental step of values on the x and y axes",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 51,
-                        "offset": 50
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 51,
-                    "offset": 50
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 51,
-                "offset": 50
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "object"
-              }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 237,
-              "column": 2
-            },
-            "end": {
-              "line": 241,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 242,
-                "column": 2
-              },
-              "end": {
-                "line": 247,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
-          },
-          "name": "step",
-          "kind": "member",
-          "memberof": "Position",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Position",
-              "kind": "class"
-            },
-            {
-              "name": "step",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Position#step"
         }
       ],
       "static": [],
@@ -6922,7 +7385,7 @@
           "column": 0
         },
         "end": {
-          "line": 218,
+          "line": 262,
           "column": 1
         }
       },
@@ -6942,7 +7405,603 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The slider's current value. If set manually, will update the interface and trigger the output event.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 101,
+                        "offset": 100
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 101,
+                    "offset": 100
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 101,
+                "offset": 100
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "slider.value = 10;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 198,
+              "column": 2
+            },
+            "end": {
+              "line": 202,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 203,
+                "column": 2
+              },
+              "end": {
+                "line": 205,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+          },
+          "examples": [
+            {
+              "description": "slider.value = 10;"
+            }
+          ],
+          "name": "value",
+          "kind": "member",
+          "memberof": "Slider",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Slider",
+              "kind": "class"
+            },
+            {
+              "name": "value",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Slider#value"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Lower limit of the sliders's output range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 42,
+                        "offset": 41
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 42,
+                    "offset": 41
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 42,
+                "offset": 41
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "slider.min = 1000;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 212,
+              "column": 2
+            },
+            "end": {
+              "line": 216,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 217,
+                "column": 2
+              },
+              "end": {
+                "line": 219,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+          },
+          "examples": [
+            {
+              "description": "slider.min = 1000;"
+            }
+          ],
+          "name": "min",
+          "kind": "member",
+          "memberof": "Slider",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Slider",
+              "kind": "class"
+            },
+            {
+              "name": "min",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Slider#min"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Upper limit of the slider's output range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 41,
+                "offset": 40
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "slider.max = 1000;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 224,
+              "column": 2
+            },
+            "end": {
+              "line": 228,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 229,
+                "column": 2
+              },
+              "end": {
+                "line": 231,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+          },
+          "examples": [
+            {
+              "description": "slider.max = 1000;"
+            }
+          ],
+          "name": "max",
+          "kind": "member",
+          "memberof": "Slider",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Slider",
+              "kind": "class"
+            },
+            {
+              "name": "max",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Slider#max"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The increment that the slider's value changes by.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 50,
+                    "offset": 49
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 50,
+                "offset": 49
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "title": "example",
+              "description": "slider.step = 5;",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 236,
+              "column": 2
+            },
+            "end": {
+              "line": 240,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 241,
+                "column": 2
+              },
+              "end": {
+                "line": 243,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+          },
+          "examples": [
+            {
+              "description": "slider.step = 5;"
+            }
+          ],
+          "name": "step",
+          "kind": "member",
+          "memberof": "Slider",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Slider",
+              "kind": "class"
+            },
+            {
+              "name": "step",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Slider#step"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Absolute mode (slider's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: \"relative\".",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 160,
+                        "offset": 159
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 160,
+                    "offset": 159
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 160,
+                "offset": 159
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "example",
+              "description": "slider.mode = \"relative\";",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 248,
+              "column": 2
+            },
+            "end": {
+              "line": 252,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 253,
+                "column": 2
+              },
+              "end": {
+                "line": 255,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+          },
+          "examples": [
+            {
+              "description": "slider.mode = \"relative\";"
+            }
+          ],
+          "name": "mode",
+          "kind": "member",
+          "memberof": "Slider",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Slider",
+              "kind": "class"
+            },
+            {
+              "name": "mode",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Slider#mode"
+        }
+      ],
       "static": [],
       "events": []
     },

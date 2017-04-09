@@ -206,6 +206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
+	
 	"use strict";
 	
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
@@ -223,10 +224,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Step = __webpack_require__(12);
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(13));
-	
-	/* NEEDS
-	way to set min/max/step of x and y via settings
-	*/
 	
 	/**
 	* Position
@@ -255,62 +252,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	      minX: 0,
 	      maxX: 1,
 	      stepX: 0,
-	      valueX: 0,
+	      x: 0,
 	      minY: 0,
 	      maxY: 1,
 	      stepY: 0,
-	      valueY: 0
+	      y: 0
 	    };
 	
 	    _get(Object.getPrototypeOf(Position.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this._value = {
-	      x: new Step(this.settings.minX, this.settings.maxX, this.settings.stepX, this.settings.valueX),
-	      y: new Step(this.settings.minY, this.settings.maxY, this.settings.stepY, this.settings.valueY)
-	    };
-	
-	    /**
-	    Absolute mode (position's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "absolute".
-	    @type {string}
-	    @example dial.mode = "relative";
-	    */
-	    this.mode = this.settings.mode;
+	    this._x = new Step(this.settings.minX, this.settings.maxX, this.settings.stepX, this.settings.x);
+	    this._y = new Step(this.settings.minY, this.settings.maxY, this.settings.stepY, this.settings.y);
 	
 	    this.position = {
-	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
-	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
+	      x: new Interaction.Handle(this.settings.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.settings.mode, "vertical", [0, this.width], [this.height, 0])
 	    };
-	    this.position.x.value = this._value.x.normalized;
-	    this.position.y.value = this._value.y.normalized;
+	    this.position.x.value = this._x.normalized;
+	    this.position.y.value = this._y.normalized;
 	
 	    this.init();
 	    this.render();
-	
-	    this._test = { x: 5, y: 5 };
-	
-	    this.test = Object.defineProperties({}, {
-	      x: {
-	        get: function () {
-	          console.log(this);
-	          return this._test.x;
-	        },
-	        set: function (v) {
-	          this._test.x = v;
-	        },
-	        configurable: true,
-	        enumerable: true
-	      },
-	      y: {
-	        get: function () {
-	          return this._test.y;
-	        },
-	        set: function (v) {
-	          this._test.y = v;
-	        },
-	        configurable: true,
-	        enumerable: true
-	      }
-	    });
 	  }
 	
 	  _inherits(Position, _Interface);
@@ -358,8 +320,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        this.knobCoordinates = {
-	          x: this._value.x.normalized * this.width,
-	          y: this.height - this._value.y.normalized * this.height
+	          x: this._x.normalized * this.width,
+	          y: this.height - this._y.normalized * this.height
 	        };
 	
 	        this.knob.setAttribute("cx", this.knobCoordinates.x);
@@ -378,11 +340,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.clicked) {
 	          this.position.x.update(this.mouse);
 	          this.position.y.update(this.mouse);
-	          this.value = {
-	            x: this._value.x.updateNormal(this.position.x.value),
-	            y: this._value.y.updateNormal(this.position.y.value)
-	          };
-	          this.emit("change", this.value);
+	          this._x.updateNormal(this.position.x.value);
+	          this._y.updateNormal(this.position.y.value);
+	          this.emit("change", {
+	            x: this._x.value,
+	            y: this._y.value
+	          });
 	          this.render();
 	        }
 	      }
@@ -392,107 +355,164 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.render();
 	      }
 	    },
-	    value: {
+	    x: {
 	
 	      /**
-	      * The interface's x and y values. When set, it will automatically adjust to fit min/max/step settings of the interface.
+	      * The interface's x value. When set, it will automatically adjust to fit min/max/step settings of the interface.
 	      * @type {object}
-	      * @example position.value = {
-	      *  x: 0.5,
-	      *  y: 0.5
-	      * };
+	      * @example position.x = 0.5;
 	      */
 	
 	      get: function () {
-	        return {
-	          x: this._value.x.value,
-	          y: this._value.y.value
-	        };
+	        return this._x.value;
 	      },
 	      set: function (value) {
-	        if (value.x || value.x === 0) {
-	          this._value.x.update(value.x);
-	        }
-	        if (value.x || value.x === 0) {
-	          this._value.y.update(value.y);
-	        }
+	        this._x.update(value);
+	        this.emit("change", {
+	          x: this._x.value,
+	          y: this._y.value
+	        });
+	        this.render();
+	      }
+	    },
+	    y: {
+	
+	      /**
+	      * The interface's y values. When set, it will automatically adjust to fit min/max/step settings of the interface.
+	      * @type {object}
+	      * @example position.x = 0.5;
+	      */
+	
+	      get: function () {
+	        return this._y.value;
+	      },
+	      set: function (value) {
+	        this._y.update(value);
+	        this.emit("change", {
+	          x: this._x.value,
+	          y: this._y.value
+	        });
+	        this.render();
 	      }
 	    },
 	    normalized: {
 	      get: function () {
 	        return {
-	          x: this._value.x.normalized,
-	          y: this._value.y.normalized
+	          x: this._x.normalized,
+	          y: this._y.normalized
 	        };
 	      }
 	    },
-	    min: {
+	    minX: {
 	
 	      /**
-	      * The lower limit of values on the x and y axes
+	      * The lower limit of value on the x axis
 	      * @type {object}
 	      * @example
 	      */
 	
 	      get: function () {
-	        return {
-	          x: this._value.x.min,
-	          y: this._value.y.min
-	        };
+	        return this._x.min;
 	      },
 	      set: function (v) {
-	        if (v.x || v.x === 0) {
-	          this._value.x.min = v.x;
-	        }
-	        if (v.x || v.x === 0) {
-	          this._value.y.min = v.y;
-	        }
+	        this._x.min = v;
+	        this.render();
 	      }
 	    },
-	    max: {
+	    minY: {
 	
 	      /**
-	      * The upper limit of values on the x and y axes
+	      * The lower limit of value on the y axis
 	      * @type {object}
 	      * @example
 	      */
 	
 	      get: function () {
-	        return {
-	          x: this._value.x.max,
-	          y: this._value.y.max
-	        };
+	        return this._y.min;
 	      },
 	      set: function (v) {
-	        if (v.x || v.x === 0) {
-	          this._value.x.max = v.x;
-	        }
-	        if (v.x || v.x === 0) {
-	          this._value.y.max = v.y;
-	        }
+	        this._y.min = v;
+	        this.render();
 	      }
 	    },
-	    step: {
+	    maxX: {
 	
 	      /**
-	      * The incremental step of values on the x and y axes
+	      * The upper limit of value on the x axis
 	      * @type {object}
 	      * @example
 	      */
 	
 	      get: function () {
-	        return {
-	          x: this._value.x.step,
-	          y: this._value.y.step
-	        };
+	        return this._x.max;
 	      },
 	      set: function (v) {
-	        if (v.x || v.x === 0) {
-	          this._value.x.step = v.x;
-	        }
-	        if (v.x || v.x === 0) {
-	          this._value.y.step = v.y;
-	        }
+	        this._x.max = v;
+	        this.render();
+	      }
+	    },
+	    maxY: {
+	
+	      /**
+	      * The upper limit of value on the y axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._y.max;
+	      },
+	      set: function (v) {
+	        this._y.max = v;
+	        this.render();
+	      }
+	    },
+	    stepX: {
+	
+	      /**
+	      * The incremental step of values on the x axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._x.step;
+	      },
+	      set: function (v) {
+	        this._x.step = v;
+	        this.render();
+	      }
+	    },
+	    stepY: {
+	
+	      /**
+	      * The incremental step of values on the y axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._y.step;
+	      },
+	      set: function (v) {
+	        this._y.step = v;
+	        this.render();
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (position's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "absolute".
+	      @type {string}
+	      @example dial.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.x.mode;
+	      },
+	      set: function (v) {
+	        this.position.x.mode = v;
+	        this.position.y.mode = v;
 	      }
 	    }
 	  });
@@ -556,23 +576,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.orientation = this.settings.orientation;
 	
-	    this.mode = this.settings.mode;
-	
 	    this.hasKnob = this.settings.hasKnob;
-	
-	    // this.step should eventually be get/set
-	    // updating it will update the _value step model
-	    this.step = this.settings.step; // float
 	
 	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
 	
-	    this.init();
-	
-	    // issue -- position should be created here, but 'resize interface' is called from within this.init, which tries to resize the position element.....
-	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position = new Interaction.Handle(this.settings.mode, this.orientation, [0, this.width], [this.height, 0]);
 	    this.position.value = this._value.normalized;
 	
-	    this.value = this._value.value;
+	    this.init();
+	
+	    this.position.direction = this.orientation;
 	
 	    this.emit("change", this.value);
 	  }
@@ -715,10 +728,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function move() {
 	        if (this.clicked) {
 	          this.position.update(this.mouse);
-	
-	          this.value = this._value.updateNormal(this.position.value);
-	
-	          this.emit("change", this.value);
+	          this._value.updateNormal(this.position.value);
+	          this.emit("change", this._value.value);
+	          this.render();
 	        }
 	      }
 	    },
@@ -727,19 +739,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.render();
 	      }
 	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    },
 	    value: {
+	
+	      /**
+	      The slider's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example slider.value = 10;
+	      */
+	
 	      get: function () {
 	        return this._value.value;
 	      },
-	      set: function (value) {
-	        this._value.update(value);
+	      set: function (v) {
+	        this._value.update(v);
 	        this.position.value = this._value.normalized;
 	        this.render();
 	      }
 	    },
-	    normalized: {
+	    min: {
+	
+	      /**
+	      Lower limit of the sliders's output range
+	      @type {number}
+	      @example slider.min = 1000;
+	      */
+	
 	      get: function () {
-	        return this._value.normalized;
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the slider's output range
+	      @type {number}
+	      @example slider.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the slider's value changes by.
+	      @type {number}
+	      @example slider.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (slider's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	      @type {string}
+	      @example slider.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.mode;
+	      },
+	      set: function (v) {
+	        this.position.mode = v;
 	      }
 	    }
 	  });
@@ -1916,11 +1995,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
 	          case "horizontal":
 	            return math.scale(current.x, this.boundary.min.x, this.boundary.max.x, 0, 1);
-	            /*  case '2d':
-	                return {
-	                  x: math.scale(current.x,this.boundary.min.x,this.boundary.max.x,0,1),
-	                  y: math.scale(current.y,this.boundary.min.y,this.boundary.max.y,0,1)
-	                } */
 	        }
 	      }
 	    }
@@ -7517,8 +7591,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.contents.style.padding = "10px";
 	
 	        if (this.title) {
-	          this.titleBar.innerHTML = this.title;
 	          this.titleBar = document.createElement("div");
+	          this.titleBar.innerHTML = this.title;
 	          this.titleBar.style.fontFamily = "arial";
 	          this.titleBar.style.position = "relative";
 	          this.titleBar.style.color = "#888";
