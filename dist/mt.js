@@ -2177,7 +2177,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Toggle.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    //this.parent = document.getElementById(parent.replace('#',''));
 	    this._state = new ToggleModel();
 	
 	    this.init();
@@ -2243,6 +2242,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    state: {
+	
+	      /**
+	      Whether the toggle is currently on or off. Setting this property will update the toggle interface and trigger the output event.
+	      @type {boolean}
+	      @example toggle.state = false;
+	      */
+	
 	      get: function () {
 	        return this._state.state;
 	      },
@@ -2253,20 +2259,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    flip: {
-	      value: function flip(value) {
-	        this._state.flip(value);
-	        this.render();
-	      }
-	    },
-	    turnOn: {
-	      value: function turnOn() {
-	        this._state.on();
-	        this.render();
-	      }
-	    },
-	    turnOff: {
-	      value: function turnOff() {
-	        this._state.off();
+	
+	      /**
+	      * Switch the toggle state to its opposite state
+	      * @example
+	      * toggle.flip();
+	      */
+	
+	      value: function flip() {
+	        this._state.flip();
 	        this.render();
 	      }
 	    }
@@ -6807,6 +6808,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // scale / clip the location here
 	    this.x = x >= 0 ? x : this.x;
 	    this.y = y >= 0 ? y : this.y;
+	
+	    if (this.envelope.nodes.indexOf(this) >= 0) {
+	
+	      var prevIndex = this.envelope.nodes.indexOf(this) - 1;
+	      var nextIndex = this.envelope.nodes.indexOf(this) + 1;
+	
+	      var prevNode = this.envelope.nodes[prevIndex];
+	      var nextNode = this.envelope.nodes[nextIndex];
+	
+	      var lowX = prevIndex >= 0 ? prevNode.x : 0;
+	      var highX = nextIndex < this.envelope.nodes.length ? nextNode.x : 1;
+	
+	      if (this.x < lowX) {
+	        this.x = lowX;
+	      }
+	      if (this.x > highX) {
+	        this.x = highX;
+	      }
+	    }
+	
 	    this.location = this.getCoordinates();
 	    this.element.setAttribute("cx", this.location.x);
 	    this.element.setAttribute("cy", this.location.y);
@@ -6846,24 +6867,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["value"];
 	
 	    var defaults = {
-	      size: [300, 150]
+	      size: [300, 150],
+	      scale: 1,
+	      points: [{
+	        x: 0.1,
+	        y: 0.4
+	      }, {
+	        x: 0.35,
+	        y: 0.6
+	      }, {
+	        x: 0.65,
+	        y: 0.2
+	      }, {
+	        x: 0.9,
+	        y: 0.4
+	      }]
 	    };
 	
 	    _get(Object.getPrototypeOf(Envelope.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.points = [{
-	      x: 0.1,
-	      y: 0.4
-	    }, {
-	      x: 0.35,
-	      y: 0.6
-	    }, {
-	      x: 0.65,
-	      y: 0.2
-	    }, {
-	      x: 0.9,
-	      y: 0.4
-	    }];
+	    this.points = this.settings.points;
+	
+	    this.scale = this.settings.scale;
 	
 	    this.nodes = [];
 	
@@ -6932,8 +6957,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    calculatePath: {
 	      value: function calculatePath() {
 	
-	        // should re-order points here ?
-	
 	        //stroke data
 	        var data = "0 " + this.nodes[0].location.y + ", ";
 	
@@ -6978,7 +7001,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function move() {
 	        if (this.clicked) {
 	          this.mouse.x = math.clip(this.mouse.x, 0, this.width);
-	          console.log(this.mouse.x);
 	          this.hasMoved = true;
 	
 	          this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
@@ -7009,14 +7031,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    findNearestNode: {
 	      value: function findNearestNode() {
 	        var nearestIndex = null;
-	        var nearestDist = 1000;
+	        // set this unreasonably high so that every distance will be lower than it.
+	        var nearestDist = 10000;
 	        var before = false;
 	        var x = this.mouse.x / this.width;
 	        var y = 1 - this.mouse.y / this.height;
 	        var nodes = this.nodes;
 	        for (var i = 0; i < nodes.length; i++) {
-	          var distance = Math.sqrt(Math.pow(nodes[i].x - x, 2), Math.pow(nodes[i].y - -y, 2));
 	
+	          // calculate the distance from mouse to this node using pythagorean theorem
+	          var distance = Math.sqrt(Math.pow(nodes[i].x - x, 2) + Math.pow(nodes[i].y - y, 2));
+	
+	          // if this distance is less than the previous shortest distance, use this index
 	          if (distance < nearestDist) {
 	            nearestDist = distance;
 	            nearestIndex = i;
@@ -7024,10 +7050,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	
-	        if (nearestDist > 0.05) {
-	          if (before) {
-	            nearestIndex++;
-	          }
+	        // if not very close to any node, create a node
+	        if (nearestDist > 0.07) {
+	
+	          nearestIndex = this.getXIndex(this.mouse);
+	
 	          this.nodes.splice(nearestIndex, 0, new Point({
 	            x: this.mouse.x / this.width,
 	            y: 1 - this.mouse.y / this.height
@@ -7038,40 +7065,93 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return nearestIndex;
 	      }
 	    },
+	    getXIndex: {
+	      value: function getXIndex(mouse) {
+	        var _this = this;
+	
+	        var index = 0;
+	        this.nodes.forEach(function (node, i) {
+	          if (_this.nodes[i].x <= mouse.x / _this.width) {
+	            index = i + 1;
+	          }
+	        });
+	        return index;
+	      }
+	    },
 	    scaleNode: {
-	      value: function scaleNode(nodeIndex) {
-	        var i = nodeIndex;
-	        var prevX = 0;
-	        var nextX = this.width;
+	      value: function scaleNode(i) {
 	
-	        var actualX = this.nodes[i].x;
-	        var actualY = this.nodes[i].y;
-	        var clippedX = math.clip(actualX, 0, 1);
-	        var clippedY = math.clip(actualY, 0, 1);
-	
-	        console.log(clippedX);
+	        var clippedX = math.clip(this.nodes[i].x, 0, 1);
+	        var clippedY = math.clip(this.nodes[i].y, 0, 1);
 	
 	        this.nodes[i].move(clippedX, clippedY);
+	      }
+	    },
+	    sortNodes: {
+	      value: function sortNodes() {
+	        var nodes = this.nodes;
+	        nodes.sort(function (a, b) {
+	          return a.x > b.x;
+	        });
+	      }
+	    },
+	    addPoint: {
+	      value: function addPoint(x, y) {
+	        var index = 0;
 	
-	        // find x value of nodes to the right and left
-	        if (i > 0) {
-	          prevX = this.nodes[i - 1].x;
-	        }
-	        if (this.nodes.length > i + 1) {
-	          nextX = this.nodes[i + 1].x;
-	        }
-	
-	        if (this.nodes[i].x < prevX) {
-	          this.nodes.splice(i - 1, 0, this.nodes.splice(i, 1)[0]);
-	          i = i - 1;
-	          this.selected = i;
+	        for (var i = 0; i < this.nodes.length; i++) {
+	          if (x < this.nodes[i].x) {
+	            index = i;
+	            break;
+	          }
 	        }
 	
-	        if (this.nodes[i].x > nextX) {
-	          this.nodes.splice(i + 1, 0, this.nodes.splice(i, 1)[0]);
-	          i = i + 1;
-	          this.selected = i;
-	        }
+	        this.nodes.splice(index, 0, new Point({
+	          x: x,
+	          y: y
+	        }, this));
+	
+	        this.scaleNode(index);
+	
+	        this.render();
+	      }
+	    },
+	    scan: {
+	      value: function scan(location) {
+	        // find surrounding points
+	        var priorPoint = 0;
+	        var nextPoint = 0;
+	        var loc = math.scale(location, priorPoint.x, nextPoint.x, 0, 1);
+	        var value = math.interp(loc, priorPoint.y, nextPoint.y);
+	      }
+	    },
+	    movePoint: {
+	      value: function movePoint(index, x, y) {
+	        this.nodes[index].move(x, y);
+	        this.scaleNode(index);
+	        this.render();
+	      }
+	    },
+	    adjustPoint: {
+	      value: function adjustPoint(index, xOffset, yOffset) {
+	        this.nodes[index].move(this.nodes[index].x + xOffset, this.nodes[index].y + yOffset);
+	        this.scaleNode(index);
+	        this.render();
+	      }
+	    },
+	    destroyPoint: {
+	      value: function destroyPoint(index) {
+	        this.nodes[index].destroy();
+	        this.render();
+	      }
+	    },
+	    setPoints: {
+	      value: function setPoints(allPoints) {
+	        var _this = this;
+	
+	        allPoints.forEach(function (point) {
+	          _this.addPoint(point.x, point.y);
+	        });
 	      }
 	    }
 	  });

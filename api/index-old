@@ -14,7 +14,7 @@
 <body class='documentation'>
 
   <div id="sidebar" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
-    
+
     <h2>Getting Started</h2>
     <a href="">Creating Interfaces</a><br />
     <a href="">Creating a Rack</a><br />
@@ -50,10 +50,11 @@
     <h3>Visualization</h3>
     <a href="javascript:doc('Meter')">mt.meter</a><br />
     <a href="javascript:doc('Oscilloscope')">mt.oscilloscope</a><br />
-    <a href="javascript:doc('Spectrogram')">mt.spectragram</a><br />
+    <a href="javascript:doc('Spectragram')">mt.spectragram</a><br />
 
 
     <h2>Tuning</h2>
+    <a href="javascript:tut('note')">mt.note</a><br />
     <a href="javascript:tut('tune')">mt.tune</a><br />
 
     <h2>Timing</h2>
@@ -95,56 +96,54 @@
     {{#examples}}
       <div class="code-basic">
         {{title}}:
-        <pre class="example"><code class="language-javascript">{{ description }}</code></pre>
+        <pre class="property-example"><code class="language-javascript">{{ description }}</code></pre>
       </div>
     {{/examples}}
 
+
+    <div class="output">
+      <h4>Data Output</h4>
+      {{{ output }}}
+    </div>
+
+
     <div class="properties">
 
+      <h4>Properties</h4>
+
       {{#properties}}
-        <div class="property">
-          <div class="property-name">{{ name }}</div>
-          <div class="property-type">{{ type }}</div>
-          <div class="property-description">{{ description }}</div>
-          {{ #example }}
-            <pre class="example property-example"><code class="language-javascript">{{ code }}</code></pre>
-          {{ /example }}
-          <div class="example-toggle">Example</div>
-        </div>
+        <div class="property-name">{{ name }}</div>
+        <div class="property-type">{{ type }}</div>
+        <div class="property-description">{{ description }}</div>
+        {{ #example }}
+          <pre class="property-example"><code class="language-javascript">{{ code }}</code></pre>
+        {{ /example }}
       {{/properties}}
 
     </div>
 
     <div class="methods">
 
+      <h4>Methods</h4>
+
       {{#methods}}
-        <div class="method">
-          <div class="method-name">{{ name }}(
-            {{#parameters}}
-              {{name}}{{^last}}, {{/last}}
-            {{/parameters}}
-          )</div>
-          <div class="method-description">{{ description }}</div>
-          {{ #example }}
-            <pre class="example method-example"><code class="language-javascript">{{ code }}</code></pre>
-          {{ /example }}
-          <div class="example-toggle">Example</div>
-        </div>
+        <div class="method-name">{{ name }}(
+          {{#parameters}}
+            {{name}}{{^last}}, {{/last}}
+          {{/parameters}}
+        )</div>
+        <div class="method-description">{{ description }}</div>
+        {{ #example }}
+          <pre class="method-example"><code class="language-javascript">{{ code }}</code></pre>
+        {{ /example }}
       {{/methods}}
 
     </div>
 
-
-    <div class="output">
-      <h4>Events</h4>
-      {{{ output }}}
-    </div>
-
-
     <div class="examples">
 
       {{#tutorials}}
-        <div class="codepen">
+        <div class="example">
           <h3>Example: {{name}}</h3>
           {{{codepen}}}
           {{description}}
@@ -154,142 +153,6 @@
     </div>
 
     </script>
-
-  </div>
-
-
-
-<!--
-
-MT.TUNE
-
--->
-
-  <div id="tune" class="custom-tutorial" style="display:none">
-    <h2>Managing Pitches</h2>
-
-    <p>
-      This toolkit provides rudimentary methods for managing musical scales. The approach emphasizes algorithmic composition by turning musical pitches into numbers -- using scale degrees numbers and octave numbers instead of note names like C, D, and E. Here is an example:
-    </p>
-
-     <pre><code class="language-javascript">
-// Create a major chord drone, assuming synth1, synth2, and synth3 exist
-
-// mt.note(0) returns the frequency of the 1st note of the scale
-synth1.frequency.value = mt.note(0);
-
-// mt.note(2) returns the frequency of the 3rd note of the scale
-synth2.frequency.value = mt.note(2);
-
-// mt.note(4) returns the frequency of the 5th note of the scale
-synth3.frequency.value = mt.note(4);
-     </code></pre>
-
-<!--     <pre><code class="language-javascript">
-// Every 100ms, play a random note from a random octave in the major scale
-mt.interval(100,function() {
- var scaleDegree = mt.ri( 0, mt.tune.scale.length );
- var octave = mt.ri( -3 , 3 );
- synth1.frequency.value = mt.tune.note( scaleDegree, octave ); // returns the root
-})
-     </code></pre> -->
-
-Another example:
-    <pre><code class="language-javascript">
-// Play 5 octaves of the major scale
-
-var scaleDegree = mt.counter( 0, mt.tune.scale.length*5 );
-
-mt.interval(100,function() {
-  synth1.frequency.value = mt.tune.note( scaleDegree.next() );
-})
-    </code></pre>
-
-
-
-
-    <!-- section -->
-
-    <h3>Turning Scale Degrees to Frequency Numbers with mt.note()</h3>
-     <p>
-       <span class="codesnipper">mt.note()</span> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
-     </p>
-
-     <pre>
-       <code class="language-javascript">
-synth.frequency.value = mt.note(0) // returns the root
-       </code>
-     </pre>
-
-
-     <!-- section -->
-
-     <h3>Getting Ratios or MIDI instead of Frequencies</h3>
-     <p>
-       For other ways of retrieving pitch data, ... <b>mt.tune.frequency</b>, <b>mt.tune.ratio</b>, and <b>mt.tune.midi</b>
-     </p>
-
-
-
-    <!-- section -->
-
-    <h3>Changing the Scale</h3>
-    <p>
-      By default, the scale is an equal-tempered major scale.
-    </p>
-    <p>
-      We do not provide any other built-in scales. However, we provide two ways for you to create your own scale.
-    </p>
-
-    <h4>Describing an Equal-Tempered Scale</h4>
-    <pre><code class="language-javascript">
-// Create a minor scale
-mt.tune.createScale(0,2,3,5,7,8,10);
-    </code></pre>
-
-
-    <h4>Describing a Just Intonation Scale</h4>
-    <pre><code class="language-javascript">
-// Create a major scale in just intonation
-mt.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
-    </code></pre>
-
-
-    <!-- section -->
-
-    <h3>Changing the root </h3>
-    <p>
-      By default, the root of the scale is Middle C. Therefore, <b>mt.note(0)</b> returns the frequency for Middle C.
-    </p>
-
-    <p>
-      You can set the root using <b>mt.tune.root</b>, which is a frequency value.
-    </p>
-
-    <pre><code class="language-javascript">
-// Set the root to C 3 octaves below Middle C.
-mt.tune.root = mt.tune.note(0,-3);
-    </code></pre>
-
-
-    <p>
-      The root can also be set using traditional musical values like "C3" or "A1". This is the only place in this toolkit where this type of music notation is used.
-    </p>
-
-    <pre><code class="language-javascript">
-// Set the root to low A.
-mt.tune.root = "A1";
-    </code></pre>
-
-
-    <p>
-      If working in just intonation, you can set mt.tune.root direction to a frequency value.
-    </p>
-
-    <pre><code class="language-javascript">
-// Set the root of your JI scale to 120hz.
-mt.tune.root = 120;
-    </code></pre>
 
   </div>
 
@@ -430,16 +293,6 @@ mt.tune.root = 120;
 
       API[key] = entry
     }
-
-
-    //load hash
-    if(window.location.hash) {
-        var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
-        console.log(hash);
-        doc(hash);
-    }
-
-
   });
 
   function doc(name) {
@@ -449,19 +302,19 @@ mt.tune.root = 120;
     var rendered = Mustache.render(template, entry);
     $('#target').html(rendered);
     Prism.highlightAll();
-    instrument = mt.rack("target");
-    $(".example-toggle").click(function() {
-      $(this).parent().find(".example").toggle();
-    })
+    mt.rack("target");
   }
+</script>
+<script>
+
+function loadUser() {
+  var template = $('#template').html();
+  Mustache.parse(template);   // optional, speeds up future uses
+  var rendered = Mustache.render(template, {name: "Luke"});
+  $('#target').html(rendered);
+}
 
 
-  function tut(name) {
-    $('#target').empty();
-    $("#"+name).clone().appendTo('#target').show()
-    Prism.highlightAll();
-    instrument = mt.rack("target");
-  }
 </script>
 <style>
 
@@ -469,20 +322,16 @@ mt.tune.root = 120;
     font-family: 'Muli', courier;
     padding:0;
     margin:0;
-    width:100%;
-    user-select:#000 !important;
   }
 
   #sidebar {
-    position:fixed;
-    height:100%;
-    overflow:auto;
+    position:absolute;
     width:225px;
     padding:10px 20px 20px;
     box-sizing:border-box;
   }
   #tutorial {
-    width: calc(100%-225px);
+    width: calc(100% - 225px)
     float:left;
   }
 
@@ -540,21 +389,17 @@ mt.tune.root = 120;
     margin:0px;
   }
 
-  .tutorial .output, .tutorial .properties, .tutorial .codepen {
-  	border-top: solid 0px #ccc;
+  .tutorial .output, .tutorial .properties, .tutorial .methods, .tutorial .example {
+  	border-top: solid 2px #ccc;
   	margin-top:30px;
   	padding:30px 0px 0px;
   }
 
-  .tutorial .properties {
-    padding:0px 0px 0px;
-  }
-
   .tutorial .property-name, .tutorial .method-name {
-    font-weight: 700;
-    padding: 0px 20px 0px 0px;
-    font-size: 17px;
-    display: inline-block;
+  	font-weight:700;
+  	padding:30px 20px 0px 0px;
+  	font-size: 22px;
+  	display:inline-block;
 
   }
   .tutorial .property-type, .tutorial .method-type {
@@ -570,40 +415,6 @@ mt.tune.root = 120;
   }
   .tutorial .property-example, .tutorial .method-example {
   	padding:20px;
-    display:none;
-  }
-
-  .tutorial .property, .tutorial .method {
-    border: solid 1px #555;
-    padding: 10px 20px;
-    border-left-width: 1px;
-    margin: 20px 0px;
-    border-bottom: none;
-    border-right: none;
-    position:relative;
-  }
-  .tutorial .example-toggle {
-    position:absolute;
-    top:0px;
-    right:0px;
-    border: solid 1px #555;
-    color:#333;
-    padding:3px 6px;
-    font-size:11px;
-    border-top:none;
-    cursor:pointer;
-  }
-  .tutorial .example-toggle:hover {
-    background-color:#eee;
-  }
-
-
-  .custom-tutorial pre {
-    padding:0px 25px;
-  }
-
-  .custom-tutorial h3 {
-    margin-top:30px;
   }
 
 </style>

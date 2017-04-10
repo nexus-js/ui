@@ -14,7 +14,7 @@
 <body class='documentation'>
 
   <div id="sidebar" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
-    
+
     <h2>Getting Started</h2>
     <a href="">Creating Interfaces</a><br />
     <a href="">Creating a Rack</a><br />
