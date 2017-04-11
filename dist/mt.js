@@ -902,6 +902,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
+	  if (inMin === inMax) {
+	    return outMin;
+	  }
 	  return (inNum - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 	};
 	
@@ -5047,7 +5050,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Grid of buttons with built-in step sequencer.
 	*
-	* @demo <div mt="matrix"></div>
+	* @demo <div mt="matrix" style="width:400px;height:200px;"></div>
 	*
 	* @example
 	* var matrix = mt.matrix('#target')
@@ -5077,17 +5080,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.mode = this.settings.mode;
 	
+	    /**
+	    A Matrix Model containing methods for manipulating the matrix's array of values.
+	    @type {MatrixModel}
+	    */
 	    this.model = new MatrixModel(this.rows, this.columns);
 	    this.model.ui = this;
 	
 	    this.model.format();
 	
-	    //  this.sequence = { value: -1 };
+	    /**
+	    A Counter Model which contains the order of sequence steps. For example, you could use this model to sequence the matrix in reverse, randomly, or in a drunk walk.
+	    @type {CounterModel}
+	    */
 	    this.sequence = new CounterModel(0, this.columns);
-	    // this.pulse = new Time.Interval();
 	
 	    this.init();
-	    //  this.render();
 	  }
 	
 	  _inherits(Matrix, _Interface);
@@ -5158,22 +5166,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function update() {
 	        var _this = this;
 	
+	        console.log(this.model.pattern);
 	        this.model.iterate(function (r, c, i) {
 	          if (_this.model.pattern[r][c] > 0) {
+	            //  console.log("changing to true");
 	            _this.cells[i].state = true;
+	            //  console.log(this.cells[i].state );
 	          } else {
+	            //  console.log("changing to false");
 	            _this.cells[i].state = false;
+	            //  console.log(this.cells[i].state );
 	          }
 	        });
 	      }
 	    },
 	    keyChange: {
-	      value: function keyChange(i, v) {
+	      value: function keyChange(note, value) {
 	        // emit data for any key turning on/off
 	        // i is the note index
 	        // v is whether it is on or off
 	        // console.log(this,i,v);
-	        this.emit("change", i, v);
+	        var cell = this.model.locate(note);
+	        this.model.set.cell(cell.column, cell.row, value);
+	        this.emit("change", note, value);
 	        // rename to (note,on)
 	      }
 	    },
@@ -5184,8 +5199,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.sequence.value >= 0) {
 	          this.model.iterate(function (r, c, i) {
 	            if (c === _this.sequence.value) {
-	              _this.cells[i].pad.setAttribute("stroke", "#fff");
-	              _this.cells[i].pad.setAttribute("stroke-width", "6");
+	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
+	              _this.cells[i].pad.setAttribute("stroke-width", "5");
+	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
 	            } else {
 	              _this.cells[i].pad.setAttribute("stroke", "none");
 	            }
@@ -5194,6 +5210,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    start: {
+	
+	      /**
+	      Start sequencing
+	      */
+	
 	      value: function start() {
 	        if (!this.invertal) {
 	          this.next();
@@ -5202,23 +5223,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    stop: {
+	
+	      /**
+	      Stop sequencing
+	      */
+	
 	      value: function stop() {
 	        clearInterval(this.interval);
 	        this.interval = false;
 	      }
 	    },
 	    next: {
+	
+	      /**
+	      Manually jump to the next column and trigger the 'change' event. The "next" column is determined by your mode of sequencing.
+	      */
+	
 	      value: function next() {
-	        //this.sequence.next();
-	        //  this.sequence.value = (this.sequence.value + 1) % this.columns;
 	        this.sequence.next();
 	        this.emit("change", this.model.column(this.sequence.value));
 	        this.render();
 	      }
 	    },
 	    addTouchListeners: {
-	      // introduce counter model and timing
-	
 	      value: function addTouchListeners() {
 	        var _this = this;
 	
@@ -5299,33 +5326,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.create(rows, columns);
 	
 	    this.toggle = {
-	      cell: function (row, column) {
+	      cell: function (column, row) {
 	        _this.pattern[row][column] = !_this.pattern[row][column]; // math.invert(this.pattern[row][column]);
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	        return _this.pattern[row][column];
 	      },
 	      all: function () {
 	        _this.iterate(function (r, c) {
-	          _this.toggle.cell(r, c);
+	          _this.toggle.cell(c, r);
 	        });
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      },
 	      row: function (row) {
 	        for (var i = 0; i < _this.columns; i++) {
-	          _this.toggle.cell(row, i);
+	          _this.toggle.cell(i, row);
 	        }
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      },
 	      column: function (column) {
 	        for (var i = 0; i < _this.rows; i++) {
-	          _this.toggle.cell(i, column);
+	          _this.toggle.cell(column, i);
 	        }
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      }
 	    };
 	
 	    this.set = {
-	      cell: function (row, column, value) {
+	      cell: function (column, row, value) {
 	        _this.pattern[row][column] = value;
 	        return _this.pattern[row][column];
 	      } };
@@ -5336,14 +5371,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var cut = _this.pattern[i].splice(_this.pattern[i].length - amount, amount);
 	          _this.pattern[i] = cut.concat(_this.pattern[i]);
 	        }
-	        _this.format();
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      },
 	      row: function (row, amount) {
 	        var cut = _this.pattern[row].splice(_this.pattern[row].length - amount, amount);
 	        _this.pattern[row] = cut.concat(_this.pattern[row]);
-	        _this.format();
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      } };
 	
 	    // the idea behind populate is to be able to set a whole row or colum to 0 or 1
@@ -6788,6 +6825,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let dom = require('../util/dom');
 	var Interface = __webpack_require__(7);
 	
+	/* NEEDS
+	Events. What are they and when do they happen?
+	*/
+	
 	var Point = function Point(point, envelope) {
 	
 	  this.x = point.x;
@@ -6805,9 +6846,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  this.move = function (x, y) {
-	    // scale / clip the location here
-	    this.x = x >= 0 ? x : this.x;
-	    this.y = y >= 0 ? y : this.y;
+	
+	    this.x = x || x === 0 ? x : this.x;
+	    this.y = y || y === 0 ? y : this.y;
 	
 	    if (this.envelope.nodes.indexOf(this) >= 0) {
 	
@@ -7003,6 +7044,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.mouse.x = math.clip(this.mouse.x, 0, this.width);
 	          this.hasMoved = true;
 	
+	          console.log(this.mouse.x);
+	
 	          this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
 	          this.scaleNode(this.selected);
 	
@@ -7053,7 +7096,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // if not very close to any node, create a node
 	        if (nearestDist > 0.07) {
 	
-	          nearestIndex = this.getXIndex(this.mouse);
+	          nearestIndex = this.getIndexFromX(this.mouse.x / this.width);
 	
 	          this.nodes.splice(nearestIndex, 0, new Point({
 	            x: this.mouse.x / this.width,
@@ -7065,13 +7108,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return nearestIndex;
 	      }
 	    },
-	    getXIndex: {
-	      value: function getXIndex(mouse) {
+	    getIndexFromX: {
+	      value: function getIndexFromX(x) {
 	        var _this = this;
 	
 	        var index = 0;
 	        this.nodes.forEach(function (node, i) {
-	          if (_this.nodes[i].x <= mouse.x / _this.width) {
+	          if (_this.nodes[i].x <= x) {
 	            index = i + 1;
 	          }
 	        });
@@ -7087,17 +7130,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.nodes[i].move(clippedX, clippedY);
 	      }
 	    },
-	    sortNodes: {
-	      value: function sortNodes() {
-	        var nodes = this.nodes;
-	        nodes.sort(function (a, b) {
+	    sortPoints: {
+	
+	      /**
+	      Sort the this.points array from left-most point to right-most point. You should not regularly need to use this, however it may be useful if the points get unordered.
+	      */
+	
+	      value: function sortPoints() {
+	        this.nodes.sort(function (a, b) {
 	          return a.x > b.x;
 	        });
 	      }
 	    },
 	    addPoint: {
+	
+	      /**
+	      Add a breakpoint on the envelope.
+	      @param x {number} x location of the point, normalized (0-1)
+	      @param y {number} y location of the point, normalized (0-1)
+	      */
+	
 	      value: function addPoint(x, y) {
 	        var index = 0;
+	
+	        this.sortPoints();
 	
 	        for (var i = 0; i < this.nodes.length; i++) {
 	          if (x < this.nodes[i].x) {
@@ -7117,15 +7173,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    scan: {
-	      value: function scan(location) {
+	
+	      /**
+	      Find the level at a certain x location on the envelope.
+	      @param x {number} The x location to find the level of, normalized 0-1
+	      */
+	
+	      value: function scan(x) {
 	        // find surrounding points
-	        var priorPoint = 0;
-	        var nextPoint = 0;
-	        var loc = math.scale(location, priorPoint.x, nextPoint.x, 0, 1);
+	        var nextIndex = this.getIndexFromX(x);
+	        var priorIndex = nextIndex - 1;
+	        if (priorIndex < 0) {
+	          priorIndex = 0;
+	        }
+	        if (nextIndex >= this.nodes.length) {
+	          nextIndex = this.nodes.length - 1;
+	        }
+	        var priorPoint = this.nodes[priorIndex];
+	        var nextPoint = this.nodes[nextIndex];
+	        var loc = math.scale(x, priorPoint.x, nextPoint.x, 0, 1);
 	        var value = math.interp(loc, priorPoint.y, nextPoint.y);
+	        console.log(priorIndex, nextIndex, priorPoint, nextPoint, loc, value);
+	        this.emit("scan", value);
+	        return value;
 	      }
 	    },
 	    movePoint: {
+	
+	      /**
+	      Move a breakpoint on the envelope.
+	      @param index {number} The index of the breakpoint to move
+	      @param x {number} New x location, normalized 0-1
+	      @param y {number} New y location, normalized 0-1
+	      */
+	
 	      value: function movePoint(index, x, y) {
 	        this.nodes[index].move(x, y);
 	        this.scaleNode(index);
@@ -7133,6 +7214,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    adjustPoint: {
+	
+	      /**
+	      Move a breakpoint on the envelope by a certain amount.
+	      @param index {number} The index of the breakpoint to move
+	      @param xOffset {number} X displacement, normalized 0-1
+	      @param yOffset {number} Y displacement, normalized 0-1
+	      */
+	
 	      value: function adjustPoint(index, xOffset, yOffset) {
 	        this.nodes[index].move(this.nodes[index].x + xOffset, this.nodes[index].y + yOffset);
 	        this.scaleNode(index);
@@ -7140,15 +7229,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    destroyPoint: {
+	
+	      /**
+	      Remove a breakpoint from the envelope.
+	      @param index {number} Index of the breakpoint to remove
+	      */
+	
 	      value: function destroyPoint(index) {
 	        this.nodes[index].destroy();
 	        this.render();
 	      }
 	    },
 	    setPoints: {
+	
+	      /**
+	      Remove all existing breakpoints and add an entirely new set of breakpoints.
+	      @param allPoints {array} An array of objects with x/y properties (normalized 0-1). Each object in the array specifices the x/y location of a new breakpoint to be added.
+	      */
+	
 	      value: function setPoints(allPoints) {
 	        var _this = this;
 	
+	        this.nodes.forEach(function (point) {
+	          point.destroy();
+	        });
 	        allPoints.forEach(function (point) {
 	          _this.addPoint(point.x, point.y);
 	        });
