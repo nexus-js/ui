@@ -191,7 +191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Number: __webpack_require__(25),
 	  Dial: __webpack_require__(26),
 	  Piano: __webpack_require__(27),
-	  Matrix: __webpack_require__(28),
+	  Sequencer: __webpack_require__(52),
 	  Pan3D: __webpack_require__(32),
 	  Tilt: __webpack_require__(33),
 	  Multislider: __webpack_require__(35),
@@ -884,8 +884,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	};
-	
-	/* */
 
 /***/ },
 /* 6 */
@@ -4899,409 +4897,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// loop through and render the keys?
 
 /***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(5);
-	var dom = __webpack_require__(8);
-	var Interface = __webpack_require__(7);
-	var ButtonTemplate = __webpack_require__(22);
-	var MatrixModel = __webpack_require__(29);
-	var CounterModel = __webpack_require__(30);
-	//let Time = require('../core/time');
-	var touch = __webpack_require__(10);
-	
-	var MatrixCell = (function (_ButtonTemplate) {
-	  function MatrixCell() {
-	    _classCallCheck(this, MatrixCell);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [80, 80],
-	      target: false,
-	      mode: "toggle",
-	      value: 0
-	    };
-	
-	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.index = this.settings.index;
-	    this.row = this.settings.row;
-	    this.column = this.settings.column;
-	
-	    this.interacting = false;
-	    this.paintbrush = false;
-	
-	    this.init();
-	    this.render();
-	  }
-	
-	  _inherits(MatrixCell, _ButtonTemplate);
-	
-	  _createClass(MatrixCell, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = svg.create("svg");
-	        this.element.setAttribute("width", this.width);
-	        this.element.setAttribute("height", this.height);
-	        this.element.style.top = "0px";
-	        this.element.style.left = "0px";
-	        this.element.style.position = "absolute";
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	        var _this = this;
-	
-	        this.pad = svg.create("rect");
-	        this.element.appendChild(this.pad);
-	
-	        this.sizeInterface();
-	
-	        /* events */
-	
-	        if (!touch.exists) {
-	
-	          this.click = function () {
-	            _this.matrix.interacting = true;
-	            _this.matrix.paintbrush = !_this.state;
-	            _this.down(_this.matrix.paintbrush);
-	          };
-	          this.pad.addEventListener("mouseover", function () {
-	            if (_this.matrix.interacting) {
-	              _this.down(_this.matrix.paintbrush);
-	            }
-	          });
-	
-	          this.move = function () {};
-	          this.pad.addEventListener("mousemove", function (e) {
-	            if (_this.matrix.interacting) {
-	              if (!_this.offset) {
-	                _this.offset = dom.findPosition(_this.element);
-	              }
-	              _this.mouse = dom.locateMouse(e, _this.offset);
-	              _this.bend();
-	            }
-	          });
-	
-	          this.release = function () {
-	            _this.matrix.interacting = false;
-	          };
-	          this.pad.addEventListener("mouseup", function () {
-	            if (_this.matrix.interacting) {
-	              _this.up();
-	            }
-	          });
-	          this.pad.addEventListener("mouseout", function () {
-	            if (_this.matrix.interacting) {
-	              _this.up();
-	            }
-	          });
-	        }
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        this.pad.setAttribute("x", 1);
-	        this.pad.setAttribute("y", 1);
-	        if (this.width > 2) {
-	          this.pad.setAttribute("width", this.width - 2);
-	        } else {
-	          this.pad.setAttribute("width", this.width);
-	        }
-	        if (this.height > 2) {
-	          this.pad.setAttribute("height", this.height - 2);
-	        } else {
-	          this.pad.setAttribute("height", this.height);
-	        }
-	        //this.pad.setAttribute('height', this.height - 2);
-	        this.pad.setAttribute("fill", "#e7e7e7");
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
-	        } else {
-	          this.pad.setAttribute("fill", "#d18");
-	        }
-	      }
-	    }
-	  });
-	
-	  return MatrixCell;
-	})(ButtonTemplate);
-	
-	/**
-	* Matrix
-	*
-	* @description Grid of buttons with built-in step sequencer.
-	*
-	* @demo <div mt="matrix" style="width:400px;height:200px;"></div>
-	*
-	* @example
-	* var matrix = mt.matrix('#target')
-	*
-	*/
-	
-	var Matrix = (function (_Interface) {
-	  function Matrix() {
-	    _classCallCheck(this, Matrix);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [400, 200],
-	      target: false,
-	      value: 0,
-	      mode: "toggle"
-	    };
-	
-	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.columns = 10;
-	    this.rows = 5;
-	
-	    this.cells = [];
-	    this.active = -1;
-	
-	    this.mode = this.settings.mode;
-	
-	    /**
-	    A Matrix Model containing methods for manipulating the matrix's array of values.
-	    @type {MatrixModel}
-	    */
-	    this.model = new MatrixModel(this.rows, this.columns);
-	    this.model.ui = this;
-	
-	    this.model.format();
-	
-	    /**
-	    A Counter Model which contains the order of sequence steps. For example, you could use this model to sequence the matrix in reverse, randomly, or in a drunk walk.
-	    @type {CounterModel}
-	    */
-	    this.sequence = new CounterModel(0, this.columns);
-	
-	    this.init();
-	  }
-	
-	  _inherits(Matrix, _Interface);
-	
-	  _createClass(Matrix, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = document.createElement("div");
-	        this.element.style.position = "relative";
-	        this.element.style.display = "block";
-	        this.element.style.width = "100%";
-	        this.element.style.height = "100%";
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        for (var i = 0; i < this.model.length; i++) {
-	
-	          var _location = this.model.locate(i);
-	          // returns {row,col}
-	
-	          var container = document.createElement("span");
-	          container.style.position = "absolute";
-	
-	          var cell = new MatrixCell(container, {
-	            component: true,
-	            index: i,
-	            row: _location.row,
-	            column: _location.column,
-	            mode: this.mode
-	          }, this.keyChange.bind(this, i));
-	
-	          cell.matrix = this;
-	          if (touch.exists) {
-	            cell.pad.index = i;
-	            cell.preClick = cell.preMove = cell.preRelease = function () {};
-	            cell.click = cell.move = cell.release = function () {};
-	            cell.preTouch = cell.preTouchMove = cell.preTouchRelease = function () {};
-	            cell.touch = cell.touchMove = cell.touchRelease = function () {};
-	          }
-	
-	          this.cells.push(cell);
-	          this.element.appendChild(container);
-	        }
-	        if (touch.exists) {
-	          this.addTouchListeners();
-	        }
-	        this.sizeInterface();
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        var cellWidth = this.width / this.columns;
-	        var cellHeight = this.height / this.rows;
-	
-	        for (var i = 0; i < this.cells.length; i++) {
-	          var container = this.cells[i].parent;
-	          container.style.left = this.cells[i].column * cellWidth + "px";
-	          container.style.top = this.cells[i].row * cellHeight + "px";
-	          this.cells[i].resize(cellWidth, cellHeight);
-	        }
-	      }
-	    },
-	    update: {
-	      value: function update() {
-	        var _this = this;
-	
-	        console.log(this.model.pattern);
-	        this.model.iterate(function (r, c, i) {
-	          if (_this.model.pattern[r][c] > 0) {
-	            //  console.log("changing to true");
-	            _this.cells[i].state = true;
-	            //  console.log(this.cells[i].state );
-	          } else {
-	            //  console.log("changing to false");
-	            _this.cells[i].state = false;
-	            //  console.log(this.cells[i].state );
-	          }
-	        });
-	      }
-	    },
-	    keyChange: {
-	      value: function keyChange(note, value) {
-	        // emit data for any key turning on/off
-	        // i is the note index
-	        // v is whether it is on or off
-	        // console.log(this,i,v);
-	        var cell = this.model.locate(note);
-	        this.model.set.cell(cell.column, cell.row, value);
-	        this.emit("change", note, value);
-	        // rename to (note,on)
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        var _this = this;
-	
-	        if (this.sequence.value >= 0) {
-	          this.model.iterate(function (r, c, i) {
-	            if (c === _this.sequence.value) {
-	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
-	              _this.cells[i].pad.setAttribute("stroke-width", "5");
-	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
-	            } else {
-	              _this.cells[i].pad.setAttribute("stroke", "none");
-	            }
-	          });
-	        }
-	      }
-	    },
-	    start: {
-	
-	      /**
-	      Start sequencing
-	      */
-	
-	      value: function start() {
-	        if (!this.invertal) {
-	          this.next();
-	          this.interval = setInterval(this.next.bind(this), 200);
-	        }
-	      }
-	    },
-	    stop: {
-	
-	      /**
-	      Stop sequencing
-	      */
-	
-	      value: function stop() {
-	        clearInterval(this.interval);
-	        this.interval = false;
-	      }
-	    },
-	    next: {
-	
-	      /**
-	      Manually jump to the next column and trigger the 'change' event. The "next" column is determined by your mode of sequencing.
-	      */
-	
-	      value: function next() {
-	        this.sequence.next();
-	        this.emit("change", this.model.column(this.sequence.value));
-	        this.render();
-	      }
-	    },
-	    addTouchListeners: {
-	      value: function addTouchListeners() {
-	        var _this = this;
-	
-	        this.preClick = this.preMove = this.preRelease = function () {};
-	        this.click = this.move = this.release = function () {};
-	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
-	        this.touch = this.touchMove = this.touchRelease = function () {};
-	
-	        this.currentElement = false;
-	
-	        this.element.addEventListener("touchstart", function (e) {
-	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-	          var cell = _this.cells[element.index];
-	          _this.paintbrush = !cell.state;
-	          cell.down(_this.paintbrush);
-	          _this.currentElement = element.index;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	
-	        this.element.addEventListener("touchmove", function (e) {
-	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-	          var cell = _this.cells[element.index];
-	          if (element.index !== _this.currentElement) {
-	            if (_this.currentElement >= 0) {
-	              var pastCell = _this.cells[_this.currentElement];
-	              pastCell.up();
-	            }
-	            cell.down(_this.paintbrush);
-	          } else {
-	            cell.bend();
-	          }
-	          _this.currentElement = element.index;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	
-	        this.element.addEventListener("touchend", function (e) {
-	          // no touches to calculate because none remaining
-	          var cell = _this.cells[_this.currentElement];
-	          cell.up();
-	          _this.interacting = false;
-	          _this.currentElement = false;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	      }
-	    }
-	  });
-	
-	  return Matrix;
-	})(Interface);
-	
-	module.exports = Matrix;
-
-/***/ },
+/* 28 */,
 /* 29 */
 /***/ function(module, exports) {
 
@@ -8969,6 +8565,409 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Sequence;
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(5);
+	var dom = __webpack_require__(8);
+	var Interface = __webpack_require__(7);
+	var ButtonTemplate = __webpack_require__(22);
+	var MatrixModel = __webpack_require__(29);
+	var CounterModel = __webpack_require__(30);
+	//let Time = require('../core/time');
+	var touch = __webpack_require__(10);
+	
+	var MatrixCell = (function (_ButtonTemplate) {
+	  function MatrixCell() {
+	    _classCallCheck(this, MatrixCell);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      target: false,
+	      mode: "toggle",
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.index = this.settings.index;
+	    this.row = this.settings.row;
+	    this.column = this.settings.column;
+	
+	    this.interacting = false;
+	    this.paintbrush = false;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(MatrixCell, _ButtonTemplate);
+	
+	  _createClass(MatrixCell, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.element.style.top = "0px";
+	        this.element.style.left = "0px";
+	        this.element.style.position = "absolute";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.pad = svg.create("rect");
+	        this.element.appendChild(this.pad);
+	
+	        this.sizeInterface();
+	
+	        /* events */
+	
+	        if (!touch.exists) {
+	
+	          this.click = function () {
+	            _this.matrix.interacting = true;
+	            _this.matrix.paintbrush = !_this.state;
+	            _this.down(_this.matrix.paintbrush);
+	          };
+	          this.pad.addEventListener("mouseover", function () {
+	            if (_this.matrix.interacting) {
+	              _this.down(_this.matrix.paintbrush);
+	            }
+	          });
+	
+	          this.move = function () {};
+	          this.pad.addEventListener("mousemove", function (e) {
+	            if (_this.matrix.interacting) {
+	              if (!_this.offset) {
+	                _this.offset = dom.findPosition(_this.element);
+	              }
+	              _this.mouse = dom.locateMouse(e, _this.offset);
+	              _this.bend();
+	            }
+	          });
+	
+	          this.release = function () {
+	            _this.matrix.interacting = false;
+	          };
+	          this.pad.addEventListener("mouseup", function () {
+	            if (_this.matrix.interacting) {
+	              _this.up();
+	            }
+	          });
+	          this.pad.addEventListener("mouseout", function () {
+	            if (_this.matrix.interacting) {
+	              _this.up();
+	            }
+	          });
+	        }
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        if (this.width > 2) {
+	          this.pad.setAttribute("width", this.width - 2);
+	        } else {
+	          this.pad.setAttribute("width", this.width);
+	        }
+	        if (this.height > 2) {
+	          this.pad.setAttribute("height", this.height - 2);
+	        } else {
+	          this.pad.setAttribute("height", this.height);
+	        }
+	        //this.pad.setAttribute('height', this.height - 2);
+	        this.pad.setAttribute("fill", "#e7e7e7");
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.pad.setAttribute("fill", "#e7e7e7");
+	        } else {
+	          this.pad.setAttribute("fill", "#d18");
+	        }
+	      }
+	    }
+	  });
+	
+	  return MatrixCell;
+	})(ButtonTemplate);
+	
+	/**
+	* Sequencer
+	*
+	* @description Grid of buttons with built-in step sequencer.
+	*
+	* @demo <div mt="sequencer" style="width:400px;height:200px;"></div>
+	*
+	* @example
+	* var sequencer = mt.sequencer('#target')
+	*
+	*/
+	
+	var Sequencer = (function (_Interface) {
+	  function Sequencer() {
+	    _classCallCheck(this, Sequencer);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [400, 200],
+	      target: false,
+	      value: 0,
+	      mode: "toggle"
+	    };
+	
+	    _get(Object.getPrototypeOf(Sequencer.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.columns = 10;
+	    this.rows = 5;
+	
+	    this.cells = [];
+	    this.active = -1;
+	
+	    this.mode = this.settings.mode;
+	
+	    /**
+	    A Matrix Model containing methods for manipulating the sequencer's array of values.
+	    @type {Matrix}
+	    */
+	    this.matrix = new MatrixModel(this.rows, this.columns);
+	    this.matrix.ui = this;
+	
+	    this.matrix.format();
+	
+	    /**
+	    A Counter Model which contains the order of sequence steps. For example, you could use this model to sequence the matrix in reverse, randomly, or in a drunk walk.
+	    @type {Counter}
+	    */
+	    this.sequence = new CounterModel(0, this.columns);
+	
+	    this.init();
+	  }
+	
+	  _inherits(Sequencer, _Interface);
+	
+	  _createClass(Sequencer, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.element.style.position = "relative";
+	        this.element.style.display = "block";
+	        this.element.style.width = "100%";
+	        this.element.style.height = "100%";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        for (var i = 0; i < this.matrix.length; i++) {
+	
+	          var _location = this.matrix.locate(i);
+	          // returns {row,col}
+	
+	          var container = document.createElement("span");
+	          container.style.position = "absolute";
+	
+	          var cell = new MatrixCell(container, {
+	            component: true,
+	            index: i,
+	            row: _location.row,
+	            column: _location.column,
+	            mode: this.mode
+	          }, this.keyChange.bind(this, i));
+	
+	          cell.matrix = this;
+	          if (touch.exists) {
+	            cell.pad.index = i;
+	            cell.preClick = cell.preMove = cell.preRelease = function () {};
+	            cell.click = cell.move = cell.release = function () {};
+	            cell.preTouch = cell.preTouchMove = cell.preTouchRelease = function () {};
+	            cell.touch = cell.touchMove = cell.touchRelease = function () {};
+	          }
+	
+	          this.cells.push(cell);
+	          this.element.appendChild(container);
+	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var cellWidth = this.width / this.columns;
+	        var cellHeight = this.height / this.rows;
+	
+	        for (var i = 0; i < this.cells.length; i++) {
+	          var container = this.cells[i].parent;
+	          container.style.left = this.cells[i].column * cellWidth + "px";
+	          container.style.top = this.cells[i].row * cellHeight + "px";
+	          this.cells[i].resize(cellWidth, cellHeight);
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update() {
+	        var _this = this;
+	
+	        console.log(this.matrix.pattern);
+	        this.matrix.iterate(function (r, c, i) {
+	          if (_this.matrix.pattern[r][c] > 0) {
+	            //  console.log("changing to true");
+	            _this.cells[i].state = true;
+	            //  console.log(this.cells[i].state );
+	          } else {
+	            //  console.log("changing to false");
+	            _this.cells[i].state = false;
+	            //  console.log(this.cells[i].state );
+	          }
+	        });
+	      }
+	    },
+	    keyChange: {
+	      value: function keyChange(note, value) {
+	        // emit data for any key turning on/off
+	        // i is the note index
+	        // v is whether it is on or off
+	        // console.log(this,i,v);
+	        var cell = this.matrix.locate(note);
+	        this.matrix.set.cell(cell.column, cell.row, value);
+	        this.emit("change", note, value);
+	        // rename to (note,on)
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        var _this = this;
+	
+	        if (this.sequence.value >= 0) {
+	          this.matrix.iterate(function (r, c, i) {
+	            if (c === _this.sequence.value) {
+	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
+	              _this.cells[i].pad.setAttribute("stroke-width", "5");
+	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
+	            } else {
+	              _this.cells[i].pad.setAttribute("stroke", "none");
+	            }
+	          });
+	        }
+	      }
+	    },
+	    start: {
+	
+	      /**
+	      Start sequencing
+	      */
+	
+	      value: function start() {
+	        if (!this.invertal) {
+	          this.next();
+	          this.interval = setInterval(this.next.bind(this), 200);
+	        }
+	      }
+	    },
+	    stop: {
+	
+	      /**
+	      Stop sequencing
+	      */
+	
+	      value: function stop() {
+	        clearInterval(this.interval);
+	        this.interval = false;
+	      }
+	    },
+	    next: {
+	
+	      /**
+	      Manually jump to the next column and trigger the 'change' event. The "next" column is determined by your mode of sequencing.
+	      */
+	
+	      value: function next() {
+	        this.sequence.next();
+	        this.emit("change", this.matrix.column(this.sequence.value));
+	        this.render();
+	      }
+	    },
+	    addTouchListeners: {
+	      value: function addTouchListeners() {
+	        var _this = this;
+	
+	        this.preClick = this.preMove = this.preRelease = function () {};
+	        this.click = this.move = this.release = function () {};
+	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
+	        this.touch = this.touchMove = this.touchRelease = function () {};
+	
+	        this.currentElement = false;
+	
+	        this.element.addEventListener("touchstart", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var cell = _this.cells[element.index];
+	          _this.paintbrush = !cell.state;
+	          cell.down(_this.paintbrush);
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchmove", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var cell = _this.cells[element.index];
+	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement >= 0) {
+	              var pastCell = _this.cells[_this.currentElement];
+	              pastCell.up();
+	            }
+	            cell.down(_this.paintbrush);
+	          } else {
+	            cell.bend();
+	          }
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchend", function (e) {
+	          // no touches to calculate because none remaining
+	          var cell = _this.cells[_this.currentElement];
+	          cell.up();
+	          _this.interacting = false;
+	          _this.currentElement = false;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	      }
+	    }
+	  });
+	
+	  return Sequencer;
+	})(Interface);
+	
+	module.exports = Sequencer;
 
 /***/ }
 /******/ ])

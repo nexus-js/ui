@@ -31,7 +31,7 @@
 
     <h3>General</h3>
     <a href="javascript:doc('Envelope')">mt.envelope</a><br />
-    <a href="javascript:doc('Matrix')">mt.matrix</a><br />
+    <a href="javascript:doc('Sequencer')">mt.sequencer</a><br />
     <a href="javascript:doc('Multislider')">mt.multislider</a><br />
     <a href="javascript:doc('Piano')">mt.piano</a><br />
     <a href="javascript:doc('RadioButton')">mt.radiobutton</a><br />
@@ -60,22 +60,22 @@
     <a href="javascript:tut('interval')">mt.interval</a><br />
 
     <h2>Models</h2>
-    <a href="javascript:doc('counter')">mt.counter</a><br />
-    <a href="javascript:doc('sequence')">mt.sequence</a><br />
-    <a href="javascript:doc('drunk')">mt.drunk</a><br />
-    <a href="javascript:doc('matrix')">mt.matrix</a><br />
+    <a href="javascript:tut('counter')">mt.counter</a><br />
+    <a href="javascript:tut('sequence')">mt.sequence</a><br />
+    <a href="javascript:tut('drunk')">mt.drunk</a><br />
+    <a href="javascript:tut('matrix')">mt.matrix</a><br />
 
     <h2>Helpers</h2>
-    <a href="javascript:doc('ri')">mt.ri (random integer)</a><br />
-    <a href="javascript:doc('rf')">mt.rf (random float)</a><br />
-    <a href="javascript:doc('clip')">mt.clip</a><br />
-    <a href="javascript:doc('scale')">mt.scale</a><br />
-    <a href="javascript:doc('mtof')">mt.mtof</a><br />
-    <a href="javascript:doc('interp')">mt.interp</a><br />
-    <a href="javascript:doc('pick')">mt.pick</a><br />
-    <a href="javascript:doc('octave')">mt.octave</a><br />
-    <a href="javascript:doc('cycle')">mt.cycle</a><br />
-    <a href="javascript:doc('average')">mt.average</a><br />
+    <a href="javascript:helper('ri')">mt.ri (random integer)</a><br />
+    <a href="javascript:helper('rf')">mt.rf (random float)</a><br />
+    <a href="javascript:helper('clip')">mt.clip</a><br />
+    <a href="javascript:helper('scale')">mt.scale</a><br />
+    <a href="javascript:helper('mtof')">mt.mtof</a><br />
+    <a href="javascript:helper('interp')">mt.interp</a><br />
+    <a href="javascript:helper('pick')">mt.pick</a><br />
+    <a href="javascript:helper('octave')">mt.octave</a><br />
+    <a href="javascript:helper('cycle')">mt.cycle</a><br />
+    <a href="javascript:helper('average')">mt.average</a><br />
   </div>
 
   <div id="tutorial" class="tutorial">
@@ -104,7 +104,7 @@
       {{#properties}}
         <div class="property">
           <div class="property-name">{{ name }}</div>
-          <div class="property-type">{{ type }}</div>
+          <div class="property-type">{{{ type }}}</div>
           <div class="property-description">{{{ description }}}</div>
           {{ #example }}
             <pre class="example property-example"><code class="language-javascript">{{ code }}</code></pre>
@@ -312,7 +312,7 @@ mt.tune.root = 120;
         name: unformatted.name,
         examples: unformatted.examples
       }
-      var exampleTypes = ['Basic', 'Options']
+      var exampleTypes = ['Basic', 'With Options']
       if (entry.examples) {
         for (var i=0; i<entry.examples.length;i++) {
           entry.examples[i].title = exampleTypes[i];
@@ -387,6 +387,9 @@ mt.tune.root = 120;
             switch (tag.title) {
               case 'type':
                 property.type = tag.type.name
+                if (TypeLinks.indexOf(property.type)>=0) {
+                  property.type = '<a href="#'+property.type+'">'+property.type+'</a>';
+                }
                 break;
               case 'example':
                 property.example = {
@@ -434,15 +437,23 @@ mt.tune.root = 120;
 
     //load hash
     if(window.location.hash) {
-        var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
-        console.log(hash);
-        doc(hash);
+      var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+      load(hash);
     }
+
+    window.addEventListener("hashchange", function() {
+      var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+      load(hash);
+      window.scrollTo(0,0);
+    }, false);
 
 
   });
 
   function doc(name) {
+    if (window.location.hash.substring(1)!=name) {
+      window.location.hash = name;
+    }
     var entry = API[name];
     var template = $('#template').html();
     Mustache.parse(template);   // optional, speeds up future uses
@@ -458,9 +469,41 @@ mt.tune.root = 120;
 
   function tut(name) {
     $('#target').empty();
-    $("#"+name).clone().appendTo('#target').show()
-    Prism.highlightAll();
-    instrument = mt.rack("target");
+    if ($("#"+name).length>0) {
+      $("#"+name).clone().appendTo('#target').show()
+      Prism.highlightAll();
+      instrument = mt.rack("target");
+    }
+  }
+
+  var TypeLinks = [
+    "Matrix",
+    "Counter"
+  ]
+
+  var LoadLinks = {
+    "Doc": [
+      'Button', 'Dial', 'Number', 'Position', 'Slider', 'Toggle',
+      'Envelope', 'Sequencer', 'Multislider', 'Piano', 'RadioButton',
+      'Range', 'TextButton', 'Waveform', 'Tilt', 'Pan', 'Pan3D', 'Meter',
+      'Oscilloscope', 'Spectrogram'
+    ],
+    "Tut": [
+      'tune', 'Interval', 'Counter', 'Sequence', 'Drunk', 'Matrix', '',  '', '',
+    ],
+    "Helper": [
+      'ri', 'rf', 'clip', 'scale', 'mtof', 'interp', 'pick', 'octave', 'cycle', 'average'
+    ]
+  }
+
+  function load(name) {
+    if (LoadLinks.Doc.indexOf(name)>=0) {
+      doc(name);
+    } else if (LoadLinks.Tut.indexOf(name)>=0) {
+      tut(name);
+    } else if (LoadLinks.Helper.indexOf(name)>=0) {
+    //  helper(name);
+    }
   }
 </script>
 <style>
@@ -502,12 +545,20 @@ mt.tune.root = 120;
     margin:10px 0px 5px;
     font-size:16px;
   }
-  a {
+  #sidebar a {
     line-height:1.3em;
     color:#555;
     text-decoration:none;
   }
-  a:hover {
+  #sidebar a:hover {
+    text-decoration:underline;
+  }
+  #tutorial a {
+    line-height:1.3em;
+    color:#09d;
+    text-decoration:none;
+  }
+  #tutorial a:hover {
     text-decoration:underline;
   }
 
