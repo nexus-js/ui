@@ -8668,8 +8668,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);
 	    this.matrix.ui = this;
 	
-	    console.log(this.matrix.formatAsText());
-	
 	    /**
 	    A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.
 	    @type {Counter}
@@ -8696,7 +8694,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.cells = [];
-	        console.log(this.matrix.length);
 	        for (var i = 0; i < this.matrix.length; i++) {
 	
 	          var _location = this.matrix.locate(i);
@@ -8749,16 +8746,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function update() {
 	        var _this = this;
 	
-	        console.log(this.cells);
 	        this.matrix.iterate(function (r, c, i) {
 	          if (_this.matrix.pattern[r][c] > 0) {
-	            //  console.log("changing to true");
 	            _this.cells[i].state = true;
-	            //  console.log(this.cells[i].state );
 	          } else {
-	            //  console.log("changing to false");
 	            _this.cells[i].state = false;
-	            //  console.log(this.cells[i].state );
 	          }
 	        });
 	      }
@@ -8768,7 +8760,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // emit data for any key turning on/off
 	        // i is the note index
 	        // v is whether it is on or off
-	        // console.log(this,i,v);
 	        var cell = this.matrix.locate(note);
 	        this.matrix.set.cell(cell.column, cell.row, value);
 	        this.emit("change", note, value);
