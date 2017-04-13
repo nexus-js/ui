@@ -1008,6 +1008,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.gainToDB = function (gain) {
 	  return 20 * Math.log10(gain);
 	};
+	
+	exports.coin = function () {
+	  var odds = arguments[0] === undefined ? 0.5 : arguments[0];
+	
+	  if (exports.rf(0, 1) < odds) {
+	    return 1;
+	  } else {
+	    return 0;
+	  }
+	};
 
 /***/ },
 /* 7 */
@@ -2445,9 +2455,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(5);
 	var RangeModel = __webpack_require__(18);
 	var math = __webpack_require__(6);
-	var ColorOps = __webpack_require__(19);
+	//let ColorOps = require('color-ops');
 	// is this needed? where is it used?
-	window.ColorOps = __webpack_require__(19);
+	//window.ColorOps = require('color-ops');
 	
 	var Interface = _interopRequire(__webpack_require__(7));
 	
@@ -2804,247 +2814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	var colorFunctions = {
-	  /**
-	   * Convert a color specified as an RGBA array
-	   * into an HSL object.
-	   *
-	   * @param {Array} color rgba color
-	   * @returns {Object} hsl representation of that color
-	   */
-	  toHSL: function(color) {
-	    var r = color[0] / 255,
-	    g = color[1] / 255,
-	    b = color[2] / 255,
-	    a = color[3];
-	
-	    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-	    var h, s, l = (max + min) / 2, d = max - min;
-	
-	    if (max === min) {
-	      h = s = 0;
-	    } else {
-	      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-	
-	      switch (max) {
-	        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-	        case g: h = (b - r) / d + 2; break;
-	        case b: h = (r - g) / d + 4; break;
-	      }
-	      h /= 6;
-	    }
-	    return { h: h * 360, s: s, l: l, a: a };
-	  },
-	  /**
-	   * Given an r, g, b color, return a 4-element RGBA array
-	   * @param {number} r red
-	   * @param {number} g green
-	   * @param {number} b blue
-	   * @returns {Array} rgba array
-	   */
-	  rgb: function(r, g, b) {
-	    return this.rgba(r, g, b, 1.0);
-	  },
-	  /**
-	   * Given an rgba color as number-like objects, return that array
-	   * with numbers if possible, and null otherwise
-	   *
-	   * @param {number} r red
-	   * @param {number} g green
-	   * @param {number} b blue
-	   * @param {number} a alpha
-	   * @returns {Array} rgba array
-	   */
-	  rgba: function(r, g, b, a) {
-	    var rgb = [r, g, b].map(function (c) { return number(c); });
-	    a = number(a);
-	    if (rgb.some(isNaN) || isNaN(a)) return null;
-	    rgb.push(a);
-	    return rgb;
-	  },
-	  /**
-	   * Given an HSL color as components, return an RGBA array with 100% alpha
-	   *
-	   * @param {number} h hue
-	   * @param {number} s saturation
-	   * @param {number} l luminosity
-	   * @returns {Array} rgba color
-	   */
-	  hsl: function(h, s, l) {
-	    return this.hsla(h, s, l, 1.0);
-	  },
-	  /**
-	   * Given an HSL color as components, return an RGBA array
-	   *
-	   * @param {number} h hue
-	   * @param {number} s saturation
-	   * @param {number} l luminosity
-	   * @param {number} a alpha
-	   * @returns {Array} rgba color
-	   */
-	  hsla: function(h, s, l, a) {
-	    h = (number(h) % 360) / 360;
-	    s = number(s); l = number(l); a = number(a);
-	    if ([h, s, l, a].some(isNaN)) return null;
-	
-	    var m2 = l <= 0.5 ? l * (s + 1) : l + s - l * s,
-	    m1 = l * 2 - m2;
-	
-	    return this.rgba(hue(h + 1 / 3) * 255,
-	      hue(h) * 255,
-	      hue(h - 1 / 3) * 255,
-	      a);
-	
-	    function hue(h) {
-	      h = h < 0 ? h + 1 : (h > 1 ? h - 1 : h);
-	      if (h * 6 < 1) return m1 + (m2 - m1) * h * 6;
-	      else if (h * 2 < 1) return m2;
-	      else if (h * 3 < 2) return m1 + (m2 - m1) * (2 / 3 - h) * 6;
-	      else return m1;
-	    }
-	  },
-	  /**
-	   * Get the hue component of a color
-	   *
-	   * @param {Color} color
-	   * @returns {Number} hue
-	   */
-	  hue: function(color) {
-	    return Math.round(this.toHSL(color).h);
-	  },
-	  /**
-	   * Get the saturation component of a color as a string
-	   * representing percentage
-	   *
-	   * @param {Color} color
-	   * @returns {String} saturation
-	   */
-	  saturation: function(color) {
-	    return Math.round(this.toHSL(color).s * 100);
-	  },
-	  /**
-	   * Get the lightness component of a color as a string
-	   * representing percentage
-	   *
-	   * @param {Color} color
-	   * @returns {String} lightness
-	   */
-	  lightness: function(color) {
-	    return Math.round(this.toHSL(color).l * 100);
-	  },
-	  /**
-	   * Get the alpha component of a color
-	   *
-	   * @param {Array} color
-	   * @returns {Number} alpha
-	   */
-	  alpha: function(color) {
-	    return this.toHSL(color).a;
-	  },
-	  /**
-	   * Saturate or desaturate a color by a given amount
-	   *
-	   * @param {Color} color
-	   * @param {Number} amount
-	   * @returns {Color} color
-	   */
-	  saturate: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	
-	    hsl.s += amount / 100;
-	    hsl.s = clamp(hsl.s);
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Lighten or darken a color by a given amount
-	   *
-	   * @param {Color} color
-	   * @param {Number} amount
-	   * @returns {Color} color
-	   */
-	  lighten: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	
-	    hsl.l += amount / 100;
-	    hsl.l = clamp(hsl.l);
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Fade a color by a given amount
-	   *
-	   * @param {Color} color
-	   * @param {Number} amount
-	   * @returns {Color} color
-	   */
-	  fade: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	
-	    hsl.a += amount / 100;
-	    hsl.a = clamp(hsl.a);
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Rotate the hue of a color by an amount given in decimal degrees.
-	   * @param {Color} color
-	   * @param {Number} degrees
-	   * @returns {Color} output
-	   */
-	  spin: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	    var hue = (hsl.h + amount) % 360;
-	
-	    hsl.h = hue < 0 ? 360 + hue : hue;
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Mix two colors.
-	   * @param {Color} color1
-	   * @param {Color} color2
-	   * @param {Number} degrees
-	   * @returns {Color} output
-	   */
-	  mix: function(color1, color2, amount) {
-	    var p = amount / 100.0;
-	    var w = p * 2 - 1;
-	    var hsl1 = this.toHSL(color1);
-	    var hsl2 = this.toHSL(color2);
-	    var a = hsl1.a - hsl2.a;
-	
-	    var w1 = (((w * a == -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
-	    var w2 = 1 - w1;
-	
-	    var rgb = [
-	        color1[0] * w1 + color2[0] * w2,
-	        color1[1] * w1 + color2[1] * w2,
-	        color1[2] * w1 + color2[2] * w2
-	    ];
-	
-	    var alpha = color1[3] * p + color2[3] * (1 - p);
-	    rgb[3] = alpha;
-	    return rgb;
-	  }
-	};
-	
-	function hsla(h) {
-	  return colorFunctions.hsla(h.h, h.s, h.l, h.a);
-	}
-	
-	function number(n) {
-	  if (typeof n === 'number') return n;
-	  else return NaN;
-	}
-	
-	function clamp(val) {
-	  return Math.min(1, Math.max(0, val));
-	}
-	
-	module.exports = colorFunctions;
-
-
-/***/ },
+/* 19 */,
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -4899,33 +4669,39 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ },
 /* 28 */,
 /* 29 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	//import math from '../util/math';
+	var math = _interopRequire(__webpack_require__(6));
 	
-	// for the tutorial, looking at
-	//Pattern:
-	// creating / dimensions / create
-	// .pattern, .format(), .length, .locate(i), .indexOf(c,r)
+	var Sequence = _interopRequire(__webpack_require__(51));
+	
+	// For the tutorial, looking at
+	
+	//Pattern section:
+	// .create(), .rows, .columns,
+	// .pattern, .length, .formatAsText(), .log(),
+	// .locate(i), .indexOf(c,r)
 	// row(), column() (returns contents of row or colum)
 	
-	//Control:
+	//Control section:
 	// toggle x3
 	// set x4
 	// rotate x3
 	// populate x3
 	// erase x3
 	
-	// should this have a float "value" for each cell?
+	// should some version of this have a float value for each cell?
 	// could be like a mirror .pattern that has values. by default, everything is 1, but could be set...
 	// not a good way to do that on interface, but as a model it would be nice...
-	// or even as a step from 0 to 9? then could still visualize.
+	// for .formatAsText(), could multiply by 100 and floor, so each cell is an int from 0 to 9
 	
 	var Matrix = (function () {
 	  function Matrix(rows, columns) {
@@ -4934,9 +4710,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Matrix);
 	
 	    // should also have ability to create using an existing matrix (2d array)
-	    //  this.rows = rows;
-	    //  this.columns = columns;
-	    console.log(rows, columns);
 	    this.pattern = [];
 	    this.create(rows, columns);
 	
@@ -4977,11 +4750,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.set = {
 	      cell: function (column, row, value) {
 	        _this.pattern[row][column] = value;
-	        return _this.pattern[row][column];
-	      } };
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      all: function (values) {
+	        // set the whole matrix using a 2d array as input
+	        // this should also resize the array?
+	        _this.pattern = values;
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      row: function (row, values) {
+	        // set a row using an array as input
+	        _this.pattern[row] = values;
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      column: function (column, values) {
+	        // set a column using an array as input
+	        _this.pattern.forEach(function (row, i) {
+	          _this.pattern[i][column] = values[i];
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      }
+	    };
 	
 	    this.rotate = {
+	      //should eventually do (amountX, amountY) here
+	      // could just use a loop and this.rotate.row(i,amountX);
 	      all: function (amount) {
+	        if (!amount && amount !== 0) {
+	          amount = 1;
+	        }
+	        amount %= _this.pattern[0].length;
+	        if (amount < 0) {
+	          amount = _this.pattern[0].length + amount;
+	        }
 	        for (var i = 0; i < _this.rows; i++) {
 	          var cut = _this.pattern[i].splice(_this.pattern[i].length - amount, amount);
 	          _this.pattern[i] = cut.concat(_this.pattern[i]);
@@ -4991,27 +4800,96 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      },
 	      row: function (row, amount) {
+	        if (!amount && amount !== 0) {
+	          amount = 1;
+	        }
+	        amount %= _this.pattern[0].length;
+	        if (amount < 0) {
+	          amount = _this.pattern[0].length + amount;
+	        }
 	        var cut = _this.pattern[row].splice(_this.pattern[row].length - amount, amount);
 	        _this.pattern[row] = cut.concat(_this.pattern[row]);
 	        if (_this.ui) {
 	          _this.ui.update();
 	        }
-	      } };
+	      },
+	      column: function (column, amount) {
+	        if (!amount && amount !== 0) {
+	          amount = 1;
+	        }
+	        amount %= _this.pattern.length;
+	        if (amount < 0) {
+	          amount = _this.pattern.length + amount;
+	        }
+	        var proxy = [];
+	        _this.pattern.forEach(function (row) {
+	          proxy.push(row[column]);
+	        });
+	        var cut = proxy.splice(proxy.length - amount, amount);
+	        proxy = cut.concat(proxy);
+	        _this.pattern.forEach(function (row, i) {
+	          row[column] = proxy[i];
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      }
+	    };
 	
 	    // the idea behind populate is to be able to set a whole row or column to 0 or 1
 	    // IF the value is a float, such as 0.7, then it would become a probability
 	    // so populate(0.7) would give each cell a 70% chance of being 1
 	    this.populate = {
-	      all: function () {},
-	      row: function () {},
-	      column: function () {}
+	      all: function (odds) {
+	        odds = new Sequence(odds);
+	        _this.iterate(function (r, c) {
+	          _this.pattern[r][c] = math.coin(odds.next());
+	        });
+	        // This could be used so that each row has same odds pattern, even if row length is not divisibly by sequence length.
+	        //,() => {
+	        //  odds.pos = -1;
+	        // }
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      row: function () {
+	        var row = arguments[0] === undefined ? 0 : arguments[0];
+	        var odds = arguments[1] === undefined ? 0.5 : arguments[1];
+	
+	        odds = new Sequence(odds);
+	        _this.pattern[row].forEach(function (cell, i) {
+	          _this.pattern[row][i] = math.coin(odds.next());
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      column: function () {
+	        var column = arguments[0] === undefined ? 0 : arguments[0];
+	        var odds = arguments[1] === undefined ? 0.5 : arguments[1];
+	
+	        odds = new Sequence(odds);
+	        _this.pattern.forEach(function (row, i) {
+	          _this.pattern[i][column] = math.coin(odds.next());
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      }
 	    };
 	
 	    // essentiall populate(0) so i'm not sure if this is necessary but is nice
 	    this.erase = {
-	      all: function () {},
-	      row: function () {},
-	      column: function () {}
+	      all: function () {
+	        _this.set.all(0);
+	      },
+	      row: function (row) {
+	        _this.set.row(row, 0);
+	      },
+	      column: function (column) {
+	        _this.set.column(column, 0);
+	      }
 	    };
 	
 	    // end constructor
@@ -5022,8 +4900,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function create(rows, columns) {
 	        var _this = this;
 	
-	        //  this.rows = rows;
-	        //  this.columns = columns;
 	        this.pattern = [];
 	        for (var row = 0; row < rows; row++) {
 	          var arr = new Array(columns);
@@ -5048,8 +4924,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    format: {
-	      value: function format() {
+	    formatAsText: {
+	      value: function formatAsText() {
 	        var _this = this;
 	
 	        var patternString = "";
@@ -5059,6 +4935,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          patternString += "\n";
 	        });
 	        return patternString;
+	      }
+	    },
+	    log: {
+	      value: function log() {
+	        console.log(this.formatAsText());
 	      }
 	    },
 	    update: {
@@ -5155,11 +5036,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        });
 	      }
-	
-	      /* brainstorm:
-	        populate.row([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
-	      */
-	
 	    }
 	  });
 	
@@ -5167,22 +5043,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Matrix;
-	
-	/*  all: () => {
-	      // set the whole matrix using a 2d array as input
-	      // this should also resize the array?
-	    },
-	    row: () => {
-	      // set a row using an array as input
-	    },
-	    column: () => {
-	      // set a row using an array as input
-	    } */
-
-	/*  column: () => {
-	      // rotate the values in a column
-	      // i.e. 1 2 3 4   becomes 4 1 2 3
-	    } */
 
 /***/ },
 /* 30 */
@@ -8500,16 +8360,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Drunk = _interopRequire(__webpack_require__(31));
 	
 	var Sequence = (function () {
-	    function Sequence(sequence, mode, position, cacheSize) {
+	    function Sequence() {
+	        var sequence = arguments[0] === undefined ? [1, 2, 3, 4] : arguments[0];
+	        var mode = arguments[1] === undefined ? "up" : arguments[1];
+	        var position = arguments[2] === undefined ? -1 : arguments[2];
+	        var cacheSize = arguments[3] === undefined ? 256 : arguments[3];
+	
 	        _classCallCheck(this, Sequence);
 	
-	        this.seq = sequence || [1, 2, 3, 4];
-	        this.mode = mode || "up";
-	        this.pos = position || 0;
+	        this.seq = sequence;
+	        if (!Array.isArray(this.seq)) {
+	            this.seq = [this.seq];
+	        }
+	        this.mode = mode;
+	        this.pos = position;
 	        this.value = this.seq[this.pos];
 	
 	        //TODO: implement a cache for stepping back through previous values. There should also be an accompanying 'mode' for stepping forward/redoing the previous set of values
-	        this.cacheSize = cacheSize || 256;
+	        this.cacheSize = cacheSize;
 	    }
 	
 	    _createClass(Sequence, {
@@ -8532,11 +8400,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 	        up: {
 	            value: function up() {
-	                if (this.pos === this.seq.length - 1) {
-	                    this.pos = 0;
-	                } else {
-	                    this.pos++;
-	                }
+	                this.pos++;
+	                this.pos %= this.seq.length;
+	                //if (this.pos === this.seq.length - 1) {
+	                //    this.pos = 0;
+	                //} else {
+	                //    this.pos++;
+	                //}
 	
 	                this.value = this.seq[this.pos];
 	                return this.value;
@@ -8798,7 +8668,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);
 	    this.matrix.ui = this;
 	
-	    this.matrix.format();
+	    console.log(this.matrix.formatAsText());
 	
 	    /**
 	    A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.
@@ -9039,6 +8909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.empty();
 	        this.buildInterface();
 	        this.update();
+	        this.sequence.max = v;
 	      }
 	    }
 	  });
