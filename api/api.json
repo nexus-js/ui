@@ -8652,6 +8652,11 @@
         "title": "example",
         "description": "var sequencer = mt.sequencer('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var sequencer = mt.sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
+        "lineNumber": 10
       }
     ],
     "loc": {
@@ -8660,18 +8665,18 @@
         "column": 0
       },
       "end": {
-        "line": 144,
+        "line": 152,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 146,
+          "line": 154,
           "column": 0
         },
         "end": {
-          "line": 367,
+          "line": 405,
           "column": 1
         }
       },
@@ -8680,6 +8685,9 @@
     "examples": [
       {
         "description": "var sequencer = mt.sequencer('#target')"
+      },
+      {
+        "description": "var sequencer = mt.sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
       }
     ],
     "name": "Sequencer",
@@ -8701,7 +8709,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A Matrix Model containing methods for manipulating the sequencer's array of values.",
+                    "value": "A Matrix model containing methods for manipulating the sequencer's array of values.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -8758,23 +8766,23 @@
           ],
           "loc": {
             "start": {
-              "line": 169,
+              "line": 175,
               "column": 4
             },
             "end": {
-              "line": 172,
+              "line": 178,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 173,
+                "line": 179,
                 "column": 4
               },
               "end": {
-                "line": 173,
-                "column": 58
+                "line": 179,
+                "column": 76
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
@@ -8808,7 +8816,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A Counter Model which contains the order of sequence steps. For example, you could use this model to sequence the matrix in reverse, randomly, or in a drunk walk.",
+                    "value": "A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -8817,8 +8825,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 163,
-                        "offset": 162
+                        "column": 161,
+                        "offset": 160
                       },
                       "indent": []
                     }
@@ -8832,8 +8840,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 163,
-                    "offset": 162
+                    "column": 161,
+                    "offset": 160
                   },
                   "indent": []
                 }
@@ -8847,8 +8855,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 163,
-                "offset": 162
+                "column": 161,
+                "offset": 160
               }
             }
           },
@@ -8865,22 +8873,22 @@
           ],
           "loc": {
             "start": {
-              "line": 178,
+              "line": 184,
               "column": 4
             },
             "end": {
-              "line": 181,
+              "line": 187,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 182,
+                "line": 188,
                 "column": 4
               },
               "end": {
-                "line": 182,
+                "line": 188,
                 "column": 53
               }
             },
@@ -8962,22 +8970,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 292,
+              "line": 299,
               "column": 2
             },
             "end": {
-              "line": 294,
+              "line": 301,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 295,
+                "line": 302,
                 "column": 2
               },
               "end": {
-                "line": 300,
+                "line": 307,
                 "column": 3
               }
             },
@@ -9061,22 +9069,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 302,
+              "line": 309,
               "column": 2
             },
             "end": {
-              "line": 304,
+              "line": 311,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 305,
+                "line": 312,
                 "column": 2
               },
               "end": {
-                "line": 308,
+                "line": 315,
                 "column": 3
               }
             },
@@ -9160,22 +9168,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 310,
+              "line": 317,
               "column": 2
             },
             "end": {
-              "line": 312,
+              "line": 319,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 313,
+                "line": 320,
                 "column": 2
               },
               "end": {
-                "line": 317,
+                "line": 324,
                 "column": 3
               }
             },
@@ -9202,6 +9210,224 @@
             }
           ],
           "namespace": "Sequencer#next"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Number of rows in the sequencer",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 32,
+                        "offset": 31
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 32,
+                    "offset": 31
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 32,
+                "offset": 31
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 374,
+              "column": 2
+            },
+            "end": {
+              "line": 377,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 378,
+                "column": 2
+              },
+              "end": {
+                "line": 380,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+          },
+          "name": "rows",
+          "kind": "member",
+          "memberof": "Sequencer",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Sequencer",
+              "kind": "class"
+            },
+            {
+              "name": "rows",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Sequencer#rows"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Number of columns in the sequencer",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 35,
+                        "offset": 34
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 35,
+                    "offset": 34
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 35,
+                "offset": 34
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 389,
+              "column": 2
+            },
+            "end": {
+              "line": 392,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 393,
+                "column": 2
+              },
+              "end": {
+                "line": 395,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+          },
+          "name": "columns",
+          "kind": "member",
+          "memberof": "Sequencer",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Sequencer",
+              "kind": "class"
+            },
+            {
+              "name": "columns",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Sequencer#columns"
         }
       ],
       "static": [],

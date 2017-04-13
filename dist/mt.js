@@ -4909,6 +4909,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import math from '../util/math';
 	
+	// for the tutorial, looking at
+	//Pattern:
+	// creating / dimensions / create
+	// .pattern, .format(), .length, .locate(i), .indexOf(c,r)
+	// row(), column() (returns contents of row or colum)
+	
+	//Control:
+	// toggle x3
+	// set x4
+	// rotate x3
+	// populate x3
+	// erase x3
+	
+	// should this have a float "value" for each cell?
+	// could be like a mirror .pattern that has values. by default, everything is 1, but could be set...
+	// not a good way to do that on interface, but as a model it would be nice...
+	// or even as a step from 0 to 9? then could still visualize.
+	
 	var Matrix = (function () {
 	  function Matrix(rows, columns) {
 	    var _this = this;
@@ -4916,8 +4934,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Matrix);
 	
 	    // should also have ability to create using an existing matrix (2d array)
-	    this.rows = rows;
-	    this.columns = columns;
+	    //  this.rows = rows;
+	    //  this.columns = columns;
+	    console.log(rows, columns);
 	    this.pattern = [];
 	    this.create(rows, columns);
 	
@@ -4979,7 +4998,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      } };
 	
-	    // the idea behind populate is to be able to set a whole row or colum to 0 or 1
+	    // the idea behind populate is to be able to set a whole row or column to 0 or 1
 	    // IF the value is a float, such as 0.7, then it would become a probability
 	    // so populate(0.7) would give each cell a 70% chance of being 1
 	    this.populate = {
@@ -5003,11 +5022,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function create(rows, columns) {
 	        var _this = this;
 	
-	        this.rows = rows;
-	        this.columns = columns;
+	        //  this.rows = rows;
+	        //  this.columns = columns;
 	        this.pattern = [];
-	        for (var row = 0; row < this.rows; row++) {
-	          this.pattern.push([]);
+	        for (var row = 0; row < rows; row++) {
+	          var arr = new Array(columns);
+	          this.pattern.push(arr);
 	        }
 	        this.iterate(function (r, c) {
 	          _this.pattern[r][c] = false;
@@ -5102,28 +5122,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	          data.push(this.pattern[i][column] ? 1 : 0);
 	        }
 	        return data;
+	      })
+	    },
+	    rows: {
+	      get: function () {
+	        return this.pattern.length;
+	      },
+	      set: function (v) {
+	        var _this = this;
+	
+	        var previous = this.pattern.slice(0);
+	        this.create(v, this.columns);
+	        this.iterate(function (r, c) {
+	          if (previous[r] && previous[r][c]) {
+	            _this.pattern[r][c] = previous[r][c];
+	          }
+	        });
+	      }
+	    },
+	    columns: {
+	      get: function () {
+	        return this.pattern[0].length;
+	      },
+	      set: function (v) {
+	        var _this = this;
+	
+	        var previous = this.pattern.slice(0);
+	        this.create(this.rows, v);
+	        this.iterate(function (r, c) {
+	          if (previous[r] && previous[r][c]) {
+	            _this.pattern[r][c] = previous[r][c];
+	          }
+	        });
 	      }
 	
 	      /* brainstorm:
-	         rotate single row or column
-	         randomly fill row with some probability
-	          populateRow([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
-	        invert row?
-	        erase row or column
-	        ** add/remove row or column <= there is no function for this yet.
-	        toggle random cell ?
-	          performance:
-	        // these should probably be methods of the matrix interface in interfaces/matrix.js
-	        // or should they be here?
-	        start sequencing
-	        stop sequencing
-	        sequencing modes -- direction w/ step, drunk, random, pattern
-	        sequence vertically too
-	        loop portion
-	        jump to column index
-	       */
+	        populate.row([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
+	      */
 	
-	      )
 	    }
 	  });
 	
@@ -5134,6 +5170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	/*  all: () => {
 	      // set the whole matrix using a 2d array as input
+	      // this should also resize the array?
 	    },
 	    row: () => {
 	      // set a row using an array as input
@@ -8199,11 +8236,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.scale.push(freqs[i] / freqs[0]);
 	        }
 	
-	        /* visualize in console */
-	        console.log(" ");
-	        console.log("LOADED " + name);
+	        /* visualize in console
+	        console.log(' ');
+	        console.log('LOADED '+name);
 	        console.log(this.scales[name].description);
-	        console.log(this.scale);
+	        console.log(this.scale); */
 	        var vis = [];
 	        for (var i = 0; i < 100; i++) {
 	          vis[i] = " ";
@@ -8220,8 +8257,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < vis.length; i++) {
 	          textvis += vis[i];
 	        }
-	        console.log(name);
-	        console.log(textvis);
+	        //console.log(name);
+	        //console.log(textvis);
 	        // ET scale vis
 	        vis = [];
 	        for (var i = 0; i < 100; i++) {
@@ -8239,8 +8276,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < vis.length; i++) {
 	          textvis += vis[i];
 	        }
-	        console.log(textvis);
-	        console.log("equal-tempered major (reference)");
+	        //console.log(textvis);
+	        //console.log('equal-tempered major (reference)');
 	      }
 	    },
 	    search: {
@@ -8723,6 +8760,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var sequencer = mt.sequencer('#target')
 	*
+	* @example
+	* var sequencer = mt.sequencer('#target',{
+	*  'size': [400,200],
+	*  'mode': 'toggle',
+	*  'rows': 5,
+	*  'columns': 10
+	*})
+	*
 	*/
 	
 	var Sequencer = (function (_Interface) {
@@ -8735,30 +8780,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	      size: [400, 200],
 	      target: false,
 	      value: 0,
-	      mode: "toggle"
+	      mode: "toggle",
+	      rows: 5,
+	      columns: 10
 	    };
 	
 	    _get(Object.getPrototypeOf(Sequencer.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.columns = 10;
-	    this.rows = 5;
-	
-	    this.cells = [];
 	    this.active = -1;
 	
 	    this.mode = this.settings.mode;
 	
 	    /**
-	    A Matrix Model containing methods for manipulating the sequencer's array of values.
+	    A Matrix model containing methods for manipulating the sequencer's array of values.
 	    @type {Matrix}
 	    */
-	    this.matrix = new MatrixModel(this.rows, this.columns);
+	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);
 	    this.matrix.ui = this;
 	
 	    this.matrix.format();
 	
 	    /**
-	    A Counter Model which contains the order of sequence steps. For example, you could use this model to sequence the matrix in reverse, randomly, or in a drunk walk.
+	    A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.
 	    @type {Counter}
 	    */
 	    this.sequence = new CounterModel(0, this.columns);
@@ -8782,6 +8825,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        this.cells = [];
+	        console.log(this.matrix.length);
 	        for (var i = 0; i < this.matrix.length; i++) {
 	
 	          var _location = this.matrix.locate(i);
@@ -8834,7 +8879,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function update() {
 	        var _this = this;
 	
-	        console.log(this.matrix.pattern);
+	        console.log(this.cells);
 	        this.matrix.iterate(function (r, c, i) {
 	          if (_this.matrix.pattern[r][c] > 0) {
 	            //  console.log("changing to true");
@@ -8960,6 +9005,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	          e.preventDefault();
 	          e.stopPropagation();
 	        });
+	      }
+	    },
+	    rows: {
+	
+	      /**
+	      Number of rows in the sequencer
+	      @type {number}
+	      */
+	
+	      get: function () {
+	        return this.matrix.rows;
+	      },
+	      set: function (v) {
+	        this.matrix.rows = v;
+	        this.empty();
+	        this.buildInterface();
+	        this.update();
+	      }
+	    },
+	    columns: {
+	
+	      /**
+	      Number of columns in the sequencer
+	      @type {number}
+	      */
+	
+	      get: function () {
+	        return this.matrix.columns;
+	      },
+	      set: function (v) {
+	        this.matrix.columns = v;
+	        this.empty();
+	        this.buildInterface();
+	        this.update();
 	      }
 	    }
 	  });

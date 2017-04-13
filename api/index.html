@@ -293,6 +293,101 @@ mt.tune.root = 120;
 
   </div>
 
+
+
+
+
+
+
+
+  <!--
+
+  MT.MATRIX
+
+  -->
+
+    <div id="Matrix" class="custom-tutorial" style="display:none">
+      <h2>Matrix Model</h2>
+
+      <p>
+        The Matrix Model lets you read, write, and manipulate a two-dimensional array of data (such as the data that is visualized by a <a href="#Sequencer">sequencer</a>).
+      </p>
+<br />
+Creating a Matrix Model from scratch...
+       <pre><code class="language-javascript">
+  matrix = new mt.Matrix(10,5);
+  matrix.toggle.cell(1,1);
+  matrix.rotate.row(1);
+
+  console.log( matrix.pattern );
+  console.log( matrix.length );
+
+  // matrix.format() returns a text visualization with 1s and 0s.
+  console.log( matrix.format() );
+       </code></pre>
+
+  <!--     <pre><code class="language-javascript">
+  // Every 100ms, play a random note from a random octave in the major scale
+  mt.interval(100,function() {
+   var scaleDegree = mt.ri( 0, mt.tune.scale.length );
+   var octave = mt.ri( -3 , 3 );
+   synth1.frequency.value = mt.tune.note( scaleDegree, octave ); // returns the root
+  })
+       </code></pre> -->
+
+  Working with a sequencer's Matrix Model.
+      <pre><code class="language-javascript">
+  var sequencer = new mt.Sequencer("#target",5,10);
+  sequencer.matrix.toggle.row(2);
+  sequencer.matrix.set.row(1, [0,1,0,1,0,1,0,1,0,1])
+      </code></pre>
+
+
+
+
+      <!-- section -->
+
+      <h3>Understanding Matrix.pattern</h3>
+       <p>
+         <span class="codesnipper">mt.note()</span> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
+       </p>
+
+       <pre>
+         <code class="language-javascript">
+  synth.frequency.value = mt.note(0) // returns the root
+         </code>
+       </pre>
+
+
+       <!-- section -->
+
+       <h3>Control Methods</h3>
+       <p>
+         For other ways of retrieving pitch data, ... <b>mt.tune.frequency</b>, <b>mt.tune.ratio</b>, and <b>mt.tune.midi</b>
+       </p>
+
+      <h4>.set</h4>
+      <pre><code class="language-javascript">
+  // Create a minor scale
+  mt.tune.createScale(0,2,3,5,7,8,10);
+      </code></pre>
+
+
+      <h4>.toggle</h4>
+      <pre><code class="language-javascript">
+  // Create a major scale in just intonation
+  mt.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
+      </code></pre>
+
+    </div>
+
+
+
+
+
+
+
+
 </body>
 
 <script>
