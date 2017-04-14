@@ -5133,13 +5133,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = _interopRequire(__webpack_require__(6));
 	
 	var Drunk = (function () {
-	    function Drunk(min, max, value, increment, loop) {
+	    function Drunk() {
+	        var min = arguments[0] === undefined ? 0 : arguments[0];
+	        var max = arguments[1] === undefined ? 9 : arguments[1];
+	        var value = arguments[2] === undefined ? 0 : arguments[2];
+	        var increment = arguments[3] === undefined ? 1 : arguments[3];
+	        var loop = arguments[4] === undefined ? false : arguments[4];
+	
 	        _classCallCheck(this, Drunk);
 	
-	        this.min = min || 0;
-	        this.max = max || 9;
-	        this.value = value || 0;
-	        this.increment = increment || 1;
+	        this.min = min;
+	        this.max = max;
+	        this.value = value;
+	        this.increment = increment;
 	        this.loop = loop;
 	    }
 	
@@ -5151,7 +5157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if (this.loop) {
 	                        this.value = this.min;
 	                    } else {
-	                        this.value -= this.increment;
+	                        this.value = this.max - this.increment;
 	                    }
 	                }
 	
@@ -5159,7 +5165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    if (this.loop) {
 	                        this.value = this.max;
 	                    } else {
-	                        this.value += this.increment;
+	                        this.value = this.min + this.increment;
 	                    }
 	                }
 	                return this.value;
@@ -8361,108 +8367,103 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Sequence = (function () {
 	    function Sequence() {
-	        var sequence = arguments[0] === undefined ? [1, 2, 3, 4] : arguments[0];
+	        var sequence = arguments[0] === undefined ? [0, 10, 20, 30] : arguments[0];
 	        var mode = arguments[1] === undefined ? "up" : arguments[1];
-	        var position = arguments[2] === undefined ? -1 : arguments[2];
-	        var cacheSize = arguments[3] === undefined ? 256 : arguments[3];
+	        var position = arguments[2] === undefined ? false : arguments[2];
 	
 	        _classCallCheck(this, Sequence);
 	
-	        this.seq = sequence;
-	        if (!Array.isArray(this.seq)) {
-	            this.seq = [this.seq];
+	        this.values = sequence;
+	        if (!Array.isArray(this.values)) {
+	            this.values = [this.values];
 	        }
-	        this.mode = mode;
-	        this.pos = position;
-	        this.value = this.seq[this.pos];
+	        this._mode = mode;
+	        this.position = position;
 	
-	        //TODO: implement a cache for stepping back through previous values. There should also be an accompanying 'mode' for stepping forward/redoing the previous set of values
-	        this.cacheSize = cacheSize;
+	        this.drunkWalk = new Drunk(0, this.values.length - 1);
+	
+	        this.startValues = {
+	            up: 0,
+	            down: this.values.length - 1,
+	            drunk: ~ ~(this.values.length / 2),
+	            random: math.ri(this.values.length)
+	        };
+	
+	        if (this.position !== false) {
+	            this.next = this[this._mode];
+	        } else {
+	            this.next = this.first;
+	        }
 	    }
 	
 	    _createClass(Sequence, {
-	        setMode: {
-	            value: function setMode(mode) {
+	        mode: {
+	            get: function () {
+	                return this._mode;
+	            },
+	            set: function (mode) {
 	                mode = mode.toLowerCase();
-	                //TODO: allow user defined modes to be set
 	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
 	                    console.error("The only modes currently allowed are: up, down, random, drunk");
-	                    return "mode: " + this.mode;
+	                    return;
 	                }
-	                this.mode = mode;
-	                return "mode: " + mode;
+	                this._mode = mode;
+	                if (this.position) {
+	                    this.next = this[this._mode];
+	                }
 	            }
 	        },
-	        next: {
-	            value: function next() {
-	                return this[this.mode]();
+	        value: {
+	            get: function () {
+	                return this.values[this.position];
+	            },
+	            set: function (v) {
+	                this.position = this.values.indexOf(v);
+	            }
+	        },
+	        first: {
+	            value: function first() {
+	                if (this.position !== false) {
+	                    this.next = this[this._mode];
+	                    return this.next();
+	                }
+	                this.position = this.startValues[this._mode];
+	                this.next = this[this._mode];
+	                return this.value;
 	            }
 	        },
 	        up: {
 	            value: function up() {
-	                this.pos++;
-	                this.pos %= this.seq.length;
-	                //if (this.pos === this.seq.length - 1) {
-	                //    this.pos = 0;
-	                //} else {
-	                //    this.pos++;
-	                //}
-	
-	                this.value = this.seq[this.pos];
+	                this.position++;
+	                this.position %= this.values.length;
 	                return this.value;
 	            }
 	        },
 	        down: {
 	            value: function down() {
-	                if (this.pos === 0) {
-	                    this.pos = this.seq.length - 1;
-	                } else {
-	                    this.pos--;
-	                }
-	
-	                this.value = this.seq[this.pos];
+	                this.position--;
+	                this.position %= this.values.length;
 	                return this.value;
 	            }
 	        },
 	        random: {
 	            value: function random() {
-	                this.pos = math.ri(0, this.seq.length);
-	                this.value = this.seq[this.pos];
+	                this.position = math.ri(0, this.values.length);
 	                return this.value;
 	            }
 	        },
 	        drunk: {
 	            value: function drunk() {
-	                var drnk = new Drunk(0, this.seq.length - 1, this.pos, 1, true);
-	                this.pos = drnk.step();
-	                this.value = this.seq[this.pos];
+	                this.drunkWalk.max = this.values.length;
+	                this.drunkWalk.value = this.position;
+	                this.position = this.drunkWalk.step();
 	                return this.value;
 	            }
 	
-	            /* TODO: This whole function, if desired, needs to be implemented with async.
-	                output(start = 0, stop = this.seq.length - 1) {
-	                    //stop values below start will loop back around and output values up to stop value
-	                    if (stop > this.seq.length - 1) {
-	                        stop = this.seq.length - 1;
-	                        console.warn('Sequence stop request exceeds length of sequence. Outputting to end of sequence');
-	                    }
-	                      if (start < 0 || stop < 0) {
-	                        console.error('Sequence start and stop values must be positive.');
-	                        return;
-	                    }
-	                      if (stop < start) {
-	                        for (let i = start; i < this.seq.length; i++) {
-	                            return this.seq[i];
-	                        }
-	                        for (let i = 0; i < start; i++) {
-	                            return this.seq[i];
-	                        }
-	                    } else {
-	                        for (let i = start; i <= stop; i++) {
-	                            return this.seq[i];
-	                        }
-	                    }
-	                }
+	            /* future methods
+	            .group(start,stop) -- outputs a group of n items from the list, with wrapping
+	            .loop(start,stop) -- confines sequencing to a subset of the values
+	                (could even have a distinction between .originalValues and the array of values being used)
 	            */
 	
 	        }
