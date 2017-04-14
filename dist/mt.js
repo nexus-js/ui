@@ -5061,23 +5061,57 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Drunk = _interopRequire(__webpack_require__(31));
 	
 	var Counter = (function () {
-	    function Counter(min, max, mode, value) {
+	    function Counter() {
+	        var min = arguments[0] === undefined ? 0 : arguments[0];
+	        var max = arguments[1] === undefined ? 10 : arguments[1];
+	        var mode = arguments[2] === undefined ? "up" : arguments[2];
+	        var value = arguments[3] === undefined ? false : arguments[3];
+	
 	        _classCallCheck(this, Counter);
 	
-	        this.min = min || 0;
-	        this.max = max || 10;
-	        this.value = value || this.min;
-	        this.mode = mode || "up";
+	        this.min = min;
+	        this.max = max;
+	        this.value = value;
+	        this.mode = mode;
+	        this.drunkWalk = new Drunk(this.min, this.max);
+	        if (this.value !== false) {
+	            this.next = this[this._mode];
+	        } else {
+	            this.next = this.first;
+	        }
 	    }
 	
 	    _createClass(Counter, {
 	        mode: {
 	            set: function (mode) {
+	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
+	                    console.error("The only modes currently allowed are: up, down, random, drunk");
+	                    return;
+	                }
 	                this._mode = mode;
-	                this.next = this[mode];
+	                if (this.value) {
+	                    this.next = this[this._mode];
+	                }
 	            },
 	            get: function () {
 	                return this._mode;
+	            }
+	        },
+	        first: {
+	            value: function first() {
+	                if (this.value !== false) {
+	                    this.next = this[this._mode];
+	                    return this.next();
+	                }
+	                this.startValues = {
+	                    up: this.min,
+	                    down: this.max,
+	                    drunk: ~ ~math.average(this.min, this.max),
+	                    random: math.ri(this.min, this.max)
+	                };
+	                this.value = this.startValues[this._mode];
+	                this.next = this[this._mode];
+	                return this.value;
 	            }
 	        },
 	        up: {
@@ -5106,8 +5140,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 	        drunk: {
 	            value: function drunk() {
-	                var drnk = new Drunk(this.min, this.max, this.value, 1, true);
-	                this.value = drnk.step();
+	                this.drunkWalk.min = this.min;
+	                this.drunkWalk.max = this.max;
+	                this.drunkWalk.value = this.value;
+	                this.value = this.drunkWalk.step();
 	                return this.value;
 	            }
 	        }
@@ -8402,7 +8438,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                return this._mode;
 	            },
 	            set: function (mode) {
-	                mode = mode.toLowerCase();
 	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
 	                    console.error("The only modes currently allowed are: up, down, random, drunk");
 	                    return;
