@@ -108,8 +108,8 @@
           <div class="property-description">{{{ description }}}</div>
           {{ #example }}
             <pre class="example property-example"><code class="language-javascript">{{ code }}</code></pre>
+            <div class="example-toggle">Example</div
           {{ /example }}
-          <div class="example-toggle">Example</div>
         </div>
       {{/properties}}
 
@@ -127,8 +127,8 @@
           <div class="method-description">{{{ description }}}</div>
           {{ #example }}
             <pre class="example method-example"><code class="language-javascript">{{ code }}</code></pre>
+            <div class="example-toggle">Example</div>
           {{ /example }}
-          <div class="example-toggle">Example</div>
         </div>
       {{/methods}}
 
@@ -620,7 +620,7 @@ Creating a Matrix Model from scratch...
     box-sizing:border-box;
   }
   #tutorial {
-    width: calc(100%-225px);
+    width: calc(100% - 225px);
     float:left;
   }
 
@@ -662,7 +662,7 @@ Creating a Matrix Model from scratch...
   /* Doc Tutorial Entry */
   .tutorial {
   	margin-left: 225px;
-  	width: calc(100% - 200);
+  	width: calc(100% - 200px);
   	padding:0px 20px;
   	height:100%;
   	overflow:auto;
@@ -750,6 +750,10 @@ Creating a Matrix Model from scratch...
 
   .custom-tutorial h3 {
     margin-top:30px;
+  }
+
+  .mt-ui {
+    display:inline-block;
   }
 
 </style>

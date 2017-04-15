@@ -829,7 +829,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        // size
-	
 	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
 	          this.width = settings.size[0];
 	          this.height = settings.size[1];
@@ -4385,32 +4384,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _this.piano.paintbrush = !_this.state;
 	            _this.down(_this.piano.paintbrush);
 	          };
-	          this.pad.addEventListener("mouseover", function () {
+	
+	          this.element.addEventListener("mouseover", function () {
 	            if (_this.piano.interacting) {
 	              _this.down(_this.piano.paintbrush);
 	            }
 	          });
 	
-	          this.move = function () {};
-	          this.pad.addEventListener("mousemove", function (e) {
+	          this.move = function () {
 	            if (_this.piano.interacting) {
-	              if (!_this.offset) {
-	                _this.offset = dom.findPosition(_this.element);
-	              }
-	              _this.mouse = dom.locateMouse(e, _this.offset);
 	              _this.bend();
 	            }
-	          });
+	          };
 	
 	          this.release = function () {
 	            _this.piano.interacting = false;
+	            _this.up();
 	          };
-	          this.pad.addEventListener("mouseup", function () {
+	          this.element.addEventListener("mouseup", function () {
 	            if (_this.piano.interacting) {
 	              _this.up();
 	            }
 	          });
-	          this.pad.addEventListener("mouseout", function () {
+	          this.element.addEventListener("mouseout", function () {
 	            if (_this.piano.interacting) {
 	              _this.up();
 	            }
@@ -4466,6 +4462,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	*/
 	
+	/*
+	Properties:
+	
+	Methods:
+	setRange()
+	toggleKey(index,value)
+	toggleKeys(array)
+	*/
+	
 	var Piano = (function (_Interface) {
 	  function Piano() {
 	    _classCallCheck(this, Piano);
@@ -4475,7 +4480,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [500, 150],
 	      target: false,
-	      value: 0
+	      value: 0,
+	      lowNote: 24,
+	      highNote: 60
 	    };
 	
 	    _get(Object.getPrototypeOf(Piano.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -4485,8 +4492,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.paintbrush = false;
 	
 	    this.range = {
-	      low: 24,
-	      high: 60
+	      low: this.settings.lowNote,
+	      high: this.settings.highNote
 	    };
 	
 	    this.range.size = this.range.high - this.range.low;
@@ -4516,6 +4523,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    buildInterface: {
 	      value: function buildInterface() {
+	
+	        this.keys = [];
 	
 	        for (var i = 0; i < this.range.high - this.range.low; i++) {
 	
@@ -4561,7 +4570,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
 	          var nextScaleIndex = (i + 1 + this.range.low) % this.keyPattern.length;
-	          if (this.keyPattern[scaleIndex] === "w" && this.keyPattern[nextScaleIndex] === "w") {
+	          if (i + 1 + this.range.low >= this.range.high) {
+	            keyX += 1;
+	          } else if (this.keyPattern[scaleIndex] === "w" && this.keyPattern[nextScaleIndex] === "w") {
 	            keyX += 1;
 	          } else {
 	            keyX += 0.5;
@@ -4619,6 +4630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.currentElement = false;
 	
 	        this.element.addEventListener("touchstart", function (e) {
+	          console.log("touchstart");
 	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
 	          var key = _this.keys[element.index];
 	          _this.paintbrush = !key.state;
@@ -4654,6 +4666,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	          e.preventDefault();
 	          e.stopPropagation();
 	        });
+	      }
+	    },
+	    setRange: {
+	
+	      /**
+	      Define the pitch range (lowest and highest note) of the piano keyboard.
+	      @param low {number} MIDI note value of the lowest note on the keyboard
+	      @param high {number} MIDI note value of the highest note on the keyboard
+	      */
+	
+	      value: function setRange(low, high) {
+	        this.range.low = low;
+	        this.range.high = high;
+	        this.empty();
+	        this.buildInterface();
+	      }
+	    },
+	    toggleKey: {
+	
+	      /**
+	      Turn a key on or off using its MIDI note value;
+	      @param note {number} MIDI note value of the key to change
+	      @param on {boolean} Whether the note should turn on or off
+	      */
+	
+	      value: function toggleKey(note, on) {
+	        this.keys[note - this.range.low].flip(on);
+	      }
+	    },
+	    toggleIndex: {
+	
+	      /**
+	      Turn a key on or off using its key index on the piano interface.
+	      @param index {number} Index of the key to change
+	      @param on {boolean} Whether the note should turn on or off
+	      */
+	
+	      value: function toggleIndex(index, on) {
+	        this.keys[index].flip(on);
 	      }
 	    }
 	  });
@@ -6182,19 +6233,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.orientation = this.settings.orientation;
 	
-	    this.mode = this.settings.mode;
+	    //  this.mode = this.settings.mode;
 	
 	    this.hasKnob = this.settings.hasKnob;
 	
 	    // this.step should eventually be get/set
 	    // updating it will update the _value step model
-	    this.step = this.settings.step; // float
+	    //  this.step = this.settings.step; // float
 	
 	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
 	
 	    this.init();
 	
-	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position = new Interaction.Handle(this.settings.mode, this.orientation, [0, this.width], [this.height, 0]);
 	    this.position.value = this._value.normalized;
 	
 	    this.value = this._value.value;
@@ -6350,19 +6401,86 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.render();
 	      }
 	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    },
 	    value: {
+	
+	      /**
+	      The slider's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example slider.value = 10;
+	      */
+	
 	      get: function () {
 	        return this._value.value;
 	      },
-	      set: function (value) {
-	        this._value.update(value);
+	      set: function (v) {
+	        this._value.update(v);
 	        this.position.value = this._value.normalized;
 	        this.render();
 	      }
 	    },
-	    normalized: {
+	    min: {
+	
+	      /**
+	      Lower limit of the sliders's output range
+	      @type {number}
+	      @example slider.min = 1000;
+	      */
+	
 	      get: function () {
-	        return this._value.normalized;
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the slider's output range
+	      @type {number}
+	      @example slider.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the slider's value changes by.
+	      @type {number}
+	      @example slider.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (slider's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	      @type {string}
+	      @example slider.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.mode;
+	      },
+	      set: function (v) {
+	        this.position.mode = v;
 	      }
 	    }
 	  });
@@ -6423,6 +6541,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          value: _this.value
 	        };
 	        _this.down();
+	        _this.multislider.values[_this.index] = _this.value;
 	      };
 	      this.element.addEventListener("mouseover", function (e) {
 	        if (_this.multislider.interacting) {
@@ -6431,6 +6550,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          _this.mouse = dom.locateMouse(e, _this.offset);
 	          _this.down();
+	          _this.multislider.values[_this.index] = _this.value;
 	          if (_this.multislider.interpolation) {
 	            var distance = Math.abs(_this.multislider.interpolation.index - _this.index);
 	            if (distance > 1) {
@@ -6459,6 +6579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          _this.mouse = dom.locateMouse(e, _this.offset);
 	          _this.slide();
+	          _this.multislider.values[_this.index] = _this.value;
 	        }
 	      });
 	
@@ -6470,11 +6591,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (_this.multislider.interacting) {
 	          _this.up();
 	          _this.multislider.interpolation = false;
+	          _this.multislider.values[_this.index] = _this.value;
 	        }
 	      });
 	      this.element.addEventListener("mouseout", function () {
 	        if (_this.multislider.interacting) {
 	          _this.up();
+	          _this.multislider.values[_this.index] = _this.value;
 	        }
 	      });
 	    }
@@ -6520,18 +6643,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var multislider = mt.multislider('#target')
 	*
+	* @example
+	* var multislider = mt.multislider('#target',{
+	*  'size': [200,100],
+	*  'numberOfSliders': 5,
+	*  'min': 0,
+	*  'max': 1,
+	*  'step': 0,
+	*  'values': [0.7,0.7,0.7,0.7,0.7]
+	*})
+	*
 	*/
 	
 	/*
-	Properties?
-	.numberOfSliders
-	.min
-	.max
-	.step
+	Properties
 	.values
-	Methods:
-	.setSlider(i,v)
-	  or .sliders[i].value =
 	
 	*/
 	
@@ -6552,15 +6678,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Multislider.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    //  this._min = this.settings.min;
-	    //  this._max = this.settings.max;
-	    //  this._step = this.settings.step;
 	    this._numberOfSliders = this.settings.numberOfSliders;
 	    this.values = this.settings.values;
 	
-	    // could not have ._min, etc, and just use this.settings when creating the sliders
-	    // then get the necessary info from this.sliders[0].min, etc.
-	    // May need to update the SliderTemplate.
+	    this.sliders = [];
 	
 	    this.interacting = false;
 	
@@ -6579,14 +6700,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        var min = this.settings.min;
+	        var max = this.settings.max;
+	        var step = this.settings.step;
+	
+	        if (this.sliders.length) {
+	          min = this.sliders[0].min;
+	          max = this.sliders[0].max;
+	          step = this.sliders[0].step;
+	        }
+	
 	        this.sliders = [];
 	
 	        for (var i = 0; i < this._numberOfSliders; i++) {
 	          var container = document.createElement("span");
 	
 	          var slider = new SingleSlider(container, {
-	            scale: [this.settings.min, this.settings.max],
-	            step: this.settings.step,
+	            scale: [min, max],
+	            step: step,
 	            mode: "absolute",
 	            orientation: "vertical",
 	            value: this.values[i],
@@ -6690,16 +6821,117 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    numberOfSliders: {
+	
+	      /**
+	      Get or set the number of sliders
+	      @type {Number}
+	      */
+	
 	      get: function () {
 	        return this.sliders.length;
 	      },
 	      set: function (v) {
+	        if (v === this.sliders.length) {
+	          return;
+	        }
 	        this.sliders.forEach(function (slider) {
 	          slider.destroy();
 	        });
 	        this.empty();
 	        this._numberOfSliders = v;
 	        this.buildInterface();
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the multislider's output range
+	      @type {number}
+	      @example multislider.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this.sliders[0].min;
+	      },
+	      set: function (v) {
+	        this.sliders.forEach(function (slider) {
+	          slider.min = v;
+	        });
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the multislider's output range
+	      @type {number}
+	      @example multislider.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this.sliders[0].max;
+	      },
+	      set: function (v) {
+	        this.sliders.forEach(function (slider) {
+	          slider.max = v;
+	        });
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the multislider's value changes by.
+	      @type {number}
+	      @example multislider.step = 5;
+	      */
+	
+	      get: function () {
+	        return this.sliders[0].step;
+	      },
+	      set: function (v) {
+	        this.sliders.forEach(function (slider) {
+	          slider.step = v;
+	        });
+	      }
+	    },
+	    setSlider: {
+	
+	      /**
+	      Set the value of an individual slider
+	      @param index {number} Slider index
+	      @param value {number} New slider value
+	      @example
+	      // Set the first slider to value 0.5
+	      multislider.setSlider(0,0.5)
+	      */
+	
+	      value: function setSlider(index, value) {
+	        this.sliders[index].value = value;
+	        this.emit("change", {
+	          index: index,
+	          value: value
+	        });
+	      }
+	    },
+	    setAllSliders: {
+	
+	      /**
+	      Set the value of all sliders at once. If the size of the input array does not match the current number of sliders, the value array will repeat until all sliders have been set. I.e. an input array of length 1 will set all sliders to that value.
+	      @param values {Array} All slider values
+	      @example
+	      multislider.setAllSliders([0.2,0.3,0.4,0.5,0.6])
+	      */
+	
+	      value: function setAllSliders(values) {
+	        var _this = this;
+	
+	        this.values = values;
+	        this.sliders.forEach(function (slider, i) {
+	          slider.value = values[i % values.length];
+	          _this.emit("change", {
+	            index: i,
+	            value: slider.value
+	          });
+	        });
 	      }
 	    }
 	  });
