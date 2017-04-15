@@ -75,7 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
-	var math = _interopRequire(__webpack_require__(6));
+	var math = _interopRequire(__webpack_require__(5));
 	
 	//import dom from './util/dom';
 	
@@ -89,10 +89,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Transform = _interopRequire(__webpack_require__(42));
 	
-	var Counter = __webpack_require__(30);
+	var Counter = __webpack_require__(31);
 	var Radio = __webpack_require__(50);
-	var Drunk = __webpack_require__(31);
-	var Sequence = __webpack_require__(51);
+	var Drunk = __webpack_require__(30);
+	var Sequence = __webpack_require__(29);
 	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
@@ -181,17 +181,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	  Position: __webpack_require__(3),
-	  Slider: __webpack_require__(4),
+	  Slider: __webpack_require__(14),
 	  Toggle: __webpack_require__(15),
 	  Range: __webpack_require__(16),
-	  Waveform: __webpack_require__(20),
-	  Button: __webpack_require__(21),
-	  TextButton: __webpack_require__(23),
-	  RadioButton: __webpack_require__(24),
-	  Number: __webpack_require__(25),
-	  Dial: __webpack_require__(26),
-	  Piano: __webpack_require__(27),
-	  Sequencer: __webpack_require__(52),
+	  Waveform: __webpack_require__(19),
+	  Button: __webpack_require__(20),
+	  TextButton: __webpack_require__(22),
+	  RadioButton: __webpack_require__(23),
+	  Number: __webpack_require__(24),
+	  Dial: __webpack_require__(25),
+	  Piano: __webpack_require__(26),
+	  Sequencer: __webpack_require__(27),
 	  Pan3D: __webpack_require__(32),
 	  Tilt: __webpack_require__(33),
 	  Multislider: __webpack_require__(35),
@@ -219,11 +219,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var Interface = __webpack_require__(7);
-	var Step = __webpack_require__(12);
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(13));
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	/**
 	* Position
@@ -528,313 +528,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(5);
-	var Interface = __webpack_require__(7);
-	var Step = __webpack_require__(12);
-	
-	var Interaction = _interopRequireWildcard(__webpack_require__(13));
-	
-	/**
-	* Slider
-	*
-	* @description Horizontal or vertical slider with settable interaction modes.
-	*
-	* @demo <span mt="slider"></span>
-	*
-	* @example
-	* var slider = mt.slider('#target')
-	*
-	*/
-	
-	var Slider = (function (_Interface) {
-	  function Slider() {
-	    _classCallCheck(this, Slider);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [120, 20],
-	      orientation: "vertical",
-	      mode: "relative",
-	      scale: [0, 1],
-	      step: 0,
-	      value: 0,
-	      hasKnob: true
-	    };
-	
-	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.orientation = this.settings.orientation;
-	
-	    this.hasKnob = this.settings.hasKnob;
-	
-	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
-	
-	    this.position = new Interaction.Handle(this.settings.mode, this.orientation, [0, this.width], [this.height, 0]);
-	    this.position.value = this._value.normalized;
-	
-	    this.init();
-	
-	    this.position.direction = this.orientation;
-	
-	    this.emit("change", this.value);
-	  }
-	
-	  _inherits(Slider, _Interface);
-	
-	  _createClass(Slider, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.bar = svg.create("rect");
-	        this.fillbar = svg.create("rect");
-	        this.knob = svg.create("circle");
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
-	        this.element.appendChild(this.knob);
-	
-	        this.sizeInterface();
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        if (this.width < this.height) {
-	          this.orientation = "vertical";
-	        } else {
-	          this.orientation = "horizontal";
-	        }
-	
-	        if (this.position) {
-	          this.position.resize([0, this.width], [this.height, 0]);
-	        }
-	
-	        var x = undefined,
-	            y = undefined,
-	            w = undefined,
-	            h = undefined,
-	            barOffset = undefined,
-	            cornerRadius = undefined;
-	        this.knobData = {
-	          level: 0,
-	          r: 0
-	        };
-	
-	        if (this.orientation === "vertical") {
-	          this.thickness = this.width / 2;
-	          x = this.width / 2;
-	          y = 0;
-	          w = this.thickness;
-	          h = this.height;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
-	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
-	          cornerRadius = w / 2;
-	        } else {
-	          this.thickness = this.height / 2;
-	          x = 0;
-	          y = this.height / 2;
-	          w = this.width;
-	          h = this.thickness;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
-	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
-	          cornerRadius = h / 2;
-	        }
-	
-	        this.bar.setAttribute("x", x);
-	        this.bar.setAttribute("y", y);
-	        this.bar.setAttribute("transform", barOffset);
-	        this.bar.setAttribute("rx", cornerRadius); // corner radius
-	        this.bar.setAttribute("ry", cornerRadius);
-	        this.bar.setAttribute("width", w);
-	        this.bar.setAttribute("height", h);
-	
-	        if (this.orientation === "vertical") {
-	          this.fillbar.setAttribute("x", x);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("width", w);
-	          this.fillbar.setAttribute("height", h - this.knobData.level);
-	        } else {
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("y", y);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	          this.fillbar.setAttribute("height", h);
-	        }
-	        this.fillbar.setAttribute("transform", barOffset);
-	        this.fillbar.setAttribute("rx", cornerRadius);
-	        this.fillbar.setAttribute("ry", cornerRadius);
-	
-	        if (this.orientation === "vertical") {
-	          this.knob.setAttribute("cx", x);
-	          this.knob.setAttribute("cy", this.knobData.level);
-	        } else {
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.knob.setAttribute("cy", y);
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	
-	        if (!this.hasKnob) {
-	          this.knob.setAttribute("fill", "transparent");
-	        }
-	      }
-	    },
-	    colorInterface: {
-	      value: function colorInterface() {
-	        this.bar.setAttribute("fill", this.colors.fill);
-	        this.fillbar.setAttribute("fill", this.colors.accent);
-	        this.knob.setAttribute("fill", this.colors.accent);
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        if (!this.clicked) {
-	          this.knobData.r = this.thickness * 0.75;
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	
-	        if (this.orientation === "vertical") {
-	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
-	          this.knob.setAttribute("cy", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("height", this.knobData.level);
-	        } else {
-	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	        }
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.knobData.r = this.thickness * 0.9;
-	        this.position.anchor = this.mouse;
-	        this.move();
-	      }
-	    },
-	    move: {
-	      value: function move() {
-	        if (this.clicked) {
-	          this.position.update(this.mouse);
-	          this._value.updateNormal(this.position.value);
-	          this.emit("change", this._value.value);
-	          this.render();
-	        }
-	      }
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    normalized: {
-	      get: function () {
-	        return this._value.normalized;
-	      }
-	    },
-	    value: {
-	
-	      /**
-	      The slider's current value. If set manually, will update the interface and trigger the output event.
-	      @type {number}
-	      @example slider.value = 10;
-	      */
-	
-	      get: function () {
-	        return this._value.value;
-	      },
-	      set: function (v) {
-	        this._value.update(v);
-	        this.position.value = this._value.normalized;
-	        this.render();
-	      }
-	    },
-	    min: {
-	
-	      /**
-	      Lower limit of the sliders's output range
-	      @type {number}
-	      @example slider.min = 1000;
-	      */
-	
-	      get: function () {
-	        return this._value.min;
-	      },
-	      set: function (v) {
-	        this._value.min = v;
-	      }
-	    },
-	    max: {
-	
-	      /**
-	      Upper limit of the slider's output range
-	      @type {number}
-	      @example slider.max = 1000;
-	      */
-	
-	      get: function () {
-	        return this._value.max;
-	      },
-	      set: function (v) {
-	        this._value.max = v;
-	      }
-	    },
-	    step: {
-	
-	      /**
-	      The increment that the slider's value changes by.
-	      @type {number}
-	      @example slider.step = 5;
-	      */
-	
-	      get: function () {
-	        return this._value.step;
-	      },
-	      set: function (v) {
-	        this._value.step = v;
-	      }
-	    },
-	    mode: {
-	
-	      /**
-	      Absolute mode (slider's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
-	      @type {string}
-	      @example slider.mode = "relative";
-	      */
-	
-	      get: function () {
-	        return this.position.mode;
-	      },
-	      set: function (v) {
-	        this.position.mode = v;
-	      }
-	    }
-	  });
-	
-	  return Slider;
-	})(Interface);
-	
-	module.exports = Slider;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var math = __webpack_require__(6);
+	var math = __webpack_require__(5);
 	
 	module.exports = {
 	
@@ -886,7 +580,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1020,7 +714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1033,11 +727,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var dom = __webpack_require__(8);
-	var util = __webpack_require__(9);
-	var touch = __webpack_require__(10);
-	var EventEmitter = __webpack_require__(11);
+	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
+	var util = __webpack_require__(8);
+	var touch = __webpack_require__(9);
+	var EventEmitter = __webpack_require__(10);
 	
 	/**
 	Interface
@@ -1403,7 +1097,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interface;
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1457,7 +1151,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1471,7 +1165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1479,7 +1173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.exists = "ontouchstart" in document.documentElement;
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -1787,7 +1481,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1796,7 +1490,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(6);
+	var math = __webpack_require__(5);
 	
 	/**
 	  Creates a steppable value with minimum, maximum, and step size. This is used in many interfaces to constrict their values to certain ranges.
@@ -1882,7 +1576,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Step;
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1898,9 +1592,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	"use strict";
 	
-	var math = _interopRequire(__webpack_require__(6));
+	var math = _interopRequire(__webpack_require__(5));
 	
-	var ToggleModel = _interopRequire(__webpack_require__(14));
+	var ToggleModel = _interopRequire(__webpack_require__(13));
 	
 	/*
 	how to use :
@@ -2101,7 +1795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2145,6 +1839,312 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	/**
+	* Slider
+	*
+	* @description Horizontal or vertical slider with settable interaction modes.
+	*
+	* @demo <span mt="slider"></span>
+	*
+	* @example
+	* var slider = mt.slider('#target')
+	*
+	*/
+	
+	var Slider = (function (_Interface) {
+	  function Slider() {
+	    _classCallCheck(this, Slider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "relative",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    this.hasKnob = this.settings.hasKnob;
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.position = new Interaction.Handle(this.settings.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
+	
+	    this.init();
+	
+	    this.position.direction = this.orientation;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(Slider, _Interface);
+	
+	  _createClass(Slider, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (this.width < this.height) {
+	          this.orientation = "vertical";
+	        } else {
+	          this.orientation = "horizontal";
+	        }
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
+	
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
+	        this.bar.setAttribute("width", w);
+	        this.bar.setAttribute("height", h);
+	
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
+	
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "transparent");
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.fillbar.setAttribute("fill", this.colors.accent);
+	        this.knob.setAttribute("fill", this.colors.accent);
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.update(this.mouse);
+	          this._value.updateNormal(this.position.value);
+	          this.emit("change", this._value.value);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The slider's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example slider.value = 10;
+	      */
+	
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (v) {
+	        this._value.update(v);
+	        this.position.value = this._value.normalized;
+	        this.render();
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the sliders's output range
+	      @type {number}
+	      @example slider.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the slider's output range
+	      @type {number}
+	      @example slider.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the slider's value changes by.
+	      @type {number}
+	      @example slider.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (slider's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	      @type {string}
+	      @example slider.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.mode;
+	      },
+	      set: function (v) {
+	        this.position.mode = v;
+	      }
+	    }
+	  });
+	
+	  return Slider;
+	})(Interface);
+	
+	module.exports = Slider;
+
+/***/ },
 /* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2158,9 +2158,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var ToggleModel = __webpack_require__(14);
-	var Interface = __webpack_require__(7);
+	var svg = __webpack_require__(4);
+	var ToggleModel = __webpack_require__(13);
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Toggle
@@ -2304,8 +2304,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var math = __webpack_require__(6);
-	var Interface = __webpack_require__(7);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	var RangeSlider = __webpack_require__(17);
 	
 	/**
@@ -2452,16 +2452,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
+	var svg = __webpack_require__(4);
 	var RangeModel = __webpack_require__(18);
-	var math = __webpack_require__(6);
+	var math = __webpack_require__(5);
 	//let ColorOps = require('color-ops');
 	// is this needed? where is it used?
 	//window.ColorOps = require('color-ops');
 	
-	var Interface = _interopRequire(__webpack_require__(7));
+	var Interface = _interopRequire(__webpack_require__(6));
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(13));
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	var RangeSlider = (function (_Interface) {
 	  function RangeSlider() {
@@ -2714,7 +2714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Step = _interopRequire(__webpack_require__(12));
+	var Step = _interopRequire(__webpack_require__(11));
 	
 	/**
 	  Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.
@@ -2814,8 +2814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 19 */,
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2828,8 +2827,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var Interface = __webpack_require__(7);
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
 	var RangeSlider = __webpack_require__(17);
@@ -3071,7 +3070,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3084,8 +3083,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var ButtonTemplate = __webpack_require__(22);
+	var svg = __webpack_require__(4);
+	var ButtonTemplate = __webpack_require__(21);
 	
 	/**
 	* Button
@@ -3219,7 +3218,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Button;
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3232,10 +3231,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var math = __webpack_require__(6);
-	var ToggleModel = __webpack_require__(14);
-	var Interface = __webpack_require__(7);
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var ToggleModel = __webpack_require__(13);
+	var Interface = __webpack_require__(6);
 	
 	/**
 	Button Template
@@ -3440,7 +3439,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = ButtonTemplate;
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3453,7 +3452,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var ButtonTemplate = __webpack_require__(22);
+	var ButtonTemplate = __webpack_require__(21);
 	
 	/**
 	* TextButton
@@ -3568,7 +3567,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = TextButton;
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3582,8 +3581,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var Interface = __webpack_require__(7);
-	var Button = __webpack_require__(21);
+	var Interface = __webpack_require__(6);
+	var Button = __webpack_require__(20);
 	
 	/**
 	* RadioButton
@@ -3692,7 +3691,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3705,9 +3704,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Interface = __webpack_require__(7);
-	var Step = __webpack_require__(12);
-	var math = __webpack_require__(6);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
+	var math = __webpack_require__(5);
 	
 	/**
 	* Number
@@ -3974,7 +3973,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Number;
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3989,12 +3988,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var math = __webpack_require__(6);
-	var Interface = __webpack_require__(7);
-	var Step = __webpack_require__(12);
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(13));
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	/**
 	* Dial
@@ -4314,7 +4313,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Dial;
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4327,11 +4326,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var dom = __webpack_require__(8);
-	var Interface = __webpack_require__(7);
-	var ButtonTemplate = __webpack_require__(22);
-	var touch = __webpack_require__(10);
+	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
+	var Interface = __webpack_require__(6);
+	var ButtonTemplate = __webpack_require__(21);
+	var touch = __webpack_require__(9);
 	
 	var PianoKey = (function (_ButtonTemplate) {
 	  function PianoKey() {
@@ -4667,8 +4666,444 @@ return /******/ (function(modules) { // webpackBootstrap
 	// loop through and render the keys?
 
 /***/ },
-/* 28 */,
-/* 29 */
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
+	var Interface = __webpack_require__(6);
+	var ButtonTemplate = __webpack_require__(21);
+	var MatrixModel = __webpack_require__(28);
+	var CounterModel = __webpack_require__(31);
+	//let Time = require('../core/time');
+	var touch = __webpack_require__(9);
+	
+	var MatrixCell = (function (_ButtonTemplate) {
+	  function MatrixCell() {
+	    _classCallCheck(this, MatrixCell);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      target: false,
+	      mode: "toggle",
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.index = this.settings.index;
+	    this.row = this.settings.row;
+	    this.column = this.settings.column;
+	
+	    this.interacting = false;
+	    this.paintbrush = false;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(MatrixCell, _ButtonTemplate);
+	
+	  _createClass(MatrixCell, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.element.style.top = "0px";
+	        this.element.style.left = "0px";
+	        this.element.style.position = "absolute";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.pad = svg.create("rect");
+	        this.element.appendChild(this.pad);
+	
+	        this.sizeInterface();
+	
+	        /* events */
+	
+	        if (!touch.exists) {
+	
+	          this.click = function () {
+	            _this.matrix.interacting = true;
+	            _this.matrix.paintbrush = !_this.state;
+	            _this.down(_this.matrix.paintbrush);
+	          };
+	          this.pad.addEventListener("mouseover", function () {
+	            if (_this.matrix.interacting) {
+	              _this.down(_this.matrix.paintbrush);
+	            }
+	          });
+	
+	          this.move = function () {};
+	          this.pad.addEventListener("mousemove", function (e) {
+	            if (_this.matrix.interacting) {
+	              if (!_this.offset) {
+	                _this.offset = dom.findPosition(_this.element);
+	              }
+	              _this.mouse = dom.locateMouse(e, _this.offset);
+	              _this.bend();
+	            }
+	          });
+	
+	          this.release = function () {
+	            _this.matrix.interacting = false;
+	          };
+	          this.pad.addEventListener("mouseup", function () {
+	            if (_this.matrix.interacting) {
+	              _this.up();
+	            }
+	          });
+	          this.pad.addEventListener("mouseout", function () {
+	            if (_this.matrix.interacting) {
+	              _this.up();
+	            }
+	          });
+	        }
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.pad.setAttribute("x", 1);
+	        this.pad.setAttribute("y", 1);
+	        if (this.width > 2) {
+	          this.pad.setAttribute("width", this.width - 2);
+	        } else {
+	          this.pad.setAttribute("width", this.width);
+	        }
+	        if (this.height > 2) {
+	          this.pad.setAttribute("height", this.height - 2);
+	        } else {
+	          this.pad.setAttribute("height", this.height);
+	        }
+	        //this.pad.setAttribute('height', this.height - 2);
+	        this.pad.setAttribute("fill", "#e7e7e7");
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.pad.setAttribute("fill", "#e7e7e7");
+	        } else {
+	          this.pad.setAttribute("fill", "#d18");
+	        }
+	      }
+	    }
+	  });
+	
+	  return MatrixCell;
+	})(ButtonTemplate);
+	
+	/**
+	* Sequencer
+	*
+	* @description Grid of buttons with built-in step sequencer.
+	*
+	* @demo <div mt="sequencer" style="width:400px;height:200px;"></div>
+	*
+	* @example
+	* var sequencer = mt.sequencer('#target')
+	*
+	* @example
+	* var sequencer = mt.sequencer('#target',{
+	*  'size': [400,200],
+	*  'mode': 'toggle',
+	*  'rows': 5,
+	*  'columns': 10
+	*})
+	*
+	*/
+	
+	var Sequencer = (function (_Interface) {
+	  function Sequencer() {
+	    _classCallCheck(this, Sequencer);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [400, 200],
+	      target: false,
+	      value: 0,
+	      mode: "toggle",
+	      rows: 5,
+	      columns: 10
+	    };
+	
+	    _get(Object.getPrototypeOf(Sequencer.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.active = -1;
+	
+	    this.mode = this.settings.mode;
+	
+	    /**
+	    A Matrix model containing methods for manipulating the sequencer's array of values.
+	    @type {Matrix}
+	    */
+	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);
+	    this.matrix.ui = this;
+	
+	    /**
+	    A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.
+	    @type {Counter}
+	    */
+	    this.stepper = new CounterModel(0, this.columns);
+	
+	    this.init();
+	  }
+	
+	  _inherits(Sequencer, _Interface);
+	
+	  _createClass(Sequencer, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.element.style.position = "relative";
+	        this.element.style.display = "block";
+	        this.element.style.width = "100%";
+	        this.element.style.height = "100%";
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.cells = [];
+	        for (var i = 0; i < this.matrix.length; i++) {
+	
+	          var _location = this.matrix.locate(i);
+	          // returns {row,col}
+	
+	          var container = document.createElement("span");
+	          container.style.position = "absolute";
+	
+	          var cell = new MatrixCell(container, {
+	            component: true,
+	            index: i,
+	            row: _location.row,
+	            column: _location.column,
+	            mode: this.mode
+	          }, this.keyChange.bind(this, i));
+	
+	          cell.matrix = this;
+	          if (touch.exists) {
+	            cell.pad.index = i;
+	            cell.preClick = cell.preMove = cell.preRelease = function () {};
+	            cell.click = cell.move = cell.release = function () {};
+	            cell.preTouch = cell.preTouchMove = cell.preTouchRelease = function () {};
+	            cell.touch = cell.touchMove = cell.touchRelease = function () {};
+	          }
+	
+	          this.cells.push(cell);
+	          this.element.appendChild(container);
+	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var cellWidth = this.width / this.columns;
+	        var cellHeight = this.height / this.rows;
+	
+	        for (var i = 0; i < this.cells.length; i++) {
+	          var container = this.cells[i].parent;
+	          container.style.left = this.cells[i].column * cellWidth + "px";
+	          container.style.top = this.cells[i].row * cellHeight + "px";
+	          this.cells[i].resize(cellWidth, cellHeight);
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update() {
+	        var _this = this;
+	
+	        this.matrix.iterate(function (r, c, i) {
+	          if (_this.matrix.pattern[r][c] > 0) {
+	            _this.cells[i].state = true;
+	          } else {
+	            _this.cells[i].state = false;
+	          }
+	        });
+	      }
+	    },
+	    keyChange: {
+	      value: function keyChange(note, value) {
+	        // emit data for any key turning on/off
+	        // i is the note index
+	        // v is whether it is on or off
+	        var cell = this.matrix.locate(note);
+	        this.matrix.set.cell(cell.column, cell.row, value);
+	        this.emit("change", note, value);
+	        // rename to (note,on)
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        var _this = this;
+	
+	        if (this.stepper.value >= 0) {
+	          this.matrix.iterate(function (r, c, i) {
+	            if (c === _this.stepper.value) {
+	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
+	              _this.cells[i].pad.setAttribute("stroke-width", "5");
+	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
+	            } else {
+	              _this.cells[i].pad.setAttribute("stroke", "none");
+	            }
+	          });
+	        }
+	      }
+	    },
+	    start: {
+	
+	      /**
+	      Start sequencing
+	      */
+	
+	      value: function start() {
+	        if (!this.invertal) {
+	          this.next();
+	          this.interval = setInterval(this.next.bind(this), 200);
+	        }
+	      }
+	    },
+	    stop: {
+	
+	      /**
+	      Stop sequencing
+	      */
+	
+	      value: function stop() {
+	        clearInterval(this.interval);
+	        this.interval = false;
+	      }
+	    },
+	    next: {
+	
+	      /**
+	      Manually jump to the next column and trigger the 'change' event. The "next" column is determined by your mode of sequencing.
+	      */
+	
+	      value: function next() {
+	        this.stepper.next();
+	        this.emit("change", this.matrix.column(this.stepper.value));
+	        this.render();
+	      }
+	    },
+	    addTouchListeners: {
+	      value: function addTouchListeners() {
+	        var _this = this;
+	
+	        this.preClick = this.preMove = this.preRelease = function () {};
+	        this.click = this.move = this.release = function () {};
+	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
+	        this.touch = this.touchMove = this.touchRelease = function () {};
+	
+	        this.currentElement = false;
+	
+	        this.element.addEventListener("touchstart", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var cell = _this.cells[element.index];
+	          _this.paintbrush = !cell.state;
+	          cell.down(_this.paintbrush);
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchmove", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var cell = _this.cells[element.index];
+	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement >= 0) {
+	              var pastCell = _this.cells[_this.currentElement];
+	              pastCell.up();
+	            }
+	            cell.down(_this.paintbrush);
+	          } else {
+	            cell.bend();
+	          }
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchend", function (e) {
+	          // no touches to calculate because none remaining
+	          var cell = _this.cells[_this.currentElement];
+	          cell.up();
+	          _this.interacting = false;
+	          _this.currentElement = false;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	      }
+	    },
+	    rows: {
+	
+	      /**
+	      Number of rows in the sequencer
+	      @type {number}
+	      */
+	
+	      get: function () {
+	        return this.matrix.rows;
+	      },
+	      set: function (v) {
+	        this.matrix.rows = v;
+	        this.empty();
+	        this.buildInterface();
+	        this.update();
+	      }
+	    },
+	    columns: {
+	
+	      /**
+	      Number of columns in the sequencer
+	      @type {number}
+	      */
+	
+	      get: function () {
+	        return this.matrix.columns;
+	      },
+	      set: function (v) {
+	        this.matrix.columns = v;
+	        this.stepper.max = v;
+	        this.empty();
+	        this.buildInterface();
+	        this.update();
+	      }
+	    }
+	  });
+	
+	  return Sequencer;
+	})(Interface);
+	
+	module.exports = Sequencer;
+
+/***/ },
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4679,9 +5114,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = _interopRequire(__webpack_require__(6));
+	var math = _interopRequire(__webpack_require__(5));
 	
-	var Sequence = _interopRequire(__webpack_require__(51));
+	var Sequence = _interopRequire(__webpack_require__(29));
 	
 	// For the tutorial, looking at
 	
@@ -5045,6 +5480,130 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Matrix;
 
 /***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Drunk = _interopRequire(__webpack_require__(30));
+	
+	var Sequence = (function () {
+	    function Sequence() {
+	        var sequence = arguments[0] === undefined ? [0, 10, 20, 30] : arguments[0];
+	        var mode = arguments[1] === undefined ? "up" : arguments[1];
+	        var position = arguments[2] === undefined ? false : arguments[2];
+	
+	        _classCallCheck(this, Sequence);
+	
+	        this.values = sequence;
+	        if (!Array.isArray(this.values)) {
+	            this.values = [this.values];
+	        }
+	        this._mode = mode;
+	        this.position = position;
+	
+	        this.drunkWalk = new Drunk(0, this.values.length - 1);
+	
+	        this.startValues = {
+	            up: 0,
+	            down: this.values.length - 1,
+	            drunk: ~ ~(this.values.length / 2),
+	            random: math.ri(this.values.length)
+	        };
+	
+	        if (this.position !== false) {
+	            this.next = this[this._mode];
+	        } else {
+	            this.next = this.first;
+	        }
+	    }
+	
+	    _createClass(Sequence, {
+	        mode: {
+	            get: function () {
+	                return this._mode;
+	            },
+	            set: function (mode) {
+	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
+	                    console.error("The only modes currently allowed are: up, down, random, drunk");
+	                    return;
+	                }
+	                this._mode = mode;
+	                if (this.position) {
+	                    this.next = this[this._mode];
+	                }
+	            }
+	        },
+	        value: {
+	            get: function () {
+	                return this.values[this.position];
+	            },
+	            set: function (v) {
+	                this.position = this.values.indexOf(v);
+	            }
+	        },
+	        first: {
+	            value: function first() {
+	                if (this.position !== false) {
+	                    this.next = this[this._mode];
+	                    return this.next();
+	                }
+	                this.position = this.startValues[this._mode];
+	                this.next = this[this._mode];
+	                return this.value;
+	            }
+	        },
+	        up: {
+	            value: function up() {
+	                this.position++;
+	                this.position %= this.values.length;
+	                return this.value;
+	            }
+	        },
+	        down: {
+	            value: function down() {
+	                this.position--;
+	                this.position %= this.values.length;
+	                return this.value;
+	            }
+	        },
+	        random: {
+	            value: function random() {
+	                this.position = math.ri(0, this.values.length);
+	                return this.value;
+	            }
+	        },
+	        drunk: {
+	            value: function drunk() {
+	                this.drunkWalk.max = this.values.length;
+	                this.drunkWalk.value = this.position;
+	                this.position = this.drunkWalk.step();
+	                return this.value;
+	            }
+	
+	            /* future methods
+	            .group(start,stop) -- outputs a group of n items from the list, with wrapping
+	            .loop(start,stop) -- confines sequencing to a subset of the values
+	                (could even have a distinction between .originalValues and the array of values being used)
+	            */
+	
+	        }
+	    });
+	
+	    return Sequence;
+	})();
+	
+	module.exports = Sequence;
+
+/***/ },
 /* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -5056,9 +5615,69 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = _interopRequire(__webpack_require__(6));
+	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(31));
+	var Drunk = (function () {
+	    function Drunk() {
+	        var min = arguments[0] === undefined ? 0 : arguments[0];
+	        var max = arguments[1] === undefined ? 9 : arguments[1];
+	        var value = arguments[2] === undefined ? 0 : arguments[2];
+	        var increment = arguments[3] === undefined ? 1 : arguments[3];
+	        var loop = arguments[4] === undefined ? false : arguments[4];
+	
+	        _classCallCheck(this, Drunk);
+	
+	        this.min = min;
+	        this.max = max;
+	        this.value = value;
+	        this.increment = increment;
+	        this.loop = loop;
+	    }
+	
+	    _createClass(Drunk, {
+	        step: {
+	            value: function step() {
+	                this.value += math.pick(-1 * this.increment, this.increment);
+	                if (this.value > this.max) {
+	                    if (this.loop) {
+	                        this.value = this.min;
+	                    } else {
+	                        this.value = this.max - this.increment;
+	                    }
+	                }
+	
+	                if (this.value < this.min) {
+	                    if (this.loop) {
+	                        this.value = this.max;
+	                    } else {
+	                        this.value = this.min + this.increment;
+	                    }
+	                }
+	                return this.value;
+	            }
+	        }
+	    });
+	
+	    return Drunk;
+	})();
+	
+	module.exports = Drunk;
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Drunk = _interopRequire(__webpack_require__(30));
 	
 	var Counter = (function () {
 	    function Counter() {
@@ -5155,66 +5774,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var math = _interopRequire(__webpack_require__(6));
-	
-	var Drunk = (function () {
-	    function Drunk() {
-	        var min = arguments[0] === undefined ? 0 : arguments[0];
-	        var max = arguments[1] === undefined ? 9 : arguments[1];
-	        var value = arguments[2] === undefined ? 0 : arguments[2];
-	        var increment = arguments[3] === undefined ? 1 : arguments[3];
-	        var loop = arguments[4] === undefined ? false : arguments[4];
-	
-	        _classCallCheck(this, Drunk);
-	
-	        this.min = min;
-	        this.max = max;
-	        this.value = value;
-	        this.increment = increment;
-	        this.loop = loop;
-	    }
-	
-	    _createClass(Drunk, {
-	        step: {
-	            value: function step() {
-	                this.value += math.pick(-1 * this.increment, this.increment);
-	                if (this.value > this.max) {
-	                    if (this.loop) {
-	                        this.value = this.min;
-	                    } else {
-	                        this.value = this.max - this.increment;
-	                    }
-	                }
-	
-	                if (this.value < this.min) {
-	                    if (this.loop) {
-	                        this.value = this.max;
-	                    } else {
-	                        this.value = this.min + this.increment;
-	                    }
-	                }
-	                return this.value;
-	            }
-	        }
-	    });
-	
-	    return Drunk;
-	})();
-	
-	module.exports = Drunk;
-
-/***/ },
 /* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -5230,12 +5789,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var math = __webpack_require__(6);
-	var Interface = __webpack_require__(7);
-	var Step = __webpack_require__(12);
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(13));
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	/* NEEDS
 	should be renamed pan2d, really... */
@@ -5449,8 +6008,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(6);
-	var Interface = __webpack_require__(7);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	var SliderTemplate = __webpack_require__(34);
 	
 	var TiltSlider = (function (_SliderTemplate) {
@@ -5609,11 +6168,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var Interface = __webpack_require__(7);
-	var Step = __webpack_require__(12);
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(13));
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	var SliderTemplate = (function (_Interface) {
 	  function SliderTemplate(args, options, defaults) {
@@ -5827,10 +6386,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(8);
-	var Interface = __webpack_require__(7);
+	var dom = __webpack_require__(7);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	var SliderTemplate = __webpack_require__(34);
-	var touch = __webpack_require__(10);
+	var touch = __webpack_require__(9);
 	
 	var SingleSlider = (function (_SliderTemplate) {
 	  function SingleSlider() {
@@ -5858,6 +6418,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      this.click = function () {
 	        _this.multislider.interacting = true;
+	        _this.multislider.interpolation = {
+	          index: _this.index,
+	          value: _this.value
+	        };
 	        _this.down();
 	      };
 	      this.element.addEventListener("mouseover", function (e) {
@@ -5867,6 +6431,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          _this.mouse = dom.locateMouse(e, _this.offset);
 	          _this.down();
+	          if (_this.multislider.interpolation) {
+	            var distance = Math.abs(_this.multislider.interpolation.index - _this.index);
+	            if (distance > 1) {
+	              var low = Math.min(_this.multislider.interpolation.index, _this.index);
+	              var high = Math.max(_this.multislider.interpolation.index, _this.index);
+	              var lowValue = _this.multislider.sliders[low].value;
+	              var highValue = _this.multislider.sliders[high].value;
+	              for (var i = low; i < high; i++) {
+	                _this.multislider.sliders[i].value = math.interp((i - low) / distance, lowValue, highValue);
+	              }
+	            }
+	          }
+	
+	          _this.multislider.interpolation = {
+	            index: _this.index,
+	            value: _this.value
+	          };
 	        }
 	      });
 	
@@ -5883,10 +6464,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      this.release = function () {
 	        _this.multislider.interacting = false;
+	        _this.multislider.interpolation = false;
 	      };
 	      this.element.addEventListener("mouseup", function () {
 	        if (_this.multislider.interacting) {
 	          _this.up();
+	          _this.multislider.interpolation = false;
 	        }
 	      });
 	      this.element.addEventListener("mouseout", function () {
@@ -5939,6 +6522,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	*/
 	
+	/*
+	Properties?
+	.numberOfSliders
+	.min
+	.max
+	.step
+	.values
+	Methods:
+	.setSlider(i,v)
+	  or .sliders[i].value =
+	
+	*/
+	
 	var Multislider = (function (_Interface) {
 	  function Multislider() {
 	    _classCallCheck(this, Multislider);
@@ -5948,20 +6544,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [200, 100],
 	      numberOfSliders: 5,
-	      scale: [0, 100],
-	      step: 1,
-	      value: [70, 60, 50, 40, 30]
+	      min: 0,
+	      max: 1,
+	      step: 0,
+	      values: [0.7, 0.7, 0.7, 0.7, 0.7]
 	    };
 	
 	    _get(Object.getPrototypeOf(Multislider.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.min = this.settings.scale[0];
-	    this.max = this.settings.scale[1];
-	    this.step = this.settings.step;
-	    this.numberOfSliders = this.settings.numberOfSliders;
-	    this.value = this.settings.value;
+	    //  this._min = this.settings.min;
+	    //  this._max = this.settings.max;
+	    //  this._step = this.settings.step;
+	    this._numberOfSliders = this.settings.numberOfSliders;
+	    this.values = this.settings.values;
 	
-	    this.sliders = [];
+	    // could not have ._min, etc, and just use this.settings when creating the sliders
+	    // then get the necessary info from this.sliders[0].min, etc.
+	    // May need to update the SliderTemplate.
 	
 	    this.interacting = false;
 	
@@ -5980,19 +6579,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        for (var i = 0; i < this.numberOfSliders; i++) {
+	        this.sliders = [];
+	
+	        for (var i = 0; i < this._numberOfSliders; i++) {
 	          var container = document.createElement("span");
 	
 	          var slider = new SingleSlider(container, {
-	            scale: [this.min, this.max],
-	            step: this.step,
+	            scale: [this.settings.min, this.settings.max],
+	            step: this.settings.step,
 	            mode: "absolute",
 	            orientation: "vertical",
-	            value: this.value[i],
+	            value: this.values[i],
 	            hasKnob: false,
 	            component: true }, this.update.bind(this, i));
 	          slider.multislider = this;
 	
+	          slider.index = i;
 	          if (touch.exists) {
 	            slider.bar.index = i;
 	            slider.fillbar.index = i;
@@ -6014,7 +6616,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    sizeInterface: {
 	      value: function sizeInterface() {
 	
-	        var sliderWidth = this.width / this.numberOfSliders;
+	        var sliderWidth = this.width / this.sliders.length;
 	        var sliderHeight = this.height;
 	
 	        for (var i = 0; i < this.sliders.length; i++) {
@@ -6086,6 +6688,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	          e.stopPropagation();
 	        });
 	      }
+	    },
+	    numberOfSliders: {
+	      get: function () {
+	        return this.sliders.length;
+	      },
+	      set: function (v) {
+	        this.sliders.forEach(function (slider) {
+	          slider.destroy();
+	        });
+	        this.empty();
+	        this._numberOfSliders = v;
+	        this.buildInterface();
+	      }
 	    }
 	  });
 	
@@ -6110,12 +6725,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(5);
-	var math = __webpack_require__(6);
-	var Interface = __webpack_require__(7);
-	var Step = __webpack_require__(12);
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(13));
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	/**
 	* Pan
@@ -6355,10 +6970,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var math = __webpack_require__(6);
-	var svg = __webpack_require__(5);
+	var math = __webpack_require__(5);
+	var svg = __webpack_require__(4);
 	//let dom = require('../util/dom');
-	var Interface = __webpack_require__(7);
+	var Interface = __webpack_require__(6);
 	
 	/* NEEDS
 	Events. What are they and when do they happen?
@@ -6814,9 +7429,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(8);
+	var dom = __webpack_require__(7);
 	//let math = require('../util/math');
-	var Interface = __webpack_require__(7);
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Spectrogram
@@ -6941,9 +7556,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(8);
-	var math = __webpack_require__(6);
-	var Interface = __webpack_require__(7);
+	var dom = __webpack_require__(7);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Meter
@@ -7103,9 +7718,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var dom = __webpack_require__(8);
+	var dom = __webpack_require__(7);
 	//let math = require('../util/math');
-	var Interface = __webpack_require__(7);
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Oscilloscope
@@ -7390,7 +8005,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	"use strict";
 	
-	var dom = _interopRequire(__webpack_require__(8));
+	var dom = _interopRequire(__webpack_require__(7));
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
@@ -8384,567 +8999,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Radio;
-
-/***/ },
-/* 51 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var math = _interopRequire(__webpack_require__(6));
-	
-	var Drunk = _interopRequire(__webpack_require__(31));
-	
-	var Sequence = (function () {
-	    function Sequence() {
-	        var sequence = arguments[0] === undefined ? [0, 10, 20, 30] : arguments[0];
-	        var mode = arguments[1] === undefined ? "up" : arguments[1];
-	        var position = arguments[2] === undefined ? false : arguments[2];
-	
-	        _classCallCheck(this, Sequence);
-	
-	        this.values = sequence;
-	        if (!Array.isArray(this.values)) {
-	            this.values = [this.values];
-	        }
-	        this._mode = mode;
-	        this.position = position;
-	
-	        this.drunkWalk = new Drunk(0, this.values.length - 1);
-	
-	        this.startValues = {
-	            up: 0,
-	            down: this.values.length - 1,
-	            drunk: ~ ~(this.values.length / 2),
-	            random: math.ri(this.values.length)
-	        };
-	
-	        if (this.position !== false) {
-	            this.next = this[this._mode];
-	        } else {
-	            this.next = this.first;
-	        }
-	    }
-	
-	    _createClass(Sequence, {
-	        mode: {
-	            get: function () {
-	                return this._mode;
-	            },
-	            set: function (mode) {
-	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
-	                    console.error("The only modes currently allowed are: up, down, random, drunk");
-	                    return;
-	                }
-	                this._mode = mode;
-	                if (this.position) {
-	                    this.next = this[this._mode];
-	                }
-	            }
-	        },
-	        value: {
-	            get: function () {
-	                return this.values[this.position];
-	            },
-	            set: function (v) {
-	                this.position = this.values.indexOf(v);
-	            }
-	        },
-	        first: {
-	            value: function first() {
-	                if (this.position !== false) {
-	                    this.next = this[this._mode];
-	                    return this.next();
-	                }
-	                this.position = this.startValues[this._mode];
-	                this.next = this[this._mode];
-	                return this.value;
-	            }
-	        },
-	        up: {
-	            value: function up() {
-	                this.position++;
-	                this.position %= this.values.length;
-	                return this.value;
-	            }
-	        },
-	        down: {
-	            value: function down() {
-	                this.position--;
-	                this.position %= this.values.length;
-	                return this.value;
-	            }
-	        },
-	        random: {
-	            value: function random() {
-	                this.position = math.ri(0, this.values.length);
-	                return this.value;
-	            }
-	        },
-	        drunk: {
-	            value: function drunk() {
-	                this.drunkWalk.max = this.values.length;
-	                this.drunkWalk.value = this.position;
-	                this.position = this.drunkWalk.step();
-	                return this.value;
-	            }
-	
-	            /* future methods
-	            .group(start,stop) -- outputs a group of n items from the list, with wrapping
-	            .loop(start,stop) -- confines sequencing to a subset of the values
-	                (could even have a distinction between .originalValues and the array of values being used)
-	            */
-	
-	        }
-	    });
-	
-	    return Sequence;
-	})();
-	
-	module.exports = Sequence;
-
-/***/ },
-/* 52 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(5);
-	var dom = __webpack_require__(8);
-	var Interface = __webpack_require__(7);
-	var ButtonTemplate = __webpack_require__(22);
-	var MatrixModel = __webpack_require__(29);
-	var CounterModel = __webpack_require__(30);
-	//let Time = require('../core/time');
-	var touch = __webpack_require__(10);
-	
-	var MatrixCell = (function (_ButtonTemplate) {
-	  function MatrixCell() {
-	    _classCallCheck(this, MatrixCell);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [80, 80],
-	      target: false,
-	      mode: "toggle",
-	      value: 0
-	    };
-	
-	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.index = this.settings.index;
-	    this.row = this.settings.row;
-	    this.column = this.settings.column;
-	
-	    this.interacting = false;
-	    this.paintbrush = false;
-	
-	    this.init();
-	    this.render();
-	  }
-	
-	  _inherits(MatrixCell, _ButtonTemplate);
-	
-	  _createClass(MatrixCell, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = svg.create("svg");
-	        this.element.setAttribute("width", this.width);
-	        this.element.setAttribute("height", this.height);
-	        this.element.style.top = "0px";
-	        this.element.style.left = "0px";
-	        this.element.style.position = "absolute";
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	        var _this = this;
-	
-	        this.pad = svg.create("rect");
-	        this.element.appendChild(this.pad);
-	
-	        this.sizeInterface();
-	
-	        /* events */
-	
-	        if (!touch.exists) {
-	
-	          this.click = function () {
-	            _this.matrix.interacting = true;
-	            _this.matrix.paintbrush = !_this.state;
-	            _this.down(_this.matrix.paintbrush);
-	          };
-	          this.pad.addEventListener("mouseover", function () {
-	            if (_this.matrix.interacting) {
-	              _this.down(_this.matrix.paintbrush);
-	            }
-	          });
-	
-	          this.move = function () {};
-	          this.pad.addEventListener("mousemove", function (e) {
-	            if (_this.matrix.interacting) {
-	              if (!_this.offset) {
-	                _this.offset = dom.findPosition(_this.element);
-	              }
-	              _this.mouse = dom.locateMouse(e, _this.offset);
-	              _this.bend();
-	            }
-	          });
-	
-	          this.release = function () {
-	            _this.matrix.interacting = false;
-	          };
-	          this.pad.addEventListener("mouseup", function () {
-	            if (_this.matrix.interacting) {
-	              _this.up();
-	            }
-	          });
-	          this.pad.addEventListener("mouseout", function () {
-	            if (_this.matrix.interacting) {
-	              _this.up();
-	            }
-	          });
-	        }
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        this.pad.setAttribute("x", 1);
-	        this.pad.setAttribute("y", 1);
-	        if (this.width > 2) {
-	          this.pad.setAttribute("width", this.width - 2);
-	        } else {
-	          this.pad.setAttribute("width", this.width);
-	        }
-	        if (this.height > 2) {
-	          this.pad.setAttribute("height", this.height - 2);
-	        } else {
-	          this.pad.setAttribute("height", this.height);
-	        }
-	        //this.pad.setAttribute('height', this.height - 2);
-	        this.pad.setAttribute("fill", "#e7e7e7");
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
-	        } else {
-	          this.pad.setAttribute("fill", "#d18");
-	        }
-	      }
-	    }
-	  });
-	
-	  return MatrixCell;
-	})(ButtonTemplate);
-	
-	/**
-	* Sequencer
-	*
-	* @description Grid of buttons with built-in step sequencer.
-	*
-	* @demo <div mt="sequencer" style="width:400px;height:200px;"></div>
-	*
-	* @example
-	* var sequencer = mt.sequencer('#target')
-	*
-	* @example
-	* var sequencer = mt.sequencer('#target',{
-	*  'size': [400,200],
-	*  'mode': 'toggle',
-	*  'rows': 5,
-	*  'columns': 10
-	*})
-	*
-	*/
-	
-	var Sequencer = (function (_Interface) {
-	  function Sequencer() {
-	    _classCallCheck(this, Sequencer);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [400, 200],
-	      target: false,
-	      value: 0,
-	      mode: "toggle",
-	      rows: 5,
-	      columns: 10
-	    };
-	
-	    _get(Object.getPrototypeOf(Sequencer.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.active = -1;
-	
-	    this.mode = this.settings.mode;
-	
-	    /**
-	    A Matrix model containing methods for manipulating the sequencer's array of values.
-	    @type {Matrix}
-	    */
-	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);
-	    this.matrix.ui = this;
-	
-	    /**
-	    A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.
-	    @type {Counter}
-	    */
-	    this.sequence = new CounterModel(0, this.columns);
-	
-	    this.init();
-	  }
-	
-	  _inherits(Sequencer, _Interface);
-	
-	  _createClass(Sequencer, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = document.createElement("div");
-	        this.element.style.position = "relative";
-	        this.element.style.display = "block";
-	        this.element.style.width = "100%";
-	        this.element.style.height = "100%";
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.cells = [];
-	        for (var i = 0; i < this.matrix.length; i++) {
-	
-	          var _location = this.matrix.locate(i);
-	          // returns {row,col}
-	
-	          var container = document.createElement("span");
-	          container.style.position = "absolute";
-	
-	          var cell = new MatrixCell(container, {
-	            component: true,
-	            index: i,
-	            row: _location.row,
-	            column: _location.column,
-	            mode: this.mode
-	          }, this.keyChange.bind(this, i));
-	
-	          cell.matrix = this;
-	          if (touch.exists) {
-	            cell.pad.index = i;
-	            cell.preClick = cell.preMove = cell.preRelease = function () {};
-	            cell.click = cell.move = cell.release = function () {};
-	            cell.preTouch = cell.preTouchMove = cell.preTouchRelease = function () {};
-	            cell.touch = cell.touchMove = cell.touchRelease = function () {};
-	          }
-	
-	          this.cells.push(cell);
-	          this.element.appendChild(container);
-	        }
-	        if (touch.exists) {
-	          this.addTouchListeners();
-	        }
-	        this.sizeInterface();
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        var cellWidth = this.width / this.columns;
-	        var cellHeight = this.height / this.rows;
-	
-	        for (var i = 0; i < this.cells.length; i++) {
-	          var container = this.cells[i].parent;
-	          container.style.left = this.cells[i].column * cellWidth + "px";
-	          container.style.top = this.cells[i].row * cellHeight + "px";
-	          this.cells[i].resize(cellWidth, cellHeight);
-	        }
-	      }
-	    },
-	    update: {
-	      value: function update() {
-	        var _this = this;
-	
-	        this.matrix.iterate(function (r, c, i) {
-	          if (_this.matrix.pattern[r][c] > 0) {
-	            _this.cells[i].state = true;
-	          } else {
-	            _this.cells[i].state = false;
-	          }
-	        });
-	      }
-	    },
-	    keyChange: {
-	      value: function keyChange(note, value) {
-	        // emit data for any key turning on/off
-	        // i is the note index
-	        // v is whether it is on or off
-	        var cell = this.matrix.locate(note);
-	        this.matrix.set.cell(cell.column, cell.row, value);
-	        this.emit("change", note, value);
-	        // rename to (note,on)
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        var _this = this;
-	
-	        if (this.sequence.value >= 0) {
-	          this.matrix.iterate(function (r, c, i) {
-	            if (c === _this.sequence.value) {
-	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
-	              _this.cells[i].pad.setAttribute("stroke-width", "5");
-	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
-	            } else {
-	              _this.cells[i].pad.setAttribute("stroke", "none");
-	            }
-	          });
-	        }
-	      }
-	    },
-	    start: {
-	
-	      /**
-	      Start sequencing
-	      */
-	
-	      value: function start() {
-	        if (!this.invertal) {
-	          this.next();
-	          this.interval = setInterval(this.next.bind(this), 200);
-	        }
-	      }
-	    },
-	    stop: {
-	
-	      /**
-	      Stop sequencing
-	      */
-	
-	      value: function stop() {
-	        clearInterval(this.interval);
-	        this.interval = false;
-	      }
-	    },
-	    next: {
-	
-	      /**
-	      Manually jump to the next column and trigger the 'change' event. The "next" column is determined by your mode of sequencing.
-	      */
-	
-	      value: function next() {
-	        this.sequence.next();
-	        this.emit("change", this.matrix.column(this.sequence.value));
-	        this.render();
-	      }
-	    },
-	    addTouchListeners: {
-	      value: function addTouchListeners() {
-	        var _this = this;
-	
-	        this.preClick = this.preMove = this.preRelease = function () {};
-	        this.click = this.move = this.release = function () {};
-	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
-	        this.touch = this.touchMove = this.touchRelease = function () {};
-	
-	        this.currentElement = false;
-	
-	        this.element.addEventListener("touchstart", function (e) {
-	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-	          var cell = _this.cells[element.index];
-	          _this.paintbrush = !cell.state;
-	          cell.down(_this.paintbrush);
-	          _this.currentElement = element.index;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	
-	        this.element.addEventListener("touchmove", function (e) {
-	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-	          var cell = _this.cells[element.index];
-	          if (element.index !== _this.currentElement) {
-	            if (_this.currentElement >= 0) {
-	              var pastCell = _this.cells[_this.currentElement];
-	              pastCell.up();
-	            }
-	            cell.down(_this.paintbrush);
-	          } else {
-	            cell.bend();
-	          }
-	          _this.currentElement = element.index;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	
-	        this.element.addEventListener("touchend", function (e) {
-	          // no touches to calculate because none remaining
-	          var cell = _this.cells[_this.currentElement];
-	          cell.up();
-	          _this.interacting = false;
-	          _this.currentElement = false;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	      }
-	    },
-	    rows: {
-	
-	      /**
-	      Number of rows in the sequencer
-	      @type {number}
-	      */
-	
-	      get: function () {
-	        return this.matrix.rows;
-	      },
-	      set: function (v) {
-	        this.matrix.rows = v;
-	        this.empty();
-	        this.buildInterface();
-	        this.update();
-	      }
-	    },
-	    columns: {
-	
-	      /**
-	      Number of columns in the sequencer
-	      @type {number}
-	      */
-	
-	      get: function () {
-	        return this.matrix.columns;
-	      },
-	      set: function (v) {
-	        this.matrix.columns = v;
-	        this.empty();
-	        this.buildInterface();
-	        this.update();
-	        this.sequence.max = v;
-	      }
-	    }
-	  });
-	
-	  return Sequencer;
-	})(Interface);
-	
-	module.exports = Sequencer;
 
 /***/ }
 /******/ ])
