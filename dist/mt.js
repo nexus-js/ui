@@ -1864,7 +1864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Horizontal or vertical slider with settable interaction modes.
 	*
-	* @demo <span mt="slider"></span>
+	* @demo <span mt="slider" step=0.2></span>
 	*
 	* @example
 	* var slider = mt.slider('#target')
@@ -2840,7 +2840,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="waveform"></span>
 	*
 	* @example
-	* var waveform = mt.waveform('#target')
+	* var waveform = mt.waveform('#target',buffer);
 	*
 	*/
 	
@@ -3474,12 +3474,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [150, 50],
 	      target: false,
-	      value: 0
+	      value: 0,
+	      text: "Play",
+	      alternate: false
 	    };
 	
 	    _get(Object.getPrototypeOf(TextButton.prototype), "constructor", this).call(this, arguments, options, defaults);
-	    this.text = "Play";
-	    this._alternateText = false;
+	
+	    this._text = this.settings.text;
+	    this._alternateText = this.settings.alternate;
 	
 	    this.init();
 	    this.render();
@@ -3492,8 +3495,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildFrame() {
 	
 	        this.element = document.createElement("div");
-	
-	        this.element.innerHTML = this.text;
+	        this.element.innerHTML = this._text;
 	        this.parent.appendChild(this.element);
 	      }
 	    },
@@ -3511,7 +3513,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    sizeInterface: {
 	      value: function sizeInterface() {
 	        var textsize = this.height / 3;
-	        var textsize2 = this.width / (this.text.length + 2);
+	        var textsize2 = this.width / (this._text.length + 2);
 	        textsize = Math.min(textsize, textsize2);
 	        if (this.alternateText) {
 	          var textsize3 = this.width / (this.alternateText.length + 2);
@@ -3527,25 +3529,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles += "font-family: arial;";
 	        styles += "font-weight: 700;";
 	        styles += "font-size:" + textsize + "px;";
-	        this.element.style.cssText += styles;
+	        this.element.style.cssText = styles;
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
 	          this.element.style.backgroundColor = this.colors.fill;
-	          if (this.alternateText) {
-	            this.element.innerHTML = this.text;
-	          }
+	          //if (this.alternateText) {
+	          this.element.innerHTML = this._text;
+	          //  }
 	        } else {
 	          this.element.style.backgroundColor = this.colors.accent;
 	          if (this.alternateText) {
-	            this.element.innerHTML = this.alternateText;
+	            this.element.innerHTML = this._alternateText;
+	          } else {
+	            this.element.innerHTML = this._text;
 	          }
 	        }
 	      }
 	    },
 	    alternateText: {
+	
+	      /**
+	      The text to display when the button is in its "on" state. If set, this puts the button in "toggle" mode.
+	      @type {String}
+	      */
+	
 	      get: function () {
 	        return this._alternateText;
 	      },
@@ -3556,6 +3566,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.mode = "button";
 	        }
 	        this._alternateText = text;
+	        this.render();
+	      }
+	    },
+	    text: {
+	
+	      /**
+	      The text to display. (If .alternateText exists, then this .text will only be displayed when the button is in its "off" state.)
+	      @type {String}
+	      */
+	
+	      get: function () {
+	        return this._text;
+	      },
+	      set: function (text) {
+	        this._text = text;
+	        this.sizeInterface();
+	        this.render();
 	      }
 	    }
 	  });
@@ -3656,10 +3683,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    update: {
 	      value: function update(index) {
-	        this.active = index;
-	        // need to use v (value) here make sure it only outputs on press
-	        // and to allow to turn a button off if it is already on
-	        //  if (v) {
+	        if (this.buttons[index].state) {
+	          this.select(index);
+	        } else {
+	          this.deselect();
+	        }
+	        this.render();
+	        this.emit("change", this.active);
+	      }
+	    },
+	    render: {
+	      value: function render() {
 	        for (var i = 0; i < this.buttons.length; i++) {
 	          if (i === this.active) {
 	            this.buttons[i].turnOn();
@@ -3667,12 +3701,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.buttons[i].turnOff();
 	          }
 	        }
-	        //  }
-	        this.emit("change", this.active);
 	      }
 	    },
-	    render: {
-	      value: function render() {}
+	    select: {
+	
+	      /**
+	      Select one button and deselect all other buttons.
+	      @param index {number} The index of the button to select
+	      */
+	
+	      value: function select(index) {
+	        if (index >= 0) {
+	          this.active = index;
+	          this.render();
+	        }
+	      }
+	    },
+	    deselect: {
+	
+	      /**
+	      Deselect all buttons.
+	      */
+	
+	      value: function deselect() {
+	        this.active = -1;
+	        this.render();
+	      }
 	    }
 	  });
 	
@@ -3680,14 +3734,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = RadioButton;
-	
-	/*  if (!this.state) {
-	    this.pad.setAttribute('fill', '#e7e7e7');
-	    this.pad.setAttribute('stroke', '#ccc');
-	  } else {
-	    this.pad.setAttribute('fill', '#d18');
-	    this.pad.setAttribute('stroke', '#d18');
-	  } */
 
 /***/ },
 /* 24 */
@@ -6060,32 +6106,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var math = __webpack_require__(5);
+	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(34);
-	
-	var TiltSlider = (function (_SliderTemplate) {
-	  function TiltSlider() {
-	    _classCallCheck(this, TiltSlider);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [120, 20],
-	      orientation: "horizontal",
-	      mode: "relative",
-	      scale: [0, 1],
-	      step: 0,
-	      value: 0,
-	      hasKnob: true
-	    };
-	
-	    _get(Object.getPrototypeOf(TiltSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
-	  }
-	
-	  _inherits(TiltSlider, _SliderTemplate);
-	
-	  return TiltSlider;
-	})(SliderTemplate);
 	
 	/**
 	* Tilt
@@ -6112,9 +6134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Tilt.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.sliders = [];
-	
-	    this.active = false;
+	    this.active = true;
 	
 	    this.init();
 	
@@ -6135,59 +6155,64 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(Tilt, _Interface);
 	
 	  _createClass(Tilt, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = document.createElement("div");
-	        this.parent.appendChild(this.element);
-	      }
-	    },
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        var sliderWidth = this.width - 20;
-	        var sliderHeight = (this.height - 20) / 3;
+	        this.element.style.backgroundColor = "#eee";
 	
-	        for (var i = 0; i < 3; i++) {
-	          var container = document.createElement("span");
-	          container.style.margin = "10px";
-	          container.style.position = "relative";
+	        var division = this.width / 12;
 	
-	          var slider = new TiltSlider(container, {
-	            size: [sliderWidth, sliderHeight],
-	            scale: [0, 1],
-	            step: 0,
-	            mode: "relative",
-	            hasKnob: false,
-	            component: true });
-	          slider.click = slider.preClick = function () {};
-	          slider.move = slider.preMove = function () {};
-	          slider.release = slider.preRelease = function () {};
-	          this.sliders.push(slider);
-	          this.element.appendChild(container);
-	        }
+	        this.circles = {
+	          L: svg.create("circle"),
+	          R: svg.create("circle"),
+	          F: svg.create("circle"),
+	          B: svg.create("circle")
+	        };
+	
+	        this.circles.L.setAttribute("cx", this.width * 3 / 12);
+	        this.circles.L.setAttribute("cy", this.height / 2);
+	
+	        this.circles.R.setAttribute("cx", this.width * 9 / 12);
+	        this.circles.R.setAttribute("cy", this.height / 2);
+	
+	        this.circles.F.setAttribute("cx", this.width / 2);
+	        this.circles.F.setAttribute("cy", this.height * 3 / 12);
+	
+	        this.circles.B.setAttribute("cx", this.width / 2);
+	        this.circles.B.setAttribute("cy", this.height * 9 / 12);
+	
+	        for (var key in this.circles) {
+	          var circle = this.circles[key];
+	          circle.setAttribute("r", division * 1.5);
+	          circle.setAttribute("fill", "#d18");
+	          circle.setAttribute("stroke", "#d18");
+	          circle.setAttribute("fill-opacity", "0.5");
+	          circle.setAttribute("stroke-width", "2");
+	          this.element.appendChild(circle);
+	        };
 	      }
 	    },
 	    update: {
 	      value: function update(v) {
 	        if (this.active) {
 	
-	          var x = v.beta;
-	          var y = v.gamma;
+	          var y = v.beta;
+	          var x = v.gamma;
 	
 	          // take the original -90 to 90 scale and normalize it 0-1
 	          x = math.scale(x, -90, 90, 0, 1);
 	          y = math.scale(y, -90, 90, 0, 1);
 	
-	          this.sliders[0].value = x;
-	          this.sliders[1].value = y;
+	          this.circles.R.setAttribute("fill-opacity", x);
+	          this.circles.L.setAttribute("fill-opacity", 1 - x);
+	          this.circles.F.setAttribute("fill-opacity", 1 - y);
+	          this.circles.B.setAttribute("fill-opacity", y);
 	
 	          this.emit("change", {
 	            x: x,
 	            y: y
 	          });
 	        }
-	
-	        // eventually would be great to have a Step here so that someone could map it to 0-1000 by 100
 	      }
 	    },
 	    click: {

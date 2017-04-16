@@ -10,6 +10,7 @@
   <script src="../docs/source/prism/prism.js"></script>
   <script src="js/moustache.min.js"></script>
   <script src="../dist/mt.js"></script>
+  <script src="../example/js/Tone9.js"></script>
 </head>
 <body class='documentation'>
 
@@ -108,7 +109,7 @@
           <div class="property-description">{{{ description }}}</div>
           {{ #example }}
             <pre class="example property-example"><code class="language-javascript">{{ code }}</code></pre>
-            <div class="example-toggle">Example</div
+            <div class="example-toggle">Example</div>
           {{ /example }}
         </div>
       {{/properties}}
@@ -559,6 +560,13 @@ Creating a Matrix Model from scratch...
     $(".example-toggle").click(function() {
       $(this).parent().find(".example").toggle();
     })
+    console.log(name)
+    if (name=="Waveform") {
+      mt.context = Tone.context;
+      player = new Tone.Player("../example/media/D-sharp.mp3",function() {
+        instrument.ui[""].load(player.buffer._buffer)
+      })
+    }
   }
 
 

@@ -8577,7 +8577,7 @@
           "column": 0
         },
         "end": {
-          "line": 103,
+          "line": 116,
           "column": 1
         }
       },
@@ -8597,7 +8597,272 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Select one button and deselect all other buttons.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 50,
+                    "offset": 49
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 50,
+                "offset": 49
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{number} The index of the button to select",
+              "lineNumber": 2,
+              "type": null,
+              "name": "index"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 97,
+              "column": 2
+            },
+            "end": {
+              "line": 100,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 101,
+                "column": 2
+              },
+              "end": {
+                "line": 106,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/radiobutton.js"
+          },
+          "params": [
+            {
+              "name": "index",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} The index of the button to select",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 43,
+                            "offset": 42
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 43,
+                        "offset": 42
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 43,
+                    "offset": 42
+                  }
+                }
+              }
+            }
+          ],
+          "name": "select",
+          "kind": "function",
+          "memberof": "RadioButton",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "RadioButton",
+              "kind": "class"
+            },
+            {
+              "name": "select",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "RadioButton#select"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Deselect all buttons.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 22,
+                        "offset": 21
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 22,
+                    "offset": 21
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 22,
+                "offset": 21
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 108,
+              "column": 2
+            },
+            "end": {
+              "line": 110,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 111,
+                "column": 2
+              },
+              "end": {
+                "line": 114,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/radiobutton.js"
+          },
+          "name": "deselect",
+          "kind": "function",
+          "memberof": "RadioButton",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "RadioButton",
+              "kind": "class"
+            },
+            {
+              "name": "deselect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "RadioButton#deselect"
+        }
+      ],
       "static": [],
       "events": []
     },
@@ -11650,7 +11915,7 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"slider\"></span>",
+        "description": "<span mt=\"slider\" step=0.2></span>",
         "lineNumber": 5
       },
       {
@@ -12510,7 +12775,7 @@
           "column": 0
         },
         "end": {
-          "line": 106,
+          "line": 130,
           "column": 1
         }
       },
@@ -12530,7 +12795,226 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The text to display when the button is in its \"on\" state. If set, this puts the button in \"toggle\" mode.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 105,
+                        "offset": 104
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 105,
+                    "offset": 104
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 105,
+                "offset": 104
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "String"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 96,
+              "column": 2
+            },
+            "end": {
+              "line": 99,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 100,
+                "column": 2
+              },
+              "end": {
+                "line": 102,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/textbutton.js"
+          },
+          "name": "alternateText",
+          "kind": "member",
+          "memberof": "TextButton",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "TextButton",
+              "kind": "class"
+            },
+            {
+              "name": "alternateText",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "TextButton#alternateText"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The text to display. (If .alternateText exists, then this .text will only be displayed when the button is in its \"off\" state.)",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 127,
+                        "offset": 126
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 127,
+                    "offset": 126
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 127,
+                "offset": 126
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "String"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 115,
+              "column": 2
+            },
+            "end": {
+              "line": 118,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 119,
+                "column": 2
+              },
+              "end": {
+                "line": 121,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/textbutton.js"
+          },
+          "name": "text",
+          "kind": "member",
+          "memberof": "TextButton",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "TextButton",
+              "kind": "class"
+            },
+            {
+              "name": "text",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "TextButton#text"
+        }
+      ],
       "static": [],
       "events": []
     },
@@ -12630,6 +13114,125 @@
         },
         "end": {
           "line": 141,
+          "column": 1
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
+    },
+    "examples": [
+      {
+        "description": "var tilt = mt.tilt('#target')"
+      }
+    ],
+    "name": "Tilt",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
+    "kind": "class",
+    "members": {
+      "instance": [],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Tilt",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Tilt"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "2- or 3-axis tilt sensor (depending on your device and browser).",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 65,
+                  "offset": 64
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 65,
+              "offset": 64
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 65,
+          "offset": 64
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "2- or 3-axis tilt sensor (depending on your device and browser).",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span mt=\"tilt\"></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var tilt = mt.tilt('#target')",
+        "lineNumber": 7
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 7,
+        "column": 0
+      },
+      "end": {
+        "line": 17,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 19,
+          "column": 0
+        },
+        "end": {
+          "line": 123,
           "column": 1
         }
       },
@@ -13076,7 +13679,7 @@
       },
       {
         "title": "example",
-        "description": "var waveform = mt.waveform('#target')",
+        "description": "var waveform = mt.waveform('#target',buffer);",
         "lineNumber": 7
       }
     ],
@@ -13105,7 +13708,7 @@
     },
     "examples": [
       {
-        "description": "var waveform = mt.waveform('#target')"
+        "description": "var waveform = mt.waveform('#target',buffer);"
       }
     ],
     "name": "Waveform",
