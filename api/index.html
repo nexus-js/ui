@@ -46,7 +46,7 @@
 
     <h3>Spatialization</h3>
     <a href="javascript:doc('Pan')">mt.pan</a><br />
-    <a href="javascript:doc('Pan3D')">mt.pan3d</a><br />
+    <a href="javascript:doc('Pan2D')">mt.pan2d</a><br />
 
     <h3>Visualization</h3>
     <a href="javascript:doc('Meter')">mt.meter</a><br />
@@ -560,12 +560,23 @@ Creating a Matrix Model from scratch...
     $(".example-toggle").click(function() {
       $(this).parent().find(".example").toggle();
     })
-    console.log(name)
     if (name=="Waveform") {
       mt.context = Tone.context;
       player = new Tone.Player("../example/media/D-sharp.mp3",function() {
         instrument.ui[""].load(player.buffer._buffer)
       })
+    } else if (name=="Meter") {
+      player = new Tone.Player("../example/media/D-sharp.mp3",function() {
+        // where i left off...
+        // look at meter example in examples/all
+        // update examples/all with new method .. connect? patchIn? input? watch? connectToSource?
+        // finish connect and disconnect methods for meter & others
+        instrument.ui[""].connect(player.output)
+      })
+    } else {
+      if (player) {
+        player.destroy();
+      }
     }
   }
 
@@ -588,7 +599,7 @@ Creating a Matrix Model from scratch...
     "Doc": [
       'Button', 'Dial', 'Number', 'Position', 'Slider', 'Toggle',
       'Envelope', 'Sequencer', 'Multislider', 'Piano', 'RadioButton',
-      'Range', 'TextButton', 'Waveform', 'Tilt', 'Pan', 'Pan3D', 'Meter',
+      'Range', 'TextButton', 'Waveform', 'Tilt', 'Pan', 'Pan2D', 'Meter',
       'Oscilloscope', 'Spectrogram'
     ],
     "Tut": [

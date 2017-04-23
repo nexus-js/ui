@@ -192,7 +192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Dial: __webpack_require__(25),
 	  Piano: __webpack_require__(26),
 	  Sequencer: __webpack_require__(27),
-	  Pan3D: __webpack_require__(32),
+	  Pan2D: __webpack_require__(51),
 	  Tilt: __webpack_require__(33),
 	  Multislider: __webpack_require__(35),
 	  Pan: __webpack_require__(36),
@@ -5871,227 +5871,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(11);
-	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
-	
-	/* NEEDS
-	should be renamed pan2d, really... */
-	
-	/**
-	* Pan3D
-	*
-	* @description Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.
-	*
-	* @demo <span mt="pan3D"></span>
-	*
-	* @example
-	* var pan3d = mt.pan3d('#target')
-	*
-	*/
-	
-	var Pan3D = (function (_Interface) {
-	  function Pan3D() {
-	    _classCallCheck(this, Pan3D);
-	
-	    var options = ["range"];
-	
-	    var defaults = {
-	      size: [200, 200],
-	      range: 0.5,
-	      mode: "absolute"
-	    };
-	
-	    _get(Object.getPrototypeOf(Pan3D.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this._value = {
-	      x: new Step(0, 1, 0, 0.5),
-	      y: new Step(0, 1, 0, 0.5)
-	    };
-	
-	    this.mode = this.settings.mode;
-	
-	    this.position = {
-	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
-	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
-	    };
-	    this.position.x.value = this._value.x.normalized;
-	    this.position.y.value = this._value.y.normalized;
-	
-	    this.speakers = [[0.5, 0.2], [0.75, 0.25], [0.8, 0.5], [0.75, 0.75], [0.5, 0.8], [0.25, 0.75], [0.2, 0.5], [0.25, 0.25]];
-	
-	    this.range = this.settings.range;
-	
-	    this.levels = [];
-	
-	    this.init();
-	
-	    this.calculateLevels();
-	    this.render();
-	  }
-	
-	  _inherits(Pan3D, _Interface);
-	
-	  _createClass(Pan3D, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	        this.knob = svg.create("circle");
-	
-	        this.element.appendChild(this.knob);
-	
-	        // add speakers
-	        this.speakerElements = [];
-	
-	        for (var i = 0; i < this.speakers.length; i++) {
-	          var speakerElement = svg.create("circle");
-	
-	          this.element.appendChild(speakerElement);
-	
-	          this.speakerElements.push(speakerElement);
-	        }
-	        this.sizeInterface();
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        this._minDimension = Math.min(this.width, this.height);
-	
-	        this.knobRadius = {
-	          off: ~ ~(this._minDimension / 100) * 3 + 5 };
-	        this.knobRadius.on = this.knobRadius.off * 2;
-	
-	        this.knob.setAttribute("cx", this.width / 2);
-	        this.knob.setAttribute("cy", this.height / 2);
-	        this.knob.setAttribute("r", this.knobRadius.off);
-	        this.knob.setAttribute("fill", "#ccc");
-	
-	        for (var i = 0; i < this.speakers.length; i++) {
-	          var speakerElement = this.speakerElements[i];
-	          var speaker = this.speakers[i];
-	          speakerElement.setAttribute("cx", speaker[0] * this.width);
-	          speakerElement.setAttribute("cy", speaker[1] * this.height);
-	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
-	          speakerElement.setAttribute("fill", "#d18");
-	          speakerElement.setAttribute("fill-opacity", "0");
-	          speakerElement.setAttribute("stroke", "#d18");
-	        }
-	
-	        this.position.x.resize([0, this.width], [this.height, 0]);
-	        this.position.y.resize([0, this.width], [this.height, 0]);
-	
-	        // next, need to
-	        // resize positions
-	        // calculate speaker distances
-	        this.calculateLevels();
-	        this.render();
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        this.knobCoordinates = {
-	          x: this._value.x.normalized * this.width,
-	          y: this.height - this._value.y.normalized * this.height
-	        };
-	
-	        this.knob.setAttribute("cx", this.knobCoordinates.x);
-	        this.knob.setAttribute("cy", this.knobCoordinates.y);
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.position.x.anchor = this.mouse;
-	        this.position.y.anchor = this.mouse;
-	        this.move();
-	      }
-	    },
-	    move: {
-	      value: function move() {
-	        if (this.clicked) {
-	          this.position.x.update(this.mouse);
-	          this.position.y.update(this.mouse);
-	          // position.x and position.y are normalized
-	          // so are the levels
-	          // likely don't need this.value at all -- only used for drawing
-	          // not going to be a 'step' or 'min' and 'max' in this one.
-	          this.calculateLevels();
-	          this.emit("change", this.levels);
-	          this.render();
-	        }
-	      }
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    value: {
-	      get: function () {
-	        return {
-	          x: this._value.x.value,
-	          y: this._value.y.value
-	        };
-	      },
-	      set: function (value) {
-	        return {
-	          x: this._value.x.update(value.x),
-	          y: this._value.y.update(value.y)
-	        };
-	      }
-	    },
-	    normalized: {
-	      get: function () {
-	        return {
-	          x: this._value.x.normalized,
-	          y: this._value.y.normalized
-	        };
-	      }
-	    },
-	    calculateLevels: {
-	      value: function calculateLevels() {
-	        var _this = this;
-	
-	        this.value = {
-	          x: this._value.x.updateNormal(this.position.x.value),
-	          y: this._value.y.updateNormal(this.position.y.value)
-	        };
-	        this.levels = [];
-	        this.speakers.forEach(function (s, i) {
-	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, (1 - _this.position.y.value) * _this.height);
-	          var level = math.clip(1 - distance / (_this.range * _this.width), 0, 1);
-	          _this.levels.push(level);
-	          _this.speakerElements[i].setAttribute("fill-opacity", level);
-	        });
-	      }
-	    }
-	  });
-	
-	  return Pan3D;
-	})(Interface);
-	
-	module.exports = Pan3D;
-
-/***/ },
+/* 32 */,
 /* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -6114,7 +5894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description 2- or 3-axis tilt sensor (depending on your device and browser).
 	*
-	* @demo <span mt="tilt"></span>
+	* @demo <span mt='tilt'></span>
 	*
 	* @example
 	* var tilt = mt.tilt('#target')
@@ -6134,7 +5914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Tilt.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.active = true;
+	    this._active = true;
 	
 	    this.init();
 	
@@ -6184,17 +5964,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var key in this.circles) {
 	          var circle = this.circles[key];
 	          circle.setAttribute("r", division * 1.5);
-	          circle.setAttribute("fill", "#d18");
-	          circle.setAttribute("stroke", "#d18");
 	          circle.setAttribute("fill-opacity", "0.5");
 	          circle.setAttribute("stroke-width", "2");
 	          this.element.appendChild(circle);
-	        };
+	        }
+	
+	        this.skin();
 	      }
 	    },
 	    update: {
 	      value: function update(v) {
-	        if (this.active) {
+	        if (this._active) {
 	
 	          var y = v.beta;
 	          var x = v.gamma;
@@ -6215,10 +5995,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
+	    skin: {
+	      value: function skin() {
+	        for (var key in this.circles) {
+	          var circle = this.circles[key];
+	          if (this._active) {
+	            circle.setAttribute("fill", "#d18");
+	            circle.setAttribute("stroke", "#d18");
+	          } else {
+	            circle.setAttribute("fill", "#555");
+	            circle.setAttribute("stroke", "#555");
+	          }
+	        }
+	      }
+	    },
 	    click: {
 	      value: function click() {
 	        this.active = !this.active;
-	        // should also dim the interface if inactive
+	      }
+	    },
+	    active: {
+	
+	      /**
+	      Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update
+	      @type {boolean}
+	      */
+	
+	      get: function () {
+	        return this._active;
+	      },
+	      set: function (on) {
+	        this._active = on;
+	        this.skin();
 	      }
 	    }
 	  });
@@ -7192,6 +7000,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    value: {
+	
+	      /**
+	      The position of crossfader, from -1 (left) to 1 (right). Setting this value updates the interface and triggers the output event.
+	      @type {number}
+	      */
+	
 	      get: function () {
 	        return this._value.value;
 	      },
@@ -7922,8 +7736,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    watch: {
-	      value: function watch(node) {
+	    connect: {
+	      value: function connect(node) {
 	        var channels = arguments[1] === undefined ? 1 : arguments[1];
 	
 	        // erase past analysers and splitter
@@ -7947,6 +7761,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.render();
 	      }
+	    },
+	    disconnect: {
+	      value: function disconnect() {}
 	    },
 	    click: {
 	      value: function click() {
@@ -9256,6 +9073,268 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Radio;
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	/**
+	* Pan2D
+	*
+	* @description Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.
+	*
+	* @demo <span mt="pan2D"></span>
+	*
+	* @example
+	* var pan2d = mt.pan2d('#target')
+	*
+	*/
+	
+	var Pan2D = (function (_Interface) {
+	  function Pan2D() {
+	    _classCallCheck(this, Pan2D);
+	
+	    var options = ["range"];
+	
+	    var defaults = {
+	      size: [200, 200],
+	      range: 0.5,
+	      mode: "absolute",
+	      speakers: [[0.5, 0.2], [0.75, 0.25], [0.8, 0.5], [0.75, 0.75], [0.5, 0.8], [0.25, 0.75], [0.2, 0.5], [0.25, 0.25]]
+	    };
+	
+	    _get(Object.getPrototypeOf(Pan2D.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.value = {
+	      x: new Step(0, 1, 0, 0.5),
+	      y: new Step(0, 1, 0, 0.5)
+	    };
+	
+	    /**
+	    Absolute or relative mouse interaction. In "absolute" mode, the source node will jump to your mouse position on mouse click. In "relative" mode, it does not.
+	    */
+	    this.mode = this.settings.mode;
+	
+	    this.position = {
+	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
+	    };
+	    this.position.x.value = this.value.x.normalized;
+	    this.position.y.value = this.value.y.normalized;
+	
+	    /**
+	    An array of speaker locations. Update this with .moveSpeaker() or .moveAllSpeakers()
+	    */
+	    this.speakers = this.settings.speakers;
+	
+	    /**
+	    Rewrite: The maximum distance from a speaker that the source node can be for it to be heard from that speaker. A low range (0.1) will result in speakers only playing when the sound is very close it. Default is 0.5 (half of the interface).
+	    */
+	    this.range = this.settings.range;
+	
+	    /**
+	    The current levels for each speaker. This is calculated when a source node or speaker node is moved through interaction or programatically.
+	    */
+	    this.levels = [];
+	
+	    this.init();
+	
+	    this.calculateLevels();
+	    this.render();
+	  }
+	
+	  _inherits(Pan2D, _Interface);
+	
+	  _createClass(Pan2D, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.knob);
+	
+	        // add speakers
+	        this.speakerElements = [];
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = svg.create("circle");
+	
+	          this.element.appendChild(speakerElement);
+	
+	          this.speakerElements.push(speakerElement);
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this._minDimension = Math.min(this.width, this.height);
+	
+	        this.knobRadius = {
+	          off: ~ ~(this._minDimension / 100) * 3 + 5 };
+	        this.knobRadius.on = this.knobRadius.off * 2;
+	
+	        this.knob.setAttribute("cx", this.width / 2);
+	        this.knob.setAttribute("cy", this.height / 2);
+	        this.knob.setAttribute("r", this.knobRadius.off);
+	        this.knob.setAttribute("fill", "#ccc");
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = this.speakerElements[i];
+	          var speaker = this.speakers[i];
+	          speakerElement.setAttribute("cx", speaker[0] * this.width);
+	          speakerElement.setAttribute("cy", speaker[1] * this.height);
+	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
+	          speakerElement.setAttribute("fill", "#d18");
+	          speakerElement.setAttribute("fill-opacity", "0");
+	          speakerElement.setAttribute("stroke", "#d18");
+	        }
+	
+	        this.position.x.resize([0, this.width], [this.height, 0]);
+	        this.position.y.resize([0, this.width], [this.height, 0]);
+	
+	        // next, need to
+	        // resize positions
+	        // calculate speaker distances
+	        this.calculateLevels();
+	        this.render();
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        this.knobCoordinates = {
+	          x: this.value.x.normalized * this.width,
+	          y: this.height - this.value.y.normalized * this.height
+	        };
+	
+	        this.knob.setAttribute("cx", this.knobCoordinates.x);
+	        this.knob.setAttribute("cy", this.knobCoordinates.y);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.position.x.anchor = this.mouse;
+	        this.position.y.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.x.update(this.mouse);
+	          this.position.y.update(this.mouse);
+	          // position.x and position.y are normalized
+	          // so are the levels
+	          // likely don't need this.value at all -- only used for drawing
+	          // not going to be a 'step' or 'min' and 'max' in this one.
+	          this.calculateLevels();
+	          this.emit("change", this.levels);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return {
+	          x: this.value.x.normalized,
+	          y: this.value.y.normalized
+	        };
+	      }
+	    },
+	    calculateLevels: {
+	      value: function calculateLevels() {
+	        var _this = this;
+	
+	        this.value.x.updateNormal(this.position.x.value);
+	        this.value.y.updateNormal(this.position.y.value);
+	        this.levels = [];
+	        this.speakers.forEach(function (s, i) {
+	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, (1 - _this.position.y.value) * _this.height);
+	          var level = math.clip(1 - distance / (_this.range * _this.width), 0, 1);
+	          _this.levels.push(level);
+	          _this.speakerElements[i].setAttribute("fill-opacity", level);
+	        });
+	      }
+	    },
+	    moveSource: {
+	
+	      /**
+	      Move the audio source node and trigger the output event.
+	      @param x {number} New x location, normalized 0-1
+	      @param y {number} New y location, normalized 0-1
+	      */
+	
+	      value: function moveSource(x, y) {
+	        var location = {
+	          x: x * this.width,
+	          y: y * this.height
+	        };
+	        this.position.x.update(location);
+	        this.position.y.update(location);
+	        this.calculateLevels();
+	        this.emit("change", this.levels);
+	        this.render();
+	      }
+	    },
+	    moveSpeaker: {
+	
+	      /**
+	      Move a speaker node and trigger the output event.
+	      @param index {number} Index of the speaker to move
+	      @param x {number} New x location, normalized 0-1
+	      @param y {number} New y location, normalized 0-1
+	      */
+	
+	      value: function moveSpeaker(index, x, y) {
+	
+	        this.speakers[index] = [x, y];
+	        this.speakerElements[index].setAttribute("cx", x * this.width);
+	        this.speakerElements[index].setAttribute("cy", y * this.height);
+	        this.calculateLevels();
+	        this.emit("change", this.levels);
+	        this.render();
+	      }
+	
+	      /**
+	      Set all speaker locations
+	      @param locations {Array} Array of speaker locations. Each item in the array should be an array of normalized x and y coordinates.
+	       setSpeakers(locations) {
+	       }
+	      */
+	
+	    }
+	  });
+	
+	  return Pan2D;
+	})(Interface);
+	
+	module.exports = Pan2D;
 
 /***/ }
 /******/ ])

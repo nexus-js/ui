@@ -4341,7 +4341,7 @@
           "column": 0
         },
         "end": {
-          "line": 144,
+          "line": 148,
           "column": 1
         }
       },
@@ -6369,7 +6369,7 @@
           "column": 0
         },
         "end": {
-          "line": 217,
+          "line": 221,
           "column": 1
         }
       },
@@ -6389,7 +6389,117 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The position of crossfader, from -1 (left) to 1 (right). Setting this value updates the interface and triggers the output event.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 129,
+                        "offset": 128
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 129,
+                    "offset": 128
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 129,
+                "offset": 128
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 203,
+              "column": 2
+            },
+            "end": {
+              "line": 206,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 207,
+                "column": 2
+              },
+              "end": {
+                "line": 209,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan.js"
+          },
+          "name": "value",
+          "kind": "member",
+          "memberof": "Pan",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan",
+              "kind": "class"
+            },
+            {
+              "name": "value",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan#value"
+        }
+      ],
       "static": [],
       "events": []
     },
@@ -6462,12 +6572,1039 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"pan3D\"></span>",
+        "description": "<span mt=\"pan2D\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var pan3d = mt.pan3d('#target')",
+        "description": "var pan2d = mt.pan2d('#target')",
+        "lineNumber": 7
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 9,
+        "column": 0
+      },
+      "end": {
+        "line": 19,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 21,
+          "column": 0
+        },
+        "end": {
+          "line": 240,
+          "column": 1
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+    },
+    "examples": [
+      {
+        "description": "var pan2d = mt.pan2d('#target')"
+      }
+    ],
+    "name": "Pan2D",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
+    "kind": "class",
+    "members": {
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Absolute or relative mouse interaction. In \"absolute\" mode, the source node will jump to your mouse position on mouse click. In \"relative\" mode, it does not.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 158,
+                        "offset": 157
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 158,
+                    "offset": 157
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 158,
+                "offset": 157
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 50,
+              "column": 4
+            },
+            "end": {
+              "line": 52,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 53,
+                "column": 4
+              },
+              "end": {
+                "line": 53,
+                "column": 35
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "mode",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "mode",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#mode"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "An array of speaker locations. Update this with .moveSpeaker() or .moveAllSpeakers()",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 85,
+                        "offset": 84
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 85,
+                    "offset": 84
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 85,
+                "offset": 84
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 62,
+              "column": 4
+            },
+            "end": {
+              "line": 64,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 65,
+                "column": 4
+              },
+              "end": {
+                "line": 65,
+                "column": 43
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "speakers",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "speakers",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#speakers"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Rewrite: The maximum distance from a speaker that the source node can be for it to be heard from that speaker. A low range (0.1) will result in speakers only playing when the sound is very close it. Default is 0.5 (half of the interface).",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 239,
+                        "offset": 238
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 239,
+                    "offset": 238
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 239,
+                "offset": 238
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 67,
+              "column": 4
+            },
+            "end": {
+              "line": 69,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 70,
+                "column": 4
+              },
+              "end": {
+                "line": 70,
+                "column": 37
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "range",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "range",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#range"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The current levels for each speaker. This is calculated when a source node or speaker node is moved through interaction or programatically.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 140,
+                        "offset": 139
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 140,
+                    "offset": 139
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 140,
+                "offset": 139
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 72,
+              "column": 4
+            },
+            "end": {
+              "line": 74,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 75,
+                "column": 4
+              },
+              "end": {
+                "line": 75,
+                "column": 21
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "levels",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "levels",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#levels"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Move the audio source node and trigger the output event.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 57,
+                        "offset": 56
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 57,
+                    "offset": 56
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 57,
+                "offset": 56
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{number} New x location, normalized 0-1",
+              "lineNumber": 2,
+              "type": null,
+              "name": "x"
+            },
+            {
+              "title": "param",
+              "description": "{number} New y location, normalized 0-1",
+              "lineNumber": 3,
+              "type": null,
+              "name": "y"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 197,
+              "column": 2
+            },
+            "end": {
+              "line": 201,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 202,
+                "column": 2
+              },
+              "end": {
+                "line": 212,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "params": [
+            {
+              "name": "x",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New x location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            },
+            {
+              "name": "y",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New y location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "name": "moveSource",
+          "kind": "function",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "moveSource",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#moveSource"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Move a speaker node and trigger the output event.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 50,
+                    "offset": 49
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 50,
+                "offset": 49
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{number} Index of the speaker to move",
+              "lineNumber": 2,
+              "type": null,
+              "name": "index"
+            },
+            {
+              "title": "param",
+              "description": "{number} New x location, normalized 0-1",
+              "lineNumber": 3,
+              "type": null,
+              "name": "x"
+            },
+            {
+              "title": "param",
+              "description": "{number} New y location, normalized 0-1",
+              "lineNumber": 4,
+              "type": null,
+              "name": "y"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 214,
+              "column": 2
+            },
+            "end": {
+              "line": 219,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 220,
+                "column": 2
+              },
+              "end": {
+                "line": 229,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "params": [
+            {
+              "name": "index",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} Index of the speaker to move",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 38,
+                            "offset": 37
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 38,
+                        "offset": 37
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 38,
+                    "offset": 37
+                  }
+                }
+              }
+            },
+            {
+              "name": "x",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New x location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            },
+            {
+              "name": "y",
+              "lineNumber": 4,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New y location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "name": "moveSpeaker",
+          "kind": "function",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "moveSpeaker",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#moveSpeaker"
+        }
+      ],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Pan2D",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Pan2D"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 209,
+                  "offset": 208
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 209,
+              "offset": 208
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 209,
+          "offset": 208
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span mt=\"pan2D\"></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var pan2d = mt.pan2d('#target')",
         "lineNumber": 7
       }
     ],
@@ -6496,10 +7633,10 @@
     },
     "examples": [
       {
-        "description": "var pan3d = mt.pan3d('#target')"
+        "description": "var pan2d = mt.pan2d('#target')"
       }
     ],
-    "name": "Pan3D",
+    "name": "Pan2D",
     "augments": [
       {
         "title": "augments",
@@ -6508,17 +7645,1148 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Absolute or relative mouse interaction. In \"absolute\" mode, the source node will jump to your mouse position on mouse click. In \"relative\" mode, it does not.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 158,
+                        "offset": 157
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 158,
+                    "offset": 157
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 158,
+                "offset": 157
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 50,
+              "column": 4
+            },
+            "end": {
+              "line": 52,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 53,
+                "column": 4
+              },
+              "end": {
+                "line": 53,
+                "column": 35
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "mode",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "mode",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#mode"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "An array of speaker locations. Update this with .moveSpeaker() or .moveAllSpeakers()",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 85,
+                        "offset": 84
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 85,
+                    "offset": 84
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 85,
+                "offset": 84
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 62,
+              "column": 4
+            },
+            "end": {
+              "line": 64,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 65,
+                "column": 4
+              },
+              "end": {
+                "line": 65,
+                "column": 43
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "speakers",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "speakers",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#speakers"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Rewrite: The maximum distance from a speaker that the source node can be for it to be heard from that speaker. A low range (0.1) will result in speakers only playing when the sound is very close it. Default is 0.5 (half of the interface).",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 239,
+                        "offset": 238
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 239,
+                    "offset": 238
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 239,
+                "offset": 238
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 67,
+              "column": 4
+            },
+            "end": {
+              "line": 69,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 70,
+                "column": 4
+              },
+              "end": {
+                "line": 70,
+                "column": 37
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "range",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "range",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#range"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The current levels for each speaker. This is calculated when a source node or speaker node is moved through interaction or programatically.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 140,
+                        "offset": 139
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 140,
+                    "offset": 139
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 140,
+                "offset": 139
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 72,
+              "column": 4
+            },
+            "end": {
+              "line": 74,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 75,
+                "column": 4
+              },
+              "end": {
+                "line": 75,
+                "column": 21
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "name": "levels",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "levels",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#levels"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Move the audio source node and trigger the output event.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 57,
+                        "offset": 56
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 57,
+                    "offset": 56
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 57,
+                "offset": 56
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{number} New x location, normalized 0-1",
+              "lineNumber": 2,
+              "type": null,
+              "name": "x"
+            },
+            {
+              "title": "param",
+              "description": "{number} New y location, normalized 0-1",
+              "lineNumber": 3,
+              "type": null,
+              "name": "y"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 197,
+              "column": 2
+            },
+            "end": {
+              "line": 201,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 202,
+                "column": 2
+              },
+              "end": {
+                "line": 212,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "params": [
+            {
+              "name": "x",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New x location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            },
+            {
+              "name": "y",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New y location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "name": "moveSource",
+          "kind": "function",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "moveSource",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#moveSource"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Move a speaker node and trigger the output event.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 50,
+                    "offset": 49
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 50,
+                "offset": 49
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{number} Index of the speaker to move",
+              "lineNumber": 2,
+              "type": null,
+              "name": "index"
+            },
+            {
+              "title": "param",
+              "description": "{number} New x location, normalized 0-1",
+              "lineNumber": 3,
+              "type": null,
+              "name": "x"
+            },
+            {
+              "title": "param",
+              "description": "{number} New y location, normalized 0-1",
+              "lineNumber": 4,
+              "type": null,
+              "name": "y"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 214,
+              "column": 2
+            },
+            "end": {
+              "line": 219,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 220,
+                "column": 2
+              },
+              "end": {
+                "line": 229,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+          },
+          "params": [
+            {
+              "name": "index",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} Index of the speaker to move",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 38,
+                            "offset": 37
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 38,
+                        "offset": 37
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 38,
+                    "offset": 37
+                  }
+                }
+              }
+            },
+            {
+              "name": "x",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New x location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            },
+            {
+              "name": "y",
+              "lineNumber": 4,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} New y location, normalized 0-1",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "name": "moveSpeaker",
+          "kind": "function",
+          "memberof": "Pan2D",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Pan2D",
+              "kind": "class"
+            },
+            {
+              "name": "moveSpeaker",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Pan2D#moveSpeaker"
+        }
+      ],
       "static": [],
       "events": []
     },
     "path": [
       {
-        "name": "Pan3D",
+        "name": "Pan2D",
         "kind": "class"
       }
     ],
-    "namespace": "Pan3D"
+    "namespace": "Pan2D"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Set all speaker locations",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 26,
+                  "offset": 25
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 26,
+              "offset": 25
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 26,
+          "offset": 25
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "param",
+        "description": "{Array} Array of speaker locations. Each item in the array should be an array of normalized x and y coordinates.\n\nsetSpeakers(locations) {\n\n}",
+        "lineNumber": 2,
+        "type": null,
+        "name": "locations"
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 231,
+        "column": 2
+      },
+      "end": {
+        "line": 238,
+        "column": 4
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 220,
+          "column": 2
+        },
+        "end": {
+          "line": 229,
+          "column": 3
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+    },
+    "params": [
+      {
+        "name": "locations",
+        "lineNumber": 2,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "{Array} Array of speaker locations. Each item in the array should be an array of normalized x and y coordinates.",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 113,
+                      "offset": 112
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 113,
+                  "offset": 112
+                },
+                "indent": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "setSpeakers(locations) {",
+                  "position": {
+                    "start": {
+                      "line": 3,
+                      "column": 1,
+                      "offset": 114
+                    },
+                    "end": {
+                      "line": 3,
+                      "column": 25,
+                      "offset": 138
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 3,
+                  "column": 1,
+                  "offset": 114
+                },
+                "end": {
+                  "line": 3,
+                  "column": 25,
+                  "offset": 138
+                },
+                "indent": []
+              }
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "}",
+                  "position": {
+                    "start": {
+                      "line": 5,
+                      "column": 1,
+                      "offset": 140
+                    },
+                    "end": {
+                      "line": 5,
+                      "column": 2,
+                      "offset": 141
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 5,
+                  "column": 1,
+                  "offset": 140
+                },
+                "end": {
+                  "line": 5,
+                  "column": 2,
+                  "offset": 141
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 2,
+              "offset": 141
+            }
+          }
+        }
+      }
+    ],
+    "members": {
+      "instance": [],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {}
+    ],
+    "namespace": "undefined"
   },
   {
     "description": {
@@ -13133,7 +15401,117 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 119,
+                        "offset": 118
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 119,
+                    "offset": 118
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 119,
+                "offset": 118
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 133,
+              "column": 2
+            },
+            "end": {
+              "line": 136,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 138,
+                "column": 2
+              },
+              "end": {
+                "line": 140,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        }
+      ],
       "static": [],
       "events": []
     },
@@ -13206,7 +15584,7 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"tilt\"></span>",
+        "description": "<span mt='tilt'></span>",
         "lineNumber": 5
       },
       {
@@ -13232,7 +15610,7 @@
           "column": 0
         },
         "end": {
-          "line": 123,
+          "line": 147,
           "column": 1
         }
       },
@@ -13252,7 +15630,117 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 119,
+                        "offset": 118
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 119,
+                    "offset": 118
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 119,
+                "offset": 118
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 133,
+              "column": 2
+            },
+            "end": {
+              "line": 136,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 138,
+                "column": 2
+              },
+              "end": {
+                "line": 140,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        }
+      ],
       "static": [],
       "events": []
     },
