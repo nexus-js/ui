@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/mt.js"></script>
+  <script src="js/Tone9.js"></script>
+</head>
+<body style="margin:0;padding;0">
+  <div id="all-interfaces">
+    <div id="slider"></div>
+    <div id="number"></div>
+
+    <div id="dial"></div>
+    <div id="number2"></div>
+  </div>
+</body>
+<style>
+#all-interfaces {
+  width:500px;
+  margin:20px auto;
+}
+.mt-ui {
+  margin:15px auto;
+}
+</style>
+<script>
+
+  slider = new mt.Slider("#slider",{
+    scale: [0,100],
+    step: 1
+  })
+  number = new mt.Number("#number",{
+    min: 0,
+    max: 100,
+    step: 1
+  })
+
+  dial = new mt.Dial("#dial",{
+    scale: [0,100],
+    size: [100,100],
+    step: 1
+  })
+  number2 = new mt.Number("#number2",{
+    min: 0,
+    max: 100,
+    step: 1
+  })
+
+  number.link(slider);
+  number2.link(dial);
+  /* goal:
+    number  - needs ability to set without output.
+            - should adopt the min/max of the other element
+
+    number.link(slider)
+
+    link(interface) {
+      let listener1 = interface.on('change',(v) => {
+        this.value.update(v);
+        this.render();
+      })
+      let listener2 = this.on('change',(v) => {
+        interface._value.update(v);
+        // should be: slider.value
+        interface.render();
+      })
+      return {
+        listener1: listener1,
+        listener2: listener2,
+        destroy: () => {
+          listener1.remove() (or similar)
+          listener2.remove() (or similar)
+        }
+      }
+    }
+
+
+
+
+  */
+
+
+</script>
+</html>

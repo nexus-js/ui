@@ -1,0 +1,12 @@
+body{
+	font-family:'Muli', helvetica;
+}
+.center-block {
+	max-width:700px;
+	margin:5px auto;
+	padding:10px;
+	display:block;
+}
+.test {
+	
+}

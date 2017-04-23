@@ -1,0 +1,14 @@
+/* what will this look like? */
+
+.mt-dial .bg,
+.mt-slider .bg
+{
+  fill: #eeeeee;
+}
+
+
+.mt-dial .screw,
+.mt-dial .handle,
+{
+  fill: #dd1188;
+}

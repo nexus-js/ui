@@ -6,24 +6,30 @@
   <title>Musician's Toolkit</title>
   <script src="../dist/mt.js"></script>
   <script src="js/Tone9.js"></script>
+  <meta name="viewport" content="width=200, initial-scale=1">
 </head>
 <body style="margin:0;padding;0">
-  <div id="synth1">
-    <span id="dial"></span>
-  </div>
-
   <div id="all-interfaces">
-    <div id="slider"></div>
-    <div id="toggle"></div>
-    <div id="range"></div>
-    <div id="position"></div>
-    <div id="waveform"></div>
-    <div id="button"></div>
-    <div id="textbutton"></div>
-    <div id="radiobutton"></div>
-    <div id="number"></div>
-    <div id="piano"></div>
-    <div id="matrix"></div>
+    <div mt="Dial" id="dial"></div>
+    <div mt="Slider" id="slider"></div>
+    <div mt="Toggle" id="toggle"></div>
+    <div mt="Range" id="range"></div>
+    <div mt="Position" id="position"></div>
+    <div mt="Waveform" id="waveform"></div>
+    <div mt="Button" id="button"></div>
+    <div mt="TextButton" id="textbutton"></div>
+    <div mt="RadioButton" id="radiobutton"></div>
+    <div mt="Number" id="number"></div>
+    <div mt="Piano" id="piano"></div>
+    <div mt="Sequencer" id="sequencer"></div>
+    <div mt="Pan2D" id="pan2D"></div>
+    <div mt="Tilt" id="tilt"></div>
+    <div mt="Multislider" id="multislider"></div>
+    <div mt="Pan" id="pan"></div>
+    <div mt="Envelope" id="envelope"></div>
+    <div mt="Oscilloscope" id="oscilloscope"></div>
+    <div mt="Meter" id="meter"></div>
+    <div mt="Spectrogram" id="spectrogram"></div>
   </div>
 </body>
 <style>
@@ -44,27 +50,32 @@
 </style>
 <script>
 
-  toggle = new mt.Toggle("#toggle",1);
-  slider = new mt.Slider("#slider");
-  var position = new mt.Position("#position");
-//  range: new mt.Range("#range");
-  waveform1 = new mt.Waveform("#waveform")
-  button = new mt.Button("#button")
-  textbutton = new mt.TextButton("#textbutton")
-  radiobutton = new mt.RadioButton("#radiobutton")
-  number = new mt.Number("#number")
-  dial = new mt.Dial("#dial",{
-    scale: [0,128],
-    step: 1
-  })
-  piano = new mt.Piano("#piano")
-  matrix = new mt.Matrix("#matrix")
+  mt.context = Tone.context;
+
+  instrument = mt.rack('all-interfaces','All Interfaces', true);
 
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
-    waveform1.load(player.buffer._buffer)
+    instrument.ui.waveform.load(player.buffer._buffer)
   })
 
-  var synth1 = mt.rack("synth1","Synth #1", true);
+  var player2 = new Tone.Player("./media/Dream6_stream.mp3")
+  //play as soon as the buffer is loaded
+  player2.autostart = true;
+  player2.loop = true;
+
+  instrument.ui.oscilloscope.watch(player2)
+  instrument.ui.meter.connect(player2,2);
+  instrument.ui.spectrogram.watch(player2);
 
 </script>
+<style>
+
+/*
+  #dial circle,
+  #slider rect  {
+    fill: #000;
+  }
+*/
+
+</style>
 </html>

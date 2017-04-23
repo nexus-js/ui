@@ -67,6 +67,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
+	var _applyConstructor = function (Constructor, args) { var instance = Object.create(Constructor.prototype); var result = Constructor.apply(instance, args); return result != null && (typeof result == "object" || typeof result == "function") ? result : instance; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
@@ -75,104 +77,98 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var dom = _interopRequire(__webpack_require__(7));
+	//import dom from './util/dom';
 	
-	var Rack = _interopRequire(__webpack_require__(30));
+	var Rack = _interopRequire(__webpack_require__(41));
 	
-	var Time = _interopRequire(__webpack_require__(31));
+	var Time = _interopRequire(__webpack_require__(43));
 	
-	var Tune = _interopRequire(__webpack_require__(36));
+	var Tune = _interopRequire(__webpack_require__(48));
 	
 	//import RangeModel from './models/range';
 	
-	var Counter = __webpack_require__(29);
+	var Transform = _interopRequire(__webpack_require__(42));
+	
+	var Counter = __webpack_require__(31);
+	var Radio = __webpack_require__(50);
+	var Drunk = __webpack_require__(30);
+	var Sequence = __webpack_require__(29);
 	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
-	let Radio = require('./models/radio');
+	
 	let Binary = require('./models/toggle');
-	let Drunk = require('./models/drunk'); */
+	 */
 	
 	/**
-	Musicians Toolkit => created as mt.
+	Musician's Toolkit => created as mt
 	*/
 	
 	var MusiciansToolkit = (function () {
-	  function MusiciansToolkit(context) {
-	    _classCallCheck(this, MusiciansToolkit);
+	    function MusiciansToolkit(context) {
+	        _classCallCheck(this, MusiciansToolkit);
 	
-	    //  this.range = new RangeModel(0,100);
-	
-	    for (var key in Interfaces) {
-	      this[key] = Interfaces[key];
-	    }
-	    for (key in math) {
-	      this[key] = math[key];
-	    }
-	
-	    var DefaultContext = window.AudioContext || window.webkitAudioContext;
-	    this.context = context || new DefaultContext();
-	
-	    this.time = new Time(this.context);
-	    this.tune = new Tune();
-	  }
-	
-	  _createClass(MusiciansToolkit, {
-	    rack: {
-	      value: function rack(parent, title, open) {
-	        return new Rack(parent, title, open);
-	      }
-	    },
-	    counter: {
-	      value: function counter(min, max, mode, value) {
-	        return new Counter(min, max, mode, value);
-	      }
-	    },
-	    transformSection: {
-	      value: function transformSection(parent) {
-	
-	        var container = dom.parseElement(parent);
-	
-	        // should be moved into own constructor?
-	        // called a Rack, an Interface, or an Instrument?'
-	        var rack = {
-	          ui: {}
-	        };
-	
-	        var elements = container.getElementsByTagName("*");
-	        elements = Array.from(elements);
-	        for (var i = 0; i < elements.length; i++) {
-	          var type = elements[i].getAttribute("mt");
-	          if (type) {
-	            var widget = this.transformInterface(elements[i], type);
-	            rack.ui[widget.id] = widget;
-	          }
+	        for (var key in Interfaces) {
+	            this[key] = Interfaces[key];
+	        }
+	        for (key in math) {
+	            this[key] = math[key];
 	        }
 	
-	        return rack;
-	      }
-	    },
-	    transformInterface: {
-	      value: function transformInterface(element, type) {
-	        var options = {};
-	        for (var i = 0; i < element.attributes.length; i++) {
-	          var att = element.attributes[i];
-	          try {
-	            options[att.nodeName] = eval(att.nodeValue);
-	          } catch (e) {
-	            options[att.nodeName] = att.nodeValue;
-	          }
-	          console.log(options[att.nodeName]);
-	        }
-	        type = type[0].toUpperCase() + type.slice(1);
-	        var widget = new this[type](element, options);
-	        widget.id = element.id;
-	        return widget;
-	      }
-	    }
-	  });
+	        var DefaultContext = window.AudioContext || window.webkitAudioContext;
+	        this.context = context || new DefaultContext();
 	
-	  return MusiciansToolkit;
+	        this.time = new Time(this.context);
+	        this.tune = new Tune();
+	
+	        this.colors = 0;
+	
+	        this.transform = Transform;
+	    }
+	
+	    _createClass(MusiciansToolkit, {
+	        rack: {
+	            value: function rack(parent, title, open) {
+	                return new Rack(parent, title, open);
+	            }
+	        },
+	        counter: {
+	            value: function counter(min, max, mode, value) {
+	                return new Counter(min, max, mode, value);
+	            }
+	        },
+	        radio: {
+	            value: function radio(length) {
+	                for (var _len = arguments.length, onVals = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	                    onVals[_key - 1] = arguments[_key];
+	                }
+	
+	                return _applyConstructor(Radio, [length].concat(onVals));
+	            }
+	        },
+	        drunk: {
+	            value: function drunk(min, max, value, increment, loop) {
+	                return new Drunk(min, max, value, increment, loop);
+	            }
+	        },
+	        sequence: {
+	            value: (function (_sequence) {
+	                var _sequenceWrapper = function sequence(_x, _x2, _x3, _x4) {
+	                    return _sequence.apply(this, arguments);
+	                };
+	
+	                _sequenceWrapper.toString = function () {
+	                    return _sequence.toString();
+	                };
+	
+	                return _sequenceWrapper;
+	            })(function (sequence, mode, position, cacheSize) {
+	                return new Sequence(sequence, mode, position, cacheSize);
+	            })
+	        }
+	    });
+	
+	    return MusiciansToolkit;
 	})();
 	
 	module.exports = MusiciansToolkit;
@@ -185,28 +181,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	  Position: __webpack_require__(3),
-	  Slider: __webpack_require__(11),
-	  Toggle: __webpack_require__(12),
-	  Range: __webpack_require__(14),
-	  Waveform: __webpack_require__(18),
-	  Button: __webpack_require__(19),
-	  TextButton: __webpack_require__(21),
-	  RadioButton: __webpack_require__(22),
-	  Number: __webpack_require__(23),
-	  Dial: __webpack_require__(24),
+	  Slider: __webpack_require__(14),
+	  Toggle: __webpack_require__(15),
+	  Range: __webpack_require__(16),
+	  Waveform: __webpack_require__(19),
+	  Button: __webpack_require__(20),
+	  TextButton: __webpack_require__(22),
+	  RadioButton: __webpack_require__(23),
+	  Number: __webpack_require__(24),
+	  Dial: __webpack_require__(25),
 	  Piano: __webpack_require__(26),
-	  Matrix: __webpack_require__(27)
-	  /*  Multislider: require('./multislider'),
-	    Spectrograph: require('./spectrograph'),
-	    Meter: require('./meter'),
-	    Tilt: require('./tilt') */
+	  Sequencer: __webpack_require__(27),
+	  Pan2D: __webpack_require__(32),
+	  Tilt: __webpack_require__(33),
+	  Multislider: __webpack_require__(34),
+	  Pan: __webpack_require__(36),
+	  Envelope: __webpack_require__(37),
+	  Spectrogram: __webpack_require__(38),
+	  Meter: __webpack_require__(39),
+	  Oscilloscope: __webpack_require__(40)
 	};
 
 /***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
+	
 	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
@@ -218,7 +221,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(10);
+	var Step = __webpack_require__(11);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	/**
+	* Position
+	*
+	* @description 2-dimensional touch slider
+	*
+	* @demo <span mt="position"></span>
+	*
+	* @example
+	* var position = mt.position('#target')
+	*
+	* @output
+	* x and y values
+	*
+	*/
 	
 	var Position = (function (_Interface) {
 	  function Position() {
@@ -227,20 +247,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["scale", "value"];
 	
 	    var defaults = {
-	      size: [200, 200]
-	      //scaleX, scaleY
-	      //valueX, valueY
-	      //stepX, stepY
+	      size: [200, 200],
+	      mode: "absolute",
+	      minX: 0,
+	      maxX: 1,
+	      stepX: 0,
+	      x: 0.5,
+	      minY: 0,
+	      maxY: 1,
+	      stepY: 0,
+	      y: 0.5
 	    };
 	
 	    _get(Object.getPrototypeOf(Position.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this._value = {
-	      x: new Step(0, 128, 1),
-	      y: new Step(0, 128, 1)
+	    this._x = new Step(this.settings.minX, this.settings.maxX, this.settings.stepX, this.settings.x);
+	    this._y = new Step(this.settings.minY, this.settings.maxY, this.settings.stepY, this.settings.y);
+	
+	    this.position = {
+	      x: new Interaction.Handle(this.settings.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.settings.mode, "vertical", [0, this.width], [this.height, 0])
 	    };
+	    this.position.x.value = this._x.normalized;
+	    this.position.y.value = this._y.normalized;
 	
 	    this.init();
+	    this.render();
 	  }
 	
 	  _inherits(Position, _Interface);
@@ -249,8 +281,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	        //  this.element.style.borderRadius = '5px';
+	        this.knob = svg.create("circle");
+	        this.element.appendChild(this.knob);
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.position.x.resize([0, this.width], [this.height, 0]);
+	        this.position.y.resize([0, this.width], [this.height, 0]);
 	
 	        this._minDimension = Math.min(this.width, this.height);
 	
@@ -258,13 +298,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	          off: ~ ~(this._minDimension / 100) * 5 + 5 };
 	        this.knobRadius.on = this.knobRadius.off * 2;
 	
-	        this.knob = svg.create("circle");
 	        this.knob.setAttribute("cx", this.width / 2);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobRadius.off);
-	        this.knob.setAttribute("fill", "#d18");
-	
-	        this.element.appendChild(this.knob);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.knob.setAttribute("fill", this.colors.accent);
 	      }
 	    },
 	    render: {
@@ -278,8 +320,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        this.knobCoordinates = {
-	          x: this._value.x.normalized * this.width,
-	          y: this._value.y.normalized * this.height
+	          x: this._x.normalized * this.width,
+	          y: this.height - this._y.normalized * this.height
 	        };
 	
 	        this.knob.setAttribute("cx", this.knobCoordinates.x);
@@ -288,17 +330,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
+	        this.position.x.anchor = this.mouse;
+	        this.position.y.anchor = this.mouse;
 	        this.move();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
-	          this.value = {
-	            x: this._value.x.updateNormal(this.mouse.x / this.width),
-	            y: this._value.y.updateNormal(this.mouse.y / this.height)
-	          };
-	          this.emit("change", this.value);
+	          this.position.x.update(this.mouse);
+	          this.position.y.update(this.mouse);
+	          this._x.updateNormal(this.position.x.value);
+	          this._y.updateNormal(this.position.y.value);
+	          this.emit("change", {
+	            x: this._x.value,
+	            y: this._y.value
+	          });
 	          this.render();
 	        }
 	      }
@@ -308,26 +355,164 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.render();
 	      }
 	    },
-	    value: {
+	    x: {
+	
+	      /**
+	      * The interface's x value. When set, it will automatically adjust to fit min/max/step settings of the interface.
+	      * @type {object}
+	      * @example position.x = 0.5;
+	      */
+	
 	      get: function () {
-	        return {
-	          x: this._value.x.value,
-	          y: this._value.y.value
-	        };
+	        return this._x.value;
 	      },
 	      set: function (value) {
-	        return {
-	          x: this._value.x.update(value.x),
-	          y: this._value.y.update(value.y)
-	        };
+	        this._x.update(value);
+	        this.emit("change", {
+	          x: this._x.value,
+	          y: this._y.value
+	        });
+	        this.render();
+	      }
+	    },
+	    y: {
+	
+	      /**
+	      * The interface's y values. When set, it will automatically adjust to fit min/max/step settings of the interface.
+	      * @type {object}
+	      * @example position.x = 0.5;
+	      */
+	
+	      get: function () {
+	        return this._y.value;
+	      },
+	      set: function (value) {
+	        this._y.update(value);
+	        this.emit("change", {
+	          x: this._x.value,
+	          y: this._y.value
+	        });
+	        this.render();
 	      }
 	    },
 	    normalized: {
 	      get: function () {
 	        return {
-	          x: this._value.x.normalized,
-	          y: this._value.y.normalized
+	          x: this._x.normalized,
+	          y: this._y.normalized
 	        };
+	      }
+	    },
+	    minX: {
+	
+	      /**
+	      * The lower limit of value on the x axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._x.min;
+	      },
+	      set: function (v) {
+	        this._x.min = v;
+	        this.render();
+	      }
+	    },
+	    minY: {
+	
+	      /**
+	      * The lower limit of value on the y axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._y.min;
+	      },
+	      set: function (v) {
+	        this._y.min = v;
+	        this.render();
+	      }
+	    },
+	    maxX: {
+	
+	      /**
+	      * The upper limit of value on the x axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._x.max;
+	      },
+	      set: function (v) {
+	        this._x.max = v;
+	        this.render();
+	      }
+	    },
+	    maxY: {
+	
+	      /**
+	      * The upper limit of value on the y axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._y.max;
+	      },
+	      set: function (v) {
+	        this._y.max = v;
+	        this.render();
+	      }
+	    },
+	    stepX: {
+	
+	      /**
+	      * The incremental step of values on the x axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._x.step;
+	      },
+	      set: function (v) {
+	        this._x.step = v;
+	        this.render();
+	      }
+	    },
+	    stepY: {
+	
+	      /**
+	      * The incremental step of values on the y axis
+	      * @type {object}
+	      * @example
+	      */
+	
+	      get: function () {
+	        return this._y.step;
+	      },
+	      set: function (v) {
+	        this._y.step = v;
+	        this.render();
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (position's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "absolute".
+	      @type {string}
+	      @example dial.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.x.mode;
+	      },
+	      set: function (v) {
+	        this.position.x.mode = v;
+	        this.position.y.mode = v;
 	      }
 	    }
 	  });
@@ -361,11 +546,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var d = ["M", start.x + x, start.y + y, "A", radius, radius, 0, largeArcFlag, 0, end.x + x, end.y + y].join(" ");
 	
 	    return d;
+	  },
+	
+	  radialGradient: function (defs, numberOfStops) {
+	
+	    var id = "gradient" + math.ri(100000000000);
+	    var stops = [];
+	
+	    var gradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
+	    gradient.setAttribute("id", id);
+	    gradient.setAttribute("cx", "50%");
+	    gradient.setAttribute("cy", "50%");
+	    gradient.setAttribute("r", "50%");
+	
+	    defs.appendChild(gradient);
+	
+	    for (var i = 0; i < numberOfStops; i++) {
+	      var _stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+	      _stop.setAttribute("id", "stop" + i);
+	      //stop.setAttribute('offset', '70%');
+	      //stop.setAttribute('stop-color', 'White');
+	      gradient.appendChild(_stop);
+	      stops.push(_stop);
+	    }
+	
+	    return {
+	      id: id,
+	      stops: stops,
+	      element: gradient
+	    };
 	  }
 	
 	};
-	
-	/* */
 
 /***/ },
 /* 5 */
@@ -382,6 +594,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
+	  if (inMin === inMax) {
+	    return outMin;
+	  }
 	  return (inNum - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 	};
 	
@@ -477,6 +692,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return total / data.length;
 	};
+	
+	exports.distance = function (x1, y1, x2, y2) {
+	  var a = x1 - x2;
+	  var b = y1 - y2;
+	  return Math.sqrt(a * a + b * b);
+	};
+	
+	exports.gainToDB = function (gain) {
+	  return 20 * Math.log10(gain);
+	};
+	
+	exports.coin = function () {
+	  var odds = arguments[0] === undefined ? 0.5 : arguments[0];
+	
+	  if (exports.rf(0, 1) < odds) {
+	    return 1;
+	  } else {
+	    return 0;
+	  }
+	};
 
 /***/ },
 /* 6 */
@@ -486,6 +721,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
 	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
@@ -493,15 +730,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var dom = __webpack_require__(7);
 	var util = __webpack_require__(8);
-	var EventEmitter = __webpack_require__(9);
+	var touch = __webpack_require__(9);
+	var EventEmitter = __webpack_require__(10);
+	
+	/**
+	Interface
+	*/
 	
 	var Interface = (function (_EventEmitter) {
 	  function Interface(args, options, defaults) {
 	    _classCallCheck(this, Interface);
 	
+	    _get(Object.getPrototypeOf(Interface.prototype), "constructor", this).call(this);
 	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
+	    this._colors = {};
+	    this.colors = Object.defineProperties({
+	      fill: "#e6e6e6", // should be e6e6e6
+	      accent: "#d18",
+	      dark: "#444",
+	      border: "#ccc"
+	    }, {
+	      test: {
+	        set: function (v) {
+	          this._colors.dark = v;
+	          this.colorInterface();
+	        },
+	        get: function () {
+	          return this._colors.dark;
+	        },
+	        configurable: true,
+	        enumerable: true
+	      }
+	    });
 	  }
 	
 	  _inherits(Interface, _EventEmitter);
@@ -518,7 +780,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          target: document.body,
 	          colors: {}, // should inherit from a colors module,
 	          snapWithParent: true,
-	          event: console.log,
+	          event: console.log.bind(console),
 	          component: false
 	        };
 	
@@ -567,7 +829,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        // size
-	
 	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
 	          this.width = settings.size[0];
 	          this.height = settings.size[1];
@@ -576,9 +837,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else if (settings.snapWithParent) {
 	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
 	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
-	          console.log(settings.target);
-	          console.log(this.width);
-	          console.log(this.height);
 	          //  if (!this.width || !this.parent.style.width) {
 	          if (!this.width) {
 	            this.width = settings.defaultSize[0];
@@ -613,6 +871,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.buildFrame();
 	        this.attachListeners();
 	        this.buildInterface();
+	        //this.sizeInterface(); should probably add this here instead of in each interface
+	        this.colorInterface();
+	        //or
+	        //this.update.build()
+	        //this.update.size()
+	        //this.update.colors()
+	        //or this.render.state()
 	        this.finalTouches();
 	      }
 	    },
@@ -624,10 +889,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.parent.appendChild(this.element);
 	      }
 	    },
+	    buildInterface: {
+	      value: function buildInterface() {}
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {}
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {}
+	    },
 	    attachListeners: {
 	      value: function attachListeners() {
 	        var _this = this;
 	
+	        // Setup interaction
+	        if (touch.exists) {
+	          this.element.addEventListener("touchstart", function (evt) {
+	            return _this.preTouch(evt);
+	          });
+	          this.element.addEventListener("touchmove", function (evt) {
+	            return _this.preTouchMove(evt);
+	          });
+	          this.element.addEventListener("touchend", function (evt) {
+	            return _this.preTouchRelease(evt);
+	          });
+	        }
 	        this.boundPreMove = function (evt) {
 	          return _this.preMove(evt);
 	        };
@@ -654,8 +940,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // 10000 getComputedStyle calls takes 40 ms.
 	        // .:. one takes about .004ms
 	        this.offset = dom.findPosition(this.element);
-	        this.mouse.x = e.pageX - this.offset.left;
-	        this.mouse.y = e.pageY - this.offset.top;
+	        this.mouse = dom.locateMouse(e, this.offset);
 	        this.clicked = true;
 	        this.click();
 	        this.moveEvent = document.addEventListener("mousemove", this.boundPreMove);
@@ -669,8 +954,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	
 	        if (!this.wait) {
-	          this.mouse.x = e.pageX - this.offset.left;
-	          this.mouse.y = e.pageY - this.offset.top;
+	          this.mouse = dom.locateMouse(e, this.offset);
 	          this.move();
 	          this.wait = true;
 	          setTimeout(function () {
@@ -683,8 +967,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    preRelease: {
 	      value: function preRelease(e) {
-	        this.mouse.x = e.pageX - this.offset.left;
-	        this.mouse.y = e.pageY - this.offset.top;
+	        this.mouse = dom.locateMouse(e, this.offset);
 	        this.clicked = false;
 	        this.release();
 	        document.removeEventListener("mousemove", this.boundPreMove);
@@ -701,6 +984,109 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    release: {
 	      value: function release() {}
+	    },
+	    preTouch: {
+	
+	      /* touch */
+	
+	      value: function preTouch(e) {
+	        if (this.element instanceof HTMLElement) {
+	          this.width = window.getComputedStyle(this.element, null).getPropertyValue("width").replace("px", "");
+	        }
+	        this.offset = dom.findPosition(this.element);
+	        this.mouse = dom.locateTouch(e, this.offset);
+	        this.clicked = true;
+	        this.touch(e);
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    preTouchMove: {
+	      value: function preTouchMove(e) {
+	        if (this.clicked) {
+	          /*    if (!this.wait) {
+	                this.mouse = dom.locateTouch(e,this.offset);
+	                this.move();
+	                this.wait = true;
+	                setTimeout(() => { this.wait = false; },25);
+	              } */
+	          this.mouse = dom.locateTouch(e, this.offset);
+	          this.touchMove();
+	          e.preventDefault();
+	          e.stopPropagation();
+	        }
+	      }
+	    },
+	    preTouchRelease: {
+	      value: function preTouchRelease(e) {
+	        //  if (e.targetTouches.length<=1) {
+	        this.mouse = dom.locateTouch(e, this.offset);
+	        this.clicked = false;
+	        this.touchRelease();
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    touch: {
+	      value: function touch() {
+	        this.click();
+	      }
+	    },
+	    touchMove: {
+	      value: function touchMove() {
+	        this.move();
+	      }
+	    },
+	    touchRelease: {
+	      value: function touchRelease() {
+	        this.release();
+	      }
+	    },
+	    resize: {
+	
+	      /**
+	      * Resize the interface
+	      * @param width {number} New width in pixels
+	      * @param height {number} New height in pixels
+	      *
+	      * @example
+	      * button.resize(100,100);
+	      */
+	
+	      value: function resize(w, h) {
+	        this.width = w;
+	        this.height = h;
+	        this.parent.style.width = this.width + "px";
+	        this.parent.style.height = this.height + "px";
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.sizeInterface();
+	      }
+	    },
+	    empty: {
+	      value: function empty() {
+	        while (this.element.lastChild) {
+	          this.element.removeChild(this.element.lastChild);
+	        }
+	      }
+	    },
+	    destroy: {
+	
+	      /**
+	      * Remove the interface from the page and cancel its event listener(s).
+	      *
+	      * @example
+	      * button.destroy());
+	      */
+	
+	      value: function destroy() {
+	        this.empty();
+	        this.parent.removeChild(this.element);
+	        this.removeAllListeners();
+	        if (this.instrument) {
+	          delete this.instrument.ui[this.id];
+	        }
+	      }
 	    }
 	  });
 	
@@ -733,6 +1119,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return "No valid parent argument";
 	  }
 	};
+	
+	exports.locateMouse = function (e, offset) {
+	  return {
+	    x: e.pageX - offset.left,
+	    y: e.pageY - offset.top
+	  };
+	};
+	
+	exports.locateTouch = function (e, offset) {
+	  return {
+	    x: e.targetTouches.length ? e.targetTouches[0].pageX - offset.left : false,
+	    y: e.targetTouches.length ? e.targetTouches[0].pageY - offset.top : false
+	  };
+	};
+	
+	exports.SmartCanvas = function (parent) {
+	  var _this = this;
+	
+	  this.element = document.createElement("canvas");
+	  this.context = this.element.getContext("2d");
+	  parent.appendChild(this.element);
+	
+	  this.resize = function (w, h) {
+	    _this.element.width = w * 2;
+	    _this.element.height = h * 2;
+	    _this.element.style.width = w + "px";
+	    _this.element.style.height = h + "px";
+	  };
+	};
 
 /***/ },
 /* 8 */
@@ -750,6 +1165,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 9 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.exists = "ontouchstart" in document.documentElement;
+
+/***/ },
+/* 10 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -1057,7 +1480,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1068,16 +1491,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = __webpack_require__(5);
 	
+	/**
+	  Creates a steppable value with minimum, maximum, and step size. This is used in many interfaces to constrict their values to certain ranges.
+	  @param {number} [min=0] minimum
+	  @param {number} [max=1] maximum
+	  @param {number} [step=0]
+	  @param {number} [value=0] initial value
+	  @returns {Object} Step
+	*/
+	
 	var Step = (function () {
 	  function Step() {
 	    var min = arguments[0] === undefined ? 0 : arguments[0];
 	    var max = arguments[1] === undefined ? 1 : arguments[1];
-	    var step = arguments[2] === undefined ? false : arguments[2];
-	    var value = arguments[3] === undefined ? 0.5 : arguments[3];
+	    var step = arguments[2] === undefined ? 0 : arguments[2];
+	    var value = arguments[3] === undefined ? 0 : arguments[3];
 	
 	    _classCallCheck(this, Step);
 	
 	    //Object.assign(this,{min,max,step});
+	    //Cannot use Object.assign because not supported in Safari.
+	    //I would expect for Babel to take care of this but it is not.
 	    this.min = min;
 	    this.max = max;
 	    this.step = step;
@@ -1089,11 +1523,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  _createClass(Step, {
 	    update: {
-	      value: function update(newvalue) {
+	
+	      /**
+	        Update with a new value. The value will be auto-adjusted to fit the min/max/step.
+	        @param {number} value
+	      */
+	
+	      value: function update(value) {
 	        if (this.step) {
-	          this.value = math.clip(Math.round(newvalue / this.step) * this.step, this.min, this.max);
+	          // this.value = math.clip(Math.round(value / (this.step)) * this.step, this.min,this.max);
+	          this.value = math.clip(Math.round((value - this.min) / this.step) * this.step + this.min, this.min, this.max);
 	        } else {
-	          this.value = math.clip(newvalue, this.min, this.max);
+	          this.value = math.clip(value, this.min, this.max);
 	        }
 	        if (this.oldValue !== this.value) {
 	          this.oldValue = this.value;
@@ -1105,21 +1546,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    updateNormal: {
+	
+	      /**
+	        Update with a normalized value 0-1.
+	        @param {number} value
+	      */
+	
 	      value: function updateNormal(value) {
 	        this.value = math.scale(value, 0, 1, this.min, this.max);
 	        return this.update(this.value);
 	      }
 	    },
 	    normalized: {
+	
+	      /**
+	        Get a normalized version of this.value . Not settable.
+	      */
+	
 	      get: function () {
 	        return math.normalize(this.value, this.min, this.max);
 	      }
-	    },
-	    up: {
-	      value: function up() {}
-	    },
-	    down: {
-	      value: function down() {}
 	    }
 	  });
 	
@@ -1129,364 +1575,223 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Step;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(10);
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	"use strict";
 	
-	/**
-	Slider interface
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var ToggleModel = _interopRequire(__webpack_require__(13));
+	
+	/*
+	how to use :
+	
+	dial.interaction = new Handle('radial','relative',this.width,this.height);
+	// dial.interaction.mode = 'relative'
+	// dial.interaction.direction = 'radial'
+	
+	on click:
+	dial.interaction.anchor = this.mouse;
+	
+	on move:
+	dial.interaction.update(this.mouse);
+	
+	console.log( dial.interaction.value ); should be a normalized value.
+	
 	*/
 	
-	var Slider = (function (_Interface) {
-	  function Slider() {
-	    _classCallCheck(this, Slider);
+	/*
+	  absolute/relative are property: mode
+	  radial/vertical/horizontal/2d are property: direction
 	
-	    var options = ["scale", "value"];
+	  plan :
 	
-	    var defaults = {
-	      size: [120, 20],
-	      orientation: "vertical",
-	      mode: "relative",
-	      scale: [0, 1],
-	      step: 0,
-	      value: 0
-	    };
+	  if relative --
+	  NO on click, get value offset between current value and click value.
+	  NO on move, use click value - offset
+	  INSTEAD
+	  use delta -- bc vertical motion on dial is impossible otherwise
+	  also allow to set sensitivity
 	
-	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	*/
 	
-	    this.orientation = this.settings.orientation;
+	var Handle = exports.Handle = (function () {
+	  function Handle() {
+	    var mode = arguments[0] === undefined ? "absolute" : arguments[0];
+	    var direction = arguments[1] === undefined ? "vertical" : arguments[1];
+	    var xbound = arguments[2] === undefined ? [0, 100] : arguments[2];
+	    var ybound = arguments[3] === undefined ? [0, 100] : arguments[3];
 	
-	    this.mode = this.settings.mode;
+	    _classCallCheck(this, Handle);
 	
-	    this.knob = this.settings.knob;
-	
-	    // this.step should eventually be get/set
-	    // updating it will update the _value step model
-	    this.step = this.settings.step; // float
-	
-	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
-	
-	    this.init();
-	
-	    this.value = this._value.value;
-	
-	    this.emit("change", this.value);
+	    this.mode = mode;
+	    this.direction = direction;
+	    this.previous = 0;
+	    this.value = 0;
+	    this.sensitivity = 1;
+	    this.resize(xbound, ybound);
 	  }
 	
-	  _inherits(Slider, _Interface);
-	
-	  _createClass(Slider, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	        if (this.width < this.height) {
-	          this.orientation = "vertical";
-	        } else {
-	          this.orientation = "horizontal";
-	        }
-	
-	        var x = undefined,
-	            y = undefined,
-	            w = undefined,
-	            h = undefined,
-	            barOffset = undefined,
-	            cornerRadius = undefined;
-	        this.knobData = {
-	          level: 0,
-	          r: 0
+	  _createClass(Handle, {
+	    resize: {
+	      value: function resize(xbound, ybound) {
+	        this.boundary = {
+	          min: {
+	            x: xbound[0],
+	            y: ybound[0]
+	          },
+	          max: {
+	            x: xbound[1],
+	            y: ybound[1]
+	          },
+	          center: {
+	            x: (xbound[1] - xbound[0]) / 2 + xbound[0],
+	            y: (ybound[1] - ybound[0]) / 2 + ybound[0]
+	          }
 	        };
-	
-	        if (this.orientation === "vertical") {
-	          this.thickness = this.width / 2;
-	          x = this.width / 2;
-	          y = 0;
-	          w = this.thickness;
-	          h = this.height;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
-	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
-	          cornerRadius = w / 2;
-	        } else {
-	          this.thickness = this.height / 2;
-	          x = 0;
-	          y = this.height / 2;
-	          w = this.width;
-	          h = this.thickness;
-	          this.knobData.r = this.thickness * 0.8;
-	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
-	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
-	          cornerRadius = h / 2;
-	        }
-	
-	        this.bar = svg.create("rect");
-	        this.bar.setAttribute("x", x);
-	        this.bar.setAttribute("y", y);
-	        this.bar.setAttribute("transform", barOffset);
-	        this.bar.setAttribute("rx", cornerRadius); // corner radius
-	        this.bar.setAttribute("ry", cornerRadius);
-	        this.bar.setAttribute("width", w);
-	        this.bar.setAttribute("height", h);
-	        this.bar.setAttribute("fill", "#e7e7e7");
-	
-	        // place the setAttribute x,y,width and height below into an if statement
-	        // re: vertical, horizontal.
-	
-	        this.fillbar = svg.create("rect");
-	        if (this.orientation === "vertical") {
-	          this.fillbar.setAttribute("x", x);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("width", w);
-	          this.fillbar.setAttribute("height", h - this.knobData.level);
-	        } else {
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("y", y);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	          this.fillbar.setAttribute("height", h);
-	        }
-	        this.fillbar.setAttribute("transform", barOffset);
-	        this.fillbar.setAttribute("rx", cornerRadius);
-	        this.fillbar.setAttribute("ry", cornerRadius);
-	        this.fillbar.setAttribute("fill", "#d18");
-	
-	        this.knob = svg.create("circle");
-	        if (this.orientation === "vertical") {
-	          this.knob.setAttribute("cx", x);
-	          this.knob.setAttribute("cy", this.knobData.level);
-	        } else {
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.knob.setAttribute("cy", y);
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	        this.knob.setAttribute("fill", "#d18");
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
-	        this.element.appendChild(this.knob);
 	      }
 	    },
-	    render: {
-	      value: function render() {
-	        if (!this.clicked) {
-	          this.knobData.r = this.thickness * 0.75;
-	        }
-	        this.knob.setAttribute("r", this.knobData.r);
-	
-	        if (this.orientation === "vertical") {
-	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
-	          this.knob.setAttribute("cy", this.knobData.level);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("height", this.height - this.knobData.level);
-	        } else {
-	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
-	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	        }
+	    anchor: {
+	      set: function (mouse) {
+	        this._anchor = this.convertPositionToValue(mouse);
+	      },
+	      get: function () {
+	        return this._anchor;
 	      }
 	    },
+	    update: {
+	      value: function update(mouse) {
+	        if (this.mode === "relative") {
+	          var increment = this.convertPositionToValue(mouse) - this.anchor;
+	          if (Math.abs(increment) > 0.5) {
+	            increment = 0;
+	          }
+	          this.anchor = mouse;
+	          this.value = this.value + increment * this.sensitivity;
+	        } else {
+	          this.value = this.convertPositionToValue(mouse);
+	        }
+	        this.value = math.clip(this.value, 0, 1);
+	      }
+	    },
+	    convertPositionToValue: {
+	      value: function convertPositionToValue(current) {
+	        switch (this.direction) {
+	          case "radial":
+	            var position = math.toPolar(current.x - this.boundary.center.x, current.y - this.boundary.center.y);
+	            // instead of using modulo, should simply adjust the lower values (0 - 0.5PI) to be higher (2PI - 2.5PI), then clip the numbers between 0.5 pi and 2.5 pi.
+	            position = position.angle / (Math.PI * 2);
+	            position = (position - 0.25) % 1;
+	            return position;
+	          case "vertical":
+	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
+	          case "horizontal":
+	            return math.scale(current.x, this.boundary.min.x, this.boundary.max.x, 0, 1);
+	        }
+	      }
+	    }
+	  });
+	
+	  return Handle;
+	})();
+	
+	var Button = exports.Button = (function () {
+	  function Button() {
+	    var mode = arguments[0] === undefined ? "button" : arguments[0];
+	
+	    _classCallCheck(this, Button);
+	
+	    this.mode = mode;
+	    this.state = new ToggleModel();
+	    this.paintbrush = false;
+	  }
+	
+	  _createClass(Button, {
 	    click: {
 	      value: function click() {
-	        this.knobData.r = this.thickness * 0.9;
-	        this.move();
+	        switch (this.mode) {
+	          case "impulse":
+	            this.state.on();
+	            if (this.timeout) {
+	              clearTimeout(this.timeout);
+	            }
+	            this.timeout = setTimeout(this.state.off.bind(this), 30);
+	            this.emit("change", this.state);
+	            break;
+	          case "button":
+	            this.turnOn();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.position = {
+	              x: math.clip(this.mouse.x / this.width, 0, 1),
+	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
+	            };
+	            this.turnOn();
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	          case "toggle":
+	            this.flip();
+	            this.emit("change", this.state);
+	            break;
+	        }
 	      }
 	    },
 	    move: {
 	      value: function move() {
-	        if (this.clicked) {
-	          if (this.orientation === "vertical") {
-	            this.value = this._value.updateNormal((this.mouse.y - this.knobData.r) / (this.height - this.knobData.r * 2));
-	          } else {
-	            this.value = this._value.updateNormal((this.mouse.x - this.knobData.r) / (this.width - this.knobData.r * 2));
-	          }
-	          //  if (this._value.changed) {
-	          this.emit("change", this.value);
-	          //  }
+	        if (this.mode === "aftertouch") {
+	          this.position = {
+	            x: math.clip(this.mouse.x / this.width, 0, 1),
+	            y: math.clip(1 - this.mouse.y / this.height, 0, 1)
+	          };
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
 	          this.render();
 	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    value: {
-	      get: function () {
-	        return this._value.value;
-	      },
-	      set: function (value) {
-	        return this._value.update(value);
-	      }
-	    },
-	    normalized: {
-	      get: function () {
-	        return this._value.normalized;
+	        switch (this.mode) {
+	          case "button":
+	            this.turnOff();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.turnOff();
+	            this.position = {
+	              x: this.mouse.x / this.width,
+	              y: 1 - this.mouse.y / this.height
+	            };
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	        }
 	      }
 	    }
 	  });
 	
-	  return Slider;
-	})(Interface);
-	
-	module.exports = Slider;
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(6);
-	
-	var Toggle = (function (_Interface) {
-	  function Toggle() {
-	    _classCallCheck(this, Toggle);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [40, 20],
-	      target: false,
-	      value: 0
-	    };
-	
-	    _get(Object.getPrototypeOf(Toggle.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    //this.parent = document.getElementById(parent.replace('#',''));
-	    this._state = new ToggleModel();
-	
-	    this.init();
-	  }
-	
-	  _inherits(Toggle, _Interface);
-	
-	  _createClass(Toggle, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        //  if (this.height < this.width) {
-	
-	        if (this.height < this.width / 2) {
-	          this.knobSize = this.height / 2;
-	        } else {
-	          this.knobSize = this.width / 4;
-	        }
-	        //this.knobSize = Math.min(this.width,this.height)/2;
-	
-	        this.bar = svg.create("rect");
-	        this.bar.setAttribute("x", this.width / 2 - this.knobSize * 1.5);
-	        this.bar.setAttribute("y", this.height / 2 - this.knobSize / 2);
-	        this.bar.setAttribute("rx", this.knobSize / 2);
-	        this.bar.setAttribute("ry", this.knobSize / 2);
-	        this.bar.setAttribute("width", this.knobSize * 3);
-	        this.bar.setAttribute("height", this.knobSize);
-	        this.bar.setAttribute("fill", "#e7e7e7");
-	
-	        this.knob = svg.create("circle");
-	        this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
-	        this.knob.setAttribute("cy", this.height / 2);
-	        this.knob.setAttribute("r", this.knobSize);
-	        this.knob.setAttribute("fill", "#d18");
-	        /*
-	            } else {
-	        
-	              let knobSize = this.width/2
-	        
-	              this.bar = svg.create('rect');
-	              this.bar.setAttribute('x',0);
-	              this.bar.setAttribute('y',this.height/4);
-	              this.bar.setAttribute('rx',this.height/4);
-	              this.bar.setAttribute('ry',this.height/4);
-	              this.bar.setAttribute('width',this.width);
-	              this.bar.setAttribute('height',this.height/2);
-	              this.bar.setAttribute('fill', '#e7e7e7');
-	        
-	              this.knob = svg.create('circle');
-	              this.knob.setAttribute('cx',this.height/2);
-	              this.knob.setAttribute('cy',this.height/2);
-	              this.knob.setAttribute('r',this.height/2);
-	              this.knob.setAttribute('fill', '#d18');
-	        
-	            } */
-	
-	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.knob);
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        if (!this.state) {
-	          this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
-	          this.bar.setAttribute("fill", "#e7e7e7");
-	        } else {
-	          this.knob.setAttribute("cx", this.width / 2 + this.knobSize);
-	          this.bar.setAttribute("fill", "#d18");
-	        }
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.flip();
-	        this.render();
-	        this.emit("change", this.state);
-	      }
-	    },
-	    state: {
-	      get: function () {
-	        return this._state.state;
-	      },
-	      set: function (value) {
-	        var newvalue = this._state.flip(value);
-	        this.render();
-	        return newvalue;
-	      }
-	    },
-	    flip: {
-	      value: function flip(value) {
-	        this._state.flip(value);
-	        this.render();
-	      }
-	    },
-	    turnOn: {
-	      value: function turnOn() {
-	        this._state.on();
-	        this.render();
-	      }
-	    },
-	    turnOff: {
-	      value: function turnOff() {
-	        this._state.off();
-	        this.render();
-	      }
-	    }
-	  });
-	
-	  return Toggle;
-	})(Interface);
-	
-	module.exports = Toggle;
+	  return Button;
+	})();
 
 /***/ },
 /* 13 */
@@ -1538,6 +1843,457 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	/**
+	* Slider
+	*
+	* @description Horizontal or vertical slider with settable interaction modes.
+	*
+	* @demo <span mt="slider" step=0.2></span>
+	*
+	* @example
+	* var slider = mt.slider('#target')
+	*
+	*/
+	
+	var Slider = (function (_Interface) {
+	  function Slider() {
+	    _classCallCheck(this, Slider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "relative",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    this.hasKnob = this.settings.hasKnob;
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.position = new Interaction.Handle(this.settings.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
+	
+	    this.init();
+	
+	    this.position.direction = this.orientation;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(Slider, _Interface);
+	
+	  _createClass(Slider, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (this.width < this.height) {
+	          this.orientation = "vertical";
+	        } else {
+	          this.orientation = "horizontal";
+	        }
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
+	
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
+	        this.bar.setAttribute("width", w);
+	        this.bar.setAttribute("height", h);
+	
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
+	
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "transparent");
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.fillbar.setAttribute("fill", this.colors.accent);
+	        this.knob.setAttribute("fill", this.colors.accent);
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.update(this.mouse);
+	          this._value.updateNormal(this.position.value);
+	          this.emit("change", this._value.value);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The slider's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example slider.value = 10;
+	      */
+	
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (v) {
+	        this._value.update(v);
+	        this.position.value = this._value.normalized;
+	        this.render();
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the sliders's output range
+	      @type {number}
+	      @example slider.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the slider's output range
+	      @type {number}
+	      @example slider.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the slider's value changes by.
+	      @type {number}
+	      @example slider.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (slider's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	      @type {string}
+	      @example slider.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.mode;
+	      },
+	      set: function (v) {
+	        this.position.mode = v;
+	      }
+	    }
+	  });
+	
+	  return Slider;
+	})(Interface);
+	
+	module.exports = Slider;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var ToggleModel = __webpack_require__(13);
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Toggle
+	*
+	* @description Binary switch
+	*
+	* @demo <span mt="toggle"></span>
+	*
+	* @example
+	* var toggle = mt.toggle('#target')
+	*
+	*/
+	
+	var Toggle = (function (_Interface) {
+	  function Toggle() {
+	    _classCallCheck(this, Toggle);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [40, 20],
+	      target: false,
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Toggle.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._state = new ToggleModel();
+	
+	    this.init();
+	  }
+	
+	  _inherits(Toggle, _Interface);
+	
+	  _createClass(Toggle, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (this.height < this.width / 2) {
+	          this.knobSize = this.height / 2;
+	        } else {
+	          this.knobSize = this.width / 4;
+	        }
+	
+	        this.bar.setAttribute("x", this.width / 2 - this.knobSize * 1.5);
+	        this.bar.setAttribute("y", this.height / 2 - this.knobSize / 2);
+	        this.bar.setAttribute("rx", this.knobSize / 2);
+	        this.bar.setAttribute("ry", this.knobSize / 2);
+	        this.bar.setAttribute("width", this.knobSize * 3);
+	        this.bar.setAttribute("height", this.knobSize);
+	
+	        this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
+	        this.knob.setAttribute("cy", this.height / 2);
+	        this.knob.setAttribute("r", this.knobSize);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.knob.setAttribute("fill", this.colors.accent);
+	        this.render();
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.knob.setAttribute("cx", this.width / 2 - this.knobSize);
+	          this.bar.setAttribute("fill", this.colors.fill);
+	        } else {
+	          this.knob.setAttribute("cx", this.width / 2 + this.knobSize);
+	          this.bar.setAttribute("fill", this.colors.accent);
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.flip();
+	        this.render();
+	        this.emit("change", this.state);
+	      }
+	    },
+	    state: {
+	
+	      /**
+	      Whether the toggle is currently on or off. Setting this property will update the toggle interface and trigger the output event.
+	      @type {boolean}
+	      @example toggle.state = false;
+	      */
+	
+	      get: function () {
+	        return this._state.state;
+	      },
+	      set: function (value) {
+	        var newvalue = this._state.flip(value);
+	        this.render();
+	        return newvalue;
+	      }
+	    },
+	    flip: {
+	
+	      /**
+	      * Switch the toggle state to its opposite state
+	      * @example
+	      * toggle.flip();
+	      */
+	
+	      value: function flip() {
+	        this._state.flip();
+	        this.render();
+	      }
+	    }
+	  });
+	
+	  return Toggle;
+	})(Interface);
+	
+	module.exports = Toggle;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -1549,23 +2305,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let svg = require('../util/svg');
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	//let Step = require('../models/step');
-	var RangeSlider = __webpack_require__(15);
+	var RangeSlider = __webpack_require__(17);
 	
-	// next: turn knobR and knoby into this.knobR etc
+	/**
+	* Range
+	*
+	* @description Range slider
+	*
+	* @demo <div mt="Range"></div>
+	*
+	* @example
+	* var range = mt.range('#target')
+	*
+	*/
 	
 	var Range = (function (_Interface) {
-	  function Range(parent) {
+	  function Range() {
 	    _classCallCheck(this, Range);
 	
 	    //settings would include how many sliders and their location ?
 	    //and their ranges
-	    var defaultSize = { w: 200, h: 40 };
-	    _get(Object.getPrototypeOf(Range.prototype), "constructor", this).call(this, parent, defaultSize);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [200, 30],
+	      mode: "select", // select, scale? drag? range?
+	      scale: [0, 20],
+	      step: 1,
+	      value: [[7, 9], [1, 3]],
+	      maxSliders: 5
+	    };
+	
+	    _get(Object.getPrototypeOf(Range.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.min = this.settings.scale[0];
+	    this.max = this.settings.scale[1];
+	    this.mode = this.settings.mode;
+	    this.step = this.settings.step;
+	    this.maxSliders = this.settings.maxSliders;
+	    this.value = this.settings.value;
 	    this.sliders = [];
-	    this.sliderCount = 0;
-	    this.buildFrame();
-	    this.buildInterface();
+	    //  this.buildFrame();
+	    //  this.buildInterface();
+	    //  this.attachListeners();
+	    this.init();
 	  }
 	
 	  _inherits(Range, _Interface);
@@ -1573,18 +2357,74 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Range, {
 	    buildInterface: {
 	      value: function buildInterface() {
-	        this.element.style.backgroundColor = "#e7e7e7";
-	        this.addSlider();
+	        for (var i = 0; i < this.value.length; i++) {
+	          var value = this.value[i];
+	          this.addSlider(value[0], value[1]);
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	        var _this = this;
+	
+	        // how to tell slider what size to move to?
+	        this.sliders.forEach(function (slider) {
+	          slider.resize(_this.width, _this.height);
+	        });
 	      }
 	    },
 	    addSlider: {
-	      value: function addSlider() {
-	        var component = new RangeSlider(this.element, 0);
-	        component.range.start.value = math.rf(0, 1);
-	        component.range.end.value = math.rf(1, 2);
+	      value: function addSlider(start, end) {
+	
+	        // arguments: parent, options
+	        var component = new RangeSlider(this.element, {
+	          min: this.min,
+	          max: this.max,
+	          step: this.step,
+	          mode: this.mode
+	        });
+	
+	        //  component.range.start.value = start || math.interp(0.25,this.min,this.max);
+	        //  component.range.end.value = end ||  math.interp(0.75,this.min,this.max);
+	        //  console.log( start || math.interp(0.25,this.min,this.max) );
+	        //   component.start = start || math.interp(0.25,this.min,this.max);
+	        //   console.log(component.start);
+	        /*  component.end = end ||  math.interp(0.75,this.min,this.max);
+	          component.render();
+	          this.sliders.push( component ); */
+	
+	        start = start || math.interp(0.25, this.min, this.max);
+	        end = end || math.interp(0.75, this.min, this.max);
+	        component.range.move(start, end);
+	
+	        if (this.mode === "drag") {
+	          component.position.center.value = math.normalize(component.range.center, this.min, this.max);
+	          component.position.size.value = math.normalize(component.range.size, this.min, this.max);
+	        } else if (this.mode === "select") {
+	          component.position.center.value = math.normalize(component.range.center, this.min, this.max);
+	        }
 	        component.render();
 	        this.sliders.push(component);
+	        return component;
 	      }
+	    },
+	    click: {
+	      value: function click() {
+	        var slider = this.addSlider();
+	        slider.mouse = this.mouse;
+	        //  slider.preClick();
+	      }
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {}
 	    }
 	  });
 	
@@ -1594,10 +2434,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
@@ -1610,21 +2452,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var RangeModel = __webpack_require__(16);
+	var RangeModel = __webpack_require__(18);
 	var math = __webpack_require__(5);
-	var ColorOps = __webpack_require__(17);
-	window.ColorOps = __webpack_require__(17);
+	//let ColorOps = require('color-ops');
+	// is this needed? where is it used?
+	//window.ColorOps = require('color-ops');
 	
 	var Interface = _interopRequire(__webpack_require__(6));
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
 	
 	var RangeSlider = (function (_Interface) {
 	  function RangeSlider() {
 	    _classCallCheck(this, RangeSlider);
 	
-	    var options = ["scale", "value"];
+	    var options = [];
 	
 	    var defaults = {
-	      size: [0, 0]
+	      size: [0, 0],
+	      mode: "select"
 	      //scaleX, scaleY
 	      //valueX, valueY
 	      //stepX, stepY
@@ -1632,18 +2478,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(RangeSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    var colorIndex = 0;
-	    this.color = ColorOps.spin([230, 0, 100, 0], colorIndex * 60);
-	    this.color = this.color.map(function (v) {
-	      return Math.floor(v);
-	    });
-	    this.color.length = 3;
-	    this.color = "rgb(" + this.color.join(",") + ")";
-	    this.min = 0;
-	    this.max = 4;
-	    this.step = false;
-	    this.range = new RangeModel(this.min, this.max, 0.2);
-	    this.mode = "draw";
+	    this.min = this.settings.min;
+	    this.max = this.settings.max;
+	    this.step = this.settings.step;
+	    this.mode = this.settings.mode;
+	
+	    /*  let colorIndex = 0;
+	      this.color = ColorOps.spin([230,0,100,0],colorIndex * 60);
+	      this.color = this.color.map((v) => { return Math.floor(v); });
+	      this.color.length = 3;
+	      this.color = 'rgb('+this.color.join(',')+')'; */
+	
+	    this.range = new RangeModel(this.min, this.max, this.step);
+	
+	    if (this.mode === "drag") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        size: new Interaction.Handle("relative", "vertical", [0, this.width], [this.height, 0])
+	      };
+	      this.position.size.sensitivity = 0.2;
+	    } else if (this.mode === "select") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        start: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        end: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0])
+	        //  size: new Interaction.Handle('relative','vertical',[0,this.width],[this.height,0])
+	      };
+	    }
+	
 	    this.init();
 	    return this;
 	  }
@@ -1654,8 +2516,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildFrame: {
 	      value: function buildFrame() {
 	        this.element = svg.create("svg");
-	        this.element.setAttribute("width", this.width);
-	        this.element.setAttribute("height", this.height);
 	        this.element.setAttribute("x", 0);
 	        this.element.setAttribute("y", 0);
 	        this.parent.appendChild(this.element);
@@ -1685,20 +2545,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar = svg.create("rect");
 	        this.bar.setAttribute("x", 0);
 	        this.bar.setAttribute("y", 0);
-	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
-	        this.bar.setAttribute("height", this.height);
-	        this.bar.setAttribute("fill", this.color);
-	        this.bar.setAttribute("stroke", this.color);
 	        this.bar.setAttribute("stroke-width", "0");
 	        this.bar.setAttribute("fill-opacity", "0.4");
 	
 	        this.arrowL = svg.create("rect");
-	        this.arrowL.setAttribute("width", 10);
-	        this.arrowL.setAttribute("height", this.height);
 	        this.arrowL.setAttribute("x", 0);
 	        this.arrowL.setAttribute("y", 0);
-	        this.arrowL.setAttribute("fill", this.color);
-	        this.arrowL.setAttribute("fill-opacity", "0.4");
+	        this.arrowL.setAttribute("fill-opacity", "0.7");
 	
 	        this.arrowL.addEventListener("mousedown", function (e) {
 	          e.preventDefault();
@@ -1706,12 +2559,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	
 	        this.arrowR = svg.create("rect");
-	        this.arrowR.setAttribute("width", 10);
-	        this.arrowR.setAttribute("height", this.height);
-	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
-	        this.arrowR.setAttribute("y", 0);
-	        this.arrowR.setAttribute("fill", this.color);
-	        this.arrowR.setAttribute("fill-opacity", "0.4");
+	        this.arrowR.setAttribute("fill-opacity", "0.7");
 	
 	        this.arrowR.addEventListener("mousedown", function (e) {
 	          e.preventDefault();
@@ -1721,37 +2569,129 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.ref.appendChild(this.arrowL);
 	        this.ref.appendChild(this.arrowR);
 	        this.ref.appendChild(this.bar);
+	
+	        this.resize();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.accent);
+	        this.bar.setAttribute("stroke", this.colors.accent);
+	        this.arrowL.setAttribute("fill", this.colors.accent);
+	        this.arrowR.setAttribute("fill", this.colors.accent);
+	      }
+	    },
+	    resize: {
+	      value: function resize(w, h) {
+	        this.width = w || this.width;
+	        this.height = h || this.height;
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.bar.setAttribute("height", this.height);
+	        this.arrowL.setAttribute("width", 3);
+	        this.arrowL.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("width", 3);
+	        this.arrowR.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
+	        this.arrowR.setAttribute("y", 0);
+	        if (this.mode === "drag") {
+	          this.positoin.center.resize([0, this.width], [this.height, 0]);
+	          this.position.size.resize([0, this.width], [this.height, 0]);
+	        } else if (this.mode === "select") {
+	          this.position.center.resize([0, this.width], [this.height, 0]);
+	          this.position.start.resize([0, this.width], [this.height, 0]);
+	          this.position.end.resize([0, this.width], [this.height, 0]);
+	        }
+	        this.render();
 	      }
 	    },
 	    render: {
 	      value: function render() {
-	        console.log("this.range.start.normalized", this.range.start.normalized);
-	        console.log("this.width", this.width);
 	        this.ref.setAttribute("transform", "translate(" + this.range.start.normalized * this.width + ", 0)");
-	        //  this.bar.setAttribute('x',this.range.start.normalized * this.width);
 	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
-	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 10);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 3);
 	      }
 	    },
 	    click: {
 	      value: function click() {
-	        console.log(this.mouse.x);
-	        console.log(this.width);
-	        this.range.center = math.scale(this.mouse.x, 0, this.width, this.min, this.max);
+	        this.hasMoved = false;
+	        console.log("slider clicked");
+	
+	        if (this.mode === "drag") {
+	          this.position.center.anchor = this.mouse;
+	          this.position.size.anchor = this.mouse;
+	        } else if (this.mode === "select") {
+	          this.position.center.anchor = this.mouse;
+	        }
+	        //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
 	        this.render();
 	      }
 	    },
 	    move: {
 	      value: function move() {
 	        if (this.clicked) {
-	          this.range.center = math.scale(this.mouse.x, 0, this.width, this.min, this.max);
-	          this.render();
+	          this.hasMoved = true;
+	          if (this.mode === "drag") {
+	
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
+	
+	            this.position.size.update(this.mouse);
+	            this.range.size = math.scale(this.position.size.value, 0, 1, this.min, this.max);
+	
+	            this.render();
+	          } else if (this.mode === "select") {
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            this.render();
+	          }
 	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
+	        if (!this.hasMoved) {
+	          this.destroy();
+	        }
 	        this.render();
+	      }
+	    },
+	    start: {
+	      get: function () {
+	        return this.range.start.value;
+	      },
+	      set: function (value) {
+	        //  console.log("start is being set to", value);
+	        this.range.start.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    end: {
+	      get: function () {
+	        return this.range.end.value;
+	      },
+	      set: function (value) {
+	        //  console.log("end is being set to", value);
+	        this.range.end.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    updatePosition: {
+	      value: function updatePosition() {
+	        //  console.log("updatePosition is being set");
+	        var start = this.range.start.normalized;
+	        //        console.log("updatePosition start", start);
+	        var end = this.range.end.normalized;
+	        //        console.log("updatePosition end", end);
+	        var center = (end + start) / 2;
+	        var size = end - start;
+	
+	        //    console.log("updatePosition center", center);
+	        //        console.log("updatePosition size", size);
+	        this.position.center.update(center);
+	        this.position.size.update(size);
 	      }
 	    }
 	  });
@@ -1762,7 +2702,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = RangeSlider;
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1773,7 +2713,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Step = _interopRequire(__webpack_require__(10));
+	var Step = _interopRequire(__webpack_require__(11));
+	
+	/**
+	  Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.
+	  @param {number} [min=0] minimum
+	  @param {number} [max=1] maximum
+	  @param {number} [step=0]
+	  @returns {Object} Step
+	*/
 	
 	var Range = (function () {
 	  function Range() {
@@ -1783,33 +2731,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _classCallCheck(this, Range);
 	
+	    /**
+	      {number} Minimum value of the range
+	    */
 	    this.min = min;
+	
+	    /**
+	      {number} Maximum value of the range
+	    */
 	    this.max = max;
+	
+	    /**
+	      {Step} Start value of the range selection
+	    */
 	    this.start = new Step(min, max, step);
+	
+	    /**
+	      {Step} End value of the range selection
+	    */
 	    this.end = new Step(min, max, step);
-	    this.start.value = 0.4;
-	    this.end.value = 0.6;
-	    this.size = (max - min) / 2;
 	  }
 	
 	  _createClass(Range, {
 	    center: {
+	
+	      /**
+	        {number} Center of the range selection
+	      */
+	
 	      get: function () {
 	        return this.start.value + (this.end.value - this.start.value) / 2;
 	      },
 	      set: function (value) {
-	        console.log("this.end.value", this.end.value);
-	        console.log("this.start.value", this.start.value);
-	        this.size = this.end.value - this.start.value;
-	        console.log("this.size", this.size);
-	        this.start.update(value - this.size / 2);
-	        this.end.update(value + this.size / 2);
+	        var size = this.end.value - this.start.value;
+	        console.log("====");
+	        console.log(this.start.value);
+	        console.log(this.end.value);
+	        this.start.update(value - size / 2);
+	        this.end.update(this.start.value + size);
 	      }
+	    },
+	    size: {
 	
-	      //move(start,end) {
-	      //  this.size =
-	      //}
+	      /**
+	        {number} Size of the range selection
+	      */
 	
+	      get: function () {
+	        return this.end.value - this.start.value;
+	      },
+	      set: function (size) {
+	        var center = this.center;
+	        this.start.update(center - size / 2);
+	        // Ensure that the range slsection _is_ the size desired, even if it changes the center.
+	        this.end.update(this.start.value + size);
+	        //this.end.update(center + size/2);
+	      }
+	    },
+	    move: {
+	
+	      /**
+	        Move the range selection
+	        @param {number} start New start value of the range selection
+	        @param {number} end New end value of the range selection
+	      */
+	
+	      value: function move(start, end) {
+	        if (start) {
+	          this.start.update(start);
+	        }
+	        if (end) {
+	          this.end.update(end);
+	        }
+	      }
 	    }
 	  });
 	
@@ -1819,248 +2813,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Range;
 
 /***/ },
-/* 17 */
-/***/ function(module, exports) {
-
-	var colorFunctions = {
-	  /**
-	   * Convert a color specified as an RGBA array
-	   * into an HSL object.
-	   *
-	   * @param {Array} color rgba color
-	   * @returns {Object} hsl representation of that color
-	   */
-	  toHSL: function(color) {
-	    var r = color[0] / 255,
-	    g = color[1] / 255,
-	    b = color[2] / 255,
-	    a = color[3];
-	
-	    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-	    var h, s, l = (max + min) / 2, d = max - min;
-	
-	    if (max === min) {
-	      h = s = 0;
-	    } else {
-	      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-	
-	      switch (max) {
-	        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-	        case g: h = (b - r) / d + 2; break;
-	        case b: h = (r - g) / d + 4; break;
-	      }
-	      h /= 6;
-	    }
-	    return { h: h * 360, s: s, l: l, a: a };
-	  },
-	  /**
-	   * Given an r, g, b color, return a 4-element RGBA array
-	   * @param {number} r red
-	   * @param {number} g green
-	   * @param {number} b blue
-	   * @returns {Array} rgba array
-	   */
-	  rgb: function(r, g, b) {
-	    return this.rgba(r, g, b, 1.0);
-	  },
-	  /**
-	   * Given an rgba color as number-like objects, return that array
-	   * with numbers if possible, and null otherwise
-	   *
-	   * @param {number} r red
-	   * @param {number} g green
-	   * @param {number} b blue
-	   * @param {number} a alpha
-	   * @returns {Array} rgba array
-	   */
-	  rgba: function(r, g, b, a) {
-	    var rgb = [r, g, b].map(function (c) { return number(c); });
-	    a = number(a);
-	    if (rgb.some(isNaN) || isNaN(a)) return null;
-	    rgb.push(a);
-	    return rgb;
-	  },
-	  /**
-	   * Given an HSL color as components, return an RGBA array with 100% alpha
-	   *
-	   * @param {number} h hue
-	   * @param {number} s saturation
-	   * @param {number} l luminosity
-	   * @returns {Array} rgba color
-	   */
-	  hsl: function(h, s, l) {
-	    return this.hsla(h, s, l, 1.0);
-	  },
-	  /**
-	   * Given an HSL color as components, return an RGBA array
-	   *
-	   * @param {number} h hue
-	   * @param {number} s saturation
-	   * @param {number} l luminosity
-	   * @param {number} a alpha
-	   * @returns {Array} rgba color
-	   */
-	  hsla: function(h, s, l, a) {
-	    h = (number(h) % 360) / 360;
-	    s = number(s); l = number(l); a = number(a);
-	    if ([h, s, l, a].some(isNaN)) return null;
-	
-	    var m2 = l <= 0.5 ? l * (s + 1) : l + s - l * s,
-	    m1 = l * 2 - m2;
-	
-	    return this.rgba(hue(h + 1 / 3) * 255,
-	      hue(h) * 255,
-	      hue(h - 1 / 3) * 255,
-	      a);
-	
-	    function hue(h) {
-	      h = h < 0 ? h + 1 : (h > 1 ? h - 1 : h);
-	      if (h * 6 < 1) return m1 + (m2 - m1) * h * 6;
-	      else if (h * 2 < 1) return m2;
-	      else if (h * 3 < 2) return m1 + (m2 - m1) * (2 / 3 - h) * 6;
-	      else return m1;
-	    }
-	  },
-	  /**
-	   * Get the hue component of a color
-	   *
-	   * @param {Color} color
-	   * @returns {Number} hue
-	   */
-	  hue: function(color) {
-	    return Math.round(this.toHSL(color).h);
-	  },
-	  /**
-	   * Get the saturation component of a color as a string
-	   * representing percentage
-	   *
-	   * @param {Color} color
-	   * @returns {String} saturation
-	   */
-	  saturation: function(color) {
-	    return Math.round(this.toHSL(color).s * 100);
-	  },
-	  /**
-	   * Get the lightness component of a color as a string
-	   * representing percentage
-	   *
-	   * @param {Color} color
-	   * @returns {String} lightness
-	   */
-	  lightness: function(color) {
-	    return Math.round(this.toHSL(color).l * 100);
-	  },
-	  /**
-	   * Get the alpha component of a color
-	   *
-	   * @param {Array} color
-	   * @returns {Number} alpha
-	   */
-	  alpha: function(color) {
-	    return this.toHSL(color).a;
-	  },
-	  /**
-	   * Saturate or desaturate a color by a given amount
-	   *
-	   * @param {Color} color
-	   * @param {Number} amount
-	   * @returns {Color} color
-	   */
-	  saturate: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	
-	    hsl.s += amount / 100;
-	    hsl.s = clamp(hsl.s);
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Lighten or darken a color by a given amount
-	   *
-	   * @param {Color} color
-	   * @param {Number} amount
-	   * @returns {Color} color
-	   */
-	  lighten: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	
-	    hsl.l += amount / 100;
-	    hsl.l = clamp(hsl.l);
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Fade a color by a given amount
-	   *
-	   * @param {Color} color
-	   * @param {Number} amount
-	   * @returns {Color} color
-	   */
-	  fade: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	
-	    hsl.a += amount / 100;
-	    hsl.a = clamp(hsl.a);
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Rotate the hue of a color by an amount given in decimal degrees.
-	   * @param {Color} color
-	   * @param {Number} degrees
-	   * @returns {Color} output
-	   */
-	  spin: function(color, amount) {
-	    var hsl = this.toHSL(color);
-	    var hue = (hsl.h + amount) % 360;
-	
-	    hsl.h = hue < 0 ? 360 + hue : hue;
-	    return hsla(hsl);
-	  },
-	  /**
-	   * Mix two colors.
-	   * @param {Color} color1
-	   * @param {Color} color2
-	   * @param {Number} degrees
-	   * @returns {Color} output
-	   */
-	  mix: function(color1, color2, amount) {
-	    var p = amount / 100.0;
-	    var w = p * 2 - 1;
-	    var hsl1 = this.toHSL(color1);
-	    var hsl2 = this.toHSL(color2);
-	    var a = hsl1.a - hsl2.a;
-	
-	    var w1 = (((w * a == -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
-	    var w2 = 1 - w1;
-	
-	    var rgb = [
-	        color1[0] * w1 + color2[0] * w2,
-	        color1[1] * w1 + color2[1] * w2,
-	        color1[2] * w1 + color2[2] * w2
-	    ];
-	
-	    var alpha = color1[3] * p + color2[3] * (1 - p);
-	    rgb[3] = alpha;
-	    return rgb;
-	  }
-	};
-	
-	function hsla(h) {
-	  return colorFunctions.hsla(h.h, h.s, h.l, h.a);
-	}
-	
-	function number(n) {
-	  if (typeof n === 'number') return n;
-	  else return NaN;
-	}
-	
-	function clamp(val) {
-	  return Math.min(1, Math.max(0, val));
-	}
-	
-	module.exports = colorFunctions;
-
-
-/***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2077,7 +2830,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Interface = __webpack_require__(6);
 	//let Step = require('../models/step');
 	//let math = require('../util/math');
-	var RangeSlider = __webpack_require__(15);
+	var RangeSlider = __webpack_require__(17);
+	
+	/**
+	* Waveform
+	*
+	* @description Audio waveform visualization with region selection
+	*
+	* @demo <span mt="waveform"></span>
+	*
+	* @example
+	* var waveform = mt.waveform('#target',buffer);
+	*
+	*/
 	
 	var Waveform = (function (_Interface) {
 	  function Waveform() {
@@ -2104,6 +2869,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.definition = 2;
 	    this.pieces = ~ ~(this.width / this.definition);
 	
+	    this.channels = 1;
+	
+	    this.wavePieces = [];
+	
 	    this.init();
 	  }
 	
@@ -2113,8 +2882,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
 	        this.element.style.borderRadius = "5px";
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.waveHeight = this.height / this.channels;
+	
+	        this.empty();
+	        if (this.buffer) {
+	          this.buildWaveform();
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	
+	        if (this.wavePieces) {
+	          for (var i = 0; i < this.wavePieces.length; i++) {
+	            this.wavePieces[i].setAttribute("fill", this.colors.dark);
+	          }
+	        }
 	      }
 	    },
 	    buildWaveform: {
@@ -2132,7 +2924,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            rect.setAttribute("y", ht1);
 	            rect.setAttribute("width", this.definition);
 	            rect.setAttribute("height", ht2);
-	            rect.setAttribute("fill", "black");
+	            rect.setAttribute("fill", this.colors.dark);
+	            this.wavePieces.push(rect);
 	
 	            this.element.appendChild(rect);
 	          }
@@ -2276,74 +3069,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  } */
 
 /***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var ButtonTemplate = __webpack_require__(20);
-	
-	var Button = (function (_ButtonTemplate) {
-	  function Button() {
-	    _classCallCheck(this, Button);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [80, 80],
-	      target: false,
-	      value: 0
-	    };
-	
-	    _get(Object.getPrototypeOf(Button.prototype), "constructor", this).call(this, arguments, options, defaults);
-	    this.init();
-	    this.render();
-	  }
-	
-	  _inherits(Button, _ButtonTemplate);
-	
-	  _createClass(Button, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	        this.pad = svg.create("circle");
-	        this.pad.setAttribute("cx", this.width / 2);
-	        this.pad.setAttribute("cy", this.height / 2);
-	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - 2);
-	        this.pad.setAttribute("fill", "#d18");
-	        this.pad.setAttribute("stroke", "#d18");
-	        this.pad.setAttribute("stroke-width", 4);
-	
-	        this.element.appendChild(this.pad);
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
-	          this.pad.setAttribute("stroke", "#ccc");
-	        } else {
-	          this.pad.setAttribute("fill", "#d18");
-	          this.pad.setAttribute("stroke", "#d18");
-	        }
-	      }
-	    }
-	  });
-	
-	  return Button;
-	})(ButtonTemplate);
-	
-	module.exports = Button;
-
-/***/ },
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2358,91 +3083,138 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(6);
+	var ButtonTemplate = __webpack_require__(21);
 	
-	var ButtonTemplate = (function (_Interface) {
-	  function ButtonTemplate(args, options, defaults) {
-	    _classCallCheck(this, ButtonTemplate);
+	/**
+	* Button
+	*
+	* @description Circular button with optional aftertouch.
+	*
+	* @demo <span mt="button"></span>
+	*
+	* @example
+	* var button = mt.button('#button')
+	*
+	* @example
+	* var button = mt.button('#button',{
+	*   mode: 'toggle',
+	*   state: true,
+	*   size: [100,100],
+	*   event: function(v) {
+	*     alert(v);
+	*   }
+	* })
+	*
+	* @output
+	* In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.
+	* In <b>aftertouch mode</b>, the output data is an object containing properties for the state of the object. the normalized x value (0-1) of interaction, and the normalized y value (0-1) of interaction.
+	*
+	* @tutorial
+	* Aftertouch mode
+	* ygGMxq
+	* Here is some tutorial text
+	*
+	* @tutorial
+	* Toggle mode
+	* ygGMxq
+	* Here is some tutorial text 2
+	*/
 	
-	    _get(Object.getPrototypeOf(ButtonTemplate.prototype), "constructor", this).call(this, args, options, defaults);
+	var Button = (function (_ButtonTemplate) {
+	  function Button() {
+	    _classCallCheck(this, Button);
 	
-	    this._state = new ToggleModel();
+	    var options = ["mode"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      target: false,
+	      mode: "aftertouch", // button, aftertouch, impulse, toggle
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Button.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    /**
+	    Interaction mode
+	    @type {string}
+	    @example button.mode = 'toggle';
+	    */
+	    this.mode = this.settings.mode;
+	
+	    this.init();
+	    this.render();
 	  }
 	
-	  _inherits(ButtonTemplate, _Interface);
+	  _inherits(Button, _ButtonTemplate);
 	
-	  _createClass(ButtonTemplate, {
+	  _createClass(Button, {
 	    buildInterface: {
 	      value: function buildInterface() {
 	        this.pad = svg.create("circle");
+	        this.element.appendChild(this.pad);
+	
+	        // only used if in 'aftertouch' mode
+	        this.defs = svg.create("defs");
+	        this.element.appendChild(this.defs);
+	
+	        this.gradient = svg.radialGradient(this.defs, 2);
+	
+	        this.gradient.stops[0].setAttribute("offset", "30%");
+	
+	        this.gradient.stops[1].setAttribute("offset", "100%");
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
 	        this.pad.setAttribute("cx", this.width / 2);
 	        this.pad.setAttribute("cy", this.height / 2);
-	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - 2);
-	        this.pad.setAttribute("fill", "#d18");
-	        this.pad.setAttribute("stroke", "#d18");
-	        this.pad.setAttribute("stroke-width", 4);
+	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - this.width / 40);
+	        this.pad.setAttribute("stroke-width", this.width / 20);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
 	
-	        this.element.appendChild(this.pad);
+	        this.gradient.stops[0].setAttribute("stop-color", this.colors.accent);
+	        this.gradient.stops[1].setAttribute("stop-color", this.colors.fill);
+	        this.render();
 	      }
 	    },
 	    render: {
+	
+	      /*
+	      * Update the visual interface using its current state
+	      *
+	      * @example
+	      * button.render();
+	      */
+	
 	      value: function render() {
 	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
-	          this.pad.setAttribute("stroke", "#ccc");
+	          this.pad.setAttribute("fill", this.colors.fill);
+	          this.pad.setAttribute("stroke", this.colors.border);
 	        } else {
-	          this.pad.setAttribute("fill", "#d18");
-	          this.pad.setAttribute("stroke", "#d18");
+	          if (this.mode === "aftertouch") {
+	            this.pad.setAttribute("stroke", "url(#" + this.gradient.id + ")");
+	            this.gradient.element.setAttribute("cx", this.position.x * 100 + "%");
+	            this.gradient.element.setAttribute("cy", (1 - this.position.y) * 100 + "%");
+	          } else {
+	            this.pad.setAttribute("stroke", this.colors.accent);
+	          }
+	          this.pad.setAttribute("fill", this.colors.accent);
 	        }
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.turnOn();
-	        this.emit("change", this.state);
-	      }
-	    },
-	    release: {
-	      value: function release() {
-	        this.turnOff();
-	        this.emit("change", this.state);
-	      }
-	    },
-	    state: {
-	      get: function () {
-	        return this._state.state;
-	      },
-	      set: function (value) {
-	        var newvalue = this._state.flip(value);
-	        this.render();
-	        return newvalue;
-	      }
-	    },
-	    flip: {
-	      value: function flip() {
-	        this._state.flip();
-	        this.render();
-	      }
-	    },
-	    turnOn: {
-	      value: function turnOn() {
-	        this._state.on();
-	        this.render();
-	      }
-	    },
-	    turnOff: {
-	      value: function turnOff() {
-	        this._state.off();
-	        this.render();
 	      }
 	    }
 	  });
 	
-	  return ButtonTemplate;
-	})(Interface);
+	  return Button;
+	})(ButtonTemplate);
 	
-	module.exports = ButtonTemplate;
+	module.exports = Button;
 
 /***/ },
 /* 21 */
@@ -2458,74 +3230,212 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var ButtonTemplate = __webpack_require__(20);
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var ToggleModel = __webpack_require__(13);
+	var Interface = __webpack_require__(6);
 	
-	var TextButton = (function (_ButtonTemplate) {
-	  function TextButton() {
-	    _classCallCheck(this, TextButton);
+	/**
+	Button Template
+	*/
 	
-	    var options = ["value"];
+	var ButtonTemplate = (function (_Interface) {
+	  function ButtonTemplate(args, options, defaults) {
+	    _classCallCheck(this, ButtonTemplate);
 	
-	    var defaults = {
-	      size: [150, 50],
-	      target: false,
-	      value: 0
+	    _get(Object.getPrototypeOf(ButtonTemplate.prototype), "constructor", this).call(this, args, options, defaults);
+	
+	    this.mode = this.settings.mode || "button";
+	
+	    this.position = {
+	      x: 0,
+	      y: 0
 	    };
 	
-	    _get(Object.getPrototypeOf(TextButton.prototype), "constructor", this).call(this, arguments, options, defaults);
-	    this.text = {
-	      on: "Play",
-	      off: "Stop"
-	    };
-	    this.init();
-	    this.render();
+	    this._state = new ToggleModel();
 	  }
 	
-	  _inherits(TextButton, _ButtonTemplate);
+	  _inherits(ButtonTemplate, _Interface);
 	
-	  _createClass(TextButton, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        var textsize = this.height / 3;
-	        var textsize2 = this.width / (this.text.off.length + 2);
-	        textsize = Math.min(textsize, textsize2);
-	        this.element = document.createElement("div");
-	        var styles = "width: " + this.width + "px;";
-	        styles += "height: " + this.height + "px;";
-	        styles += "background-color: #e7e7e7;";
-	        styles += "color: #333;";
-	        styles += "display: flex;";
-	        styles += "justify-content: center;";
-	        styles += "align-items: center;";
-	        styles += "font-family: arial;";
-	        styles += "font-weight: 700;";
-	        styles += "font-size:" + textsize + "px;";
-	        this.element.style.cssText += styles;
+	  _createClass(ButtonTemplate, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.pad = svg.create("circle");
+	        this.pad.setAttribute("fill", "#d18");
+	        this.pad.setAttribute("stroke", "#d18");
+	        this.pad.setAttribute("stroke-width", 4);
 	
-	        this.element.innerHTML = this.text.on;
-	        this.parent.appendChild(this.element);
+	        this.element.appendChild(this.pad);
+	
+	        this.sizeInterface();
 	      }
 	    },
-	    buildInterface: {
-	      value: function buildInterface() {}
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	        this.pad.setAttribute("cx", this.width / 2);
+	        this.pad.setAttribute("cy", this.height / 2);
+	        this.pad.setAttribute("r", Math.min(this.width, this.height) / 2 - 2);
+	      }
 	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.element.style.backgroundColor = "#e1e1e1";
-	          //    this.element.style.color = '#333';
+	          this.pad.setAttribute("fill", "#e7e7e7");
+	          this.pad.setAttribute("stroke", "#ccc");
 	        } else {
-	          this.element.style.backgroundColor = "#d18";
-	          //  this.element.style.color = '#fff';
+	          this.pad.setAttribute("fill", "#d18");
+	          this.pad.setAttribute("stroke", "#d18");
 	        }
+	      }
+	    },
+	    down: {
+	      value: function down(paintbrush) {
+	        switch (this.mode) {
+	          case "impulse":
+	            this.turnOn();
+	            if (this.timeout) {
+	              clearTimeout(this.timeout);
+	            }
+	            this.timeout = setTimeout(this.turnOff.bind(this), 30);
+	            this.emit("change", this.state);
+	            break;
+	          case "button":
+	            this.turnOn();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.position = {
+	              x: math.clip(this.mouse.x / this.width, 0, 1),
+	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
+	            };
+	            this.turnOn();
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	          case "toggle":
+	            this.flip(paintbrush);
+	            this.emit("change", this.state);
+	            break;
+	        }
+	      }
+	    },
+	    bend: {
+	      value: function bend(mouse) {
+	        if (this.mode === "aftertouch") {
+	          this.mouse = mouse || this.mouse;
+	          this.position = {
+	            x: math.clip(this.mouse.x / this.width, 0, 1),
+	            y: math.clip(1 - this.mouse.y / this.height, 0, 1)
+	          };
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
+	          this.render();
+	        }
+	      }
+	    },
+	    up: {
+	      value: function up() {
+	        switch (this.mode) {
+	          case "button":
+	            this.turnOff();
+	            this.emit("change", this.state);
+	            break;
+	          case "aftertouch":
+	            this.turnOff();
+	            this.position = {
+	              x: math.clip(this.mouse.x / this.width, 0, 1),
+	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
+	            };
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	            break;
+	        }
+	      }
+	    },
+	    click: {
+	
+	      /* overwritable interaction handlers */
+	
+	      value: function click() {
+	        this.down();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        this.bend();
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.up();
+	      }
+	    },
+	    state: {
+	
+	      /**
+	      Whether the button is on (pressed) or off (not pressed)
+	      @type {boolean}
+	      @example button.state = true;
+	      */
+	
+	      get: function () {
+	        return this._state.state;
+	      },
+	      set: function (value) {
+	        var newvalue = this._state.flip(value);
+	        this.render();
+	        return newvalue;
+	      }
+	    },
+	    flip: {
+	
+	      /**
+	      Change the button to its alternate state (off=>on, on=>off), or flip it to a specified state.
+	      @param value {boolean} (Optional) State to flip to.
+	      @example button.flip();
+	      */
+	
+	      value: function flip(value) {
+	        this._state.flip(value);
+	        this.render();
+	      }
+	    },
+	    turnOn: {
+	
+	      /**
+	      Turn the button's state to true.
+	      @example button.turnOn();
+	      */
+	
+	      value: function turnOn() {
+	        this._state.on();
+	        this.render();
+	      }
+	    },
+	    turnOff: {
+	
+	      /**
+	      Turn the button's state to false.
+	      @example button.turnOff();
+	      */
+	
+	      value: function turnOff() {
+	        this._state.off();
+	        this.render();
 	      }
 	    }
 	  });
 	
-	  return TextButton;
-	})(ButtonTemplate);
+	  return ButtonTemplate;
+	})(Interface);
 	
-	module.exports = TextButton;
+	module.exports = ButtonTemplate;
 
 /***/ },
 /* 22 */
@@ -2541,9 +3451,176 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
+	var ButtonTemplate = __webpack_require__(21);
+	
+	/**
+	* TextButton
+	*
+	* @description Text button
+	*
+	* @demo <span mt="textButton"></span>
+	*
+	* @example
+	* var textbutton = mt.textbutton('#target')
+	*
+	*/
+	
+	var TextButton = (function (_ButtonTemplate) {
+	  function TextButton() {
+	    _classCallCheck(this, TextButton);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [150, 50],
+	      target: false,
+	      value: 0,
+	      text: "Play",
+	      alternate: false
+	    };
+	
+	    _get(Object.getPrototypeOf(TextButton.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._text = this.settings.text;
+	    this._alternateText = this.settings.alternate;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(TextButton, _ButtonTemplate);
+	
+	  _createClass(TextButton, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	
+	        this.element = document.createElement("div");
+	        this.element.innerHTML = this._text;
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.sizeInterface();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.color = this.colors.dark;
+	        this.render();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	        var textsize = this.height / 3;
+	        var textsize2 = this.width / (this._text.length + 2);
+	        textsize = Math.min(textsize, textsize2);
+	        if (this.alternateText) {
+	          var textsize3 = this.width / (this.alternateText.length + 2);
+	          textsize = Math.min(textsize, textsize3);
+	        }
+	        var styles = "width: " + this.width + "px;";
+	        styles += "height: " + this.height + "px;";
+	        styles += "background-color: #e7e7e7;";
+	        styles += "color: #333;";
+	        styles += "padding: " + (this.height - textsize) / 2 + "px 0px;";
+	        styles += "box-sizing: border-box;";
+	        styles += "text-align: center;";
+	        styles += "font-family: arial;";
+	        styles += "font-weight: 700;";
+	        styles += "font-size:" + textsize + "px;";
+	        this.element.style.cssText = styles;
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.state) {
+	          this.element.style.backgroundColor = this.colors.fill;
+	          //if (this.alternateText) {
+	          this.element.innerHTML = this._text;
+	          //  }
+	        } else {
+	          this.element.style.backgroundColor = this.colors.accent;
+	          if (this.alternateText) {
+	            this.element.innerHTML = this._alternateText;
+	          } else {
+	            this.element.innerHTML = this._text;
+	          }
+	        }
+	      }
+	    },
+	    alternateText: {
+	
+	      /**
+	      The text to display when the button is in its "on" state. If set, this puts the button in "toggle" mode.
+	      @type {String}
+	      */
+	
+	      get: function () {
+	        return this._alternateText;
+	      },
+	      set: function (text) {
+	        if (text) {
+	          this.mode = "toggle";
+	        } else {
+	          this.mode = "button";
+	        }
+	        this._alternateText = text;
+	        this.render();
+	      }
+	    },
+	    text: {
+	
+	      /**
+	      The text to display. (If .alternateText exists, then this .text will only be displayed when the button is in its "off" state.)
+	      @type {String}
+	      */
+	
+	      get: function () {
+	        return this._text;
+	      },
+	      set: function (text) {
+	        this._text = text;
+	        this.sizeInterface();
+	        this.render();
+	      }
+	    }
+	  });
+	
+	  return TextButton;
+	})(ButtonTemplate);
+	
+	module.exports = TextButton;
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
 	//let svg = require('../util/svg');
 	var Interface = __webpack_require__(6);
-	var Button = __webpack_require__(19);
+	var Button = __webpack_require__(20);
+	
+	/**
+	* RadioButton
+	*
+	* @description An array of buttons. By default, selecting one button will deselect all other buttons, but this can be customized using the API below.
+	*
+	* @demo <div mt="RadioButton"></div>
+	*
+	* @example
+	* var radiobutton = mt.radiobutton('#target')
+	*
+	*/
 	
 	var RadioButton = (function (_Interface) {
 	  function RadioButton() {
@@ -2579,28 +3656,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        var buttonWidth = this.width / this.numberOfButtons;
-	        var buttonHeight = this.height;
-	
 	        for (var i = 0; i < this.numberOfButtons; i++) {
 	          var container = document.createElement("span");
 	
 	          var button = new Button(container, {
-	            size: [buttonWidth, buttonHeight],
+	            mode: "toggle",
 	            component: true }, this.update.bind(this, i));
 	
 	          this.buttons.push(button);
 	          this.element.appendChild(container);
 	        }
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var buttonWidth = this.width / this.numberOfButtons;
+	        var buttonHeight = this.height;
+	
+	        for (var i = 0; i < this.numberOfButtons; i++) {
+	          this.buttons[i].resize(buttonWidth, buttonHeight);
+	        }
 	      }
 	    },
 	    update: {
-	      value: function update(index, v) {
-	        console.log(v);
-	        this.active = index;
-	        // need to use v (value) here make sure it only outputs on press
-	        // and to allow to turn a button off if it is already on
-	        //  if (v) {
+	      value: function update(index) {
+	        if (this.buttons[index].state) {
+	          this.select(index);
+	        } else {
+	          this.deselect();
+	        }
+	        this.render();
+	        this.emit("change", this.active);
+	      }
+	    },
+	    render: {
+	      value: function render() {
 	        for (var i = 0; i < this.buttons.length; i++) {
 	          if (i === this.active) {
 	            this.buttons[i].turnOn();
@@ -2608,12 +3701,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	            this.buttons[i].turnOff();
 	          }
 	        }
-	        //  }
-	        this.emit("change", this.active);
 	      }
 	    },
-	    render: {
-	      value: function render() {}
+	    select: {
+	
+	      /**
+	      Select one button and deselect all other buttons.
+	      @param index {number} The index of the button to select
+	      */
+	
+	      value: function select(index) {
+	        if (index >= 0) {
+	          this.active = index;
+	          this.render();
+	        }
+	      }
+	    },
+	    deselect: {
+	
+	      /**
+	      Deselect all buttons.
+	      */
+	
+	      value: function deselect() {
+	        this.active = -1;
+	        this.render();
+	      }
 	    }
 	  });
 	
@@ -2621,17 +3734,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = RadioButton;
-	
-	/*  if (!this.state) {
-	    this.pad.setAttribute('fill', '#e7e7e7');
-	    this.pad.setAttribute('stroke', '#ccc');
-	  } else {
-	    this.pad.setAttribute('fill', '#d18');
-	    this.pad.setAttribute('stroke', '#d18');
-	  } */
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2645,8 +3750,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(10);
+	var Step = __webpack_require__(11);
 	var math = __webpack_require__(5);
+	
+	/**
+	* Number
+	*
+	* @description Draggable and editable number interface
+	*
+	* @demo <span mt="number"></span>
+	*
+	* @example
+	* var number = mt.number('#target')
+	*
+	*/
 	
 	var Number = (function (_Interface) {
 	  function Number() {
@@ -2665,11 +3782,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Number.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
+	    this._value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
+	
+	    /*
+	    Default: 2. How many decimal places to clip the number's visual rendering to. This does not affect number's actual value output -- for that, set the step property to .01, .1, or 1.
+	    @type {number}
+	    @example number.decimalPlaces = 2;
+	    */
 	    this.decimalPlaces = 2;
 	    this.actual = 0;
-	    this.max = this.settings.max;
-	    this.min = this.settings.min;
+	
+	    this.max = this._value.max;
+	
+	    this.min = this._value.min;
+	
+	    this.step = this._value.step;
 	
 	    this.init();
 	    this.render();
@@ -2680,10 +3807,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(Number, {
 	    buildFrame: {
 	      value: function buildFrame() {
-	        this._minDimension = Math.min(this.width, this.height);
-	
 	        this.element = document.createElement("input");
 	        this.element.type = "text";
+	
+	        this.element.addEventListener("blur", (function () {
+	          this.element.style.backgroundColor = "#e7e7e7";
+	          this.element.style.color = "#333";
+	          if (this.element.value !== this.value) {
+	            this.value = parseFloat(this.element.value);
+	            this.render();
+	          }
+	        }).bind(this));
+	
+	        this.element.addEventListener("keydown", (function (e) {
+	          if (e.which < 48 || e.which > 57) {
+	            if (e.which !== 189 && e.which !== 190 && e.which !== 8) {
+	              e.preventDefault();
+	            }
+	          }
+	          if (e.which === 13) {
+	            this.element.blur();
+	            this.value = this.element.value;
+	            this.emit("change", this.value);
+	            this.render();
+	          }
+	        }).bind(this));
+	
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this._minDimension = Math.min(this.width, this.height);
+	
 	        var styles = "width: " + this.width + "px;";
 	        styles += "height: " + this.height + "px;";
 	        styles += "background-color: #e7e7e7;";
@@ -2700,90 +3862,152 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles += "mozUserSelect: transparent;";
 	        styles += "webkitUserSelect: transparent;";
 	        this.element.style.cssText += styles;
+	
 	        // to add eventually
 	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
 	
-	        this.element.value = this.value.value;
-	
-	        this.element.addEventListener("blur", (function () {
-	          console.log("blurred");
-	          this.element.style.backgroundColor = "#e7e7e7";
-	          this.element.style.color = "#333";
-	          if (this.element.value !== this.value.value) {
-	            this.value.update(parseFloat(this.element.value));
-	            this.render();
-	          }
-	        }).bind(this));
-	
-	        this.element.addEventListener("keydown", (function (e) {
-	          if (e.which < 48 || e.which > 57) {
-	            if (e.which !== 189 && e.which !== 190 && e.which !== 8) {
-	              e.preventDefault();
-	            }
-	          }
-	          if (e.which === 13) {
-	            this.element.blur();
-	          }
-	        }).bind(this));
-	
-	        this.parent.appendChild(this.element);
+	        this.element.value = this.value;
 	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {}
 	    },
 	    render: {
 	      value: function render() {
 	
-	        this.element.value = math.prune(this.value.value, this.decimalPlaces);
-	        //this.emit('change',this.value.value);
-	        /*
-	            if (!this.state) {
-	              this.element.style.backgroundColor = '#e7e7e7';
-	              this.element.style.color = '#333';
-	            } else {
-	              this.element.style.backgroundColor = '#d18';
-	              this.element.style.color = '#fff';
-	            }
-	        */
+	        this.element.value = math.prune(this.value, this.decimalPlaces);
 	      }
 	    },
 	    click: {
 	      value: function click() {
+	        this.hasMoved = false;
 	        this.element.readOnly = true;
-	        this.actual = this.value.value;
-	        this.element.style.backgroundColor = "#d18";
-	        this.element.style.color = "#fff";
+	        this.actual = this.value;
+	        //  this.element.style.backgroundColor = '#d18';
+	        //  this.element.style.color = '#fff';
 	        this.initial = { y: this.mouse.y };
 	      }
 	    },
 	    move: {
 	      value: function move() {
+	        this.hasMoved = true;
 	        if (this.clicked) {
 	
 	          var newvalue = this.actual - (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
-	          this.value.update(newvalue);
+	          this.value = newvalue;
 	
-	          //	this.actual -= (this.deltaMove.y*(this.rate*this.step));
-	          //	this.actual = math.clip(this.actual,this.min,this.max)
-	          //	this.val.value = Math.floor(this.actual / this.step) * this.step;
-	          //	this.val.value = math.prune(this.val.value,this.decimalPlaces);
 	          this.render();
+	          if (this._value.changed) {
+	            this.emit("change", this.value);
+	          }
 	        }
 	      }
 	    },
 	    release: {
 	      value: function release() {
-	        if (this.actual === this.value.value) {
+	        if (!this.hasMoved) {
 	          this.element.readOnly = false;
 	          this.element.focus();
 	          this.element.setSelectionRange(0, this.element.value.length);
 	          this.element.style.backgroundColor = "#d18";
 	          this.element.style.color = "#fff";
 	        } else {
-	          console.log("released and blurring...");
 	          document.body.focus();
 	        }
+	      }
+	    },
+	    link: {
+	
+	      /**
+	      Connect this number interface to a dial or slider
+	      @param {Interface} element Element to connect to.
+	      @example number.link(slider)
+	      */
+	
+	      value: function link(destination) {
+	        var _this = this;
+	
+	        this.min = destination.min;
+	        this.max = destination.max;
+	        this.step = destination.step;
+	        destination.on("change", function (v) {
+	          _this.passiveUpdate(v);
+	        });
+	        this.on("change", function (v) {
+	          destination.value = v;
+	        });
+	        /*  return {
+	            listener1: listener1,
+	            listener2: listener2,
+	            destroy: () => {
+	              listener1.remove() (or similar)
+	              listener2.remove() (or similar)
+	            }
+	          } */
+	      }
+	    },
+	    passiveUpdate: {
+	      value: function passiveUpdate(v) {
+	        this.value = v;
+	        this.render();
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The interface's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example number.value = 10;
+	      */
+	
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (v) {
+	        this._value.update(v);
+	        this.render();
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the number's output range
+	      @type {number}
+	      @example number.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the number's output range
+	      @type {number}
+	      @example number.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the number's value changes by.
+	      @type {number}
+	      @example number.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
 	      }
 	    }
 	  });
@@ -2794,7 +4018,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Number;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2812,9 +4036,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var Step = __webpack_require__(10);
+	var Step = __webpack_require__(11);
 	
-	var Interaction = _interopRequireWildcard(__webpack_require__(25));
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	/**
+	* Dial
+	*
+	* @description Dial with radial or linear interaction.
+	*
+	* @demo <span mt="dial"></span>
+	*
+	* @example
+	* var dial = mt.dial('#target')
+	*
+	*/
 	
 	var Dial = (function (_Interface) {
 	  function Dial() {
@@ -2823,7 +4059,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["scale", "value"];
 	
 	    var defaults = {
-	      size: [80, 80],
+	      size: [75, 75],
 	      interaction: "radial", // radial, vertical, horizontal
 	      mode: "relative", // absolute, relative
 	      scale: [0, 1],
@@ -2835,21 +4071,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.interaction = this.settings.interaction;
 	
+	    /**
+	    Absolute mode (dial value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	    @type {string}
+	    @example dial.mode = "absolute";
+	    */
 	    this.mode = this.settings.mode;
 	
 	    // this.step should eventually be get/set
 	    // updating it will update the _value step model
+	    /**
+	    The increment that the dial's value changes by.
+	    @type {number}
+	    @example dial.step = 5;
+	    */
 	    this.step = this.settings.step; // float
+	
+	    /**
+	    Lower limit of the dial's output range
+	    @type {number}
+	    @example dial.min = 100;
+	    */
+	    this.min = this.settings.min;
+	
+	    /**
+	    Upper limit of the dial's output range
+	    @type {number}
+	    @example dial.max = 1000;
+	    */
+	    this.max = this.settings.max;
 	
 	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
 	
-	    this.position = new Interaction.Drag(this.mode, this.interaction, [0, this.width], [0, this.height]);
+	    this.position = new Interaction.Handle(this.mode, this.interaction, [0, this.width], [this.height, 0]);
 	
 	    this.init();
 	
 	    this.value = this._value.value;
 	
 	    this.position.value = this._value.normalized;
+	
+	    this.previousAngle = false;
 	
 	    this.emit("change", this.value);
 	  }
@@ -2860,6 +4122,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        this.background = svg.create("circle");
+	        this.screw = svg.create("circle");
+	        this.handle = svg.create("path");
+	        this.handle2 = svg.create("path");
+	        this.handleFill = svg.create("path");
+	        this.handle2Fill = svg.create("path");
+	        this.handleLine = svg.create("path");
+	
+	        this.element.appendChild(this.background);
+	        this.element.appendChild(this.handle);
+	        this.element.appendChild(this.handle2);
+	        this.element.appendChild(this.handleFill);
+	        this.element.appendChild(this.handle2Fill);
+	        this.element.appendChild(this.handleLine);
+	        this.element.appendChild(this.screw);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.position.resize([0, this.width], [this.height, 0]);
+	
 	        var center = {
 	          x: this.width / 2,
 	          y: this.height / 2
@@ -2867,17 +4153,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        var diameter = Math.min(this.width, this.height);
 	
-	        this.background = svg.create("circle");
 	        this.background.setAttribute("cx", center.x);
 	        this.background.setAttribute("cy", center.y);
 	        this.background.setAttribute("r", diameter / 2 - diameter / 40);
-	        this.background.setAttribute("fill", "#e7e7e7");
 	
-	        this.screw = svg.create("circle");
 	        this.screw.setAttribute("cx", center.x);
 	        this.screw.setAttribute("cy", center.y);
 	        this.screw.setAttribute("r", diameter / 12);
-	        this.screw.setAttribute("fill", "#d18");
 	
 	        var value = this.value;
 	
@@ -2893,30 +4175,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var handlePath = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handlePoints.start, handlePoints.end);
 	        var handle2Path = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handle2Points.start, handle2Points.end);
 	
-	        this.handle = svg.create("path");
 	        this.handle.setAttribute("d", handlePath);
-	        this.handle.setAttribute("stroke", "#d18");
 	        this.handle.setAttribute("stroke-width", diameter / 20);
 	        this.handle.setAttribute("fill", "none");
 	
-	        this.handle2 = svg.create("path");
 	        this.handle2.setAttribute("d", handle2Path);
-	        this.handle2.setAttribute("stroke", "#d18");
 	        this.handle2.setAttribute("stroke-width", diameter / 20);
 	        this.handle2.setAttribute("fill", "none");
 	
 	        handlePath += " L " + center.x + " " + center.y;
 	
-	        this.handleFill = svg.create("path");
 	        this.handleFill.setAttribute("d", handlePath);
-	        this.handleFill.setAttribute("fill", "#d18");
 	        this.handleFill.setAttribute("fill-opacity", "0.3");
 	
 	        handle2Path += " L " + center.x + " " + center.y;
 	
-	        this.handle2Fill = svg.create("path");
 	        this.handle2Fill.setAttribute("d", handle2Path);
-	        this.handle2Fill.setAttribute("fill", "#d18");
 	        this.handle2Fill.setAttribute("fill-opacity", "0.3");
 	
 	        var arcEndingA = undefined;
@@ -2929,18 +4203,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var arcEndingX = center.x + Math.cos(arcEndingA) * (diameter / 2);
 	        var arcEndingY = center.y + Math.sin(arcEndingA) * (diameter / 2) * -1;
 	
-	        this.handleLine = svg.create("path");
 	        this.handleLine.setAttribute("d", "M " + center.x + " " + center.y + " L " + arcEndingX + " " + arcEndingY);
-	        this.handleLine.setAttribute("stroke", "#d18");
 	        this.handleLine.setAttribute("stroke-width", diameter / 20);
-	
-	        this.element.appendChild(this.background);
-	        this.element.appendChild(this.handle);
-	        this.element.appendChild(this.handle2);
-	        this.element.appendChild(this.handleFill);
-	        this.element.appendChild(this.handle2Fill);
-	        this.element.appendChild(this.handleLine);
-	        this.element.appendChild(this.screw);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.background.setAttribute("fill", this.colors.fill);
+	        this.screw.setAttribute("fill", this.colors.accent);
+	        this.handle.setAttribute("stroke", this.colors.accent);
+	        this.handle2.setAttribute("stroke", this.colors.accent);
+	        this.handleFill.setAttribute("fill", this.colors.accent);
+	        this.handle2Fill.setAttribute("fill", this.colors.accent);
+	        this.handleLine.setAttribute("stroke", this.colors.accent);
 	      }
 	    },
 	    render: {
@@ -2962,8 +4237,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          start: Math.PI * 2.5,
 	          end: math.clip(math.scale(value, 0.5, 1, Math.PI * 2.5, Math.PI * 1.5), Math.PI * 1.5, Math.PI * 2.5)
 	        };
-	
-	        console.log(handlePoints.start);
 	
 	        var handlePath = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handlePoints.start, handlePoints.end);
 	        var handle2Path = svg.arc(center.x, center.y, diameter / 2 - diameter / 40, handle2Points.start, handle2Points.end);
@@ -2994,9 +4267,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    click: {
 	      value: function click() {
-	        this.previousAngle = false;
+	        if (this.mode === "relative") {
+	          this.previousAngle = false;
+	        }
 	        this.position.anchor = this.mouse;
-	        this.position.value = this._value.normalized - 0.75;
+	        this.position.value = this._value.normalized;
 	        this.move();
 	      }
 	    },
@@ -3006,17 +4281,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          this.position.update(this.mouse);
 	
-	          var angle = this.position.value * Math.PI * 2 - Math.PI * 0.5;
+	          var angle = this.position.value * Math.PI * 2;
 	
 	          if (angle < 0) {
 	            angle += Math.PI * 2;
 	          }
 	
-	          if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
-	            if (this.previousAngle > 3) {
-	              angle = Math.PI * 2;
-	            } else {
-	              angle = 0;
+	          if (this.mode === "relative") {
+	            if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
+	              if (this.previousAngle > 3) {
+	                angle = Math.PI * 2;
+	              } else {
+	                angle = 0;
+	              }
+	            }
+	          } else {
+	            if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
+	              if (this.previousAngle > 3) {
+	                angle = Math.PI * 2;
+	              } else {
+	                angle = 0;
+	              }
 	            }
 	          }
 	          this.previousAngle = angle;
@@ -3034,6 +4319,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function release() {}
 	    },
 	    value: {
+	
+	      /**
+	      Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.
+	      @type {number}
+	      @example dial.value = 10;
+	      */
+	
 	      get: function () {
 	        return this._value.value;
 	      },
@@ -3044,8 +4336,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    normalized: {
+	
+	      /**
+	      Normalized value of the dial. It will automatically be adjust to fit min/max/step settings.
+	      @type {number}
+	      @example dial.normalized = 0.5;
+	      */
+	
 	      get: function () {
 	        return this._value.normalized;
+	      },
+	      set: function (v) {
+	        this._value.updateNormal(v);
 	      }
 	    }
 	  });
@@ -3054,149 +4356,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})(Interface);
 	
 	module.exports = Dial;
-
-/***/ },
-/* 25 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	"use strict";
-	
-	var math = _interopRequire(__webpack_require__(5));
-	
-	/*
-	  absolute/relative are property: mode
-	  radial/vertical/horizontal/2d are property: direction
-	
-	  plan :
-	
-	  if relative --
-	  NO on click, get value offset between current value and click value.
-	  NO on move, use click value - offset
-	  INSTEAD
-	  use delta -- bc vertical motion on dial is imoossible otherwise
-	
-	  but also allow to set sensitivity
-	
-	*/
-	
-	var Drag = exports.Drag = (function () {
-	  function Drag() {
-	    var mode = arguments[0] === undefined ? "absolute" : arguments[0];
-	    var direction = arguments[1] === undefined ? "vertical" : arguments[1];
-	    var xbound = arguments[2] === undefined ? [0, 100] : arguments[2];
-	    var ybound = arguments[3] === undefined ? [0, 100] : arguments[3];
-	
-	    _classCallCheck(this, Drag);
-	
-	    this.mode = mode;
-	    this.direction = direction;
-	    this.boundary = {
-	      min: {
-	        x: xbound[0],
-	        y: ybound[0]
-	      },
-	      max: {
-	        x: xbound[1],
-	        y: ybound[1]
-	      },
-	      center: {
-	        x: (xbound[1] - xbound[0]) / 2 + xbound[0],
-	        y: (ybound[1] - ybound[0]) / 2 + ybound[0]
-	      }
-	    };
-	    this.previous = 0;
-	    this.value = 0;
-	  }
-	
-	  _createClass(Drag, {
-	    anchor: {
-	      set: function (mouse) {
-	        this._anchor = this.convertPositionToValue(mouse);
-	      },
-	      get: function () {
-	        return this._anchor;
-	      }
-	    },
-	    update: {
-	      value: function update(mouse) {
-	        if (this.mode === "relative") {
-	          var increment = this.convertPositionToValue(mouse) - this.anchor;
-	          if (Math.abs(increment) > 0.5) {
-	            increment = 0;
-	          }
-	          this.anchor = mouse;
-	          this.value = this.value + increment;
-	        } else {
-	          this.value = this.convertPositionToValue(mouse);
-	        }
-	        //  this.value = math.clip(this.value,0,1);
-	      }
-	    },
-	    convertPositionToValue: {
-	      value: function convertPositionToValue(current) {
-	        switch (this.direction) {
-	          case "radial":
-	            var position = math.toPolar(current.x - this.boundary.center.x, current.y - this.boundary.center.y);
-	            // instead of using modulo, should simply adjust the lower values (0 - 0.5PI) to be higher (2PI - 2.5PI), then clip the numbers between 0.5 pi and 2.5 pi.
-	            //let angle = (position.angle + Math.PI*1.5) % (Math.PI*2);
-	            return position.angle / (Math.PI * 2);
-	          case "vertical":
-	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
-	          case "horizontal":
-	            return math.scale(current.x, this.boundary.min.x, this.boundary.max.x, 0, 1);
-	            //    case '2d':
-	
-	            //    break;
-	        }
-	      }
-	    }
-	  });
-	
-	  return Drag;
-	})();
-
-	/*
-	setup:
-	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
-	// dial.interaction.mode = 'relative'
-	// dial.interaction.direction = 'radial'
-
-	on click:
-	dial.interaction.anchor = this.mouse
-
-	on move:
-	dial.interaction.update(this.mouse);
-
-	console.log( dial.interaction.value ); should be a normalized value.
-
-
-	*/
-
-	/*
-	OLD
-	dial.interaction = new DragInteraction('radial','relative',this.width,this.height);
-	dial.interaction.mode = 'relative'
-	dial.interaction.direction = 'radial'
-	dial.interaction.origin = { x: this.mouse.x, y: this.mouse.y };
-	//dial.interaction.current = this.mouse
-
-	dial.interaction.update(this.mouse);
-
-	console.log( dial.interaction.value ); should be a normalized value.
-
-
-	*/
 
 /***/ },
 /* 26 */
@@ -3213,8 +4372,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(20);
+	var ButtonTemplate = __webpack_require__(21);
+	var touch = __webpack_require__(9);
 	
 	var PianoKey = (function (_ButtonTemplate) {
 	  function PianoKey() {
@@ -3225,6 +4386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
+	      mode: "button",
 	      value: 0
 	    };
 	
@@ -3256,10 +4418,54 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        var _this = this;
 	
+	        this.pad = svg.create("rect");
+	        this.element.appendChild(this.pad);
+	
+	        /* events */
+	
+	        if (!touch.exists) {
+	
+	          this.click = function () {
+	            _this.piano.interacting = true;
+	            _this.piano.paintbrush = !_this.state;
+	            _this.down(_this.piano.paintbrush);
+	          };
+	
+	          this.element.addEventListener("mouseover", function () {
+	            if (_this.piano.interacting) {
+	              _this.down(_this.piano.paintbrush);
+	            }
+	          });
+	
+	          this.move = function () {
+	            if (_this.piano.interacting) {
+	              _this.bend();
+	            }
+	          };
+	
+	          this.release = function () {
+	            _this.piano.interacting = false;
+	            _this.up();
+	          };
+	          this.element.addEventListener("mouseup", function () {
+	            if (_this.piano.interacting) {
+	              _this.up();
+	            }
+	          });
+	          this.element.addEventListener("mouseout", function () {
+	            if (_this.piano.interacting) {
+	              _this.up();
+	            }
+	          });
+	        }
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
 	        //let radius = Math.min(this.width,this.height) / 5;
 	        var radius = 5;
 	
-	        this.pad = svg.create("rect");
 	        this.pad.setAttribute("x", 1);
 	        this.pad.setAttribute("y", 1);
 	        if (this.width > 2) {
@@ -3274,49 +4480,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.pad.setAttribute("rx", radius);
 	        this.pad.setAttribute("ry", radius);
-	
-	        this.element.appendChild(this.pad);
-	
-	        this.element.addEventListener("mouseover", function () {
-	          if (_this.piano.interacting) {
-	            _this.turnOn();
-	            _this.piano.drag(_this.note, true);
-	          }
-	        });
-	        this.element.addEventListener("mouseout", function () {
-	          if (_this.piano.interacting) {
-	            _this.turnOff();
-	            _this.piano.drag(_this.note, false);
-	          }
-	        });
-	        this.element.addEventListener("mouseup", function () {
-	          if (_this.piano.interacting) {
-	            _this.turnOff();
-	            _this.piano.drag(_this.note, false);
-	          }
-	        });
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors[this.color]);
-	          //  this.pad.setAttribute('fill', '#e7e7e7');
 	        } else {
 	          this.pad.setAttribute("fill", "#d18");
 	        }
 	      }
-	
-	      //  click() {
-	      //  this.turnOn();
-	      //  this.emit('change',this.state);
-	      //}
-	
 	    }
 	  });
 	
 	  return PianoKey;
 	})(ButtonTemplate);
+	
+	/**
+	* Piano
+	*
+	* @description Piano keyboard interface
+	*
+	* @demo <div mt="piano"></div>
+	*
+	* @example
+	* var piano = mt.piano('#target')
+	*
+	*/
+	
+	/*
+	Properties:
+	
+	Methods:
+	setRange()
+	toggleKey(index,value)
+	toggleKeys(array)
+	*/
 	
 	var Piano = (function (_Interface) {
 	  function Piano() {
@@ -3327,22 +4526,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [500, 150],
 	      target: false,
-	      value: 0
+	      value: 0,
+	      lowNote: 24,
+	      highNote: 60
 	    };
 	
 	    _get(Object.getPrototypeOf(Piano.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this.keyPattern = ["w", "b", "w", "b", "w", "w", "b", "w", "b", "w", "b", "w"];
 	
+	    this.paintbrush = false;
+	
 	    this.range = {
-	      low: 24,
-	      high: 60
+	      low: this.settings.lowNote,
+	      high: this.settings.highNote
 	    };
 	
 	    this.range.size = this.range.high - this.range.low;
 	
 	    this.keys = [];
-	    this.active = -1;
+	    //  this.active = -1;
+	
+	    this.toggleTo = false;
 	
 	    this.init();
 	    this.render();
@@ -3365,6 +4570,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
+	        this.keys = [];
+	
+	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	
+	          var container = document.createElement("span");
+	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	
+	          var key = new PianoKey(container, {
+	            component: true,
+	            note: i + this.range.low,
+	            color: this.keyPattern[scaleIndex]
+	          }, this.keyChange.bind(this, i + this.range.low));
+	
+	          key.piano = this;
+	          //  key.scaleIndex =
+	
+	          if (touch.exists) {
+	            key.pad.index = i;
+	            key.preClick = key.preMove = key.preRelease = function () {};
+	            key.click = key.move = key.release = function () {};
+	            key.preTouch = key.preTouchMove = key.preTouchRelease = function () {};
+	            key.touch = key.touchMove = key.touchRelease = function () {};
+	          }
+	
+	          this.keys.push(key);
+	          this.element.appendChild(container);
+	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
 	        var keyX = 0;
 	
 	        var keyPositions = [];
@@ -3375,68 +4616,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
 	          var nextScaleIndex = (i + 1 + this.range.low) % this.keyPattern.length;
-	          if (this.keyPattern[scaleIndex] === "w" && this.keyPattern[nextScaleIndex] === "w") {
+	          if (i + 1 + this.range.low >= this.range.high) {
+	            keyX += 1;
+	          } else if (this.keyPattern[scaleIndex] === "w" && this.keyPattern[nextScaleIndex] === "w") {
 	            keyX += 1;
 	          } else {
 	            keyX += 0.5;
 	          }
 	        }
+	        var keysWide = keyX;
 	
 	        var padding = this.width / 40;
-	        var buttonWidth = (this.width - padding * 2) / keyX;
+	        var buttonWidth = (this.width - padding * 2) / keysWide;
 	        var buttonHeight = (this.height - padding * 2) / 2;
 	
-	        for (var i = 0; i < this.range.high - this.range.low; i++) {
+	        for (var i = 0; i < this.keys.length; i++) {
 	
-	          var container = document.createElement("span");
-	          var scaleIndex = (i + this.range.low) % this.keyPattern.length;
+	          var container = this.keys[i].parent;
+	          //  let scaleIndex = this.keys[i].index;
 	          container.style.position = "absolute";
 	          container.style.left = keyPositions[i] * buttonWidth + padding + "px";
-	          if (this.keyPattern[scaleIndex] === "w") {
+	          if (this.keys[i].color === "w") {
 	            container.style.top = buttonHeight + padding + "px";
 	          } else {
 	            container.style.top = padding + "px";
 	          }
 	
-	          var key = new PianoKey(container, {
-	            size: [buttonWidth, buttonHeight],
-	            component: true,
-	            note: i + this.range.low,
-	            color: this.keyPattern[scaleIndex]
-	          }, this.keyChange.bind(this, i + this.range.low));
-	
-	          key.piano = this;
-	
-	          this.keys.push(key);
-	          this.element.appendChild(container);
+	          this.keys[i].resize(buttonWidth, buttonHeight);
 	        }
 	      }
-	    },
-	    keyPress: {
-	
-	      //  update(index,v) {
-	      //    this.active = index;
-	
-	      //  this.buttons[i].turnOn();
-	      //  this.buttons[i].turnOff();
-	
-	      //  this.emit('change',this.active);
-	      //}
-	
-	      value: function keyPress() {}
-	    },
-	    keyRelease: {
-	      value: function keyRelease() {}
 	    },
 	    keyChange: {
 	      value: function keyChange(i, v) {
 	        // emit data for any key turning on/off
-	        console.log(this, i, v);
-	        if (v) {
-	          this.interacting = true;
-	        } else {
-	          this.interacting = false;
-	        }
+	        // i is the note index
+	        // v is whether it is on or off
+	        // console.log(this,i,v);
+	        this.emit("change", i, v);
+	        // rename to (note,on)
 	      }
 	    },
 	    drag: {
@@ -3446,6 +4663,95 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {}
+	    },
+	    addTouchListeners: {
+	      value: function addTouchListeners() {
+	        var _this = this;
+	
+	        this.preClick = this.preMove = this.preRelease = function () {};
+	        this.click = this.move = this.release = function () {};
+	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
+	        this.touch = this.touchMove = this.touchRelease = function () {};
+	
+	        this.currentElement = false;
+	
+	        this.element.addEventListener("touchstart", function (e) {
+	          console.log("touchstart");
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var key = _this.keys[element.index];
+	          _this.paintbrush = !key.state;
+	          key.down(_this.paintbrush);
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchmove", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var key = _this.keys[element.index];
+	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement) {
+	              var pastKey = _this.keys[_this.currentElement];
+	              pastKey.up();
+	            }
+	            key.down(_this.paintbrush);
+	          } else {
+	            key.bend();
+	          }
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchend", function (e) {
+	          // no touches to calculate because none remaining
+	          var key = _this.keys[_this.currentElement];
+	          key.up();
+	          _this.interacting = false;
+	          _this.currentElement = false;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	      }
+	    },
+	    setRange: {
+	
+	      /**
+	      Define the pitch range (lowest and highest note) of the piano keyboard.
+	      @param low {number} MIDI note value of the lowest note on the keyboard
+	      @param high {number} MIDI note value of the highest note on the keyboard
+	      */
+	
+	      value: function setRange(low, high) {
+	        this.range.low = low;
+	        this.range.high = high;
+	        this.empty();
+	        this.buildInterface();
+	      }
+	    },
+	    toggleKey: {
+	
+	      /**
+	      Turn a key on or off using its MIDI note value;
+	      @param note {number} MIDI note value of the key to change
+	      @param on {boolean} Whether the note should turn on or off
+	      */
+	
+	      value: function toggleKey(note, on) {
+	        this.keys[note - this.range.low].flip(on);
+	      }
+	    },
+	    toggleIndex: {
+	
+	      /**
+	      Turn a key on or off using its key index on the piano interface.
+	      @param index {number} Index of the key to change
+	      @param on {boolean} Whether the note should turn on or off
+	      */
+	
+	      value: function toggleIndex(index, on) {
+	        this.keys[index].flip(on);
+	      }
 	    }
 	  });
 	
@@ -3454,17 +4760,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Piano;
 	
-	// turn on "hover" for other keys
-
-	// if mouse up, then turn off hover for other keys
-
-	/*  if (!this.state) {
-	    this.pad.setAttribute('fill', '#e7e7e7');
-	    this.pad.setAttribute('stroke', '#ccc');
-	  } else {
-	    this.pad.setAttribute('fill', '#d18');
-	    this.pad.setAttribute('stroke', '#d18');
-	  } */
+	// loop through and render the keys?
 
 /***/ },
 /* 27 */
@@ -3481,11 +4777,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(20);
+	var ButtonTemplate = __webpack_require__(21);
 	var MatrixModel = __webpack_require__(28);
-	var CounterModel = __webpack_require__(29);
+	var CounterModel = __webpack_require__(31);
 	//let Time = require('../core/time');
+	var touch = __webpack_require__(9);
 	
 	var MatrixCell = (function (_ButtonTemplate) {
 	  function MatrixCell() {
@@ -3496,6 +4794,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [80, 80],
 	      target: false,
+	      mode: "toggle",
 	      value: 0
 	    };
 	
@@ -3504,6 +4803,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.index = this.settings.index;
 	    this.row = this.settings.row;
 	    this.column = this.settings.column;
+	
+	    this.interacting = false;
+	    this.paintbrush = false;
 	
 	    this.init();
 	    this.render();
@@ -3528,6 +4830,55 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	
 	        this.pad = svg.create("rect");
+	        this.element.appendChild(this.pad);
+	
+	        this.sizeInterface();
+	
+	        /* events */
+	
+	        if (!touch.exists) {
+	
+	          this.click = function () {
+	            _this.matrix.interacting = true;
+	            _this.matrix.paintbrush = !_this.state;
+	            _this.down(_this.matrix.paintbrush);
+	          };
+	          this.pad.addEventListener("mouseover", function () {
+	            if (_this.matrix.interacting) {
+	              _this.down(_this.matrix.paintbrush);
+	            }
+	          });
+	
+	          this.move = function () {};
+	          this.pad.addEventListener("mousemove", function (e) {
+	            if (_this.matrix.interacting) {
+	              if (!_this.offset) {
+	                _this.offset = dom.findPosition(_this.element);
+	              }
+	              _this.mouse = dom.locateMouse(e, _this.offset);
+	              _this.bend();
+	            }
+	          });
+	
+	          this.release = function () {
+	            _this.matrix.interacting = false;
+	          };
+	          this.pad.addEventListener("mouseup", function () {
+	            if (_this.matrix.interacting) {
+	              _this.up();
+	            }
+	          });
+	          this.pad.addEventListener("mouseout", function () {
+	            if (_this.matrix.interacting) {
+	              _this.up();
+	            }
+	          });
+	        }
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
 	        this.pad.setAttribute("x", 1);
 	        this.pad.setAttribute("y", 1);
 	        if (this.width > 2) {
@@ -3542,31 +4893,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        //this.pad.setAttribute('height', this.height - 2);
 	        this.pad.setAttribute("fill", "#e7e7e7");
-	
-	        this.element.appendChild(this.pad);
-	
-	        this.element.addEventListener("mouseover", function () {
-	          if (_this.matrix.interacting) {
-	            console.log(_this.matrix.pen);
-	            _this.state = _this.matrix.model.set.cell(_this.row, _this.column, _this.matrix.pen);
-	            _this.matrix.model.format();
-	            _this.matrix.drag(_this.index, true);
-	          }
-	        });
-	        // keep for button modes, though...
-	        /*    this.element.addEventListener('mouseout', () => {
-	              if (this.matrix.interacting) {
-	            //    this.turnOff();
-	                this.matrix.drag(this.index,false);
-	              }
-	            */
-	        this.element.addEventListener("mouseup", function () {
-	          if (_this.matrix.interacting) {
-	            _this.matrix.interacting = false;
-	            //  this.turnOff();
-	            //    this.matrix.drag(this.index,false);
-	          }
-	        });
 	      }
 	    },
 	    render: {
@@ -3577,65 +4903,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.pad.setAttribute("fill", "#d18");
 	        }
 	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.flip();
-	        this.matrix.pen = this.state;
-	        this.emit("change", true);
-	        this.matrix.model.format();
-	      }
-	    },
-	    flip: {
-	      value: function flip() {
-	        this.matrix.model.toggle.cell(this.row, this.column);
-	        //console.log('STATE: '+this.state);
-	      }
-	    },
-	    release: {
-	      value: function release() {}
 	    }
 	  });
 	
 	  return MatrixCell;
 	})(ButtonTemplate);
 	
-	var Matrix = (function (_Interface) {
-	  function Matrix() {
-	    _classCallCheck(this, Matrix);
+	/**
+	* Sequencer
+	*
+	* @description Grid of buttons with built-in step sequencer.
+	*
+	* @demo <div mt="sequencer" style="width:400px;height:200px;"></div>
+	*
+	* @example
+	* var sequencer = mt.sequencer('#target')
+	*
+	* @example
+	* var sequencer = mt.sequencer('#target',{
+	*  'size': [400,200],
+	*  'mode': 'toggle',
+	*  'rows': 5,
+	*  'columns': 10
+	*})
+	*
+	*/
+	
+	var Sequencer = (function (_Interface) {
+	  function Sequencer() {
+	    _classCallCheck(this, Sequencer);
 	
 	    var options = ["value"];
 	
 	    var defaults = {
 	      size: [400, 200],
 	      target: false,
-	      value: 0
+	      value: 0,
+	      mode: "toggle",
+	      rows: 5,
+	      columns: 10
 	    };
 	
-	    _get(Object.getPrototypeOf(Matrix.prototype), "constructor", this).call(this, arguments, options, defaults);
+	    _get(Object.getPrototypeOf(Sequencer.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.columns = 10;
-	    this.rows = 5;
-	
-	    this.cells = [];
 	    this.active = -1;
 	
-	    this.model = new MatrixModel(this.rows, this.columns);
-	    this.model.ui = this;
+	    this.mode = this.settings.mode;
 	
-	    this.model.format();
+	    /**
+	    A Matrix model containing methods for manipulating the sequencer's array of values.
+	    @type {Matrix}
+	    */
+	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);
+	    this.matrix.ui = this;
 	
-	    //  this.sequence = { value: -1 };
-	    this.sequence = new CounterModel(0, this.columns);
-	    // this.pulse = new Time.Interval();
+	    /**
+	    A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.
+	    @type {Counter}
+	    */
+	    this.stepper = new CounterModel(0, this.columns);
 	
 	    this.init();
-	    //  this.render();
 	  }
 	
-	  _inherits(Matrix, _Interface);
+	  _inherits(Sequencer, _Interface);
 	
-	  _createClass(Matrix, {
+	  _createClass(Sequencer, {
 	    buildFrame: {
 	      value: function buildFrame() {
 	        this.element = document.createElement("div");
@@ -3649,31 +4982,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        var cellWidth = this.width / this.columns;
-	        var cellHeight = this.height / this.rows;
+	        this.cells = [];
+	        for (var i = 0; i < this.matrix.length; i++) {
 	
-	        for (var i = 0; i < this.model.length; i++) {
-	
-	          var _location = this.model.locate(i);
-	          // {row,col}
+	          var _location = this.matrix.locate(i);
+	          // returns {row,col}
 	
 	          var container = document.createElement("span");
 	          container.style.position = "absolute";
-	          container.style.left = _location.column * cellWidth + "px";
-	          container.style.top = _location.row * cellHeight + "px";
 	
 	          var cell = new MatrixCell(container, {
-	            size: [cellWidth, cellHeight],
 	            component: true,
 	            index: i,
 	            row: _location.row,
-	            column: _location.column
+	            column: _location.column,
+	            mode: this.mode
 	          }, this.keyChange.bind(this, i));
 	
 	          cell.matrix = this;
+	          if (touch.exists) {
+	            cell.pad.index = i;
+	            cell.preClick = cell.preMove = cell.preRelease = function () {};
+	            cell.click = cell.move = cell.release = function () {};
+	            cell.preTouch = cell.preTouchMove = cell.preTouchRelease = function () {};
+	            cell.touch = cell.touchMove = cell.touchRelease = function () {};
+	          }
 	
 	          this.cells.push(cell);
 	          this.element.appendChild(container);
+	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var cellWidth = this.width / this.columns;
+	        var cellHeight = this.height / this.rows;
+	
+	        for (var i = 0; i < this.cells.length; i++) {
+	          var container = this.cells[i].parent;
+	          container.style.left = this.cells[i].column * cellWidth + "px";
+	          container.style.top = this.cells[i].row * cellHeight + "px";
+	          this.cells[i].resize(cellWidth, cellHeight);
 	        }
 	      }
 	    },
@@ -3681,50 +5035,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function update() {
 	        var _this = this;
 	
-	        this.model.iterate(function (r, c, i) {
-	          if (_this.model.pattern[r][c] > 0) {
+	        this.matrix.iterate(function (r, c, i) {
+	          if (_this.matrix.pattern[r][c] > 0) {
 	            _this.cells[i].state = true;
 	          } else {
 	            _this.cells[i].state = false;
 	          }
-	          /*  this.cells[i].pad.setAttribute('stroke','#fff');
-	            this.cells[i].pad.setAttribute('stroke-width','6');
-	          } else {
-	            this.cells[i].pad.setAttribute('stroke','none');
-	          } */
 	        });
 	      }
 	    },
-	    keyPress: {
-	      value: function keyPress() {}
-	    },
-	    keyRelease: {
-	      value: function keyRelease() {}
-	    },
 	    keyChange: {
-	      value: function keyChange(i, v) {
+	      value: function keyChange(note, value) {
 	        // emit data for any key turning on/off
-	        if (v) {
-	          this.interacting = true;
-	        } else {
-	          this.interacting = false;
-	        }
-	      }
-	    },
-	    drag: {
-	      value: function drag(note, on) {
-	        this.emit("change", note, on);
+	        // i is the note index
+	        // v is whether it is on or off
+	        var cell = this.matrix.locate(note);
+	        this.matrix.set.cell(cell.column, cell.row, value);
+	        this.emit("change", note, value);
+	        // rename to (note,on)
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        var _this = this;
 	
-	        if (this.sequence.value >= 0) {
-	          this.model.iterate(function (r, c, i) {
-	            if (c === _this.sequence.value) {
-	              _this.cells[i].pad.setAttribute("stroke", "#fff");
-	              _this.cells[i].pad.setAttribute("stroke-width", "6");
+	        if (this.stepper.value >= 0) {
+	          this.matrix.iterate(function (r, c, i) {
+	            if (c === _this.stepper.value) {
+	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
+	              _this.cells[i].pad.setAttribute("stroke-width", "5");
+	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
 	            } else {
 	              _this.cells[i].pad.setAttribute("stroke", "none");
 	            }
@@ -3733,6 +5073,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    start: {
+	
+	      /**
+	      Start sequencing
+	      */
+	
 	      value: function start() {
 	        if (!this.invertal) {
 	          this.next();
@@ -3741,44 +5086,154 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    stop: {
+	
+	      /**
+	      Stop sequencing
+	      */
+	
 	      value: function stop() {
 	        clearInterval(this.interval);
 	        this.interval = false;
 	      }
 	    },
 	    next: {
+	
+	      /**
+	      Manually jump to the next column and trigger the 'change' event. The "next" column is determined by your mode of sequencing.
+	      */
+	
 	      value: function next() {
-	        //this.sequence.next();
-	        //  this.sequence.value = (this.sequence.value + 1) % this.columns;
-	        this.sequence.next();
-	        this.emit("change", this.model.column(this.sequence.value));
+	        this.stepper.next();
+	        this.emit("change", this.matrix.column(this.stepper.value));
 	        this.render();
 	      }
-	      // introduce counter model and timing
+	    },
+	    addTouchListeners: {
+	      value: function addTouchListeners() {
+	        var _this = this;
 	
+	        this.preClick = this.preMove = this.preRelease = function () {};
+	        this.click = this.move = this.release = function () {};
+	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
+	        this.touch = this.touchMove = this.touchRelease = function () {};
+	
+	        this.currentElement = false;
+	
+	        this.element.addEventListener("touchstart", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var cell = _this.cells[element.index];
+	          _this.paintbrush = !cell.state;
+	          cell.down(_this.paintbrush);
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchmove", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var cell = _this.cells[element.index];
+	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement >= 0) {
+	              var pastCell = _this.cells[_this.currentElement];
+	              pastCell.up();
+	            }
+	            cell.down(_this.paintbrush);
+	          } else {
+	            cell.bend();
+	          }
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchend", function (e) {
+	          // no touches to calculate because none remaining
+	          var cell = _this.cells[_this.currentElement];
+	          cell.up();
+	          _this.interacting = false;
+	          _this.currentElement = false;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	      }
+	    },
+	    rows: {
+	
+	      /**
+	      Number of rows in the sequencer
+	      @type {number}
+	      */
+	
+	      get: function () {
+	        return this.matrix.rows;
+	      },
+	      set: function (v) {
+	        this.matrix.rows = v;
+	        this.empty();
+	        this.buildInterface();
+	        this.update();
+	      }
+	    },
+	    columns: {
+	
+	      /**
+	      Number of columns in the sequencer
+	      @type {number}
+	      */
+	
+	      get: function () {
+	        return this.matrix.columns;
+	      },
+	      set: function (v) {
+	        this.matrix.columns = v;
+	        this.stepper.max = v;
+	        this.empty();
+	        this.buildInterface();
+	        this.update();
+	      }
 	    }
 	  });
 	
-	  return Matrix;
+	  return Sequencer;
 	})(Interface);
 	
-	module.exports = Matrix;
-	
-	// turn on "hover" for other keys
-
-	// if mouse up, then turn off hover for other keys
+	module.exports = Sequencer;
 
 /***/ },
 /* 28 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	//import math from '../util/math';
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Sequence = _interopRequire(__webpack_require__(29));
+	
+	// For the tutorial, looking at
+	
+	//Pattern section:
+	// .create(), .rows, .columns,
+	// .pattern, .length, .formatAsText(), .log(),
+	// .locate(i), .indexOf(c,r)
+	// row(), column() (returns contents of row or colum)
+	
+	//Control section:
+	// toggle x3
+	// set x4
+	// rotate x3
+	// populate x3
+	// erase x3
+	
+	// should some version of this have a float value for each cell?
+	// could be like a mirror .pattern that has values. by default, everything is 1, but could be set...
+	// not a good way to do that on interface, but as a model it would be nice...
+	// for .formatAsText(), could multiply by 100 and floor, so each cell is an int from 0 to 9
 	
 	var Matrix = (function () {
 	  function Matrix(rows, columns) {
@@ -3786,70 +5241,187 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _classCallCheck(this, Matrix);
 	
-	    // should also have ability to create with an existing matrix
-	    this.rows = rows;
-	    this.columns = columns;
+	    // should also have ability to create using an existing matrix (2d array)
 	    this.pattern = [];
 	    this.create(rows, columns);
 	
 	    this.toggle = {
-	      cell: function (row, column) {
+	      cell: function (column, row) {
 	        _this.pattern[row][column] = !_this.pattern[row][column]; // math.invert(this.pattern[row][column]);
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	        return _this.pattern[row][column];
 	      },
 	      all: function () {
 	        _this.iterate(function (r, c) {
-	          _this.toggle.cell(r, c);
+	          _this.toggle.cell(c, r);
 	        });
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      },
 	      row: function (row) {
 	        for (var i = 0; i < _this.columns; i++) {
-	          _this.toggle.cell(row, i);
+	          _this.toggle.cell(i, row);
 	        }
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      },
 	      column: function (column) {
 	        for (var i = 0; i < _this.rows; i++) {
-	          _this.toggle.cell(i, column);
+	          _this.toggle.cell(column, i);
 	        }
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      }
 	    };
 	
 	    this.set = {
-	      cell: function (row, column, value) {
+	      cell: function (column, row, value) {
 	        _this.pattern[row][column] = value;
-	        return _this.pattern[row][column];
-	      } };
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      all: function (values) {
+	        // set the whole matrix using a 2d array as input
+	        // this should also resize the array?
+	        _this.pattern = values;
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      row: function (row, values) {
+	        // set a row using an array as input
+	        _this.pattern[row] = values;
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      column: function (column, values) {
+	        // set a column using an array as input
+	        _this.pattern.forEach(function (row, i) {
+	          _this.pattern[i][column] = values[i];
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      }
+	    };
 	
 	    this.rotate = {
+	      //should eventually do (amountX, amountY) here
+	      // could just use a loop and this.rotate.row(i,amountX);
 	      all: function (amount) {
+	        if (!amount && amount !== 0) {
+	          amount = 1;
+	        }
+	        amount %= _this.pattern[0].length;
+	        if (amount < 0) {
+	          amount = _this.pattern[0].length + amount;
+	        }
 	        for (var i = 0; i < _this.rows; i++) {
 	          var cut = _this.pattern[i].splice(_this.pattern[i].length - amount, amount);
 	          _this.pattern[i] = cut.concat(_this.pattern[i]);
 	        }
-	        _this.format();
-	        _this.ui.update();
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
 	      },
 	      row: function (row, amount) {
+	        if (!amount && amount !== 0) {
+	          amount = 1;
+	        }
+	        amount %= _this.pattern[0].length;
+	        if (amount < 0) {
+	          amount = _this.pattern[0].length + amount;
+	        }
 	        var cut = _this.pattern[row].splice(_this.pattern[row].length - amount, amount);
 	        _this.pattern[row] = cut.concat(_this.pattern[row]);
-	        _this.format();
-	        _this.ui.update();
-	      } };
-	
-	    this.populate = {
-	      all: function () {},
-	      row: function () {},
-	      column: function () {}
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      column: function (column, amount) {
+	        if (!amount && amount !== 0) {
+	          amount = 1;
+	        }
+	        amount %= _this.pattern.length;
+	        if (amount < 0) {
+	          amount = _this.pattern.length + amount;
+	        }
+	        var proxy = [];
+	        _this.pattern.forEach(function (row) {
+	          proxy.push(row[column]);
+	        });
+	        var cut = proxy.splice(proxy.length - amount, amount);
+	        proxy = cut.concat(proxy);
+	        _this.pattern.forEach(function (row, i) {
+	          row[column] = proxy[i];
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      }
 	    };
 	
+	    // the idea behind populate is to be able to set a whole row or column to 0 or 1
+	    // IF the value is a float, such as 0.7, then it would become a probability
+	    // so populate(0.7) would give each cell a 70% chance of being 1
+	    this.populate = {
+	      all: function (odds) {
+	        odds = new Sequence(odds);
+	        _this.iterate(function (r, c) {
+	          _this.pattern[r][c] = math.coin(odds.next());
+	        });
+	        // This could be used so that each row has same odds pattern, even if row length is not divisibly by sequence length.
+	        //,() => {
+	        //  odds.pos = -1;
+	        // }
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      row: function () {
+	        var row = arguments[0] === undefined ? 0 : arguments[0];
+	        var odds = arguments[1] === undefined ? 0.5 : arguments[1];
+	
+	        odds = new Sequence(odds);
+	        _this.pattern[row].forEach(function (cell, i) {
+	          _this.pattern[row][i] = math.coin(odds.next());
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      },
+	      column: function () {
+	        var column = arguments[0] === undefined ? 0 : arguments[0];
+	        var odds = arguments[1] === undefined ? 0.5 : arguments[1];
+	
+	        odds = new Sequence(odds);
+	        _this.pattern.forEach(function (row, i) {
+	          _this.pattern[i][column] = math.coin(odds.next());
+	        });
+	        if (_this.ui) {
+	          _this.ui.update();
+	        }
+	      }
+	    };
+	
+	    // essentiall populate(0) so i'm not sure if this is necessary but is nice
 	    this.erase = {
-	      all: function () {},
-	      row: function () {},
-	      column: function () {}
+	      all: function () {
+	        _this.set.all(0);
+	      },
+	      row: function (row) {
+	        _this.set.row(row, 0);
+	      },
+	      column: function (column) {
+	        _this.set.column(column, 0);
+	      }
 	    };
 	
 	    // end constructor
@@ -3860,11 +5432,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function create(rows, columns) {
 	        var _this = this;
 	
-	        this.rows = rows;
-	        this.columns = columns;
 	        this.pattern = [];
-	        for (var row = 0; row < this.rows; row++) {
-	          this.pattern.push([]);
+	        for (var row = 0; row < rows; row++) {
+	          var arr = new Array(columns);
+	          this.pattern.push(arr);
 	        }
 	        this.iterate(function (r, c) {
 	          _this.pattern[r][c] = false;
@@ -3885,8 +5456,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    format: {
-	      value: function format() {
+	    formatAsText: {
+	      value: function formatAsText() {
 	        var _this = this;
 	
 	        var patternString = "";
@@ -3895,8 +5466,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }, function () {
 	          patternString += "\n";
 	        });
-	        console.log(patternString);
 	        return patternString;
+	      }
+	    },
+	    log: {
+	      value: function log() {
+	        console.log(this.formatAsText());
 	      }
 	    },
 	    update: {
@@ -3911,7 +5486,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    locate: {
 	      value: function locate(index) {
-	        // returns row/col of cell
+	        // returns row and column of cell by index
 	        return {
 	          row: ~ ~(index / this.columns),
 	          column: index % this.columns
@@ -3921,7 +5496,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    indexOf: {
 	      value: function indexOf(row, column) {
 	        return column + row * this.columns;
-	        // returns row/col of cell
+	        // returns index of cell by row and column
 	      }
 	    },
 	    row: {
@@ -3960,31 +5535,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	          data.push(this.pattern[i][column] ? 1 : 0);
 	        }
 	        return data;
+	      })
+	    },
+	    rows: {
+	      get: function () {
+	        return this.pattern.length;
+	      },
+	      set: function (v) {
+	        var _this = this;
+	
+	        var previous = this.pattern.slice(0);
+	        this.create(v, this.columns);
+	        this.iterate(function (r, c) {
+	          if (previous[r] && previous[r][c]) {
+	            _this.pattern[r][c] = previous[r][c];
+	          }
+	        });
 	      }
+	    },
+	    columns: {
+	      get: function () {
+	        return this.pattern[0].length;
+	      },
+	      set: function (v) {
+	        var _this = this;
 	
-	      /* brainstorm:
-	        ** rotate single row or column
-	        ** randomly fill row with some probability
-	          populateRow([0.7,0.1]) will fill the first space 70% of time, second space 10% of time, third space 70%, etc...
-	        invert row?
-	        erase row or column
-	        add/remove row or column
-	        toggle random cell
-	          performance:
-	        start sequencing
-	        stop sequencing
-	        sequencing modes -- direction w/ step, drunk, random, in pattern
-	        sequence rows too
-	        loop portion
-	        jump to column index
-	          matrix1.model.row[0].erase()
-	        vs
-	        matrix1.model.eraseRow(0)
-	        vs
-	        matrix1.model.erase.row(0)
-	        */
-	
-	      )
+	        var previous = this.pattern.slice(0);
+	        this.create(this.rows, v);
+	        this.iterate(function (r, c) {
+	          if (previous[r] && previous[r][c]) {
+	            _this.pattern[r][c] = previous[r][c];
+	          }
+	        });
+	      }
 	    }
 	  });
 	
@@ -3992,16 +5575,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Matrix;
-	
-	/*    all: () => {
-	     },
-	    row: () => {
-	     },
-	    column: () => {
-	     } */
-
-	/*    column: () => {
-	 } */
 
 /***/ },
 /* 29 */
@@ -4017,292 +5590,175 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Counter = (function () {
-	  function Counter(min, max, mode, value) {
-	    _classCallCheck(this, Counter);
+	var Drunk = _interopRequire(__webpack_require__(30));
 	
-	    this.min = min || 0;
-	    this.max = max || 10;
-	    this.value = value || this.min - 1;
-	    this.mode = mode || "up";
-	  }
+	var Sequence = (function () {
+	    function Sequence() {
+	        var sequence = arguments[0] === undefined ? [0, 10, 20, 30] : arguments[0];
+	        var mode = arguments[1] === undefined ? "up" : arguments[1];
+	        var position = arguments[2] === undefined ? false : arguments[2];
 	
-	  _createClass(Counter, {
-	    mode: {
-	      set: function (mode) {
+	        _classCallCheck(this, Sequence);
+	
+	        this.values = sequence;
+	        if (!Array.isArray(this.values)) {
+	            this.values = [this.values];
+	        }
 	        this._mode = mode;
-	        this.next = this[mode];
-	      },
-	      get: function () {
-	        return this._mode;
-	      }
-	    },
-	    up: {
-	      value: function up() {
-	        this.value++;
-	        if (this.value >= this.max) {
-	          this.value = this.min;
-	        }
-	        return this.value;
-	      }
-	    },
-	    down: {
-	      value: function down() {
-	        this.value--;
-	        if (this.value < this.min) {
-	          this.value = this.max;
-	        }
-	        return this.value;
-	      }
-	    },
-	    random: {
-	      value: function random() {
-	        this.value = math.ri(this.min, this.max);
-	        return this.value;
-	      }
-	    },
-	    drunk: {
-	      value: function drunk() {
-	        this.value += math.pick(-1, 1);
-	        if (this.value < this.min) {
-	          this.value = this.max;
-	        }
-	        if (this.value >= this.max) {
-	          this.value = this.min;
-	        }
-	        return this.value;
-	      }
-	    }
-	  });
+	        this.position = position;
 	
-	  return Counter;
+	        this.drunkWalk = new Drunk(0, this.values.length - 1);
+	
+	        this.startValues = {
+	            up: 0,
+	            down: this.values.length - 1,
+	            drunk: ~ ~(this.values.length / 2),
+	            random: math.ri(this.values.length)
+	        };
+	
+	        if (this.position !== false) {
+	            this.next = this[this._mode];
+	        } else {
+	            this.next = this.first;
+	        }
+	    }
+	
+	    _createClass(Sequence, {
+	        mode: {
+	            get: function () {
+	                return this._mode;
+	            },
+	            set: function (mode) {
+	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
+	                    console.error("The only modes currently allowed are: up, down, random, drunk");
+	                    return;
+	                }
+	                this._mode = mode;
+	                if (this.position) {
+	                    this.next = this[this._mode];
+	                }
+	            }
+	        },
+	        value: {
+	            get: function () {
+	                return this.values[this.position];
+	            },
+	            set: function (v) {
+	                this.position = this.values.indexOf(v);
+	            }
+	        },
+	        first: {
+	            value: function first() {
+	                if (this.position !== false) {
+	                    this.next = this[this._mode];
+	                    return this.next();
+	                }
+	                this.position = this.startValues[this._mode];
+	                this.next = this[this._mode];
+	                return this.value;
+	            }
+	        },
+	        up: {
+	            value: function up() {
+	                this.position++;
+	                this.position %= this.values.length;
+	                return this.value;
+	            }
+	        },
+	        down: {
+	            value: function down() {
+	                this.position--;
+	                this.position %= this.values.length;
+	                return this.value;
+	            }
+	        },
+	        random: {
+	            value: function random() {
+	                this.position = math.ri(0, this.values.length);
+	                return this.value;
+	            }
+	        },
+	        drunk: {
+	            value: function drunk() {
+	                this.drunkWalk.max = this.values.length;
+	                this.drunkWalk.value = this.position;
+	                this.position = this.drunkWalk.step();
+	                return this.value;
+	            }
+	
+	            /* future methods
+	            .group(start,stop) -- outputs a group of n items from the list, with wrapping
+	            .loop(start,stop) -- confines sequencing to a subset of the values
+	                (could even have a distinction between .originalValues and the array of values being used)
+	            */
+	
+	        }
+	    });
+	
+	    return Sequence;
 	})();
 	
-	module.exports = Counter;
+	module.exports = Sequence;
 
 /***/ },
 /* 30 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	/*
-	What does the API look like?
+	var math = _interopRequire(__webpack_require__(5));
 	
+	var Drunk = (function () {
+	    function Drunk() {
+	        var min = arguments[0] === undefined ? 0 : arguments[0];
+	        var max = arguments[1] === undefined ? 9 : arguments[1];
+	        var value = arguments[2] === undefined ? 0 : arguments[2];
+	        var increment = arguments[3] === undefined ? 1 : arguments[3];
+	        var loop = arguments[4] === undefined ? false : arguments[4];
 	
-	>> this is obviously the nicest.
-	mt.rack('#container');
-	  => is this the target or the parent?
-	  mt.rack({ parent: '#container' });
-	  mt.create.rack( '#container' );
+	        _classCallCheck(this, Drunk);
 	
-	or
-	
-	var rack1 = new MT.Rack();
-	body.append(rack1.element);
-	
-	or
-	
-	mt.rack({
-	  slider1,
-	  toggle1,
-	  sequener1
-	});
-	
-	or
-	
-	mt.rack('#container',{
-	  mt.create.slider({
-	    top:10,
-	    left:10,
-	    width:50,
-	    height:100,
-	    min: 0,
-	    max: 100,
-	    step: 1
-	  }),
-	  mt.create.waveform({
-	    file: './path/to/file.mp3',
-	    width:500,
-	    height:100,
-	    mode: 'range'
-	  })
-	});
-	
-	But what about positioning them in space -- top/left??
-	
-	What about writing a declarative rack that is re-usable?
-	
-	
-	or
-	
-	mt.rack({
-	  parent: '#container',
-	  pre: () => {
-	    create some divs here, or some audio code
-	  },
-	  interface: {
-	    slider: mt.create.slider({
-	      top:10,
-	      left:10,
-	      width:50,
-	      height:100,
-	      min: 0,
-	      max: 100,
-	      step: 1
-	    }),
-	    wave: mt.create.waveform({
-	      file: './path/to/file.mp3',
-	      width:500,
-	      height:100,
-	      mode: 'range'
-	    })
-	  },
-	  init: () => {
-	
-	  }
-	});
-	
-	
-	
-	
-	
-	
-	
-	Eventually, a way to transform all elements inside a div
-	
-	synth = mt.transform('#container');
-	
-	then, synth.ui.slider1 will be a thing
-	
-	
-	
-	#chevron-arrow-left {
-	  display: inline-block;
-	  border-right: 3px solid #aaa;
-	  border-bottom: 3px solid #aaa;
-	  width: 8px; height: 8px;
-	  transform: rotate(-135deg);
-	}
-	
-	
-	*/
-	
-	var Rack = (function () {
-	  function Rack(target, name, open) {
-	    _classCallCheck(this, Rack);
-	
-	    this.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
-	    this.title = name;
-	    this.open = open;
-	    this.buildInterface();
-	  }
-	
-	  _createClass(Rack, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	        var _this = this;
-	
-	        this.parent.style.border = "solid 1px #ddd";
-	        //  this.parent.style.overflow = 'hidden';
-	        this.parent.style.padding = "0px";
-	        //  this.parent.style.display = 'inline-block';
-	        this.parent.style.userSelect = "none";
-	        this.parent.style.mozUserSelect = "none";
-	        this.parent.style.webkitUserSelect = "none";
-	
-	        this.contents = document.createElement("div");
-	
-	        while (this.parent.childNodes.length > 0) {
-	          this.contents.appendChild(this.parent.childNodes[0]);
-	        }
-	
-	        this.contents.style.padding = "10px";
-	
-	        //  this.parent.innerHTML = '<div>' + this.parent.innerHTML;
-	        //  this.parent.innerHTML += '</div>';
-	
-	        this.titleBar = document.createElement("div");
-	        this.titleBar.innerHTML = this.title;
-	        this.titleBar.style.fontFamily = "arial";
-	        this.titleBar.style.position = "relative";
-	        this.titleBar.style.color = "#888";
-	        this.titleBar.style.padding = "7px";
-	        //  this.titleBar.style.borderBottom = 'solid 1px #ddd';
-	        this.titleBar.style.fontSize = "12px";
-	        //  this.parent.insertBefore(this.titleBar,this.parent.firstChild);
-	
-	        this.button = document.createElement("div");
-	        this.button.style.position = "absolute";
-	        this.button.style.top = "5px";
-	        this.button.style.right = "5px";
-	        /*    this.button.style.display = 'inline-block';
-	            this.button.style.borderRight = '2px solid #555';
-	            this.button.style.borderBottom =  '2px solid #555';
-	            this.button.style.width = '7px';
-	            this.button.style.height = '7px';
-	            this.button.style.transform = 'rotate(-135deg)'; */
-	        this.button.innerHTML = "-";
-	        this.button.style.border = "solid 1px #ddd";
-	        this.button.style.padding = "0px 5px 2px";
-	        this.button.style.lineHeight = "12px";
-	        this.button.style.fontSize = "15px";
-	
-	        this.button.style.cursor = "pointer";
-	
-	        this.button.addEventListener("mouseover", function () {
-	          _this.button.style.backgroundColor = "#f3f3f3";
-	          //    this.button.style.color = '#fff';
-	        });
-	        this.button.addEventListener("mouseleave", function () {
-	          _this.button.style.backgroundColor = "#fff";
-	          //  this.button.style.color = '#ccc';
-	        });
-	        this.button.addEventListener("click", function () {
-	          if (_this.open) {
-	            _this.hide();
-	          } else {
-	            _this.show();
-	          }
-	        });
-	
-	        this.titleBar.appendChild(this.button);
-	
-	        this.parent.appendChild(this.titleBar);
-	        this.parent.appendChild(this.contents);
-	
-	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
-	        this.parent.style.width = width;
-	      }
-	    },
-	    show: {
-	      value: function show() {
-	        this.contents.style.display = "block";
-	        //  this.button.style.fontSize = '15px';
-	        //  this.button.style.padding = '0px 5px 2px';
-	        //  this.button.innerHTML = '-';
-	        this.open = true;
-	      }
-	    },
-	    hide: {
-	      value: function hide() {
-	        this.contents.style.display = "none";
-	        //  this.button.style.fontSize = '12px';
-	        //  this.button.style.padding = '0px 5px 0px';
-	        //  this.button.innerHTML = '+';
-	        this.open = false;
-	      }
+	        this.min = min;
+	        this.max = max;
+	        this.value = value;
+	        this.increment = increment;
+	        this.loop = loop;
 	    }
-	  });
 	
-	  return Rack;
+	    _createClass(Drunk, {
+	        step: {
+	            value: function step() {
+	                this.value += math.pick(-1 * this.increment, this.increment);
+	                if (this.value > this.max) {
+	                    if (this.loop) {
+	                        this.value = this.min;
+	                    } else {
+	                        this.value = this.max - this.increment;
+	                    }
+	                }
+	
+	                if (this.value < this.min) {
+	                    if (this.loop) {
+	                        this.value = this.max;
+	                    } else {
+	                        this.value = this.min + this.increment;
+	                    }
+	                }
+	                return this.value;
+	            }
+	        }
+	    });
+	
+	    return Drunk;
 	})();
 	
-	module.exports = Rack;
+	module.exports = Drunk;
 
 /***/ },
 /* 31 */
@@ -4316,9 +5772,2634 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(32));
+	var math = _interopRequire(__webpack_require__(5));
 	
-	var Interval = _interopRequire(__webpack_require__(35));
+	var Drunk = _interopRequire(__webpack_require__(30));
+	
+	var Counter = (function () {
+	    function Counter() {
+	        var min = arguments[0] === undefined ? 0 : arguments[0];
+	        var max = arguments[1] === undefined ? 10 : arguments[1];
+	        var mode = arguments[2] === undefined ? "up" : arguments[2];
+	        var value = arguments[3] === undefined ? false : arguments[3];
+	
+	        _classCallCheck(this, Counter);
+	
+	        this.min = min;
+	        this.max = max;
+	        this.value = value;
+	        this.mode = mode;
+	        this.drunkWalk = new Drunk(this.min, this.max);
+	        if (this.value !== false) {
+	            this.next = this[this._mode];
+	        } else {
+	            this.next = this.first;
+	        }
+	    }
+	
+	    _createClass(Counter, {
+	        mode: {
+	            set: function (mode) {
+	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
+	                    console.error("The only modes currently allowed are: up, down, random, drunk");
+	                    return;
+	                }
+	                this._mode = mode;
+	                if (this.value) {
+	                    this.next = this[this._mode];
+	                }
+	            },
+	            get: function () {
+	                return this._mode;
+	            }
+	        },
+	        first: {
+	            value: function first() {
+	                if (this.value !== false) {
+	                    this.next = this[this._mode];
+	                    return this.next();
+	                }
+	                this.startValues = {
+	                    up: this.min,
+	                    down: this.max,
+	                    drunk: ~ ~math.average(this.min, this.max),
+	                    random: math.ri(this.min, this.max)
+	                };
+	                this.value = this.startValues[this._mode];
+	                this.next = this[this._mode];
+	                return this.value;
+	            }
+	        },
+	        up: {
+	            value: function up() {
+	                this.value++;
+	                if (this.value >= this.max) {
+	                    this.value = this.min;
+	                }
+	                return this.value;
+	            }
+	        },
+	        down: {
+	            value: function down() {
+	                this.value--;
+	                if (this.value < this.min) {
+	                    this.value = this.max;
+	                }
+	                return this.value;
+	            }
+	        },
+	        random: {
+	            value: function random() {
+	                this.value = math.ri(this.min, this.max);
+	                return this.value;
+	            }
+	        },
+	        drunk: {
+	            value: function drunk() {
+	                this.drunkWalk.min = this.min;
+	                this.drunkWalk.max = this.max;
+	                this.drunkWalk.value = this.value;
+	                this.value = this.drunkWalk.step();
+	                return this.value;
+	            }
+	        }
+	    });
+	
+	    return Counter;
+	})();
+	
+	module.exports = Counter;
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	/**
+	* Pan2D
+	*
+	* @description Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.
+	*
+	* @demo <span mt="pan2D"></span>
+	*
+	* @example
+	* var pan2d = mt.pan2d('#target')
+	*
+	*/
+	
+	var Pan2D = (function (_Interface) {
+	  function Pan2D() {
+	    _classCallCheck(this, Pan2D);
+	
+	    var options = ["range"];
+	
+	    var defaults = {
+	      size: [200, 200],
+	      range: 0.5,
+	      mode: "absolute",
+	      speakers: [[0.5, 0.2], [0.75, 0.25], [0.8, 0.5], [0.75, 0.75], [0.5, 0.8], [0.25, 0.75], [0.2, 0.5], [0.25, 0.25]]
+	    };
+	
+	    _get(Object.getPrototypeOf(Pan2D.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.value = {
+	      x: new Step(0, 1, 0, 0.5),
+	      y: new Step(0, 1, 0, 0.5)
+	    };
+	
+	    /**
+	    Absolute or relative mouse interaction. In "absolute" mode, the source node will jump to your mouse position on mouse click. In "relative" mode, it does not.
+	    */
+	    this.mode = this.settings.mode;
+	
+	    this.position = {
+	      x: new Interaction.Handle(this.mode, "horizontal", [0, this.width], [this.height, 0]),
+	      y: new Interaction.Handle(this.mode, "vertical", [0, this.width], [this.height, 0])
+	    };
+	    this.position.x.value = this.value.x.normalized;
+	    this.position.y.value = this.value.y.normalized;
+	
+	    /**
+	    An array of speaker locations. Update this with .moveSpeaker() or .moveAllSpeakers()
+	    */
+	    this.speakers = this.settings.speakers;
+	
+	    /**
+	    Rewrite: The maximum distance from a speaker that the source node can be for it to be heard from that speaker. A low range (0.1) will result in speakers only playing when the sound is very close it. Default is 0.5 (half of the interface).
+	    */
+	    this.range = this.settings.range;
+	
+	    /**
+	    The current levels for each speaker. This is calculated when a source node or speaker node is moved through interaction or programatically.
+	    */
+	    this.levels = [];
+	
+	    this.init();
+	
+	    this.calculateLevels();
+	    this.render();
+	  }
+	
+	  _inherits(Pan2D, _Interface);
+	
+	  _createClass(Pan2D, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.knob);
+	
+	        // add speakers
+	        this.speakerElements = [];
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = svg.create("circle");
+	
+	          this.element.appendChild(speakerElement);
+	
+	          this.speakerElements.push(speakerElement);
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this._minDimension = Math.min(this.width, this.height);
+	
+	        this.knobRadius = {
+	          off: ~ ~(this._minDimension / 100) * 3 + 5 };
+	        this.knobRadius.on = this.knobRadius.off * 2;
+	
+	        this.knob.setAttribute("cx", this.width / 2);
+	        this.knob.setAttribute("cy", this.height / 2);
+	        this.knob.setAttribute("r", this.knobRadius.off);
+	        this.knob.setAttribute("fill", "#ccc");
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = this.speakerElements[i];
+	          var speaker = this.speakers[i];
+	          speakerElement.setAttribute("cx", speaker[0] * this.width);
+	          speakerElement.setAttribute("cy", speaker[1] * this.height);
+	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
+	          speakerElement.setAttribute("fill", "#d18");
+	          speakerElement.setAttribute("fill-opacity", "0");
+	          speakerElement.setAttribute("stroke", "#d18");
+	        }
+	
+	        this.position.x.resize([0, this.width], [this.height, 0]);
+	        this.position.y.resize([0, this.width], [this.height, 0]);
+	
+	        // next, need to
+	        // resize positions
+	        // calculate speaker distances
+	        this.calculateLevels();
+	        this.render();
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        this.knobCoordinates = {
+	          x: this.value.x.normalized * this.width,
+	          y: this.height - this.value.y.normalized * this.height
+	        };
+	
+	        this.knob.setAttribute("cx", this.knobCoordinates.x);
+	        this.knob.setAttribute("cy", this.knobCoordinates.y);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.position.x.anchor = this.mouse;
+	        this.position.y.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.x.update(this.mouse);
+	          this.position.y.update(this.mouse);
+	          // position.x and position.y are normalized
+	          // so are the levels
+	          // likely don't need this.value at all -- only used for drawing
+	          // not going to be a 'step' or 'min' and 'max' in this one.
+	          this.calculateLevels();
+	          this.emit("change", this.levels);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return {
+	          x: this.value.x.normalized,
+	          y: this.value.y.normalized
+	        };
+	      }
+	    },
+	    calculateLevels: {
+	      value: function calculateLevels() {
+	        var _this = this;
+	
+	        this.value.x.updateNormal(this.position.x.value);
+	        this.value.y.updateNormal(this.position.y.value);
+	        this.levels = [];
+	        this.speakers.forEach(function (s, i) {
+	          var distance = math.distance(s[0] * _this.width, s[1] * _this.height, _this.position.x.value * _this.width, (1 - _this.position.y.value) * _this.height);
+	          var level = math.clip(1 - distance / (_this.range * _this.width), 0, 1);
+	          _this.levels.push(level);
+	          _this.speakerElements[i].setAttribute("fill-opacity", level);
+	        });
+	      }
+	    },
+	    moveSource: {
+	
+	      /**
+	      Move the audio source node and trigger the output event.
+	      @param x {number} New x location, normalized 0-1
+	      @param y {number} New y location, normalized 0-1
+	      */
+	
+	      value: function moveSource(x, y) {
+	        var location = {
+	          x: x * this.width,
+	          y: y * this.height
+	        };
+	        this.position.x.update(location);
+	        this.position.y.update(location);
+	        this.calculateLevels();
+	        this.emit("change", this.levels);
+	        this.render();
+	      }
+	    },
+	    moveSpeaker: {
+	
+	      /**
+	      Move a speaker node and trigger the output event.
+	      @param index {number} Index of the speaker to move
+	      @param x {number} New x location, normalized 0-1
+	      @param y {number} New y location, normalized 0-1
+	      */
+	
+	      value: function moveSpeaker(index, x, y) {
+	
+	        this.speakers[index] = [x, y];
+	        this.speakerElements[index].setAttribute("cx", x * this.width);
+	        this.speakerElements[index].setAttribute("cy", y * this.height);
+	        this.calculateLevels();
+	        this.emit("change", this.levels);
+	        this.render();
+	      }
+	
+	      /**
+	      Set all speaker locations
+	      @param locations {Array} Array of speaker locations. Each item in the array should be an array of normalized x and y coordinates.
+	       setSpeakers(locations) {
+	       }
+	      */
+	
+	    }
+	  });
+	
+	  return Pan2D;
+	})(Interface);
+	
+	module.exports = Pan2D;
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = __webpack_require__(5);
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Tilt
+	*
+	* @description 2- or 3-axis tilt sensor (depending on your device and browser).
+	*
+	* @demo <span mt='tilt'></span>
+	*
+	* @example
+	* var tilt = mt.tilt('#target')
+	*
+	*/
+	
+	var Tilt = (function (_Interface) {
+	  function Tilt() {
+	    _classCallCheck(this, Tilt);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [80, 80],
+	      value: 0
+	    };
+	
+	    _get(Object.getPrototypeOf(Tilt.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._active = true;
+	
+	    this.init();
+	
+	    // add event listener for device orientation
+	
+	    this.boundUpdate = this.update.bind(this);
+	    //	this.boundMozTilt = this.mozTilt.bind(this)
+	
+	    if (window.DeviceOrientationEvent) {
+	      window.addEventListener("deviceorientation", this.boundUpdate, false);
+	    } /*else if (window.OrientationEvent) {
+	      //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
+	      } else {
+	      	console.log('Not supported on your device or browser.');
+	      } */
+	  }
+	
+	  _inherits(Tilt, _Interface);
+	
+	  _createClass(Tilt, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.backgroundColor = "#eee";
+	
+	        var division = this.width / 12;
+	
+	        this.circles = {
+	          L: svg.create("circle"),
+	          R: svg.create("circle"),
+	          F: svg.create("circle"),
+	          B: svg.create("circle")
+	        };
+	
+	        this.circles.L.setAttribute("cx", this.width * 3 / 12);
+	        this.circles.L.setAttribute("cy", this.height / 2);
+	
+	        this.circles.R.setAttribute("cx", this.width * 9 / 12);
+	        this.circles.R.setAttribute("cy", this.height / 2);
+	
+	        this.circles.F.setAttribute("cx", this.width / 2);
+	        this.circles.F.setAttribute("cy", this.height * 3 / 12);
+	
+	        this.circles.B.setAttribute("cx", this.width / 2);
+	        this.circles.B.setAttribute("cy", this.height * 9 / 12);
+	
+	        for (var key in this.circles) {
+	          var circle = this.circles[key];
+	          circle.setAttribute("r", division * 1.5);
+	          circle.setAttribute("fill-opacity", "0.5");
+	          circle.setAttribute("stroke-width", "2");
+	          this.element.appendChild(circle);
+	        }
+	
+	        this.skin();
+	      }
+	    },
+	    update: {
+	      value: function update(v) {
+	        if (this._active) {
+	
+	          var y = v.beta;
+	          var x = v.gamma;
+	
+	          // take the original -90 to 90 scale and normalize it 0-1
+	          x = math.scale(x, -90, 90, 0, 1);
+	          y = math.scale(y, -90, 90, 0, 1);
+	
+	          this.circles.R.setAttribute("fill-opacity", x);
+	          this.circles.L.setAttribute("fill-opacity", 1 - x);
+	          this.circles.F.setAttribute("fill-opacity", 1 - y);
+	          this.circles.B.setAttribute("fill-opacity", y);
+	
+	          this.emit("change", {
+	            x: x,
+	            y: y
+	          });
+	        }
+	      }
+	    },
+	    skin: {
+	      value: function skin() {
+	        for (var key in this.circles) {
+	          var circle = this.circles[key];
+	          if (this._active) {
+	            circle.setAttribute("fill", "#d18");
+	            circle.setAttribute("stroke", "#d18");
+	          } else {
+	            circle.setAttribute("fill", "#555");
+	            circle.setAttribute("stroke", "#555");
+	          }
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.active = !this.active;
+	      }
+	    },
+	    active: {
+	
+	      /**
+	      Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update
+	      @type {boolean}
+	      */
+	
+	      get: function () {
+	        return this._active;
+	      },
+	      set: function (on) {
+	        this._active = on;
+	        this.skin();
+	      }
+	    }
+	  });
+	
+	  return Tilt;
+	})(Interface);
+	
+	module.exports = Tilt;
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var dom = __webpack_require__(7);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var SliderTemplate = __webpack_require__(35);
+	var touch = __webpack_require__(9);
+	
+	var SingleSlider = (function (_SliderTemplate) {
+	  function SingleSlider() {
+	    var _this = this;
+	
+	    _classCallCheck(this, SingleSlider);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "vertical",
+	      mode: "absolute",
+	      scale: [0, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(SingleSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    /* events */
+	
+	    if (!touch.exists) {
+	
+	      this.click = function () {
+	        _this.multislider.interacting = true;
+	        _this.multislider.interpolation = {
+	          index: _this.index,
+	          value: _this.value
+	        };
+	        _this.down();
+	        _this.multislider.values[_this.index] = _this.value;
+	      };
+	      this.element.addEventListener("mouseover", function (e) {
+	        if (_this.multislider.interacting) {
+	          if (!_this.offset) {
+	            _this.offset = dom.findPosition(_this.element);
+	          }
+	          _this.mouse = dom.locateMouse(e, _this.offset);
+	          _this.down();
+	          _this.multislider.values[_this.index] = _this.value;
+	          if (_this.multislider.interpolation) {
+	            var distance = Math.abs(_this.multislider.interpolation.index - _this.index);
+	            if (distance > 1) {
+	              var low = Math.min(_this.multislider.interpolation.index, _this.index);
+	              var high = Math.max(_this.multislider.interpolation.index, _this.index);
+	              var lowValue = _this.multislider.sliders[low].value;
+	              var highValue = _this.multislider.sliders[high].value;
+	              for (var i = low; i < high; i++) {
+	                _this.multislider.sliders[i].value = math.interp((i - low) / distance, lowValue, highValue);
+	              }
+	            }
+	          }
+	
+	          _this.multislider.interpolation = {
+	            index: _this.index,
+	            value: _this.value
+	          };
+	        }
+	      });
+	
+	      this.move = function () {};
+	      this.element.addEventListener("mousemove", function (e) {
+	        if (_this.multislider.interacting) {
+	          if (!_this.offset) {
+	            _this.offset = dom.findPosition(_this.element);
+	          }
+	          _this.mouse = dom.locateMouse(e, _this.offset);
+	          _this.slide();
+	          _this.multislider.values[_this.index] = _this.value;
+	        }
+	      });
+	
+	      this.release = function () {
+	        _this.multislider.interacting = false;
+	        _this.multislider.interpolation = false;
+	      };
+	      this.element.addEventListener("mouseup", function () {
+	        if (_this.multislider.interacting) {
+	          _this.up();
+	          _this.multislider.interpolation = false;
+	          _this.multislider.values[_this.index] = _this.value;
+	        }
+	      });
+	      this.element.addEventListener("mouseout", function () {
+	        if (_this.multislider.interacting) {
+	          _this.up();
+	          _this.multislider.values[_this.index] = _this.value;
+	        }
+	      });
+	    }
+	
+	    this.customStyle();
+	  }
+	
+	  _inherits(SingleSlider, _SliderTemplate);
+	
+	  _createClass(SingleSlider, {
+	    customStyle: {
+	      value: function customStyle() {
+	
+	        /* style changes */
+	
+	        this.bar.setAttribute("x", 0);
+	        this.bar.setAttribute("transform", "translate(0,0)");
+	        this.bar.setAttribute("rx", 0); // corner radius
+	        this.bar.setAttribute("ry", 0);
+	        this.bar.setAttribute("width", this.width);
+	        this.bar.setAttribute("height", this.height);
+	
+	        this.fillbar.setAttribute("x", 0);
+	        this.fillbar.setAttribute("transform", "translate(0,0)");
+	        this.fillbar.setAttribute("rx", 0); // corner radius
+	        this.fillbar.setAttribute("ry", 0);
+	        this.fillbar.setAttribute("width", this.width);
+	        this.fillbar.setAttribute("height", this.height);
+	      }
+	    }
+	  });
+	
+	  return SingleSlider;
+	})(SliderTemplate);
+	
+	/**
+	* Multislider
+	*
+	* @description Multislider
+	*
+	* @demo <span mt="multislider"></span>
+	*
+	* @example
+	* var multislider = mt.multislider('#target')
+	*
+	* @example
+	* var multislider = mt.multislider('#target',{
+	*  'size': [200,100],
+	*  'numberOfSliders': 5,
+	*  'min': 0,
+	*  'max': 1,
+	*  'step': 0,
+	*  'values': [0.7,0.7,0.7,0.7,0.7]
+	*})
+	*
+	*/
+	
+	/*
+	Properties
+	.values
+	
+	*/
+	
+	var Multislider = (function (_Interface) {
+	  function Multislider() {
+	    _classCallCheck(this, Multislider);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [200, 100],
+	      numberOfSliders: 5,
+	      min: 0,
+	      max: 1,
+	      step: 0,
+	      values: [0.7, 0.7, 0.7, 0.7, 0.7]
+	    };
+	
+	    _get(Object.getPrototypeOf(Multislider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._numberOfSliders = this.settings.numberOfSliders;
+	    this.values = this.settings.values;
+	
+	    this.sliders = [];
+	
+	    this.interacting = false;
+	
+	    this.init();
+	  }
+	
+	  _inherits(Multislider, _Interface);
+	
+	  _createClass(Multislider, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("div");
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        var min = this.settings.min;
+	        var max = this.settings.max;
+	        var step = this.settings.step;
+	
+	        if (this.sliders.length) {
+	          min = this.sliders[0].min;
+	          max = this.sliders[0].max;
+	          step = this.sliders[0].step;
+	        }
+	
+	        this.sliders = [];
+	
+	        for (var i = 0; i < this._numberOfSliders; i++) {
+	          var container = document.createElement("span");
+	
+	          var slider = new SingleSlider(container, {
+	            scale: [min, max],
+	            step: step,
+	            mode: "absolute",
+	            orientation: "vertical",
+	            value: this.values[i],
+	            hasKnob: false,
+	            component: true }, this.update.bind(this, i));
+	          slider.multislider = this;
+	
+	          slider.index = i;
+	          if (touch.exists) {
+	            slider.bar.index = i;
+	            slider.fillbar.index = i;
+	            slider.preClick = slider.preMove = slider.preRelease = function () {};
+	            slider.click = slider.move = slider.release = function () {};
+	            slider.preTouch = slider.preTouchMove = slider.preTouchRelease = function () {};
+	            slider.touch = slider.touchMove = slider.touchRelease = function () {};
+	          }
+	
+	          this.sliders.push(slider);
+	          this.element.appendChild(container);
+	        }
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        var sliderWidth = this.width / this.sliders.length;
+	        var sliderHeight = this.height;
+	
+	        for (var i = 0; i < this.sliders.length; i++) {
+	          this.sliders[i].resize(sliderWidth, sliderHeight);
+	          this.sliders[i].customStyle();
+	        }
+	      }
+	    },
+	    update: {
+	      value: function update(index, value) {
+	        this.emit("change", {
+	          index: index,
+	          value: value
+	        });
+	      }
+	    },
+	    addTouchListeners: {
+	      value: function addTouchListeners() {
+	        var _this = this;
+	
+	        this.preClick = this.preMove = this.preRelease = function () {};
+	        this.click = this.move = this.release = function () {};
+	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
+	        this.touch = this.touchMove = this.touchRelease = function () {};
+	
+	        this.currentElement = false;
+	
+	        this.element.addEventListener("touchstart", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var slider = _this.sliders[element.index];
+	          if (!slider.offset) {
+	            slider.offset = dom.findPosition(slider.element);
+	          }
+	          slider.mouse = dom.locateMouse(e, slider.offset);
+	          slider.down();
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchmove", function (e) {
+	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+	          var slider = _this.sliders[element.index];
+	          if (!slider.offset) {
+	            slider.offset = dom.findPosition(slider.element);
+	          }
+	          slider.mouse = dom.locateMouse(e, slider.offset);
+	          if (element.index !== _this.currentElement) {
+	            if (_this.currentElement >= 0) {
+	              var pastslider = _this.sliders[_this.currentElement];
+	              pastslider.up();
+	            }
+	            slider.down();
+	          } else {
+	            slider.slide();
+	          }
+	          _this.currentElement = element.index;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.element.addEventListener("touchend", function (e) {
+	          // no touches to calculate because none remaining
+	          var slider = _this.sliders[_this.currentElement];
+	          slider.up();
+	          _this.interacting = false;
+	          _this.currentElement = false;
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	      }
+	    },
+	    numberOfSliders: {
+	
+	      /**
+	      Get or set the number of sliders
+	      @type {Number}
+	      */
+	
+	      get: function () {
+	        return this.sliders.length;
+	      },
+	      set: function (v) {
+	        if (v === this.sliders.length) {
+	          return;
+	        }
+	        this.sliders.forEach(function (slider) {
+	          slider.destroy();
+	        });
+	        this.empty();
+	        this._numberOfSliders = v;
+	        this.buildInterface();
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the multislider's output range
+	      @type {number}
+	      @example multislider.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this.sliders[0].min;
+	      },
+	      set: function (v) {
+	        this.sliders.forEach(function (slider) {
+	          slider.min = v;
+	        });
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the multislider's output range
+	      @type {number}
+	      @example multislider.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this.sliders[0].max;
+	      },
+	      set: function (v) {
+	        this.sliders.forEach(function (slider) {
+	          slider.max = v;
+	        });
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the multislider's value changes by.
+	      @type {number}
+	      @example multislider.step = 5;
+	      */
+	
+	      get: function () {
+	        return this.sliders[0].step;
+	      },
+	      set: function (v) {
+	        this.sliders.forEach(function (slider) {
+	          slider.step = v;
+	        });
+	      }
+	    },
+	    setSlider: {
+	
+	      /**
+	      Set the value of an individual slider
+	      @param index {number} Slider index
+	      @param value {number} New slider value
+	      @example
+	      // Set the first slider to value 0.5
+	      multislider.setSlider(0,0.5)
+	      */
+	
+	      value: function setSlider(index, value) {
+	        this.sliders[index].value = value;
+	        this.emit("change", {
+	          index: index,
+	          value: value
+	        });
+	      }
+	    },
+	    setAllSliders: {
+	
+	      /**
+	      Set the value of all sliders at once. If the size of the input array does not match the current number of sliders, the value array will repeat until all sliders have been set. I.e. an input array of length 1 will set all sliders to that value.
+	      @param values {Array} All slider values
+	      @example
+	      multislider.setAllSliders([0.2,0.3,0.4,0.5,0.6])
+	      */
+	
+	      value: function setAllSliders(values) {
+	        var _this = this;
+	
+	        this.values = values;
+	        this.sliders.forEach(function (slider, i) {
+	          slider.value = values[i % values.length];
+	          _this.emit("change", {
+	            index: i,
+	            value: slider.value
+	          });
+	        });
+	      }
+	    }
+	  });
+	
+	  return Multislider;
+	})(Interface);
+	
+	module.exports = Multislider;
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	var SliderTemplate = (function (_Interface) {
+	  function SliderTemplate(args, options, defaults) {
+	    _classCallCheck(this, SliderTemplate);
+	
+	    _get(Object.getPrototypeOf(SliderTemplate.prototype), "constructor", this).call(this, args, options, defaults);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    //  this.mode = this.settings.mode;
+	
+	    this.hasKnob = this.settings.hasKnob;
+	
+	    // this.step should eventually be get/set
+	    // updating it will update the _value step model
+	    //  this.step = this.settings.step; // float
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.init();
+	
+	    this.position = new Interaction.Handle(this.settings.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
+	
+	    this.value = this._value.value;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(SliderTemplate, _Interface);
+	
+	  _createClass(SliderTemplate, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (!this.settings.orientation) {
+	          if (this.width < this.height) {
+	            this.orientation = "vertical";
+	          } else {
+	            this.orientation = "horizontal";
+	          }
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.normalized * h;
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * w;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
+	
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
+	        this.bar.setAttribute("width", w);
+	        this.bar.setAttribute("height", h);
+	        this.bar.setAttribute("fill", "#e7e7e7");
+	
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
+	        this.fillbar.setAttribute("fill", "#d18");
+	
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	        this.knob.setAttribute("fill", "#d18");
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "none");
+	        }
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this._value.normalized * this.height;
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * this.width;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
+	      }
+	    },
+	    down: {
+	      value: function down() {
+	        this.clicked = true;
+	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
+	        this.slide();
+	      }
+	    },
+	    slide: {
+	      value: function slide() {
+	        if (this.clicked) {
+	          this.position.update(this.mouse);
+	          this.value = this._value.updateNormal(this.position.value);
+	          this.emit("change", this.value);
+	        }
+	      }
+	    },
+	    up: {
+	      value: function up() {
+	        this.clicked = false;
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The slider's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example slider.value = 10;
+	      */
+	
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (v) {
+	        this._value.update(v);
+	        this.position.value = this._value.normalized;
+	        this.render();
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the sliders's output range
+	      @type {number}
+	      @example slider.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the slider's output range
+	      @type {number}
+	      @example slider.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the slider's value changes by.
+	      @type {number}
+	      @example slider.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (slider's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	      @type {string}
+	      @example slider.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.mode;
+	      },
+	      set: function (v) {
+	        this.position.mode = v;
+	      }
+	    }
+	  });
+	
+	  return SliderTemplate;
+	})(Interface);
+	
+	module.exports = SliderTemplate;
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	var Step = __webpack_require__(11);
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	/**
+	* Pan
+	*
+	* @description Stereo crossfader.
+	*
+	* @demo <span mt="pan"></span>
+	*
+	* @example
+	* var pan = mt.pan('#target')
+	*
+	*/
+	
+	var Pan = (function (_Interface) {
+	  function Pan() {
+	    _classCallCheck(this, Pan);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [120, 20],
+	      orientation: "horizontal",
+	      mode: "relative",
+	      scale: [-1, 1],
+	      step: 0,
+	      value: 0,
+	      hasKnob: true
+	    };
+	
+	    _get(Object.getPrototypeOf(Pan.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.orientation = this.settings.orientation;
+	
+	    this.mode = this.settings.mode;
+	
+	    this.hasKnob = this.settings.hasKnob;
+	
+	    // this.step should eventually be get/set
+	    // updating it will update the _value step model
+	    this.step = this.settings.step; // float
+	
+	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	
+	    this.init();
+	
+	    this.position = new Interaction.Handle(this.mode, this.orientation, [0, this.width], [this.height, 0]);
+	    this.position.value = this._value.normalized;
+	
+	    this.value = this._value.value;
+	
+	    this.emit("change", this.value);
+	  }
+	
+	  _inherits(Pan, _Interface);
+	
+	  _createClass(Pan, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.bar = svg.create("rect");
+	        this.fillbar = svg.create("rect");
+	        this.knob = svg.create("circle");
+	
+	        this.element.appendChild(this.bar);
+	        this.element.appendChild(this.fillbar);
+	        this.element.appendChild(this.knob);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        if (this.position) {
+	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	
+	        if (this.width < this.height) {
+	          this.orientation = "vertical";
+	        } else {
+	          this.orientation = "horizontal";
+	        }
+	
+	        var x = undefined,
+	            y = undefined,
+	            w = undefined,
+	            h = undefined,
+	            barOffset = undefined,
+	            cornerRadius = undefined;
+	        this.knobData = {
+	          level: 0,
+	          r: 0
+	        };
+	
+	        if (this.orientation === "vertical") {
+	          this.thickness = this.width / 2;
+	          x = this.width / 2;
+	          y = 0;
+	          w = this.thickness;
+	          h = this.height;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = h - this.knobData.r - this.normalized * (h - this.knobData.r * 2);
+	          barOffset = "translate(" + this.thickness * -1 / 2 + ",0)";
+	          cornerRadius = w / 2;
+	        } else {
+	          this.thickness = this.height / 2;
+	          x = 0;
+	          y = this.height / 2;
+	          w = this.width;
+	          h = this.thickness;
+	          this.knobData.r = this.thickness * 0.8;
+	          this.knobData.level = this.normalized * (w - this.knobData.r * 2) + this.knobData.r;
+	          barOffset = "translate(0," + this.thickness * -1 / 2 + ")";
+	          cornerRadius = h / 2;
+	        }
+	
+	        this.bar.setAttribute("x", x);
+	        this.bar.setAttribute("y", y);
+	        this.bar.setAttribute("transform", barOffset);
+	        this.bar.setAttribute("rx", cornerRadius); // corner radius
+	        this.bar.setAttribute("ry", cornerRadius);
+	        this.bar.setAttribute("width", w);
+	        this.bar.setAttribute("height", h);
+	        this.bar.setAttribute("fill", "#e7e7e7");
+	
+	        if (this.orientation === "vertical") {
+	          this.fillbar.setAttribute("x", x);
+	          this.fillbar.setAttribute("y", this.knobData.level);
+	          this.fillbar.setAttribute("width", w);
+	          this.fillbar.setAttribute("height", h - this.knobData.level);
+	        } else {
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("y", y);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	          this.fillbar.setAttribute("height", h);
+	        }
+	        this.fillbar.setAttribute("transform", barOffset);
+	        this.fillbar.setAttribute("rx", cornerRadius);
+	        this.fillbar.setAttribute("ry", cornerRadius);
+	        this.fillbar.setAttribute("fill", "none");
+	
+	        if (this.orientation === "vertical") {
+	          this.knob.setAttribute("cx", x);
+	          this.knob.setAttribute("cy", this.knobData.level);
+	        } else {
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.knob.setAttribute("cy", y);
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	        this.knob.setAttribute("fill", "#d18");
+	
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "transparent");
+	        }
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        if (!this.clicked) {
+	          this.knobData.r = this.thickness * 0.75;
+	        }
+	        this.knob.setAttribute("r", this.knobData.r);
+	
+	        if (this.orientation === "vertical") {
+	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
+	          this.knob.setAttribute("cy", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
+	          this.fillbar.setAttribute("height", this.knobData.level);
+	        } else {
+	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
+	          this.knob.setAttribute("cx", this.knobData.level);
+	          this.fillbar.setAttribute("x", 0);
+	          this.fillbar.setAttribute("width", this.knobData.level);
+	        }
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.knobData.r = this.thickness * 0.9;
+	        this.position.anchor = this.mouse;
+	        this.move();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.position.update(this.mouse);
+	
+	          this.value = this._value.updateNormal(this.position.value);
+	
+	          this.emit("change", {
+	            value: this.value,
+	            L: Math.pow(math.scale(this.value, -1, 1, 1, 0), 2),
+	            R: Math.pow(math.scale(this.value, -1, 1, 0, 1), 2)
+	          });
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The position of crossfader, from -1 (left) to 1 (right). Setting this value updates the interface and triggers the output event.
+	      @type {number}
+	      */
+	
+	      get: function () {
+	        return this._value.value;
+	      },
+	      set: function (value) {
+	        this._value.update(value);
+	        this.position.value = this._value.normalized;
+	        this.render();
+	      }
+	    },
+	    normalized: {
+	      get: function () {
+	        return this._value.normalized;
+	      }
+	    }
+	  });
+	
+	  return Pan;
+	})(Interface);
+	
+	module.exports = Pan;
+
+/***/ },
+/* 37 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var math = __webpack_require__(5);
+	var svg = __webpack_require__(4);
+	//let dom = require('../util/dom');
+	var Interface = __webpack_require__(6);
+	
+	/* NEEDS
+	Events. What are they and when do they happen?
+	*/
+	
+	var Point = function Point(point, envelope) {
+	
+	  this.x = point.x;
+	  this.y = point.y;
+	  this.envelope = envelope;
+	
+	  this.element = svg.create("circle");
+	  this.element.setAttribute("fill", "#d18");
+	
+	  this.envelope.element.appendChild(this.element);
+	
+	  this.resize = function () {
+	    var r = ~ ~(Math.min(this.envelope.width, this.envelope.height) / 50) + 2;
+	    this.element.setAttribute("r", r);
+	  };
+	
+	  this.move = function (x, y) {
+	
+	    this.x = x || x === 0 ? x : this.x;
+	    this.y = y || y === 0 ? y : this.y;
+	
+	    if (this.envelope.nodes.indexOf(this) >= 0) {
+	
+	      var prevIndex = this.envelope.nodes.indexOf(this) - 1;
+	      var nextIndex = this.envelope.nodes.indexOf(this) + 1;
+	
+	      var prevNode = this.envelope.nodes[prevIndex];
+	      var nextNode = this.envelope.nodes[nextIndex];
+	
+	      var lowX = prevIndex >= 0 ? prevNode.x : 0;
+	      var highX = nextIndex < this.envelope.nodes.length ? nextNode.x : 1;
+	
+	      if (this.x < lowX) {
+	        this.x = lowX;
+	      }
+	      if (this.x > highX) {
+	        this.x = highX;
+	      }
+	    }
+	
+	    this.location = this.getCoordinates();
+	    this.element.setAttribute("cx", this.location.x);
+	    this.element.setAttribute("cy", this.location.y);
+	  };
+	
+	  this.getCoordinates = function () {
+	    return {
+	      x: this.x * this.envelope.width,
+	      y: (1 - this.y) * this.envelope.height
+	    };
+	  };
+	
+	  this.move(this.x, this.y);
+	  this.resize();
+	
+	  this.destroy = function () {
+	    this.envelope.element.removeChild(this.element);
+	  };
+	};
+	
+	/**
+	* Envelope
+	*
+	* @description Interactive linear ramp visualization.
+	*
+	* @demo <span mt="envelope"></span>
+	*
+	* @example
+	* var envelope = mt.envelope('#target')
+	*
+	*/
+	
+	var Envelope = (function (_Interface) {
+	  function Envelope() {
+	    _classCallCheck(this, Envelope);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [300, 150],
+	      scale: 1,
+	      points: [{
+	        x: 0.1,
+	        y: 0.4
+	      }, {
+	        x: 0.35,
+	        y: 0.6
+	      }, {
+	        x: 0.65,
+	        y: 0.2
+	      }, {
+	        x: 0.9,
+	        y: 0.4
+	      }]
+	    };
+	
+	    _get(Object.getPrototypeOf(Envelope.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.points = this.settings.points;
+	
+	    this.scale = this.settings.scale;
+	
+	    this.nodes = [];
+	
+	    this.selected = false;
+	
+	    this.init();
+	  }
+	
+	  _inherits(Envelope, _Interface);
+	
+	  _createClass(Envelope, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        this.element.style.backgroundColor = "#e7e7e7";
+	
+	        this.points.forEach(function (point) {
+	          var node = new Point(point, _this);
+	          _this.nodes.push(node);
+	        });
+	
+	        this.line = svg.create("polyline");
+	        this.line.setAttribute("stroke", "#d18");
+	        this.line.setAttribute("stroke-width", 2);
+	        this.line.setAttribute("fill", "none");
+	
+	        this.element.appendChild(this.line);
+	
+	        this.fill = svg.create("polyline");
+	        this.fill.setAttribute("fill", "#d18");
+	        this.fill.setAttribute("fill-opacity", "0.2");
+	
+	        this.element.appendChild(this.fill);
+	
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        for (var i = 0; i < this.nodes.length; i++) {
+	          this.nodes[i].resize();
+	          this.nodes[i].move();
+	        }
+	
+	        this.render();
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        //  this.nodes[this.selected].move( this.points )
+	        this.calculatePath();
+	      }
+	    },
+	    calculatePoints: {
+	      value: function calculatePoints() {
+	        var _this = this;
+	
+	        this.points = [];
+	        this.nodes.forEach(function (node) {
+	          _this.points.push({ x: node.x, y: node.y });
+	        });
+	      }
+	    },
+	    calculatePath: {
+	      value: function calculatePath() {
+	
+	        //stroke data
+	        var data = "0 " + this.nodes[0].location.y + ", ";
+	
+	        // data should be re-ordered based on x location.
+	        // whatever function adds a node should add it at the right index
+	
+	        this.nodes.forEach(function (node) {
+	          //  let location = node.getCoordinates();
+	          data += node.location.x + " " + node.location.y + ", ";
+	        });
+	
+	        //  data += point.x*this.width+' '+ point.y*this.height+', ';
+	        data += this.width + " " + this.nodes[this.nodes.length - 1].location.y;
+	
+	        this.line.setAttribute("points", data);
+	
+	        // fill data
+	        // add bottom corners
+	
+	        data += ", " + this.width + " " + this.height + ", ";
+	        data += "0 " + this.height;
+	
+	        this.fill.setAttribute("points", data);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        // find nearest node and set this.selected (index)
+	        this.hasMoved = false;
+	        this.selected = this.findNearestNode();
+	
+	        this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
+	        this.scaleNode(this.selected);
+	
+	        // must do this b/c new node may have been created
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	        this.render();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.mouse.x = math.clip(this.mouse.x, 0, this.width);
+	          this.hasMoved = true;
+	
+	          console.log(this.mouse.x);
+	
+	          this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
+	          this.scaleNode(this.selected);
+	
+	          this.calculatePoints();
+	          this.emit("change", this.points);
+	          this.render();
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	
+	        if (!this.hasMoved) {
+	          this.nodes[this.selected].destroy();
+	          this.nodes.splice(this.selected, 1);
+	        }
+	
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	        this.render();
+	
+	        // reset this.selected
+	        this.selected = null;
+	      }
+	    },
+	    findNearestNode: {
+	      value: function findNearestNode() {
+	        var nearestIndex = null;
+	        // set this unreasonably high so that every distance will be lower than it.
+	        var nearestDist = 10000;
+	        var before = false;
+	        var x = this.mouse.x / this.width;
+	        var y = 1 - this.mouse.y / this.height;
+	        var nodes = this.nodes;
+	        for (var i = 0; i < nodes.length; i++) {
+	
+	          // calculate the distance from mouse to this node using pythagorean theorem
+	          var distance = Math.sqrt(Math.pow(nodes[i].x - x, 2) + Math.pow(nodes[i].y - y, 2));
+	
+	          // if this distance is less than the previous shortest distance, use this index
+	          if (distance < nearestDist) {
+	            nearestDist = distance;
+	            nearestIndex = i;
+	            before = x > nodes[i].x;
+	          }
+	        }
+	
+	        // if not very close to any node, create a node
+	        if (nearestDist > 0.07) {
+	
+	          nearestIndex = this.getIndexFromX(this.mouse.x / this.width);
+	
+	          this.nodes.splice(nearestIndex, 0, new Point({
+	            x: this.mouse.x / this.width,
+	            y: 1 - this.mouse.y / this.height
+	          }, this));
+	          this.hasMoved = true;
+	        }
+	
+	        return nearestIndex;
+	      }
+	    },
+	    getIndexFromX: {
+	      value: function getIndexFromX(x) {
+	        var _this = this;
+	
+	        var index = 0;
+	        this.nodes.forEach(function (node, i) {
+	          if (_this.nodes[i].x <= x) {
+	            index = i + 1;
+	          }
+	        });
+	        return index;
+	      }
+	    },
+	    scaleNode: {
+	      value: function scaleNode(i) {
+	
+	        var clippedX = math.clip(this.nodes[i].x, 0, 1);
+	        var clippedY = math.clip(this.nodes[i].y, 0, 1);
+	
+	        this.nodes[i].move(clippedX, clippedY);
+	      }
+	    },
+	    sortPoints: {
+	
+	      /**
+	      Sort the this.points array from left-most point to right-most point. You should not regularly need to use this, however it may be useful if the points get unordered.
+	      */
+	
+	      value: function sortPoints() {
+	        this.nodes.sort(function (a, b) {
+	          return a.x > b.x;
+	        });
+	      }
+	    },
+	    addPoint: {
+	
+	      /**
+	      Add a breakpoint on the envelope.
+	      @param x {number} x location of the point, normalized (0-1)
+	      @param y {number} y location of the point, normalized (0-1)
+	      */
+	
+	      value: function addPoint(x, y) {
+	        var index = 0;
+	
+	        this.sortPoints();
+	
+	        for (var i = 0; i < this.nodes.length; i++) {
+	          if (x < this.nodes[i].x) {
+	            index = i;
+	            break;
+	          }
+	        }
+	
+	        this.nodes.splice(index, 0, new Point({
+	          x: x,
+	          y: y
+	        }, this));
+	
+	        this.scaleNode(index);
+	
+	        this.render();
+	      }
+	    },
+	    scan: {
+	
+	      /**
+	      Find the level at a certain x location on the envelope.
+	      @param x {number} The x location to find the level of, normalized 0-1
+	      */
+	
+	      value: function scan(x) {
+	        // find surrounding points
+	        var nextIndex = this.getIndexFromX(x);
+	        var priorIndex = nextIndex - 1;
+	        if (priorIndex < 0) {
+	          priorIndex = 0;
+	        }
+	        if (nextIndex >= this.nodes.length) {
+	          nextIndex = this.nodes.length - 1;
+	        }
+	        var priorPoint = this.nodes[priorIndex];
+	        var nextPoint = this.nodes[nextIndex];
+	        var loc = math.scale(x, priorPoint.x, nextPoint.x, 0, 1);
+	        var value = math.interp(loc, priorPoint.y, nextPoint.y);
+	        console.log(priorIndex, nextIndex, priorPoint, nextPoint, loc, value);
+	        this.emit("scan", value);
+	        return value;
+	      }
+	    },
+	    movePoint: {
+	
+	      /**
+	      Move a breakpoint on the envelope.
+	      @param index {number} The index of the breakpoint to move
+	      @param x {number} New x location, normalized 0-1
+	      @param y {number} New y location, normalized 0-1
+	      */
+	
+	      value: function movePoint(index, x, y) {
+	        this.nodes[index].move(x, y);
+	        this.scaleNode(index);
+	        this.render();
+	      }
+	    },
+	    adjustPoint: {
+	
+	      /**
+	      Move a breakpoint on the envelope by a certain amount.
+	      @param index {number} The index of the breakpoint to move
+	      @param xOffset {number} X displacement, normalized 0-1
+	      @param yOffset {number} Y displacement, normalized 0-1
+	      */
+	
+	      value: function adjustPoint(index, xOffset, yOffset) {
+	        this.nodes[index].move(this.nodes[index].x + xOffset, this.nodes[index].y + yOffset);
+	        this.scaleNode(index);
+	        this.render();
+	      }
+	    },
+	    destroyPoint: {
+	
+	      /**
+	      Remove a breakpoint from the envelope.
+	      @param index {number} Index of the breakpoint to remove
+	      */
+	
+	      value: function destroyPoint(index) {
+	        this.nodes[index].destroy();
+	        this.render();
+	      }
+	    },
+	    setPoints: {
+	
+	      /**
+	      Remove all existing breakpoints and add an entirely new set of breakpoints.
+	      @param allPoints {array} An array of objects with x/y properties (normalized 0-1). Each object in the array specifices the x/y location of a new breakpoint to be added.
+	      */
+	
+	      value: function setPoints(allPoints) {
+	        var _this = this;
+	
+	        this.nodes.forEach(function (point) {
+	          point.destroy();
+	        });
+	        allPoints.forEach(function (point) {
+	          _this.addPoint(point.x, point.y);
+	        });
+	      }
+	    }
+	  });
+	
+	  return Envelope;
+	})(Interface);
+	
+	module.exports = Envelope;
+
+/***/ },
+/* 38 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var dom = __webpack_require__(7);
+	//let math = require('../util/math');
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Spectrogram
+	*
+	* @description Audio spectrum visualization
+	*
+	* @demo <span mt="spectrogram"></span>
+	*
+	* @example
+	* var spectrogram = mt.spectrogram('#target')
+	*
+	*/
+	
+	var Spectrogram = (function (_Interface) {
+	  function Spectrogram() {
+	    _classCallCheck(this, Spectrogram);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [300, 150]
+	    };
+	
+	    _get(Object.getPrototypeOf(Spectrogram.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.context = mt.context;
+	
+	    this.analyser = this.context.createAnalyser();
+	    this.analyser.fftSize = 2048;
+	    this.bufferLength = this.analyser.frequencyBinCount;
+	    this.dataArray = new Uint8Array(this.bufferLength);
+	
+	    this.active = true;
+	
+	    this.init();
+	  }
+	
+	  _inherits(Spectrogram, _Interface);
+	
+	  _createClass(Spectrogram, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.canvas = new dom.SmartCanvas(this.parent);
+	        this.element = this.canvas.element;
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	        this.canvas.resize(this.width, this.height);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.canvas.element.style.backgroundColor = this.colors.fill;
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	
+	        if (this.active) {
+	          requestAnimationFrame(this.render.bind(this));
+	        }
+	
+	        this.analyser.getByteFrequencyData(this.dataArray);
+	
+	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
+	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
+	
+	        var barWidth = this.canvas.element.width / this.bufferLength;
+	        var barHeight = undefined;
+	        var x = 0;
+	
+	        var definition = this.canvas.element.width / 50;
+	
+	        for (var i = 0; i < this.bufferLength; i = i + definition) {
+	          barHeight = Math.max.apply(null, this.dataArray.slice(i, i + definition));
+	          barHeight /= 255;
+	          barHeight *= this.canvas.element.height;
+	
+	          this.canvas.context.fillStyle = "#d18";
+	          this.canvas.context.fillRect(x, this.canvas.element.height - barHeight, barWidth * definition, barHeight);
+	
+	          x += barWidth * definition;
+	        }
+	      }
+	    },
+	    watch: {
+	      value: function watch(node) {
+	        node.connect(this.analyser);
+	        this.render();
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.active = !this.active;
+	        this.render();
+	      }
+	    }
+	  });
+	
+	  return Spectrogram;
+	})(Interface);
+	
+	module.exports = Spectrogram;
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var dom = __webpack_require__(7);
+	var math = __webpack_require__(5);
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Meter
+	*
+	* @description Decibel meter
+	*
+	* @demo <span mt="meter"></span>
+	*
+	* @example
+	* var meter = mt.meter('#target')
+	*
+	*/
+	
+	var Meter = (function (_Interface) {
+	  function Meter() {
+	    _classCallCheck(this, Meter);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [30, 100]
+	    };
+	
+	    _get(Object.getPrototypeOf(Meter.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.context = mt.context;
+	
+	    this.channels = 2;
+	    this.analysers = [];
+	
+	    /*
+	        // add linear gradient
+	        var grd = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+	        // light blue
+	        grd.addColorStop(0, '#000');
+	        grd.addColorStop(0.2, '#bbb');
+	        grd.addColorStop(0.4, '#d18');
+	        // dark blue
+	        grd.addColorStop(1, '#d18');
+	        canvasCtx.fillStyle = grd; */
+	
+	    this.active = true;
+	
+	    this.init();
+	  }
+	
+	  _inherits(Meter, _Interface);
+	
+	  _createClass(Meter, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.canvas = new dom.SmartCanvas(this.parent);
+	        this.element = this.canvas.element;
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	        this.canvas.resize(this.width, this.height);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.canvas.element.style.backgroundColor = this.colors.fill;
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	
+	        if (this.active) {
+	          requestAnimationFrame(this.render.bind(this));
+	        }
+	
+	        this.canvas.context.fillStyle = "rgb(240,240,240)";
+	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
+	
+	        for (var i = 0; i < this.analysers.length; i++) {
+	
+	          this.analysers[i].getFloatTimeDomainData(this.dataArray);
+	
+	          var rms = 0;
+	
+	          for (var _i = 0; _i < this.dataArray.length; _i++) {
+	            rms += this.dataArray[_i] * this.dataArray[_i];
+	          }
+	
+	          rms = Math.sqrt(rms / this.dataArray.length);
+	
+	          var db = 20 * Math.log10(rms);
+	
+	          if (db > -70) {
+	
+	            var linear = math.normalize(db, -70, 5);
+	            var exp = linear * linear;
+	            var y = math.scale(exp, 0, 1, this.element.height, 0);
+	
+	            this.canvas.context.fillStyle = this.colors.accent;
+	            this.canvas.context.fillRect(this.meterWidth * i, y, this.meterWidth, this.canvas.element.height - y);
+	          }
+	        }
+	      }
+	    },
+	    connect: {
+	      value: function connect(node) {
+	        var channels = arguments[1] === undefined ? 1 : arguments[1];
+	
+	        // erase past analysers and splitter
+	        // create splitter of right # of channels
+	        // create new analysers array
+	        this.channels = channels;
+	        this.meterWidth = this.canvas.element.width / this.channels;
+	
+	        this.splitter = this.context.createChannelSplitter(this.channels);
+	        node.connect(this.splitter);
+	
+	        for (var i = 0; i < this.channels; i++) {
+	          var analyser = this.context.createAnalyser();
+	          this.splitter.connect(analyser, i);
+	          analyser.fftSize = 1024;
+	          analyser.smoothingTimeConstant = 1;
+	          this.analysers.push(analyser);
+	        }
+	        this.bufferLength = this.analysers[0].frequencyBinCount;
+	        this.dataArray = new Float32Array(this.bufferLength);
+	
+	        this.render();
+	      }
+	    },
+	    disconnect: {
+	      value: function disconnect() {}
+	    },
+	    click: {
+	      value: function click() {
+	        this.active = !this.active;
+	        this.render();
+	      }
+	    }
+	  });
+	
+	  return Meter;
+	})(Interface);
+	
+	module.exports = Meter;
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var dom = __webpack_require__(7);
+	//let math = require('../util/math');
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Oscilloscope
+	*
+	* @description Visualizes a waveform's stream of values.
+	*
+	* @demo <span mt="oscilloscope"></span>
+	*
+	* @example
+	* var oscilloscope = mt.oscilloscope('#target')
+	*
+	*/
+	
+	var Oscilloscope = (function (_Interface) {
+	  function Oscilloscope() {
+	    _classCallCheck(this, Oscilloscope);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [300, 150]
+	    };
+	
+	    _get(Object.getPrototypeOf(Oscilloscope.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.context = mt.context;
+	
+	    this.analyser = this.context.createAnalyser();
+	    this.analyser.fftSize = 2048;
+	    this.bufferLength = this.analyser.frequencyBinCount;
+	    this.dataArray = new Uint8Array(this.bufferLength);
+	    this.analyser.getByteTimeDomainData(this.dataArray);
+	
+	    this.active = true;
+	
+	    this.init();
+	  }
+	
+	  _inherits(Oscilloscope, _Interface);
+	
+	  _createClass(Oscilloscope, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.canvas = new dom.SmartCanvas(this.parent);
+	        this.element = this.canvas.element;
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	        this.sizeInterface();
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	        this.canvas.resize(this.width, this.height);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.canvas.element.style.backgroundColor = this.colors.fill;
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	
+	        if (this.active) {
+	          requestAnimationFrame(this.render.bind(this));
+	        }
+	
+	        this.analyser.getByteTimeDomainData(this.dataArray);
+	
+	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
+	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
+	
+	        this.canvas.context.lineWidth = ~ ~(this.height / 100 + 2);
+	        this.canvas.context.strokeStyle = "#d18";
+	
+	        this.canvas.context.beginPath();
+	
+	        var sliceWidth = this.canvas.element.width * 1 / this.bufferLength;
+	        var x = 0;
+	
+	        for (var i = 0; i < this.bufferLength; i++) {
+	
+	          var v = this.dataArray[i] / 128;
+	          var y = v * this.canvas.element.height / 2;
+	
+	          if (i === 0) {
+	            this.canvas.context.moveTo(x, y);
+	          } else {
+	            this.canvas.context.lineTo(x, y);
+	          }
+	
+	          x += sliceWidth;
+	        }
+	
+	        this.canvas.context.stroke();
+	      }
+	    },
+	    watch: {
+	      value: function watch(node) {
+	        node.connect(this.analyser);
+	        this.render();
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.active = !this.active;
+	        this.render();
+	      }
+	    }
+	  });
+	
+	  return Oscilloscope;
+	})(Interface);
+	
+	module.exports = Oscilloscope;
+
+/***/ },
+/* 41 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	/*
+	What does the API look like?
+	
+	1) Main concept:
+	synth = mt.rack('#container');
+	
+	Transform all elements inside a div
+	synth.ui.slider1 will hold the first slider interface
+	
+	
+	2) What about writing a rack that is re-usable?
+	Could also take JSON
+	
+	mt.rack('#container',{
+	  pre: () => {
+	    create some divs here, or some audio code
+	  },
+	  interface: {
+	    slider1: mt.create.slider({
+	      top:10,
+	      left:10,
+	      width:50,
+	      height:100,
+	      min: 0,
+	      max: 100,
+	      step: 1
+	    }),
+	    wave1: mt.create.waveform({
+	      file: './path/to/file.mp3',
+	      width:500,
+	      height:100,
+	      mode: 'range'
+	    })
+	  },
+	  init: () => {
+	    // some audio init code goes here...
+	  }
+	});
+	
+	*/
+	
+	var transform = _interopRequireWildcard(__webpack_require__(42));
+	
+	var Rack = (function () {
+	  function Rack(target, name, open) {
+	    _classCallCheck(this, Rack);
+	
+	    this.target = target;
+	    this.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
+	    this.title = name;
+	    this.open = open;
+	    this.buildInterface();
+	  }
+	
+	  _createClass(Rack, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	        var _this = this;
+	
+	        /*  this.parent.style.border = 'solid 1px #ddd';
+	          this.parent.style.padding = '0px'; */
+	        this.parent.style.userSelect = "none";
+	        this.parent.style.mozUserSelect = "none";
+	        this.parent.style.webkitUserSelect = "none";
+	
+	        this.contents = document.createElement("div");
+	
+	        while (this.parent.childNodes.length > 0) {
+	          this.contents.appendChild(this.parent.childNodes[0]);
+	        }
+	
+	        this.contents.style.padding = "10px";
+	
+	        if (this.title) {
+	          this.titleBar = document.createElement("div");
+	          this.titleBar.innerHTML = this.title;
+	          this.titleBar.style.fontFamily = "arial";
+	          this.titleBar.style.position = "relative";
+	          this.titleBar.style.color = "#888";
+	          this.titleBar.style.padding = "7px";
+	          this.titleBar.style.backgroundColor = "#f7f7f7";
+	          this.titleBar.style.fontSize = "12px";
+	
+	          this.button = document.createElement("div");
+	          this.button.style.position = "absolute";
+	          this.button.style.top = "5px";
+	          this.button.style.right = "5px";
+	          this.button.innerHTML = "-";
+	          this.button.style.border = "solid 1px #ddd";
+	          this.button.style.padding = "0px 5px 2px";
+	          this.button.style.lineHeight = "12px";
+	          this.button.style.fontSize = "15px";
+	          this.button.style.backgroundColor = "#fff";
+	
+	          this.button.style.cursor = "pointer";
+	
+	          this.button.addEventListener("mouseover", function () {
+	            _this.button.style.backgroundColor = "#f7f7f7";
+	          });
+	          this.button.addEventListener("mouseleave", function () {
+	            _this.button.style.backgroundColor = "#fff";
+	          });
+	          this.button.addEventListener("click", function () {
+	            if (_this.open) {
+	              _this.hide();
+	            } else {
+	              _this.show();
+	            }
+	          });
+	
+	          this.titleBar.appendChild(this.button);
+	
+	          this.parent.appendChild(this.titleBar);
+	        }
+	        this.parent.appendChild(this.contents);
+	
+	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
+	        this.parent.style.width = width;
+	
+	        this.ui = transform.section(this.target);
+	      }
+	    },
+	    show: {
+	      value: function show() {
+	        this.contents.style.display = "block";
+	        this.open = true;
+	      }
+	    },
+	    hide: {
+	      value: function hide() {
+	        this.contents.style.display = "none";
+	        this.open = false;
+	      }
+	    }
+	  });
+	
+	  return Rack;
+	})();
+	
+	module.exports = Rack;
+
+/***/ },
+/* 42 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	"use strict";
+	
+	var dom = _interopRequire(__webpack_require__(7));
+	
+	var Interfaces = _interopRequire(__webpack_require__(2));
+	
+	var element = function (element, type) {
+	  var options = {};
+	  for (var i = 0; i < element.attributes.length; i++) {
+	    var att = element.attributes[i];
+	    //  try {
+	    //    options[att.nodeName] = eval(att.nodeValue);
+	    //  } catch(e) {
+	    options[att.nodeName] = att.nodeValue;
+	    //  }
+	  }
+	  type = type[0].toUpperCase() + type.slice(1);
+	  var widget = new Interfaces[type](element, options);
+	  widget.id = element.id;
+	  return widget;
+	};
+	
+	var section = function (parent) {
+	
+	  var container = dom.parseElement(parent);
+	
+	  var ui = {};
+	
+	  var htmlElements = container.getElementsByTagName("*");
+	  var elements = [];
+	  for (var i = 0; i < htmlElements.length; i++) {
+	    elements.push(htmlElements[i]);
+	  }
+	  for (var i = 0; i < elements.length; i++) {
+	    var type = elements[i].getAttribute("mt");
+	    if (type) {
+	      var widget = element(elements[i], type);
+	      ui[widget.id] = widget;
+	    }
+	  }
+	
+	  return ui;
+	};
+	
+	exports.section = section;
+	exports.element = element;
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var WAAClock = _interopRequire(__webpack_require__(44));
+	
+	var Interval = _interopRequire(__webpack_require__(47));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -4347,17 +8428,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 32 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(33)
+	var WAAClock = __webpack_require__(45)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 33 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -4594,10 +8675,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
 
 /***/ },
-/* 34 */
+/* 46 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -4783,7 +8864,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 35 */
+/* 47 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -4850,7 +8931,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 36 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4861,7 +8942,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(37));
+	var scales = _interopRequire(__webpack_require__(49));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -5007,11 +9088,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.scale.push(freqs[i] / freqs[0]);
 	        }
 	
-	        /* visualize in console */
-	        console.log(" ");
-	        console.log("LOADED " + name);
+	        /* visualize in console
+	        console.log(' ');
+	        console.log('LOADED '+name);
 	        console.log(this.scales[name].description);
-	        console.log(this.scale);
+	        console.log(this.scale); */
 	        var vis = [];
 	        for (var i = 0; i < 100; i++) {
 	          vis[i] = " ";
@@ -5028,8 +9109,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < vis.length; i++) {
 	          textvis += vis[i];
 	        }
-	        console.log(name);
-	        console.log(textvis);
+	        //console.log(name);
+	        //console.log(textvis);
 	        // ET scale vis
 	        vis = [];
 	        for (var i = 0; i < 100; i++) {
@@ -5047,8 +9128,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < vis.length; i++) {
 	          textvis += vis[i];
 	        }
-	        console.log(textvis);
-	        console.log("equal-tempered major (reference)");
+	        //console.log(textvis);
+	        //console.log('equal-tempered major (reference)');
 	      }
 	    },
 	    search: {
@@ -5096,7 +9177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 37 */
+/* 49 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -5127,6 +9208,132 @@ return /******/ (function(modules) { // webpackBootstrap
 	    description: "Basic JI with 7-limit tritone"
 	  }
 	};
+
+/***/ },
+/* 50 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	//Disable jshint warning concerning trailing regular params
+	/*jshint -W138 */
+	
+	var Radio = (function () {
+	    //if non-existent buttons are switched, they are ignored
+	
+	    function Radio() {
+	        for (var _len = arguments.length, onVals = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	            onVals[_key - 1] = arguments[_key];
+	        }
+	
+	        var length = arguments[0] === undefined ? 3 : arguments[0];
+	
+	        _classCallCheck(this, Radio);
+	
+	        //each optional 'onVals' argument switches on that value in the Radio if it exists
+	        //In the example below, a 3-button radio is created, index 0 is switched on, index 1 is switched on then then attempted again producing an warning, and the final argument produces a warning because the index value does not exist.
+	        //Example:
+	        //`  radio = new Radio(3, 0, 1, 1, 3);
+	        //…  [1,1,0]
+	
+	        if (length < 0) {
+	            length = 1;
+	        }
+	
+	        this.length = length;
+	        this.onVals = onVals;
+	        this.array = new Array(length).fill(0);
+	
+	        if (onVals.length > 0) {
+	            this.on.apply(this, onVals);
+	        }
+	    }
+	
+	    _createClass(Radio, {
+	        select: {
+	            value: function select(value) {
+	                this.array.fill(0);
+	                this.array[value] = 1;
+	                return this.array;
+	            }
+	        },
+	        flip: {
+	            value: function flip() {
+	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+	                    values[_key] = arguments[_key];
+	                }
+	
+	                //flips the specified values. if no value is specified, flips all buttons
+	                var a = this.array;
+	                if (values.length > 0) {
+	                    values.forEach(function (v) {
+	                        if (v > a.length - 1) {
+	                            console.warn("Warning: AnonRadio[" + v + "] does not exist");
+	                        } else {
+	                            a[v] = a[v] ? 0 : 1;
+	                        }
+	                    });
+	                } else {
+	                    a.forEach(function (v, i, arr) {
+	                        arr[i] = v ? 0 : 1;
+	                    });
+	                }
+	                return a;
+	            }
+	        },
+	        on: {
+	            value: function on() {
+	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+	                    values[_key] = arguments[_key];
+	                }
+	
+	                //switch on the specified values. if no value specified, flips on all buttons
+	                var a = this.array;
+	                if (values.length > 0) {
+	                    values.forEach(function (v) {
+	                        if (v > a.length - 1) {
+	                            console.warn("Warning: AnonRadio[" + v + "] exceeds size of object");
+	                        } else {
+	                            if (a[v] === 1) {
+	                                console.warn("Warning: AnonRadio[" + v + "] was already on.");
+	                            }
+	                            a[v] = 1;
+	                        }
+	                    });
+	                } else {
+	                    a.fill(1);
+	                }
+	                return a;
+	            }
+	        },
+	        off: {
+	            value: function off() {
+	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+	                    values[_key] = arguments[_key];
+	                }
+	
+	                //switch off the specified values. if no value specified, flips off all buttons
+	                var a = this.array;
+	                if (values.length > 0) {
+	                    values.forEach(function (v) {
+	                        a[v] = 0;
+	                    });
+	                } else {
+	                    a.fill(0);
+	                }
+	                return a;
+	            }
+	        }
+	    });
+	
+	    return Radio;
+	})();
+	
+	module.exports = Radio;
 
 /***/ }
 /******/ ])

@@ -40,8 +40,40 @@
   })
   number.on('change',(v) => {
     slider._value.update(v);
+    // should be: slider.value
     slider.render();
   })
+
+  /* goal:
+    number  - needs ability to set without output.
+            - should adopt the min/max of the other element
+
+    number.link(slider)
+
+    link(interface) {
+      let listener1 = interface.on('change',(v) => {
+        this.value.update(v);
+        this.render();
+      })
+      let listener2 = this.on('change',(v) => {
+        interface._value.update(v);
+        // should be: slider.value
+        interface.render();
+      })
+      return {
+        listener1: listener1,
+        listener2: listener2,
+        destroy: () => {
+          listener1.remove() (or similar)
+          listener2.remove() (or similar)
+        }
+      }
+    }
+
+
+
+
+  */
 
 
 </script>
