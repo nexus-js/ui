@@ -22,7 +22,7 @@
     <div mt="Number" id="number"></div>
     <div mt="Piano" id="piano"></div>
     <div mt="Sequencer" id="sequencer"></div>
-    <div mt="Pan3D" id="pan3D"></div>
+    <div mt="Pan2D" id="pan2D"></div>
     <div mt="Tilt" id="tilt"></div>
     <div mt="Multislider" id="multislider"></div>
     <div mt="Pan" id="pan"></div>
@@ -64,7 +64,7 @@
   player2.loop = true;
 
   instrument.ui.oscilloscope.watch(player2)
-  instrument.ui.meter.watch(player2,2);
+  instrument.ui.meter.connect(player2,2);
   instrument.ui.spectrogram.watch(player2);
 
 </script>
