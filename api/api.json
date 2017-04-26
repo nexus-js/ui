@@ -4263,7 +4263,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Decibel meter",
+              "value": "Stereo decibel meter",
               "position": {
                 "start": {
                   "line": 1,
@@ -4272,8 +4272,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 14,
-                  "offset": 13
+                  "column": 21,
+                  "offset": 20
                 },
                 "indent": []
               }
@@ -4287,8 +4287,8 @@
             },
             "end": {
               "line": 1,
-              "column": 14,
-              "offset": 13
+              "column": 21,
+              "offset": 20
             },
             "indent": []
           }
@@ -4302,15 +4302,15 @@
         },
         "end": {
           "line": 1,
-          "column": 14,
-          "offset": 13
+          "column": 21,
+          "offset": 20
         }
       }
     },
     "tags": [
       {
         "title": "description",
-        "description": "Decibel meter",
+        "description": "Stereo decibel meter",
         "lineNumber": 3
       },
       {
@@ -4341,7 +4341,7 @@
           "column": 0
         },
         "end": {
-          "line": 148,
+          "line": 187,
           "column": 1
         }
       },
@@ -4361,7 +4361,335 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 56,
+                        "offset": 55
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 56,
+                    "offset": 55
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 56,
+                "offset": 55
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{AudioNode} The audio node to visualize",
+              "lineNumber": 2,
+              "type": null,
+              "name": "node"
+            },
+            {
+              "title": "param",
+              "description": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
+              "lineNumber": 3,
+              "type": null,
+              "name": "channels"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 143,
+              "column": 2
+            },
+            "end": {
+              "line": 147,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 149,
+                "column": 2
+              },
+              "end": {
+                "line": 168,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/meter.js"
+          },
+          "params": [
+            {
+              "name": "node",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{AudioNode} The audio node to visualize",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            },
+            {
+              "name": "channels",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 225,
+                            "offset": 224
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 225,
+                        "offset": 224
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 225,
+                    "offset": 224
+                  }
+                }
+              }
+            }
+          ],
+          "name": "connect",
+          "kind": "function",
+          "memberof": "Meter",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Meter",
+              "kind": "class"
+            },
+            {
+              "name": "connect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Meter#connect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Stop visualizing the source node and disconnect it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 52,
+                        "offset": 51
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 170,
+              "column": 2
+            },
+            "end": {
+              "line": 172,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 173,
+                "column": 2
+              },
+              "end": {
+                "line": 180,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/meter.js"
+          },
+          "name": "disconnect",
+          "kind": "function",
+          "memberof": "Meter",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Meter",
+              "kind": "class"
+            },
+            {
+              "name": "disconnect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Meter#disconnect"
+        }
+      ],
       "static": [],
       "events": []
     },

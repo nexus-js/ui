@@ -395,6 +395,7 @@ Creating a Matrix Model from scratch...
 
   var Unformatted = {}
   var API = {}
+  mt.context = Tone.context;
 
   $.getJSON('api.json', function(data) {
     data.forEach(function(entry) {
@@ -546,6 +547,9 @@ Creating a Matrix Model from scratch...
 
   });
 
+  var instrument = false
+  var player = player = new Tone.Player("../example/media/D-sharp.mp3");
+
   function doc(name) {
     if (window.location.hash.substring(1)!=name) {
       window.location.hash = name;
@@ -556,27 +560,28 @@ Creating a Matrix Model from scratch...
     var rendered = Mustache.render(template, entry);
     $('#target').html(rendered);
     Prism.highlightAll();
+
+    if (instrument) {
+      if (instrument.ui[""])
+        instrument.ui[""].destroy();
+    }
     instrument = mt.rack("target");
+
     $(".example-toggle").click(function() {
       $(this).parent().find(".example").toggle();
     })
     if (name=="Waveform") {
-      mt.context = Tone.context;
-      player = new Tone.Player("../example/media/D-sharp.mp3",function() {
+      player.load("../example/media/D-sharp.mp3",function() {
         instrument.ui[""].load(player.buffer._buffer)
       })
-    } else if (name=="Meter") {
-      player = new Tone.Player("../example/media/D-sharp.mp3",function() {
-        // where i left off...
-        // look at meter example in examples/all
-        // update examples/all with new method .. connect? patchIn? input? watch? connectToSource?
-        // finish connect and disconnect methods for meter & others
-        instrument.ui[""].connect(player.output)
+    } else if (["Meter","Oscilloscope","Spectrogram"].indexOf(name)>-1) {
+      player.load("../example/media/D-sharp.mp3",function() {
+        player.loopStart = 0;
+        player.loopEnd = 3;
+        player.loop = true;
+        instrument.ui[""].connect(player,2)
+        player.start()
       })
-    } else {
-      if (player) {
-        player.destroy();
-      }
     }
   }
 

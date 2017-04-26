@@ -7855,8 +7855,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    watch: {
-	      value: function watch(node) {
+	    connect: {
+	      value: function connect(node) {
 	        node.connect(this.analyser);
 	        this.render();
 	      }
@@ -7895,7 +7895,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Meter
 	*
-	* @description Decibel meter
+	* @description Stereo decibel meter
 	*
 	* @demo <span mt="meter"></span>
 	*
@@ -7919,7 +7919,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.context = mt.context;
 	
 	    this.channels = 2;
+	
+	    this.splitter = this.context.createChannelSplitter(this.channels);
+	
 	    this.analysers = [];
+	
+	    for (var i = 0; i < this.channels; i++) {
+	      var analyser = this.context.createAnalyser();
+	      this.splitter.connect(analyser, i);
+	      analyser.fftSize = 1024;
+	      analyser.smoothingTimeConstant = 1;
+	      this.analysers.push(analyser);
+	    }
+	    this.bufferLength = this.analysers[0].frequencyBinCount;
+	    this.dataArray = new Float32Array(this.bufferLength);
 	
 	    /*
 	        // add linear gradient
@@ -7934,7 +7947,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.active = true;
 	
+	    this.db = -Infinity;
+	
 	    this.init();
+	
+	    this.meterWidth = this.canvas.element.width / this.channels;
+	
+	    this.render();
 	  }
 	
 	  _inherits(Meter, _Interface);
@@ -7973,58 +7992,83 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        for (var i = 0; i < this.analysers.length; i++) {
 	
-	          this.analysers[i].getFloatTimeDomainData(this.dataArray);
+	          if (this.source) {
 	
-	          var rms = 0;
+	            this.analysers[i].getFloatTimeDomainData(this.dataArray);
 	
-	          for (var _i = 0; _i < this.dataArray.length; _i++) {
-	            rms += this.dataArray[_i] * this.dataArray[_i];
+	            var rms = 0;
+	
+	            for (var _i = 0; _i < this.dataArray.length; _i++) {
+	              rms += this.dataArray[_i] * this.dataArray[_i];
+	            }
+	
+	            rms = Math.sqrt(rms / this.dataArray.length);
+	
+	            this.db = 20 * Math.log10(rms);
+	          } else if (this.db > -200 && this.db != -Infinity) {
+	            this.db -= 1;
+	          } else {
+	            this.db = -Infinity;
 	          }
 	
-	          rms = Math.sqrt(rms / this.dataArray.length);
+	          //console.log(db)
 	
-	          var db = 20 * Math.log10(rms);
+	          if (this.db > -70) {
 	
-	          if (db > -70) {
-	
-	            var linear = math.normalize(db, -70, 5);
+	            var linear = math.normalize(this.db, -70, 5);
 	            var exp = linear * linear;
 	            var y = math.scale(exp, 0, 1, this.element.height, 0);
 	
 	            this.canvas.context.fillStyle = this.colors.accent;
 	            this.canvas.context.fillRect(this.meterWidth * i, y, this.meterWidth, this.canvas.element.height - y);
+	
+	            //console.log("rendering...")
 	          }
 	        }
 	      }
 	    },
 	    connect: {
-	      value: function connect(node) {
-	        var channels = arguments[1] === undefined ? 1 : arguments[1];
 	
-	        // erase past analysers and splitter
-	        // create splitter of right # of channels
-	        // create new analysers array
-	        this.channels = channels;
+	      /**
+	      Equivalent to "patching in" an audio node to visualize.
+	      @param node {AudioNode} The audio node to visualize
+	      @param channels {number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.
+	      */
+	
+	      value: function connect(node, channels) {
+	        if (this.source) {
+	          this.disconnect();
+	        }
+	        //this.dummy.disconnect(this.splitter);
+	
+	        if (channels) {
+	          this.channels = channels;
+	        } else if (node.channelCount) {
+	          this.channels = node.channelCount;
+	        } else {
+	          this.channels = 2;
+	        }
 	        this.meterWidth = this.canvas.element.width / this.channels;
 	
-	        this.splitter = this.context.createChannelSplitter(this.channels);
-	        node.connect(this.splitter);
+	        this.source = node;
+	        this.source.connect(this.splitter);
 	
-	        for (var i = 0; i < this.channels; i++) {
-	          var analyser = this.context.createAnalyser();
-	          this.splitter.connect(analyser, i);
-	          analyser.fftSize = 1024;
-	          analyser.smoothingTimeConstant = 1;
-	          this.analysers.push(analyser);
-	        }
-	        this.bufferLength = this.analysers[0].frequencyBinCount;
-	        this.dataArray = new Float32Array(this.bufferLength);
-	
-	        this.render();
+	        //  this.render();
 	      }
 	    },
 	    disconnect: {
-	      value: function disconnect() {}
+	
+	      /**
+	      Stop visualizing the source node and disconnect it.
+	      */
+	
+	      value: function disconnect() {
+	
+	        this.source.disconnect(this.splitter);
+	        this.source = false;
+	        //  this.dummy.connect(this.splitter);
+	        this.meterWidth = this.canvas.element.width / this.channels;
+	      }
 	    },
 	    click: {
 	      value: function click() {
@@ -8155,8 +8199,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas.context.stroke();
 	      }
 	    },
-	    watch: {
-	      value: function watch(node) {
+	    connect: {
+	      value: function connect(node) {
 	        node.connect(this.analyser);
 	        this.render();
 	      }
