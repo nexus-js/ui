@@ -1720,18 +1720,23 @@
       },
       {
         "title": "output",
-        "description": "In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.\nIn <b>aftertouch mode</b>, the output data is an object containing properties for the state of the object. the normalized x value (0-1) of interaction, and the normalized y value (0-1) of interaction.",
+        "description": "change\nFires any time the interface's value changes. <br>\nIn <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.<br>\nIn <b>aftertouch mode</b>, the output data is an object containing x (0-1) and y (0-1) positions of aftertouch.",
         "lineNumber": 20
+      },
+      {
+        "title": "outputexample",
+        "description": "button.on('change',function(v) {\n  // v is the value of the button\n  console.log(v);\n})",
+        "lineNumber": 26
       },
       {
         "title": "tutorial",
         "description": "Aftertouch mode\nygGMxq\nHere is some tutorial text",
-        "lineNumber": 24
+        "lineNumber": 32
       },
       {
         "title": "tutorial",
         "description": "Toggle mode\nygGMxq\nHere is some tutorial text 2",
-        "lineNumber": 29
+        "lineNumber": 37
       }
     ],
     "loc": {
@@ -1740,18 +1745,18 @@
         "column": 0
       },
       "end": {
-        "line": 39,
+        "line": 47,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 41,
+          "line": 49,
           "column": 0
         },
         "end": {
-          "line": 124,
+          "line": 132,
           "column": 1
         }
       },
@@ -1846,22 +1851,22 @@
           ],
           "loc": {
             "start": {
-              "line": 58,
+              "line": 66,
               "column": 4
             },
             "end": {
-              "line": 62,
+              "line": 70,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 63,
+                "line": 71,
                 "column": 4
               },
               "end": {
-                "line": 63,
+                "line": 71,
                 "column": 35
               }
             },
@@ -6578,7 +6583,7 @@
           "column": 0
         },
         "end": {
-          "line": 108,
+          "line": 140,
           "column": 1
         }
       },
@@ -6598,7 +6603,272 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 56,
+                        "offset": 55
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 56,
+                    "offset": 55
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 56,
+                "offset": 55
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{AudioNode} The audio node to visualize",
+              "lineNumber": 2,
+              "type": null,
+              "name": "node"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 107,
+              "column": 2
+            },
+            "end": {
+              "line": 110,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 112,
+                "column": 2
+              },
+              "end": {
+                "line": 122,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/oscilloscope.js"
+          },
+          "params": [
+            {
+              "name": "node",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{AudioNode} The audio node to visualize",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "name": "connect",
+          "kind": "function",
+          "memberof": "Oscilloscope",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Oscilloscope",
+              "kind": "class"
+            },
+            {
+              "name": "connect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Oscilloscope#connect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Stop visualizing the source node and disconnect it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 52,
+                        "offset": 51
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 124,
+              "column": 2
+            },
+            "end": {
+              "line": 126,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 127,
+                "column": 2
+              },
+              "end": {
+                "line": 133,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/oscilloscope.js"
+          },
+          "name": "disconnect",
+          "kind": "function",
+          "memberof": "Oscilloscope",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Oscilloscope",
+              "kind": "class"
+            },
+            {
+              "name": "disconnect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Oscilloscope#disconnect"
+        }
+      ],
       "static": [],
       "events": []
     },
@@ -15252,7 +15522,7 @@
           "column": 0
         },
         "end": {
-          "line": 101,
+          "line": 121,
           "column": 1
         }
       },
@@ -15272,7 +15542,272 @@
     ],
     "kind": "class",
     "members": {
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 56,
+                        "offset": 55
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 56,
+                    "offset": 55
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 56,
+                "offset": 55
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{AudioNode} The audio node to visualize",
+              "lineNumber": 2,
+              "type": null,
+              "name": "node"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 95,
+              "column": 2
+            },
+            "end": {
+              "line": 98,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 99,
+                "column": 2
+              },
+              "end": {
+                "line": 106,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/spectrogram.js"
+          },
+          "params": [
+            {
+              "name": "node",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{AudioNode} The audio node to visualize",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "name": "connect",
+          "kind": "function",
+          "memberof": "Spectrogram",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Spectrogram",
+              "kind": "class"
+            },
+            {
+              "name": "connect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Spectrogram#connect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Stop visualizing the source node and disconnect it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 52,
+                        "offset": 51
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 108,
+              "column": 2
+            },
+            "end": {
+              "line": 110,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 111,
+                "column": 2
+              },
+              "end": {
+                "line": 114,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/spectrogram.js"
+          },
+          "name": "disconnect",
+          "kind": "function",
+          "memberof": "Spectrogram",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Spectrogram",
+              "kind": "class"
+            },
+            {
+              "name": "disconnect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Spectrogram#disconnect"
+        }
+      ],
       "static": [],
       "events": []
     },

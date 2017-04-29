@@ -138,9 +138,14 @@
 
     <div class="output">
       <h4>Events</h4>
-      {{{ output }}}
+      {{ #outputs }}
+        <h5>{{ name }}</h5>
+        {{{ description }}} <br />
+        {{ #example }}
+          <pre class="example"><code class="language-javascript">{{ example }}</code></pre>
+        {{ /example }}
+      {{ /outputs }}
     </div>
-
 
     <div class="examples">
 
@@ -167,7 +172,7 @@ MT.TUNE
 -->
 
   <div id="tune" class="custom-tutorial" style="display:none">
-    <h2>Managing Pitches</h2>
+    <h2>mt.tune: Pitches and Scales</h2>
 
     <p>
       This toolkit provides rudimentary methods for managing musical scales. The approach emphasizes algorithmic composition by turning musical pitches into numbers -- using scale degrees numbers and octave numbers instead of note names like C, D, and E. Here is an example:
@@ -407,7 +412,8 @@ Creating a Matrix Model from scratch...
       var unformatted = Unformatted[key]
       var entry = {
         name: unformatted.name,
-        examples: unformatted.examples
+        examples: unformatted.examples,
+        outputs: []
       }
       var exampleTypes = ['Basic', 'With Options']
       if (entry.examples) {
@@ -416,8 +422,22 @@ Creating a Matrix Model from scratch...
         }
       }
       for (var i=0; i<unformatted.tags.length;i++) {
+        if (unformatted.tags[i].title==="output") {
+          var name = unformatted.tags[i].description.split('\n').slice(0,1)[0]
+          var desc = unformatted.tags[i].description.split('\n').slice(1).join("\n")
+          entry.outputs.push({
+            name: name,
+            description: desc,
+            example: ''
+          })
+        } else if (unformatted.tags[i].title==="outputexample") {
+          if (entry.outputs.length-1>=0) {
+            entry.outputs[entry.outputs.length-1].example = unformatted.tags[i].description
+          }
+        }
         entry[unformatted.tags[i].title] = unformatted.tags[i].description
       }
+
 
       // collect members
       var members = unformatted.members.instance
@@ -579,8 +599,8 @@ Creating a Matrix Model from scratch...
         player.loopStart = 0;
         player.loopEnd = 3;
         player.loop = true;
-        instrument.ui[""].connect(player,2)
-        player.start()
+        instrument.ui[""].connect(player,2);
+        player.start();
       })
     }
   }
@@ -708,6 +728,10 @@ Creating a Matrix Model from scratch...
   .tutorial h4 {
   	font-size:30px;
     margin:0px;
+  }
+  .tutorial h5 {
+  	font-size:20px;
+    margin:20px 0px 10px;
   }
 
   .tutorial .output, .tutorial .properties, .tutorial .codepen {

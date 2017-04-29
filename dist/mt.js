@@ -3106,8 +3106,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	* })
 	*
 	* @output
-	* In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.
-	* In <b>aftertouch mode</b>, the output data is an object containing properties for the state of the object. the normalized x value (0-1) of interaction, and the normalized y value (0-1) of interaction.
+	* change
+	* Fires any time the interface's value changes. <br>
+	* In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.<br>
+	* In <b>aftertouch mode</b>, the output data is an object containing x (0-1) and y (0-1) positions of aftertouch.
+	*
+	* @outputexample
+	* button.on('change',function(v) {
+	*   // v is the value of the button
+	*   console.log(v);
+	* })
 	*
 	* @tutorial
 	* Aftertouch mode
@@ -7798,6 +7806,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.active = true;
 	
+	    this.source = false;
+	
 	    this.init();
 	  }
 	
@@ -7837,28 +7847,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
-	        var barWidth = this.canvas.element.width / this.bufferLength;
-	        var barHeight = undefined;
-	        var x = 0;
+	        if (this.source) {
 	
-	        var definition = this.canvas.element.width / 50;
+	          var barWidth = this.canvas.element.width / this.bufferLength;
+	          var barHeight = undefined;
+	          var x = 0;
 	
-	        for (var i = 0; i < this.bufferLength; i = i + definition) {
-	          barHeight = Math.max.apply(null, this.dataArray.slice(i, i + definition));
-	          barHeight /= 255;
-	          barHeight *= this.canvas.element.height;
+	          var definition = this.canvas.element.width / 50;
 	
-	          this.canvas.context.fillStyle = "#d18";
-	          this.canvas.context.fillRect(x, this.canvas.element.height - barHeight, barWidth * definition, barHeight);
+	          for (var i = 0; i < this.bufferLength; i = i + definition) {
+	            barHeight = Math.max.apply(null, this.dataArray.slice(i, i + definition));
+	            barHeight /= 255;
+	            barHeight *= this.canvas.element.height;
 	
-	          x += barWidth * definition;
+	            this.canvas.context.fillStyle = "#d18";
+	            this.canvas.context.fillRect(x, this.canvas.element.height - barHeight, barWidth * definition, barHeight);
+	
+	            x += barWidth * definition;
+	          }
 	        }
 	      }
 	    },
 	    connect: {
+	
+	      /**
+	      Equivalent to "patching in" an audio node to visualize.
+	      @param node {AudioNode} The audio node to visualize
+	      */
+	
 	      value: function connect(node) {
-	        node.connect(this.analyser);
+	        if (this.source) {
+	          this.disconnect();
+	        }
+	        this.source = node;
+	        this.source.connect(this.analyser);
 	        this.render();
+	      }
+	    },
+	    disconnect: {
+	
+	      /**
+	      Stop visualizing the source node and disconnect it.
+	      */
+	
+	      value: function disconnect() {
+	        this.source.disconnect(this.analyser);
+	        this.source = null;
 	      }
 	    },
 	    click: {
@@ -8005,7 +8039,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            rms = Math.sqrt(rms / this.dataArray.length);
 	
 	            this.db = 20 * Math.log10(rms);
-	          } else if (this.db > -200 && this.db != -Infinity) {
+	          } else if (this.db > -200 && this.db !== -Infinity) {
 	            this.db -= 1;
 	          } else {
 	            this.db = -Infinity;
@@ -8135,7 +8169,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.active = true;
 	
+	    this.source = false;
+	
 	    this.init();
+	
+	    this.render();
 	  }
 	
 	  _inherits(Oscilloscope, _Interface);
@@ -8179,30 +8217,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.canvas.context.beginPath();
 	
-	        var sliceWidth = this.canvas.element.width * 1 / this.bufferLength;
-	        var x = 0;
+	        if (this.source) {
 	
-	        for (var i = 0; i < this.bufferLength; i++) {
+	          var sliceWidth = this.canvas.element.width * 1 / this.bufferLength;
+	          var x = 0;
 	
-	          var v = this.dataArray[i] / 128;
-	          var y = v * this.canvas.element.height / 2;
+	          for (var i = 0; i < this.bufferLength; i++) {
 	
-	          if (i === 0) {
-	            this.canvas.context.moveTo(x, y);
-	          } else {
-	            this.canvas.context.lineTo(x, y);
+	            var v = this.dataArray[i] / 128;
+	            var y = v * this.canvas.element.height / 2;
+	
+	            if (i === 0) {
+	              this.canvas.context.moveTo(x, y);
+	            } else {
+	              this.canvas.context.lineTo(x, y);
+	            }
+	
+	            x += sliceWidth;
 	          }
-	
-	          x += sliceWidth;
+	        } else {
+	          this.canvas.context.moveTo(0, this.canvas.element.height / 2);
+	          this.canvas.context.lineTo(this.canvas.element.width, this.canvas.element.height / 2);
 	        }
 	
 	        this.canvas.context.stroke();
 	      }
 	    },
 	    connect: {
+	
+	      /**
+	      Equivalent to "patching in" an audio node to visualize.
+	      @param node {AudioNode} The audio node to visualize
+	      */
+	
 	      value: function connect(node) {
-	        node.connect(this.analyser);
+	
+	        if (this.source) {
+	          this.disconnect();
+	        }
+	
+	        this.source = node;
+	        this.source.connect(this.analyser);
+	
 	        this.render();
+	      }
+	    },
+	    disconnect: {
+	
+	      /**
+	      Stop visualizing the source node and disconnect it.
+	      */
+	
+	      value: function disconnect() {
+	        if (this.source) {
+	          this.source.disconnect(this.analyser);
+	          this.source = null;
+	        }
 	      }
 	    },
 	    click: {
