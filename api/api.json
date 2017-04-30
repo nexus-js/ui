@@ -2848,7 +2848,7 @@
       },
       {
         "title": "output",
-        "description": "change\nFires any time a node is moved. <br>\nThe event data is an object containing <i>node</i> and <i>value</i> properties.",
+        "description": "change\nFires any time a node is moved. <br>\nThe event data is an array of point locations. Each item in the array is an object containing <i>x</i> and <i>y</i> properties describing the location of a point on the envelope.",
         "lineNumber": 34
       },
       {

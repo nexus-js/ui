@@ -3023,14 +3023,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [120, 25],
-	      target: false,
-	      value: 0
+	      numberOfButtons: 4,
+	      active: -1
 	    };
 	
 	    _get(Object.getPrototypeOf(RadioButton.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this.buttons = [];
-	    this.numberOfButtons = 4;
+	    this.numberOfButtons = this.settings.numberOfButtons;
 	    this.active = -1;
 	
 	    this.init();
@@ -7019,7 +7019,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @output
 	* change
 	* Fires any time a node is moved. <br>
-	* The event data is an object containing <i>node</i> and <i>value</i> properties.
+	* The event data is an array of point locations. Each item in the array is an object containing <i>x</i> and <i>y</i> properties describing the location of a point on the envelope.
 	*
 	* @outputexample
 	* envelope.on('change',function(v) {
