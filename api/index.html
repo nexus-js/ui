@@ -23,60 +23,60 @@
     <h2>Interfaces</h2>
 
     <h3>Core</h3>
-    <a href="javascript:doc('Button')">mt.button</a><br />
-    <a href="javascript:doc('Dial')">mt.dial</a><br />
-    <a href="javascript:doc('Number')">mt.number</a><br />
-    <a href="javascript:doc('Position')">mt.position</a><br />
-    <a href="javascript:doc('Slider')">mt.slider</a><br />
-    <a href="javascript:doc('Toggle')">mt.toggle</a><br />
+    <a href="javascript:doc('Button')">button</a><br />
+    <a href="javascript:doc('Dial')">dial</a><br />
+    <a href="javascript:doc('Number')">number</a><br />
+    <a href="javascript:doc('Position')">position</a><br />
+    <a href="javascript:doc('Slider')">slider</a><br />
+    <a href="javascript:doc('Toggle')">toggle</a><br />
 
     <h3>General</h3>
-    <a href="javascript:doc('Envelope')">mt.envelope</a><br />
-    <a href="javascript:doc('Multislider')">mt.multislider</a><br />
-    <a href="javascript:doc('Piano')">mt.piano</a><br />
-    <a href="javascript:doc('RadioButton')">mt.radiobutton</a><br />
-    <a href="javascript:doc('Range')">mt.range</a><br />
-    <a href="javascript:doc('Sequencer')">mt.sequencer</a><br />
-    <a href="javascript:doc('TextButton')">mt.textbutton</a><br />
-    <a href="javascript:doc('Waveform')">mt.waveform</a><br />
+    <a href="javascript:doc('Envelope')">envelope</a><br />
+    <a href="javascript:doc('Multislider')">multislider</a><br />
+    <a href="javascript:doc('Piano')">piano</a><br />
+    <a href="javascript:doc('RadioButton')">radiobutton</a><br />
+  <!--  <a href="javascript:doc('Range')">range</a><br /> -->
+    <a href="javascript:doc('Sequencer')">sequencer</a><br />
+    <a href="javascript:doc('TextButton')">textbutton</a><br />
+  <!--  <a href="javascript:doc('Waveform')">waveform</a><br /> -->
 
 
     <h3>Mobile</h3>
-    <a href="javascript:doc('Tilt')">mt.tilt</a><br />
+    <a href="javascript:doc('Tilt')">tilt</a><br />
 
     <h3>Spatialization</h3>
-    <a href="javascript:doc('Pan')">mt.pan</a><br />
-    <a href="javascript:doc('Pan2D')">mt.pan2d</a><br />
+    <a href="javascript:doc('Pan')">pan</a><br />
+    <a href="javascript:doc('Pan2D')">pan2d</a><br />
 
     <h3>Visualization</h3>
-    <a href="javascript:doc('Meter')">mt.meter</a><br />
-    <a href="javascript:doc('Oscilloscope')">mt.oscilloscope</a><br />
-    <a href="javascript:doc('Spectrogram')">mt.spectragram</a><br />
+    <a href="javascript:doc('Meter')">meter</a><br />
+    <a href="javascript:doc('Oscilloscope')">oscilloscope</a><br />
+    <a href="javascript:doc('Spectrogram')">spectragram</a><br />
 
 
     <h2>Tuning</h2>
-    <a href="javascript:tut('tune')">mt.tune</a><br />
+    <a href="javascript:tut('tune')">tune</a><br />
 
     <h2>Timing</h2>
-    <a href="javascript:tut('interval')">mt.interval</a><br />
+    <a href="javascript:tut('interval')">interval</a><br />
 
     <h2>Models</h2>
-    <a href="javascript:tut('counter')">mt.counter</a><br />
-    <a href="javascript:tut('sequence')">mt.sequence</a><br />
-    <a href="javascript:tut('drunk')">mt.drunk</a><br />
-    <a href="javascript:tut('matrix')">mt.matrix</a><br />
+    <a href="javascript:tut('counter')">counter</a><br />
+    <a href="javascript:tut('sequence')">sequence</a><br />
+    <a href="javascript:tut('drunk')">drunk</a><br />
+    <a href="javascript:tut('matrix')">matrix</a><br />
 
     <h2>Helpers</h2>
-    <a href="javascript:helper('ri')">mt.ri (random integer)</a><br />
-    <a href="javascript:helper('rf')">mt.rf (random float)</a><br />
-    <a href="javascript:helper('clip')">mt.clip</a><br />
-    <a href="javascript:helper('scale')">mt.scale</a><br />
-    <a href="javascript:helper('mtof')">mt.mtof</a><br />
-    <a href="javascript:helper('interp')">mt.interp</a><br />
-    <a href="javascript:helper('pick')">mt.pick</a><br />
-    <a href="javascript:helper('octave')">mt.octave</a><br />
-    <a href="javascript:helper('cycle')">mt.cycle</a><br />
-    <a href="javascript:helper('average')">mt.average</a><br />
+    <a href="javascript:helper('ri')">ri (random integer)</a><br />
+    <a href="javascript:helper('rf')">rf (random float)</a><br />
+    <a href="javascript:helper('clip')">clip</a><br />
+    <a href="javascript:helper('scale')">scale</a><br />
+    <a href="javascript:helper('mtof')">mtof</a><br />
+    <a href="javascript:helper('interp')">interp</a><br />
+    <a href="javascript:helper('pick')">pick</a><br />
+    <a href="javascript:helper('octave')">octave</a><br />
+    <a href="javascript:helper('cycle')">cycle</a><br />
+    <a href="javascript:helper('average')">average</a><br />
   </div>
 
   <div id="tutorial" class="tutorial">
@@ -139,7 +139,7 @@
     <div class="output">
       <h4>Events</h4>
       {{ #outputs }}
-        <h5>{{ name }}</h5>
+        <h5>{{{ name }}}</h5>
         {{{ description }}} <br />
         {{ #example }}
           <pre class="example"><code class="language-javascript">{{ example }}</code></pre>
@@ -648,7 +648,7 @@ Creating a Matrix Model from scratch...
 <style>
 
   body {
-    font-family: 'Muli', courier;
+    font-family: 'Muli', helvetica;
     padding:0;
     margin:0;
     width:100%;

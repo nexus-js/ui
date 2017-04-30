@@ -1966,37 +1966,57 @@
       {
         "title": "description",
         "description": "Dial with radial or linear interaction.",
-        "lineNumber": 3
+        "lineNumber": 4
       },
       {
         "title": "demo",
         "description": "<span mt=\"dial\"></span>",
-        "lineNumber": 5
+        "lineNumber": 6
       },
       {
         "title": "example",
         "description": "var dial = mt.dial('#target')",
-        "lineNumber": 7
+        "lineNumber": 8
+      },
+      {
+        "title": "example",
+        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
+        "lineNumber": 11
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
+        "lineNumber": 22
+      },
+      {
+        "title": "outputexample",
+        "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 27
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 32
       }
     ],
     "loc": {
       "start": {
-        "line": 10,
+        "line": 9,
         "column": 0
       },
       "end": {
-        "line": 20,
+        "line": 45,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 22,
+          "line": 47,
           "column": 0
         },
         "end": {
-          "line": 316,
+          "line": 342,
           "column": 1
         }
       },
@@ -2005,6 +2025,9 @@
     "examples": [
       {
         "description": "var dial = mt.dial('#target')"
+      },
+      {
+        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
       }
     ],
     "name": "Dial",
@@ -2088,22 +2111,22 @@
           ],
           "loc": {
             "start": {
-              "line": 41,
+              "line": 67,
               "column": 4
             },
             "end": {
-              "line": 45,
+              "line": 71,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 46,
+                "line": 72,
                 "column": 4
               },
               "end": {
-                "line": 46,
+                "line": 72,
                 "column": 35
               }
             },
@@ -2205,22 +2228,22 @@
           ],
           "loc": {
             "start": {
-              "line": 50,
+              "line": 76,
               "column": 4
             },
             "end": {
-              "line": 54,
+              "line": 80,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 55,
+                "line": 81,
                 "column": 4
               },
               "end": {
-                "line": 55,
+                "line": 81,
                 "column": 35
               }
             },
@@ -2322,22 +2345,22 @@
           ],
           "loc": {
             "start": {
-              "line": 57,
+              "line": 83,
               "column": 4
             },
             "end": {
-              "line": 61,
+              "line": 87,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 62,
+                "line": 88,
                 "column": 4
               },
               "end": {
-                "line": 62,
+                "line": 88,
                 "column": 33
               }
             },
@@ -2439,22 +2462,22 @@
           ],
           "loc": {
             "start": {
-              "line": 64,
+              "line": 90,
               "column": 4
             },
             "end": {
-              "line": 68,
+              "line": 94,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 69,
+                "line": 95,
                 "column": 4
               },
               "end": {
-                "line": 69,
+                "line": 95,
                 "column": 33
               }
             },
@@ -2556,22 +2579,22 @@
           ],
           "loc": {
             "start": {
-              "line": 288,
+              "line": 314,
               "column": 2
             },
             "end": {
-              "line": 292,
+              "line": 318,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 293,
+                "line": 319,
                 "column": 2
               },
               "end": {
-                "line": 295,
+                "line": 321,
                 "column": 3
               }
             },
@@ -2675,22 +2698,22 @@
           ],
           "loc": {
             "start": {
-              "line": 303,
+              "line": 329,
               "column": 2
             },
             "end": {
-              "line": 307,
+              "line": 333,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 308,
+                "line": 334,
                 "column": 2
               },
               "end": {
-                "line": 310,
+                "line": 336,
                 "column": 3
               }
             },
@@ -2803,26 +2826,46 @@
         "title": "example",
         "description": "var envelope = mt.envelope('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var envelope = mt.envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time a node is moved. <br>\nThe event data is an object containing <i>node</i> and <i>value</i> properties.",
+        "lineNumber": 34
+      },
+      {
+        "title": "outputexample",
+        "description": "envelope.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 39
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 44
       }
     ],
     "loc": {
       "start": {
-        "line": 72,
+        "line": 68,
         "column": 0
       },
       "end": {
-        "line": 82,
+        "line": 117,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 84,
+          "line": 119,
           "column": 0
         },
         "end": {
-          "line": 422,
+          "line": 454,
           "column": 1
         }
       },
@@ -2831,6 +2874,9 @@
     "examples": [
       {
         "description": "var envelope = mt.envelope('#target')"
+      },
+      {
+        "description": "var envelope = mt.envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})"
       }
     ],
     "name": "Envelope",
@@ -2899,22 +2945,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 311,
+              "line": 344,
               "column": 2
             },
             "end": {
-              "line": 313,
+              "line": 346,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 314,
+                "line": 347,
                 "column": 2
               },
               "end": {
-                "line": 318,
+                "line": 351,
                 "column": 3
               }
             },
@@ -3013,22 +3059,22 @@
           ],
           "loc": {
             "start": {
-              "line": 321,
+              "line": 354,
               "column": 2
             },
             "end": {
-              "line": 325,
+              "line": 358,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 326,
+                "line": 359,
                 "column": 2
               },
               "end": {
-                "line": 346,
+                "line": 379,
                 "column": 3
               }
             },
@@ -3234,22 +3280,22 @@
           ],
           "loc": {
             "start": {
-              "line": 349,
+              "line": 382,
               "column": 2
             },
             "end": {
-              "line": 352,
+              "line": 385,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 353,
+                "line": 386,
                 "column": 2
               },
               "end": {
-                "line": 370,
+                "line": 402,
                 "column": 3
               }
             },
@@ -3413,22 +3459,22 @@
           ],
           "loc": {
             "start": {
-              "line": 373,
+              "line": 405,
               "column": 2
             },
             "end": {
-              "line": 378,
+              "line": 410,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 379,
+                "line": 411,
                 "column": 2
               },
               "end": {
-                "line": 383,
+                "line": 415,
                 "column": 3
               }
             },
@@ -3704,22 +3750,22 @@
           ],
           "loc": {
             "start": {
-              "line": 386,
+              "line": 418,
               "column": 2
             },
             "end": {
-              "line": 391,
+              "line": 423,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 392,
+                "line": 424,
                 "column": 2
               },
               "end": {
-                "line": 396,
+                "line": 428,
                 "column": 3
               }
             },
@@ -3981,22 +4027,22 @@
           ],
           "loc": {
             "start": {
-              "line": 399,
+              "line": 431,
               "column": 2
             },
             "end": {
-              "line": 402,
+              "line": 434,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 403,
+                "line": 435,
                 "column": 2
               },
               "end": {
-                "line": 406,
+                "line": 438,
                 "column": 3
               }
             },
@@ -4146,22 +4192,22 @@
           ],
           "loc": {
             "start": {
-              "line": 409,
+              "line": 441,
               "column": 2
             },
             "end": {
-              "line": 412,
+              "line": 444,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 413,
+                "line": 445,
                 "column": 2
               },
               "end": {
-                "line": 420,
+                "line": 452,
                 "column": 3
               }
             },
@@ -4327,6 +4373,21 @@
         "title": "example",
         "description": "var meter = mt.meter('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var meter = mt.meter('#target',{\n  'size': [75,75]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "&nbsp;\nNo events",
+        "lineNumber": 15
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 19
       }
     ],
     "loc": {
@@ -4335,18 +4396,18 @@
         "column": 0
       },
       "end": {
-        "line": 18,
+        "line": 32,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 20,
+          "line": 34,
           "column": 0
         },
         "end": {
-          "line": 187,
+          "line": 201,
           "column": 1
         }
       },
@@ -4355,6 +4416,9 @@
     "examples": [
       {
         "description": "var meter = mt.meter('#target')"
+      },
+      {
+        "description": "var meter = mt.meter('#target',{\n  'size': [75,75]\n})"
       }
     ],
     "name": "Meter",
@@ -4438,22 +4502,22 @@
           ],
           "loc": {
             "start": {
-              "line": 143,
+              "line": 157,
               "column": 2
             },
             "end": {
-              "line": 147,
+              "line": 161,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 149,
+                "line": 163,
                 "column": 2
               },
               "end": {
-                "line": 168,
+                "line": 182,
                 "column": 3
               }
             },
@@ -4651,22 +4715,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 170,
+              "line": 184,
               "column": 2
             },
             "end": {
-              "line": 172,
+              "line": 186,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 173,
+                "line": 187,
                 "column": 2
               },
               "end": {
-                "line": 180,
+                "line": 194,
                 "column": 3
               }
             },
@@ -4779,6 +4843,21 @@
         "title": "example",
         "description": "var multislider = mt.multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})",
         "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data an object containing <i>index</i> and <i>value</i> properties",
+        "lineNumber": 20
+      },
+      {
+        "title": "outputexample",
+        "description": "multislider.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 25
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 30
       }
     ],
     "loc": {
@@ -4787,18 +4866,18 @@
         "column": 0
       },
       "end": {
-        "line": 151,
+        "line": 166,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 159,
+          "line": 174,
           "column": 0
         },
         "end": {
-          "line": 412,
+          "line": 427,
           "column": 1
         }
       },
@@ -4888,22 +4967,22 @@
           ],
           "loc": {
             "start": {
-              "line": 315,
+              "line": 330,
               "column": 2
             },
             "end": {
-              "line": 318,
+              "line": 333,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 319,
+                "line": 334,
                 "column": 2
               },
               "end": {
-                "line": 321,
+                "line": 336,
                 "column": 3
               }
             },
@@ -5002,22 +5081,22 @@
           ],
           "loc": {
             "start": {
-              "line": 337,
+              "line": 352,
               "column": 2
             },
             "end": {
-              "line": 341,
+              "line": 356,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 342,
+                "line": 357,
                 "column": 2
               },
               "end": {
-                "line": 344,
+                "line": 359,
                 "column": 3
               }
             },
@@ -5121,22 +5200,22 @@
           ],
           "loc": {
             "start": {
-              "line": 351,
+              "line": 366,
               "column": 2
             },
             "end": {
-              "line": 355,
+              "line": 370,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 356,
+                "line": 371,
                 "column": 2
               },
               "end": {
-                "line": 358,
+                "line": 373,
                 "column": 3
               }
             },
@@ -5240,22 +5319,22 @@
           ],
           "loc": {
             "start": {
-              "line": 365,
+              "line": 380,
               "column": 2
             },
             "end": {
-              "line": 369,
+              "line": 384,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 370,
+                "line": 385,
                 "column": 2
               },
               "end": {
-                "line": 372,
+                "line": 387,
                 "column": 3
               }
             },
@@ -5364,22 +5443,22 @@
           ],
           "loc": {
             "start": {
-              "line": 379,
+              "line": 394,
               "column": 2
             },
             "end": {
-              "line": 386,
+              "line": 401,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 387,
+                "line": 402,
                 "column": 2
               },
               "end": {
-                "line": 393,
+                "line": 408,
                 "column": 3
               }
             },
@@ -5595,22 +5674,22 @@
           ],
           "loc": {
             "start": {
-              "line": 395,
+              "line": 410,
               "column": 2
             },
             "end": {
-              "line": 400,
+              "line": 415,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 401,
+                "line": 416,
                 "column": 2
               },
               "end": {
-                "line": 410,
+                "line": 425,
                 "column": 3
               }
             },
@@ -5722,7 +5801,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Draggable and editable number interface",
+              "value": "Number interface which is controllable by dragging or typing.",
               "position": {
                 "start": {
                   "line": 1,
@@ -5731,8 +5810,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 40,
-                  "offset": 39
+                  "column": 62,
+                  "offset": 61
                 },
                 "indent": []
               }
@@ -5746,8 +5825,8 @@
             },
             "end": {
               "line": 1,
-              "column": 40,
-              "offset": 39
+              "column": 62,
+              "offset": 61
             },
             "indent": []
           }
@@ -5761,15 +5840,15 @@
         },
         "end": {
           "line": 1,
-          "column": 40,
-          "offset": 39
+          "column": 62,
+          "offset": 61
         }
       }
     },
     "tags": [
       {
         "title": "description",
-        "description": "Draggable and editable number interface",
+        "description": "Number interface which is controllable by dragging or typing.",
         "lineNumber": 3
       },
       {
@@ -5781,6 +5860,26 @@
         "title": "example",
         "description": "var number = mt.number('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var number = mt.number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
+        "lineNumber": 19
+      },
+      {
+        "title": "outputexample",
+        "description": "number.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 24
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 29
       }
     ],
     "loc": {
@@ -5789,18 +5888,18 @@
         "column": 0
       },
       "end": {
-        "line": 17,
+        "line": 41,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 20,
+          "line": 44,
           "column": 0
         },
         "end": {
-          "line": 243,
+          "line": 266,
           "column": 1
         }
       },
@@ -5809,6 +5908,9 @@
     "examples": [
       {
         "description": "var number = mt.number('#target')"
+      },
+      {
+        "description": "var number = mt.number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})"
       }
     ],
     "name": "Number",
@@ -5893,22 +5995,22 @@
           ],
           "loc": {
             "start": {
-              "line": 164,
+              "line": 187,
               "column": 2
             },
             "end": {
-              "line": 168,
+              "line": 191,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 169,
+                "line": 192,
                 "column": 2
               },
               "end": {
-                "line": 187,
+                "line": 210,
                 "column": 3
               }
             },
@@ -5978,7 +6080,7 @@
             {
               "title": "param",
               "name": "destination",
-              "lineNumber": 169
+              "lineNumber": 192
             }
           ],
           "examples": [
@@ -6079,22 +6181,22 @@
           ],
           "loc": {
             "start": {
-              "line": 194,
+              "line": 217,
               "column": 2
             },
             "end": {
-              "line": 198,
+              "line": 221,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 199,
+                "line": 222,
                 "column": 2
               },
               "end": {
-                "line": 201,
+                "line": 224,
                 "column": 3
               }
             },
@@ -6198,22 +6300,22 @@
           ],
           "loc": {
             "start": {
-              "line": 207,
+              "line": 230,
               "column": 2
             },
             "end": {
-              "line": 211,
+              "line": 234,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 212,
+                "line": 235,
                 "column": 2
               },
               "end": {
-                "line": 214,
+                "line": 237,
                 "column": 3
               }
             },
@@ -6317,22 +6419,22 @@
           ],
           "loc": {
             "start": {
-              "line": 219,
+              "line": 242,
               "column": 2
             },
             "end": {
-              "line": 223,
+              "line": 246,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 224,
+                "line": 247,
                 "column": 2
               },
               "end": {
-                "line": 226,
+                "line": 249,
                 "column": 3
               }
             },
@@ -6436,22 +6538,22 @@
           ],
           "loc": {
             "start": {
-              "line": 231,
+              "line": 254,
               "column": 2
             },
             "end": {
-              "line": 235,
+              "line": 258,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 236,
+                "line": 259,
                 "column": 2
               },
               "end": {
-                "line": 238,
+                "line": 261,
                 "column": 3
               }
             },
@@ -6564,26 +6666,41 @@
         "title": "example",
         "description": "var oscilloscope = mt.oscilloscope('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var oscilloscope = mt.oscilloscope('#target',{\n  'size': [300,150]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "&nbsp;\nNo events",
+        "lineNumber": 15
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 19
       }
     ],
     "loc": {
       "start": {
-        "line": 7,
+        "line": 6,
         "column": 0
       },
       "end": {
-        "line": 17,
+        "line": 30,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 19,
+          "line": 32,
           "column": 0
         },
         "end": {
-          "line": 140,
+          "line": 153,
           "column": 1
         }
       },
@@ -6592,6 +6709,9 @@
     "examples": [
       {
         "description": "var oscilloscope = mt.oscilloscope('#target')"
+      },
+      {
+        "description": "var oscilloscope = mt.oscilloscope('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "name": "Oscilloscope",
@@ -6668,22 +6788,22 @@
           ],
           "loc": {
             "start": {
-              "line": 107,
+              "line": 120,
               "column": 2
             },
             "end": {
-              "line": 110,
+              "line": 123,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 112,
+                "line": 125,
                 "column": 2
               },
               "end": {
-                "line": 122,
+                "line": 135,
                 "column": 3
               }
             },
@@ -6825,22 +6945,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 124,
+              "line": 137,
               "column": 2
             },
             "end": {
-              "line": 126,
+              "line": 139,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 127,
+                "line": 140,
                 "column": 2
               },
               "end": {
-                "line": 133,
+                "line": 146,
                 "column": 3
               }
             },
@@ -6948,6 +7068,26 @@
         "title": "example",
         "description": "var pan = mt.pan('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var dial = mt.dial('#target',{\n    'size': [120,20],\n    'orientation': 'horizontal',\n    'mode': 'relative',\n    'value': 0,\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object containing the interface's <i>value</i> (-1 to 1), as well as <i>L</i> and <i>R</i> amplitude values (0-1) for left and right speakers, calculated by a square-root crossfade algorithm.",
+        "lineNumber": 18
+      },
+      {
+        "title": "outputexample",
+        "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 23
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 28
       }
     ],
     "loc": {
@@ -6956,18 +7096,18 @@
         "column": 0
       },
       "end": {
-        "line": 19,
+        "line": 42,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 21,
+          "line": 44,
           "column": 0
         },
         "end": {
-          "line": 221,
+          "line": 244,
           "column": 1
         }
       },
@@ -6976,6 +7116,9 @@
     "examples": [
       {
         "description": "var pan = mt.pan('#target')"
+      },
+      {
+        "description": "var dial = mt.dial('#target',{\n    'size': [120,20],\n    'orientation': 'horizontal',\n    'mode': 'relative',\n    'value': 0,\n})"
       }
     ],
     "name": "Pan",
@@ -7054,22 +7197,22 @@
           ],
           "loc": {
             "start": {
-              "line": 203,
+              "line": 226,
               "column": 2
             },
             "end": {
-              "line": 206,
+              "line": 229,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 207,
+                "line": 230,
                 "column": 2
               },
               "end": {
-                "line": 209,
+                "line": 232,
                 "column": 3
               }
             },
@@ -7177,6 +7320,26 @@
         "title": "example",
         "description": "var pan2d = mt.pan2d('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var pan2d = mt.pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the \"source\" node's position changes. <br>\nThe event data is an array of the amplitudes (0-1), representing the level of each speaker (as calculated by its distance to the audio source).",
+        "lineNumber": 27
+      },
+      {
+        "title": "outputexample",
+        "description": "pan2d.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 32
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 37
       }
     ],
     "loc": {
@@ -7185,18 +7348,18 @@
         "column": 0
       },
       "end": {
-        "line": 19,
+        "line": 51,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 21,
+          "line": 53,
           "column": 0
         },
         "end": {
-          "line": 240,
+          "line": 272,
           "column": 1
         }
       },
@@ -7205,6 +7368,9 @@
     "examples": [
       {
         "description": "var pan2d = mt.pan2d('#target')"
+      },
+      {
+        "description": "var pan2d = mt.pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})"
       }
     ],
     "name": "Pan2D",
@@ -7273,22 +7439,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 50,
+              "line": 82,
               "column": 4
             },
             "end": {
-              "line": 52,
+              "line": 84,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 53,
+                "line": 85,
                 "column": 4
               },
               "end": {
-                "line": 53,
+                "line": 85,
                 "column": 35
               }
             },
@@ -7370,22 +7536,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 62,
+              "line": 94,
               "column": 4
             },
             "end": {
-              "line": 64,
+              "line": 96,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 65,
+                "line": 97,
                 "column": 4
               },
               "end": {
-                "line": 65,
+                "line": 97,
                 "column": 43
               }
             },
@@ -7467,22 +7633,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 67,
+              "line": 99,
               "column": 4
             },
             "end": {
-              "line": 69,
+              "line": 101,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 70,
+                "line": 102,
                 "column": 4
               },
               "end": {
-                "line": 70,
+                "line": 102,
                 "column": 37
               }
             },
@@ -7564,22 +7730,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 72,
+              "line": 104,
               "column": 4
             },
             "end": {
-              "line": 74,
+              "line": 106,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 75,
+                "line": 107,
                 "column": 4
               },
               "end": {
-                "line": 75,
+                "line": 107,
                 "column": 21
               }
             },
@@ -7676,22 +7842,22 @@
           ],
           "loc": {
             "start": {
-              "line": 197,
+              "line": 229,
               "column": 2
             },
             "end": {
-              "line": 201,
+              "line": 233,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 202,
+                "line": 234,
                 "column": 2
               },
               "end": {
-                "line": 212,
+                "line": 244,
                 "column": 3
               }
             },
@@ -7911,1049 +8077,22 @@
           ],
           "loc": {
             "start": {
-              "line": 214,
+              "line": 246,
               "column": 2
             },
             "end": {
-              "line": 219,
+              "line": 251,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 220,
+                "line": 252,
                 "column": 2
               },
               "end": {
-                "line": 229,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
-          },
-          "params": [
-            {
-              "name": "index",
-              "lineNumber": 2,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{number} Index of the speaker to move",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 38,
-                            "offset": 37
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 38,
-                        "offset": 37
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 38,
-                    "offset": 37
-                  }
-                }
-              }
-            },
-            {
-              "name": "x",
-              "lineNumber": 3,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{number} New x location, normalized 0-1",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 40,
-                            "offset": 39
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                }
-              }
-            },
-            {
-              "name": "y",
-              "lineNumber": 4,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{number} New y location, normalized 0-1",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 40,
-                            "offset": 39
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                }
-              }
-            }
-          ],
-          "name": "moveSpeaker",
-          "kind": "function",
-          "memberof": "Pan2D",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Pan2D",
-              "kind": "class"
-            },
-            {
-              "name": "moveSpeaker",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Pan2D#moveSpeaker"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Pan2D",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Pan2D"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 209,
-                  "offset": 208
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 209,
-              "offset": 208
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 209,
-          "offset": 208
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span mt=\"pan2D\"></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var pan2d = mt.pan2d('#target')",
-        "lineNumber": 7
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 12,
-        "column": 0
-      },
-      "end": {
-        "line": 22,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 24,
-          "column": 0
-        },
-        "end": {
-          "line": 203,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan3d.js"
-    },
-    "examples": [
-      {
-        "description": "var pan2d = mt.pan2d('#target')"
-      }
-    ],
-    "name": "Pan2D",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Absolute or relative mouse interaction. In \"absolute\" mode, the source node will jump to your mouse position on mouse click. In \"relative\" mode, it does not.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 158,
-                        "offset": 157
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 158,
-                    "offset": 157
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 158,
-                "offset": 157
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 50,
-              "column": 4
-            },
-            "end": {
-              "line": 52,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 53,
-                "column": 4
-              },
-              "end": {
-                "line": 53,
-                "column": 35
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
-          },
-          "name": "mode",
-          "memberof": "Pan2D",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Pan2D",
-              "kind": "class"
-            },
-            {
-              "name": "mode",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Pan2D#mode"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "An array of speaker locations. Update this with .moveSpeaker() or .moveAllSpeakers()",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 85,
-                        "offset": 84
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 85,
-                    "offset": 84
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 85,
-                "offset": 84
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 62,
-              "column": 4
-            },
-            "end": {
-              "line": 64,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 65,
-                "column": 4
-              },
-              "end": {
-                "line": 65,
-                "column": 43
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
-          },
-          "name": "speakers",
-          "memberof": "Pan2D",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Pan2D",
-              "kind": "class"
-            },
-            {
-              "name": "speakers",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Pan2D#speakers"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Rewrite: The maximum distance from a speaker that the source node can be for it to be heard from that speaker. A low range (0.1) will result in speakers only playing when the sound is very close it. Default is 0.5 (half of the interface).",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 239,
-                        "offset": 238
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 239,
-                    "offset": 238
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 239,
-                "offset": 238
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 67,
-              "column": 4
-            },
-            "end": {
-              "line": 69,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 70,
-                "column": 4
-              },
-              "end": {
-                "line": 70,
-                "column": 37
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
-          },
-          "name": "range",
-          "memberof": "Pan2D",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Pan2D",
-              "kind": "class"
-            },
-            {
-              "name": "range",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Pan2D#range"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The current levels for each speaker. This is calculated when a source node or speaker node is moved through interaction or programatically.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 140,
-                        "offset": 139
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 140,
-                    "offset": 139
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 140,
-                "offset": 139
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 72,
-              "column": 4
-            },
-            "end": {
-              "line": 74,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 75,
-                "column": 4
-              },
-              "end": {
-                "line": 75,
-                "column": 21
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
-          },
-          "name": "levels",
-          "memberof": "Pan2D",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Pan2D",
-              "kind": "class"
-            },
-            {
-              "name": "levels",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Pan2D#levels"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Move the audio source node and trigger the output event.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 57,
-                        "offset": 56
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 57,
-                    "offset": 56
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 57,
-                "offset": 56
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "param",
-              "description": "{number} New x location, normalized 0-1",
-              "lineNumber": 2,
-              "type": null,
-              "name": "x"
-            },
-            {
-              "title": "param",
-              "description": "{number} New y location, normalized 0-1",
-              "lineNumber": 3,
-              "type": null,
-              "name": "y"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 197,
-              "column": 2
-            },
-            "end": {
-              "line": 201,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 202,
-                "column": 2
-              },
-              "end": {
-                "line": 212,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
-          },
-          "params": [
-            {
-              "name": "x",
-              "lineNumber": 2,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{number} New x location, normalized 0-1",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 40,
-                            "offset": 39
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                }
-              }
-            },
-            {
-              "name": "y",
-              "lineNumber": 3,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{number} New y location, normalized 0-1",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 40,
-                            "offset": 39
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                }
-              }
-            }
-          ],
-          "name": "moveSource",
-          "kind": "function",
-          "memberof": "Pan2D",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Pan2D",
-              "kind": "class"
-            },
-            {
-              "name": "moveSource",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Pan2D#moveSource"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Move a speaker node and trigger the output event.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 50,
-                        "offset": 49
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 50,
-                    "offset": 49
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 50,
-                "offset": 49
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "param",
-              "description": "{number} Index of the speaker to move",
-              "lineNumber": 2,
-              "type": null,
-              "name": "index"
-            },
-            {
-              "title": "param",
-              "description": "{number} New x location, normalized 0-1",
-              "lineNumber": 3,
-              "type": null,
-              "name": "x"
-            },
-            {
-              "title": "param",
-              "description": "{number} New y location, normalized 0-1",
-              "lineNumber": 4,
-              "type": null,
-              "name": "y"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 214,
-              "column": 2
-            },
-            "end": {
-              "line": 219,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 220,
-                "column": 2
-              },
-              "end": {
-                "line": 229,
+                "line": 261,
                 "column": 3
               }
             },
@@ -9227,22 +8366,22 @@
     ],
     "loc": {
       "start": {
-        "line": 231,
+        "line": 263,
         "column": 2
       },
       "end": {
-        "line": 238,
+        "line": 270,
         "column": 4
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 220,
+          "line": 252,
           "column": 2
         },
         "end": {
-          "line": 229,
+          "line": 261,
           "column": 3
         }
       },
@@ -9454,6 +8593,26 @@
         "title": "example",
         "description": "var piano = mt.piano('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var piano = mt.piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time a new key is pressed or released <br>\nThe event data is an object containing <i>note</i> and <i>value</i> properties.",
+        "lineNumber": 18
+      },
+      {
+        "title": "outputexample",
+        "description": "piano.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 23
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 28
       }
     ],
     "loc": {
@@ -9462,18 +8621,18 @@
         "column": 0
       },
       "end": {
-        "line": 134,
+        "line": 157,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 145,
+          "line": 159,
           "column": 0
         },
         "end": {
-          "line": 371,
+          "line": 389,
           "column": 1
         }
       },
@@ -9482,6 +8641,9 @@
     "examples": [
       {
         "description": "var piano = mt.piano('#target')"
+      },
+      {
+        "description": "var piano = mt.piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
       }
     ],
     "name": "Piano",
@@ -9565,22 +8727,22 @@
           ],
           "loc": {
             "start": {
-              "line": 341,
+              "line": 359,
               "column": 2
             },
             "end": {
-              "line": 345,
+              "line": 363,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 346,
+                "line": 364,
                 "column": 2
               },
               "end": {
-                "line": 351,
+                "line": 369,
                 "column": 3
               }
             },
@@ -9793,22 +8955,22 @@
           ],
           "loc": {
             "start": {
-              "line": 353,
+              "line": 371,
               "column": 2
             },
             "end": {
-              "line": 357,
+              "line": 375,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 358,
+                "line": 376,
                 "column": 2
               },
               "end": {
-                "line": 360,
+                "line": 378,
                 "column": 3
               }
             },
@@ -10021,22 +9183,22 @@
           ],
           "loc": {
             "start": {
-              "line": 362,
+              "line": 380,
               "column": 2
             },
             "end": {
-              "line": 366,
+              "line": 384,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 367,
+                "line": 385,
                 "column": 2
               },
               "end": {
-                "line": 369,
+                "line": 387,
                 "column": 3
               }
             },
@@ -10199,7 +9361,7 @@
           "children": [
             {
               "type": "text",
-              "value": "2-dimensional touch slider",
+              "value": "Two-dimensional touch slider.",
               "position": {
                 "start": {
                   "line": 1,
@@ -10208,8 +9370,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 27,
-                  "offset": 26
+                  "column": 30,
+                  "offset": 29
                 },
                 "indent": []
               }
@@ -10223,8 +9385,8 @@
             },
             "end": {
               "line": 1,
-              "column": 27,
-              "offset": 26
+              "column": 30,
+              "offset": 29
             },
             "indent": []
           }
@@ -10238,15 +9400,15 @@
         },
         "end": {
           "line": 1,
-          "column": 27,
-          "offset": 26
+          "column": 30,
+          "offset": 29
         }
       }
     },
     "tags": [
       {
         "title": "description",
-        "description": "2-dimensional touch slider",
+        "description": "Two-dimensional touch slider.",
         "lineNumber": 3
       },
       {
@@ -10260,9 +9422,24 @@
         "lineNumber": 7
       },
       {
-        "title": "output",
-        "description": "x and y values",
+        "title": "example",
+        "description": "var position = mt.position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})",
         "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object with x and y properties containing the x and y values of the interface.",
+        "lineNumber": 24
+      },
+      {
+        "title": "outputexample",
+        "description": "position.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 29
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 34
       }
     ],
     "loc": {
@@ -10271,18 +9448,18 @@
         "column": 0
       },
       "end": {
-        "line": 22,
+        "line": 48,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 24,
+          "line": 50,
           "column": 0
         },
         "end": {
-          "line": 285,
+          "line": 311,
           "column": 1
         }
       },
@@ -10291,6 +9468,9 @@
     "examples": [
       {
         "description": "var position = mt.position('#target')"
+      },
+      {
+        "description": "var position = mt.position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
       }
     ],
     "name": "Position",
@@ -10374,22 +9554,22 @@
           ],
           "loc": {
             "start": {
-              "line": 133,
+              "line": 159,
               "column": 2
             },
             "end": {
-              "line": 137,
+              "line": 163,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 139,
+                "line": 165,
                 "column": 2
               },
               "end": {
-                "line": 141,
+                "line": 167,
                 "column": 3
               }
             },
@@ -10493,22 +9673,22 @@
           ],
           "loc": {
             "start": {
-              "line": 152,
+              "line": 178,
               "column": 2
             },
             "end": {
-              "line": 156,
+              "line": 182,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 158,
+                "line": 184,
                 "column": 2
               },
               "end": {
-                "line": 160,
+                "line": 186,
                 "column": 3
               }
             },
@@ -10612,22 +9792,22 @@
           ],
           "loc": {
             "start": {
-              "line": 180,
+              "line": 206,
               "column": 2
             },
             "end": {
-              "line": 184,
+              "line": 210,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 185,
+                "line": 211,
                 "column": 2
               },
               "end": {
-                "line": 187,
+                "line": 213,
                 "column": 3
               }
             },
@@ -10726,22 +9906,22 @@
           ],
           "loc": {
             "start": {
-              "line": 194,
+              "line": 220,
               "column": 2
             },
             "end": {
-              "line": 198,
+              "line": 224,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 199,
+                "line": 225,
                 "column": 2
               },
               "end": {
-                "line": 201,
+                "line": 227,
                 "column": 3
               }
             },
@@ -10840,22 +10020,22 @@
           ],
           "loc": {
             "start": {
-              "line": 209,
+              "line": 235,
               "column": 2
             },
             "end": {
-              "line": 213,
+              "line": 239,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 214,
+                "line": 240,
                 "column": 2
               },
               "end": {
-                "line": 216,
+                "line": 242,
                 "column": 3
               }
             },
@@ -10954,22 +10134,22 @@
           ],
           "loc": {
             "start": {
-              "line": 224,
+              "line": 250,
               "column": 2
             },
             "end": {
-              "line": 228,
+              "line": 254,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 229,
+                "line": 255,
                 "column": 2
               },
               "end": {
-                "line": 231,
+                "line": 257,
                 "column": 3
               }
             },
@@ -11068,22 +10248,22 @@
           ],
           "loc": {
             "start": {
-              "line": 239,
+              "line": 265,
               "column": 2
             },
             "end": {
-              "line": 243,
+              "line": 269,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 244,
+                "line": 270,
                 "column": 2
               },
               "end": {
-                "line": 246,
+                "line": 272,
                 "column": 3
               }
             },
@@ -11182,22 +10362,22 @@
           ],
           "loc": {
             "start": {
-              "line": 254,
+              "line": 280,
               "column": 2
             },
             "end": {
-              "line": 258,
+              "line": 284,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 259,
+                "line": 285,
                 "column": 2
               },
               "end": {
-                "line": 261,
+                "line": 287,
                 "column": 3
               }
             },
@@ -11296,22 +10476,22 @@
           ],
           "loc": {
             "start": {
-              "line": 269,
+              "line": 295,
               "column": 2
             },
             "end": {
-              "line": 273,
+              "line": 299,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 274,
+                "line": 300,
                 "column": 2
               },
               "end": {
-                "line": 276,
+                "line": 302,
                 "column": 3
               }
             },
@@ -11424,6 +10604,26 @@
         "title": "example",
         "description": "var radiobutton = mt.radiobutton('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var radiobutton = mt.radiobutton('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data an <i>integer</i>, the index of the button that is currently on. If no button is selected, the value will be -1.",
+        "lineNumber": 21
+      },
+      {
+        "title": "outputexample",
+        "description": "radiobutton.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 26
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 31
       }
     ],
     "loc": {
@@ -11432,18 +10632,18 @@
         "column": 0
       },
       "end": {
-        "line": 17,
+        "line": 43,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 19,
+          "line": 45,
           "column": 0
         },
         "end": {
-          "line": 116,
+          "line": 142,
           "column": 1
         }
       },
@@ -11452,6 +10652,9 @@
     "examples": [
       {
         "description": "var radiobutton = mt.radiobutton('#target')"
+      },
+      {
+        "description": "var radiobutton = mt.radiobutton('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
       }
     ],
     "name": "RadioButton",
@@ -11528,22 +10731,22 @@
           ],
           "loc": {
             "start": {
-              "line": 97,
+              "line": 123,
               "column": 2
             },
             "end": {
-              "line": 100,
+              "line": 126,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 101,
+                "line": 127,
                 "column": 2
               },
               "end": {
-                "line": 106,
+                "line": 132,
                 "column": 3
               }
             },
@@ -11685,22 +10888,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 108,
+              "line": 134,
               "column": 2
             },
             "end": {
-              "line": 110,
+              "line": 136,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 111,
+                "line": 137,
                 "column": 2
               },
               "end": {
-                "line": 114,
+                "line": 140,
                 "column": 3
               }
             },
@@ -11808,6 +11011,26 @@
         "title": "example",
         "description": "var range = mt.range('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
+        "lineNumber": 21
+      },
+      {
+        "title": "outputexample",
+        "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 26
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 31
       }
     ],
     "loc": {
@@ -11816,18 +11039,18 @@
         "column": 0
       },
       "end": {
-        "line": 18,
-        "column": 2
+        "line": 44,
+        "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 19,
+          "line": 46,
           "column": 0
         },
         "end": {
-          "line": 117,
+          "line": 144,
           "column": 1
         }
       },
@@ -11836,6 +11059,9 @@
     "examples": [
       {
         "description": "var range = mt.range('#target')"
+      },
+      {
+        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
       }
     ],
     "name": "Range",
@@ -13936,6 +13162,31 @@
         "title": "example",
         "description": "var sequencer = mt.sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
         "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's matrix changes. <br>\nThe event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.",
+        "lineNumber": 18
+      },
+      {
+        "title": "outputexample",
+        "description": "sequencer.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 23
+      },
+      {
+        "title": "output",
+        "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array<i> containing all values in the column, top first.",
+        "lineNumber": 28
+      },
+      {
+        "title": "outputexample",
+        "description": "sequencer.on('step',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 33
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 38
       }
     ],
     "loc": {
@@ -13944,18 +13195,18 @@
         "column": 0
       },
       "end": {
-        "line": 152,
+        "line": 177,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 154,
+          "line": 179,
           "column": 0
         },
         "end": {
-          "line": 396,
+          "line": 419,
           "column": 1
         }
       },
@@ -14045,22 +13296,22 @@
           ],
           "loc": {
             "start": {
-              "line": 175,
+              "line": 198,
               "column": 4
             },
             "end": {
-              "line": 178,
+              "line": 201,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 179,
+                "line": 202,
                 "column": 4
               },
               "end": {
-                "line": 179,
+                "line": 202,
                 "column": 76
               }
             },
@@ -14152,22 +13403,22 @@
           ],
           "loc": {
             "start": {
-              "line": 182,
+              "line": 205,
               "column": 4
             },
             "end": {
-              "line": 185,
+              "line": 208,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 186,
+                "line": 209,
                 "column": 4
               },
               "end": {
-                "line": 186,
+                "line": 209,
                 "column": 52
               }
             },
@@ -14249,22 +13500,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 290,
+              "line": 313,
               "column": 2
             },
             "end": {
-              "line": 292,
+              "line": 315,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 293,
+                "line": 316,
                 "column": 2
               },
               "end": {
-                "line": 298,
+                "line": 321,
                 "column": 3
               }
             },
@@ -14348,22 +13599,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 300,
+              "line": 323,
               "column": 2
             },
             "end": {
-              "line": 302,
+              "line": 325,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 303,
+                "line": 326,
                 "column": 2
               },
               "end": {
-                "line": 306,
+                "line": 329,
                 "column": 3
               }
             },
@@ -14447,22 +13698,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 308,
+              "line": 331,
               "column": 2
             },
             "end": {
-              "line": 310,
+              "line": 333,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 311,
+                "line": 334,
                 "column": 2
               },
               "end": {
-                "line": 315,
+                "line": 338,
                 "column": 3
               }
             },
@@ -14556,22 +13807,22 @@
           ],
           "loc": {
             "start": {
-              "line": 365,
+              "line": 388,
               "column": 2
             },
             "end": {
-              "line": 368,
+              "line": 391,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 369,
+                "line": 392,
                 "column": 2
               },
               "end": {
-                "line": 371,
+                "line": 394,
                 "column": 3
               }
             },
@@ -14665,22 +13916,22 @@
           ],
           "loc": {
             "start": {
-              "line": 380,
+              "line": 403,
               "column": 2
             },
             "end": {
-              "line": 383,
+              "line": 406,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 384,
+                "line": 407,
                 "column": 2
               },
               "end": {
-                "line": 386,
+                "line": 409,
                 "column": 3
               }
             },
@@ -14788,6 +14039,26 @@
         "title": "example",
         "description": "var slider = mt.slider('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var slider = mt.slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires when the interface's value changes. <br>\nEvent data: <i>number</i> The number value of the interface.",
+        "lineNumber": 22
+      },
+      {
+        "title": "outputexample",
+        "description": "slider.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 27
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 32
       }
     ],
     "loc": {
@@ -14796,18 +14067,18 @@
         "column": 0
       },
       "end": {
-        "line": 18,
+        "line": 45,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 20,
+          "line": 47,
           "column": 0
         },
         "end": {
-          "line": 262,
+          "line": 290,
           "column": 1
         }
       },
@@ -14816,6 +14087,9 @@
     "examples": [
       {
         "description": "var slider = mt.slider('#target')"
+      },
+      {
+        "description": "var slider = mt.slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})"
       }
     ],
     "name": "Slider",
@@ -14899,22 +14173,22 @@
           ],
           "loc": {
             "start": {
-              "line": 198,
+              "line": 226,
               "column": 2
             },
             "end": {
-              "line": 202,
+              "line": 230,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 203,
+                "line": 231,
                 "column": 2
               },
               "end": {
-                "line": 205,
+                "line": 233,
                 "column": 3
               }
             },
@@ -15018,22 +14292,22 @@
           ],
           "loc": {
             "start": {
-              "line": 212,
+              "line": 240,
               "column": 2
             },
             "end": {
-              "line": 216,
+              "line": 244,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 217,
+                "line": 245,
                 "column": 2
               },
               "end": {
-                "line": 219,
+                "line": 247,
                 "column": 3
               }
             },
@@ -15137,22 +14411,22 @@
           ],
           "loc": {
             "start": {
-              "line": 224,
+              "line": 252,
               "column": 2
             },
             "end": {
-              "line": 228,
+              "line": 256,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 229,
+                "line": 257,
                 "column": 2
               },
               "end": {
-                "line": 231,
+                "line": 259,
                 "column": 3
               }
             },
@@ -15256,22 +14530,22 @@
           ],
           "loc": {
             "start": {
-              "line": 236,
+              "line": 264,
               "column": 2
             },
             "end": {
-              "line": 240,
+              "line": 268,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 241,
+                "line": 269,
                 "column": 2
               },
               "end": {
-                "line": 243,
+                "line": 271,
                 "column": 3
               }
             },
@@ -15375,22 +14649,22 @@
           ],
           "loc": {
             "start": {
-              "line": 248,
+              "line": 276,
               "column": 2
             },
             "end": {
-              "line": 252,
+              "line": 280,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 253,
+                "line": 281,
                 "column": 2
               },
               "end": {
-                "line": 255,
+                "line": 283,
                 "column": 3
               }
             },
@@ -15503,6 +14777,21 @@
         "title": "example",
         "description": "var spectrogram = mt.spectrogram('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var spectrogram = mt.spectrogram('#target',{\n  'size': [300,150]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "&nbsp;\nNo events",
+        "lineNumber": 15
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 19
       }
     ],
     "loc": {
@@ -15511,18 +14800,18 @@
         "column": 0
       },
       "end": {
-        "line": 17,
+        "line": 31,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 19,
+          "line": 33,
           "column": 0
         },
         "end": {
-          "line": 121,
+          "line": 135,
           "column": 1
         }
       },
@@ -15531,6 +14820,9 @@
     "examples": [
       {
         "description": "var spectrogram = mt.spectrogram('#target')"
+      },
+      {
+        "description": "var spectrogram = mt.spectrogram('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "name": "Spectrogram",
@@ -15607,22 +14899,22 @@
           ],
           "loc": {
             "start": {
-              "line": 95,
+              "line": 109,
               "column": 2
             },
             "end": {
-              "line": 98,
+              "line": 112,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 99,
+                "line": 113,
                 "column": 2
               },
               "end": {
-                "line": 106,
+                "line": 120,
                 "column": 3
               }
             },
@@ -15764,22 +15056,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 108,
+              "line": 122,
               "column": 2
             },
             "end": {
-              "line": 110,
+              "line": 124,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 111,
+                "line": 125,
                 "column": 2
               },
               "end": {
-                "line": 114,
+                "line": 128,
                 "column": 3
               }
             },
@@ -15887,6 +15179,26 @@
         "title": "example",
         "description": "var textbutton = mt.textbutton('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var dial = mt.dial('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is a <i>string</i> of the text on the button at the moment it was clicked.",
+        "lineNumber": 18
+      },
+      {
+        "title": "outputexample",
+        "description": "textbutton.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 23
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 28
       }
     ],
     "loc": {
@@ -15895,18 +15207,18 @@
         "column": 0
       },
       "end": {
-        "line": 15,
+        "line": 38,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 17,
+          "line": 40,
           "column": 0
         },
         "end": {
-          "line": 130,
+          "line": 152,
           "column": 1
         }
       },
@@ -15915,6 +15227,9 @@
     "examples": [
       {
         "description": "var textbutton = mt.textbutton('#target')"
+      },
+      {
+        "description": "var dial = mt.dial('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})"
       }
     ],
     "name": "TextButton",
@@ -15993,22 +15308,22 @@
           ],
           "loc": {
             "start": {
-              "line": 96,
+              "line": 118,
               "column": 2
             },
             "end": {
-              "line": 99,
+              "line": 121,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 100,
+                "line": 122,
                 "column": 2
               },
               "end": {
-                "line": 102,
+                "line": 124,
                 "column": 3
               }
             },
@@ -16102,22 +15417,22 @@
           ],
           "loc": {
             "start": {
-              "line": 115,
+              "line": 137,
               "column": 2
             },
             "end": {
-              "line": 118,
+              "line": 140,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 119,
+                "line": 141,
                 "column": 2
               },
               "end": {
-                "line": 121,
+                "line": 143,
                 "column": 3
               }
             },
@@ -16218,235 +15533,6 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"tilt\"></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var tilt = mt.tilt('#target')",
-        "lineNumber": 7
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 33,
-        "column": 0
-      },
-      "end": {
-        "line": 43,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 45,
-          "column": 0
-        },
-        "end": {
-          "line": 141,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
-    },
-    "examples": [
-      {
-        "description": "var tilt = mt.tilt('#target')"
-      }
-    ],
-    "name": "Tilt",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 119,
-                        "offset": 118
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 119,
-                    "offset": 118
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 119,
-                "offset": 118
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 133,
-              "column": 2
-            },
-            "end": {
-              "line": 136,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 138,
-                "column": 2
-              },
-              "end": {
-                "line": 140,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Tilt",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Tilt"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "2- or 3-axis tilt sensor (depending on your device and browser).",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 65,
-                  "offset": 64
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 65,
-              "offset": 64
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 65,
-          "offset": 64
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "2- or 3-axis tilt sensor (depending on your device and browser).",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
         "description": "<span mt='tilt'></span>",
         "lineNumber": 5
       },
@@ -16454,6 +15540,26 @@
         "title": "example",
         "description": "var tilt = mt.tilt('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var dial = mt.dial('#target',{\n  'size': [80,80]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
+        "lineNumber": 15
+      },
+      {
+        "title": "outputexample",
+        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 20
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 25
       }
     ],
     "loc": {
@@ -16462,18 +15568,18 @@
         "column": 0
       },
       "end": {
-        "line": 17,
+        "line": 37,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 19,
+          "line": 39,
           "column": 0
         },
         "end": {
-          "line": 147,
+          "line": 166,
           "column": 1
         }
       },
@@ -16482,6 +15588,9 @@
     "examples": [
       {
         "description": "var tilt = mt.tilt('#target')"
+      },
+      {
+        "description": "var dial = mt.dial('#target',{\n  'size': [80,80]\n})"
       }
     ],
     "name": "Tilt",
@@ -16503,7 +15612,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -16512,8 +15621,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 119,
-                        "offset": 118
+                        "column": 123,
+                        "offset": 122
                       },
                       "indent": []
                     }
@@ -16527,8 +15636,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 119,
-                    "offset": 118
+                    "column": 123,
+                    "offset": 122
                   },
                   "indent": []
                 }
@@ -16542,8 +15651,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 119,
-                "offset": 118
+                "column": 123,
+                "offset": 122
               }
             }
           },
@@ -16560,22 +15669,22 @@
           ],
           "loc": {
             "start": {
-              "line": 133,
+              "line": 152,
               "column": 2
             },
             "end": {
-              "line": 136,
+              "line": 155,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 138,
+                "line": 157,
                 "column": 2
               },
               "end": {
-                "line": 140,
+                "line": 159,
                 "column": 3
               }
             },
@@ -16683,6 +15792,26 @@
         "title": "example",
         "description": "var toggle = mt.toggle('#target')",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var toggle = mt.toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nParameter: The boolean state of the interface.",
+        "lineNumber": 16
+      },
+      {
+        "title": "outputexample",
+        "description": "toggle.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 21
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 26
       }
     ],
     "loc": {
@@ -16691,18 +15820,18 @@
         "column": 0
       },
       "end": {
-        "line": 17,
+        "line": 38,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 18,
+          "line": 39,
           "column": 0
         },
         "end": {
-          "line": 116,
+          "line": 137,
           "column": 1
         }
       },
@@ -16711,6 +15840,9 @@
     "examples": [
       {
         "description": "var toggle = mt.toggle('#target')"
+      },
+      {
+        "description": "var toggle = mt.toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})"
       }
     ],
     "name": "Toggle",
@@ -16794,22 +15926,22 @@
           ],
           "loc": {
             "start": {
-              "line": 91,
+              "line": 112,
               "column": 2
             },
             "end": {
-              "line": 95,
+              "line": 116,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 96,
+                "line": 117,
                 "column": 2
               },
               "end": {
-                "line": 98,
+                "line": 119,
                 "column": 3
               }
             },
@@ -16904,22 +16036,22 @@
           ],
           "loc": {
             "start": {
-              "line": 106,
+              "line": 127,
               "column": 2
             },
             "end": {
-              "line": 110,
+              "line": 131,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 111,
+                "line": 132,
                 "column": 2
               },
               "end": {
-                "line": 114,
+                "line": 135,
                 "column": 3
               }
             },
@@ -17032,6 +16164,26 @@
         "title": "example",
         "description": "var waveform = mt.waveform('#target',buffer);",
         "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
+        "lineNumber": 21
+      },
+      {
+        "title": "outputexample",
+        "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 26
+      },
+      {
+        "title": "tutorial",
+        "description": "Tutorial\nygGMxq",
+        "lineNumber": 31
       }
     ],
     "loc": {
@@ -17040,18 +16192,18 @@
         "column": 0
       },
       "end": {
-        "line": 20,
+        "line": 46,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 23,
+          "line": 49,
           "column": 0
         },
         "end": {
-          "line": 247,
+          "line": 273,
           "column": 1
         }
       },
@@ -17060,6 +16212,9 @@
     "examples": [
       {
         "description": "var waveform = mt.waveform('#target',buffer);"
+      },
+      {
+        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
       }
     ],
     "name": "Waveform",
