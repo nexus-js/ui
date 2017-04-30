@@ -2333,7 +2333,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._state.state;
 	      },
 	      set: function (value) {
-	        var newvalue = this._state.flip(value);
+	        this._state.flip(value);
 	        this.emit("change", this.state);
 	        this.render();
 	      }
@@ -3373,6 +3373,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (v) {
 	        this._value.update(v);
+	        this.emit("change", this.value);
 	        this.render();
 	      }
 	    },
@@ -3768,7 +3769,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._value.value;
 	      },
 	      set: function (value) {
-	        var newval = this._value.update(value);
+	        this._value.update(value);
 	        this.emit("change", this.value);
 	        this.render();
 	      }
@@ -3811,7 +3812,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(21);
 	var touch = __webpack_require__(9);
@@ -3956,7 +3956,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @output
 	* change
 	* Fires any time a new key is pressed or released <br>
-	* The event data is an object containing <i>note</i> and <i>value</i> properties.
+	* The event data is an object containing <i>note</i> and <i>state</i> properties.
 	*
 	* @outputexample
 	* piano.on('change',function(v) {
@@ -3980,7 +3980,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      size: [500, 150],
 	      lowNote: 24,
 	      highNote: 60,
-	      mode: "aftertouch"
+	      mode: "button"
 	    };
 	
 	    _get(Object.getPrototypeOf(Piano.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -4101,24 +4101,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    keyChange: {
 	      value: function keyChange(note, on) {
 	        // emit data for any key turning on/off
-	        // note is the note value
-	        // on is a boolean whether it is on or off
-	        this.emit("change", {
-	          note: note,
-	          state: on
-	        });
-	        // rename to (note,on)
-	      }
-	    },
-	    drag: {
-	      value: function drag(note, on) {
-	        this.emit("change", {
-	          note: note,
-	          state: on
-	        });
+	        // "note" is the note value
+	        // "on" is a boolean whether it is on or off
+	        // in aftertouch mode, "on: is an object with state/x/y properties
+	        var data = {
+	          note: note
+	        };
+	        if (typeof on === "object") {
+	          data.state = on.state;
+	          //  data.x = on.x
+	          //  data.y = on.y
+	        } else {
+	          data.state = on;
+	        }
+	        this.emit("change", data);
 	      }
 	    },
 	    render: {
+	
+	      /* drag(note,on) {
+	        this.emit('change',{
+	          note: note,
+	          state: on
+	        });
+	      } */
+	
 	      value: function render() {}
 	    },
 	    addTouchListeners: {

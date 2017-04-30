@@ -5913,7 +5913,7 @@
           "column": 0
         },
         "end": {
-          "line": 266,
+          "line": 267,
           "column": 1
         }
       },
@@ -6314,22 +6314,22 @@
           ],
           "loc": {
             "start": {
-              "line": 230,
+              "line": 231,
               "column": 2
             },
             "end": {
-              "line": 234,
+              "line": 235,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 235,
+                "line": 236,
                 "column": 2
               },
               "end": {
-                "line": 237,
+                "line": 238,
                 "column": 3
               }
             },
@@ -6433,22 +6433,22 @@
           ],
           "loc": {
             "start": {
-              "line": 242,
+              "line": 243,
               "column": 2
             },
             "end": {
-              "line": 246,
+              "line": 247,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 247,
+                "line": 248,
                 "column": 2
               },
               "end": {
-                "line": 249,
+                "line": 250,
                 "column": 3
               }
             },
@@ -6552,22 +6552,22 @@
           ],
           "loc": {
             "start": {
-              "line": 254,
+              "line": 255,
               "column": 2
             },
             "end": {
-              "line": 258,
+              "line": 259,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 259,
+                "line": 260,
                 "column": 2
               },
               "end": {
-                "line": 261,
+                "line": 262,
                 "column": 3
               }
             },
@@ -8615,7 +8615,7 @@
       },
       {
         "title": "output",
-        "description": "change\nFires any time a new key is pressed or released <br>\nThe event data is an object containing <i>note</i> and <i>value</i> properties.",
+        "description": "change\nFires any time a new key is pressed or released <br>\nThe event data is an object containing <i>note</i> and <i>state</i> properties.",
         "lineNumber": 18
       },
       {
@@ -8631,22 +8631,22 @@
     ],
     "loc": {
       "start": {
-        "line": 124,
+        "line": 123,
         "column": 0
       },
       "end": {
-        "line": 157,
+        "line": 156,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 159,
+          "line": 158,
           "column": 0
         },
         "end": {
-          "line": 389,
+          "line": 395,
           "column": 1
         }
       },
@@ -8741,22 +8741,22 @@
           ],
           "loc": {
             "start": {
-              "line": 359,
+              "line": 365,
               "column": 2
             },
             "end": {
-              "line": 363,
+              "line": 369,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 364,
+                "line": 370,
                 "column": 2
               },
               "end": {
-                "line": 369,
+                "line": 375,
                 "column": 3
               }
             },
@@ -8969,22 +8969,22 @@
           ],
           "loc": {
             "start": {
-              "line": 371,
+              "line": 377,
               "column": 2
             },
             "end": {
-              "line": 375,
+              "line": 381,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 376,
+                "line": 382,
                 "column": 2
               },
               "end": {
-                "line": 378,
+                "line": 384,
                 "column": 3
               }
             },
@@ -9197,22 +9197,22 @@
           ],
           "loc": {
             "start": {
-              "line": 380,
+              "line": 386,
               "column": 2
             },
             "end": {
-              "line": 384,
+              "line": 390,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 385,
+                "line": 391,
                 "column": 2
               },
               "end": {
-                "line": 387,
+                "line": 393,
                 "column": 3
               }
             },
