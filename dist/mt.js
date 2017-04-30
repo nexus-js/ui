@@ -3938,8 +3938,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
-	        this.pad.setAttribute("stroke", "#000");
-	        this.pad.setAttribute("stroke-width", "10px");
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors[this.color]);
 	        } else {
@@ -4313,6 +4311,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pad = svg.create("rect");
 	        this.element.appendChild(this.pad);
 	
+	        this.interactionTarget = this.pad;
+	
 	        this.sizeInterface();
 	
 	        /* events */
@@ -4539,24 +4539,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function update() {
 	        var _this = this;
 	
+	        //  console.log("updating...")
+	        //on = on || false;
 	        this.matrix.iterate(function (r, c, i) {
-	          if (_this.matrix.pattern[r][c] > 0) {
-	            _this.cells[i].state = true;
-	          } else {
-	            _this.cells[i].state = false;
+	          //  console.log(this.matrix.pattern[r][c], this.cells[i].state);
+	          if (_this.matrix.pattern[r][c] !== _this.cells[i].state) {
+	            if (_this.matrix.pattern[r][c] > 0) {
+	              _this.cells[i].turnOn();
+	            } else {
+	              _this.cells[i].turnOff();
+	            }
 	          }
 	        });
 	      }
 	    },
 	    keyChange: {
-	      value: function keyChange(note, value) {
+	
+	      // update => cell.turnOn => cell.emit => keyChange (seq.emit) => matrix.set.cell => update
+	      //
+	      // interaction => keyChange => matrix.set.cell => update => cell.turnOn
+	      //                                             => emit
+	      //
+	      // set.cell => update => needs to emit.
+	
+	      value: function keyChange(note, on) {
 	        // emit data for any key turning on/off
 	        // i is the note index
 	        // v is whether it is on or off
 	        var cell = this.matrix.locate(note);
-	        this.matrix.set.cell(cell.column, cell.row, value);
-	        this.emit("change", note, value);
-	        // rename to (note,on)
+	        //  this.matrix.set.cell(cell.column,cell.row,on);
+	        this.matrix.pattern[cell.row][cell.column] = on;
+	        var data = {
+	          row: cell.row,
+	          column: cell.column,
+	          state: on
+	        };
+	        this.emit("change", data);
 	      }
 	    },
 	    render: {
@@ -4608,7 +4626,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function next() {
 	        this.stepper.next();
-	        this.emit("change", this.matrix.column(this.stepper.value));
+	        this.emit("step", this.matrix.column(this.stepper.value));
 	        this.render();
 	      }
 	    },
@@ -6866,6 +6884,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      set: function (value) {
 	        this._value.update(value);
 	        this.position.value = this._value.normalized;
+	        this.emit("change", {
+	          value: this.value,
+	          L: Math.pow(math.scale(this.value, -1, 1, 1, 0), 2),
+	          R: Math.pow(math.scale(this.value, -1, 1, 0, 1), 2)
+	        });
 	        this.render();
 	      }
 	    },
@@ -7276,6 +7299,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.scaleNode(index);
 	
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	
 	        this.render();
 	      }
 	    },
@@ -7316,6 +7342,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function movePoint(index, x, y) {
 	        this.nodes[index].move(x, y);
 	        this.scaleNode(index);
+	        this.calculatePoints();
+	        this.emit("change", this.points);
 	        this.render();
 	      }
 	    },
@@ -7331,6 +7359,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function adjustPoint(index, xOffset, yOffset) {
 	        this.nodes[index].move(this.nodes[index].x + xOffset, this.nodes[index].y + yOffset);
 	        this.scaleNode(index);
+	        this.calculatePoints();
+	        this.emit("change", this.points);
 	        this.render();
 	      }
 	    },
@@ -7343,6 +7373,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function destroyPoint(index) {
 	        this.nodes[index].destroy();
+	        this.calculatePoints();
+	        this.emit("change", this.points);
 	        this.render();
 	      }
 	    },
@@ -7362,6 +7394,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        allPoints.forEach(function (point) {
 	          _this.addPoint(point.x, point.y);
 	        });
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	        this.render();
 	      }
 	    }
 	  });
