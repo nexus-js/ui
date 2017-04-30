@@ -889,8 +889,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    init: {
 	      value: function init() {
 	        this.buildFrame();
-	        this.attachListeners();
 	        this.buildInterface();
+	        this.attachListeners();
 	        //this.sizeInterface(); should probably add this here instead of in each interface
 	        this.colorInterface();
 	        //or
@@ -922,15 +922,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function attachListeners() {
 	        var _this = this;
 	
+	        this.interactionTarget = this.interactionTarget || this.element;
+	
 	        // Setup interaction
 	        if (touch.exists) {
-	          this.element.addEventListener("touchstart", function (evt) {
+	          this.interactionTarget.addEventListener("touchstart", function (evt) {
 	            return _this.preTouch(evt);
 	          });
-	          this.element.addEventListener("touchmove", function (evt) {
+	          this.interactionTarget.addEventListener("touchmove", function (evt) {
 	            return _this.preTouchMove(evt);
 	          });
-	          this.element.addEventListener("touchend", function (evt) {
+	          this.interactionTarget.addEventListener("touchend", function (evt) {
 	            return _this.preTouchRelease(evt);
 	          });
 	        }
@@ -940,7 +942,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.boundPreRelease = function (evt) {
 	          return _this.preRelease(evt);
 	        };
-	        this.element.addEventListener("mousedown", function (evt) {
+	        this.interactionTarget.addEventListener("mousedown", function (evt) {
 	          return _this.preClick(evt);
 	        });
 	      }
@@ -2456,6 +2458,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pad = svg.create("circle");
 	        this.element.appendChild(this.pad);
 	
+	        this.interactionTarget = this.pad;
+	
 	        // only used if in 'aftertouch' mode
 	        this.defs = svg.create("defs");
 	        this.element.appendChild(this.defs);
@@ -2568,6 +2572,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pad.setAttribute("stroke-width", 4);
 	
 	        this.element.appendChild(this.pad);
+	
+	        this.interactionTarget = this.pad;
 	
 	        this.sizeInterface();
 	      }
@@ -3858,41 +3864,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	
 	        this.pad = svg.create("rect");
+	
 	        this.element.appendChild(this.pad);
+	
+	        this.interactionTarget = this.pad;
 	
 	        /* events */
 	
 	        if (!touch.exists) {
 	
 	          this.click = function () {
+	            //  console.log('click');
 	            _this.piano.interacting = true;
 	            _this.piano.paintbrush = !_this.state;
 	            _this.down(_this.piano.paintbrush);
 	          };
 	
-	          this.element.addEventListener("mouseover", function () {
+	          this.pad.addEventListener("mouseover", function () {
 	            if (_this.piano.interacting) {
+	              //    console.log('mouseover');
 	              _this.down(_this.piano.paintbrush);
 	            }
 	          });
 	
 	          this.move = function () {
 	            if (_this.piano.interacting) {
+	              //  console.log('move');
 	              _this.bend();
 	            }
 	          };
 	
 	          this.release = function () {
 	            _this.piano.interacting = false;
-	            _this.up();
+	            //  console.log('release');
+	            //  this.up();
 	          };
-	          this.element.addEventListener("mouseup", function () {
+	          this.pad.addEventListener("mouseup", function () {
 	            if (_this.piano.interacting) {
+	              //  console.log('mouseup');
 	              _this.up();
 	            }
 	          });
-	          this.element.addEventListener("mouseout", function () {
+	          this.pad.addEventListener("mouseout", function () {
 	            if (_this.piano.interacting) {
+	              //  console.log('mouseout');
 	              _this.up();
 	            }
 	          });
@@ -3923,6 +3938,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
+	        this.pad.setAttribute("stroke", "#000");
+	        this.pad.setAttribute("stroke-width", "10px");
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors[this.color]);
 	        } else {
