@@ -70,7 +70,7 @@
           "column": 0
         },
         "end": {
-          "line": 181,
+          "line": 220,
           "column": 1
         }
       },
@@ -274,22 +274,22 @@
           ],
           "loc": {
             "start": {
-              "line": 153,
+              "line": 161,
               "column": 2
             },
             "end": {
-              "line": 157,
+              "line": 165,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 158,
+                "line": 166,
                 "column": 2
               },
               "end": {
-                "line": 161,
+                "line": 178,
                 "column": 3
               }
             },
@@ -442,22 +442,22 @@
           ],
           "loc": {
             "start": {
-              "line": 163,
+              "line": 180,
               "column": 2
             },
             "end": {
-              "line": 166,
+              "line": 183,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 167,
+                "line": 184,
                 "column": 2
               },
               "end": {
-                "line": 170,
+                "line": 198,
                 "column": 3
               }
             },
@@ -470,6 +470,13 @@
           ],
           "name": "turnOn",
           "kind": "function",
+          "params": [
+            {
+              "title": "param",
+              "name": "emitting",
+              "lineNumber": 184
+            }
+          ],
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
@@ -552,22 +559,22 @@
           ],
           "loc": {
             "start": {
-              "line": 172,
+              "line": 200,
               "column": 2
             },
             "end": {
-              "line": 175,
+              "line": 203,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 176,
+                "line": 204,
                 "column": 2
               },
               "end": {
-                "line": 179,
+                "line": 218,
                 "column": 3
               }
             },
@@ -580,6 +587,13 @@
           ],
           "name": "turnOff",
           "kind": "function",
+          "params": [
+            {
+              "title": "param",
+              "name": "emitting",
+              "lineNumber": 204
+            }
+          ],
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
@@ -2016,7 +2030,7 @@
           "column": 0
         },
         "end": {
-          "line": 342,
+          "line": 343,
           "column": 1
         }
       },
@@ -2636,7 +2650,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Normalized value of the dial. It will automatically be adjust to fit min/max/step settings.",
+                    "value": "Normalized value of the dial. It will automatically adjust the dial's value to fit min/max/step settings.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -2645,8 +2659,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 92,
-                        "offset": 91
+                        "column": 106,
+                        "offset": 105
                       },
                       "indent": []
                     }
@@ -2660,8 +2674,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 92,
-                    "offset": 91
+                    "column": 106,
+                    "offset": 105
                   },
                   "indent": []
                 }
@@ -2675,8 +2689,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 92,
-                "offset": 91
+                "column": 106,
+                "offset": 105
               }
             }
           },
@@ -9459,7 +9473,7 @@
           "column": 0
         },
         "end": {
-          "line": 311,
+          "line": 305,
           "column": 1
         }
       },
@@ -9783,11 +9797,6 @@
                 "type": "NameExpression",
                 "name": "object"
               }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
             }
           ],
           "loc": {
@@ -9796,18 +9805,18 @@
               "column": 2
             },
             "end": {
-              "line": 210,
+              "line": 209,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 211,
+                "line": 210,
                 "column": 2
               },
               "end": {
-                "line": 213,
+                "line": 212,
                 "column": 3
               }
             },
@@ -9897,31 +9906,26 @@
                 "type": "NameExpression",
                 "name": "object"
               }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 220,
+              "line": 219,
               "column": 2
             },
             "end": {
-              "line": 224,
+              "line": 222,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 225,
+                "line": 223,
                 "column": 2
               },
               "end": {
-                "line": 227,
+                "line": 225,
                 "column": 3
               }
             },
@@ -10011,31 +10015,26 @@
                 "type": "NameExpression",
                 "name": "object"
               }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 235,
+              "line": 233,
               "column": 2
             },
             "end": {
-              "line": 239,
+              "line": 236,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 240,
+                "line": 237,
                 "column": 2
               },
               "end": {
-                "line": 242,
+                "line": 239,
                 "column": 3
               }
             },
@@ -10125,31 +10124,26 @@
                 "type": "NameExpression",
                 "name": "object"
               }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 250,
+              "line": 247,
               "column": 2
             },
             "end": {
-              "line": 254,
+              "line": 250,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 255,
+                "line": 251,
                 "column": 2
               },
               "end": {
-                "line": 257,
+                "line": 253,
                 "column": 3
               }
             },
@@ -10239,31 +10233,26 @@
                 "type": "NameExpression",
                 "name": "object"
               }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 265,
+              "line": 261,
               "column": 2
             },
             "end": {
-              "line": 269,
+              "line": 264,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 270,
+                "line": 265,
                 "column": 2
               },
               "end": {
-                "line": 272,
+                "line": 267,
                 "column": 3
               }
             },
@@ -10353,31 +10342,26 @@
                 "type": "NameExpression",
                 "name": "object"
               }
-            },
-            {
-              "title": "example",
-              "description": "",
-              "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 280,
+              "line": 275,
               "column": 2
             },
             "end": {
-              "line": 284,
+              "line": 278,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 285,
+                "line": 279,
                 "column": 2
               },
               "end": {
-                "line": 287,
+                "line": 281,
                 "column": 3
               }
             },
@@ -10470,28 +10454,28 @@
             },
             {
               "title": "example",
-              "description": "dial.mode = \"relative\";",
+              "description": "position.mode = \"relative\";",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 295,
+              "line": 289,
               "column": 2
             },
             "end": {
-              "line": 299,
+              "line": 293,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 300,
+                "line": 294,
                 "column": 2
               },
               "end": {
-                "line": 302,
+                "line": 296,
                 "column": 3
               }
             },
@@ -10499,7 +10483,7 @@
           },
           "examples": [
             {
-              "description": "dial.mode = \"relative\";"
+              "description": "position.mode = \"relative\";"
             }
           ],
           "name": "mode",
@@ -10643,7 +10627,7 @@
           "column": 0
         },
         "end": {
-          "line": 142,
+          "line": 143,
           "column": 1
         }
       },
@@ -10731,18 +10715,18 @@
           ],
           "loc": {
             "start": {
-              "line": 123,
+              "line": 122,
               "column": 2
             },
             "end": {
-              "line": 126,
+              "line": 125,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 127,
+                "line": 126,
                 "column": 2
               },
               "end": {
@@ -10903,7 +10887,7 @@
                 "column": 2
               },
               "end": {
-                "line": 140,
+                "line": 141,
                 "column": 3
               }
             },
@@ -14078,7 +14062,7 @@
           "column": 0
         },
         "end": {
-          "line": 290,
+          "line": 291,
           "column": 1
         }
       },
@@ -14292,22 +14276,22 @@
           ],
           "loc": {
             "start": {
-              "line": 240,
+              "line": 241,
               "column": 2
             },
             "end": {
-              "line": 244,
+              "line": 245,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 245,
+                "line": 246,
                 "column": 2
               },
               "end": {
-                "line": 247,
+                "line": 248,
                 "column": 3
               }
             },
@@ -14411,22 +14395,22 @@
           ],
           "loc": {
             "start": {
-              "line": 252,
+              "line": 253,
               "column": 2
             },
             "end": {
-              "line": 256,
+              "line": 257,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 257,
+                "line": 258,
                 "column": 2
               },
               "end": {
-                "line": 259,
+                "line": 260,
                 "column": 3
               }
             },
@@ -14530,22 +14514,22 @@
           ],
           "loc": {
             "start": {
-              "line": 264,
+              "line": 265,
               "column": 2
             },
             "end": {
-              "line": 268,
+              "line": 269,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 269,
+                "line": 270,
                 "column": 2
               },
               "end": {
-                "line": 271,
+                "line": 272,
                 "column": 3
               }
             },
@@ -14649,22 +14633,22 @@
           ],
           "loc": {
             "start": {
-              "line": 276,
+              "line": 277,
               "column": 2
             },
             "end": {
-              "line": 280,
+              "line": 281,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 281,
+                "line": 282,
                 "column": 2
               },
               "end": {
-                "line": 283,
+                "line": 284,
                 "column": 3
               }
             },

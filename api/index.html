@@ -88,8 +88,10 @@
 
     <div class="overview" >
     {{ description }}
-    <br /><br />
-    {{{ demo }}}
+      <br />
+      <div id="demo">
+        {{{ demo }}}
+      </div>
     </div>
 
 
@@ -585,11 +587,12 @@ Creating a Matrix Model from scratch...
       if (instrument.ui[""])
         instrument.ui[""].destroy();
     }
-    instrument = mt.rack("target");
+    instrument = mt.rack("demo");
 
     $(".example-toggle").click(function() {
       $(this).parent().find(".example").toggle();
     })
+
     if (name=="Waveform") {
       player.load("../example/media/D-sharp.mp3",function() {
         instrument.ui[""].load(player.buffer._buffer)

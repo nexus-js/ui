@@ -13,9 +13,9 @@
     <div mt="Dial" id="dial"></div>
     <div mt="Slider" id="slider"></div>
     <div mt="Toggle" id="toggle"></div>
-    <div mt="Range" id="range"></div>
+  <!--  <div mt="Range" id="range"></div> -->
     <div mt="Position" id="position"></div>
-    <div mt="Waveform" id="waveform"></div>
+  <!--  <div mt="Waveform" id="waveform"></div> -->
     <div mt="Button" id="button"></div>
     <div mt="TextButton" id="textbutton"></div>
     <div mt="RadioButton" id="radiobutton"></div>
@@ -52,10 +52,10 @@
 
   mt.context = Tone.context;
 
-  instrument = mt.rack('all-interfaces','All Interfaces', true);
+  ui = mt.rack('all-interfaces','All Interfaces', true);
 
   var player = new Tone.Player("./media/D-sharp.mp3",function() {
-    instrument.ui.waveform.load(player.buffer._buffer)
+  //  ui.ui.waveform.load(player.buffer._buffer)
   })
 
   var player2 = new Tone.Player("./media/Dream6_stream.mp3")
@@ -63,9 +63,10 @@
   player2.autostart = true;
   player2.loop = true;
 
-  instrument.ui.oscilloscope.watch(player2)
-  instrument.ui.meter.connect(player2,2);
-  instrument.ui.spectrogram.watch(player2);
+  ui.ui.oscilloscope.connect(player2)
+  ui.ui.meter.connect(player2,2);
+  ui.ui.spectrogram.connect(player2);
+  ui.ui.tilt.active = false
 
 </script>
 <style>

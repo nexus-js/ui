@@ -434,7 +434,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The lower limit of value on the x axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -450,7 +449,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The lower limit of value on the y axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -466,7 +464,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The upper limit of value on the x axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -482,7 +479,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The upper limit of value on the y axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -498,7 +494,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The incremental step of values on the x axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -514,7 +509,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The incremental step of values on the y axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -530,7 +524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      Absolute mode (position's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "absolute".
 	      @type {string}
-	      @example dial.mode = "relative";
+	      @example position.mode = "relative";
 	      */
 	
 	      get: function () {
@@ -2127,6 +2121,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      set: function (v) {
 	        this._value.update(v);
 	        this.position.value = this._value.normalized;
+	        this.emit("change", this._value.value);
 	        this.render();
 	      }
 	    },
@@ -2339,8 +2334,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (value) {
 	        var newvalue = this._state.flip(value);
+	        this.emit("change", this.state);
 	        this.render();
-	        return newvalue;
 	      }
 	    },
 	    flip: {
@@ -2604,11 +2599,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	              clearTimeout(this.timeout);
 	            }
 	            this.timeout = setTimeout(this.turnOff.bind(this), 30);
-	            this.emit("change", this.state);
+	            //    this.emit('change',this.state);
 	            break;
 	          case "button":
 	            this.turnOn();
-	            this.emit("change", this.state);
+	            //    this.emit('change',this.state);
 	            break;
 	          case "aftertouch":
 	            this.position = {
@@ -2616,14 +2611,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	            };
 	            this.turnOn();
-	            this.emit("change", {
-	              state: this.state,
-	              x: this.position.x,
-	              y: this.position.y });
+	            //    this.emit('change',{
+	            //      state: this.state,
+	            //      x: this.position.x,
+	            //      y: this.position.y,
+	            //    });
 	            break;
 	          case "toggle":
 	            this.flip(paintbrush);
-	            this.emit("change", this.state);
+	            //    this.emit('change',this.state);
 	            break;
 	        }
 	      }
@@ -2649,7 +2645,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        switch (this.mode) {
 	          case "button":
 	            this.turnOff();
-	            this.emit("change", this.state);
+	            //  this.emit('change',this.state);
 	            break;
 	          case "aftertouch":
 	            this.turnOff();
@@ -2657,10 +2653,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	              x: math.clip(this.mouse.x / this.width, 0, 1),
 	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	            };
-	            this.emit("change", {
-	              state: this.state,
-	              x: this.position.x,
-	              y: this.position.y });
+	            //  this.emit('change',{
+	            //    state: this.state,
+	            //    x: this.position.x,
+	            //    y: this.position.y,
+	            //  });
 	            break;
 	        }
 	      }
@@ -2695,9 +2692,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._state.state;
 	      },
 	      set: function (value) {
-	        var newvalue = this._state.flip(value);
+	        this._state.flip(value);
+	        if (this.mode === "aftertouch") {
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
+	        } else {
+	          this.emit("change", this.state);
+	        }
 	        this.render();
-	        return newvalue;
 	      }
 	    },
 	    flip: {
@@ -2710,6 +2714,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function flip(value) {
 	        this._state.flip(value);
+	        if (this.mode === "aftertouch") {
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
+	        } else {
+	          this.emit("change", this.state);
+	        }
 	        this.render();
 	      }
 	    },
@@ -2720,8 +2732,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      @example button.turnOn();
 	      */
 	
-	      value: function turnOn() {
+	      value: function turnOn(emitting) {
 	        this._state.on();
+	        if (emitting !== false) {
+	          if (this.mode === "aftertouch") {
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	          } else {
+	            this.emit("change", this.state);
+	          }
+	        }
 	        this.render();
 	      }
 	    },
@@ -2732,8 +2754,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      @example button.turnOff();
 	      */
 	
-	      value: function turnOff() {
+	      value: function turnOff(emitting) {
 	        this._state.off();
+	        if (emitting !== false) {
+	          if (this.mode === "aftertouch") {
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	          } else {
+	            this.emit("change", this.state);
+	          }
+	        }
 	        this.render();
 	      }
 	    }
@@ -3043,17 +3075,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	          this.deselect();
 	        }
-	        this.render();
-	        this.emit("change", this.active);
+	        //  this.render();
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        for (var i = 0; i < this.buttons.length; i++) {
 	          if (i === this.active) {
-	            this.buttons[i].turnOn();
+	            this.buttons[i].turnOn(false);
 	          } else {
-	            this.buttons[i].turnOff();
+	            this.buttons[i].turnOff(false);
 	          }
 	        }
 	      }
@@ -3066,8 +3097,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function select(index) {
-	        if (index >= 0) {
+	        if (index >= 0 && index < this.buttons.length) {
 	          this.active = index;
+	          this.emit("change", this.active);
 	          this.render();
 	        }
 	      }
@@ -3080,6 +3112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function deselect() {
 	        this.active = -1;
+	        this.emit("change", this.active);
 	        this.render();
 	      }
 	    }
@@ -3736,14 +3769,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (value) {
 	        var newval = this._value.update(value);
+	        this.emit("change", this.value);
 	        this.render();
-	        return newval;
 	      }
 	    },
 	    normalized: {
 	
 	      /**
-	      Normalized value of the dial. It will automatically be adjust to fit min/max/step settings.
+	      Normalized value of the dial. It will automatically adjust the dial's value to fit min/max/step settings.
 	      @type {number}
 	      @example dial.normalized = 0.5;
 	      */
@@ -3753,6 +3786,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (v) {
 	        this._value.updateNormal(v);
+	        this.emit("change", this.value);
 	      }
 	    }
 	  });
