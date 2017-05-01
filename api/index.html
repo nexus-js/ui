@@ -185,6 +185,21 @@
             {{/parameters}}
           )</div>
           <div class="method-description">{{{ description }}}</div>
+          <table style="padding: 5px">
+            {{#parameters}}
+              <tr>
+                  <td style="padding:5px 10px">
+                    <b>{{name}}:</b>
+                  </td>
+                  <td style="padding:5px 10px">
+                    <i>{{type}}</i>
+                  </td>
+                  <td style="padding:5px 10px">
+                    {{description}}
+                  </td>
+              </tr>
+            {{/parameters}}
+          </table>
           <pre class="example"><code class="language-javascript">{{ example }}</code></pre>
         </div>
       {{/helpers}}
@@ -728,8 +743,14 @@ Creating a Matrix Model from scratch...
     Prism.highlightAll();
 
     $('html, body').animate({
-        scrollTop: $("#"+name).offset().top
+        scrollTop: $("#"+name).offset().top - 20
     }, 500);
+
+
+  /*  $("#"+name).css("background-color","#0af");
+    $("#"+name).css("transition","background-color 1s ease");
+    $("#"+name).css("background-color","#fff"); */
+
 
 
   }
