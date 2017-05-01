@@ -23,8 +23,8 @@
     <h2>Interfaces</h2>
 
     <h3>Core</h3>
-    <a href="javascript:doc('Button')">button</a><br />
-    <a href="javascript:doc('Dial')">dial</a><br />
+    <a href="#Button">button</a><br />
+    <a href="#Dial">dial</a><br />
     <a href="javascript:doc('Number')">number</a><br />
     <a href="javascript:doc('Position')">position</a><br />
     <a href="javascript:doc('Slider')">slider</a><br />
@@ -60,14 +60,14 @@
     <h2>Timing</h2>
     <a href="javascript:tut('interval')">interval</a><br />
 
-    <h2>Models</h2>
+  <!--  <h2>Models</h2>
     <a href="javascript:tut('counter')">counter</a><br />
     <a href="javascript:tut('sequence')">sequence</a><br />
     <a href="javascript:tut('drunk')">drunk</a><br />
-    <a href="javascript:tut('matrix')">matrix</a><br />
+    <a href="javascript:tut('matrix')">matrix</a><br /> -->
 
     <h2>Helpers</h2>
-    <a href="javascript:helper('ri')">ri (random integer)</a><br />
+    <a href="#ri">ri (random integer)</a><br />
     <a href="javascript:helper('rf')">rf (random float)</a><br />
     <a href="javascript:helper('clip')">clip</a><br />
     <a href="javascript:helper('scale')">scale</a><br />
@@ -75,8 +75,9 @@
     <a href="javascript:helper('interp')">interp</a><br />
     <a href="javascript:helper('pick')">pick</a><br />
     <a href="javascript:helper('octave')">octave</a><br />
-    <a href="javascript:helper('cycle')">cycle</a><br />
+    <a href="javascript:helper('distance')">distance</a><br />
     <a href="javascript:helper('average')">average</a><br />
+    <a href="javascript:helper('coin')">coin</a><br />
   </div>
 
   <div id="tutorial" class="tutorial">
@@ -160,6 +161,33 @@
       {{/tutorials}}
 
     </div>
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+    <script id="helper-template" type="x-tmpl-mustache">
+
+      <h2>Helper Methods</h2>
+
+      {{#helpers}}
+        <div class="method">
+          <div class="method-name">{{ name }}(
+            {{#parameters}}
+              {{name}}{{^last}}, {{/last}}
+            {{/parameters}}
+          )</div>
+          <div class="method-description">{{{ description }}}</div>
+          <pre class="example"><code class="language-javascript">{{ example }}</code></pre>
+        </div>
+      {{/helpers}}
 
     </script>
 
@@ -402,7 +430,9 @@ Creating a Matrix Model from scratch...
 
   var Unformatted = {}
   var API = {}
+  var Helpers = []
   mt.context = Tone.context;
+
 
   $.getJSON('api.json', function(data) {
     data.forEach(function(entry) {
@@ -410,6 +440,40 @@ Creating a Matrix Model from scratch...
     })
     console.log(Unformatted)
 
+
+    // Parse Helper doc into Helpers object
+    for (var key in Unformatted) {
+      if ( LoadLinks.Helper.indexOf(key) >=0 ) {
+        var unformatted = Unformatted[key]
+        console.log(unformatted);
+        var entry = {
+          name: unformatted.name,
+          parameters: unformatted.params,
+          description: unformatted.description.children[0].children[0].value,
+          returns: {
+            type: unformatted.returns[0].type,
+            description: unformatted.returns[0].description.children[0].children[0].value
+          },
+          example: unformatted.examples[0].description,
+        }
+        var params = []
+        if (entry.parameters) {
+          entry.parameters.forEach(function(param) {
+            params.push({
+              name: param.name,
+              type: param.type.name,
+              description: param.description.children[0].children[0].value
+            })
+          })
+          entry.parameters = params
+          entry.parameters[ entry.parameters.length - 1 ].last = true;
+        }
+        Helpers.push(entry);
+      }
+    }
+
+
+    // Parse interface documentation into API object
     for (var key in Unformatted) {
       var unformatted = Unformatted[key]
       var entry = {
@@ -573,9 +637,9 @@ Creating a Matrix Model from scratch...
   var player = player = new Tone.Player("../example/media/D-sharp.mp3");
 
   function doc(name) {
-    if (window.location.hash.substring(1)!=name) {
-      window.location.hash = name;
-    }
+  //  if (window.location.hash.substring(1)!=name) {
+  //    window.location.hash = name;
+  //  }
     var entry = API[name];
     var template = $('#template').html();
     Mustache.parse(template);   // optional, speeds up future uses
@@ -585,7 +649,11 @@ Creating a Matrix Model from scratch...
 
     if (instrument) {
       if (instrument.ui[""])
-        instrument.ui[""].destroy();
+        try {
+          instrument.ui[""].destroy();
+        } catch(e) {
+          console.log(e);
+        }
     }
     instrument = mt.rack("demo");
 
@@ -610,12 +678,55 @@ Creating a Matrix Model from scratch...
 
 
   function tut(name) {
+  //  if (window.location.hash.substring(1)!=name) {
+  //    window.location.hash = name;
+  //  }
     $('#target').empty();
     if ($("#"+name).length>0) {
       $("#"+name).clone().appendTo('#target').show()
       Prism.highlightAll();
+
+
+
+      if (instrument) {
+        if (instrument.ui[""])
+          try {
+            instrument.ui[""].destroy();
+          } catch(e) {
+            console.log(e);
+          }
+      }
+
       instrument = mt.rack("target");
     }
+  }
+
+  function helper(name) {
+
+  //  if (window.location.hash.substring(1)!=name) {
+  //    window.location.hash = name;
+  //  }
+
+
+    if (instrument) {
+      if (instrument.ui[""])
+        try {
+          instrument.ui[""].destroy();
+        } catch(e) {
+          console.log(e);
+        }
+    }
+
+    var entry = {"helpers": Helpers}
+    console.log(entry);
+    var template = $('#helper-template').html();
+    Mustache.parse(template);   // optional, speeds up future uses
+    var rendered = Mustache.render(template, entry);
+
+    $('#target').html(rendered);
+    Prism.highlightAll();
+
+
   }
 
   var TypeLinks = [
@@ -634,7 +745,7 @@ Creating a Matrix Model from scratch...
       'tune', 'Interval', 'Counter', 'Sequence', 'Drunk', 'Matrix', '',  '', '',
     ],
     "Helper": [
-      'ri', 'rf', 'clip', 'scale', 'mtof', 'interp', 'pick', 'octave', 'cycle', 'average'
+      'ri', 'rf', 'clip', 'scale', 'mtof', 'interp', 'pick', 'octave', 'distance', 'average', 'coin'
     ]
   }
 
@@ -644,7 +755,7 @@ Creating a Matrix Model from scratch...
     } else if (LoadLinks.Tut.indexOf(name)>=0) {
       tut(name);
     } else if (LoadLinks.Helper.indexOf(name)>=0) {
-    //  helper(name);
+      helper(name);
     }
   }
 </script>
