@@ -212,6 +212,11 @@
 
 
 
+
+
+
+
+
 <!--
 
 MT.TUNE
@@ -222,76 +227,82 @@ MT.TUNE
     <h2>Tuning</h2>
 
     <p>
-      <code>mt.note()</code> and <code>mt.tune</code> offer ways to manage pitches and scales.
+      <b>mt.note()</b> and <b>mt.tune</b> offer ways to manage pitches and scales.
     </p>
 
      <pre><code class="language-javascript">
-// Create a major chord drone, assuming synth1, synth2, and synth3 exist
-
 // mt.note(0) returns the frequency of the 1st note of the scale
-synth1.frequency.value = mt.note(0);
+synth.frequency.value = mt.note(0);
 
 // mt.note(2) returns the frequency of the 3rd note of the scale
-synth2.frequency.value = mt.note(2);
-
-// mt.note(4) returns the frequency of the 5th note of the scale
-synth3.frequency.value = mt.note(4);
+synth.frequency.value = mt.note(2);
      </code></pre>
 
-     <p>
-       This approach emphasizes algorithmic composition by turning musical pitches into numbers -- using scale degrees and octave numbers instead of note names like C, D, and E.
-     </p>
-
-<!--     <pre><code class="language-javascript">
-// Every 100ms, play a random note from a random octave in the major scale
-mt.interval(100,function() {
- var scaleDegree = mt.ri( 0, mt.tune.scale.length );
- var octave = mt.ri( -3 , 3 );
- synth1.frequency.value = mt.tune.note( scaleDegree, octave ); // returns the root
-})
-     </code></pre> -->
+    <p>
+      By default the scale is an equal-tempered major scale. An API for changing the scale is near completion.
+    </p>
 
      <p>
-       Another example:
+       This approach emphasizes algorithmic composition by using numbers to traverse musical scales.
      </p>
-
-    <pre><code class="language-javascript">
-// Play 5 octaves of the major scale
-
-var scaleDegree = mt.counter( 0, mt.tune.scale.length*5 );
-
-mt.interval(100,function() {
-  synth1.frequency.value = mt.tune.note( scaleDegree.next() );
-})
-    </code></pre>
-
-
 
 
     <!-- section -->
 
     <h3>Turning Scale Degrees to Frequency Numbers with mt.note()</h3>
      <p>
-       <span class="codesnipper">mt.note()</span> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
+       <b>mt.note()</b> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
      </p>
 
      <pre>
        <code class="language-javascript">
-synth.frequency.value = mt.note(0) // returns the root
+// mt.note(0) returns the frequency of 1st note of the scale
+synth.frequency.value = mt.note(0);
+
+// mt.note(1) returns the frequency of 2nd note of the scale
+synth.frequency.value = mt.note(1);
+
+// Negative numbers wrap to a lower octave
+// mt.note(-1) returns the frequency of the top note of the scale, 1 octave lower
+synth.frequency.value = mt.note(-1);
+
+// You can also specify the octave using an optional second parameter
+// mt.note(0,2) returns the frequency of the 1st note of the scale, 2 octaves up.
+synth.frequency.value = mt.note(0,2);
+
+// mt.note(0,-1) returns the frequency of the 1st note of the scale, 1 octave lower
+synth.frequency.value = mt.note(0,-1);
+    </code></pre>
+
+     <p>
+       By using counters or number generators in tandem with <b>mt.note()</b>, you can play scales, arpeggios, etc.
+     </p>
+
+     <pre>
+       <code class="language-javascript">
+ // Play 5 octaves of the major scale
+
+ var counter = mt.counter( 0, 6 );
+
+ mt.interval(100,function() {
+   synth.frequency.value = mt.tune.note( counter.next() );
+ })
        </code>
      </pre>
 
 
-     <!-- section -->
+
+     <!-- section
 
      <h3>Getting Ratios or MIDI instead of Frequencies</h3>
      <p>
        For other ways of retrieving pitch data, ... <b>mt.tune.frequency</b>, <b>mt.tune.ratio</b>, and <b>mt.tune.midi</b>
      </p>
 
+    -->
 
 
-    <!-- section -->
+    <!-- section
 
     <h3>Changing the Scale</h3>
     <p>
@@ -315,7 +326,6 @@ mt.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
     </code></pre>
 
 
-    <!-- section -->
 
     <h3>Changing the root </h3>
     <p>
@@ -351,6 +361,39 @@ mt.tune.root = "A1";
 mt.tune.root = 120;
     </code></pre>
 
+
+
+
+    <h3>Examples</h3>
+
+    <p>
+      Codepen for: scale over 5 octaves
+    </p>
+
+    <p>
+      Codepen for: arpeggio
+    </p>
+
+    <p>
+      Codepen for: melody and rhythm
+    </p>
+
+    <p>
+      Codepen for: custom scales
+    </p>
+
+    <!--     <pre><code class="language-javascript">
+    // Every 100ms, play a random note from a random octave in the major scale
+    mt.interval(100,function() {
+     var scaleDegree = mt.ri( 0, mt.tune.scale.length );
+     var octave = mt.ri( -3 , 3 );
+     synth1.frequency.value = mt.tune.note( scaleDegree, octave ); // returns the root
+    })
+         </code></pre> -->
+
+
+
+
   </div>
 
 
@@ -370,7 +413,7 @@ mt.tune.root = 120;
       <h2>Timing</h2>
 
       <p>
-        <code>mt.interval</code> creates a repeating pulse using <a href="http://github.com/sebpiq/WAAClock">WAAClock</a>.
+        <b>mt.interval</b> creates a repeating pulse using <a href="http://github.com/sebpiq/WAAClock">WAAClock</a>.
       </p>
 
        <pre><code class="language-javascript">
@@ -382,7 +425,7 @@ var interval = mt.interval(100, function() {
        </code></pre>
 
        <p>
-         This interval uses a web audio context to handle timing, so it is more accurate than a regular <code>setInterval</code> or <code>setTimeout</code>
+         This interval uses a web audio context to handle timing, so it is more accurate than a regular <b>setInterval</b> or <b>setTimeout</b>
        </p>
 
 
@@ -406,9 +449,9 @@ var interval = mt.interval(100, function() {
 
       <!-- section -->
 
-      <h3>Changing the Interval Time</h3>
+      <h3>Changing the Interval Period</h3>
       <pre><code class="language-javascript">
-// Change your interval time to 200ms.
+// Change your interval period to 200ms.
 interval.ms(200)
       </code></pre>
 
