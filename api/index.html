@@ -219,10 +219,10 @@ MT.TUNE
 -->
 
   <div id="tune" class="custom-tutorial" style="display:none">
-    <h2>mt.tune: Pitches and Scales</h2>
+    <h2>Tuning</h2>
 
     <p>
-      This toolkit provides rudimentary methods for managing musical scales. The approach emphasizes algorithmic composition by turning musical pitches into numbers -- using scale degrees numbers and octave numbers instead of note names like C, D, and E. Here is an example:
+      <code>mt.note()</code> and <code>mt.tune</code> offer ways to manage pitches and scales.
     </p>
 
      <pre><code class="language-javascript">
@@ -238,6 +238,10 @@ synth2.frequency.value = mt.note(2);
 synth3.frequency.value = mt.note(4);
      </code></pre>
 
+     <p>
+       This approach emphasizes algorithmic composition by turning musical pitches into numbers -- using scale degrees and octave numbers instead of note names like C, D, and E.
+     </p>
+
 <!--     <pre><code class="language-javascript">
 // Every 100ms, play a random note from a random octave in the major scale
 mt.interval(100,function() {
@@ -247,7 +251,10 @@ mt.interval(100,function() {
 })
      </code></pre> -->
 
-Another example:
+     <p>
+       Another example:
+     </p>
+
     <pre><code class="language-javascript">
 // Play 5 octaves of the major scale
 
@@ -345,6 +352,102 @@ mt.tune.root = 120;
     </code></pre>
 
   </div>
+
+
+
+
+
+
+
+
+  <!--
+
+  MT.INTERVAL
+
+  -->
+
+    <div id="interval" class="custom-tutorial" style="display:none">
+      <h2>Timing</h2>
+
+      <p>
+        <code>mt.interval</code> creates a repeating pulse using <a href="http://github.com/sebpiq/WAAClock">WAAClock</a>.
+      </p>
+
+       <pre><code class="language-javascript">
+// Create a pulse of 100ms. At each pulse, the callback function is executed.
+
+var interval = mt.interval(100, function() {
+  console.log('beep');
+})
+       </code></pre>
+
+       <p>
+         This interval uses a web audio context to handle timing, so it is more accurate than a regular <code>setInterval</code> or <code>setTimeout</code>
+       </p>
+
+
+
+
+      <h3>Autostart</h3>
+
+      <p>
+        Be default, the interval will automatically start when it is created.
+        However a third parameter can set autostart to false.
+      </p>
+
+      <pre><code class="language-javascript">
+// Create a pulse that does not autostart.
+
+var interval = mt.interval(100, function() {
+  console.log('beep');
+}, false)
+      </code></pre>
+
+
+      <!-- section -->
+
+      <h3>Changing the Interval Time</h3>
+      <pre><code class="language-javascript">
+// Change your interval time to 200ms.
+interval.ms(200)
+      </code></pre>
+
+
+      <!-- section -->
+      <h3>All methods</h3>
+      <pre><code class="language-javascript">
+// Create a pulse of 1 second
+var interval = mt.interval(1000, function() {
+  console.log('beep');
+})
+
+// Stop the pulse
+interval.stop();
+
+// Start the pulse
+interval.start();
+
+// Change the interval time
+interval.ms(200);
+
+// Change the function that is called at each pulse
+interval.event = function() {
+  console.log("bloop");
+}
+      </code></pre>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -768,7 +871,7 @@ Creating a Matrix Model from scratch...
       'Oscilloscope', 'Spectrogram'
     ],
     "Tut": [
-      'tune', 'Interval', 'Counter', 'Sequence', 'Drunk', 'Matrix', '',  '', '',
+      'tune', 'interval', 'counter', 'sequence', 'drunk', 'matrix', '',  '', '',
     ],
     "Helper": [
       'ri', 'rf', 'clip', 'scale', 'mtof', 'interp', 'pick', 'octave', 'distance', 'average', 'coin'
