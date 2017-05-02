@@ -7,7 +7,7 @@ This repository is a from-scratch refactor of NexusUI. Principles for the rewrit
 - Addition of tuning and timing mechanisms
 - More conventional Javascript API
 
-For full documentation, see [the website](taylorbf.github.io/Musicians-Toolkit/api/).
+For full documentation, see [the website](http://taylorbf.github.io/Musicians-Toolkit/api/).
 
 # How to Use
 
@@ -140,4 +140,3 @@ pulse.stop();
 ```
 
 See `example/timing.html`
-
