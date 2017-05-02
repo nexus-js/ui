@@ -183,8 +183,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Position: __webpack_require__(3),
 	  Slider: __webpack_require__(14),
 	  Toggle: __webpack_require__(15),
-	  Range: __webpack_require__(16),
-	  Waveform: __webpack_require__(19),
+	  //  Range: require('./range'),
+	  //  Waveform: require('./waveform'),
 	  Button: __webpack_require__(20),
 	  TextButton: __webpack_require__(22),
 	  RadioButton: __webpack_require__(23),
@@ -228,15 +228,41 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Position
 	*
-	* @description 2-dimensional touch slider
+	* @description Two-dimensional touch slider.
 	*
 	* @demo <span mt="position"></span>
 	*
 	* @example
 	* var position = mt.position('#target')
 	*
+	* @example
+	* var position = mt.position('#target',{
+	*   'size': [200,200],
+	*   'mode': 'absolute',  // "absolute" or "relative"
+	*   'x': 0.5,  // initial x value
+	*   'minX': 0,
+	*   'maxX': 1,
+	*   'stepX': 0,
+	*   'y': 0.5,  // initial y value
+	*   'minY': 0,
+	*   'maxY': 1,
+	*   'stepY': 0
+	* })
+	*
 	* @output
-	* x and y values
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is an object with x and y properties containing the x and y values of the interface.
+	*
+	* @outputexample
+	* position.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
 	*
 	*/
 	
@@ -244,7 +270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Position() {
 	    _classCallCheck(this, Position);
 	
-	    var options = ["scale", "value"];
+	    var options = ["value"];
 	
 	    var defaults = {
 	      size: [200, 200],
@@ -408,7 +434,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The lower limit of value on the x axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -424,7 +449,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The lower limit of value on the y axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -440,7 +464,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The upper limit of value on the x axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -456,7 +479,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The upper limit of value on the y axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -472,7 +494,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The incremental step of values on the x axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -488,7 +509,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      * The incremental step of values on the y axis
 	      * @type {object}
-	      * @example
 	      */
 	
 	      get: function () {
@@ -504,7 +524,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      Absolute mode (position's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "absolute".
 	      @type {string}
-	      @example dial.mode = "relative";
+	      @example position.mode = "relative";
 	      */
 	
 	      get: function () {
@@ -585,6 +605,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	/**
+	 * Limit a number to within a minimum and maximum
+	 * @param  {number} value Input value
+	 * @param  {number} min   Lower limit
+	 * @param  {number} max   Upper limit
+	 * @return {number}       The input value constrained within the lower and upper limits
+	 * @example
+	 * mt.clip(11,0,10)   // returns 10
+	 * mt.clip(-1,0,10)   // returns 0
+	 * mt.clip(5,0,10)    // returns 5
+	 */
+	
 	exports.clip = function (value, min, max) {
 	  return Math.min(Math.max(value, min), max);
 	};
@@ -593,6 +625,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return (value - min) / (max - min);
 	};
 	
+	/**
+	 * Scale a value from one range to another range.
+	 * @param  {number} inNum  Input value
+	 * @param  {number} inMin  Input range minimum
+	 * @param  {number} inMax  Input range maximum
+	 * @param  {number} outMin Output range minimum
+	 * @param  {number} outMax Output range maximum
+	 * @return {number}        The input value scaled to its new range
+	 * @example
+	 * mt.scale(0.5,0,1,0,10)   // returns 5
+	 * mt.scale(0.9,0,1,1,0)    // returns 0.1
+	 */
 	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
 	  if (inMin === inMax) {
 	    return outMin;
@@ -633,30 +677,65 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return exports.scale(inNum, 1, 0, 0, 1);
 	};
 	
+	/**
+	 * Convert a MIDi note number to a frequency value in equal temperament.
+	 * @param  {number} midi MIDI note value
+	 * @return {number}      Frequence value
+	 * @example
+	 * mt.mtof(60)  // returns the frequency number of Middle C
+	 */
 	exports.mtof = function (midi) {
 	  return Math.pow(2, (midi - 69) / 12) * 440;
 	};
-	/*
-	exports.ri = function(scale) {
-	  return Math.floor(Math.random() * scale);
-	};
 	
-	exports.rf = function(scale) {
-	  return Math.random() * scale;
-	}; */
-	
+	/**
+	 * Interpolate between two numbers
+	 * @param  {number} loc Interpolation index (0-1)
+	 * @param  {number} min Lower value
+	 * @param  {number} max Upper value
+	 * @return {number}     Interpolated value
+	 * @example
+	 * mt.interp(0.5,2,4)   // returns 3
+	 * mt.interp(0.1,0,10)     // returns 1
+	 */
 	exports.interp = function (loc, min, max) {
 	  return loc * (max - min) + min;
 	};
 	
+	/**
+	 * Return a random choice from a list of arguments
+	 * @return {various} One random argument
+	 * @example
+	 * mt.pick(1,2,3,4)   // returns 1, 2, 3, or 4
+	 * mt.pick(function1,function2)   // returns either function1 or function2
+	 */
 	exports.pick = function () {
 	  return arguments[~ ~(Math.random() * arguments.length)];
 	};
 	
+	/**
+	 * Returns an octave multiplier for frequency values
+	 * @param  {number} num Relative octave number (e.g. -1 for one octave down, 1 for one octave up)
+	 * @return {number}     Octave multiplier
+	 * @example
+	 * mt.octave(-1)  // returns 0.5
+	 * mt.octave(0)   // returns 1
+	 * mt.octave(1)   // returns 2
+	 * mt.octave(2)   // returns 4
+	 */
 	exports.octave = function (num) {
 	  return Math.pow(2, num);
 	};
 	
+	/**
+	 * Random integer generator. If no second argument is given, will return random integer from 0 to bound1.
+	 * @param  {number} bound1 Minimum random value
+	 * @param  {number} bound2 Maximum random value
+	 * @return {number}        Random integer between lower and upper boundary
+	 * @example
+	 * mt.ri(10)    // returns random int from 0 to 10
+	 * mt.ri(20,2000) // returns random int from 20 to 2000
+	 */
 	exports.ri = function (bound1, bound2) {
 	  if (!bound2) {
 	    bound2 = bound1;
@@ -667,6 +746,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return Math.floor(Math.random() * (high - low) + low);
 	};
 	
+	/**
+	 * Random float number generator. If no second argument is given, will return random float from 0 to bound1.
+	 * @param  {number} bound1 Minimum random value
+	 * @param  {number} bound2 Maximum random value
+	 * @return {number}        Random float between lower and upper boundary
+	 * @example
+	 * mt.rf(1)    // returns random float from 0 to 1
+	 * mt.rf(1,2) // returns random float from 1 to 2
+	 */
 	exports.rf = function (bound1, bound2) {
 	  if (!bound2) {
 	    bound2 = bound1;
@@ -685,6 +773,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return input;
 	};
 	
+	/**
+	 * Average an array of numbers
+	 * @param  {Array} data Array of numbers to average
+	 * @return {number}      Average of the input data
+	 * @example
+	 * mt.average([0,2,4,6,8,10])   // returns 5
+	 */
 	exports.average = function (data) {
 	  var total = 0;
 	  for (var i = 0; i < data.length; i++) {
@@ -693,6 +788,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return total / data.length;
 	};
 	
+	/**
+	 * Get the distance from one (x,y) point to another (x,y) point
+	 * @param  {number} x1 x of first point
+	 * @param  {number} y1 y of first point
+	 * @param  {number} x2 x of second point
+	 * @param  {number} y2 y of second poiny
+	 * @return {number}    Distance
+	 * @example
+	 * mt.distance(0,0,3,4)   // returns 5
+	 */
 	exports.distance = function (x1, y1, x2, y2) {
 	  var a = x1 - x2;
 	  var b = y1 - y2;
@@ -703,6 +808,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return 20 * Math.log10(gain);
 	};
 	
+	/**
+	 * Flip a coin, returning either 0 or 1 according to a probability
+	 * @param  {number} [odds=0.5] Likelihood of returning 1
+	 * @return {number}            1 or 0
+	 * @example
+	 * mt.coin(0.1)   // returns 1 (10% likely) or 0 (90% likely)
+	 */
 	exports.coin = function () {
 	  var odds = arguments[0] === undefined ? 0.5 : arguments[0];
 	
@@ -869,8 +981,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    init: {
 	      value: function init() {
 	        this.buildFrame();
-	        this.attachListeners();
 	        this.buildInterface();
+	        this.attachListeners();
 	        //this.sizeInterface(); should probably add this here instead of in each interface
 	        this.colorInterface();
 	        //or
@@ -902,15 +1014,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function attachListeners() {
 	        var _this = this;
 	
+	        this.interactionTarget = this.interactionTarget || this.element;
+	
 	        // Setup interaction
 	        if (touch.exists) {
-	          this.element.addEventListener("touchstart", function (evt) {
+	          this.interactionTarget.addEventListener("touchstart", function (evt) {
 	            return _this.preTouch(evt);
 	          });
-	          this.element.addEventListener("touchmove", function (evt) {
+	          this.interactionTarget.addEventListener("touchmove", function (evt) {
 	            return _this.preTouchMove(evt);
 	          });
-	          this.element.addEventListener("touchend", function (evt) {
+	          this.interactionTarget.addEventListener("touchend", function (evt) {
 	            return _this.preTouchRelease(evt);
 	          });
 	        }
@@ -920,7 +1034,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.boundPreRelease = function (evt) {
 	          return _this.preRelease(evt);
 	        };
-	        this.element.addEventListener("mousedown", function (evt) {
+	        this.interactionTarget.addEventListener("mousedown", function (evt) {
 	          return _this.preClick(evt);
 	        });
 	      }
@@ -1869,19 +1983,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var slider = mt.slider('#target')
 	*
+	* @example
+	* var slider = mt.slider('#target',{
+	*     'size': [120,20],
+	*     'orientation': 'vertical',  // 'vertical' or 'horizontal'
+	*     'mode': 'relative',  // 'relative' or 'absolute'
+	*     'min': 0,
+	*     'max': 1,
+	*     'step': 0,
+	*     'value': 0,
+	*     'hasKnob': true
+	* })
+	*
+	* @output
+	* change
+	* Fires when the interface's value changes. <br>
+	* Event data: <i>number</i> The number value of the interface.
+	*
+	* @outputexample
+	* slider.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Slider = (function (_Interface) {
 	  function Slider() {
 	    _classCallCheck(this, Slider);
 	
-	    var options = ["scale", "value"];
+	    var options = ["min", "max", "value"];
 	
 	    var defaults = {
 	      size: [120, 20],
-	      orientation: "vertical",
-	      mode: "relative",
-	      scale: [0, 1],
+	      orientation: "vertical", // 'vertical' or 'horizontal'
+	      mode: "relative", // 'relative' or 'absolute'
+	      min: 0,
+	      max: 1,
 	      step: 0,
 	      value: 0,
 	      hasKnob: true
@@ -1893,7 +2035,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.hasKnob = this.settings.hasKnob;
 	
-	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	    this._value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
 	
 	    this.position = new Interaction.Handle(this.settings.mode, this.orientation, [0, this.width], [this.height, 0]);
 	    this.position.value = this._value.normalized;
@@ -2073,6 +2215,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      set: function (v) {
 	        this._value.update(v);
 	        this.position.value = this._value.normalized;
+	        this.emit("change", this._value.value);
 	        this.render();
 	      }
 	    },
@@ -2171,6 +2314,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var toggle = mt.toggle('#target')
 	*
+	* @example
+	* var toggle = mt.toggle('#target',{
+	*     'size': [40,20],
+	*     'value': 0
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* Parameter: The boolean state of the interface.
+	*
+	* @outputexample
+	* toggle.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Toggle = (function (_Interface) {
@@ -2263,9 +2427,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._state.state;
 	      },
 	      set: function (value) {
-	        var newvalue = this._state.flip(value);
+	        this._state.flip(value);
+	        this.emit("change", this.state);
 	        this.render();
-	        return newvalue;
 	      }
 	    },
 	    flip: {
@@ -2289,786 +2453,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	//let svg = require('../util/svg');
-	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(6);
-	var RangeSlider = __webpack_require__(17);
-	
-	/**
-	* Range
-	*
-	* @description Range slider
-	*
-	* @demo <div mt="Range"></div>
-	*
-	* @example
-	* var range = mt.range('#target')
-	*
-	*/
-	
-	var Range = (function (_Interface) {
-	  function Range() {
-	    _classCallCheck(this, Range);
-	
-	    //settings would include how many sliders and their location ?
-	    //and their ranges
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [200, 30],
-	      mode: "select", // select, scale? drag? range?
-	      scale: [0, 20],
-	      step: 1,
-	      value: [[7, 9], [1, 3]],
-	      maxSliders: 5
-	    };
-	
-	    _get(Object.getPrototypeOf(Range.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.min = this.settings.scale[0];
-	    this.max = this.settings.scale[1];
-	    this.mode = this.settings.mode;
-	    this.step = this.settings.step;
-	    this.maxSliders = this.settings.maxSliders;
-	    this.value = this.settings.value;
-	    this.sliders = [];
-	    //  this.buildFrame();
-	    //  this.buildInterface();
-	    //  this.attachListeners();
-	    this.init();
-	  }
-	
-	  _inherits(Range, _Interface);
-	
-	  _createClass(Range, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	        for (var i = 0; i < this.value.length; i++) {
-	          var value = this.value[i];
-	          this.addSlider(value[0], value[1]);
-	        }
-	      }
-	    },
-	    colorInterface: {
-	      value: function colorInterface() {
-	        this.element.style.backgroundColor = this.colors.fill;
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	        var _this = this;
-	
-	        // how to tell slider what size to move to?
-	        this.sliders.forEach(function (slider) {
-	          slider.resize(_this.width, _this.height);
-	        });
-	      }
-	    },
-	    addSlider: {
-	      value: function addSlider(start, end) {
-	
-	        // arguments: parent, options
-	        var component = new RangeSlider(this.element, {
-	          min: this.min,
-	          max: this.max,
-	          step: this.step,
-	          mode: this.mode
-	        });
-	
-	        //  component.range.start.value = start || math.interp(0.25,this.min,this.max);
-	        //  component.range.end.value = end ||  math.interp(0.75,this.min,this.max);
-	        //  console.log( start || math.interp(0.25,this.min,this.max) );
-	        //   component.start = start || math.interp(0.25,this.min,this.max);
-	        //   console.log(component.start);
-	        /*  component.end = end ||  math.interp(0.75,this.min,this.max);
-	          component.render();
-	          this.sliders.push( component ); */
-	
-	        start = start || math.interp(0.25, this.min, this.max);
-	        end = end || math.interp(0.75, this.min, this.max);
-	        component.range.move(start, end);
-	
-	        if (this.mode === "drag") {
-	          component.position.center.value = math.normalize(component.range.center, this.min, this.max);
-	          component.position.size.value = math.normalize(component.range.size, this.min, this.max);
-	        } else if (this.mode === "select") {
-	          component.position.center.value = math.normalize(component.range.center, this.min, this.max);
-	        }
-	        component.render();
-	        this.sliders.push(component);
-	        return component;
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        var slider = this.addSlider();
-	        slider.mouse = this.mouse;
-	        //  slider.preClick();
-	      }
-	    },
-	    move: {
-	      value: function move() {}
-	    },
-	    release: {
-	      value: function release() {}
-	    }
-	  });
-	
-	  return Range;
-	})(Interface);
-	
-	module.exports = Range;
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var RangeModel = __webpack_require__(18);
-	var math = __webpack_require__(5);
-	//let ColorOps = require('color-ops');
-	// is this needed? where is it used?
-	//window.ColorOps = require('color-ops');
-	
-	var Interface = _interopRequire(__webpack_require__(6));
-	
-	var Interaction = _interopRequireWildcard(__webpack_require__(12));
-	
-	var RangeSlider = (function (_Interface) {
-	  function RangeSlider() {
-	    _classCallCheck(this, RangeSlider);
-	
-	    var options = [];
-	
-	    var defaults = {
-	      size: [0, 0],
-	      mode: "select"
-	      //scaleX, scaleY
-	      //valueX, valueY
-	      //stepX, stepY
-	    };
-	
-	    _get(Object.getPrototypeOf(RangeSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.min = this.settings.min;
-	    this.max = this.settings.max;
-	    this.step = this.settings.step;
-	    this.mode = this.settings.mode;
-	
-	    /*  let colorIndex = 0;
-	      this.color = ColorOps.spin([230,0,100,0],colorIndex * 60);
-	      this.color = this.color.map((v) => { return Math.floor(v); });
-	      this.color.length = 3;
-	      this.color = 'rgb('+this.color.join(',')+')'; */
-	
-	    this.range = new RangeModel(this.min, this.max, this.step);
-	
-	    if (this.mode === "drag") {
-	      this.position = {
-	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
-	        size: new Interaction.Handle("relative", "vertical", [0, this.width], [this.height, 0])
-	      };
-	      this.position.size.sensitivity = 0.2;
-	    } else if (this.mode === "select") {
-	      this.position = {
-	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
-	        start: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
-	        end: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0])
-	        //  size: new Interaction.Handle('relative','vertical',[0,this.width],[this.height,0])
-	      };
-	    }
-	
-	    this.init();
-	    return this;
-	  }
-	
-	  _inherits(RangeSlider, _Interface);
-	
-	  _createClass(RangeSlider, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = svg.create("svg");
-	        this.element.setAttribute("x", 0);
-	        this.element.setAttribute("y", 0);
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.dummy = svg.create("rect");
-	        this.dummy.setAttribute("width", "100%");
-	        this.dummy.setAttribute("height", "100%");
-	        this.dummy.setAttribute("x", 0);
-	        this.dummy.setAttribute("y", 0);
-	        this.dummy.setAttribute("fill", "none");
-	
-	        this.element.appendChild(this.dummy);
-	
-	        this.ref = svg.create("g");
-	        this.ref.setAttribute("width", "100%");
-	        this.ref.setAttribute("height", "100%");
-	        this.ref.setAttribute("x", 0);
-	        this.ref.setAttribute("y", 0);
-	        this.ref.setAttribute("fill", "none");
-	
-	        this.element.appendChild(this.ref);
-	
-	        this.bar = svg.create("rect");
-	        this.bar.setAttribute("x", 0);
-	        this.bar.setAttribute("y", 0);
-	        this.bar.setAttribute("stroke-width", "0");
-	        this.bar.setAttribute("fill-opacity", "0.4");
-	
-	        this.arrowL = svg.create("rect");
-	        this.arrowL.setAttribute("x", 0);
-	        this.arrowL.setAttribute("y", 0);
-	        this.arrowL.setAttribute("fill-opacity", "0.7");
-	
-	        this.arrowL.addEventListener("mousedown", function (e) {
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	
-	        this.arrowR = svg.create("rect");
-	        this.arrowR.setAttribute("fill-opacity", "0.7");
-	
-	        this.arrowR.addEventListener("mousedown", function (e) {
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
-	
-	        this.ref.appendChild(this.arrowL);
-	        this.ref.appendChild(this.arrowR);
-	        this.ref.appendChild(this.bar);
-	
-	        this.resize();
-	      }
-	    },
-	    colorInterface: {
-	      value: function colorInterface() {
-	        this.bar.setAttribute("fill", this.colors.accent);
-	        this.bar.setAttribute("stroke", this.colors.accent);
-	        this.arrowL.setAttribute("fill", this.colors.accent);
-	        this.arrowR.setAttribute("fill", this.colors.accent);
-	      }
-	    },
-	    resize: {
-	      value: function resize(w, h) {
-	        this.width = w || this.width;
-	        this.height = h || this.height;
-	        this.element.setAttribute("width", this.width);
-	        this.element.setAttribute("height", this.height);
-	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
-	        this.bar.setAttribute("height", this.height);
-	        this.arrowL.setAttribute("width", 3);
-	        this.arrowL.setAttribute("height", this.height);
-	        this.arrowR.setAttribute("width", 3);
-	        this.arrowR.setAttribute("height", this.height);
-	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
-	        this.arrowR.setAttribute("y", 0);
-	        if (this.mode === "drag") {
-	          this.positoin.center.resize([0, this.width], [this.height, 0]);
-	          this.position.size.resize([0, this.width], [this.height, 0]);
-	        } else if (this.mode === "select") {
-	          this.position.center.resize([0, this.width], [this.height, 0]);
-	          this.position.start.resize([0, this.width], [this.height, 0]);
-	          this.position.end.resize([0, this.width], [this.height, 0]);
-	        }
-	        this.render();
-	      }
-	    },
-	    render: {
-	      value: function render() {
-	        this.ref.setAttribute("transform", "translate(" + this.range.start.normalized * this.width + ", 0)");
-	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
-	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 3);
-	      }
-	    },
-	    click: {
-	      value: function click() {
-	        this.hasMoved = false;
-	        console.log("slider clicked");
-	
-	        if (this.mode === "drag") {
-	          this.position.center.anchor = this.mouse;
-	          this.position.size.anchor = this.mouse;
-	        } else if (this.mode === "select") {
-	          this.position.center.anchor = this.mouse;
-	        }
-	        //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
-	        this.render();
-	      }
-	    },
-	    move: {
-	      value: function move() {
-	        if (this.clicked) {
-	          this.hasMoved = true;
-	          if (this.mode === "drag") {
-	
-	            this.position.center.update(this.mouse);
-	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
-	            //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
-	
-	            this.position.size.update(this.mouse);
-	            this.range.size = math.scale(this.position.size.value, 0, 1, this.min, this.max);
-	
-	            this.render();
-	          } else if (this.mode === "select") {
-	            this.position.center.update(this.mouse);
-	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
-	            this.render();
-	          }
-	        }
-	      }
-	    },
-	    release: {
-	      value: function release() {
-	        if (!this.hasMoved) {
-	          this.destroy();
-	        }
-	        this.render();
-	      }
-	    },
-	    start: {
-	      get: function () {
-	        return this.range.start.value;
-	      },
-	      set: function (value) {
-	        //  console.log("start is being set to", value);
-	        this.range.start.value = value;
-	        this.updatePosition();
-	      }
-	    },
-	    end: {
-	      get: function () {
-	        return this.range.end.value;
-	      },
-	      set: function (value) {
-	        //  console.log("end is being set to", value);
-	        this.range.end.value = value;
-	        this.updatePosition();
-	      }
-	    },
-	    updatePosition: {
-	      value: function updatePosition() {
-	        //  console.log("updatePosition is being set");
-	        var start = this.range.start.normalized;
-	        //        console.log("updatePosition start", start);
-	        var end = this.range.end.normalized;
-	        //        console.log("updatePosition end", end);
-	        var center = (end + start) / 2;
-	        var size = end - start;
-	
-	        //    console.log("updatePosition center", center);
-	        //        console.log("updatePosition size", size);
-	        this.position.center.update(center);
-	        this.position.size.update(size);
-	      }
-	    }
-	  });
-	
-	  return RangeSlider;
-	})(Interface);
-	
-	module.exports = RangeSlider;
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var Step = _interopRequire(__webpack_require__(11));
-	
-	/**
-	  Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.
-	  @param {number} [min=0] minimum
-	  @param {number} [max=1] maximum
-	  @param {number} [step=0]
-	  @returns {Object} Step
-	*/
-	
-	var Range = (function () {
-	  function Range() {
-	    var min = arguments[0] === undefined ? 0 : arguments[0];
-	    var max = arguments[1] === undefined ? 1 : arguments[1];
-	    var step = arguments[2] === undefined ? false : arguments[2];
-	
-	    _classCallCheck(this, Range);
-	
-	    /**
-	      {number} Minimum value of the range
-	    */
-	    this.min = min;
-	
-	    /**
-	      {number} Maximum value of the range
-	    */
-	    this.max = max;
-	
-	    /**
-	      {Step} Start value of the range selection
-	    */
-	    this.start = new Step(min, max, step);
-	
-	    /**
-	      {Step} End value of the range selection
-	    */
-	    this.end = new Step(min, max, step);
-	  }
-	
-	  _createClass(Range, {
-	    center: {
-	
-	      /**
-	        {number} Center of the range selection
-	      */
-	
-	      get: function () {
-	        return this.start.value + (this.end.value - this.start.value) / 2;
-	      },
-	      set: function (value) {
-	        var size = this.end.value - this.start.value;
-	        console.log("====");
-	        console.log(this.start.value);
-	        console.log(this.end.value);
-	        this.start.update(value - size / 2);
-	        this.end.update(this.start.value + size);
-	      }
-	    },
-	    size: {
-	
-	      /**
-	        {number} Size of the range selection
-	      */
-	
-	      get: function () {
-	        return this.end.value - this.start.value;
-	      },
-	      set: function (size) {
-	        var center = this.center;
-	        this.start.update(center - size / 2);
-	        // Ensure that the range slsection _is_ the size desired, even if it changes the center.
-	        this.end.update(this.start.value + size);
-	        //this.end.update(center + size/2);
-	      }
-	    },
-	    move: {
-	
-	      /**
-	        Move the range selection
-	        @param {number} start New start value of the range selection
-	        @param {number} end New end value of the range selection
-	      */
-	
-	      value: function move(start, end) {
-	        if (start) {
-	          this.start.update(start);
-	        }
-	        if (end) {
-	          this.end.update(end);
-	        }
-	      }
-	    }
-	  });
-	
-	  return Range;
-	})();
-	
-	module.exports = Range;
-
-/***/ },
-/* 19 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(6);
-	//let Step = require('../models/step');
-	//let math = require('../util/math');
-	var RangeSlider = __webpack_require__(17);
-	
-	/**
-	* Waveform
-	*
-	* @description Audio waveform visualization with region selection
-	*
-	* @demo <span mt="waveform"></span>
-	*
-	* @example
-	* var waveform = mt.waveform('#target',buffer);
-	*
-	*/
-	
-	var Waveform = (function (_Interface) {
-	  function Waveform() {
-	    _classCallCheck(this, Waveform);
-	
-	    var options = ["scale", "value"];
-	
-	    var defaults = {
-	      size: [400, 150]
-	      //scaleX, scaleY
-	      //valueX, valueY
-	      //stepX, stepY
-	    };
-	
-	    _get(Object.getPrototypeOf(Waveform.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this.selections = [];
-	    this.times = [{ dur: 10, format: 1 }, { dur: 50, format: 1 }, { dur: 100, format: 1 }, { dur: 200, format: 1 }, { dur: 500, format: 1 }, { dur: 1000, format: 1 }, { dur: 2000, format: 1 }, { dur: 5000, format: 1 }, { dur: 10000, format: 3 }, { dur: 15000, format: 3 }, { dur: 60000, format: 3 }, // 1 min
-	    { dur: 120000, format: 3 }, // 2 mins
-	    { dur: 300000, format: 3 }, // 5 mins
-	    { dur: 600000, format: 3 }];
-	    this.timescale = false;
-	
-	    this.definition = 2;
-	    this.pieces = ~ ~(this.width / this.definition);
-	
-	    this.channels = 1;
-	
-	    this.wavePieces = [];
-	
-	    this.init();
-	  }
-	
-	  _inherits(Waveform, _Interface);
-	
-	  _createClass(Waveform, {
-	    buildInterface: {
-	      value: function buildInterface() {
-	
-	        this.element.style.borderRadius = "5px";
-	
-	        this.sizeInterface();
-	      }
-	    },
-	    sizeInterface: {
-	      value: function sizeInterface() {
-	
-	        this.waveHeight = this.height / this.channels;
-	
-	        this.empty();
-	        if (this.buffer) {
-	          this.buildWaveform();
-	        }
-	      }
-	    },
-	    colorInterface: {
-	      value: function colorInterface() {
-	        this.element.style.backgroundColor = this.colors.fill;
-	
-	        if (this.wavePieces) {
-	          for (var i = 0; i < this.wavePieces.length; i++) {
-	            this.wavePieces[i].setAttribute("fill", this.colors.dark);
-	          }
-	        }
-	      }
-	    },
-	    buildWaveform: {
-	      value: function buildWaveform() {
-	        for (var i = 0; i < this.buffer.length; i++) {
-	          var waveTop = i * this.waveHeight;
-	          var waveCenter = waveTop + this.waveHeight / 2;
-	          for (var j = 0; j < this.buffer[i].length; j++) {
-	            var ht1 = waveCenter - this.buffer[i][j][0] * this.waveHeight;
-	            var ht2 = waveCenter + Math.abs(this.buffer[i][j][1] * this.waveHeight);
-	            ht2 = ht2 - ht1;
-	
-	            var rect = svg.create("rect");
-	            rect.setAttribute("x", j * this.definition);
-	            rect.setAttribute("y", ht1);
-	            rect.setAttribute("width", this.definition);
-	            rect.setAttribute("height", ht2);
-	            rect.setAttribute("fill", this.colors.dark);
-	            this.wavePieces.push(rect);
-	
-	            this.element.appendChild(rect);
-	          }
-	        }
-	      }
-	    },
-	    render: {
-	      /*
-	        buildSelection() {
-	          let starttime = math.rf(this.duration);
-	          let endtime =  starttime + 0.2;
-	      
-	          let startx = this.width * starttime / this.duration;
-	          let endx = this.width * endtime / this.duration;
-	      
-	          let rect = svg.create('rect');
-	          rect.setAttribute('x',startx);
-	          rect.setAttribute('y',0);
-	          rect.setAttribute('width',endx - startx);
-	          rect.setAttribute('height',this.height);
-	          rect.setAttribute('fill','#d19');
-	          rect.setAttribute('stroke','#d19');
-	          rect.setAttribute('stroke-width','1');
-	          rect.setAttribute('fill-opacity','0.5');
-	      
-	          rect.addEventListener('mousedown', (e) => {
-	            console.log('selection clicked');
-	            e.preventDefault();
-	            e.stopPropagation()
-	          });
-	      
-	          this.element.appendChild( rect );
-	        } */
-	
-	      value: function render() {}
-	    },
-	    click: {
-	      value: function click() {
-	        //  this.value = {
-	        //    x: this._value.x.updateNormal( this.mouse.x / this.height ),
-	        //    y: this._value.y.updateNormal( this.mouse.y / this.height )
-	        //  };
-	
-	        this.selections.push(new RangeSlider(this.element));
-	        //will need to include this in settings: this.mouse.x / this.width
-	
-	        // rules:
-	        // if not on an existing selection, create a selection
-	        // if on an existing selection, save x location
-	        // and check whether it is in 'resize' territory
-	        // possible a different interaction for touch -- 'range' style
-	
-	        this.render();
-	      }
-	    },
-	    move: {
-	      value: function move() {}
-	    },
-	    release: {
-	      value: function release() {
-	        this.render();
-	      }
-	    },
-	    load: {
-	      value: function load(buffer) {
-	
-	        this.channels = buffer.numberOfChannels;
-	        this.duration = buffer.duration;
-	        this.sampleRate = buffer.sampleRate;
-	        this.waveHeight = this.height / this.channels;
-	
-	        // timescale
-	        this.durationMS = this.duration * 1000;
-	        this.timescale = 0;
-	        while (~ ~(this.durationMS / this.times[this.timescale].dur) > 7 && this.timescale < this.times.length) {
-	          this.timescale++;
-	        }
-	        this.timescale = this.times[this.timescale];
-	
-	        this.rawbuffer = [];
-	        this.buffer = [];
-	
-	        // reduce/crush buffers
-	        for (var i = 0; i < this.channels; i++) {
-	          this.rawbuffer.push(buffer.getChannelData(0));
-	          this.buffer.push([]);
-	
-	          // counts faster (sacrificing some accuracy) through larger buffers.
-	          // a 5 second sample will only look at every 2nd sample.
-	          // a 10 second buffer will only look at every 3rd sample.
-	          var countinc = ~ ~(this.rawbuffer[0].length / (this.sampleRate * 5)) + 1;
-	
-	          var groupsize = ~ ~(this.rawbuffer[i].length / this.pieces);
-	          var cmax = 0;
-	          var cmin = 0;
-	          var group = 0;
-	          for (var j = 0; j < this.rawbuffer[i].length; j += countinc) {
-	            if (this.rawbuffer[i][j] > 0) {
-	              cmax = Math.max(cmax, this.rawbuffer[i][j]);
-	            } else {
-	              cmin = Math.min(cmin, this.rawbuffer[i][j]);
-	            }
-	            if (j > group * groupsize) {
-	              this.buffer[i].push([cmax, cmin]);
-	              group++;
-	              cmin = 0;
-	              cmax = 0;
-	            }
-	          }
-	        }
-	
-	        this.buildWaveform();
-	
-	        //this.val.starttime = Math.round(this.val.start * this.durationMS);
-	        //this.val.stoptime = Math.round(this.val.stop * this.durationMS);
-	        //this.val.looptime = Math.round(this.val.size * this.durationMS);
-	      }
-	    }
-	  });
-	
-	  return Waveform;
-	})(Interface);
-	
-	module.exports = Waveform;
-	// 10 mins
-
-	//  this.knobCoordinates = {
-	//    x: this._value.x.normalized * this.width,
-	//    y: this._value.y.normalized * this.height
-	//  };
-
-	//  if (this.clicked) {
-	// rules:
-	// if not on an existing selection, expand the created selection
-	// if on an existing selection, move it or resize it
-	/*    this.value = {
-	      x: this._value.x.updateNormal( this.mouse.x / this.height ),
-	      y: this._value.y.updateNormal( this.mouse.y / this.height )
-	    };
-	    this.render();
-	  } */
-
-/***/ },
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -3106,8 +2494,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	* })
 	*
 	* @output
-	* In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.
-	* In <b>aftertouch mode</b>, the output data is an object containing properties for the state of the object. the normalized x value (0-1) of interaction, and the normalized y value (0-1) of interaction.
+	* change
+	* Fires any time the interface's value changes. <br>
+	* In <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.<br>
+	* In <b>aftertouch mode</b>, the output data is an object containing x (0-1) and y (0-1) positions of aftertouch.
+	*
+	* @outputexample
+	* button.on('change',function(v) {
+	*   // v is the value of the button
+	*   console.log(v);
+	* })
 	*
 	* @tutorial
 	* Aftertouch mode
@@ -3153,6 +2549,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        this.pad = svg.create("circle");
 	        this.element.appendChild(this.pad);
+	
+	        this.interactionTarget = this.pad;
 	
 	        // only used if in 'aftertouch' mode
 	        this.defs = svg.create("defs");
@@ -3267,6 +2665,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.element.appendChild(this.pad);
 	
+	        this.interactionTarget = this.pad;
+	
 	        this.sizeInterface();
 	      }
 	    },
@@ -3297,11 +2697,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	              clearTimeout(this.timeout);
 	            }
 	            this.timeout = setTimeout(this.turnOff.bind(this), 30);
-	            this.emit("change", this.state);
+	            //    this.emit('change',this.state);
 	            break;
 	          case "button":
 	            this.turnOn();
-	            this.emit("change", this.state);
+	            //    this.emit('change',this.state);
 	            break;
 	          case "aftertouch":
 	            this.position = {
@@ -3309,14 +2709,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	            };
 	            this.turnOn();
-	            this.emit("change", {
-	              state: this.state,
-	              x: this.position.x,
-	              y: this.position.y });
+	            //    this.emit('change',{
+	            //      state: this.state,
+	            //      x: this.position.x,
+	            //      y: this.position.y,
+	            //    });
 	            break;
 	          case "toggle":
 	            this.flip(paintbrush);
-	            this.emit("change", this.state);
+	            //    this.emit('change',this.state);
 	            break;
 	        }
 	      }
@@ -3342,7 +2743,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        switch (this.mode) {
 	          case "button":
 	            this.turnOff();
-	            this.emit("change", this.state);
+	            //  this.emit('change',this.state);
 	            break;
 	          case "aftertouch":
 	            this.turnOff();
@@ -3350,10 +2751,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	              x: math.clip(this.mouse.x / this.width, 0, 1),
 	              y: math.clip(1 - this.mouse.y / this.height, 0, 1)
 	            };
-	            this.emit("change", {
-	              state: this.state,
-	              x: this.position.x,
-	              y: this.position.y });
+	            //  this.emit('change',{
+	            //    state: this.state,
+	            //    x: this.position.x,
+	            //    y: this.position.y,
+	            //  });
 	            break;
 	        }
 	      }
@@ -3388,9 +2790,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._state.state;
 	      },
 	      set: function (value) {
-	        var newvalue = this._state.flip(value);
+	        this._state.flip(value);
+	        if (this.mode === "aftertouch") {
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
+	        } else {
+	          this.emit("change", this.state);
+	        }
 	        this.render();
-	        return newvalue;
 	      }
 	    },
 	    flip: {
@@ -3403,6 +2812,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function flip(value) {
 	        this._state.flip(value);
+	        if (this.mode === "aftertouch") {
+	          this.emit("change", {
+	            state: this.state,
+	            x: this.position.x,
+	            y: this.position.y });
+	        } else {
+	          this.emit("change", this.state);
+	        }
 	        this.render();
 	      }
 	    },
@@ -3413,8 +2830,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      @example button.turnOn();
 	      */
 	
-	      value: function turnOn() {
+	      value: function turnOn(emitting) {
 	        this._state.on();
+	        if (emitting !== false) {
+	          if (this.mode === "aftertouch") {
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	          } else {
+	            this.emit("change", this.state);
+	          }
+	        }
 	        this.render();
 	      }
 	    },
@@ -3425,8 +2852,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      @example button.turnOff();
 	      */
 	
-	      value: function turnOff() {
+	      value: function turnOff(emitting) {
 	        this._state.off();
+	        if (emitting !== false) {
+	          if (this.mode === "aftertouch") {
+	            this.emit("change", {
+	              state: this.state,
+	              x: this.position.x,
+	              y: this.position.y });
+	          } else {
+	            this.emit("change", this.state);
+	          }
+	        }
 	        this.render();
 	      }
 	    }
@@ -3463,6 +2900,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var textbutton = mt.textbutton('#target')
 	*
+	* @example
+	* var dial = mt.dial('#target',{
+	*     'size': [150,50],
+	*     'value': 0,
+	*     'text': 'Play',
+	*     'alternate': false
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is a <i>string</i> of the text on the button at the moment it was clicked.
+	*
+	* @outputexample
+	* textbutton.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var TextButton = (function (_ButtonTemplate) {
@@ -3473,7 +2933,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [150, 50],
-	      target: false,
 	      value: 0,
 	      text: "Play",
 	      alternate: false
@@ -3620,6 +3079,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var radiobutton = mt.radiobutton('#target')
 	*
+	* @example
+	* var radiobutton = mt.radiobutton('#target',{
+	*   'size': [120,25],
+	*   'numberOfButtons': 4,
+	*   'active': -1
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data an <i>integer</i>, the index of the button that is currently on. If no button is selected, the value will be -1.
+	*
+	* @outputexample
+	* radiobutton.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var RadioButton = (function (_Interface) {
@@ -3630,14 +3111,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [120, 25],
-	      target: false,
-	      value: 0
+	      numberOfButtons: 4,
+	      active: -1
 	    };
 	
 	    _get(Object.getPrototypeOf(RadioButton.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this.buttons = [];
-	    this.numberOfButtons = 4;
+	    this.numberOfButtons = this.settings.numberOfButtons;
 	    this.active = -1;
 	
 	    this.init();
@@ -3688,17 +3169,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        } else {
 	          this.deselect();
 	        }
-	        this.render();
-	        this.emit("change", this.active);
+	        //  this.render();
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        for (var i = 0; i < this.buttons.length; i++) {
 	          if (i === this.active) {
-	            this.buttons[i].turnOn();
+	            this.buttons[i].turnOn(false);
 	          } else {
-	            this.buttons[i].turnOff();
+	            this.buttons[i].turnOff(false);
 	          }
 	        }
 	      }
@@ -3711,8 +3191,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function select(index) {
-	        if (index >= 0) {
+	        if (index >= 0 && index < this.buttons.length) {
 	          this.active = index;
+	          this.emit("change", this.active);
 	          this.render();
 	        }
 	      }
@@ -3725,6 +3206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function deselect() {
 	        this.active = -1;
+	        this.emit("change", this.active);
 	        this.render();
 	      }
 	    }
@@ -3756,12 +3238,36 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Number
 	*
-	* @description Draggable and editable number interface
+	* @description Number interface which is controllable by dragging or typing.
 	*
 	* @demo <span mt="number"></span>
 	*
 	* @example
 	* var number = mt.number('#target')
+	*
+	* @example
+	* var number = mt.number('#target',{
+	*   'size': [60,30],
+	*   'value': 0,
+	*   'min': 0,
+	*   'max': 10,
+	*   'step': 1
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is the number value of the interface.
+	*
+	* @outputexample
+	* number.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
 	*
 	*/
 	
@@ -3773,7 +3279,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [60, 30],
-	      target: false,
 	      value: 0,
 	      min: 0,
 	      max: 10,
@@ -3962,6 +3467,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (v) {
 	        this._value.update(v);
+	        this.emit("change", this.value);
 	        this.render();
 	      }
 	    },
@@ -4043,6 +3549,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Dial
 	*
+	*
 	* @description Dial with radial or linear interaction.
 	*
 	* @demo <span mt="dial"></span>
@@ -4050,19 +3557,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var dial = mt.dial('#target')
 	*
+	* @example
+	* var dial = mt.dial('#target',{
+	*   'size': [75,75],
+	*   'interaction': 'radial', // "radial", "vertical", or "horizontal"
+	*   'mode': 'relative', // "absolute" or "relative"
+	*   'min': 0,
+	*   'max': 1,
+	*   'step': 0,
+	*   'value': 20
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is the number value of the interface.
+	*
+	* @outputexample
+	* dial.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
 	*/
 	
 	var Dial = (function (_Interface) {
 	  function Dial() {
 	    _classCallCheck(this, Dial);
 	
-	    var options = ["scale", "value"];
+	    var options = ["min", "max", "value"];
 	
 	    var defaults = {
 	      size: [75, 75],
 	      interaction: "radial", // radial, vertical, horizontal
 	      mode: "relative", // absolute, relative
-	      scale: [0, 1],
+	      min: 0,
+	      max: 1,
 	      step: 0,
 	      value: 20
 	    };
@@ -4101,7 +3634,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    */
 	    this.max = this.settings.max;
 	
-	    this._value = new Step(this.settings.scale[0], this.settings.scale[1], this.settings.step, this.settings.value);
+	    this._value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
 	
 	    this.position = new Interaction.Handle(this.mode, this.interaction, [0, this.width], [this.height, 0]);
 	
@@ -4330,15 +3863,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return this._value.value;
 	      },
 	      set: function (value) {
-	        var newval = this._value.update(value);
+	        this._value.update(value);
+	        this.emit("change", this.value);
 	        this.render();
-	        return newval;
 	      }
 	    },
 	    normalized: {
 	
 	      /**
-	      Normalized value of the dial. It will automatically be adjust to fit min/max/step settings.
+	      Normalized value of the dial. It will automatically adjust the dial's value to fit min/max/step settings.
 	      @type {number}
 	      @example dial.normalized = 0.5;
 	      */
@@ -4348,6 +3881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (v) {
 	        this._value.updateNormal(v);
+	        this.emit("change", this.value);
 	      }
 	    }
 	  });
@@ -4372,7 +3906,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(21);
 	var touch = __webpack_require__(9);
@@ -4419,41 +3952,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var _this = this;
 	
 	        this.pad = svg.create("rect");
+	
 	        this.element.appendChild(this.pad);
+	
+	        this.interactionTarget = this.pad;
 	
 	        /* events */
 	
 	        if (!touch.exists) {
 	
 	          this.click = function () {
+	            //  console.log('click');
 	            _this.piano.interacting = true;
 	            _this.piano.paintbrush = !_this.state;
 	            _this.down(_this.piano.paintbrush);
 	          };
 	
-	          this.element.addEventListener("mouseover", function () {
+	          this.pad.addEventListener("mouseover", function () {
 	            if (_this.piano.interacting) {
+	              //    console.log('mouseover');
 	              _this.down(_this.piano.paintbrush);
 	            }
 	          });
 	
 	          this.move = function () {
 	            if (_this.piano.interacting) {
+	              //  console.log('move');
 	              _this.bend();
 	            }
 	          };
 	
 	          this.release = function () {
 	            _this.piano.interacting = false;
-	            _this.up();
+	            //  console.log('release');
+	            //  this.up();
 	          };
-	          this.element.addEventListener("mouseup", function () {
+	          this.pad.addEventListener("mouseup", function () {
 	            if (_this.piano.interacting) {
+	              //  console.log('mouseup');
 	              _this.up();
 	            }
 	          });
-	          this.element.addEventListener("mouseout", function () {
+	          this.pad.addEventListener("mouseout", function () {
 	            if (_this.piano.interacting) {
+	              //  console.log('mouseout');
 	              _this.up();
 	            }
 	          });
@@ -4506,15 +4048,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var piano = mt.piano('#target')
 	*
-	*/
-	
-	/*
-	Properties:
-	
-	Methods:
-	setRange()
-	toggleKey(index,value)
-	toggleKeys(array)
+	* @example
+	* var piano = mt.piano('#target',{
+	*     'size': [500,150],
+	*     'mode': 'button',  // 'button', 'toggle', or 'impulse'
+	*     'lowNote': 24,
+	*     'highNote': 60
+	* })
+	*
+	* @output
+	* change
+	* Fires any time a new key is pressed or released <br>
+	* The event data is an object containing <i>note</i> and <i>state</i> properties.
+	*
+	* @outputexample
+	* piano.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Piano = (function (_Interface) {
@@ -4525,10 +4081,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [500, 150],
-	      target: false,
-	      value: 0,
 	      lowNote: 24,
-	      highNote: 60
+	      highNote: 60,
+	      mode: "button"
 	    };
 	
 	    _get(Object.getPrototypeOf(Piano.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -4536,6 +4091,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.keyPattern = ["w", "b", "w", "b", "w", "w", "b", "w", "b", "w", "b", "w"];
 	
 	    this.paintbrush = false;
+	
+	    this.mode = this.settings.mode;
 	
 	    this.range = {
 	      low: this.settings.lowNote,
@@ -4545,7 +4102,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.range.size = this.range.high - this.range.low;
 	
 	    this.keys = [];
-	    //  this.active = -1;
 	
 	    this.toggleTo = false;
 	
@@ -4580,11 +4136,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var key = new PianoKey(container, {
 	            component: true,
 	            note: i + this.range.low,
-	            color: this.keyPattern[scaleIndex]
+	            color: this.keyPattern[scaleIndex],
+	            mode: this.mode
 	          }, this.keyChange.bind(this, i + this.range.low));
 	
 	          key.piano = this;
-	          //  key.scaleIndex =
 	
 	          if (touch.exists) {
 	            key.pad.index = i;
@@ -4633,7 +4189,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0; i < this.keys.length; i++) {
 	
 	          var container = this.keys[i].parent;
-	          //  let scaleIndex = this.keys[i].index;
 	          container.style.position = "absolute";
 	          container.style.left = keyPositions[i] * buttonWidth + padding + "px";
 	          if (this.keys[i].color === "w") {
@@ -4647,21 +4202,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    },
 	    keyChange: {
-	      value: function keyChange(i, v) {
+	      value: function keyChange(note, on) {
 	        // emit data for any key turning on/off
-	        // i is the note index
-	        // v is whether it is on or off
-	        // console.log(this,i,v);
-	        this.emit("change", i, v);
-	        // rename to (note,on)
-	      }
-	    },
-	    drag: {
-	      value: function drag(note, on) {
-	        this.emit("change", note, on);
+	        // "note" is the note value
+	        // "on" is a boolean whether it is on or off
+	        // in aftertouch mode, "on: is an object with state/x/y properties
+	        var data = {
+	          note: note
+	        };
+	        if (typeof on === "object") {
+	          data.state = on.state;
+	          //  data.x = on.x
+	          //  data.y = on.y
+	        } else {
+	          data.state = on;
+	        }
+	        this.emit("change", data);
 	      }
 	    },
 	    render: {
+	
+	      /* drag(note,on) {
+	        this.emit('change',{
+	          note: note,
+	          state: on
+	        });
+	      } */
+	
 	      value: function render() {}
 	    },
 	    addTouchListeners: {
@@ -4832,6 +4399,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.pad = svg.create("rect");
 	        this.element.appendChild(this.pad);
 	
+	        this.interactionTarget = this.pad;
+	
 	        this.sizeInterface();
 	
 	        /* events */
@@ -4927,6 +4496,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	*  'columns': 10
 	*})
 	*
+	* @output
+	* change
+	* Fires any time the interface's matrix changes. <br>
+	* The event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.
+	*
+	* @outputexample
+	* sequencer.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @output
+	* step
+	* Fires any time the sequencer steps to the next column, in sequece mode. <br>
+	* The event data is an <i>array<i> containing all values in the column, top first.
+	*
+	* @outputexample
+	* sequencer.on('step',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Sequencer = (function (_Interface) {
@@ -4937,8 +4531,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [400, 200],
-	      target: false,
-	      value: 0,
 	      mode: "toggle",
 	      rows: 5,
 	      columns: 10
@@ -5035,24 +4627,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function update() {
 	        var _this = this;
 	
+	        //  console.log("updating...")
+	        //on = on || false;
 	        this.matrix.iterate(function (r, c, i) {
-	          if (_this.matrix.pattern[r][c] > 0) {
-	            _this.cells[i].state = true;
-	          } else {
-	            _this.cells[i].state = false;
+	          //  console.log(this.matrix.pattern[r][c], this.cells[i].state);
+	          if (_this.matrix.pattern[r][c] !== _this.cells[i].state) {
+	            if (_this.matrix.pattern[r][c] > 0) {
+	              _this.cells[i].turnOn();
+	            } else {
+	              _this.cells[i].turnOff();
+	            }
 	          }
 	        });
 	      }
 	    },
 	    keyChange: {
-	      value: function keyChange(note, value) {
+	
+	      // update => cell.turnOn => cell.emit => keyChange (seq.emit) => matrix.set.cell => update
+	      //
+	      // interaction => keyChange => matrix.set.cell => update => cell.turnOn
+	      //                                             => emit
+	      //
+	      // set.cell => update => needs to emit.
+	
+	      value: function keyChange(note, on) {
 	        // emit data for any key turning on/off
 	        // i is the note index
 	        // v is whether it is on or off
 	        var cell = this.matrix.locate(note);
-	        this.matrix.set.cell(cell.column, cell.row, value);
-	        this.emit("change", note, value);
-	        // rename to (note,on)
+	        //  this.matrix.set.cell(cell.column,cell.row,on);
+	        this.matrix.pattern[cell.row][cell.column] = on;
+	        var data = {
+	          row: cell.row,
+	          column: cell.column,
+	          state: on
+	        };
+	        this.emit("change", data);
 	      }
 	    },
 	    render: {
@@ -5104,7 +4714,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function next() {
 	        this.stepper.next();
-	        this.emit("change", this.matrix.column(this.stepper.value));
+	        this.emit("step", this.matrix.column(this.stepper.value));
 	        this.render();
 	      }
 	    },
@@ -5903,6 +5513,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var pan2d = mt.pan2d('#target')
 	*
+	* @example
+	* var pan2d = mt.pan2d('#target',{
+	*     'size': [200,200],
+	*     'range': 0.5,  // panning radius of each speaker
+	*     'mode': 'absolute',   // 'absolute' or 'relative'
+	*     'speakers': [  // the speaker [x,y] positions
+	*       [0.5,0.2],
+	*       [0.75,0.25],
+	*       [0.8,0.5],
+	*       [0.75,0.75],
+	*       [0.5,0.8],
+	*       [0.25,0.75]
+	*       [0.2,0.5],
+	*       [0.25,0.25]
+	*     ]
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the "source" node's position changes. <br>
+	* The event data is an array of the amplitudes (0-1), representing the level of each speaker (as calculated by its distance to the audio source).
+	*
+	* @outputexample
+	* pan2d.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Pan2D = (function (_Interface) {
@@ -6160,6 +5802,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var tilt = mt.tilt('#target')
 	*
+	* @example
+	* var dial = mt.dial('#target',{
+	*   'size': [80,80]
+	* })
+	*
+	* @output
+	* change
+	* Fires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>
+	* The event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.
+	*
+	* @outputexample
+	* tilt.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Tilt = (function (_Interface) {
@@ -6169,8 +5831,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["value"];
 	
 	    var defaults = {
-	      size: [80, 80],
-	      value: 0
+	      size: [80, 80]
 	    };
 	
 	    _get(Object.getPrototypeOf(Tilt.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -6278,7 +5939,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    active: {
 	
 	      /**
-	      Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update
+	      Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.
 	      @type {boolean}
 	      */
 	
@@ -6458,7 +6119,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	*  'max': 1,
 	*  'step': 0,
 	*  'values': [0.7,0.7,0.7,0.7,0.7]
-	*})
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data an object containing <i>index</i> and <i>value</i> properties
+	*
+	* @outputexample
+	* multislider.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
 	*
 	*/
 	
@@ -7068,6 +6744,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var pan = mt.pan('#target')
 	*
+	* @example
+	* var dial = mt.dial('#target',{
+	*     'size': [120,20],
+	*     'orientation': 'horizontal',
+	*     'mode': 'relative',
+	*     'value': 0,
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is an object containing the interface's <i>value</i> (-1 to 1), as well as <i>L</i> and <i>R</i> amplitude values (0-1) for left and right speakers, calculated by a square-root crossfade algorithm.
+	*
+	* @outputexample
+	* dial.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Pan = (function (_Interface) {
@@ -7273,6 +6972,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      set: function (value) {
 	        this._value.update(value);
 	        this.position.value = this._value.normalized;
+	        this.emit("change", {
+	          value: this.value,
+	          L: Math.pow(math.scale(this.value, -1, 1, 1, 0), 2),
+	          R: Math.pow(math.scale(this.value, -1, 1, 0, 1), 2)
+	        });
 	        this.render();
 	      }
 	    },
@@ -7304,12 +7008,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = __webpack_require__(5);
 	var svg = __webpack_require__(4);
-	//let dom = require('../util/dom');
 	var Interface = __webpack_require__(6);
-	
-	/* NEEDS
-	Events. What are they and when do they happen?
-	*/
 	
 	var Point = function Point(point, envelope) {
 	
@@ -7380,6 +7079,45 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var envelope = mt.envelope('#target')
+	*
+	* @example
+	* var envelope = mt.envelope('#target',{
+	*     'size': [300,150],
+	*     'scale': 1,
+	*     'points': [
+	*       {
+	*           x: 0.1,
+	*           y: 0.4
+	*       },
+	*       {
+	*           x: 0.35,
+	*           y: 0.6
+	*       },
+	*       {
+	*           x: 0.65,
+	*           y: 0.2
+	*       },
+	*       {
+	*           x: 0.9,
+	*           y: 0.4
+	*       },
+	*     ]
+	* })
+	*
+	* @output
+	* change
+	* Fires any time a node is moved. <br>
+	* The event data is an array of point locations. Each item in the array is an object containing <i>x</i> and <i>y</i> properties describing the location of a point on the envelope.
+	*
+	* @outputexample
+	* envelope.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
 	*
 	*/
 	
@@ -7526,8 +7264,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.mouse.x = math.clip(this.mouse.x, 0, this.width);
 	          this.hasMoved = true;
 	
-	          console.log(this.mouse.x);
-	
 	          this.nodes[this.selected].move(this.mouse.x / this.width, 1 - this.mouse.y / this.height);
 	          this.scaleNode(this.selected);
 	
@@ -7651,6 +7387,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.scaleNode(index);
 	
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	
 	        this.render();
 	      }
 	    },
@@ -7675,7 +7414,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var nextPoint = this.nodes[nextIndex];
 	        var loc = math.scale(x, priorPoint.x, nextPoint.x, 0, 1);
 	        var value = math.interp(loc, priorPoint.y, nextPoint.y);
-	        console.log(priorIndex, nextIndex, priorPoint, nextPoint, loc, value);
 	        this.emit("scan", value);
 	        return value;
 	      }
@@ -7692,6 +7430,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function movePoint(index, x, y) {
 	        this.nodes[index].move(x, y);
 	        this.scaleNode(index);
+	        this.calculatePoints();
+	        this.emit("change", this.points);
 	        this.render();
 	      }
 	    },
@@ -7707,6 +7447,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function adjustPoint(index, xOffset, yOffset) {
 	        this.nodes[index].move(this.nodes[index].x + xOffset, this.nodes[index].y + yOffset);
 	        this.scaleNode(index);
+	        this.calculatePoints();
+	        this.emit("change", this.points);
 	        this.render();
 	      }
 	    },
@@ -7719,6 +7461,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function destroyPoint(index) {
 	        this.nodes[index].destroy();
+	        this.calculatePoints();
+	        this.emit("change", this.points);
 	        this.render();
 	      }
 	    },
@@ -7738,6 +7482,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        allPoints.forEach(function (point) {
 	          _this.addPoint(point.x, point.y);
 	        });
+	        this.calculatePoints();
+	        this.emit("change", this.points);
+	        this.render();
 	      }
 	    }
 	  });
@@ -7775,6 +7522,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var spectrogram = mt.spectrogram('#target')
 	*
+	* @example
+	* var spectrogram = mt.spectrogram('#target',{
+	*   'size': [300,150]
+	* })
+	*
+	* @output
+	* &nbsp;
+	* No events
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
+	*
 	*/
 	
 	var Spectrogram = (function (_Interface) {
@@ -7797,6 +7558,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.dataArray = new Uint8Array(this.bufferLength);
 	
 	    this.active = true;
+	
+	    this.source = false;
 	
 	    this.init();
 	  }
@@ -7837,28 +7600,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
-	        var barWidth = this.canvas.element.width / this.bufferLength;
-	        var barHeight = undefined;
-	        var x = 0;
+	        if (this.source) {
 	
-	        var definition = this.canvas.element.width / 50;
+	          var barWidth = this.canvas.element.width / this.bufferLength;
+	          var barHeight = undefined;
+	          var x = 0;
 	
-	        for (var i = 0; i < this.bufferLength; i = i + definition) {
-	          barHeight = Math.max.apply(null, this.dataArray.slice(i, i + definition));
-	          barHeight /= 255;
-	          barHeight *= this.canvas.element.height;
+	          var definition = this.canvas.element.width / 50;
 	
-	          this.canvas.context.fillStyle = "#d18";
-	          this.canvas.context.fillRect(x, this.canvas.element.height - barHeight, barWidth * definition, barHeight);
+	          for (var i = 0; i < this.bufferLength; i = i + definition) {
+	            barHeight = Math.max.apply(null, this.dataArray.slice(i, i + definition));
+	            barHeight /= 255;
+	            barHeight *= this.canvas.element.height;
 	
-	          x += barWidth * definition;
+	            this.canvas.context.fillStyle = "#d18";
+	            this.canvas.context.fillRect(x, this.canvas.element.height - barHeight, barWidth * definition, barHeight);
+	
+	            x += barWidth * definition;
+	          }
 	        }
 	      }
 	    },
-	    watch: {
-	      value: function watch(node) {
-	        node.connect(this.analyser);
+	    connect: {
+	
+	      /**
+	      Equivalent to "patching in" an audio node to visualize.
+	      @param node {AudioNode} The audio node to visualize
+	      */
+	
+	      value: function connect(node) {
+	        if (this.source) {
+	          this.disconnect();
+	        }
+	        this.source = node;
+	        this.source.connect(this.analyser);
 	        this.render();
+	      }
+	    },
+	    disconnect: {
+	
+	      /**
+	      Stop visualizing the source node and disconnect it.
+	      */
+	
+	      value: function disconnect() {
+	        this.source.disconnect(this.analyser);
+	        this.source = null;
 	      }
 	    },
 	    click: {
@@ -7895,12 +7682,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Meter
 	*
-	* @description Decibel meter
+	* @description Stereo decibel meter
 	*
 	* @demo <span mt="meter"></span>
 	*
 	* @example
 	* var meter = mt.meter('#target')
+	*
+	* @example
+	* var meter = mt.meter('#target',{
+	*   'size': [75,75]
+	* })
+	*
+	* @output
+	* &nbsp;
+	* No events
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
 	*
 	*/
 	
@@ -7919,7 +7720,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.context = mt.context;
 	
 	    this.channels = 2;
+	
+	    this.splitter = this.context.createChannelSplitter(this.channels);
+	
 	    this.analysers = [];
+	
+	    for (var i = 0; i < this.channels; i++) {
+	      var analyser = this.context.createAnalyser();
+	      this.splitter.connect(analyser, i);
+	      analyser.fftSize = 1024;
+	      analyser.smoothingTimeConstant = 1;
+	      this.analysers.push(analyser);
+	    }
+	    this.bufferLength = this.analysers[0].frequencyBinCount;
+	    this.dataArray = new Float32Array(this.bufferLength);
 	
 	    /*
 	        // add linear gradient
@@ -7934,7 +7748,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.active = true;
 	
+	    this.db = -Infinity;
+	
 	    this.init();
+	
+	    this.meterWidth = this.canvas.element.width / this.channels;
+	
+	    this.render();
 	  }
 	
 	  _inherits(Meter, _Interface);
@@ -7973,58 +7793,83 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        for (var i = 0; i < this.analysers.length; i++) {
 	
-	          this.analysers[i].getFloatTimeDomainData(this.dataArray);
+	          if (this.source) {
 	
-	          var rms = 0;
+	            this.analysers[i].getFloatTimeDomainData(this.dataArray);
 	
-	          for (var _i = 0; _i < this.dataArray.length; _i++) {
-	            rms += this.dataArray[_i] * this.dataArray[_i];
+	            var rms = 0;
+	
+	            for (var _i = 0; _i < this.dataArray.length; _i++) {
+	              rms += this.dataArray[_i] * this.dataArray[_i];
+	            }
+	
+	            rms = Math.sqrt(rms / this.dataArray.length);
+	
+	            this.db = 20 * Math.log10(rms);
+	          } else if (this.db > -200 && this.db !== -Infinity) {
+	            this.db -= 1;
+	          } else {
+	            this.db = -Infinity;
 	          }
 	
-	          rms = Math.sqrt(rms / this.dataArray.length);
+	          //console.log(db)
 	
-	          var db = 20 * Math.log10(rms);
+	          if (this.db > -70) {
 	
-	          if (db > -70) {
-	
-	            var linear = math.normalize(db, -70, 5);
+	            var linear = math.normalize(this.db, -70, 5);
 	            var exp = linear * linear;
 	            var y = math.scale(exp, 0, 1, this.element.height, 0);
 	
 	            this.canvas.context.fillStyle = this.colors.accent;
 	            this.canvas.context.fillRect(this.meterWidth * i, y, this.meterWidth, this.canvas.element.height - y);
+	
+	            //console.log("rendering...")
 	          }
 	        }
 	      }
 	    },
 	    connect: {
-	      value: function connect(node) {
-	        var channels = arguments[1] === undefined ? 1 : arguments[1];
 	
-	        // erase past analysers and splitter
-	        // create splitter of right # of channels
-	        // create new analysers array
-	        this.channels = channels;
+	      /**
+	      Equivalent to "patching in" an audio node to visualize.
+	      @param node {AudioNode} The audio node to visualize
+	      @param channels {number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.
+	      */
+	
+	      value: function connect(node, channels) {
+	        if (this.source) {
+	          this.disconnect();
+	        }
+	        //this.dummy.disconnect(this.splitter);
+	
+	        if (channels) {
+	          this.channels = channels;
+	        } else if (node.channelCount) {
+	          this.channels = node.channelCount;
+	        } else {
+	          this.channels = 2;
+	        }
 	        this.meterWidth = this.canvas.element.width / this.channels;
 	
-	        this.splitter = this.context.createChannelSplitter(this.channels);
-	        node.connect(this.splitter);
+	        this.source = node;
+	        this.source.connect(this.splitter);
 	
-	        for (var i = 0; i < this.channels; i++) {
-	          var analyser = this.context.createAnalyser();
-	          this.splitter.connect(analyser, i);
-	          analyser.fftSize = 1024;
-	          analyser.smoothingTimeConstant = 1;
-	          this.analysers.push(analyser);
-	        }
-	        this.bufferLength = this.analysers[0].frequencyBinCount;
-	        this.dataArray = new Float32Array(this.bufferLength);
-	
-	        this.render();
+	        //  this.render();
 	      }
 	    },
 	    disconnect: {
-	      value: function disconnect() {}
+	
+	      /**
+	      Stop visualizing the source node and disconnect it.
+	      */
+	
+	      value: function disconnect() {
+	
+	        this.source.disconnect(this.splitter);
+	        this.source = false;
+	        //  this.dummy.connect(this.splitter);
+	        this.meterWidth = this.canvas.element.width / this.channels;
+	      }
 	    },
 	    click: {
 	      value: function click() {
@@ -8054,7 +7899,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var dom = __webpack_require__(7);
-	//let math = require('../util/math');
 	var Interface = __webpack_require__(6);
 	
 	/**
@@ -8066,6 +7910,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var oscilloscope = mt.oscilloscope('#target')
+	*
+	* @example
+	* var oscilloscope = mt.oscilloscope('#target',{
+	*   'size': [300,150]
+	* })
+	*
+	* @output
+	* &nbsp;
+	* No events
+	*
+	* @tutorial
+	* Tutorial
+	* ygGMxq
+	*
 	*
 	*/
 	
@@ -8091,7 +7949,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.active = true;
 	
+	    this.source = false;
+	
 	    this.init();
+	
+	    this.render();
 	  }
 	
 	  _inherits(Oscilloscope, _Interface);
@@ -8135,30 +7997,62 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.canvas.context.beginPath();
 	
-	        var sliceWidth = this.canvas.element.width * 1 / this.bufferLength;
-	        var x = 0;
+	        if (this.source) {
 	
-	        for (var i = 0; i < this.bufferLength; i++) {
+	          var sliceWidth = this.canvas.element.width * 1 / this.bufferLength;
+	          var x = 0;
 	
-	          var v = this.dataArray[i] / 128;
-	          var y = v * this.canvas.element.height / 2;
+	          for (var i = 0; i < this.bufferLength; i++) {
 	
-	          if (i === 0) {
-	            this.canvas.context.moveTo(x, y);
-	          } else {
-	            this.canvas.context.lineTo(x, y);
+	            var v = this.dataArray[i] / 128;
+	            var y = v * this.canvas.element.height / 2;
+	
+	            if (i === 0) {
+	              this.canvas.context.moveTo(x, y);
+	            } else {
+	              this.canvas.context.lineTo(x, y);
+	            }
+	
+	            x += sliceWidth;
 	          }
-	
-	          x += sliceWidth;
+	        } else {
+	          this.canvas.context.moveTo(0, this.canvas.element.height / 2);
+	          this.canvas.context.lineTo(this.canvas.element.width, this.canvas.element.height / 2);
 	        }
 	
 	        this.canvas.context.stroke();
 	      }
 	    },
-	    watch: {
-	      value: function watch(node) {
-	        node.connect(this.analyser);
+	    connect: {
+	
+	      /**
+	      Equivalent to "patching in" an audio node to visualize.
+	      @param node {AudioNode} The audio node to visualize
+	      */
+	
+	      value: function connect(node) {
+	
+	        if (this.source) {
+	          this.disconnect();
+	        }
+	
+	        this.source = node;
+	        this.source.connect(this.analyser);
+	
 	        this.render();
+	      }
+	    },
+	    disconnect: {
+	
+	      /**
+	      Stop visualizing the source node and disconnect it.
+	      */
+	
+	      value: function disconnect() {
+	        if (this.source) {
+	          this.source.disconnect(this.analyser);
+	          this.source = null;
+	        }
 	      }
 	    },
 	    click: {
