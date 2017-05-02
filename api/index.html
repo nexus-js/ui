@@ -10,7 +10,7 @@
   <script src="prism/prism.js"></script>
   <script src="js/moustache.min.js"></script>
   <script src="../dist/mt.js"></script>
-  <script src="../example/js/Tone9.js"></script>
+  <script src="js/Tone9.js"></script>
 </head>
 <body class='documentation'>
 
@@ -972,7 +972,7 @@ Creating a Matrix Model from scratch...
   });
 
   var instrument = false
-  var player = player = new Tone.Player("../example/media/D-sharp.mp3");
+  var player = player = new Tone.Player("media/D-sharp.mp3");
 
   function doc(name) {
   //  if (window.location.hash.substring(1)!=name) {
@@ -1000,11 +1000,11 @@ Creating a Matrix Model from scratch...
     })
 
     if (name=="Waveform") {
-      player.load("../example/media/D-sharp.mp3",function() {
+      player.load("media/D-sharp.mp3",function() {
         instrument.ui[""].load(player.buffer._buffer)
       })
     } else if (["Meter","Oscilloscope","Spectrogram"].indexOf(name)>-1) {
-      player.load("../example/media/D-sharp.mp3",function() {
+      player.load("media/D-sharp.mp3",function() {
         player.loopStart = 0;
         player.loopEnd = 3;
         player.loop = true;
