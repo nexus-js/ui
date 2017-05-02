@@ -299,12 +299,13 @@
 &lt;/html&gt;
        </code></pre>
 
-       <p>
+  <!--     <p>
          Example:
        </p>
 
+
        <p data-height="265" data-theme-id="0" data-slug-hash="GmEJVL" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Basic Dial" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/GmEJVL/">Basic Dial</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
 
     <!--   <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT Test" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">MT Test</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
@@ -362,9 +363,13 @@ dial.on('change',function(v) {
       <p data-height="265" data-theme-id="0" data-slug-hash="BRZNvg" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT - Interface Options Demo" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/BRZNvg/">MT - Interface Options Demo</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
+      <h5>Documentation</h5>
+
       <p>
-        Check out the API (to the left) for more details on interface options, as well as for tutorials on tuning and timing mechanisms.
+        Check out the API for more details on interface options, as well as for tutorials on tuning and timing mechanisms.
       </p>
+
+      <br /><br /><br />
 
 
     </div>
@@ -948,6 +953,8 @@ Creating a Matrix Model from scratch...
     if(window.location.hash) {
       var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
       load(hash);
+    } else {
+      window.location.hash = "#intro";
     }
 
     window.addEventListener("hashchange", function() {
