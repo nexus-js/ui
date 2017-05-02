@@ -228,8 +228,8 @@
   -->
 
     <div id="intro" class="custom-tutorial" style="display:none">
-
-      <h1 style="margin: 100px auto 10px;width:100%;text-align:center;font-size:30pt;font-weight:300;">NexusUI 2.0</h1>
+      &nbsp;
+      <h1 style="margin: 80px auto 10px;width:100%;text-align:center;font-size:30pt;font-weight:300;">NexusUI 2.0</h1>
       <h2 style="margin: 10px auto;width:100%;text-align:center;font-size:18pt;font-weight:normal">Web Audio Musician's Toolkit</h2>
 
       <div style="margin:30px auto">
@@ -292,7 +292,7 @@
     &lt;div id="dial"&gt;&lt;/div&gt;
 
     &lt;script&gt;
-      var dial = mt.dial('#dial')
+      var dial = new mt.Dial('#dial')
     &lt;/script&gt;
 
   &lt;/body&gt;
@@ -341,16 +341,16 @@ dial.on('change',function(v) {
       <h5>Interface Options</h5>
 
       <p>
-        Each interface has an API through which you can customize the values and interaction styles of each interface. Common options include:
+        Each interface has an API through which you can customize its values and interaction modes. Common options include:
         <ul>
           <li>
-            Setting a numeric range for the value of the interface,
+            Setting a numeric range for the value of the interface
           </li>
           <li>
             Absolute or relative mouse interaction
           </li>
           <li>
-            Vertical, horizontal, or radial (for dials) interaction &amp; orientation.
+            Vertical, horizontal, or radial (for dials) interaction &amp; orientation
           </li>
         </ul>
       </p>
@@ -1057,7 +1057,7 @@ Creating a Matrix Model from scratch...
 
     $('html, body').animate({
         scrollTop: $("#"+name).offset().top - 20
-    }, 500);
+    },50);
 
 
   /*  $("#"+name).css("background-color","#0af");
@@ -1163,10 +1163,9 @@ Creating a Matrix Model from scratch...
   /* Doc Tutorial Entry */
   .tutorial {
   	margin-left: 225px;
-  /*	width: calc(100% - 200px); */
   	padding:0px 20px;
   	height:100%;
-  /*	overflow:auto; */
+  	overflow:auto;
   	box-sizing:border-box;
   	font-weight: 400;
   	font-size:15px;
