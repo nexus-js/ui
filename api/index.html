@@ -103,6 +103,21 @@
       </div>
     {{/examples}}
 
+
+    <div class="output">
+      <h4>Events</h4>
+      {{ #outputs }}
+        <h5>{{{ name }}}</h5>
+        {{{ description }}} <br />
+        {{ #example }}
+          <pre class="example"><code class="language-javascript">{{ example }}</code></pre>
+        {{ /example }}
+      {{ /outputs }}
+    </div>
+
+
+    <h4>Properties & Methods</h4>
+
     <div class="properties">
 
       {{#properties}}
@@ -139,16 +154,6 @@
     </div>
 
 
-    <div class="output">
-      <h4>Events</h4>
-      {{ #outputs }}
-        <h5>{{{ name }}}</h5>
-        {{{ description }}} <br />
-        {{ #example }}
-          <pre class="example"><code class="language-javascript">{{ example }}</code></pre>
-        {{ /example }}
-      {{ /outputs }}
-    </div>
 
     <div class="examples">
 
@@ -1190,18 +1195,18 @@ Creating a Matrix Model from scratch...
   }
   .tutorial h4 {
   	font-size:30px;
-    margin:0px;
+    margin:35px 0px 10px;
   }
   .tutorial h5 {
   	font-size:20px;
     margin:20px 0px 10px;
   }
-
+/*
   .tutorial .output, .tutorial .properties, .tutorial .codepen {
   	border-top: solid 0px #ccc;
   	margin-top:30px;
   	padding:30px 0px 0px;
-  }
+  } */
 
   .tutorial .properties {
     padding:0px 0px 0px;

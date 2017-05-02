@@ -79,20 +79,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import dom from './util/dom';
 	
-	var Rack = _interopRequire(__webpack_require__(41));
+	var Rack = _interopRequire(__webpack_require__(37));
 	
-	var Time = _interopRequire(__webpack_require__(43));
+	var Time = _interopRequire(__webpack_require__(39));
 	
-	var Tune = _interopRequire(__webpack_require__(48));
+	var Tune = _interopRequire(__webpack_require__(44));
 	
 	//import RangeModel from './models/range';
 	
-	var Transform = _interopRequire(__webpack_require__(42));
+	var Transform = _interopRequire(__webpack_require__(38));
 	
-	var Counter = __webpack_require__(31);
-	var Radio = __webpack_require__(50);
-	var Drunk = __webpack_require__(30);
-	var Sequence = __webpack_require__(29);
+	var Counter = __webpack_require__(27);
+	var Radio = __webpack_require__(46);
+	var Drunk = __webpack_require__(26);
+	var Sequence = __webpack_require__(25);
 	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
@@ -185,21 +185,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Toggle: __webpack_require__(15),
 	  //  Range: require('./range'),
 	  //  Waveform: require('./waveform'),
-	  Button: __webpack_require__(20),
-	  TextButton: __webpack_require__(22),
-	  RadioButton: __webpack_require__(23),
-	  Number: __webpack_require__(24),
-	  Dial: __webpack_require__(25),
-	  Piano: __webpack_require__(26),
-	  Sequencer: __webpack_require__(27),
-	  Pan2D: __webpack_require__(32),
-	  Tilt: __webpack_require__(33),
-	  Multislider: __webpack_require__(34),
-	  Pan: __webpack_require__(36),
-	  Envelope: __webpack_require__(37),
-	  Spectrogram: __webpack_require__(38),
-	  Meter: __webpack_require__(39),
-	  Oscilloscope: __webpack_require__(40)
+	  Button: __webpack_require__(16),
+	  TextButton: __webpack_require__(18),
+	  RadioButton: __webpack_require__(19),
+	  Number: __webpack_require__(20),
+	  Dial: __webpack_require__(21),
+	  Piano: __webpack_require__(22),
+	  Sequencer: __webpack_require__(23),
+	  Pan2D: __webpack_require__(28),
+	  Tilt: __webpack_require__(29),
+	  Multislider: __webpack_require__(30),
+	  Pan: __webpack_require__(32),
+	  Envelope: __webpack_require__(33),
+	  Spectrogram: __webpack_require__(34),
+	  Meter: __webpack_require__(35),
+	  Oscilloscope: __webpack_require__(36)
 	};
 
 /***/ },
@@ -258,10 +258,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* position.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
 	*
 	*
 	*/
@@ -1167,9 +1163,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      * button.resize(100,100);
 	      */
 	
-	      value: function resize(w, h) {
-	        this.width = w;
-	        this.height = h;
+	      value: function resize(width, height) {
+	        this.width = width;
+	        this.height = height;
 	        this.parent.style.width = this.width + "px";
 	        this.parent.style.height = this.height + "px";
 	        this.element.setAttribute("width", this.width);
@@ -2005,10 +2001,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	*   console.log(v);
 	* })
 	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -2330,10 +2322,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	*   console.log(v);
 	* })
 	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -2453,11 +2441,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Toggle;
 
 /***/ },
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2471,7 +2455,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ButtonTemplate = __webpack_require__(21);
+	var ButtonTemplate = __webpack_require__(17);
 	
 	/**
 	* Button
@@ -2505,15 +2489,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	*   console.log(v);
 	* })
 	*
-	* @tutorial
-	* Aftertouch mode
-	* ygGMxq
-	* Here is some tutorial text
-	*
-	* @tutorial
-	* Toggle mode
-	* ygGMxq
-	* Here is some tutorial text 2
 	*/
 	
 	var Button = (function (_ButtonTemplate) {
@@ -2615,7 +2590,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Button;
 
 /***/ },
-/* 21 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2875,7 +2850,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = ButtonTemplate;
 
 /***/ },
-/* 22 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2888,7 +2863,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var ButtonTemplate = __webpack_require__(21);
+	var ButtonTemplate = __webpack_require__(17);
 	
 	/**
 	* TextButton
@@ -2917,11 +2892,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* textbutton.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -3052,7 +3022,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = TextButton;
 
 /***/ },
-/* 23 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3067,7 +3037,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//let svg = require('../util/svg');
 	var Interface = __webpack_require__(6);
-	var Button = __webpack_require__(20);
+	var Button = __webpack_require__(16);
 	
 	/**
 	* RadioButton
@@ -3095,11 +3065,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* radiobutton.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -3218,7 +3183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = RadioButton;
 
 /***/ },
-/* 24 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3263,10 +3228,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* number.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
 	*
 	*
 	*/
@@ -3524,7 +3485,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Number;
 
 /***/ },
-/* 25 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3579,7 +3540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* })
 	*
 	* @tutorial
-	* Tutorial
+	* Dial
 	* ygGMxq
 	*
 	*/
@@ -3892,7 +3853,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Dial;
 
 /***/ },
-/* 26 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3907,7 +3868,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(21);
+	var ButtonTemplate = __webpack_require__(17);
 	var touch = __webpack_require__(9);
 	
 	var PianoKey = (function (_ButtonTemplate) {
@@ -4065,11 +4026,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* piano.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -4330,7 +4286,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// loop through and render the keys?
 
 /***/ },
-/* 27 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4346,9 +4302,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(21);
-	var MatrixModel = __webpack_require__(28);
-	var CounterModel = __webpack_require__(31);
+	var ButtonTemplate = __webpack_require__(17);
+	var MatrixModel = __webpack_require__(24);
+	var CounterModel = __webpack_require__(27);
 	//let Time = require('../core/time');
 	var touch = __webpack_require__(9);
 	
@@ -4515,12 +4471,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* sequencer.on('step',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
-	*
 	*/
 	
 	var Sequencer = (function (_Interface) {
@@ -4810,7 +4760,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequencer;
 
 /***/ },
-/* 28 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4823,7 +4773,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Sequence = _interopRequire(__webpack_require__(29));
+	var Sequence = _interopRequire(__webpack_require__(25));
 	
 	// For the tutorial, looking at
 	
@@ -5187,7 +5137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Matrix;
 
 /***/ },
-/* 29 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5200,7 +5150,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(30));
+	var Drunk = _interopRequire(__webpack_require__(26));
 	
 	var Sequence = (function () {
 	    function Sequence() {
@@ -5311,7 +5261,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequence;
 
 /***/ },
-/* 30 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5371,7 +5321,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Drunk;
 
 /***/ },
-/* 31 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5384,7 +5334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(30));
+	var Drunk = _interopRequire(__webpack_require__(26));
 	
 	var Counter = (function () {
 	    function Counter() {
@@ -5481,7 +5431,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ },
-/* 32 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5539,11 +5489,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* pan2d.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -5775,7 +5720,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan2D;
 
 /***/ },
-/* 33 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5816,10 +5761,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* tilt.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
 	*
 	*
 	*/
@@ -5959,7 +5900,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tilt;
 
 /***/ },
-/* 34 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5975,7 +5916,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(35);
+	var SliderTemplate = __webpack_require__(31);
 	var touch = __webpack_require__(9);
 	
 	var SingleSlider = (function (_SliderTemplate) {
@@ -6130,11 +6071,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* multislider.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -6425,7 +6361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Multislider;
 
 /***/ },
-/* 35 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6712,7 +6648,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = SliderTemplate;
 
 /***/ },
-/* 36 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6761,10 +6697,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* dial.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
 	*
 	*
 	*/
@@ -6993,7 +6925,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan;
 
 /***/ },
-/* 37 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7113,11 +7045,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* envelope.on('change',function(v) {
 	*   console.log(v);
 	* })
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -7495,7 +7422,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Envelope;
 
 /***/ },
-/* 38 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7530,11 +7457,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @output
 	* &nbsp;
 	* No events
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -7662,7 +7584,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Spectrogram;
 
 /***/ },
-/* 39 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7697,11 +7619,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @output
 	* &nbsp;
 	* No events
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -7885,7 +7802,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Meter;
 
 /***/ },
-/* 40 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7919,11 +7836,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @output
 	* &nbsp;
 	* No events
-	*
-	* @tutorial
-	* Tutorial
-	* ygGMxq
-	*
 	*
 	*/
 	
@@ -8069,7 +7981,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Oscilloscope;
 
 /***/ },
-/* 41 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8121,7 +8033,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(42));
+	var transform = _interopRequireWildcard(__webpack_require__(38));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
@@ -8222,7 +8134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 42 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8280,7 +8192,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 43 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8291,9 +8203,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(44));
+	var WAAClock = _interopRequire(__webpack_require__(40));
 	
-	var Interval = _interopRequire(__webpack_require__(47));
+	var Interval = _interopRequire(__webpack_require__(43));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -8322,17 +8234,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 44 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(45)
+	var WAAClock = __webpack_require__(41)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 45 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -8569,10 +8481,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)))
 
 /***/ },
-/* 46 */
+/* 42 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -8758,7 +8670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 47 */
+/* 43 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -8825,7 +8737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 48 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8836,7 +8748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(49));
+	var scales = _interopRequire(__webpack_require__(45));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -8851,7 +8763,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      input: "step"
 	    };
 	
-	    // ET major, for reference
+	    // ET major
 	    this.etmajor = [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116];
 	
 	    // Root frequency.
@@ -9071,7 +8983,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 49 */
+/* 45 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9104,7 +9016,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 50 */
+/* 46 */
 /***/ function(module, exports) {
 
 	"use strict";
