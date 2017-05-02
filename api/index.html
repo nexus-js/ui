@@ -16,9 +16,9 @@
 
   <div id="sidebar" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
 
-    <h2>Getting Started</h2>
-    <a href="">Creating Interfaces</a><br />
-    <a href="">Creating a Rack</a><br />
+    <h2>NexusUI</h2>
+    <a href="#intro">Getting Started</a><br />
+  <!--  <a href="">Creating a Rack</a><br /> -->
 
     <h2>Interfaces</h2>
 
@@ -217,6 +217,169 @@
 
 
 
+
+
+
+
+  <!--
+
+  GETTING STARTED
+
+  -->
+
+    <div id="intro" class="custom-tutorial" style="display:none">
+
+      <h1 style="margin: 100px auto 10px;width:100%;text-align:center;font-size:30pt;font-weight:300;">NexusUI 2.0</h1>
+      <h2 style="margin: 10px auto;width:100%;text-align:center;font-size:18pt;font-weight:normal">Web Audio Musician's Toolkit</h2>
+
+      <div style="margin:30px auto">
+
+        <div id="splash-demo" style="width:400px;text-align:center;margin:0 auto">
+      <!--    <div mt="dial" style="height:90px;width:90px"></div>
+          <div mt="slider" style="height:90px;width:25px"></div>
+          <div mt="sequencer" style="height:90px;width:230px" rows="5" column="10"></div> -->
+        </div>
+
+
+        <p class="lib-overview">
+          NexusUI is a collection of HTML5 interfaces and Javascript helper functions to assist with <b>building web audio instruments in the browser</b>.
+        </p>
+
+        <p class="lib-overview">
+          This toolkit focuses on <b>interfaces</b>, <b>tuning</b>, and <b>timing</b>. It does not provide any sound-making capabilities –– for that, check out <a href="http://tonejs.github.io" target="blank">Tone.js</a>, <a href="https://github.com/charlieroberts/gibber.audio.lib" target="blank">Gibber.lib</a>, or the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" target="blank">Web Audio API</a>.
+        </p>
+
+
+      </div>
+
+    <!--  <h3>Quick Start</h3> -->
+
+      <h5>Setup</h5>
+
+      <p>
+        Download <a href="https://rawgit.com/taylorbf/Musicians-Toolkit/master/dist/mt.js" download>mt.js</a>. <br />
+        (The link grabs the file directly from our <a href="http://github.com/taylorbf/Musicians-Toolkit" target="blank">GitHub</a>.)
+      </p>
+
+      <p>
+        Link to mt.js in your HTML file.
+      </p>
+
+       <pre><code class="language-html">
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src="path/to/mt.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+       </code></pre>
+
+       <h5>Creating an Interface</h5>
+
+       <p>
+         You can transform regular HTML elements into interfaces.
+       </p>
+
+       <pre><code class="language-html">
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src="path/to/mt.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+    &lt;div id="dial"&gt;&lt;/div&gt;
+
+    &lt;script&gt;
+      var dial = mt.dial('#dial')
+    &lt;/script&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+       </code></pre>
+
+       <p>
+         Example:
+       </p>
+
+       <p data-height="265" data-theme-id="0" data-slug-hash="GmEJVL" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Basic Dial" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/GmEJVL/">Basic Dial</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+    <!--   <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT Test" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">MT Test</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
+
+
+       <h5>Listening for Interaction Events</h5>
+
+       <p>
+         Every NexusUI interface fires an event function when the interface is interacted with or changed programatically through the interface's API.
+       </p>
+
+       <pre><code class="language-js">
+var dial = new mt.Dial("#dial");
+
+dial.on('change',function(v) {
+  // v holds the new numeric value of the dial
+});
+       </code></pre>
+
+       <p>
+         If you use Node.JS, this should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
+       </p>
+
+       <p>
+        Example:
+       </p>
+
+       <p data-height="265" data-theme-id="0" data-slug-hash="jmwPgq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Dial Event" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/jmwPgq/">Dial Event</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+    <!--   <p data-height="265" data-theme-id="0" data-slug-hash="YVQXEL" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT - Interface Event Demo" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/YVQXEL/">MT - Interface Event Demo</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
+
+      <h5>Interface Options</h5>
+
+      <p>
+        Each interface has an API through which you can customize the values and interaction styles of each interface. Common options include:
+        <ul>
+          <li>
+            Setting a numeric range for the value of the interface,
+          </li>
+          <li>
+            Absolute or relative mouse interaction
+          </li>
+          <li>
+            Vertical, horizontal, or radial (for dials) interaction &amp; orientation.
+          </li>
+        </ul>
+      </p>
+
+      <p>
+        Example:
+      </p>
+
+      <p data-height="265" data-theme-id="0" data-slug-hash="BRZNvg" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT - Interface Options Demo" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/BRZNvg/">MT - Interface Options Demo</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+      <p>
+        Check out the API (to the left) for more details on interface options, as well as for tutorials on tuning and timing mechanisms.
+      </p>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
 <!--
 
 MT.TUNE
@@ -405,7 +568,7 @@ mt.tune.root = 120;
 
   <!--
 
-  MT.INTERVAL
+  TIMING
 
   -->
 
@@ -860,7 +1023,11 @@ Creating a Matrix Model from scratch...
           }
       }
 
-      instrument = mt.rack("target");
+      if (name=="intro") {
+          var splashRack = mt.rack("splash-demo");
+      }
+
+    //  instrument = mt.rack("target");
     }
   }
 
@@ -914,7 +1081,7 @@ Creating a Matrix Model from scratch...
       'Oscilloscope', 'Spectrogram'
     ],
     "Tut": [
-      'tune', 'interval', 'counter', 'sequence', 'drunk', 'matrix', '',  '', '',
+      'tune', 'interval', 'counter', 'sequence', 'drunk', 'matrix', 'intro',
     ],
     "Helper": [
       'ri', 'rf', 'clip', 'scale', 'mtof', 'interp', 'pick', 'octave', 'distance', 'average', 'coin'
@@ -944,14 +1111,18 @@ Creating a Matrix Model from scratch...
   #sidebar {
     position:fixed;
     height:100%;
+    top:0px;
     overflow:auto;
     width:225px;
     padding:10px 20px 20px;
     box-sizing:border-box;
   }
   #tutorial {
-    width: calc(100% - 225px);
-    float:left;
+    margin-left:225px;
+  }
+
+  #target {
+    width:100%;
   }
 
   h1, h2, h3 {
@@ -992,10 +1163,10 @@ Creating a Matrix Model from scratch...
   /* Doc Tutorial Entry */
   .tutorial {
   	margin-left: 225px;
-  	width: calc(100% - 200px);
+  /*	width: calc(100% - 200px); */
   	padding:0px 20px;
   	height:100%;
-  	overflow:auto;
+  /*	overflow:auto; */
   	box-sizing:border-box;
   	font-weight: 400;
   	font-size:15px;
@@ -1088,6 +1259,21 @@ Creating a Matrix Model from scratch...
 
   .mt-ui {
     display:inline-block;
+  }
+
+
+
+
+
+  /* Getting Started section*/
+
+  .lib-overview {
+    font-size: 13pt;
+  }
+
+  #intro h5 {
+    margin-top:35px;
+    font-size:20pt;
   }
 
 </style>
