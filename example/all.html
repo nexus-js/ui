@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/mt.js"></script>
+  <link href="../css/nexusUI.css" rel="stylesheet">
+  <meta name="viewport" content="width=200, initial-scale=1">
+</head>
+<body style="margin:0;padding;0">
+  <div id="all-interfaces">
+    <div mt="Dial" id="dial"></div>
+    <div mt="Slider" id="slider"></div>
+<!--    <div mt="Toggle" id="toggle"></div>
+    <div mt="Position" id="position"></div>
+    <div mt="Button" id="button"></div>
+    <div mt="TextButton" id="textbutton"></div>
+    <div mt="RadioButton" id="radiobutton"></div>
+    <div mt="Number" id="number"></div>
+    <div mt="Piano" id="piano"></div>
+    <div mt="Sequencer" id="sequencer"></div>
+    <div mt="Pan2D" id="pan2D"></div>
+    <div mt="Tilt" id="tilt"></div>
+    <div mt="Multislider" id="multislider"></div>
+    <div mt="Pan" id="pan"></div>
+    <div mt="Envelope" id="envelope"></div>
+    <div mt="Oscilloscope" id="oscilloscope"></div>
+    <div mt="Meter" id="meter"></div>
+    <div mt="Spectrogram" id="spectrogram"></div> -->
+  </div>
+</body>
+<style>
+#all-interfaces {
+  width:500px;
+  margin:20px auto;
+}
+.mt-ui {
+  margin:15px auto;
+  width:0;
+  height:0;
+}
+#synth1 {
+  margin: 50px auto;
+  display:block;
+  width: 300px;
+}
+</style>
+<script>
+
+  ui = mt.rack('all-interfaces','All Interfaces', true);
+
+</script>
+<style>
+
+/*
+  #dial circle,
+  #slider rect  {
+    fill: #000;
+  }
+*/
+
+</style>
+</html>

@@ -1714,12 +1714,12 @@
       },
       {
         "title": "example",
-        "description": "var button = mt.button('#button')",
+        "description": "var button = new mt.Button('#button')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
+        "description": "var button = new mt.Button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
         "lineNumber": 10
       },
       {
@@ -1758,10 +1758,10 @@
     },
     "examples": [
       {
-        "description": "var button = mt.button('#button')"
+        "description": "var button = new mt.Button('#button')"
       },
       {
-        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
+        "description": "var button = new mt.Button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
       }
     ],
     "name": "Button",
@@ -1969,12 +1969,12 @@
       },
       {
         "title": "example",
-        "description": "var dial = mt.dial('#target')",
+        "description": "var dial = new mt.Dial('#target')",
         "lineNumber": 8
       },
       {
         "title": "example",
-        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
+        "description": "var dial = new mt.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
         "lineNumber": 11
       },
       {
@@ -2018,10 +2018,10 @@
     },
     "examples": [
       {
-        "description": "var dial = mt.dial('#target')"
+        "description": "var dial = new mt.Dial('#target')"
       },
       {
-        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
+        "description": "var dial = new mt.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
       }
     ],
     "name": "Dial",
@@ -2818,12 +2818,12 @@
       },
       {
         "title": "example",
-        "description": "var envelope = mt.envelope('#target')",
+        "description": "var envelope = new mt.Envelope('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var envelope = mt.envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})",
+        "description": "var envelope = new mt.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})",
         "lineNumber": 10
       },
       {
@@ -2862,10 +2862,10 @@
     },
     "examples": [
       {
-        "description": "var envelope = mt.envelope('#target')"
+        "description": "var envelope = new mt.Envelope('#target')"
       },
       {
-        "description": "var envelope = mt.envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})"
+        "description": "var envelope = new mt.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})"
       }
     ],
     "name": "Envelope",
@@ -4360,12 +4360,12 @@
       },
       {
         "title": "example",
-        "description": "var meter = mt.meter('#target')",
+        "description": "var meter = new mt.Meter('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var meter = mt.meter('#target',{\n  'size': [75,75]\n})",
+        "description": "var meter = new mt.Meter('#target',{\n  'size': [75,75]\n})",
         "lineNumber": 10
       },
       {
@@ -4399,10 +4399,10 @@
     },
     "examples": [
       {
-        "description": "var meter = mt.meter('#target')"
+        "description": "var meter = new mt.Meter('#target')"
       },
       {
-        "description": "var meter = mt.meter('#target',{\n  'size': [75,75]\n})"
+        "description": "var meter = new mt.Meter('#target',{\n  'size': [75,75]\n})"
       }
     ],
     "name": "Meter",
@@ -4820,12 +4820,12 @@
       },
       {
         "title": "example",
-        "description": "var multislider = mt.multislider('#target')",
+        "description": "var multislider = new mt.Multislider('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var multislider = mt.multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})",
+        "description": "var multislider = new mt.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})",
         "lineNumber": 10
       },
       {
@@ -4864,10 +4864,10 @@
     },
     "examples": [
       {
-        "description": "var multislider = mt.multislider('#target')"
+        "description": "var multislider = new mt.Multislider('#target')"
       },
       {
-        "description": "var multislider = mt.multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})"
+        "description": "var multislider = new mt.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})"
       }
     ],
     "name": "Multislider",
@@ -5837,12 +5837,12 @@
       },
       {
         "title": "example",
-        "description": "var number = mt.number('#target')",
+        "description": "var number = new mt.Number('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var number = mt.number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})",
+        "description": "var number = new mt.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})",
         "lineNumber": 10
       },
       {
@@ -5881,10 +5881,10 @@
     },
     "examples": [
       {
-        "description": "var number = mt.number('#target')"
+        "description": "var number = new mt.Number('#target')"
       },
       {
-        "description": "var number = mt.number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})"
+        "description": "var number = new mt.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})"
       }
     ],
     "name": "Number",
@@ -6638,12 +6638,12 @@
       },
       {
         "title": "example",
-        "description": "var oscilloscope = mt.oscilloscope('#target')",
+        "description": "var oscilloscope = new mt.Oscilloscope('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var oscilloscope = mt.oscilloscope('#target',{\n  'size': [300,150]\n})",
+        "description": "var oscilloscope = new mt.Oscilloscope('#target',{\n  'size': [300,150]\n})",
         "lineNumber": 10
       },
       {
@@ -6677,10 +6677,10 @@
     },
     "examples": [
       {
-        "description": "var oscilloscope = mt.oscilloscope('#target')"
+        "description": "var oscilloscope = new mt.Oscilloscope('#target')"
       },
       {
-        "description": "var oscilloscope = mt.oscilloscope('#target',{\n  'size': [300,150]\n})"
+        "description": "var oscilloscope = new mt.Oscilloscope('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "name": "Oscilloscope",
@@ -7035,23 +7035,18 @@
       },
       {
         "title": "example",
-        "description": "var pan = mt.pan('#target')",
+        "description": "var pan = new mt.Pan('#target')",
         "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var dial = mt.dial('#target',{\n    'size': [120,20],\n    'orientation': 'horizontal',\n    'mode': 'relative',\n    'value': 0,\n})",
-        "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object containing the interface's <i>value</i> (-1 to 1), as well as <i>L</i> and <i>R</i> amplitude values (0-1) for left and right speakers, calculated by a square-root crossfade algorithm.",
-        "lineNumber": 18
+        "lineNumber": 10
       },
       {
         "title": "outputexample",
         "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 23
+        "lineNumber": 15
       }
     ],
     "loc": {
@@ -7060,18 +7055,18 @@
         "column": 0
       },
       "end": {
-        "line": 38,
+        "line": 30,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 40,
+          "line": 32,
           "column": 0
         },
         "end": {
-          "line": 245,
+          "line": 237,
           "column": 1
         }
       },
@@ -7079,10 +7074,7 @@
     },
     "examples": [
       {
-        "description": "var pan = mt.pan('#target')"
-      },
-      {
-        "description": "var dial = mt.dial('#target',{\n    'size': [120,20],\n    'orientation': 'horizontal',\n    'mode': 'relative',\n    'value': 0,\n})"
+        "description": "var pan = new mt.Pan('#target')"
       }
     ],
     "name": "Pan",
@@ -7161,22 +7153,22 @@
           ],
           "loc": {
             "start": {
-              "line": 222,
+              "line": 214,
               "column": 2
             },
             "end": {
-              "line": 225,
+              "line": 217,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 226,
+                "line": 218,
                 "column": 2
               },
               "end": {
-                "line": 228,
+                "line": 220,
                 "column": 3
               }
             },
@@ -7282,12 +7274,12 @@
       },
       {
         "title": "example",
-        "description": "var pan2d = mt.pan2d('#target')",
+        "description": "var pan2d = new mt.Pan2d('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var pan2d = mt.pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})",
+        "description": "var pan2d = new mt.Pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})",
         "lineNumber": 10
       },
       {
@@ -7326,10 +7318,10 @@
     },
     "examples": [
       {
-        "description": "var pan2d = mt.pan2d('#target')"
+        "description": "var pan2d = new mt.Pan2d('#target')"
       },
       {
-        "description": "var pan2d = mt.pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})"
+        "description": "var pan2d = new mt.Pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})"
       }
     ],
     "name": "Pan2D",
@@ -8550,12 +8542,12 @@
       },
       {
         "title": "example",
-        "description": "var piano = mt.piano('#target')",
+        "description": "var piano = new mt.Piano('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var piano = mt.piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})",
+        "description": "var piano = new mt.Piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})",
         "lineNumber": 10
       },
       {
@@ -8594,10 +8586,10 @@
     },
     "examples": [
       {
-        "description": "var piano = mt.piano('#target')"
+        "description": "var piano = new mt.Piano('#target')"
       },
       {
-        "description": "var piano = mt.piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
+        "description": "var piano = new mt.Piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
       }
     ],
     "name": "Piano",
@@ -9372,12 +9364,12 @@
       },
       {
         "title": "example",
-        "description": "var position = mt.position('#target')",
+        "description": "var position = new mt.Position('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var position = mt.position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})",
+        "description": "var position = new mt.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})",
         "lineNumber": 10
       },
       {
@@ -9416,10 +9408,10 @@
     },
     "examples": [
       {
-        "description": "var position = mt.position('#target')"
+        "description": "var position = new mt.Position('#target')"
       },
       {
-        "description": "var position = mt.position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
+        "description": "var position = new mt.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
       }
     ],
     "name": "Position",
@@ -10521,12 +10513,12 @@
       },
       {
         "title": "example",
-        "description": "var radiobutton = mt.radiobutton('#target')",
+        "description": "var radiobutton = new mt.RadioButton('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var radiobutton = mt.radiobutton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})",
+        "description": "var radiobutton = new mt.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})",
         "lineNumber": 10
       },
       {
@@ -10565,10 +10557,10 @@
     },
     "examples": [
       {
-        "description": "var radiobutton = mt.radiobutton('#target')"
+        "description": "var radiobutton = new mt.RadioButton('#target')"
       },
       {
-        "description": "var radiobutton = mt.radiobutton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})"
+        "description": "var radiobutton = new mt.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})"
       }
     ],
     "name": "RadioButton",
@@ -10923,23 +10915,18 @@
       },
       {
         "title": "example",
-        "description": "var range = mt.range('#target')",
+        "description": "var range = new mt.Range('#target')",
         "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
-        "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
-        "lineNumber": 21
+        "lineNumber": 10
       },
       {
         "title": "outputexample",
         "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 26
+        "lineNumber": 15
       }
     ],
     "loc": {
@@ -10948,18 +10935,18 @@
         "column": 0
       },
       "end": {
-        "line": 40,
+        "line": 29,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 42,
+          "line": 31,
           "column": 0
         },
         "end": {
-          "line": 140,
+          "line": 129,
           "column": 1
         }
       },
@@ -10967,10 +10954,7 @@
     },
     "examples": [
       {
-        "description": "var range = mt.range('#target')"
-      },
-      {
-        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
+        "description": "var range = new mt.Range('#target')"
       }
     ],
     "name": "Range",
@@ -13064,12 +13048,12 @@
       },
       {
         "title": "example",
-        "description": "var sequencer = mt.sequencer('#target')",
+        "description": "var sequencer = new mt.Sequencer('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var sequencer = mt.sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
+        "description": "var sequencer = new mt.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
         "lineNumber": 10
       },
       {
@@ -13118,10 +13102,10 @@
     },
     "examples": [
       {
-        "description": "var sequencer = mt.sequencer('#target')"
+        "description": "var sequencer = new mt.Sequencer('#target')"
       },
       {
-        "description": "var sequencer = mt.sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
+        "description": "var sequencer = new mt.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
       }
     ],
     "name": "Sequencer",
@@ -13941,12 +13925,12 @@
       },
       {
         "title": "example",
-        "description": "var slider = mt.slider('#target')",
+        "description": "var slider = new mt.Slider('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var slider = mt.slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})",
+        "description": "var slider = new mt.Slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})",
         "lineNumber": 10
       },
       {
@@ -13985,10 +13969,10 @@
     },
     "examples": [
       {
-        "description": "var slider = mt.slider('#target')"
+        "description": "var slider = new mt.Slider('#target')"
       },
       {
-        "description": "var slider = mt.slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})"
+        "description": "var slider = new mt.Slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})"
       }
     ],
     "name": "Slider",
@@ -14674,12 +14658,12 @@
       },
       {
         "title": "example",
-        "description": "var spectrogram = mt.spectrogram('#target')",
+        "description": "var spectrogram = new mt.Spectrogram('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var spectrogram = mt.spectrogram('#target',{\n  'size': [300,150]\n})",
+        "description": "var spectrogram = new mt.Spectrogram('#target',{\n  'size': [300,150]\n})",
         "lineNumber": 10
       },
       {
@@ -14713,10 +14697,10 @@
     },
     "examples": [
       {
-        "description": "var spectrogram = mt.spectrogram('#target')"
+        "description": "var spectrogram = new mt.Spectrogram('#target')"
       },
       {
-        "description": "var spectrogram = mt.spectrogram('#target',{\n  'size': [300,150]\n})"
+        "description": "var spectrogram = new mt.Spectrogram('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "name": "Spectrogram",
@@ -15071,12 +15055,12 @@
       },
       {
         "title": "example",
-        "description": "var textbutton = mt.textbutton('#target')",
+        "description": "var textbutton = new mt.TextButton('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var dial = mt.dial('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})",
+        "description": "var dial = new mt.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})",
         "lineNumber": 10
       },
       {
@@ -15115,10 +15099,10 @@
     },
     "examples": [
       {
-        "description": "var textbutton = mt.textbutton('#target')"
+        "description": "var textbutton = new mt.TextButton('#target')"
       },
       {
-        "description": "var dial = mt.dial('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})"
+        "description": "var dial = new mt.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})"
       }
     ],
     "name": "TextButton",
@@ -15427,23 +15411,18 @@
       },
       {
         "title": "example",
-        "description": "var tilt = mt.tilt('#target')",
+        "description": "var tilt = new mt.Tilt('#target')",
         "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var dial = mt.dial('#target',{\n  'size': [80,80]\n})",
-        "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
-        "lineNumber": 15
+        "lineNumber": 10
       },
       {
         "title": "outputexample",
         "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 20
+        "lineNumber": 15
       }
     ],
     "loc": {
@@ -15452,18 +15431,18 @@
         "column": 0
       },
       "end": {
-        "line": 33,
+        "line": 28,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 35,
+          "line": 30,
           "column": 0
         },
         "end": {
-          "line": 162,
+          "line": 157,
           "column": 1
         }
       },
@@ -15471,10 +15450,7 @@
     },
     "examples": [
       {
-        "description": "var tilt = mt.tilt('#target')"
-      },
-      {
-        "description": "var dial = mt.dial('#target',{\n  'size': [80,80]\n})"
+        "description": "var tilt = new mt.Tilt('#target')"
       }
     ],
     "name": "Tilt",
@@ -15553,22 +15529,22 @@
           ],
           "loc": {
             "start": {
-              "line": 148,
+              "line": 143,
               "column": 2
             },
             "end": {
-              "line": 151,
+              "line": 146,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 153,
+                "line": 148,
                 "column": 2
               },
               "end": {
-                "line": 155,
+                "line": 150,
                 "column": 3
               }
             },
@@ -15674,12 +15650,12 @@
       },
       {
         "title": "example",
-        "description": "var toggle = mt.toggle('#target')",
+        "description": "var toggle = new mt.Toggle('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var toggle = mt.toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})",
+        "description": "var toggle = new mt.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})",
         "lineNumber": 10
       },
       {
@@ -15718,10 +15694,10 @@
     },
     "examples": [
       {
-        "description": "var toggle = mt.toggle('#target')"
+        "description": "var toggle = new mt.Toggle('#target')"
       },
       {
-        "description": "var toggle = mt.toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})"
+        "description": "var toggle = new mt.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})"
       }
     ],
     "name": "Toggle",

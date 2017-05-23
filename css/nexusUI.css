@@ -1,4 +1,6 @@
-/* what will this look like? */
+.mt-ui {
+  display:inline-block;
+}
 
 .mt-dial .bg,
 .mt-slider .bg
