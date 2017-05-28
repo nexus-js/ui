@@ -3976,7 +3976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function sizeInterface() {
 	
 	        //let radius = Math.min(this.width,this.height) / 5;
-	        var radius = 5;
+	        var radius = 4;
 	
 	        this.pad.setAttribute("x", 1);
 	        this.pad.setAttribute("y", 1);
@@ -4081,6 +4081,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildFrame() {
 	        this.element = document.createElement("div");
 	        this.element.style.position = "relative";
+	        this.element.style.borderRadius = "4px";
 	        this.element.style.display = "block";
 	        this.element.style.width = "100%";
 	        this.element.style.height = "100%";
@@ -4146,7 +4147,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        var keysWide = keyX;
 	
-	        var padding = this.width / 40;
+	        var padding = this.width / 70;
 	        var buttonWidth = (this.width - padding * 2) / keysWide;
 	        var buttonHeight = (this.height - padding * 2) / 2;
 	
@@ -4156,12 +4157,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          container.style.position = "absolute";
 	          container.style.left = keyPositions[i] * buttonWidth + padding + "px";
 	          if (this.keys[i].color === "w") {
-	            container.style.top = buttonHeight + padding + "px";
-	          } else {
 	            container.style.top = padding + "px";
+	            this.keys[i].resize(buttonWidth, buttonHeight * 2);
+	          } else {
+	            container.style.zIndex = 1;
+	            container.style.top = padding + "px";
+	            this.keys[i].resize(buttonWidth, buttonHeight * 1.1);
 	          }
-	
-	          this.keys[i].resize(buttonWidth, buttonHeight);
 	        }
 	      }
 	    },
