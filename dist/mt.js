@@ -856,8 +856,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._colors = {};
 	    this.colors = Object.defineProperties({
 	      fill: "#e6e6e6", // should be e6e6e6
+	      mediumLight: "#ccc",
+	      mediumDark: "#666",
 	      accent: "#2bb", // d18
-	      dark: "#444",
+	      dark: "#333",
 	      light: "#fff",
 	      border: "#ccc"
 	    }, {
@@ -5612,7 +5614,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.knob.setAttribute("cx", this.width / 2);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobRadius.off);
-	        this.knob.setAttribute("fill", "#ccc");
 	
 	        for (var i = 0; i < this.speakers.length; i++) {
 	          var speakerElement = this.speakerElements[i];
@@ -5620,9 +5621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          speakerElement.setAttribute("cx", speaker[0] * this.width);
 	          speakerElement.setAttribute("cy", speaker[1] * this.height);
 	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
-	          speakerElement.setAttribute("fill", "#d18");
 	          speakerElement.setAttribute("fill-opacity", "0");
-	          speakerElement.setAttribute("stroke", "#d18");
 	        }
 	
 	        this.position.x.resize([0, this.width], [this.height, 0]);
@@ -5633,6 +5632,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // calculate speaker distances
 	        this.calculateLevels();
 	        this.render();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	
+	        this.knob.setAttribute("fill", this.colors.mediumLight);
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = this.speakerElements[i];
+	          speakerElement.setAttribute("fill", this.colors.accent);
+	          speakerElement.setAttribute("stroke", this.colors.accent);
+	        }
 	      }
 	    },
 	    render: {
