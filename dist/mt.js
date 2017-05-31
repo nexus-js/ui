@@ -855,7 +855,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.wait = false;
 	    this._colors = {};
 	    this.colors = Object.defineProperties({
-	      fill: "#e6e6e6", // should be e6e6e6
+	      fill: "#eee",
 	      mediumLight: "#ccc",
 	      mediumDark: "#666",
 	      accent: "#2bb", // d18
@@ -4045,7 +4045,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["value"];
 	
 	    var defaults = {
-	      size: [500, 150],
+	      size: [500, 125],
 	      lowNote: 24,
 	      highNote: 60,
 	      mode: "button"
@@ -4147,7 +4147,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        var keysWide = keyX;
 	
-	        var padding = this.width / 70;
+	        //  let padding = this.width / 120;
+	        var padding = 1;
 	        var buttonWidth = (this.width - padding * 2) / keysWide;
 	        var buttonHeight = (this.height - padding * 2) / 2;
 	
@@ -4657,7 +4658,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.stepper.value >= 0) {
 	          this.matrix.iterate(function (r, c, i) {
 	            if (c === _this.stepper.value) {
-	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
+	              _this.cells[i].pad.setAttribute("stroke", _this.colors.mediumLight);
 	              _this.cells[i].pad.setAttribute("stroke-width", "5");
 	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
 	            } else {
@@ -5586,7 +5587,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
 	        this.knob = svg.create("circle");
 	
 	        this.element.appendChild(this.knob);
@@ -5639,6 +5639,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    colorInterface: {
 	      value: function colorInterface() {
 	
+	        this.element.style.backgroundColor = this.colors.fill;
 	        this.knob.setAttribute("fill", this.colors.mediumLight);
 	
 	        for (var i = 0; i < this.speakers.length; i++) {
@@ -5840,8 +5841,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#eee";
-	
 	        var division = this.width / 12;
 	
 	        this.circles = {
@@ -5871,7 +5870,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.element.appendChild(circle);
 	        }
 	
-	        this.skin();
+	        //  this.colorInterface();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	        for (var key in this.circles) {
+	          var circle = this.circles[key];
+	          if (this._active) {
+	            circle.setAttribute("fill", this.colors.accent);
+	            circle.setAttribute("stroke", this.colors.accent);
+	          } else {
+	            circle.setAttribute("fill", this.colors.mediumLight);
+	            circle.setAttribute("stroke", this.colors.mediumLight);
+	          }
+	        }
 	      }
 	    },
 	    update: {
@@ -5897,20 +5911,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    },
-	    skin: {
-	      value: function skin() {
-	        for (var key in this.circles) {
-	          var circle = this.circles[key];
-	          if (this._active) {
-	            circle.setAttribute("fill", "#d18");
-	            circle.setAttribute("stroke", "#d18");
-	          } else {
-	            circle.setAttribute("fill", "#555");
-	            circle.setAttribute("stroke", "#555");
-	          }
-	        }
-	      }
-	    },
 	    click: {
 	      value: function click() {
 	        this.active = !this.active;
@@ -5928,7 +5928,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (on) {
 	        this._active = on;
-	        this.skin();
+	        this.colorInterface();
 	      }
 	    }
 	  });
@@ -6200,6 +6200,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.addTouchListeners();
 	        }
 	        this.sizeInterface();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        for (var i = 0; i < this.sliders.length; i++) {
+	          this.sliders[i].colors = this.colors;
+	          this.sliders[i].colorInterface();
+	        }
 	      }
 	    },
 	    sizeInterface: {
@@ -6517,7 +6525,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("ry", cornerRadius);
 	        this.bar.setAttribute("width", w);
 	        this.bar.setAttribute("height", h);
-	        this.bar.setAttribute("fill", "#e7e7e7");
 	
 	        if (this.orientation === "vertical") {
 	          this.fillbar.setAttribute("x", x);
@@ -6533,7 +6540,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.fillbar.setAttribute("transform", barOffset);
 	        this.fillbar.setAttribute("rx", cornerRadius);
 	        this.fillbar.setAttribute("ry", cornerRadius);
-	        this.fillbar.setAttribute("fill", "#d18");
 	
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
@@ -6543,14 +6549,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.knob.setAttribute("cy", y);
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
-	        this.knob.setAttribute("fill", "#d18");
-	
-	        if (!this.hasKnob) {
-	          this.knob.setAttribute("fill", "none");
-	        }
 	
 	        if (this.position) {
 	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.fillbar.setAttribute("fill", this.colors.accent);
+	        this.knob.setAttribute("fill", this.colors.accent);
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "none");
 	        }
 	      }
 	    },
@@ -6779,11 +6791,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.bar = svg.create("rect");
-	        this.fillbar = svg.create("rect");
 	        this.knob = svg.create("circle");
 	
 	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
 	        this.element.appendChild(this.knob);
 	
 	        this.sizeInterface();
@@ -6842,23 +6852,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("ry", cornerRadius);
 	        this.bar.setAttribute("width", w);
 	        this.bar.setAttribute("height", h);
-	        this.bar.setAttribute("fill", "#e7e7e7");
-	
-	        if (this.orientation === "vertical") {
-	          this.fillbar.setAttribute("x", x);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("width", w);
-	          this.fillbar.setAttribute("height", h - this.knobData.level);
-	        } else {
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("y", y);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	          this.fillbar.setAttribute("height", h);
-	        }
-	        this.fillbar.setAttribute("transform", barOffset);
-	        this.fillbar.setAttribute("rx", cornerRadius);
-	        this.fillbar.setAttribute("ry", cornerRadius);
-	        this.fillbar.setAttribute("fill", "none");
 	
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
@@ -6868,7 +6861,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.knob.setAttribute("cy", y);
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
-	        this.knob.setAttribute("fill", "#d18");
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.knob.setAttribute("fill", this.colors.accent);
 	
 	        if (!this.hasKnob) {
 	          this.knob.setAttribute("fill", "transparent");
@@ -6885,13 +6884,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.orientation === "vertical") {
 	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
 	          this.knob.setAttribute("cy", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("height", this.knobData.level);
 	        } else {
 	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
 	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("width", this.knobData.level);
 	        }
 	      }
 	    },
@@ -6980,7 +6975,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.envelope = envelope;
 	
 	  this.element = svg.create("circle");
-	  this.element.setAttribute("fill", "#d18");
+	  this.element.setAttribute("fill", this.envelope.colors.accent);
 	
 	  this.envelope.element.appendChild(this.element);
 	
@@ -7123,22 +7118,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        var _this = this;
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	
 	        this.points.forEach(function (point) {
 	          var node = new Point(point, _this);
 	          _this.nodes.push(node);
 	        });
 	
 	        this.line = svg.create("polyline");
-	        this.line.setAttribute("stroke", "#d18");
 	        this.line.setAttribute("stroke-width", 2);
 	        this.line.setAttribute("fill", "none");
 	
 	        this.element.appendChild(this.line);
 	
 	        this.fill = svg.create("polyline");
-	        this.fill.setAttribute("fill", "#d18");
 	        this.fill.setAttribute("fill-opacity", "0.2");
 	
 	        this.element.appendChild(this.fill);
@@ -7155,6 +7146,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        this.render();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        var _this = this;
+	
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.line.setAttribute("stroke", this.colors.accent);
+	        this.fill.setAttribute("fill", this.colors.accent);
+	        this.nodes.forEach(function (node) {
+	          node.element.setAttribute("fill", _this.colors.accent);
+	        });
 	      }
 	    },
 	    render: {
@@ -7550,7 +7553,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.analyser.getByteFrequencyData(this.dataArray);
 	
-	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
+	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        if (this.source) {
@@ -7566,7 +7569,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            barHeight /= 255;
 	            barHeight *= this.canvas.element.height;
 	
-	            this.canvas.context.fillStyle = "#d18";
+	            this.canvas.context.fillStyle = this.colors.accent;
 	            this.canvas.context.fillRect(x, this.canvas.element.height - barHeight, barWidth * definition, barHeight);
 	
 	            x += barWidth * definition;
@@ -7932,11 +7935,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.analyser.getByteTimeDomainData(this.dataArray);
 	
-	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
+	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        this.canvas.context.lineWidth = ~ ~(this.height / 100 + 2);
-	        this.canvas.context.strokeStyle = "#d18";
+	        this.canvas.context.strokeStyle = this.colors.accent;
 	
 	        this.canvas.context.beginPath();
 	

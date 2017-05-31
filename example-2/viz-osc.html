@@ -1,0 +1,78 @@
+<html>
+<script src="../dist/mt.js"></script>
+<script src="js/Tone9.js"></script>
+<canvas id="viz"></canvas>
+<div id="dial"></div>
+
+<script>
+
+var player = new Tone.Player("./media/Dream6_stream.mp3").toMaster();
+//play as soon as the buffer is loaded
+player.autostart = true;
+player.loop = true;
+
+var dial = new mt.Slider("#dial",{
+  min: 0,
+  max: 1000,
+  scale: [0,1000],
+});
+
+//var audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+var analyser = Tone.context.createAnalyser();
+
+player.connect(analyser);
+
+analyser.fftSize = 2048;
+var bufferLength = analyser.frequencyBinCount;
+console.log(bufferLength);
+var dataArray = new Uint8Array(bufferLength);
+analyser.getByteTimeDomainData(dataArray);
+
+// Get a canvas defined with ID "oscilloscope"
+var canvas = document.getElementById("viz");
+var canvasCtx = canvas.getContext("2d");
+
+
+// draw an oscilloscope of the current audio source
+
+function draw() {
+
+  drawVisual = requestAnimationFrame(draw);
+
+  analyser.getByteTimeDomainData(dataArray);
+
+  canvasCtx.fillStyle = 'rgb(240, 240, 240)';
+  //canvasCtx.globalAlpha = 0.7;
+  canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+  //canvasCtx.globalAlpha = 1;
+
+  canvasCtx.lineWidth = 2;
+  canvasCtx.strokeStyle = '#d18';
+
+  canvasCtx.beginPath();
+
+  var sliceWidth = canvas.width * 1.0 / bufferLength;
+  var x = 0;
+
+  for (var i = 0; i < bufferLength; i++) {
+
+    var v = dataArray[i] / 128.0;
+    var y = v * canvas.height / 2;
+
+    if (i === 0) {
+      canvasCtx.moveTo(x, y);
+    } else {
+      canvasCtx.lineTo(x, y);
+    }
+
+    x += sliceWidth;
+  }
+
+//  canvasCtx.lineTo(canvas.width, canvas.height / 2);
+  canvasCtx.stroke();
+};
+
+draw();
+</script>
+
+</html>

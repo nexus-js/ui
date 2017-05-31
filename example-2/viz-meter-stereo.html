@@ -1,0 +1,121 @@
+<html>
+<script src="../dist/mt.js"></script>
+<script src="js/Tone9.js"></script>
+<canvas id="viz" style="width:50px;height:400px;"></canvas>
+<br />
+<div id="tog"></div>
+
+<script>
+
+var player = new Tone.Player("./media/Dream6_stream.mp3")
+//play as soon as the buffer is loaded
+player.autostart = true;
+player.loop = true;
+
+var toggle = new mt.Toggle('#tog',{
+  event: (v) => {
+    if (v) {
+      player.start();
+      player.seek(5);
+    } else {
+      player.stop();
+    }
+  }
+})
+
+
+
+var canvas = document.getElementById("viz");
+var canvasCtx = canvas.getContext("2d");
+
+canvas.width = parseInt(canvas.style.width);
+canvas.height = parseInt(canvas.style.height);
+
+
+
+
+var channels = 2;
+var analysers = [];
+
+var splitter = Tone.context.createChannelSplitter(2);
+player.connect(splitter)
+
+//let smoothers = [];
+
+for (var i=0; i<channels; i++) {
+  var analyser = Tone.context.createAnalyser()
+  splitter.connect(analyser,i)
+  analyser.fftSize = 1024;
+  analyser.smoothingTimeConstant = 1;
+  analysers.push( analyser )
+//  smoothers[i] = new Lowpass(4);
+}
+
+console.log(analysers)
+
+var bufferLength = analysers[0].frequencyBinCount;
+var dataArray = new Float32Array(bufferLength);
+
+
+
+
+canvasCtx.fillStyle = 'rgb(240,240,240)';
+canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+// add linear gradient
+var grd = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+// light blue
+grd.addColorStop(0, '#000');
+grd.addColorStop(0.2, '#bbb');
+grd.addColorStop(0.4, '#d18');
+// dark blue
+grd.addColorStop(1, '#d18');
+canvasCtx.fillStyle = grd;
+
+var meterWidth = canvas.width/2;
+
+function draw() {
+
+  drawVisual = requestAnimationFrame(draw);
+
+      canvasCtx.fillStyle = 'rgb(240,240,240)';
+      canvasCtx.fillRect(0, 0, canvas.width , canvas.height);
+
+  for (var i=0;i<analysers.length;i++) {
+
+
+    analysers[i].getFloatTimeDomainData(dataArray);
+
+    let rms = 0
+
+    for (let i = 0; i < dataArray.length; i++){
+         rms += (dataArray[i] * dataArray[i]);
+    }
+
+    rms = Math.sqrt(rms / dataArray.length);
+
+    db = 20 * Math.log10(rms);
+
+
+    if (db > -70) {
+
+      let linear = mt.normalize(db,-70,5);
+      let exp = linear * linear;
+      let y = mt.scale(exp,0,1,canvas.height,0);
+
+      canvasCtx.fillStyle = grd;
+      canvasCtx.fillRect(meterWidth*i,y,meterWidth,canvas.height - y);
+
+      console.log(db);
+
+    }
+
+  }
+
+
+};
+
+draw();
+</script>
+
+</html>
