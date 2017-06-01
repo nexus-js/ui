@@ -853,28 +853,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
-	    this._colors = {};
-	    this.colors = Object.defineProperties({
-	      fill: "#eee",
+	    this.colors = {
+	      fill: "#e7e7e7",
 	      mediumLight: "#ccc",
 	      mediumDark: "#666",
 	      accent: "#2bb", // d18
 	      dark: "#333",
-	      light: "#fff",
-	      border: "#ccc"
-	    }, {
-	      test: {
-	        set: function (v) {
-	          this._colors.dark = v;
-	          this.colorInterface();
-	        },
-	        get: function () {
-	          return this._colors.dark;
-	        },
-	        configurable: true,
-	        enumerable: true
-	      }
-	    });
+	      light: "#fff"
+	    };
 	  }
 	
 	  _inherits(Interface, _EventEmitter);
@@ -891,7 +877,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          target: document.body,
 	          colors: {}, // should inherit from a colors module,
 	          snapWithParent: true,
-	          event: console.log.bind(console),
+	          //'event': console.log.bind(console),
+	          event: function event() {},
 	          component: false
 	        };
 	
@@ -1199,6 +1186,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.instrument) {
 	          delete this.instrument.ui[this.id];
 	        }
+	      }
+	    },
+	    colorize: {
+	      value: function colorize(type, color) {
+	        this.colors[type] = color;
+	        this.colorInterface();
 	      }
 	    }
 	  });
@@ -2572,7 +2565,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function render() {
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors.fill);
-	          this.pad.setAttribute("stroke", this.colors.border);
+	          this.pad.setAttribute("stroke", this.colors.mediumLight);
 	        } else {
 	          if (this.mode === "aftertouch") {
 	            this.pad.setAttribute("stroke", "url(#" + this.gradient.id + ")");
@@ -2658,11 +2651,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
-	          this.pad.setAttribute("stroke", "#ccc");
+	          this.pad.setAttribute("fill", this.colors.fill);
+	          this.pad.setAttribute("stroke", this.colors.mediumLight);
 	        } else {
-	          this.pad.setAttribute("fill", "#d18");
-	          this.pad.setAttribute("stroke", "#d18");
+	          this.pad.setAttribute("fill", this.colors.accent);
+	          this.pad.setAttribute("stroke", this.colors.accent);
 	        }
 	      }
 	    },
@@ -3127,6 +3120,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        for (var i = 0; i < this.numberOfButtons; i++) {
 	          this.buttons[i].resize(buttonWidth, buttonHeight);
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        for (var i = 0; i < this.numberOfButtons; i++) {
+	          this.buttons[i].colors = this.colors;
+	          this.buttons[i].render();
 	        }
 	      }
 	    },
@@ -3978,15 +3979,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        //let radius = Math.min(this.width,this.height) / 5;
 	        var radius = 4;
 	
-	        this.pad.setAttribute("x", 1);
-	        this.pad.setAttribute("y", 1);
+	        this.pad.setAttribute("x", 0.5);
+	        this.pad.setAttribute("y", 0.5);
 	        if (this.width > 2) {
-	          this.pad.setAttribute("width", this.width - 2);
+	          this.pad.setAttribute("width", this.width - 1);
 	        } else {
 	          this.pad.setAttribute("width", this.width);
 	        }
 	        if (this.height > 2) {
-	          this.pad.setAttribute("height", this.height - 2);
+	          this.pad.setAttribute("height", this.height);
 	        } else {
 	          this.pad.setAttribute("height", this.height);
 	        }
@@ -4171,7 +4172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    colorInterface: {
 	      value: function colorInterface() {
 	
-	        this.element.style.backgroundColor = this.colors.fill;
+	        this.element.style.backgroundColor = this.colors.mediumLight;
 	
 	        for (var i = 0; i < this.keys.length; i++) {
 	          this.keys[i].colors = {
@@ -7739,7 +7740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          requestAnimationFrame(this.render.bind(this));
 	        }
 	
-	        this.canvas.context.fillStyle = "rgb(240,240,240)";
+	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        for (var i = 0; i < this.analysers.length; i++) {
@@ -8073,11 +8074,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Rack(target, name, open) {
 	    _classCallCheck(this, Rack);
 	
-	    this.target = target;
-	    this.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
-	    this.title = name;
-	    this.open = open;
+	    this.meta = {};
+	    this.meta.target = target;
+	    this.meta.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
+	    this.meta.title = name;
+	    this.meta.open = open;
+	    this.meta.colors = {
+	      fill: "#eee",
+	      mediumLight: "#ccc",
+	      mediumDark: "#666",
+	      accent: "#2bb", // d18
+	      dark: "#333",
+	      light: "#fff"
+	    };
 	    this.buildInterface();
+	    this.colorInterface();
 	  }
 	
 	  _createClass(Rack, {
@@ -8085,79 +8096,101 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        var _this = this;
 	
-	        /*  this.parent.style.border = 'solid 1px #ddd';
-	          this.parent.style.padding = '0px'; */
-	        this.parent.style.userSelect = "none";
-	        this.parent.style.mozUserSelect = "none";
-	        this.parent.style.webkitUserSelect = "none";
+	        this.meta.parent.style.boxSizing = "border-box";
+	        this.meta.parent.style.userSelect = "none";
+	        this.meta.parent.style.mozUserSelect = "none";
+	        this.meta.parent.style.webkitUserSelect = "none";
 	
-	        this.contents = document.createElement("div");
+	        this.meta.contents = document.createElement("div");
 	
-	        while (this.parent.childNodes.length > 0) {
-	          this.contents.appendChild(this.parent.childNodes[0]);
+	        while (this.meta.parent.childNodes.length > 0) {
+	          this.meta.contents.appendChild(this.meta.parent.childNodes[0]);
 	        }
 	
-	        this.contents.style.padding = "10px";
+	        this.meta.contents.style.padding = "0px";
+	        this.meta.contents.style.boxSizing = "border-box";
 	
-	        if (this.title) {
-	          this.titleBar = document.createElement("div");
-	          this.titleBar.innerHTML = this.title;
-	          this.titleBar.style.fontFamily = "arial";
-	          this.titleBar.style.position = "relative";
-	          this.titleBar.style.color = "#888";
-	          this.titleBar.style.padding = "7px";
-	          this.titleBar.style.backgroundColor = "#f7f7f7";
-	          this.titleBar.style.fontSize = "12px";
+	        if (this.meta.title) {
+	          this.meta.titleBar = document.createElement("div");
+	          this.meta.titleBar.innerHTML = this.meta.title;
+	          this.meta.titleBar.style.fontFamily = "arial";
+	          this.meta.titleBar.style.position = "relative";
+	          this.meta.titleBar.style.color = "#888";
+	          this.meta.titleBar.style.padding = "7px";
+	          this.meta.titleBar.style.fontSize = "12px";
 	
-	          this.button = document.createElement("div");
-	          this.button.style.position = "absolute";
-	          this.button.style.top = "5px";
-	          this.button.style.right = "5px";
-	          this.button.innerHTML = "-";
-	          this.button.style.border = "solid 1px #ddd";
-	          this.button.style.padding = "0px 5px 2px";
-	          this.button.style.lineHeight = "12px";
-	          this.button.style.fontSize = "15px";
-	          this.button.style.backgroundColor = "#fff";
+	          this.meta.button = document.createElement("div");
+	          this.meta.button.style.position = "absolute";
+	          this.meta.button.style.top = "5px";
+	          this.meta.button.style.right = "5px";
+	          this.meta.button.innerHTML = "-";
+	          this.meta.button.style.padding = "0px 5px 2px";
+	          this.meta.button.style.lineHeight = "12px";
+	          this.meta.button.style.fontSize = "15px";
 	
-	          this.button.style.cursor = "pointer";
+	          this.meta.button.style.cursor = "pointer";
 	
-	          this.button.addEventListener("mouseover", function () {
-	            _this.button.style.backgroundColor = "#f7f7f7";
+	          this.meta.button.addEventListener("mouseover", function () {
+	            _this.meta.button.style.backgroundColor = _this.meta.colors.mediumDark;
 	          });
-	          this.button.addEventListener("mouseleave", function () {
-	            _this.button.style.backgroundColor = "#fff";
+	          this.meta.button.addEventListener("mouseleave", function () {
+	            _this.meta.button.style.backgroundColor = _this.meta.colors.mediumLight;
 	          });
-	          this.button.addEventListener("click", function () {
-	            if (_this.open) {
+	          this.meta.button.addEventListener("click", function () {
+	            if (_this.meta.open) {
 	              _this.hide();
 	            } else {
 	              _this.show();
 	            }
 	          });
 	
-	          this.titleBar.appendChild(this.button);
+	          this.meta.titleBar.appendChild(this.meta.button);
 	
-	          this.parent.appendChild(this.titleBar);
+	          this.meta.parent.appendChild(this.meta.titleBar);
 	        }
-	        this.parent.appendChild(this.contents);
+	        this.meta.parent.appendChild(this.meta.contents);
 	
-	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
-	        this.parent.style.width = width;
+	        var width = this.meta.parent.style.width = getComputedStyle(this.meta.parent).getPropertyValue("width");
+	        this.meta.parent.style.width = width;
 	
-	        this.ui = transform.section(this.target);
+	        var ui = transform.section(this.meta.target);
+	        for (var key in ui) {
+	          this[key] = ui[key];
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        if (this.meta.title) {
+	          this.meta.button.style.backgroundColor = this.meta.colors.mediumLight;
+	          this.meta.button.style.border = "solid 0px " + this.meta.colors.fill;
+	          this.meta.parent.style.border = "solid 1px " + this.meta.colors.mediumLight;
+	          this.meta.parent.style.backgroundColor = this.meta.colors.light;
+	          this.meta.titleBar.style.backgroundColor = this.meta.colors.fill;
+	        }
 	      }
 	    },
 	    show: {
 	      value: function show() {
-	        this.contents.style.display = "block";
-	        this.open = true;
+	        this.meta.contents.style.display = "block";
+	        this.meta.open = true;
 	      }
 	    },
 	    hide: {
 	      value: function hide() {
-	        this.contents.style.display = "none";
-	        this.open = false;
+	        this.meta.contents.style.display = "none";
+	        this.meta.open = false;
+	      }
+	    },
+	    colorize: {
+	      value: function colorize(type, color) {
+	        for (var key in this) {
+	          if (this[key].colorize) {
+	            this[key].colorize(type, color);
+	          }
+	        }
+	        this.meta.colors[type] = color;
+	        this.colorInterface();
 	      }
 	    }
 	  });

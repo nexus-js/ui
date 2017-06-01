@@ -37,7 +37,6 @@
 }
 .mt-ui {
   margin:15px auto;
-  display:block;
   width:0;
   height:0;
 }
@@ -51,17 +50,32 @@
 
   mt.context = Tone.context;
 
-  ui = mt.rack('all-interfaces');
-  ui.tilt.active = false
+  mt.colors.fill = "#333";
+
+  synth = mt.rack('all-interfaces','All Interfaces', true);
+  //synth = mt.rack('all-interfaces');
+  synth.tilt.active = false
 
   var player2 = new Tone.Player("./media/D-sharp.mp3")
   //play as soon as the buffer is loaded
   player2.autostart = true;
   player2.loop = true;
 
-  ui.oscilloscope.connect(player2)
-  ui.meter.connect(player2);
-  ui.spectrogram.connect(player2);
+  synth.oscilloscope.connect(player2)
+  synth.meter.connect(player2);
+  synth.spectrogram.connect(player2);
+
+
+
+  synth.colorize("fill","#333")
+  document.body.style.backgroundColor = "#222"
+  synth.colorize("mediumLight","#555")
+  synth.colorize("light","#000")
+  synth.colorize("dark","#999")
+
+  for (var key in synth) {
+    console.log(key);
+  }
 
 </script>
 </html>
