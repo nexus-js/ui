@@ -189,6 +189,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  TextButton: __webpack_require__(18),
 	  RadioButton: __webpack_require__(19),
 	  Number: __webpack_require__(20),
+	  Select: __webpack_require__(47),
 	  Dial: __webpack_require__(21),
 	  Piano: __webpack_require__(22),
 	  Sequencer: __webpack_require__(23),
@@ -877,8 +878,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          target: document.body,
 	          colors: {}, // should inherit from a colors module,
 	          snapWithParent: true,
-	          //'event': console.log.bind(console),
-	          event: function event() {},
+	          event: console.log.bind(console),
+	          //'event': function() {},
 	          component: false
 	        };
 	
@@ -9207,6 +9208,156 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Radio;
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Select
+	*
+	* @description Dropdown menu
+	*
+	* @demo <span mt="select"></span>
+	*
+	* @example
+	* var select = new mt.Select('#target')
+	*
+	* @example
+	* var select = new mt.Select('#target',{
+	*   'size': [60,30],
+	*   'options': ['sine', 'triangle', 'sawtooth']
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is an object containing the text value of the selected option, as well as the numeric index of the selection.
+	*
+	* @outputexample
+	* select.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	*
+	*/
+	
+	var Select = (function (_Interface) {
+	  function Select() {
+	    _classCallCheck(this, Select);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [100, 30],
+	      options: ["sine", "triangle", "sawtooth"]
+	    };
+	
+	    _get(Object.getPrototypeOf(Select.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._selectedIndex = -1;
+	    this._value = false;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(Select, _Interface);
+	
+	  _createClass(Select, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("select");
+	        this.element.style.fontSize = this.height / 2 + "px";
+	        this.element.style.outline = "none";
+	        this.element.style.highlight = "none";
+	        this.element.style.width = this.width + "px";
+	        this.element.style.height = this.height + "px";
+	        this.element.style.border = "solid 0px " + this.colors.mediumLight;
+	
+	        this.element.addEventListener("change", (function (e) {
+	          //  console.log(e);
+	          //  console.log(e.selectedIndex);
+	          this._value = this.element.options[this.element.selectedIndex].text;
+	          this._selectedIndex = this.element.selectedIndex;
+	          this.emit("change", {
+	            value: this._value,
+	            index: this._selectedIndex
+	          });
+	        }).bind(this));
+	
+	        //  var list = document.getElementById("selectList");
+	        var options = ["one", "two", "three"];
+	        for (var i = 0; i < options.length; i++) {
+	          console.log(options[i]);
+	          this.element.options.add(new Option(options[i], i));
+	        }
+	
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    attachListeners: {
+	      value: function attachListeners() {}
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {}
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.element.style.color = this.colors.dark;
+	      }
+	    },
+	    render: {
+	      value: function render() {}
+	    },
+	    click: {
+	      value: function click() {}
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {}
+	    },
+	    value: {
+	
+	      /**
+	      The interface's current value. If set manually, will update the interface and trigger the output event.
+	      @type {number}
+	      @example number.value = 10;
+	      */
+	
+	      get: function () {},
+	      set: function (v) {}
+	    }
+	  });
+	
+	  return Select;
+	})(Interface);
+	
+	module.exports = Select;
+	
+	//this.element.value = math.prune(this.value,this.decimalPlaces);
+
+	//  return this._value.value;
+
+	//  console.log(v);
+	//  this._value.update(v);
+	//  this.emit('change',this.value);
+	//  this.render();
 
 /***/ }
 /******/ ])
