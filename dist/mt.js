@@ -79,20 +79,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import dom from './util/dom';
 	
-	var Rack = _interopRequire(__webpack_require__(37));
+	var Rack = _interopRequire(__webpack_require__(38));
 	
-	var Time = _interopRequire(__webpack_require__(39));
+	var Time = _interopRequire(__webpack_require__(40));
 	
-	var Tune = _interopRequire(__webpack_require__(44));
+	var Tune = _interopRequire(__webpack_require__(45));
 	
 	//import RangeModel from './models/range';
 	
-	var Transform = _interopRequire(__webpack_require__(38));
+	var Transform = _interopRequire(__webpack_require__(39));
 	
-	var Counter = __webpack_require__(27);
-	var Radio = __webpack_require__(46);
-	var Drunk = __webpack_require__(26);
-	var Sequence = __webpack_require__(25);
+	var Counter = __webpack_require__(28);
+	var Radio = __webpack_require__(47);
+	var Drunk = __webpack_require__(27);
+	var Sequence = __webpack_require__(26);
 	/*let StepRange = require('./models/range');
 	let StepNumber = require('./models/step');
 	let Matrix = require('./models/matrix');
@@ -189,18 +189,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  TextButton: __webpack_require__(18),
 	  RadioButton: __webpack_require__(19),
 	  Number: __webpack_require__(20),
-	  Select: __webpack_require__(47),
-	  Dial: __webpack_require__(21),
-	  Piano: __webpack_require__(22),
-	  Sequencer: __webpack_require__(23),
-	  Pan2D: __webpack_require__(28),
-	  Tilt: __webpack_require__(29),
-	  Multislider: __webpack_require__(30),
-	  Pan: __webpack_require__(32),
-	  Envelope: __webpack_require__(33),
-	  Spectrogram: __webpack_require__(34),
-	  Meter: __webpack_require__(35),
-	  Oscilloscope: __webpack_require__(36)
+	  Select: __webpack_require__(21),
+	  Dial: __webpack_require__(22),
+	  Piano: __webpack_require__(23),
+	  Sequencer: __webpack_require__(24),
+	  Pan2D: __webpack_require__(29),
+	  Tilt: __webpack_require__(30),
+	  Multislider: __webpack_require__(31),
+	  Pan: __webpack_require__(33),
+	  Envelope: __webpack_require__(34),
+	  Spectrogram: __webpack_require__(35),
+	  Meter: __webpack_require__(36),
+	  Oscilloscope: __webpack_require__(37)
 	};
 
 /***/ },
@@ -3501,6 +3501,186 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Select
+	*
+	* @description Dropdown menu
+	*
+	* @demo <span mt="select"></span>
+	*
+	* @example
+	* var select = new mt.Select('#target')
+	*
+	* @example
+	* var select = new mt.Select('#target',{
+	*   'size': [100,30],
+	*   'options': ['default','options']
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is an object containing the text value of the selected option, as well as the numeric index of the selection.
+	*
+	* @outputexample
+	* select.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	*
+	*/
+	
+	var Select = (function (_Interface) {
+	  function Select() {
+	    _classCallCheck(this, Select);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [100, 30],
+	      options: ["default", "options"]
+	    };
+	
+	    _get(Object.getPrototypeOf(Select.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._selectedIndex = -1;
+	    this._value = false;
+	
+	    this._options = this.settings.options;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(Select, _Interface);
+	
+	  _createClass(Select, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("select");
+	        this.element.style.fontSize = this.height / 2 + "px";
+	        this.element.style.outline = "none";
+	        this.element.style.highlight = "none";
+	        this.element.style.width = this.width + "px";
+	        this.element.style.height = this.height + "px";
+	
+	        this.element.addEventListener("change", this.render.bind(this));
+	
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    attachListeners: {
+	      value: function attachListeners() {}
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.defineOptions();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.element.style.color = this.colors.dark;
+	        this.element.style.border = "solid 0px " + this.colors.mediumLight;
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	
+	        this._value = this.element.options[this.element.selectedIndex].text;
+	        this._selectedIndex = this.element.selectedIndex;
+	        this.emit("change", {
+	          value: this._value,
+	          index: this._selectedIndex
+	        });
+	      }
+	    },
+	    click: {
+	      value: function click() {}
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {}
+	    },
+	    defineOptions: {
+	      value: function defineOptions(v) {
+	        if (v) {
+	          this._options = v;
+	        }
+	
+	        for (var i = 0; i < this.element.options.length; i++) {
+	          this.element.remove(i);
+	        }
+	
+	        for (var i = 0; i < this._options.length; i++) {
+	          this.element.options.add(new Option(this._options[i], i));
+	        }
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The text of the option that is currently selected. If set, will update the interface and trigger the output event.
+	      @type {String}
+	      @example select.value = "sawtooth";
+	      */
+	
+	      get: function () {
+	        return this._value;
+	      },
+	      set: function (v) {
+	        this._value = v;
+	        for (var i = 0; i < this.element.options.length; i++) {
+	          if (v === this.element.options[i].text) {
+	            this.selectedIndex = i;
+	            break;
+	          }
+	        }
+	      }
+	    },
+	    selectedIndex: {
+	
+	      /**
+	      The numeric index of the option that is currently selected. If set, will update the interface and trigger the output event.
+	      @type {number}
+	      @example select.selectedIndex = 2;
+	      */
+	
+	      get: function () {
+	        return this._selectedIndex;
+	      },
+	      set: function (v) {
+	        this._selectedIndex = v;
+	        this.element.selectedIndex = v;
+	        this.render();
+	      }
+	    }
+	  });
+	
+	  return Select;
+	})(Interface);
+	
+	module.exports = Select;
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -3864,7 +4044,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Dial;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4314,7 +4494,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// loop through and render the keys?
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4331,8 +4511,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(17);
-	var MatrixModel = __webpack_require__(24);
-	var CounterModel = __webpack_require__(27);
+	var MatrixModel = __webpack_require__(25);
+	var CounterModel = __webpack_require__(28);
 	//let Time = require('../core/time');
 	var touch = __webpack_require__(9);
 	
@@ -4798,7 +4978,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequencer;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4811,7 +4991,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Sequence = _interopRequire(__webpack_require__(25));
+	var Sequence = _interopRequire(__webpack_require__(26));
 	
 	// For the tutorial, looking at
 	
@@ -5175,7 +5355,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Matrix;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5188,7 +5368,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(26));
+	var Drunk = _interopRequire(__webpack_require__(27));
 	
 	var Sequence = (function () {
 	    function Sequence() {
@@ -5299,7 +5479,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequence;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5359,7 +5539,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Drunk;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5372,7 +5552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(26));
+	var Drunk = _interopRequire(__webpack_require__(27));
 	
 	var Counter = (function () {
 	    function Counter() {
@@ -5469,7 +5649,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5767,7 +5947,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan2D;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5941,7 +6121,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tilt;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5957,7 +6137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(31);
+	var SliderTemplate = __webpack_require__(32);
 	var touch = __webpack_require__(9);
 	
 	var SingleSlider = (function (_SliderTemplate) {
@@ -6410,7 +6590,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Multislider;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6701,7 +6881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = SliderTemplate;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6953,7 +7133,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7458,7 +7638,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Envelope;
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7620,7 +7800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Spectrogram;
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7838,7 +8018,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Meter;
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8017,7 +8197,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Oscilloscope;
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8069,7 +8249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(38));
+	var transform = _interopRequireWildcard(__webpack_require__(39));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
@@ -8202,7 +8382,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8260,7 +8440,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8271,9 +8451,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(40));
+	var WAAClock = _interopRequire(__webpack_require__(41));
 	
-	var Interval = _interopRequire(__webpack_require__(43));
+	var Interval = _interopRequire(__webpack_require__(44));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -8302,17 +8482,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(41)
+	var WAAClock = __webpack_require__(42)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -8549,10 +8729,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)))
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -8738,7 +8918,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -8805,7 +8985,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8816,7 +8996,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(45));
+	var scales = _interopRequire(__webpack_require__(46));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -9051,7 +9231,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9084,7 +9264,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9208,156 +9388,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Radio;
-
-/***/ },
-/* 47 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var Interface = __webpack_require__(6);
-	
-	/**
-	* Select
-	*
-	* @description Dropdown menu
-	*
-	* @demo <span mt="select"></span>
-	*
-	* @example
-	* var select = new mt.Select('#target')
-	*
-	* @example
-	* var select = new mt.Select('#target',{
-	*   'size': [60,30],
-	*   'options': ['sine', 'triangle', 'sawtooth']
-	* })
-	*
-	* @output
-	* change
-	* Fires any time the interface's value changes. <br>
-	* The event data is an object containing the text value of the selected option, as well as the numeric index of the selection.
-	*
-	* @outputexample
-	* select.on('change',function(v) {
-	*   console.log(v);
-	* })
-	*
-	*
-	*/
-	
-	var Select = (function (_Interface) {
-	  function Select() {
-	    _classCallCheck(this, Select);
-	
-	    var options = ["value"];
-	
-	    var defaults = {
-	      size: [100, 30],
-	      options: ["sine", "triangle", "sawtooth"]
-	    };
-	
-	    _get(Object.getPrototypeOf(Select.prototype), "constructor", this).call(this, arguments, options, defaults);
-	
-	    this._selectedIndex = -1;
-	    this._value = false;
-	
-	    this.init();
-	    this.render();
-	  }
-	
-	  _inherits(Select, _Interface);
-	
-	  _createClass(Select, {
-	    buildFrame: {
-	      value: function buildFrame() {
-	        this.element = document.createElement("select");
-	        this.element.style.fontSize = this.height / 2 + "px";
-	        this.element.style.outline = "none";
-	        this.element.style.highlight = "none";
-	        this.element.style.width = this.width + "px";
-	        this.element.style.height = this.height + "px";
-	        this.element.style.border = "solid 0px " + this.colors.mediumLight;
-	
-	        this.element.addEventListener("change", (function (e) {
-	          //  console.log(e);
-	          //  console.log(e.selectedIndex);
-	          this._value = this.element.options[this.element.selectedIndex].text;
-	          this._selectedIndex = this.element.selectedIndex;
-	          this.emit("change", {
-	            value: this._value,
-	            index: this._selectedIndex
-	          });
-	        }).bind(this));
-	
-	        //  var list = document.getElementById("selectList");
-	        var options = ["one", "two", "three"];
-	        for (var i = 0; i < options.length; i++) {
-	          console.log(options[i]);
-	          this.element.options.add(new Option(options[i], i));
-	        }
-	
-	        this.parent.appendChild(this.element);
-	      }
-	    },
-	    attachListeners: {
-	      value: function attachListeners() {}
-	    },
-	    buildInterface: {
-	      value: function buildInterface() {}
-	    },
-	    colorInterface: {
-	      value: function colorInterface() {
-	        this.element.style.backgroundColor = this.colors.fill;
-	        this.element.style.color = this.colors.dark;
-	      }
-	    },
-	    render: {
-	      value: function render() {}
-	    },
-	    click: {
-	      value: function click() {}
-	    },
-	    move: {
-	      value: function move() {}
-	    },
-	    release: {
-	      value: function release() {}
-	    },
-	    value: {
-	
-	      /**
-	      The interface's current value. If set manually, will update the interface and trigger the output event.
-	      @type {number}
-	      @example number.value = 10;
-	      */
-	
-	      get: function () {},
-	      set: function (v) {}
-	    }
-	  });
-	
-	  return Select;
-	})(Interface);
-	
-	module.exports = Select;
-	
-	//this.element.value = math.prune(this.value,this.decimalPlaces);
-
-	//  return this._value.value;
-
-	//  console.log(v);
-	//  this._value.update(v);
-	//  this.emit('change',this.value);
-	//  this.render();
 
 /***/ }
 /******/ ])

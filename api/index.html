@@ -35,6 +35,7 @@
     <a href="#Multislider">multislider</a><br />
     <a href="#Piano">piano</a><br />
     <a href="#RadioButton">radiobutton</a><br />
+    <a href="#Select">select</a><br />
   <!--  <a href="#Range">range</a><br /> -->
     <a href="#Sequencer">sequencer</a><br />
     <a href="#TextButton">textbutton</a><br />
@@ -986,9 +987,9 @@ Creating a Matrix Model from scratch...
     Prism.highlightAll();
 
     if (instrument) {
-      if (instrument.ui[""])
+      if (instrument[""])
         try {
-          instrument.ui[""].destroy();
+          instrument[""].destroy();
         } catch(e) {
           console.log(e);
         }
@@ -1001,14 +1002,14 @@ Creating a Matrix Model from scratch...
 
     if (name=="Waveform") {
       player.load("media/D-sharp.mp3",function() {
-        instrument.ui[""].load(player.buffer._buffer)
+        instrument[""].load(player.buffer._buffer)
       })
     } else if (["Meter","Oscilloscope","Spectrogram"].indexOf(name)>-1) {
       player.load("media/D-sharp.mp3",function() {
         player.loopStart = 0;
         player.loopEnd = 3;
         player.loop = true;
-        instrument.ui[""].connect(player,2);
+        instrument[""].connect(player,2);
         player.start();
       })
     }
@@ -1027,9 +1028,9 @@ Creating a Matrix Model from scratch...
 
 
       if (instrument) {
-        if (instrument.ui[""])
+        if (instrument[""])
           try {
-            instrument.ui[""].destroy();
+            instrument[""].destroy();
           } catch(e) {
             console.log(e);
           }
@@ -1051,9 +1052,9 @@ Creating a Matrix Model from scratch...
 
 
     if (instrument) {
-      if (instrument.ui[""])
+      if (instrument[""])
         try {
-          instrument.ui[""].destroy();
+          instrument[""].destroy();
         } catch(e) {
           console.log(e);
         }
@@ -1088,7 +1089,7 @@ Creating a Matrix Model from scratch...
   var LoadLinks = {
     "Doc": [
       'Button', 'Dial', 'Number', 'Position', 'Slider', 'Toggle',
-      'Envelope', 'Sequencer', 'Multislider', 'Piano', 'RadioButton',
+      'Envelope', 'Sequencer', 'Multislider', 'Piano', 'RadioButton', 'Select',
       'Range', 'TextButton', 'Waveform', 'Tilt', 'Pan', 'Pan2D', 'Meter',
       'Oscilloscope', 'Spectrogram'
     ],
@@ -1185,6 +1186,10 @@ Creating a Matrix Model from scratch...
 
   .tutorial .overview {
   	padding-bottom:20px;
+  }
+
+  .tutorial #demo {
+  	margin-top:10px;
   }
 
   .tutorial h2 {
