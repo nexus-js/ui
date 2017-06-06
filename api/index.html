@@ -18,7 +18,11 @@
 
     <h2>NexusUI</h2>
     <a href="#intro">Getting Started</a><br />
-  <!--  <a href="">Creating a Rack</a><br /> -->
+    <a href="#colors">Colors &amp; Styling</a><br />
+    <a href="#tutorials">More Tutorials</a><br />
+  <!--  <a href="">Creating a Rack</a><br />
+    <a href="">Connecting a Number box</a><br />
+    <a href="">Composing with mt.matrix</a><br /> -->
 
     <h2>Interfaces</h2>
 
@@ -35,6 +39,7 @@
     <a href="#Multislider">multislider</a><br />
     <a href="#Piano">piano</a><br />
     <a href="#RadioButton">radiobutton</a><br />
+    <a href="#Select">select</a><br />
   <!--  <a href="#Range">range</a><br /> -->
     <a href="#Sequencer">sequencer</a><br />
     <a href="#TextButton">textbutton</a><br />
@@ -60,11 +65,11 @@
     <h2>Timing</h2>
     <a href="#interval">interval</a><br />
 
-  <!--  <h2>Models</h2>
+    <h2>Models</h2>
     <a href="#counter">counter</a><br />
     <a href="#sequence">sequence</a><br />
     <a href="#drunk">drunk</a><br />
-    <a href="#matrix">matrix</a><br /> -->
+    <a href="#matrix">matrix</a><br />
 
     <h2>Helpers</h2>
     <a href="#ri">ri (random integer)</a><br />
@@ -678,7 +683,7 @@ interval.event = function() {
 
   -->
 
-    <div id="Matrix" class="custom-tutorial" style="display:none">
+    <div id="matrix" class="custom-tutorial" style="display:none">
       <h2>Matrix Model</h2>
 
       <p>
@@ -986,9 +991,9 @@ Creating a Matrix Model from scratch...
     Prism.highlightAll();
 
     if (instrument) {
-      if (instrument.ui[""])
+      if (instrument[""])
         try {
-          instrument.ui[""].destroy();
+          instrument[""].destroy();
         } catch(e) {
           console.log(e);
         }
@@ -1001,14 +1006,14 @@ Creating a Matrix Model from scratch...
 
     if (name=="Waveform") {
       player.load("media/D-sharp.mp3",function() {
-        instrument.ui[""].load(player.buffer._buffer)
+        instrument[""].load(player.buffer._buffer)
       })
     } else if (["Meter","Oscilloscope","Spectrogram"].indexOf(name)>-1) {
       player.load("media/D-sharp.mp3",function() {
         player.loopStart = 0;
         player.loopEnd = 3;
         player.loop = true;
-        instrument.ui[""].connect(player,2);
+        instrument[""].connect(player,2);
         player.start();
       })
     }
@@ -1027,9 +1032,9 @@ Creating a Matrix Model from scratch...
 
 
       if (instrument) {
-        if (instrument.ui[""])
+        if (instrument[""])
           try {
-            instrument.ui[""].destroy();
+            instrument[""].destroy();
           } catch(e) {
             console.log(e);
           }
@@ -1051,9 +1056,9 @@ Creating a Matrix Model from scratch...
 
 
     if (instrument) {
-      if (instrument.ui[""])
+      if (instrument[""])
         try {
-          instrument.ui[""].destroy();
+          instrument[""].destroy();
         } catch(e) {
           console.log(e);
         }
@@ -1088,7 +1093,7 @@ Creating a Matrix Model from scratch...
   var LoadLinks = {
     "Doc": [
       'Button', 'Dial', 'Number', 'Position', 'Slider', 'Toggle',
-      'Envelope', 'Sequencer', 'Multislider', 'Piano', 'RadioButton',
+      'Envelope', 'Sequencer', 'Multislider', 'Piano', 'RadioButton', 'Select',
       'Range', 'TextButton', 'Waveform', 'Tilt', 'Pan', 'Pan2D', 'Meter',
       'Oscilloscope', 'Spectrogram'
     ],
@@ -1185,6 +1190,10 @@ Creating a Matrix Model from scratch...
 
   .tutorial .overview {
   	padding-bottom:20px;
+  }
+
+  .tutorial #demo {
+  	margin-top:10px;
   }
 
   .tutorial h2 {

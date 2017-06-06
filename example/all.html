@@ -5,19 +5,20 @@
   <meta charset="utf-8" />
   <title>Musician's Toolkit</title>
   <script src="../dist/mt.js"></script>
-  <link href="../css/nexusUI.css" rel="stylesheet">
+  <script src="js/Tone9.js"></script>
   <meta name="viewport" content="width=200, initial-scale=1">
 </head>
 <body style="margin:0;padding;0">
   <div id="all-interfaces">
     <div mt="Dial" id="dial"></div>
     <div mt="Slider" id="slider"></div>
-<!--    <div mt="Toggle" id="toggle"></div>
+    <div mt="Toggle" id="toggle"></div>
     <div mt="Position" id="position"></div>
     <div mt="Button" id="button"></div>
     <div mt="TextButton" id="textbutton"></div>
     <div mt="RadioButton" id="radiobutton"></div>
     <div mt="Number" id="number"></div>
+    <div mt="Select" id="select"></div>
     <div mt="Piano" id="piano"></div>
     <div mt="Sequencer" id="sequencer"></div>
     <div mt="Pan2D" id="pan2D"></div>
@@ -27,7 +28,7 @@
     <div mt="Envelope" id="envelope"></div>
     <div mt="Oscilloscope" id="oscilloscope"></div>
     <div mt="Meter" id="meter"></div>
-    <div mt="Spectrogram" id="spectrogram"></div> -->
+    <div mt="Spectrogram" id="spectrogram"></div>
   </div>
 </body>
 <style>
@@ -37,6 +38,7 @@
 }
 .mt-ui {
   margin:15px auto;
+  display:block;
   width:0;
   height:0;
 }
@@ -48,17 +50,19 @@
 </style>
 <script>
 
-  ui = mt.rack('all-interfaces','All Interfaces', true);
+  mt.context = Tone.context;
+
+  ui = mt.rack('all-interfaces');
+  ui.tilt.active = false
+
+  var player2 = new Tone.Player("./media/D-sharp.mp3")
+  //play as soon as the buffer is loaded
+  player2.autostart = true;
+  player2.loop = true;
+
+  ui.oscilloscope.connect(player2)
+  ui.meter.connect(player2);
+  ui.spectrogram.connect(player2);
 
 </script>
-<style>
-
-/*
-  #dial circle,
-  #slider rect  {
-    fill: #000;
-  }
-*/
-
-</style>
 </html>

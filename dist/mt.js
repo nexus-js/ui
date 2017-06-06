@@ -79,26 +79,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import dom from './util/dom';
 	
-	var Rack = _interopRequire(__webpack_require__(37));
+	var Rack = _interopRequire(__webpack_require__(38));
 	
-	var Time = _interopRequire(__webpack_require__(39));
+	var Time = _interopRequire(__webpack_require__(40));
 	
-	var Tune = _interopRequire(__webpack_require__(44));
+	var Tune = _interopRequire(__webpack_require__(45));
 	
 	//import RangeModel from './models/range';
 	
-	var Transform = _interopRequire(__webpack_require__(38));
+	var Transform = _interopRequire(__webpack_require__(39));
 	
-	var Counter = __webpack_require__(27);
-	var Radio = __webpack_require__(46);
-	var Drunk = __webpack_require__(26);
-	var Sequence = __webpack_require__(25);
-	/*let StepRange = require('./models/range');
-	let StepNumber = require('./models/step');
-	let Matrix = require('./models/matrix');
-	
-	let Binary = require('./models/toggle');
-	 */
+	var Counter = __webpack_require__(28);
+	var Radio = __webpack_require__(47);
+	var Drunk = __webpack_require__(27);
+	var Sequence = __webpack_require__(26);
+	/*let StepRange = require('./models/range'); */
+	var Step = __webpack_require__(11);
+	var Matrix = __webpack_require__(25);
+	var Toggle = __webpack_require__(13);
 	
 	/**
 	Musician's Toolkit => created as mt
@@ -121,7 +119,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.time = new Time(this.context);
 	        this.tune = new Tune();
 	
-	        this.colors = 0;
+	        this.colors = {
+	            accent: "#2bb",
+	            fill: "#eee",
+	            light: "#fff",
+	            dark: "#333",
+	            mediumLight: "#ccc",
+	            mediumDark: "#666"
+	        };
 	
 	        this.transform = Transform;
 	    }
@@ -165,6 +170,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            })(function (sequence, mode, position, cacheSize) {
 	                return new Sequence(sequence, mode, position, cacheSize);
 	            })
+	        },
+	        matrix: {
+	            value: function matrix(rows, columns) {
+	                return new Matrix(rows, columns);
+	            }
 	        }
 	    });
 	
@@ -189,17 +199,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  TextButton: __webpack_require__(18),
 	  RadioButton: __webpack_require__(19),
 	  Number: __webpack_require__(20),
-	  Dial: __webpack_require__(21),
-	  Piano: __webpack_require__(22),
-	  Sequencer: __webpack_require__(23),
-	  Pan2D: __webpack_require__(28),
-	  Tilt: __webpack_require__(29),
-	  Multislider: __webpack_require__(30),
-	  Pan: __webpack_require__(32),
-	  Envelope: __webpack_require__(33),
-	  Spectrogram: __webpack_require__(34),
-	  Meter: __webpack_require__(35),
-	  Oscilloscope: __webpack_require__(36)
+	  Select: __webpack_require__(21),
+	  Dial: __webpack_require__(22),
+	  Piano: __webpack_require__(23),
+	  Sequencer: __webpack_require__(24),
+	  Pan2D: __webpack_require__(29),
+	  Tilt: __webpack_require__(30),
+	  Multislider: __webpack_require__(31),
+	  Pan: __webpack_require__(33),
+	  Envelope: __webpack_require__(34),
+	  Spectrogram: __webpack_require__(35),
+	  Meter: __webpack_require__(36),
+	  Oscilloscope: __webpack_require__(37)
 	};
 
 /***/ },
@@ -233,10 +244,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="position"></span>
 	*
 	* @example
-	* var position = mt.position('#target')
+	* var position = new mt.Position('#target')
 	*
 	* @example
-	* var position = mt.position('#target',{
+	* var position = new mt.Position('#target',{
 	*   'size': [200,200],
 	*   'mode': 'absolute',  // "absolute" or "relative"
 	*   'x': 0.5,  // initial x value
@@ -853,25 +864,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
-	    this._colors = {};
-	    this.colors = Object.defineProperties({
-	      fill: "#e6e6e6", // should be e6e6e6
-	      accent: "#d18",
-	      dark: "#444",
-	      border: "#ccc"
-	    }, {
-	      test: {
-	        set: function (v) {
-	          this._colors.dark = v;
-	          this.colorInterface();
-	        },
-	        get: function () {
-	          return this._colors.dark;
-	        },
-	        configurable: true,
-	        enumerable: true
-	      }
-	    });
+	    this.colors = {};
+	    var defaultColors = mt.colors;
+	    this.colors.accent = defaultColors.accent;
+	    this.colors.fill = defaultColors.fill;
+	    this.colors.light = defaultColors.light;
+	    this.colors.dark = defaultColors.dark;
+	    this.colors.mediumLight = defaultColors.mediumLight;
+	    this.colors.mediumDark = defaultColors.mediumDark;
 	  }
 	
 	  _inherits(Interface, _EventEmitter);
@@ -889,6 +889,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          colors: {}, // should inherit from a colors module,
 	          snapWithParent: true,
 	          event: console.log.bind(console),
+	          //'event': function() {},
 	          component: false
 	        };
 	
@@ -1194,8 +1195,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.parent.removeChild(this.element);
 	        this.removeAllListeners();
 	        if (this.instrument) {
-	          delete this.instrument.ui[this.id];
+	          delete this.instrument[this.id];
 	        }
+	        this.customDestroy();
+	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {}
+	    },
+	    colorize: {
+	      value: function colorize(type, color) {
+	        this.colors[type] = color;
+	        this.colorInterface();
 	      }
 	    }
 	  });
@@ -1977,10 +1988,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="slider" step=0.2></span>
 	*
 	* @example
-	* var slider = mt.slider('#target')
+	* var slider = new mt.Slider('#target')
 	*
 	* @example
-	* var slider = mt.slider('#target',{
+	* var slider = new mt.Slider('#target',{
 	*     'size': [120,20],
 	*     'orientation': 'vertical',  // 'vertical' or 'horizontal'
 	*     'mode': 'relative',  // 'relative' or 'absolute'
@@ -2304,10 +2315,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="toggle"></span>
 	*
 	* @example
-	* var toggle = mt.toggle('#target')
+	* var toggle = new mt.Toggle('#target')
 	*
 	* @example
-	* var toggle = mt.toggle('#target',{
+	* var toggle = new mt.Toggle('#target',{
 	*     'size': [40,20],
 	*     'value': 0
 	* })
@@ -2465,10 +2476,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="button"></span>
 	*
 	* @example
-	* var button = mt.button('#button')
+	* var button = new mt.Button('#button')
 	*
 	* @example
-	* var button = mt.button('#button',{
+	* var button = new mt.Button('#button',{
 	*   mode: 'toggle',
 	*   state: true,
 	*   size: [100,100],
@@ -2569,7 +2580,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function render() {
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors.fill);
-	          this.pad.setAttribute("stroke", this.colors.border);
+	          this.pad.setAttribute("stroke", this.colors.mediumLight);
 	        } else {
 	          if (this.mode === "aftertouch") {
 	            this.pad.setAttribute("stroke", "url(#" + this.gradient.id + ")");
@@ -2655,11 +2666,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
-	          this.pad.setAttribute("stroke", "#ccc");
+	          this.pad.setAttribute("fill", this.colors.fill);
+	          this.pad.setAttribute("stroke", this.colors.mediumLight);
 	        } else {
-	          this.pad.setAttribute("fill", "#d18");
-	          this.pad.setAttribute("stroke", "#d18");
+	          this.pad.setAttribute("fill", this.colors.accent);
+	          this.pad.setAttribute("stroke", this.colors.accent);
 	        }
 	      }
 	    },
@@ -2873,10 +2884,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="textButton"></span>
 	*
 	* @example
-	* var textbutton = mt.textbutton('#target')
+	* var textbutton = new mt.TextButton('#target')
 	*
 	* @example
-	* var dial = mt.dial('#target',{
+	* var dial = new mt.TextButton('#target',{
 	*     'size': [150,50],
 	*     'value': 0,
 	*     'text': 'Play',
@@ -3047,10 +3058,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <div mt="RadioButton"></div>
 	*
 	* @example
-	* var radiobutton = mt.radiobutton('#target')
+	* var radiobutton = new mt.RadioButton('#target')
 	*
 	* @example
-	* var radiobutton = mt.radiobutton('#target',{
+	* var radiobutton = new mt.RadioButton('#target',{
 	*   'size': [120,25],
 	*   'numberOfButtons': 4,
 	*   'active': -1
@@ -3124,6 +3135,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        for (var i = 0; i < this.numberOfButtons; i++) {
 	          this.buttons[i].resize(buttonWidth, buttonHeight);
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        for (var i = 0; i < this.numberOfButtons; i++) {
+	          this.buttons[i].colors = this.colors;
+	          this.buttons[i].render();
 	        }
 	      }
 	    },
@@ -3208,10 +3227,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="number"></span>
 	*
 	* @example
-	* var number = mt.number('#target')
+	* var number = new mt.Number('#target')
 	*
 	* @example
-	* var number = mt.number('#target',{
+	* var number = new mt.Number('#target',{
 	*   'size': [60,30],
 	*   'value': 0,
 	*   'min': 0,
@@ -3277,8 +3296,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.type = "text";
 	
 	        this.element.addEventListener("blur", (function () {
-	          this.element.style.backgroundColor = "#e7e7e7";
-	          this.element.style.color = "#333";
+	          this.element.style.backgroundColor = this.colors.fill;
+	          this.element.style.color = this.colors.dark;
 	          if (this.element.value !== this.value) {
 	            this.value = parseFloat(this.element.value);
 	            this.render();
@@ -3319,20 +3338,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	        styles += "font-family: arial;";
 	        styles += "font-weight: 500;";
 	        styles += "font-size:" + this._minDimension / 2 + "px;";
-	        styles += "highlight: #d18;";
+	        //  styles += 'highlight: #d18;';
 	        styles += "border: none;";
 	        styles += "outline: none;";
 	        styles += "padding: " + this._minDimension / 4 + "px " + this._minDimension / 4 + "px;";
 	        styles += "box-sizing: border-box;";
-	        styles += "userSelect: transparent;";
-	        styles += "mozUserSelect: transparent;";
-	        styles += "webkitUserSelect: transparent;";
+	        styles += "userSelect: text;";
+	        styles += "mozUserSelect: text;";
+	        styles += "webkitUserSelect: text;";
 	        this.element.style.cssText += styles;
 	
 	        // to add eventually
 	        // var css = '#'+this.elementID+'::selection{ background-color: transparent }';
 	
 	        this.element.value = this.value;
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.element.style.color = this.colors.dark;
 	      }
 	    },
 	    render: {
@@ -3372,8 +3397,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.element.readOnly = false;
 	          this.element.focus();
 	          this.element.setSelectionRange(0, this.element.value.length);
-	          this.element.style.backgroundColor = "#d18";
-	          this.element.style.color = "#fff";
+	          this.element.style.backgroundColor = this.colors.accent;
+	          this.element.style.color = this.colors.light;
 	        } else {
 	          document.body.focus();
 	        }
@@ -3490,6 +3515,193 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var Interface = __webpack_require__(6);
+	
+	/**
+	* Select
+	*
+	* @description Dropdown menu
+	*
+	* @demo <span mt="select"></span>
+	*
+	* @example
+	* var select = new mt.Select('#target')
+	*
+	* @example
+	* var select = new mt.Select('#target',{
+	*   'size': [100,30],
+	*   'options': ['default','options']
+	* })
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is an object containing the text value of the selected option, as well as the numeric index of the selection.
+	*
+	* @outputexample
+	* select.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	*
+	*/
+	
+	var Select = (function (_Interface) {
+	  function Select() {
+	    _classCallCheck(this, Select);
+	
+	    var options = ["value"];
+	
+	    var defaults = {
+	      size: [100, 30],
+	      options: ["default", "options"]
+	    };
+	
+	    _get(Object.getPrototypeOf(Select.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this._selectedIndex = -1;
+	    this._value = false;
+	
+	    this._options = this.settings.options;
+	
+	    this.init();
+	    this.render();
+	  }
+	
+	  _inherits(Select, _Interface);
+	
+	  _createClass(Select, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = document.createElement("select");
+	        this.element.style.fontSize = this.height / 2 + "px";
+	        this.element.style.outline = "none";
+	        this.element.style.highlight = "none";
+	        this.element.style.width = this.width + "px";
+	        this.element.style.height = this.height + "px";
+	
+	        this.boundRender = this.render.bind(this);
+	
+	        this.element.addEventListener("change", this.boundRender);
+	
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    attachListeners: {
+	      value: function attachListeners() {}
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.defineOptions();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.element.style.color = this.colors.dark;
+	        this.element.style.border = "solid 0px " + this.colors.mediumLight;
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	
+	        this._value = this.element.options[this.element.selectedIndex].text;
+	        this._selectedIndex = this.element.selectedIndex;
+	        this.emit("change", {
+	          value: this._value,
+	          index: this._selectedIndex
+	        });
+	      }
+	    },
+	    click: {
+	      value: function click() {}
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {}
+	    },
+	    defineOptions: {
+	      value: function defineOptions(v) {
+	        if (v) {
+	          this._options = v;
+	        }
+	
+	        for (var i = 0; i < this.element.options.length; i++) {
+	          this.element.remove(i);
+	        }
+	
+	        for (var i = 0; i < this._options.length; i++) {
+	          this.element.options.add(new Option(this._options[i], i));
+	        }
+	      }
+	    },
+	    value: {
+	
+	      /**
+	      The text of the option that is currently selected. If set, will update the interface and trigger the output event.
+	      @type {String}
+	      @example select.value = "sawtooth";
+	      */
+	
+	      get: function () {
+	        return this._value;
+	      },
+	      set: function (v) {
+	        this._value = v;
+	        for (var i = 0; i < this.element.options.length; i++) {
+	          if (v === this.element.options[i].text) {
+	            this.selectedIndex = i;
+	            break;
+	          }
+	        }
+	      }
+	    },
+	    selectedIndex: {
+	
+	      /**
+	      The numeric index of the option that is currently selected. If set, will update the interface and trigger the output event.
+	      @type {number}
+	      @example select.selectedIndex = 2;
+	      */
+	
+	      get: function () {
+	        return this._selectedIndex;
+	      },
+	      set: function (v) {
+	        this._selectedIndex = v;
+	        this.element.selectedIndex = v;
+	        this.render();
+	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.element.removeEventListener("change", this.boundRender);
+	      }
+	    }
+	  });
+	
+	  return Select;
+	})(Interface);
+	
+	module.exports = Select;
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -3516,10 +3728,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="dial"></span>
 	*
 	* @example
-	* var dial = mt.dial('#target')
+	* var dial = new mt.Dial('#target')
 	*
 	* @example
-	* var dial = mt.dial('#target',{
+	* var dial = new mt.Dial('#target',{
 	*   'size': [75,75],
 	*   'interaction': 'radial', // "radial", "vertical", or "horizontal"
 	*   'mode': 'relative', // "absolute" or "relative"
@@ -3853,7 +4065,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Dial;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3967,17 +4179,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function sizeInterface() {
 	
 	        //let radius = Math.min(this.width,this.height) / 5;
-	        var radius = 5;
+	        var radius = 4;
 	
-	        this.pad.setAttribute("x", 1);
-	        this.pad.setAttribute("y", 1);
+	        this.pad.setAttribute("x", 0.5);
+	        this.pad.setAttribute("y", 0.5);
 	        if (this.width > 2) {
-	          this.pad.setAttribute("width", this.width - 2);
+	          this.pad.setAttribute("width", this.width - 1);
 	        } else {
 	          this.pad.setAttribute("width", this.width);
 	        }
 	        if (this.height > 2) {
-	          this.pad.setAttribute("height", this.height - 2);
+	          this.pad.setAttribute("height", this.height);
 	        } else {
 	          this.pad.setAttribute("height", this.height);
 	        }
@@ -3990,7 +4202,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!this.state) {
 	          this.pad.setAttribute("fill", this.colors[this.color]);
 	        } else {
-	          this.pad.setAttribute("fill", "#d18");
+	          this.pad.setAttribute("fill", this.colors.accent);
 	        }
 	      }
 	    }
@@ -4007,10 +4219,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <div mt="piano"></div>
 	*
 	* @example
-	* var piano = mt.piano('#target')
+	* var piano = new mt.Piano('#target')
 	*
 	* @example
-	* var piano = mt.piano('#target',{
+	* var piano = new mt.Piano('#target',{
 	*     'size': [500,150],
 	*     'mode': 'button',  // 'button', 'toggle', or 'impulse'
 	*     'lowNote': 24,
@@ -4036,7 +4248,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = ["value"];
 	
 	    var defaults = {
-	      size: [500, 150],
+	      size: [500, 125],
 	      lowNote: 24,
 	      highNote: 60,
 	      mode: "button"
@@ -4072,10 +4284,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildFrame() {
 	        this.element = document.createElement("div");
 	        this.element.style.position = "relative";
+	        this.element.style.borderRadius = "4px";
 	        this.element.style.display = "block";
 	        this.element.style.width = "100%";
 	        this.element.style.height = "100%";
-	        this.element.style.backgroundColor = "#ddd";
 	        this.parent.appendChild(this.element);
 	      }
 	    },
@@ -4138,7 +4350,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        var keysWide = keyX;
 	
-	        var padding = this.width / 40;
+	        //  let padding = this.width / 120;
+	        var padding = 1;
 	        var buttonWidth = (this.width - padding * 2) / keysWide;
 	        var buttonHeight = (this.height - padding * 2) / 2;
 	
@@ -4148,12 +4361,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	          container.style.position = "absolute";
 	          container.style.left = keyPositions[i] * buttonWidth + padding + "px";
 	          if (this.keys[i].color === "w") {
-	            container.style.top = buttonHeight + padding + "px";
-	          } else {
 	            container.style.top = padding + "px";
+	            this.keys[i].resize(buttonWidth, buttonHeight * 2);
+	          } else {
+	            container.style.zIndex = 1;
+	            container.style.top = padding + "px";
+	            this.keys[i].resize(buttonWidth, buttonHeight * 1.1);
 	          }
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
 	
-	          this.keys[i].resize(buttonWidth, buttonHeight);
+	        this.element.style.backgroundColor = this.colors.mediumLight;
+	
+	        for (var i = 0; i < this.keys.length; i++) {
+	          this.keys[i].colors = {
+	            w: this.colors.light,
+	            b: this.colors.dark,
+	            accent: this.colors.accent
+	          };
+	          this.keys[i].render();
 	        }
 	      }
 	    },
@@ -4286,7 +4515,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// loop through and render the keys?
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4303,8 +4532,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(17);
-	var MatrixModel = __webpack_require__(24);
-	var CounterModel = __webpack_require__(27);
+	var MatrixModel = __webpack_require__(25);
+	var CounterModel = __webpack_require__(28);
 	//let Time = require('../core/time');
 	var touch = __webpack_require__(9);
 	
@@ -4326,6 +4555,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.index = this.settings.index;
 	    this.row = this.settings.row;
 	    this.column = this.settings.column;
+	
+	    this.matrix = this.settings.matrix;
 	
 	    this.interacting = false;
 	    this.paintbrush = false;
@@ -4417,15 +4648,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.pad.setAttribute("height", this.height);
 	        }
 	        //this.pad.setAttribute('height', this.height - 2);
-	        this.pad.setAttribute("fill", "#e7e7e7");
+	        this.pad.setAttribute("fill", this.matrix.colors.fill);
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
-	          this.pad.setAttribute("fill", "#e7e7e7");
+	          this.pad.setAttribute("fill", this.matrix.colors.fill);
 	        } else {
-	          this.pad.setAttribute("fill", "#d18");
+	          this.pad.setAttribute("fill", this.matrix.colors.accent);
 	        }
 	      }
 	    }
@@ -4442,10 +4673,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <div mt="sequencer" style="width:400px;height:200px;"></div>
 	*
 	* @example
-	* var sequencer = mt.sequencer('#target')
+	* var sequencer = new mt.Sequencer('#target')
 	*
 	* @example
-	* var sequencer = mt.sequencer('#target',{
+	* var sequencer = new mt.Sequencer('#target',{
 	*  'size': [400,200],
 	*  'mode': 'toggle',
 	*  'rows': 5,
@@ -4538,10 +4769,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            index: i,
 	            row: _location.row,
 	            column: _location.column,
-	            mode: this.mode
+	            mode: this.mode,
+	            matrix: this
 	          }, this.keyChange.bind(this, i));
 	
-	          cell.matrix = this;
+	          //  cell.matrix = this;
 	          if (touch.exists) {
 	            cell.pad.index = i;
 	            cell.preClick = cell.preMove = cell.preRelease = function () {};
@@ -4570,6 +4802,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          container.style.left = this.cells[i].column * cellWidth + "px";
 	          container.style.top = this.cells[i].row * cellHeight + "px";
 	          this.cells[i].resize(cellWidth, cellHeight);
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        for (var i = 0; i < this.cells.length; i++) {
+	          this.cells[i].render();
 	        }
 	      }
 	    },
@@ -4622,7 +4861,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.stepper.value >= 0) {
 	          this.matrix.iterate(function (r, c, i) {
 	            if (c === _this.stepper.value) {
-	              _this.cells[i].pad.setAttribute("stroke", "#ccc");
+	              _this.cells[i].pad.setAttribute("stroke", _this.colors.mediumLight);
 	              _this.cells[i].pad.setAttribute("stroke-width", "5");
 	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
 	            } else {
@@ -4760,7 +4999,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequencer;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4773,7 +5012,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Sequence = _interopRequire(__webpack_require__(25));
+	var Sequence = _interopRequire(__webpack_require__(26));
 	
 	// For the tutorial, looking at
 	
@@ -5137,7 +5376,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Matrix;
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5150,7 +5389,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(26));
+	var Drunk = _interopRequire(__webpack_require__(27));
 	
 	var Sequence = (function () {
 	    function Sequence() {
@@ -5261,7 +5500,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequence;
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5321,7 +5560,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Drunk;
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5334,7 +5573,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(26));
+	var Drunk = _interopRequire(__webpack_require__(27));
 	
 	var Counter = (function () {
 	    function Counter() {
@@ -5431,7 +5670,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5461,10 +5700,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="pan2D"></span>
 	*
 	* @example
-	* var pan2d = mt.pan2d('#target')
+	* var pan2d = new mt.Pan2d('#target')
 	*
 	* @example
-	* var pan2d = mt.pan2d('#target',{
+	* var pan2d = new mt.Pan2d('#target',{
 	*     'size': [200,200],
 	*     'range': 0.5,  // panning radius of each speaker
 	*     'mode': 'absolute',   // 'absolute' or 'relative'
@@ -5551,7 +5790,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
 	        this.knob = svg.create("circle");
 	
 	        this.element.appendChild(this.knob);
@@ -5581,7 +5819,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.knob.setAttribute("cx", this.width / 2);
 	        this.knob.setAttribute("cy", this.height / 2);
 	        this.knob.setAttribute("r", this.knobRadius.off);
-	        this.knob.setAttribute("fill", "#ccc");
 	
 	        for (var i = 0; i < this.speakers.length; i++) {
 	          var speakerElement = this.speakerElements[i];
@@ -5589,9 +5826,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          speakerElement.setAttribute("cx", speaker[0] * this.width);
 	          speakerElement.setAttribute("cy", speaker[1] * this.height);
 	          speakerElement.setAttribute("r", this._minDimension / 20 + 5);
-	          speakerElement.setAttribute("fill", "#d18");
 	          speakerElement.setAttribute("fill-opacity", "0");
-	          speakerElement.setAttribute("stroke", "#d18");
 	        }
 	
 	        this.position.x.resize([0, this.width], [this.height, 0]);
@@ -5602,6 +5837,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // calculate speaker distances
 	        this.calculateLevels();
 	        this.render();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.knob.setAttribute("fill", this.colors.mediumLight);
+	
+	        for (var i = 0; i < this.speakers.length; i++) {
+	          var speakerElement = this.speakerElements[i];
+	          speakerElement.setAttribute("fill", this.colors.accent);
+	          speakerElement.setAttribute("stroke", this.colors.accent);
+	        }
 	      }
 	    },
 	    render: {
@@ -5720,7 +5968,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan2D;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5745,12 +5993,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt='tilt'></span>
 	*
 	* @example
-	* var tilt = mt.tilt('#target')
-	*
-	* @example
-	* var dial = mt.dial('#target',{
-	*   'size': [80,80]
-	* })
+	* var tilt = new mt.Tilt('#target')
 	*
 	* @output
 	* change
@@ -5787,7 +6030,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    //	this.boundMozTilt = this.mozTilt.bind(this)
 	
 	    if (window.DeviceOrientationEvent) {
-	      window.addEventListener("deviceorientation", this.boundUpdate, false);
+	      this.orientationListener = window.addEventListener("deviceorientation", this.boundUpdate, false);
 	    } /*else if (window.OrientationEvent) {
 	      //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
 	      } else {
@@ -5801,38 +6044,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        this.element.style.backgroundColor = "#eee";
+	        this.title = svg.create("text");
+	        this.circleLR = svg.create("circle");
+	        this.circleFB = svg.create("circle");
 	
-	        var division = this.width / 12;
+	        this.circleLR.setAttribute("cx", this.width * 3 / 12);
+	        this.circleLR.setAttribute("cy", this.height * 3 / 4);
+	        this.circleLR.setAttribute("r", this.height / 10);
+	        this.circleLR.setAttribute("opacity", "0.7");
 	
-	        this.circles = {
-	          L: svg.create("circle"),
-	          R: svg.create("circle"),
-	          F: svg.create("circle"),
-	          B: svg.create("circle")
-	        };
+	        this.circleFB.setAttribute("cx", this.width * 9 / 12);
+	        this.circleFB.setAttribute("cy", this.height * 3 / 4);
+	        this.circleFB.setAttribute("r", this.height / 10);
+	        this.circleFB.setAttribute("opacity", "0.7");
 	
-	        this.circles.L.setAttribute("cx", this.width * 3 / 12);
-	        this.circles.L.setAttribute("cy", this.height / 2);
+	        this.title.setAttribute("x", this.width / 2);
+	        this.title.setAttribute("y", this.height / 2 + 7);
+	        this.title.setAttribute("font-size", "15px");
+	        this.title.setAttribute("font-weight", "bold");
+	        this.title.setAttribute("letter-spacing", "2px");
+	        this.title.setAttribute("opacity", "0.7");
+	        this.title.setAttribute("text-anchor", "middle");
+	        this.title.textContent = "TILT";
 	
-	        this.circles.R.setAttribute("cx", this.width * 9 / 12);
-	        this.circles.R.setAttribute("cy", this.height / 2);
+	        //  this.element.appendChild(this.circleFB);
+	        //  this.element.appendChild(this.circleLR);
+	        this.element.appendChild(this.title);
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
 	
-	        this.circles.F.setAttribute("cx", this.width / 2);
-	        this.circles.F.setAttribute("cy", this.height * 3 / 12);
-	
-	        this.circles.B.setAttribute("cx", this.width / 2);
-	        this.circles.B.setAttribute("cy", this.height * 9 / 12);
-	
-	        for (var key in this.circles) {
-	          var circle = this.circles[key];
-	          circle.setAttribute("r", division * 1.5);
-	          circle.setAttribute("fill-opacity", "0.5");
-	          circle.setAttribute("stroke-width", "2");
-	          this.element.appendChild(circle);
+	        if (this._active) {
+	          this.element.style.backgroundColor = this.colors.accent;
+	          this.circleFB.setAttribute("fill", this.colors.light);
+	          this.circleLR.setAttribute("fill", this.colors.light);
+	          this.title.setAttribute("fill", this.colors.light);
+	        } else {
+	          this.element.style.backgroundColor = this.colors.fill;
+	          this.circleLR.setAttribute("fill", this.colors.mediumLight);
+	          this.circleFB.setAttribute("fill", this.colors.mediumLight);
+	          this.title.setAttribute("fill", this.colors.mediumLight);
 	        }
-	
-	        this.skin();
 	      }
 	    },
 	    update: {
@@ -5846,29 +6099,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	          x = math.scale(x, -90, 90, 0, 1);
 	          y = math.scale(y, -90, 90, 0, 1);
 	
-	          this.circles.R.setAttribute("fill-opacity", x);
-	          this.circles.L.setAttribute("fill-opacity", 1 - x);
-	          this.circles.F.setAttribute("fill-opacity", 1 - y);
-	          this.circles.B.setAttribute("fill-opacity", y);
+	          //this.textH.textContent = math.prune(x,2);
+	          //this.textV.textContent = math.prune(y,2);
+	          //
+	          this.circleFB.setAttribute("opacity", x);
+	          this.circleLR.setAttribute("opacity", y);
 	
 	          this.emit("change", {
 	            x: x,
 	            y: y
 	          });
-	        }
-	      }
-	    },
-	    skin: {
-	      value: function skin() {
-	        for (var key in this.circles) {
-	          var circle = this.circles[key];
-	          if (this._active) {
-	            circle.setAttribute("fill", "#d18");
-	            circle.setAttribute("stroke", "#d18");
-	          } else {
-	            circle.setAttribute("fill", "#555");
-	            circle.setAttribute("stroke", "#555");
-	          }
 	        }
 	      }
 	    },
@@ -5889,7 +6129,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      set: function (on) {
 	        this._active = on;
-	        this.skin();
+	        this.colorInterface();
+	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        window.removeEventListener("deviceorientation", this.boundUpdate, false);
 	      }
 	    }
 	  });
@@ -5900,7 +6145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tilt;
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5916,7 +6161,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(31);
+	var SliderTemplate = __webpack_require__(32);
 	var touch = __webpack_require__(9);
 	
 	var SingleSlider = (function (_SliderTemplate) {
@@ -6050,10 +6295,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="multislider"></span>
 	*
 	* @example
-	* var multislider = mt.multislider('#target')
+	* var multislider = new mt.Multislider('#target')
 	*
 	* @example
-	* var multislider = mt.multislider('#target',{
+	* var multislider = new mt.Multislider('#target',{
 	*  'size': [200,100],
 	*  'numberOfSliders': 5,
 	*  'min': 0,
@@ -6161,6 +6406,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.addTouchListeners();
 	        }
 	        this.sizeInterface();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        for (var i = 0; i < this.sliders.length; i++) {
+	          this.sliders[i].colors = this.colors;
+	          this.sliders[i].colorInterface();
+	        }
 	      }
 	    },
 	    sizeInterface: {
@@ -6361,7 +6614,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Multislider;
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6478,7 +6731,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("ry", cornerRadius);
 	        this.bar.setAttribute("width", w);
 	        this.bar.setAttribute("height", h);
-	        this.bar.setAttribute("fill", "#e7e7e7");
 	
 	        if (this.orientation === "vertical") {
 	          this.fillbar.setAttribute("x", x);
@@ -6494,7 +6746,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.fillbar.setAttribute("transform", barOffset);
 	        this.fillbar.setAttribute("rx", cornerRadius);
 	        this.fillbar.setAttribute("ry", cornerRadius);
-	        this.fillbar.setAttribute("fill", "#d18");
 	
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
@@ -6504,14 +6755,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.knob.setAttribute("cy", y);
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
-	        this.knob.setAttribute("fill", "#d18");
-	
-	        if (!this.hasKnob) {
-	          this.knob.setAttribute("fill", "none");
-	        }
 	
 	        if (this.position) {
 	          this.position.resize([0, this.width], [this.height, 0]);
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.fillbar.setAttribute("fill", this.colors.accent);
+	        this.knob.setAttribute("fill", this.colors.accent);
+	        if (!this.hasKnob) {
+	          this.knob.setAttribute("fill", "none");
 	        }
 	      }
 	    },
@@ -6648,7 +6905,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = SliderTemplate;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6678,15 +6935,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="pan"></span>
 	*
 	* @example
-	* var pan = mt.pan('#target')
-	*
-	* @example
-	* var dial = mt.dial('#target',{
-	*     'size': [120,20],
-	*     'orientation': 'horizontal',
-	*     'mode': 'relative',
-	*     'value': 0,
-	* })
+	* var pan = new mt.Pan('#target')
 	*
 	* @output
 	* change
@@ -6748,11 +6997,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.bar = svg.create("rect");
-	        this.fillbar = svg.create("rect");
 	        this.knob = svg.create("circle");
 	
 	        this.element.appendChild(this.bar);
-	        this.element.appendChild(this.fillbar);
 	        this.element.appendChild(this.knob);
 	
 	        this.sizeInterface();
@@ -6811,23 +7058,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.bar.setAttribute("ry", cornerRadius);
 	        this.bar.setAttribute("width", w);
 	        this.bar.setAttribute("height", h);
-	        this.bar.setAttribute("fill", "#e7e7e7");
-	
-	        if (this.orientation === "vertical") {
-	          this.fillbar.setAttribute("x", x);
-	          this.fillbar.setAttribute("y", this.knobData.level);
-	          this.fillbar.setAttribute("width", w);
-	          this.fillbar.setAttribute("height", h - this.knobData.level);
-	        } else {
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("y", y);
-	          this.fillbar.setAttribute("width", this.knobData.level);
-	          this.fillbar.setAttribute("height", h);
-	        }
-	        this.fillbar.setAttribute("transform", barOffset);
-	        this.fillbar.setAttribute("rx", cornerRadius);
-	        this.fillbar.setAttribute("ry", cornerRadius);
-	        this.fillbar.setAttribute("fill", "none");
 	
 	        if (this.orientation === "vertical") {
 	          this.knob.setAttribute("cx", x);
@@ -6837,7 +7067,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.knob.setAttribute("cy", y);
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
-	        this.knob.setAttribute("fill", "#d18");
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	
+	        this.bar.setAttribute("fill", this.colors.fill);
+	        this.knob.setAttribute("fill", this.colors.accent);
 	
 	        if (!this.hasKnob) {
 	          this.knob.setAttribute("fill", "transparent");
@@ -6854,13 +7090,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (this.orientation === "vertical") {
 	          this.knobData.level = this.knobData.r + this._value.normalized * (this.height - this.knobData.r * 2);
 	          this.knob.setAttribute("cy", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("y", this.height - this.knobData.level);
-	          this.fillbar.setAttribute("height", this.knobData.level);
 	        } else {
 	          this.knobData.level = this._value.normalized * (this.width - this.knobData.r * 2) + this.knobData.r;
 	          this.knob.setAttribute("cx", this.knobData.level);
-	          this.fillbar.setAttribute("x", 0);
-	          this.fillbar.setAttribute("width", this.knobData.level);
 	        }
 	      }
 	    },
@@ -6925,7 +7157,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6949,7 +7181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  this.envelope = envelope;
 	
 	  this.element = svg.create("circle");
-	  this.element.setAttribute("fill", "#d18");
+	  this.element.setAttribute("fill", this.envelope.colors.accent);
 	
 	  this.envelope.element.appendChild(this.element);
 	
@@ -7010,10 +7242,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="envelope"></span>
 	*
 	* @example
-	* var envelope = mt.envelope('#target')
+	* var envelope = new mt.Envelope('#target')
 	*
 	* @example
-	* var envelope = mt.envelope('#target',{
+	* var envelope = new mt.Envelope('#target',{
 	*     'size': [300,150],
 	*     'scale': 1,
 	*     'points': [
@@ -7092,22 +7324,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        var _this = this;
 	
-	        this.element.style.backgroundColor = "#e7e7e7";
-	
 	        this.points.forEach(function (point) {
 	          var node = new Point(point, _this);
 	          _this.nodes.push(node);
 	        });
 	
 	        this.line = svg.create("polyline");
-	        this.line.setAttribute("stroke", "#d18");
 	        this.line.setAttribute("stroke-width", 2);
 	        this.line.setAttribute("fill", "none");
 	
 	        this.element.appendChild(this.line);
 	
 	        this.fill = svg.create("polyline");
-	        this.fill.setAttribute("fill", "#d18");
 	        this.fill.setAttribute("fill-opacity", "0.2");
 	
 	        this.element.appendChild(this.fill);
@@ -7124,6 +7352,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        this.render();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        var _this = this;
+	
+	        this.element.style.backgroundColor = this.colors.fill;
+	        this.line.setAttribute("stroke", this.colors.accent);
+	        this.fill.setAttribute("fill", this.colors.accent);
+	        this.nodes.forEach(function (node) {
+	          node.element.setAttribute("fill", _this.colors.accent);
+	        });
 	      }
 	    },
 	    render: {
@@ -7422,7 +7662,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Envelope;
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7447,10 +7687,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="spectrogram"></span>
 	*
 	* @example
-	* var spectrogram = mt.spectrogram('#target')
+	* var spectrogram = new mt.Spectrogram('#target')
 	*
 	* @example
-	* var spectrogram = mt.spectrogram('#target',{
+	* var spectrogram = new mt.Spectrogram('#target',{
 	*   'size': [300,150]
 	* })
 	*
@@ -7519,7 +7759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.analyser.getByteFrequencyData(this.dataArray);
 	
-	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
+	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        if (this.source) {
@@ -7535,7 +7775,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            barHeight /= 255;
 	            barHeight *= this.canvas.element.height;
 	
-	            this.canvas.context.fillStyle = "#d18";
+	            this.canvas.context.fillStyle = this.colors.accent;
 	            this.canvas.context.fillRect(x, this.canvas.element.height - barHeight, barWidth * definition, barHeight);
 	
 	            x += barWidth * definition;
@@ -7575,6 +7815,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.active = !this.active;
 	        this.render();
 	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.active = false;
+	      }
 	    }
 	  });
 	
@@ -7584,7 +7829,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Spectrogram;
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7609,10 +7854,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="meter"></span>
 	*
 	* @example
-	* var meter = mt.meter('#target')
+	* var meter = new mt.Meter('#target')
 	*
 	* @example
-	* var meter = mt.meter('#target',{
+	* var meter = new mt.Meter('#target',{
 	*   'size': [75,75]
 	* })
 	*
@@ -7705,7 +7950,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          requestAnimationFrame(this.render.bind(this));
 	        }
 	
-	        this.canvas.context.fillStyle = "rgb(240,240,240)";
+	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        for (var i = 0; i < this.analysers.length; i++) {
@@ -7793,6 +8038,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.active = !this.active;
 	        this.render();
 	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.active = false;
+	      }
 	    }
 	  });
 	
@@ -7802,7 +8052,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Meter;
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7826,10 +8076,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="oscilloscope"></span>
 	*
 	* @example
-	* var oscilloscope = mt.oscilloscope('#target')
+	* var oscilloscope = new mt.Oscilloscope('#target')
 	*
 	* @example
-	* var oscilloscope = mt.oscilloscope('#target',{
+	* var oscilloscope = new mt.Oscilloscope('#target',{
 	*   'size': [300,150]
 	* })
 	*
@@ -7901,11 +8151,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        this.analyser.getByteTimeDomainData(this.dataArray);
 	
-	        this.canvas.context.fillStyle = "rgb(240, 240, 240)";
+	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        this.canvas.context.lineWidth = ~ ~(this.height / 100 + 2);
-	        this.canvas.context.strokeStyle = "#d18";
+	        this.canvas.context.strokeStyle = this.colors.accent;
 	
 	        this.canvas.context.beginPath();
 	
@@ -7972,6 +8222,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.active = !this.active;
 	        this.render();
 	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.active = false;
+	      }
 	    }
 	  });
 	
@@ -7981,7 +8236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Oscilloscope;
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8033,17 +8288,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(38));
+	var transform = _interopRequireWildcard(__webpack_require__(39));
 	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
 	    _classCallCheck(this, Rack);
 	
-	    this.target = target;
-	    this.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
-	    this.title = name;
-	    this.open = open;
+	    this.meta = {};
+	    this.meta.target = target;
+	    this.meta.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
+	    this.meta.title = name;
+	    this.meta.open = open;
+	    this.meta.colors = {};
+	    var defaultColors = mt.colors;
+	    this.meta.colors.accent = defaultColors.accent;
+	    this.meta.colors.fill = defaultColors.fill;
+	    this.meta.colors.light = defaultColors.light;
+	    this.meta.colors.dark = defaultColors.dark;
+	    this.meta.colors.mediumLight = defaultColors.mediumLight;
+	    this.meta.colors.mediumDark = defaultColors.mediumDark;
 	    this.buildInterface();
+	    this.colorInterface();
 	  }
 	
 	  _createClass(Rack, {
@@ -8051,79 +8316,101 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	        var _this = this;
 	
-	        /*  this.parent.style.border = 'solid 1px #ddd';
-	          this.parent.style.padding = '0px'; */
-	        this.parent.style.userSelect = "none";
-	        this.parent.style.mozUserSelect = "none";
-	        this.parent.style.webkitUserSelect = "none";
+	        this.meta.parent.style.boxSizing = "border-box";
+	        this.meta.parent.style.userSelect = "none";
+	        this.meta.parent.style.mozUserSelect = "none";
+	        this.meta.parent.style.webkitUserSelect = "none";
 	
-	        this.contents = document.createElement("div");
+	        this.meta.contents = document.createElement("div");
 	
-	        while (this.parent.childNodes.length > 0) {
-	          this.contents.appendChild(this.parent.childNodes[0]);
+	        while (this.meta.parent.childNodes.length > 0) {
+	          this.meta.contents.appendChild(this.meta.parent.childNodes[0]);
 	        }
 	
-	        this.contents.style.padding = "10px";
+	        this.meta.contents.style.padding = "0px";
+	        this.meta.contents.style.boxSizing = "border-box";
 	
-	        if (this.title) {
-	          this.titleBar = document.createElement("div");
-	          this.titleBar.innerHTML = this.title;
-	          this.titleBar.style.fontFamily = "arial";
-	          this.titleBar.style.position = "relative";
-	          this.titleBar.style.color = "#888";
-	          this.titleBar.style.padding = "7px";
-	          this.titleBar.style.backgroundColor = "#f7f7f7";
-	          this.titleBar.style.fontSize = "12px";
+	        if (this.meta.title) {
+	          this.meta.titleBar = document.createElement("div");
+	          this.meta.titleBar.innerHTML = this.meta.title;
+	          this.meta.titleBar.style.fontFamily = "arial";
+	          this.meta.titleBar.style.position = "relative";
+	          this.meta.titleBar.style.color = "#888";
+	          this.meta.titleBar.style.padding = "7px";
+	          this.meta.titleBar.style.fontSize = "12px";
 	
-	          this.button = document.createElement("div");
-	          this.button.style.position = "absolute";
-	          this.button.style.top = "5px";
-	          this.button.style.right = "5px";
-	          this.button.innerHTML = "-";
-	          this.button.style.border = "solid 1px #ddd";
-	          this.button.style.padding = "0px 5px 2px";
-	          this.button.style.lineHeight = "12px";
-	          this.button.style.fontSize = "15px";
-	          this.button.style.backgroundColor = "#fff";
+	          this.meta.button = document.createElement("div");
+	          this.meta.button.style.position = "absolute";
+	          this.meta.button.style.top = "5px";
+	          this.meta.button.style.right = "5px";
+	          this.meta.button.innerHTML = "-";
+	          this.meta.button.style.padding = "0px 5px 2px";
+	          this.meta.button.style.lineHeight = "12px";
+	          this.meta.button.style.fontSize = "15px";
 	
-	          this.button.style.cursor = "pointer";
+	          this.meta.button.style.cursor = "pointer";
 	
-	          this.button.addEventListener("mouseover", function () {
-	            _this.button.style.backgroundColor = "#f7f7f7";
+	          this.meta.button.addEventListener("mouseover", function () {
+	            _this.meta.button.style.backgroundColor = _this.meta.colors.mediumDark;
 	          });
-	          this.button.addEventListener("mouseleave", function () {
-	            _this.button.style.backgroundColor = "#fff";
+	          this.meta.button.addEventListener("mouseleave", function () {
+	            _this.meta.button.style.backgroundColor = _this.meta.colors.mediumLight;
 	          });
-	          this.button.addEventListener("click", function () {
-	            if (_this.open) {
+	          this.meta.button.addEventListener("click", function () {
+	            if (_this.meta.open) {
 	              _this.hide();
 	            } else {
 	              _this.show();
 	            }
 	          });
 	
-	          this.titleBar.appendChild(this.button);
+	          this.meta.titleBar.appendChild(this.meta.button);
 	
-	          this.parent.appendChild(this.titleBar);
+	          this.meta.parent.appendChild(this.meta.titleBar);
 	        }
-	        this.parent.appendChild(this.contents);
+	        this.meta.parent.appendChild(this.meta.contents);
 	
-	        var width = this.parent.style.width = getComputedStyle(this.parent).getPropertyValue("width");
-	        this.parent.style.width = width;
+	        var width = this.meta.parent.style.width = getComputedStyle(this.meta.parent).getPropertyValue("width");
+	        this.meta.parent.style.width = width;
 	
-	        this.ui = transform.section(this.target);
+	        var ui = transform.section(this.meta.target);
+	        for (var key in ui) {
+	          this[key] = ui[key];
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        if (this.meta.title) {
+	          this.meta.button.style.backgroundColor = this.meta.colors.mediumLight;
+	          this.meta.button.style.border = "solid 0px " + this.meta.colors.fill;
+	          this.meta.parent.style.border = "solid 1px " + this.meta.colors.mediumLight;
+	          this.meta.parent.style.backgroundColor = this.meta.colors.light;
+	          this.meta.titleBar.style.backgroundColor = this.meta.colors.fill;
+	        }
 	      }
 	    },
 	    show: {
 	      value: function show() {
-	        this.contents.style.display = "block";
-	        this.open = true;
+	        this.meta.contents.style.display = "block";
+	        this.meta.open = true;
 	      }
 	    },
 	    hide: {
 	      value: function hide() {
-	        this.contents.style.display = "none";
-	        this.open = false;
+	        this.meta.contents.style.display = "none";
+	        this.meta.open = false;
+	      }
+	    },
+	    colorize: {
+	      value: function colorize(type, color) {
+	        for (var key in this) {
+	          if (this[key].colorize) {
+	            this[key].colorize(type, color);
+	          }
+	        }
+	        this.meta.colors[type] = color;
+	        this.colorInterface();
 	      }
 	    }
 	  });
@@ -8134,7 +8421,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8192,7 +8479,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8203,9 +8490,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var WAAClock = _interopRequire(__webpack_require__(40));
+	var WAAClock = _interopRequire(__webpack_require__(41));
 	
-	var Interval = _interopRequire(__webpack_require__(43));
+	var Interval = _interopRequire(__webpack_require__(44));
 	
 	var Time = (function () {
 	  function Time(context) {
@@ -8234,17 +8521,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Time;
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(41)
+	var WAAClock = __webpack_require__(42)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -8481,10 +8768,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(42)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)))
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -8670,7 +8957,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -8737,7 +9024,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Interval;
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8748,7 +9035,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(45));
+	var scales = _interopRequire(__webpack_require__(46));
 	
 	var Tune = (function () {
 	  function Tune() {
@@ -8983,7 +9270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9016,7 +9303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 46 */
+/* 47 */
 /***/ function(module, exports) {
 
 	"use strict";
