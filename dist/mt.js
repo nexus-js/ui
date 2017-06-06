@@ -93,12 +93,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Radio = __webpack_require__(47);
 	var Drunk = __webpack_require__(27);
 	var Sequence = __webpack_require__(26);
-	/*let StepRange = require('./models/range');
-	let StepNumber = require('./models/step');
-	let Matrix = require('./models/matrix');
-	
-	let Binary = require('./models/toggle');
-	 */
+	/*let StepRange = require('./models/range'); */
+	var Step = __webpack_require__(11);
+	var Matrix = __webpack_require__(25);
+	var Toggle = __webpack_require__(13);
 	
 	/**
 	Musician's Toolkit => created as mt
@@ -121,7 +119,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.time = new Time(this.context);
 	        this.tune = new Tune();
 	
-	        this.colors = 0;
+	        this.colors = {
+	            accent: "#2bb",
+	            fill: "#eee",
+	            light: "#fff",
+	            dark: "#333",
+	            mediumLight: "#ccc",
+	            mediumDark: "#666"
+	        };
 	
 	        this.transform = Transform;
 	    }
@@ -165,6 +170,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            })(function (sequence, mode, position, cacheSize) {
 	                return new Sequence(sequence, mode, position, cacheSize);
 	            })
+	        },
+	        matrix: {
+	            value: function matrix(rows, columns) {
+	                return new Matrix(rows, columns);
+	            }
 	        }
 	    });
 	
@@ -854,14 +864,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
-	    this.colors = {
-	      fill: "#e7e7e7",
-	      mediumLight: "#ccc",
-	      mediumDark: "#666",
-	      accent: "#2bb", // d18
-	      dark: "#333",
-	      light: "#fff"
-	    };
+	    this.colors = {};
+	    var defaultColors = mt.colors;
+	    this.colors.accent = defaultColors.accent;
+	    this.colors.fill = defaultColors.fill;
+	    this.colors.light = defaultColors.light;
+	    this.colors.dark = defaultColors.dark;
+	    this.colors.mediumLight = defaultColors.mediumLight;
+	    this.colors.mediumDark = defaultColors.mediumDark;
 	  }
 	
 	  _inherits(Interface, _EventEmitter);
@@ -6023,50 +6033,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        var division = this.width / 12;
+	        this.title = svg.create("text");
+	        this.circleLR = svg.create("circle");
+	        this.circleFB = svg.create("circle");
 	
-	        this.circles = {
-	          L: svg.create("circle"),
-	          R: svg.create("circle"),
-	          F: svg.create("circle"),
-	          B: svg.create("circle")
-	        };
+	        this.circleLR.setAttribute("cx", this.width * 3 / 12);
+	        this.circleLR.setAttribute("cy", this.height * 3 / 4);
+	        this.circleLR.setAttribute("r", this.height / 10);
+	        this.circleLR.setAttribute("opacity", "0.7");
 	
-	        this.circles.L.setAttribute("cx", this.width * 3 / 12);
-	        this.circles.L.setAttribute("cy", this.height / 2);
+	        this.circleFB.setAttribute("cx", this.width * 9 / 12);
+	        this.circleFB.setAttribute("cy", this.height * 3 / 4);
+	        this.circleFB.setAttribute("r", this.height / 10);
+	        this.circleFB.setAttribute("opacity", "0.7");
 	
-	        this.circles.R.setAttribute("cx", this.width * 9 / 12);
-	        this.circles.R.setAttribute("cy", this.height / 2);
+	        this.title.setAttribute("x", this.width / 2);
+	        this.title.setAttribute("y", this.height / 2 + 7);
+	        this.title.setAttribute("font-size", "15px");
+	        this.title.setAttribute("font-weight", "bold");
+	        this.title.setAttribute("letter-spacing", "2px");
+	        this.title.setAttribute("opacity", "0.7");
+	        this.title.setAttribute("text-anchor", "middle");
+	        this.title.textContent = "TILT";
 	
-	        this.circles.F.setAttribute("cx", this.width / 2);
-	        this.circles.F.setAttribute("cy", this.height * 3 / 12);
-	
-	        this.circles.B.setAttribute("cx", this.width / 2);
-	        this.circles.B.setAttribute("cy", this.height * 9 / 12);
-	
-	        for (var key in this.circles) {
-	          var circle = this.circles[key];
-	          circle.setAttribute("r", division * 1.5);
-	          circle.setAttribute("fill-opacity", "0.5");
-	          circle.setAttribute("stroke-width", "2");
-	          this.element.appendChild(circle);
-	        }
-	
-	        //  this.colorInterface();
+	        //  this.element.appendChild(this.circleFB);
+	        //  this.element.appendChild(this.circleLR);
+	        this.element.appendChild(this.title);
 	      }
 	    },
 	    colorInterface: {
 	      value: function colorInterface() {
-	        this.element.style.backgroundColor = this.colors.fill;
-	        for (var key in this.circles) {
-	          var circle = this.circles[key];
-	          if (this._active) {
-	            circle.setAttribute("fill", this.colors.accent);
-	            circle.setAttribute("stroke", this.colors.accent);
-	          } else {
-	            circle.setAttribute("fill", this.colors.mediumLight);
-	            circle.setAttribute("stroke", this.colors.mediumLight);
-	          }
+	
+	        if (this._active) {
+	          this.element.style.backgroundColor = this.colors.accent;
+	          this.circleFB.setAttribute("fill", this.colors.light);
+	          this.circleLR.setAttribute("fill", this.colors.light);
+	          this.title.setAttribute("fill", this.colors.light);
+	        } else {
+	          this.element.style.backgroundColor = this.colors.fill;
+	          this.circleLR.setAttribute("fill", this.colors.mediumLight);
+	          this.circleFB.setAttribute("fill", this.colors.mediumLight);
+	          this.title.setAttribute("fill", this.colors.mediumLight);
 	        }
 	      }
 	    },
@@ -6081,10 +6088,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          x = math.scale(x, -90, 90, 0, 1);
 	          y = math.scale(y, -90, 90, 0, 1);
 	
-	          this.circles.R.setAttribute("fill-opacity", x);
-	          this.circles.L.setAttribute("fill-opacity", 1 - x);
-	          this.circles.F.setAttribute("fill-opacity", 1 - y);
-	          this.circles.B.setAttribute("fill-opacity", y);
+	          //this.textH.textContent = math.prune(x,2);
+	          //this.textV.textContent = math.prune(y,2);
+	          //
+	          this.circleFB.setAttribute("opacity", x);
+	          this.circleLR.setAttribute("opacity", y);
 	
 	          this.emit("change", {
 	            x: x,
@@ -8260,14 +8268,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.meta.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
 	    this.meta.title = name;
 	    this.meta.open = open;
-	    this.meta.colors = {
-	      fill: "#eee",
-	      mediumLight: "#ccc",
-	      mediumDark: "#666",
-	      accent: "#2bb", // d18
-	      dark: "#333",
-	      light: "#fff"
-	    };
+	    this.meta.colors = {};
+	    var defaultColors = mt.colors;
+	    this.meta.colors.accent = defaultColors.accent;
+	    this.meta.colors.fill = defaultColors.fill;
+	    this.meta.colors.light = defaultColors.light;
+	    this.meta.colors.dark = defaultColors.dark;
+	    this.meta.colors.mediumLight = defaultColors.mediumLight;
+	    this.meta.colors.mediumDark = defaultColors.mediumDark;
 	    this.buildInterface();
 	    this.colorInterface();
 	  }
