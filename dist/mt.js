@@ -1195,9 +1195,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.parent.removeChild(this.element);
 	        this.removeAllListeners();
 	        if (this.instrument) {
-	          delete this.instrument.ui[this.id];
+	          delete this.instrument[this.id];
 	        }
+	        this.customDestroy();
 	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {}
 	    },
 	    colorize: {
 	      value: function colorize(type, color) {
@@ -3584,7 +3588,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.style.width = this.width + "px";
 	        this.element.style.height = this.height + "px";
 	
-	        this.element.addEventListener("change", this.render.bind(this));
+	        this.boundRender = this.render.bind(this);
+	
+	        this.element.addEventListener("change", this.boundRender);
 	
 	        this.parent.appendChild(this.element);
 	      }
@@ -3676,6 +3682,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this._selectedIndex = v;
 	        this.element.selectedIndex = v;
 	        this.render();
+	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.element.removeEventListener("change", this.boundRender);
 	      }
 	    }
 	  });
@@ -6019,7 +6030,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    //	this.boundMozTilt = this.mozTilt.bind(this)
 	
 	    if (window.DeviceOrientationEvent) {
-	      window.addEventListener("deviceorientation", this.boundUpdate, false);
+	      this.orientationListener = window.addEventListener("deviceorientation", this.boundUpdate, false);
 	    } /*else if (window.OrientationEvent) {
 	      //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
 	      } else {
@@ -6119,6 +6130,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      set: function (on) {
 	        this._active = on;
 	        this.colorInterface();
+	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        window.removeEventListener("deviceorientation", this.boundUpdate, false);
 	      }
 	    }
 	  });
@@ -7799,6 +7815,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.active = !this.active;
 	        this.render();
 	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.active = false;
+	      }
 	    }
 	  });
 	
@@ -8017,6 +8038,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.active = !this.active;
 	        this.render();
 	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.active = false;
+	      }
 	    }
 	  });
 	
@@ -8195,6 +8221,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function click() {
 	        this.active = !this.active;
 	        this.render();
+	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {
+	        this.active = false;
 	      }
 	    }
 	  });
