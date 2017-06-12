@@ -2935,8 +2935,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildFrame() {
 	
 	        this.element = document.createElement("div");
-	        this.element.innerHTML = this._text;
 	        this.parent.appendChild(this.element);
+	
+	        this.textElement = document.createElement("div");
+	        this.textElement.innerHTML = this._text;
+	        this.element.appendChild(this.textElement);
 	      }
 	    },
 	    buildInterface: {
@@ -2961,30 +2964,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        var styles = "width: " + this.width + "px;";
 	        styles += "height: " + this.height + "px;";
-	        styles += "background-color: #e7e7e7;";
-	        styles += "color: #333;";
+	        //  styles += 'background-color: #e7e7e7;';
+	        //  styles += 'color: #333;';
 	        styles += "padding: " + (this.height - textsize) / 2 + "px 0px;";
 	        styles += "box-sizing: border-box;";
 	        styles += "text-align: center;";
-	        styles += "font-family: arial;";
+	        styles += "font-family: inherit;";
 	        styles += "font-weight: 700;";
+	        styles += "opacity: 1;";
+	        //  styles += 'letter-spacing: 1px;';
 	        styles += "font-size:" + textsize + "px;";
-	        this.element.style.cssText = styles;
+	        this.textElement.style.cssText = styles;
+	        this.render();
 	      }
 	    },
 	    render: {
 	      value: function render() {
 	        if (!this.state) {
 	          this.element.style.backgroundColor = this.colors.fill;
+	          this.textElement.style.color = this.colors.dark;
 	          //if (this.alternateText) {
-	          this.element.innerHTML = this._text;
+	          this.textElement.innerHTML = this._text;
 	          //  }
 	        } else {
 	          this.element.style.backgroundColor = this.colors.accent;
+	          this.textElement.style.color = this.colors.fill;
 	          if (this.alternateText) {
-	            this.element.innerHTML = this._alternateText;
+	            this.textElement.innerHTML = this._alternateText;
 	          } else {
-	            this.element.innerHTML = this._text;
+	            this.textElement.innerHTML = this._text;
 	          }
 	        }
 	      }
@@ -5392,109 +5400,111 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Drunk = _interopRequire(__webpack_require__(27));
 	
 	var Sequence = (function () {
-	    function Sequence() {
-	        var sequence = arguments[0] === undefined ? [0, 10, 20, 30] : arguments[0];
-	        var mode = arguments[1] === undefined ? "up" : arguments[1];
-	        var position = arguments[2] === undefined ? false : arguments[2];
+	  function Sequence() {
+	    var sequence = arguments[0] === undefined ? [0, 10, 20, 30] : arguments[0];
+	    var mode = arguments[1] === undefined ? "up" : arguments[1];
+	    var position = arguments[2] === undefined ? false : arguments[2];
 	
-	        _classCallCheck(this, Sequence);
+	    _classCallCheck(this, Sequence);
 	
-	        this.values = sequence;
-	        if (!Array.isArray(this.values)) {
-	            this.values = [this.values];
+	    this.values = sequence;
+	    if (!Array.isArray(this.values)) {
+	      this.values = [this.values];
+	    }
+	    this._mode = mode;
+	    this.position = position;
+	
+	    this.drunkWalk = new Drunk(0, this.values.length - 1);
+	
+	    this.startValues = {
+	      up: 0,
+	      down: this.values.length - 1,
+	      drunk: ~ ~(this.values.length / 2),
+	      random: math.ri(this.values.length)
+	    };
+	
+	    if (this.position !== false) {
+	      this.next = this[this._mode];
+	    } else {
+	      this.next = this.first;
+	    }
+	  }
+	
+	  _createClass(Sequence, {
+	    mode: {
+	      get: function () {
+	        return this._mode;
+	      },
+	      set: function (mode) {
+	        if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
+	          console.error("The only modes currently allowed are: up, down, random, drunk");
+	          return;
 	        }
 	        this._mode = mode;
-	        this.position = position;
-	
-	        this.drunkWalk = new Drunk(0, this.values.length - 1);
-	
-	        this.startValues = {
-	            up: 0,
-	            down: this.values.length - 1,
-	            drunk: ~ ~(this.values.length / 2),
-	            random: math.ri(this.values.length)
-	        };
-	
+	        if (this.position) {
+	          this.next = this[this._mode];
+	        }
+	      }
+	    },
+	    value: {
+	      get: function () {
+	        return this.values[this.position];
+	      },
+	      set: function (v) {
+	        this.position = this.values.indexOf(v);
+	      }
+	    },
+	    first: {
+	      value: function first() {
 	        if (this.position !== false) {
-	            this.next = this[this._mode];
-	        } else {
-	            this.next = this.first;
+	          this.next = this[this._mode];
+	          return this.next();
 	        }
+	        this.position = this.startValues[this._mode];
+	        this.next = this[this._mode];
+	        return this.value;
+	      }
+	    },
+	    up: {
+	      value: function up() {
+	        this.position++;
+	        this.position %= this.values.length;
+	        return this.value;
+	      }
+	    },
+	    down: {
+	      value: function down() {
+	        this.position--;
+	        if (this.position < 0) {
+	          this.position = (this.position + this.values.length) % this.values.length;
+	        }
+	        return this.value;
+	      }
+	    },
+	    random: {
+	      value: function random() {
+	        this.position = math.ri(0, this.values.length);
+	        return this.value;
+	      }
+	    },
+	    drunk: {
+	      value: function drunk() {
+	        this.drunkWalk.max = this.values.length;
+	        this.drunkWalk.value = this.position;
+	        this.position = this.drunkWalk.next();
+	        return this.value;
+	      }
+	
+	      /* future methods
+	      .group(start,stop) -- outputs a group of n items from the list, with wrapping
+	      .loop(start,stop) -- confines sequencing to a subset of the values
+	          (could even have a distinction between .originalValues and the array of values being used)
+	      */
+	
 	    }
+	  });
 	
-	    _createClass(Sequence, {
-	        mode: {
-	            get: function () {
-	                return this._mode;
-	            },
-	            set: function (mode) {
-	                if (!(mode === "up" || mode === "down" || mode === "random" || mode === "drunk")) {
-	                    console.error("The only modes currently allowed are: up, down, random, drunk");
-	                    return;
-	                }
-	                this._mode = mode;
-	                if (this.position) {
-	                    this.next = this[this._mode];
-	                }
-	            }
-	        },
-	        value: {
-	            get: function () {
-	                return this.values[this.position];
-	            },
-	            set: function (v) {
-	                this.position = this.values.indexOf(v);
-	            }
-	        },
-	        first: {
-	            value: function first() {
-	                if (this.position !== false) {
-	                    this.next = this[this._mode];
-	                    return this.next();
-	                }
-	                this.position = this.startValues[this._mode];
-	                this.next = this[this._mode];
-	                return this.value;
-	            }
-	        },
-	        up: {
-	            value: function up() {
-	                this.position++;
-	                this.position %= this.values.length;
-	                return this.value;
-	            }
-	        },
-	        down: {
-	            value: function down() {
-	                this.position--;
-	                this.position %= this.values.length;
-	                return this.value;
-	            }
-	        },
-	        random: {
-	            value: function random() {
-	                this.position = math.ri(0, this.values.length);
-	                return this.value;
-	            }
-	        },
-	        drunk: {
-	            value: function drunk() {
-	                this.drunkWalk.max = this.values.length;
-	                this.drunkWalk.value = this.position;
-	                this.position = this.drunkWalk.step();
-	                return this.value;
-	            }
-	
-	            /* future methods
-	            .group(start,stop) -- outputs a group of n items from the list, with wrapping
-	            .loop(start,stop) -- confines sequencing to a subset of the values
-	                (could even have a distinction between .originalValues and the array of values being used)
-	            */
-	
-	        }
-	    });
-	
-	    return Sequence;
+	  return Sequence;
 	})();
 	
 	module.exports = Sequence;
@@ -5531,8 +5541,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(Drunk, {
-	        step: {
-	            value: function step() {
+	        next: {
+	            value: function next() {
 	                this.value += math.pick(-1 * this.increment, this.increment);
 	                if (this.value > this.max) {
 	                    if (this.loop) {
@@ -5658,7 +5668,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                this.drunkWalk.min = this.min;
 	                this.drunkWalk.max = this.max;
 	                this.drunkWalk.value = this.value;
-	                this.value = this.drunkWalk.step();
+	                this.value = this.drunkWalk.next();
 	                return this.value;
 	            }
 	        }

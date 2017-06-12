@@ -4,7 +4,7 @@
   <meta charset='utf-8' />
   <title>  | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link href="https://fonts.googleapis.com/css?family=Muli:400,700" rel="stylesheet">
+<!--  <link href="https://fonts.googleapis.com/css?family=Muli:400,700" rel="stylesheet"> -->
   <script src="js/jquery.js"></script>
   <link rel='stylesheet' href='prism/prism.css' />
   <script src="prism/prism.js"></script>
@@ -14,75 +14,84 @@
 </head>
 <body class='documentation'>
 
-  <div id="sidebar" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
 
-    <h2>NexusUI</h2>
-    <a href="#intro">Getting Started</a><br />
-    <a href="#colors">Colors &amp; Styling</a><br />
-    <a href="#tutorials">More Tutorials</a><br />
-  <!--  <a href="">Creating a Rack</a><br />
-    <a href="">Connecting a Number box</a><br />
-    <a href="">Composing with mt.matrix</a><br /> -->
+  <div id="menu-tab" onclick="toggleSidebar()">
+  <!--  <div style="font-size:30px;padding:10px;text-align:center;">Menu</div> -->
+    <img src="media/hamburger.png" width="40px">
+  </div>
 
-    <h2>Interfaces</h2>
+  <div id="sidebar" class="menuClosed">
 
-    <h3>Core</h3>
-    <a href="#Button">button</a><br />
-    <a href="#Dial">dial</a><br />
-    <a href="#Number">number</a><br />
-    <a href="#Position">position</a><br />
-    <a href="#Slider">slider</a><br />
-    <a href="#Toggle">toggle</a><br />
+      <!--  onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';" -->
 
-    <h3>General</h3>
-    <a href="#Envelope">envelope</a><br />
-    <a href="#Multislider">multislider</a><br />
-    <a href="#Piano">piano</a><br />
-    <a href="#RadioButton">radiobutton</a><br />
-    <a href="#Select">select</a><br />
-  <!--  <a href="#Range">range</a><br /> -->
-    <a href="#Sequencer">sequencer</a><br />
-    <a href="#TextButton">textbutton</a><br />
-  <!--  <a href="#Waveform">waveform</a><br /> -->
+      <h2>NexusUI</h2>
+      <a href="#intro">Getting Started</a><br />
+      <a href="#colors">Colors &amp; Styling</a><br />
+      <a href="#tutorials">More Tutorials</a><br />
+    <!--  <a href="">Creating a Rack</a><br />
+      <a href="">Connecting a Number box</a><br />
+      <a href="">Composing with mt.matrix</a><br /> -->
 
+      <h2>Interfaces</h2>
 
-    <h3>Mobile</h3>
-    <a href="#Tilt">tilt</a><br />
+      <h3>Core</h3>
+      <a href="#Button">button</a><br />
+      <a href="#Dial">dial</a><br />
+      <a href="#Number">number</a><br />
+      <a href="#Position">position</a><br />
+      <a href="#Slider">slider</a><br />
+      <a href="#Toggle">toggle</a><br />
 
-    <h3>Spatialization</h3>
-    <a href="#Pan">pan</a><br />
-    <a href="#Pan2D">pan2d</a><br />
-
-    <h3>Visualization</h3>
-    <a href="#Meter">meter</a><br />
-    <a href="#Oscilloscope">oscilloscope</a><br />
-    <a href="#Spectrogram">spectragram</a><br />
+      <h3>General</h3>
+      <a href="#Envelope">envelope</a><br />
+      <a href="#Multislider">multislider</a><br />
+      <a href="#Piano">piano</a><br />
+      <a href="#RadioButton">radiobutton</a><br />
+      <a href="#Select">select</a><br />
+    <!--  <a href="#Range">range</a><br /> -->
+      <a href="#Sequencer">sequencer</a><br />
+      <a href="#TextButton">textbutton</a><br />
+    <!--  <a href="#Waveform">waveform</a><br /> -->
 
 
-    <h2>Tuning</h2>
-    <a href="#tune">tune</a><br />
+      <h3>Mobile</h3>
+      <a href="#Tilt">tilt</a><br />
 
-    <h2>Timing</h2>
-    <a href="#interval">interval</a><br />
+      <h3>Spatialization</h3>
+      <a href="#Pan">pan</a><br />
+      <a href="#Pan2D">pan2d</a><br />
 
-    <h2>Models</h2>
-    <a href="#counter">counter</a><br />
-    <a href="#sequence">sequence</a><br />
-    <a href="#drunk">drunk</a><br />
-    <a href="#matrix">matrix</a><br />
+      <h3>Visualization</h3>
+      <a href="#Meter">meter</a><br />
+      <a href="#Oscilloscope">oscilloscope</a><br />
+      <a href="#Spectrogram">spectragram</a><br />
 
-    <h2>Helpers</h2>
-    <a href="#ri">ri (random integer)</a><br />
-    <a href="#rf">rf (random float)</a><br />
-    <a href="#clip">clip</a><br />
-    <a href="#scale">scale</a><br />
-    <a href="#mtof">mtof</a><br />
-    <a href="#interp">interp</a><br />
-    <a href="#pick">pick</a><br />
-    <a href="#octave">octave</a><br />
-    <a href="#distance">distance</a><br />
-    <a href="#average">average</a><br />
-    <a href="#coin">coin</a><br />
+
+      <h2>Tuning</h2>
+      <a href="#tune">tune</a><br />
+
+      <h2>Timing</h2>
+      <a href="#interval">interval</a><br />
+
+      <h2>Models</h2>
+      <a href="#counter">counter</a><br />
+      <a href="#sequence">sequence</a><br />
+      <a href="#drunk">drunk</a><br />
+      <a href="#matrix">matrix</a><br />
+
+      <h2>Helpers</h2>
+      <a href="#ri">ri (random integer)</a><br />
+      <a href="#rf">rf (random float)</a><br />
+      <a href="#clip">clip</a><br />
+      <a href="#scale">scale</a><br />
+      <a href="#mtof">mtof</a><br />
+      <a href="#interp">interp</a><br />
+      <a href="#pick">pick</a><br />
+      <a href="#octave">octave</a><br />
+      <a href="#distance">distance</a><br />
+      <a href="#average">average</a><br />
+      <a href="#coin">coin</a><br />
+
   </div>
 
   <div id="tutorial" class="tutorial">
@@ -239,8 +248,9 @@
 
     <div id="intro" class="custom-tutorial" style="display:none">
       &nbsp;
-      <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Musician's Toolkit</h1>
-      <h2 style="margin: 10px auto 0px;width:100%;font-size:18pt;font-weight:normal">NexusUI Web Audio Interfaces v. 2.0</h2>
+      <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">NexusUI</h1>
+      <h2 style="margin: 10px auto 0px;width:100%;font-size:18pt;font-weight:normal">Web Audio Interfaces</h2>
+      <h3 style="margin: 10px auto 0px;width:100%;font-size:14pt;font-weight:normal">Version 2</h3>
 
       <div style="margin:0px auto">
 
@@ -725,39 +735,156 @@ Creating a Matrix Model from scratch...
       <!-- section -->
 
       <h3>Understanding Matrix.pattern</h3>
-       <p>
-         <span class="codesnipper">mt.note()</span> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
-       </p>
 
-       <pre>
-         <code class="language-javascript">
-  synth.frequency.value = mt.note(0) // returns the root
-         </code>
-       </pre>
-
-
-       <!-- section -->
-
-       <h3>Control Methods</h3>
-       <p>
-         For other ways of retrieving pitch data, ... <b>mt.tune.frequency</b>, <b>mt.tune.ratio</b>, and <b>mt.tune.midi</b>
-       </p>
-
-      <h4>.set</h4>
-      <pre><code class="language-javascript">
-  // Create a minor scale
-  mt.tune.createScale(0,2,3,5,7,8,10);
-      </code></pre>
-
-
-      <h4>.toggle</h4>
-      <pre><code class="language-javascript">
-  // Create a major scale in just intonation
-  mt.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
-      </code></pre>
 
     </div>
 
+
+
+
+
+    <!--
+
+    MT.COUNTER
+
+    -->
+
+      <div id="counter" class="custom-tutorial" style="display:none">
+        <h2>Counter Model</h2>
+
+        <p>
+          A Counter model is an object with a minimal API for counting up or down.
+        </p>
+         <pre><code class="language-javascript">
+counter = mt.counter(0,10)
+counter.next()    // returns 0
+counter.next()    // returns 1
+counter.next()    // returns 2
+// ...
+counter.next()    // returns 9
+counter.next()    // returns 10
+counter.next()    // returns 0
+         </code></pre>
+
+        <!-- section -->
+
+        <h3>Modes</h3>
+
+        The counter method takes an optional third argument for the counting mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
+
+        <pre><code class="language-javascript">
+counter = mt.counter(0,10,"down")
+counter.next()    // returns 10
+counter.next()    // returns 9
+counter.next()    // returns 8
+        </code></pre>
+
+        <h3>Properties</h3>
+
+        <pre><code class="language-javascript">
+counter.min = 10
+counter.max = 100
+counter.mode = "down"
+counter.value = 50  // jumps the counter to this value
+        </code></pre>
+
+
+      </div>
+
+
+
+
+      <!--
+
+      MT.SEQUENCE
+
+      -->
+
+      <div id="sequence" class="custom-tutorial" style="display:none">
+        <h2>Sequence Model</h2>
+
+        <p>
+          A Sequence model steps through a series of numeric values defined by you.
+        </p>
+         <pre><code class="language-javascript">
+var sequence = mt.sequence([1,3,5,7])
+sequence.next()    // returns 1
+sequence.next()    // returns 3
+sequence.next()    // returns 5
+sequence.next()    // returns 7
+sequence.next()    // returns 1
+sequence.next()    // returns 3
+         </code></pre>
+
+        <!-- section -->
+
+        <h3>Modes</h3>
+
+        The sequence model takes an optional second argument for the sequence mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
+
+        <pre><code class="language-javascript">
+var sequence = mt.sequence([1,3,5,7],"down")
+sequence.next()    // returns 7
+sequence.next()    // returns 5
+sequence.next()    // returns 3
+sequence.next()    // returns 1
+sequence.next()    // returns 7
+sequence.next()    // returns 5
+        </code></pre>
+
+        <h3>Properties</h3>
+
+        <pre><code class="language-javascript">
+sequence.values = [2,4,5,8]   // updates the sequence of values
+sequence.mode = "drunk"
+sequence.value = 2   // this jumps to where the '2' value is in the sequence, which is index 0.
+        </code></pre>
+
+
+      </div>
+
+
+
+
+      <!--
+
+      MT.DRUNK
+
+      -->
+
+      <div id="drunk" class="custom-tutorial" style="display:none">
+        <h2>Drunk Model</h2>
+
+        <p>
+          A Drunk Model does a "drunk walk" through a given range, meaning it will randomly step up or down by a given increment.
+        </p>
+         <pre><code class="language-javascript">
+// This drunk model has a range of 0 to 100
+// Its starting value is 50
+// Its stepping increment is 10
+var drunk = mt.drunk(0,100,50,10)
+drunk.next()    // returns 40
+drunk.next()    // returns 50
+drunk.next()    // returns 40
+drunk.next()    // returns 30
+drunk.next()    // returns 40
+drunk.next()    // returns 30
+         </code></pre>
+
+        <!-- section -->
+
+
+        <h3>Properties</h3>
+
+        <pre><code class="language-javascript">
+drunk.min = 100
+drunk.max = 1000
+drunk.increment = 100
+drunk.value = 500   // jumps to this value
+        </code></pre>
+
+
+      </div>
 
 
 
@@ -1114,6 +1241,19 @@ Creating a Matrix Model from scratch...
       helper(name);
     }
   }
+
+  var menuOpen = false;
+  function toggleSidebar() {
+    if (menuOpen) {
+      $("#sidebar").removeClass("menuOpen")
+      $("#sidebar").addClass("menuClosed")
+      menuOpen = false;
+    } else {
+      $("#sidebar").removeClass("menuClosed")
+      $("#sidebar").addClass("menuOpen")
+      menuOpen = true;
+    }
+  }
 </script>
 <style>
 
@@ -1124,7 +1264,9 @@ Creating a Matrix Model from scratch...
     width:100%;
     user-select:#000 !important;
   }
-
+  #menu-tab {
+    display:none;
+  }
   #sidebar {
     position:fixed;
     height:100%;
@@ -1294,6 +1436,49 @@ Creating a Matrix Model from scratch...
   #intro h5 {
     margin-top:35px;
     font-size:20pt;
+  }
+
+
+
+
+  @media (max-width: 840px) {
+    body {
+      height:auto;
+    }
+    #menu-tab {
+      background-color:#000;
+      color:#fff;
+      text-align:left;
+      padding:20px 20px;
+      overflow:auto;
+      cursor:pointer;
+      display:block;
+    }
+    #menu-tab img {
+      float:right;
+    }
+    #sidebar {
+      width:100%;
+      position:relative;
+    /*  top:70px; */
+      background-color:white;
+      padding-bottom: 100px;
+    /*  display:none; */
+      overflow:auto;
+      height:100%;
+    }
+    #sidebar a, #sidebar h2, #sidebar h3 {
+      font-size:120%;
+    }
+    #tutorial {
+      margin-left:0px;
+    }
+    .menuClosed {
+      display:none;
+    }
+    .menuOpen {
+      display:block;
+    }
   }
 
 </style>
