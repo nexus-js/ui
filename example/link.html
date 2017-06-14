@@ -10,8 +10,8 @@
 </head>
 <body style="margin:0;padding;0">
   <div id="all-interfaces">
-    <div mt="Dial" id="dial"></div>
-    <div mt="Number" id="number"></div>
+    <span mt="Dial" id="dial"></span><br />
+    <span mt="Number" id="number"></span>
   </div>
 </body>
 <script>
@@ -19,7 +19,7 @@
   mt.context = Tone.context;
 
   ui = mt.rack('all-interfaces');
-  
+
   ui.number.link(ui.dial)
 
 </script>

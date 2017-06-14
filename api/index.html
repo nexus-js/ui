@@ -29,7 +29,7 @@
       <a href="#colors">Changing Colors</a><br />
     <!--  <a href="#tutorials">More Tutorials</a><br /> -->
       <a href="#rack">Creating a Rack</a><br />
-      <a href="#sync">Number Boxes</a><br />
+      <a href="#sync">Syncing Number Boxes</a><br />
 
       <h2>Interfaces</h2>
 
@@ -522,22 +522,19 @@ dial.on('change',function(v) {
 
             <div id="sync" class="custom-tutorial" style="display:none">
               &nbsp;
-              <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Syncing a Number Box to a Dial or Slider</h1>
+              <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Linking a Number Box to a Dial or Slider</h1>
 
 
               <p>
-                You can change an interface's colors using <b>.colorize()</b>
+                A number box can be linked to the value of a dial or slider using <b>.link()</b>
+
+                <br /><br />
+                In this case, when the dial or slider is updated, the number box will show its numeric value. When the number box is updated or interacted with, the dial or slider will be updated to the new value as well.
+
               </p>
 
               <p data-height="266" data-theme-id="0" data-slug-hash="eRdNaB" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/eRdNaB/">Colors</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
               <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
-
-
-              <br /><br />
-              Alternately, you can set <b>mt.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
-              <a href="https://codepen.io/taylorbf/pen/zzKGgz">See example on CodePen.</a>
-
-              <br /><br />
 
 
             </div>
