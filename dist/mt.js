@@ -3444,7 +3444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    passiveUpdate: {
 	      value: function passiveUpdate(v) {
-	        this.value = v;
+	        this._value.update(v);
 	        this.render();
 	      }
 	    },

@@ -26,11 +26,10 @@
 
       <h2>NexusUI</h2>
       <a href="#intro">Getting Started</a><br />
-      <a href="#colors">Colors &amp; Styling</a><br />
-      <a href="#tutorials">More Tutorials</a><br />
-    <!--  <a href="">Creating a Rack</a><br />
-      <a href="">Connecting a Number box</a><br />
-      <a href="">Composing with mt.matrix</a><br /> -->
+      <a href="#colors">Changing Colors</a><br />
+    <!--  <a href="#tutorials">More Tutorials</a><br /> -->
+      <a href="#rack">Creating a Rack</a><br />
+      <a href="#sync">Number Boxes</a><br />
 
       <h2>Interfaces</h2>
 
@@ -349,7 +348,7 @@ dial.on('change',function(v) {
          If you use Node.JS, this should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
        </p>
 
-       <p>
+    <!--   <p>
         Example:
        </p>
 
@@ -399,6 +398,149 @@ dial.on('change',function(v) {
 
 
 
+
+
+
+
+
+
+
+
+      <!--
+
+      COLORS
+
+      -->
+
+        <div id="colors" class="custom-tutorial" style="display:none">
+          &nbsp;
+          <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Colors</h1>
+
+
+          <p>
+            You can change an interface's colors using <b>.colorize()</b>
+          </p>
+
+          <p data-height="266" data-theme-id="0" data-slug-hash="eRdNaB" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/eRdNaB/">Colors</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+          <br /><br />
+          Alternately, you can set <b>mt.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
+          <a href="https://codepen.io/taylorbf/pen/zzKGgz">See example on CodePen.</a>
+
+          <br /><br />
+
+        <!--  <p data-height="265" data-theme-id="0" data-slug-hash="zzKGgz" data-default-tab="result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors - Inheritance" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/zzKGgz/">Colors - Inheritance</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
+
+        <!--  <p data-height="265" data-theme-id="0" data-slug-hash="zzKGgz" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors - Inheritance" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/zzKGgz/">Colors - Inheritance</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
+
+          A complete list of color properties used in the interfaces are:
+          <b>accent</b>,
+          <b>fill</b>,
+          <b>dark</b>,
+          <b>light</b>,
+          <b>mediumDark</b>,
+          <b>mediumLight</b>.
+          Not all interfaces use all of these colors.
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+        <!--
+
+        RACK
+
+        -->
+
+          <div id="rack" class="custom-tutorial" style="display:none">
+            &nbsp;
+            <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Creating a Rack</h1>
+
+
+            <p>
+              You can create many interface components at once using <b>mt.rack()</b>. Here is an example:
+            </p>
+
+            <p data-height="265" data-theme-id="0" data-slug-hash="RgGMJm" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Creating a Rack" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/RgGMJm/">Creating a Rack</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+             <!--<iframe width="100%" height="300" src="//jsfiddle.net/suncannon/e8vtubc2/1/embedded/js,html,result/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+-->
+            <br /><br />
+
+            <div style="font-size:1.1em">
+
+              First, create a container element with an ID. This will be the container of the rack.
+              <br /><br />
+                Inside that container, create several elements with <b>mt</b> attributes descibing what type of interface it should become, such as <b>mt="dial"</b>.
+<br /><br />
+                Give each interface element an ID which will be used to identify it in JavaScript later.
+<br /><br />
+                In your JavaScript, use <b>mt.rack("#ContainerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>mt</b> attributes will be transformed into interface elements.
+
+
+              <br /><br />
+
+              Rack methods:<br />
+              <b>.hide()</b><br />
+              <b>.show()</b><br />
+              <b>.colorize()</b><br />
+
+              <br /><br />
+
+
+          </div>
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+          <!--
+
+          SYNCING NUMBER BOXES
+
+          -->
+
+            <div id="sync" class="custom-tutorial" style="display:none">
+              &nbsp;
+              <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Syncing a Number Box to a Dial or Slider</h1>
+
+
+              <p>
+                You can change an interface's colors using <b>.colorize()</b>
+              </p>
+
+              <p data-height="266" data-theme-id="0" data-slug-hash="eRdNaB" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/eRdNaB/">Colors</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+              <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+              <br /><br />
+              Alternately, you can set <b>mt.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
+              <a href="https://codepen.io/taylorbf/pen/zzKGgz">See example on CodePen.</a>
+
+              <br /><br />
+
+
+            </div>
 
 
 
@@ -1334,6 +1476,7 @@ drunk.value = 500   // jumps to this value
   var Unformatted = {}
   var API = {}
   var Helpers = []
+  mt.context.close();
   mt.context = Tone.context;
 
 
@@ -1341,14 +1484,12 @@ drunk.value = 500   // jumps to this value
     data.forEach(function(entry) {
       Unformatted[entry.name] = entry
     })
-    console.log(Unformatted)
 
 
     // Parse Helper doc into Helpers object
     for (var key in Unformatted) {
       if ( LoadLinks.Helper.indexOf(key) >=0 ) {
         var unformatted = Unformatted[key]
-        console.log(unformatted);
         var entry = {
           name: unformatted.name,
           parameters: unformatted.params,
@@ -1661,7 +1802,7 @@ drunk.value = 500   // jumps to this value
       'Oscilloscope', 'Spectrogram'
     ],
     "Tut": [
-      'tune', 'interval', 'counter', 'sequence', 'drunk', 'matrix', 'intro',
+      'tune', 'interval', 'counter', 'sequence', 'drunk', 'matrix', 'intro', 'colors', 'rack', 'sync'
     ],
     "Helper": [
       'ri', 'rf', 'clip', 'scale', 'mtof', 'interp', 'pick', 'octave', 'distance', 'average', 'coin'
