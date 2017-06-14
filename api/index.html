@@ -20,9 +20,9 @@
     <img src="media/hamburger.png" width="40px">
   </div>
 
-  <div id="sidebar" class="menuClosed">
+  <div id="sidebar" class="menuClosed" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';" >
 
-      <!--  onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';" -->
+      <!--  -->
 
       <h2>NexusUI</h2>
       <a href="#intro">Getting Started</a><br />
@@ -702,16 +702,454 @@ interval.event = function() {
 <br />
 Creating a Matrix Model from scratch...
        <pre><code class="language-javascript">
-  matrix = new mt.Matrix(10,5);
-  matrix.toggle.cell(1,1);
-  matrix.rotate.row(1);
-
-  console.log( matrix.pattern );
-  console.log( matrix.length );
-
-  // matrix.format() returns a text visualization with 1s and 0s.
-  console.log( matrix.format() );
+matrix = mt.matrix(5,10);
        </code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+
+
+<h3>Accessing a Matrix's Values</h3>
+<br />
+<b>matrix.pattern</b> contains a 2-dimensional JavaScript array. <b>matrix.pattern[0]</b> contains an array of the first row's values. <b>matrix.pattern[0][0]</b> contains the value of the first cell in the first row.
+<br /><br />
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+console.log( matrix.pattern );
+
+</code></pre>
+
+<br /><br /><br />
+
+
+
+
+
+
+
+
+<h3>Toggling cells</h3>
+<br />
+<b>matrix.toggle</b> flips a cell or group of cells to their opposite state
+<br /><br />
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.toggle.cell(2,2)
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.toggle.cell(2,2)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+<pre><code class="language-javascript">
+matrix.toggle.row(2)
+
+</code></pre>
+
+<pre><script>
+matrix.toggle.row(2)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+<pre><code class="language-javascript">
+matrix.toggle.column(2)
+
+</code></pre>
+
+<pre><script>
+matrix.toggle.column(2)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+<pre><code class="language-javascript">
+matrix.toggle.all()
+
+</code></pre>
+
+<pre><script>
+matrix.toggle.all()
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+
+
+
+
+
+
+<!-- -->
+
+
+
+<h3>Setting cells</h3>
+<br />
+<b>matrix.toggle</b> flips a cell or group of cells to their opposite state
+<br /><br />
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.set.cell(0,0,1)
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.set.cell(0,0,1)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+<pre><code class="language-javascript">
+matrix.set.row(0,[0,1,0,1,0,1,0,1,0,1])
+
+</code></pre>
+
+<pre><script>
+matrix.set.row(0,[0,1,0,1,0,1,0,1,0,1])
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+<pre><code class="language-javascript">
+matrix.set.column(0,[0,1,1,1,0])
+
+</code></pre>
+
+<pre><script>
+matrix.set.column(0,[0,1,1,1,0])
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+<pre><code class="language-javascript">
+matrix.set.all([
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1]
+])
+
+</code></pre>
+
+<pre><script>
+matrix.set.all([
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1],
+  [0,1,0,1,0,1,0,1,0,1]
+])
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- -->
+
+
+
+<h3>Rotating</h3>
+<br />
+<b>matrix.rotate</b> moves parts of the matrix to the right or left
+<br /><br />
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.toggle.cell(0,0)
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.toggle.cell(0,0)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+<pre><code class="language-javascript">
+matrix.rotate.row(0)
+
+</code></pre>
+
+<pre><script>
+matrix.rotate.row(0)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+<pre><code class="language-javascript">
+matrix.rotate.row(0,4)
+
+</code></pre>
+
+<pre><script>
+matrix.rotate.row(0,4)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+<pre><code class="language-javascript">
+matrix.rotate.column(5)
+
+</code></pre>
+
+<pre><script>
+matrix.rotate.column(5)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+<pre><code class="language-javascript">
+matrix.rotate.all(2)
+
+</code></pre>
+
+<pre><script>
+matrix.rotate.all(2)
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+
+
+
+
+
+
+<!-- -->
+
+
+
+<h3>Populating with Patterns</h3>
+<br />
+<b>matrix.populate</b> can set row or column using a pattern.
+<br /><br />
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.populate.row( 0, [0,1] )
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.populate.row( 0, [0,1] )
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.populate.column( 0, [0,1] )
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.populate.column( 0, [0,1] )
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.populate.all( [0,1] )
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.populate.all( [0,1] )
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+
+
+
+
+
+
+<!-- -->
+
+
+
+<h3>Populating with Probability</h3>
+<br />
+<b>matrix.populate</b> can set row or column using a pattern of probability values.
+<br /><br />
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.populate.row( 0, [0.3, 0.6] )
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.populate.row( 0, [0.3, 0.3] )
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.populate.column( 0, [0.5] )
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.populate.column( 0, [0.5] )
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+<pre><code class="language-javascript">
+var matrix = mt.matrix(5,10);
+matrix.populate.all( [0.2, 0.5, 0.2, 0.8] )
+
+</code></pre>
+
+<pre><script>
+var matrix = mt.matrix(5,10);
+matrix.populate.all( [0.2, 0.5, 0.2, 0.8] )
+document.write(matrix.formatAsText())
+</script>
+
+
+
+</pre>
+
+
+
+
+
+
 
   <!--     <pre><code class="language-javascript">
   // Every 100ms, play a random note from a random octave in the major scale
@@ -722,19 +1160,16 @@ Creating a Matrix Model from scratch...
   })
        </code></pre> -->
 
-  Working with a sequencer's Matrix Model.
+  <h3>Matrix and the Sequencer Interface</h3>
+
+  The sequencer interface uses a matrix model to hold its grid of values. You can use any of the above matrix manipulation methods on your sequencer grid, using the sequencer's <b>.matrix</b> property.
       <pre><code class="language-javascript">
   var sequencer = new mt.Sequencer("#target",5,10);
   sequencer.matrix.toggle.row(2);
   sequencer.matrix.set.row(1, [0,1,0,1,0,1,0,1,0,1])
       </code></pre>
 
-
-
-
-      <!-- section -->
-
-      <h3>Understanding Matrix.pattern</h3>
+<br /><br /><br /><br />
 
 
     </div>
@@ -1098,6 +1533,7 @@ drunk.value = 500   // jumps to this value
       var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
       load(hash);
       window.scrollTo(0,0);
+      toggleSidebar(false);
     }, false);
 
 
@@ -1243,7 +1679,10 @@ drunk.value = 500   // jumps to this value
   }
 
   var menuOpen = false;
-  function toggleSidebar() {
+  function toggleSidebar(on) {
+    if (on || on==false) {
+      menuOpen = !on;
+    }
     if (menuOpen) {
       $("#sidebar").removeClass("menuOpen")
       $("#sidebar").addClass("menuClosed")
@@ -1441,7 +1880,7 @@ drunk.value = 500   // jumps to this value
 
 
 
-  @media (max-width: 840px) {
+  @media (max-width: 730px) {
     body {
       height:auto;
     }
@@ -1453,25 +1892,31 @@ drunk.value = 500   // jumps to this value
       overflow:auto;
       cursor:pointer;
       display:block;
+      position:fixed;
+      top:0px;
+      right:0px;
+      width:100%;
     }
     #menu-tab img {
       float:right;
     }
     #sidebar {
       width:100%;
-      position:relative;
-    /*  top:70px; */
-      background-color:white;
+      position:absolute;
+      top:70px;
       padding-bottom: 100px;
-    /*  display:none; */
+     /* display:none; */
       overflow:auto;
       height:100%;
+      background-color:white;
+      z-index:3;
     }
     #sidebar a, #sidebar h2, #sidebar h3 {
       font-size:120%;
     }
     #tutorial {
       margin-left:0px;
+      margin-top: 70px;
     }
     .menuClosed {
       display:none;

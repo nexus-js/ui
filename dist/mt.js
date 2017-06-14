@@ -5180,7 +5180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // so populate(0.7) would give each cell a 70% chance of being 1
 	    this.populate = {
 	      all: function (odds) {
-	        odds = new Sequence(odds);
+	        var odds = new Sequence(odds);
 	        _this.iterate(function (r, c) {
 	          _this.pattern[r][c] = math.coin(odds.next());
 	        });
@@ -5194,9 +5194,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      row: function () {
 	        var row = arguments[0] === undefined ? 0 : arguments[0];
-	        var odds = arguments[1] === undefined ? 0.5 : arguments[1];
+	        var odds = arguments[1] === undefined ? 1 : arguments[1];
 	
-	        odds = new Sequence(odds);
+	        var odds = new Sequence(odds);
 	        _this.pattern[row].forEach(function (cell, i) {
 	          _this.pattern[row][i] = math.coin(odds.next());
 	        });
@@ -5206,9 +5206,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      column: function () {
 	        var column = arguments[0] === undefined ? 0 : arguments[0];
-	        var odds = arguments[1] === undefined ? 0.5 : arguments[1];
+	        var odds = arguments[1] === undefined ? 1 : arguments[1];
 	
-	        odds = new Sequence(odds);
+	        var odds = new Sequence(odds);
 	        _this.pattern.forEach(function (row, i) {
 	          _this.pattern[i][column] = math.coin(odds.next());
 	        });
