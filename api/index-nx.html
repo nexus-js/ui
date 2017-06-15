@@ -281,13 +281,13 @@
       </p>
 
       <p>
-        Link to mt.js in your HTML file.
+        Link to nexusui.js in your HTML file.
       </p>
 
        <pre><code class="language-html">
 &lt;html&gt;
   &lt;head&gt;
-    &lt;script src="path/to/mt.js"&gt;&lt;/script&gt;
+    &lt;script src="path/to/nexusui.js"&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
 
@@ -304,14 +304,14 @@
        <pre><code class="language-html">
 &lt;html&gt;
   &lt;head&gt;
-    &lt;script src="path/to/mt.js"&gt;&lt;/script&gt;
+    &lt;script src="path/to/nexusui.js"&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
 
     &lt;div id="dial"&gt;&lt;/div&gt;
 
     &lt;script&gt;
-      var dial = new mt.Dial('#dial')
+      var dial = nx.dial('#dial')
     &lt;/script&gt;
 
   &lt;/body&gt;
@@ -337,7 +337,7 @@
        </p>
 
        <pre><code class="language-js">
-var dial = new mt.Dial("#dial");
+var dial = nx.dial("#dial");
 
 dial.on('change',function(v) {
   // v holds the new numeric value of the dial
@@ -426,7 +426,7 @@ dial.on('change',function(v) {
 
 
           <br /><br />
-          Alternately, you can set <b>mt.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
+          Alternately, you can set <b>nx.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
           <a href="https://codepen.io/taylorbf/pen/zzKGgz">See example on CodePen.</a>
 
           <br /><br />
@@ -470,7 +470,7 @@ dial.on('change',function(v) {
 
 
             <p>
-              You can create many interface components at once using <b>mt.rack()</b>. Here is an example:
+              You can create many interface components at once using <b>nx.rack()</b>. Here is an example:
             </p>
 
             <p data-height="265" data-theme-id="0" data-slug-hash="RgGMJm" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Creating a Rack" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/RgGMJm/">Creating a Rack</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
@@ -488,7 +488,7 @@ dial.on('change',function(v) {
 <br /><br />
                 Give each interface element an ID which will be used to identify it in JavaScript later.
 <br /><br />
-                In your JavaScript, use <b>mt.rack("#ContainerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>mt</b> attributes will be transformed into interface elements.
+                In your JavaScript, use <b>nx.rack("#ContainerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>mt</b> attributes will be transformed into interface elements.
 
 
               <br /><br />
@@ -546,7 +546,7 @@ dial.on('change',function(v) {
 
 <!--
 
-MT.TUNE
+nx.TUNE
 
 -->
 
@@ -554,15 +554,15 @@ MT.TUNE
     <h2>Tuning</h2>
 
     <p>
-      <b>mt.note()</b> and <b>mt.tune</b> offer ways to manage pitches and scales.
+      <b>nx.note()</b> and <b>nx.tune</b> offer ways to manage pitches and scales.
     </p>
 
      <pre><code class="language-javascript">
-// mt.note(0) returns the frequency of the 1st note of the scale
-synth.frequency.value = mt.note(0);
+// nx.note(0) returns the frequency of the 1st note of the scale
+synth.frequency.value = nx.note(0);
 
-// mt.note(2) returns the frequency of the 3rd note of the scale
-synth.frequency.value = mt.note(2);
+// nx.note(2) returns the frequency of the 3rd note of the scale
+synth.frequency.value = nx.note(2);
      </code></pre>
 
     <p>
@@ -576,43 +576,43 @@ synth.frequency.value = mt.note(2);
 
     <!-- section -->
 
-    <h3>Turning Scale Degrees to Frequency Numbers with mt.note()</h3>
+    <h3>Turning Scale Degrees to Frequency Numbers with nx.note()</h3>
      <p>
-       <b>mt.note()</b> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
+       <b>nx.note()</b> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
      </p>
 
      <pre>
        <code class="language-javascript">
-// mt.note(0) returns the frequency of 1st note of the scale
-synth.frequency.value = mt.note(0);
+// nx.note(0) returns the frequency of 1st note of the scale
+synth.frequency.value = nx.note(0);
 
-// mt.note(1) returns the frequency of 2nd note of the scale
-synth.frequency.value = mt.note(1);
+// nx.note(1) returns the frequency of 2nd note of the scale
+synth.frequency.value = nx.note(1);
 
 // Negative numbers wrap to a lower octave
-// mt.note(-1) returns the frequency of the top note of the scale, 1 octave lower
-synth.frequency.value = mt.note(-1);
+// nx.note(-1) returns the frequency of the top note of the scale, 1 octave lower
+synth.frequency.value = nx.note(-1);
 
 // You can also specify the octave using an optional second parameter
-// mt.note(0,2) returns the frequency of the 1st note of the scale, 2 octaves up.
-synth.frequency.value = mt.note(0,2);
+// nx.note(0,2) returns the frequency of the 1st note of the scale, 2 octaves up.
+synth.frequency.value = nx.note(0,2);
 
-// mt.note(0,-1) returns the frequency of the 1st note of the scale, 1 octave lower
-synth.frequency.value = mt.note(0,-1);
+// nx.note(0,-1) returns the frequency of the 1st note of the scale, 1 octave lower
+synth.frequency.value = nx.note(0,-1);
     </code></pre>
 
      <p>
-       By using counters or number generators in tandem with <b>mt.note()</b>, you can play scales, arpeggios, etc.
+       By using counters or number generators in tandem with <b>nx.note()</b>, you can play scales, arpeggios, etc.
      </p>
 
      <pre>
        <code class="language-javascript">
  // Play 5 octaves of the major scale
 
- var counter = mt.counter( 0, 6 );
+ var counter = nx.counter( 0, 6 );
 
- mt.interval(100,function() {
-   synth.frequency.value = mt.tune.note( counter.next() );
+ nx.interval(100,function() {
+   synth.frequency.value = nx.tune.note( counter.next() );
  })
        </code>
      </pre>
@@ -1788,8 +1788,7 @@ drunk.value = 500   // jumps to this value
 
   var TypeLinks = [
     "Matrix",
-    "Counter",
-    "interval",
+    "Counter"
   ]
 
   var LoadLinks = {

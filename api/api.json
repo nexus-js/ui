@@ -1272,7 +1272,7 @@
           "column": 0
         },
         "end": {
-          "line": 321,
+          "line": 325,
           "column": 1
         }
       },
@@ -1603,7 +1603,7 @@
                 "column": 2
               },
               "end": {
-                "line": 313,
+                "line": 314,
                 "column": 3
               }
             },
@@ -1714,12 +1714,12 @@
       },
       {
         "title": "example",
-        "description": "var button = new mt.Button('#button')",
+        "description": "var button = mt.button('#button')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var button = new mt.Button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
+        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
         "lineNumber": 10
       },
       {
@@ -1758,10 +1758,10 @@
     },
     "examples": [
       {
-        "description": "var button = new mt.Button('#button')"
+        "description": "var button = mt.button('#button')"
       },
       {
-        "description": "var button = new mt.Button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
+        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
       }
     ],
     "name": "Button",
@@ -4391,7 +4391,7 @@
           "column": 0
         },
         "end": {
-          "line": 196,
+          "line": 200,
           "column": 1
         }
       },
@@ -6669,7 +6669,7 @@
           "column": 0
         },
         "end": {
-          "line": 148,
+          "line": 152,
           "column": 1
         }
       },
@@ -13084,7 +13084,7 @@
           "column": 0
         },
         "end": {
-          "line": 162,
+          "line": 168,
           "column": 1
         }
       },
@@ -13179,22 +13179,22 @@
           ],
           "loc": {
             "start": {
-              "line": 128,
+              "line": 130,
               "column": 2
             },
             "end": {
-              "line": 132,
+              "line": 134,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 133,
+                "line": 135,
                 "column": 2
               },
               "end": {
-                "line": 135,
+                "line": 137,
                 "column": 3
               }
             },
@@ -13298,22 +13298,22 @@
           ],
           "loc": {
             "start": {
-              "line": 147,
+              "line": 149,
               "column": 2
             },
             "end": {
-              "line": 151,
+              "line": 153,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 152,
+                "line": 154,
                 "column": 2
               },
               "end": {
-                "line": 154,
+                "line": 156,
                 "column": 3
               }
             },
@@ -13470,7 +13470,7 @@
           "column": 0
         },
         "end": {
-          "line": 440,
+          "line": 447,
           "column": 1
         }
       },
@@ -13494,6 +13494,113 @@
     "kind": "class",
     "members": {
       "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "The interval object which controls timing and sequence scheduling.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 67,
+                        "offset": 66
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 67,
+                    "offset": 66
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 67,
+                "offset": 66
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "interval"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 196,
+              "column": 4
+            },
+            "end": {
+              "line": 199,
+              "column": 7
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 200,
+                "column": 4
+              },
+              "end": {
+                "line": 200,
+                "column": 62
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+          },
+          "name": "interval",
+          "memberof": "Sequencer",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Sequencer",
+              "kind": "class"
+            },
+            {
+              "name": "interval",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Sequencer#interval"
+        },
         {
           "description": {
             "type": "root",
@@ -13560,22 +13667,22 @@
           ],
           "loc": {
             "start": {
-              "line": 196,
+              "line": 202,
               "column": 4
             },
             "end": {
-              "line": 199,
+              "line": 205,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 200,
+                "line": 206,
                 "column": 4
               },
               "end": {
-                "line": 200,
+                "line": 206,
                 "column": 76
               }
             },
@@ -13667,22 +13774,22 @@
           ],
           "loc": {
             "start": {
-              "line": 203,
+              "line": 209,
               "column": 4
             },
             "end": {
-              "line": 206,
+              "line": 212,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 207,
+                "line": 213,
                 "column": 4
               },
               "end": {
-                "line": 207,
+                "line": 213,
                 "column": 52
               }
             },
@@ -13761,30 +13868,103 @@
               }
             }
           },
-          "tags": [],
+          "tags": [
+            {
+              "title": "param",
+              "description": "Beat tempo in milliseconds",
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              },
+              "name": "ms"
+            }
+          ],
           "loc": {
             "start": {
-              "line": 334,
+              "line": 340,
               "column": 2
             },
             "end": {
-              "line": 336,
-              "column": 4
+              "line": 343,
+              "column": 5
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 337,
+                "line": 344,
                 "column": 2
               },
               "end": {
-                "line": 342,
+                "line": 350,
                 "column": 3
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
           },
+          "params": [
+            {
+              "name": "ms",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Beat tempo in milliseconds",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 27,
+                            "offset": 26
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 27,
+                        "offset": 26
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 27,
+                    "offset": 26
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            }
+          ],
           "name": "start",
           "kind": "function",
           "memberof": "Sequencer",
@@ -13863,22 +14043,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 344,
+              "line": 352,
               "column": 2
             },
             "end": {
-              "line": 346,
+              "line": 354,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 347,
+                "line": 355,
                 "column": 2
               },
               "end": {
-                "line": 350,
+                "line": 357,
                 "column": 3
               }
             },
@@ -13962,22 +14142,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 352,
+              "line": 359,
               "column": 2
             },
             "end": {
-              "line": 354,
+              "line": 361,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 355,
+                "line": 362,
                 "column": 2
               },
               "end": {
-                "line": 359,
+                "line": 366,
                 "column": 3
               }
             },
@@ -14071,22 +14251,22 @@
           ],
           "loc": {
             "start": {
-              "line": 409,
+              "line": 416,
               "column": 2
             },
             "end": {
-              "line": 412,
+              "line": 419,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 413,
+                "line": 420,
                 "column": 2
               },
               "end": {
-                "line": 415,
+                "line": 422,
                 "column": 3
               }
             },
@@ -14180,22 +14360,22 @@
           ],
           "loc": {
             "start": {
-              "line": 424,
+              "line": 431,
               "column": 2
             },
             "end": {
-              "line": 427,
+              "line": 434,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 428,
+                "line": 435,
                 "column": 2
               },
               "end": {
-                "line": 430,
+                "line": 437,
                 "column": 3
               }
             },
@@ -15065,7 +15245,7 @@
           "column": 0
         },
         "end": {
-          "line": 130,
+          "line": 134,
           "column": 1
         }
       },
@@ -15467,7 +15647,7 @@
           "column": 0
         },
         "end": {
-          "line": 147,
+          "line": 155,
           "column": 1
         }
       },
@@ -15557,22 +15737,22 @@
           ],
           "loc": {
             "start": {
-              "line": 113,
+              "line": 121,
               "column": 2
             },
             "end": {
-              "line": 116,
+              "line": 124,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 117,
+                "line": 125,
                 "column": 2
               },
               "end": {
-                "line": 119,
+                "line": 127,
                 "column": 3
               }
             },
@@ -15666,22 +15846,22 @@
           ],
           "loc": {
             "start": {
-              "line": 132,
+              "line": 140,
               "column": 2
             },
             "end": {
-              "line": 135,
+              "line": 143,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 136,
+                "line": 144,
                 "column": 2
               },
               "end": {
-                "line": 138,
+                "line": 146,
                 "column": 3
               }
             },
@@ -15822,6 +16002,920 @@
           "column": 1
         }
       },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
+    },
+    "examples": [
+      {
+        "description": "var tilt = new mt.Tilt('#target')"
+      }
+    ],
+    "name": "Tilt",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
+    "kind": "class",
+    "members": {
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 141,
+              "column": 2
+            },
+            "end": {
+              "line": 144,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 146,
+                "column": 2
+              },
+              "end": {
+                "line": 148,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 140,
+              "column": 2
+            },
+            "end": {
+              "line": 143,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 145,
+                "column": 2
+              },
+              "end": {
+                "line": 147,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 140,
+              "column": 2
+            },
+            "end": {
+              "line": 143,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 145,
+                "column": 2
+              },
+              "end": {
+                "line": 147,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        }
+      ],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Tilt",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Tilt"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "2- or 3-axis tilt sensor (depending on your device and browser).",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 65,
+                  "offset": 64
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 65,
+              "offset": 64
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 65,
+          "offset": 64
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "2- or 3-axis tilt sensor (depending on your device and browser).",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span mt='tilt'></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var tilt = new mt.Tilt('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "output",
+        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
+        "lineNumber": 10
+      },
+      {
+        "title": "outputexample",
+        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 15
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 7,
+        "column": 0
+      },
+      "end": {
+        "line": 28,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 30,
+          "column": 0
+        },
+        "end": {
+          "line": 154,
+          "column": 1
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
+    },
+    "examples": [
+      {
+        "description": "var tilt = new mt.Tilt('#target')"
+      }
+    ],
+    "name": "Tilt",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
+    "kind": "class",
+    "members": {
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 141,
+              "column": 2
+            },
+            "end": {
+              "line": 144,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 146,
+                "column": 2
+              },
+              "end": {
+                "line": 148,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 140,
+              "column": 2
+            },
+            "end": {
+              "line": 143,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 145,
+                "column": 2
+              },
+              "end": {
+                "line": 147,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 140,
+              "column": 2
+            },
+            "end": {
+              "line": 143,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 145,
+                "column": 2
+              },
+              "end": {
+                "line": 147,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        }
+      ],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Tilt",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Tilt"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "2- or 3-axis tilt sensor (depending on your device and browser).",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 65,
+                  "offset": 64
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 65,
+              "offset": 64
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 65,
+          "offset": 64
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "2- or 3-axis tilt sensor (depending on your device and browser).",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span mt='tilt'></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var tilt = new mt.Tilt('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "output",
+        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
+        "lineNumber": 10
+      },
+      {
+        "title": "outputexample",
+        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
+        "lineNumber": 15
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 7,
+        "column": 0
+      },
+      "end": {
+        "line": 28,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 30,
+          "column": 0
+        },
+        "end": {
+          "line": 158,
+          "column": 1
+        }
+      },
       "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
     },
     "examples": [
@@ -15921,6 +17015,224 @@
               },
               "end": {
                 "line": 148,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 140,
+              "column": 2
+            },
+            "end": {
+              "line": 143,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 145,
+                "column": 2
+              },
+              "end": {
+                "line": 147,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
+          },
+          "name": "active",
+          "kind": "member",
+          "memberof": "Tilt",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Tilt",
+              "kind": "class"
+            },
+            {
+              "name": "active",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Tilt#active"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 123,
+                        "offset": 122
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 123,
+                    "offset": 122
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 123,
+                "offset": 122
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "boolean"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 140,
+              "column": 2
+            },
+            "end": {
+              "line": 143,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 145,
+                "column": 2
+              },
+              "end": {
+                "line": 147,
                 "column": 3
               }
             },
@@ -16535,7 +17847,7 @@
           "column": 0
         },
         "end": {
-          "line": 79,
+          "line": 88,
           "column": 1
         }
       },

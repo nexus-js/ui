@@ -94,9 +94,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Drunk = __webpack_require__(27);
 	var Sequence = __webpack_require__(26);
 	/*let StepRange = require('./models/range'); */
-	var Step = __webpack_require__(11);
+	//let Step = require('./models/step');
 	var Matrix = __webpack_require__(25);
-	var Toggle = __webpack_require__(13);
+	//let Toggle = require('./models/toggle');
 	
 	/**
 	Musician's Toolkit => created as mt
@@ -104,13 +104,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var MusiciansToolkit = (function () {
 	    function MusiciansToolkit(context) {
+	        var _this = this;
+	
 	        _classCallCheck(this, MusiciansToolkit);
 	
-	        for (var key in Interfaces) {
-	            this[key] = Interfaces[key];
-	        }
-	        for (key in math) {
+	        /*  for (var key in Interfaces) {
+	              this[key] = Interfaces[key];
+	          }
+	        */
+	        for (var key in math) {
 	            this[key] = math[key];
+	        }
+	
+	        for (var key in Interfaces) {
+	            (function (key) {
+	                var tempKey = key;
+	                var lowercaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+	                _this[lowercaseKey] = function (id, options) {
+	                    return new Interfaces[tempKey](id, options);
+	                };
+	            })(key);
 	        }
 	
 	        var DefaultContext = window.AudioContext || window.webkitAudioContext;
@@ -2476,10 +2489,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span mt="button"></span>
 	*
 	* @example
-	* var button = new mt.Button('#button')
+	* var button = mt.button('#button')
 	*
 	* @example
-	* var button = new mt.Button('#button',{
+	* var button = mt.button('#button',{
 	*   mode: 'toggle',
 	*   state: true,
 	*   size: [100,100],
@@ -4732,6 +4745,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.mode = this.settings.mode;
 	
 	    /**
+	     * The interval object which controls timing and sequence scheduling.
+	     * @type {interval}
+	     */
+	    this.interval = mt.time.interval(200, function () {}, false);
+	
+	    /**
 	    A Matrix model containing methods for manipulating the sequencer's array of values.
 	    @type {Matrix}
 	    */
@@ -4882,14 +4901,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    start: {
 	
 	      /**
-	      Start sequencing
-	      */
+	       * Start sequencing
+	       * @param  {number} ms Beat tempo in milliseconds
+	       */
 	
-	      value: function start() {
-	        if (!this.invertal) {
-	          this.next();
-	          this.interval = setInterval(this.next.bind(this), 200);
+	      value: function start(ms) {
+	        this.interval.event = this.next.bind(this);
+	        if (ms) {
+	          this.interval.ms(ms);
 	        }
+	        this.interval.start();
 	      }
 	    },
 	    stop: {
@@ -4899,8 +4920,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function stop() {
-	        clearInterval(this.interval);
-	        this.interval = false;
+	        this.interval.stop();
 	      }
 	    },
 	    next: {
@@ -4911,7 +4931,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      value: function next() {
 	        this.stepper.next();
-	        this.emit("step", this.matrix.column(this.stepper.value));
+	        this.emit("step", this.matrix.column(this.stepper.value).reverse());
 	        this.render();
 	      }
 	    },
@@ -5180,9 +5200,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // so populate(0.7) would give each cell a 70% chance of being 1
 	    this.populate = {
 	      all: function (odds) {
-	        var odds = new Sequence(odds);
+	        var oddsSequence = new Sequence(odds);
 	        _this.iterate(function (r, c) {
-	          _this.pattern[r][c] = math.coin(odds.next());
+	          _this.pattern[r][c] = math.coin(oddsSequence.next());
 	        });
 	        // This could be used so that each row has same odds pattern, even if row length is not divisibly by sequence length.
 	        //,() => {
@@ -5196,9 +5216,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var row = arguments[0] === undefined ? 0 : arguments[0];
 	        var odds = arguments[1] === undefined ? 1 : arguments[1];
 	
-	        var odds = new Sequence(odds);
+	        var oddsSequence = new Sequence(odds);
 	        _this.pattern[row].forEach(function (cell, i) {
-	          _this.pattern[row][i] = math.coin(odds.next());
+	          _this.pattern[row][i] = math.coin(oddsSequence.next());
 	        });
 	        if (_this.ui) {
 	          _this.ui.update();
@@ -5208,9 +5228,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var column = arguments[0] === undefined ? 0 : arguments[0];
 	        var odds = arguments[1] === undefined ? 1 : arguments[1];
 	
-	        var odds = new Sequence(odds);
+	        var oddsSequence = new Sequence(odds);
 	        _this.pattern.forEach(function (row, i) {
-	          _this.pattern[i][column] = math.coin(odds.next());
+	          _this.pattern[i][column] = math.coin(oddsSequence.next());
 	        });
 	        if (_this.ui) {
 	          _this.ui.update();
@@ -8380,8 +8400,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.meta.parent.appendChild(this.meta.contents);
 	
-	        var width = this.meta.parent.style.width = getComputedStyle(this.meta.parent).getPropertyValue("width");
-	        this.meta.parent.style.width = width;
+	        //  var width = this.meta.parent.style.width = getComputedStyle(this.meta.parent).getPropertyValue('width');
+	        //    this.meta.parent.style.width = width;
 	
 	        var ui = transform.section(this.meta.target);
 	        for (var key in ui) {

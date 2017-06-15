@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/mt.js"></script>
+  <script src="js/Tone9.js"></script>
+  <meta name="viewport" content="width=200, initial-scale=1">
+</head>
+<body style="margin:0;padding;0">
+
+  <!--
+  Desktop
+  Plan:
+  Sequencer
+  Pan
+  Start/Stop button
+  Dials/Numbers
+  Sliders/Numbers
+  Meter, Spectrogram
+
+
+
+
+
+  -->
+
+
+  <div style="font-size:25px;padding:10px">
+    NexusUI Demo
+  </div>
+
+
+
+  <div id="drum" style="border:solid 1px #ccc;background-color:white;width:840px;">
+    <div style="padding:10px;">
+      <div mt="toggle" id="power" style="width:40px;height:25px;float:left;margin:0 10px"></div>
+      <span style="height:25px;line-height:28px">Power On</span>
+    </div>
+    <div style="overflow:auto">
+      <div mt="sequencer" id="sequencer" style="width:400px;height:50px;float:left"></div>
+      <div mt="dial" id="tempo" style="width:50px;height:50px;float:left"></div>
+    </div>
+  </div>
+
+
+<style>
+
+body {
+  font-family:helvetica;
+  font-weight:300;
+  background-color:#eee
+}
+.mt-ui {
+  margin:10px;
+}
+</style>
+</body>
+<script>
+
+  mt.context = Tone.context;
+
+  drum = mt.rack('drum');
+  drum.sequencer.rows = 2
+  drum.sequencer.columns = 16
+  //drum.sequencer.interval.ms(50)
+
+  drum.power.on('change',function(v) {
+    if (v) {
+      drum.sequencer.start(50)
+    } else {
+      drum.sequencer.stop()
+    }
+  })
+
+  var synth = new Tone.PolySynth(10, Tone.MembraneSynth).toMaster();
+
+  drum.sequencer.on('step',function(v) {
+    v.forEach(function(noteon,i) {
+      if (noteon) {
+        synth.triggerAttackRelease(mt.tune.note(0,i-3), "4n");
+      }
+    })
+  })
+
+  drum.tempo.min = 50
+  drum.tempo.max = 1000
+  drum.tempo.on('change',function(v) {
+    console.log(v)
+  //  drum.sequencer.interval.ms(v)
+  })
+
+
+/*
+  var metal = new Tone.MetalSynth({
+    frequency:500,
+    envelope:{
+      attack:0.001,
+      decay:0.5,
+      release:0.1
+    },
+    harmonicity:5.1,
+    modulationIndex:20,
+    resonance:2000,
+    octaves:2.5
+  }).toMaster();
+  var loop = new Tone.Loop(function(time) {
+    metal.frequency.value = mt.ri(100,500)
+    metal.triggerAttackRelease(0.1,time)
+  //  console.log(time);
+}, 0.2).start()
+*/
+
+//var fmOsc = new Tone.FMOscillator("Ab3", "sine", "square").toMaster().start();
+
+
+  Tone.Transport.start()
+
+//  var player2 = new Tone.Player("./media/D-sharp.mp3")
+  //play as soon as the buffer is loaded
+//  player2.autostart = true;
+//  player2.loop = true;
+
+//  ui.oscilloscope.connect(player2)
+//  ui.meter.connect(player2);
+//  ui.spectrogram.connect(player2);
+
+</script>
+</html>
