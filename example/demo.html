@@ -84,11 +84,11 @@ body {
     })
   })
 
-  drum.tempo.min = 50
-  drum.tempo.max = 1000
+  drum.tempo.min = 10
+  drum.tempo.max = 200
   drum.tempo.on('change',function(v) {
     console.log(v)
-  //  drum.sequencer.interval.ms(v)
+    drum.sequencer.interval.ms(v)
   })
 
 

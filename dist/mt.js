@@ -3798,39 +3798,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.interaction = this.settings.interaction;
 	
-	    /**
-	    Absolute mode (dial value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
-	    @type {string}
-	    @example dial.mode = "absolute";
-	    */
-	    this.mode = this.settings.mode;
-	
-	    // this.step should eventually be get/set
-	    // updating it will update the _value step model
-	    /**
-	    The increment that the dial's value changes by.
-	    @type {number}
-	    @example dial.step = 5;
-	    */
-	    this.step = this.settings.step; // float
-	
-	    /**
-	    Lower limit of the dial's output range
-	    @type {number}
-	    @example dial.min = 100;
-	    */
-	    this.min = this.settings.min;
-	
-	    /**
-	    Upper limit of the dial's output range
-	    @type {number}
-	    @example dial.max = 1000;
-	    */
-	    this.max = this.settings.max;
-	
 	    this._value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
 	
-	    this.position = new Interaction.Handle(this.mode, this.interaction, [0, this.width], [this.height, 0]);
+	    this.position = new Interaction.Handle(this.settings.mode, this.interaction, [0, this.width], [this.height, 0]);
 	
 	    this.init();
 	
@@ -4047,6 +4017,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    value: {
 	
+	      /*
+	      Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.
+	      @type {number}
+	      @example dial.value = 10;
+	       get value() {
+	        return this._value.value;
+	      }
+	       set value(value) {
+	        this._value.update(value);
+	        this.emit('change',this.value);
+	        this.render();
+	      }
+	      */
+	
 	      /**
 	      Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.
 	      @type {number}
@@ -4056,16 +4040,77 @@ return /******/ (function(modules) { // webpackBootstrap
 	      get: function () {
 	        return this._value.value;
 	      },
-	      set: function (value) {
-	        this._value.update(value);
-	        this.emit("change", this.value);
+	      set: function (v) {
+	        this._value.update(v);
+	        this.position.value = this._value.normalized;
+	        this.emit("change", this._value.value);
 	        this.render();
+	      }
+	    },
+	    min: {
+	
+	      /**
+	      Lower limit of the dial's output range
+	      @type {number}
+	      @example dial.min = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.min;
+	      },
+	      set: function (v) {
+	        this._value.min = v;
+	      }
+	    },
+	    max: {
+	
+	      /**
+	      Upper limit of the dial's output range
+	      @type {number}
+	      @example dial.max = 1000;
+	      */
+	
+	      get: function () {
+	        return this._value.max;
+	      },
+	      set: function (v) {
+	        this._value.max = v;
+	      }
+	    },
+	    step: {
+	
+	      /**
+	      The increment that the dial's value changes by.
+	      @type {number}
+	      @example dial.step = 5;
+	      */
+	
+	      get: function () {
+	        return this._value.step;
+	      },
+	      set: function (v) {
+	        this._value.step = v;
+	      }
+	    },
+	    mode: {
+	
+	      /**
+	      Absolute mode (dial's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: "relative".
+	      @type {string}
+	      @example dial.mode = "relative";
+	      */
+	
+	      get: function () {
+	        return this.position.mode;
+	      },
+	      set: function (v) {
+	        this.position.mode = v;
 	      }
 	    },
 	    normalized: {
 	
 	      /**
-	      Normalized value of the dial. It will automatically adjust the dial's value to fit min/max/step settings.
+	      Normalized value of the dial.
 	      @type {number}
 	      @example dial.normalized = 0.5;
 	      */

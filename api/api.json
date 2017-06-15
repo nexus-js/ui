@@ -2010,7 +2010,7 @@
           "column": 0
         },
         "end": {
-          "line": 343,
+          "line": 378,
           "column": 1
         }
       },
@@ -2043,7 +2043,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Absolute mode (dial value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: \"relative\".",
+                    "value": "Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -2052,8 +2052,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 156,
-                        "offset": 155
+                        "column": 103,
+                        "offset": 102
                       },
                       "indent": []
                     }
@@ -2067,8 +2067,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 156,
-                    "offset": 155
+                    "column": 103,
+                    "offset": 102
                   },
                   "indent": []
                 }
@@ -2082,125 +2082,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 156,
-                "offset": 155
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "string"
-              }
-            },
-            {
-              "title": "example",
-              "description": "dial.mode = \"absolute\";",
-              "lineNumber": 3
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 67,
-              "column": 4
-            },
-            "end": {
-              "line": 71,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 72,
-                "column": 4
-              },
-              "end": {
-                "line": 72,
-                "column": 35
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
-          },
-          "examples": [
-            {
-              "description": "dial.mode = \"absolute\";"
-            }
-          ],
-          "name": "mode",
-          "memberof": "Dial",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Dial",
-              "kind": "class"
-            },
-            {
-              "name": "mode",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Dial#mode"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The increment that the dial's value changes by.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 48,
-                        "offset": 47
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 48,
-                    "offset": 47
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 48,
-                "offset": 47
+                "column": 103,
+                "offset": 102
               }
             }
           },
@@ -2216,39 +2099,40 @@
             },
             {
               "title": "example",
-              "description": "dial.step = 5;",
+              "description": "dial.value = 10;",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 76,
+              "line": 300,
               "column": 4
             },
             "end": {
-              "line": 80,
+              "line": 304,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 81,
+                "line": 305,
                 "column": 4
               },
               "end": {
-                "line": 81,
-                "column": 35
+                "line": 307,
+                "column": 5
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
           },
           "examples": [
             {
-              "description": "dial.step = 5;"
+              "description": "dial.value = 10;"
             }
           ],
-          "name": "step",
+          "name": "value",
+          "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
@@ -2262,11 +2146,12 @@
               "kind": "class"
             },
             {
-              "name": "step",
+              "name": "value",
+              "kind": "member",
               "scope": "instance"
             }
           ],
-          "namespace": "Dial#step"
+          "namespace": "Dial#value"
         },
         {
           "description": {
@@ -2333,39 +2218,40 @@
             },
             {
               "title": "example",
-              "description": "dial.min = 100;",
+              "description": "dial.min = 1000;",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 83,
+              "line": 315,
               "column": 4
             },
             "end": {
-              "line": 87,
+              "line": 319,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 88,
+                "line": 320,
                 "column": 4
               },
               "end": {
-                "line": 88,
-                "column": 33
+                "line": 322,
+                "column": 5
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
           },
           "examples": [
             {
-              "description": "dial.min = 100;"
+              "description": "dial.min = 1000;"
             }
           ],
           "name": "min",
+          "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
@@ -2380,6 +2266,7 @@
             },
             {
               "name": "min",
+              "kind": "member",
               "scope": "instance"
             }
           ],
@@ -2456,23 +2343,23 @@
           ],
           "loc": {
             "start": {
-              "line": 90,
+              "line": 327,
               "column": 4
             },
             "end": {
-              "line": 94,
+              "line": 331,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 95,
+                "line": 332,
                 "column": 4
               },
               "end": {
-                "line": 95,
-                "column": 33
+                "line": 334,
+                "column": 5
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
@@ -2483,6 +2370,7 @@
             }
           ],
           "name": "max",
+          "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
@@ -2497,6 +2385,7 @@
             },
             {
               "name": "max",
+              "kind": "member",
               "scope": "instance"
             }
           ],
@@ -2511,7 +2400,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.",
+                    "value": "The increment that the dial's value changes by.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -2520,8 +2409,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 103,
-                        "offset": 102
+                        "column": 48,
+                        "offset": 47
                       },
                       "indent": []
                     }
@@ -2535,8 +2424,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 103,
-                    "offset": 102
+                    "column": 48,
+                    "offset": 47
                   },
                   "indent": []
                 }
@@ -2550,8 +2439,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 103,
-                "offset": 102
+                "column": 48,
+                "offset": 47
               }
             }
           },
@@ -2567,39 +2456,39 @@
             },
             {
               "title": "example",
-              "description": "dial.value = 10;",
+              "description": "dial.step = 5;",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 314,
-              "column": 2
+              "line": 339,
+              "column": 4
             },
             "end": {
-              "line": 318,
-              "column": 4
+              "line": 343,
+              "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 319,
-                "column": 2
+                "line": 344,
+                "column": 4
               },
               "end": {
-                "line": 321,
-                "column": 3
+                "line": 346,
+                "column": 5
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
           },
           "examples": [
             {
-              "description": "dial.value = 10;"
+              "description": "dial.step = 5;"
             }
           ],
-          "name": "value",
+          "name": "step",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
@@ -2614,12 +2503,12 @@
               "kind": "class"
             },
             {
-              "name": "value",
+              "name": "step",
               "kind": "member",
               "scope": "instance"
             }
           ],
-          "namespace": "Dial#value"
+          "namespace": "Dial#step"
         },
         {
           "description": {
@@ -2630,7 +2519,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Normalized value of the dial. It will automatically adjust the dial's value to fit min/max/step settings.",
+                    "value": "Absolute mode (dial's value jumps to mouse click position) or relative mode (mouse drag changes value relative to its current position). Default: \"relative\".",
                     "position": {
                       "start": {
                         "line": 1,
@@ -2639,8 +2528,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 106,
-                        "offset": 105
+                        "column": 158,
+                        "offset": 157
                       },
                       "indent": []
                     }
@@ -2654,8 +2543,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 106,
-                    "offset": 105
+                    "column": 158,
+                    "offset": 157
                   },
                   "indent": []
                 }
@@ -2669,8 +2558,127 @@
               },
               "end": {
                 "line": 1,
-                "column": 106,
-                "offset": 105
+                "column": 158,
+                "offset": 157
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "example",
+              "description": "dial.mode = \"relative\";",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 351,
+              "column": 4
+            },
+            "end": {
+              "line": 355,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 356,
+                "column": 4
+              },
+              "end": {
+                "line": 358,
+                "column": 5
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+          },
+          "examples": [
+            {
+              "description": "dial.mode = \"relative\";"
+            }
+          ],
+          "name": "mode",
+          "kind": "member",
+          "memberof": "Dial",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Dial",
+              "kind": "class"
+            },
+            {
+              "name": "mode",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Dial#mode"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Normalized value of the dial.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 30,
+                        "offset": 29
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 30,
+                    "offset": 29
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 30,
+                "offset": 29
               }
             }
           },
@@ -2692,22 +2700,22 @@
           ],
           "loc": {
             "start": {
-              "line": 329,
+              "line": 364,
               "column": 2
             },
             "end": {
-              "line": 333,
+              "line": 368,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 334,
+                "line": 369,
                 "column": 2
               },
               "end": {
-                "line": 336,
+                "line": 371,
                 "column": 3
               }
             },
