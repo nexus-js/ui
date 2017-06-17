@@ -8,27 +8,11 @@
   <script src="js/Tone9.js"></script>
   <meta name="viewport" content="width=200, initial-scale=1">
 </head>
-<body style="margin:0;padding;0">
-
-  <!--
-  Desktop
-  Plan:
-  Sequencer
-  Pan
-  Start/Stop button
-  Dials/Numbers
-  Sliders/Numbers
-  Meter, Spectrogram
+<body style="margin:0;padding:0;">
 
 
-
-
-
-  -->
-
-
-  <div style="font-size:25px;padding:10px">
-    NexusUI Demo
+  <div style="font-size:20px;padding:20px;text-align:center;margin-top:40px;">
+    NexusUI Very Basic Demo
   </div>
 
 
@@ -45,7 +29,9 @@
   </div> -->
 
 
-  <div id="drone" style="border:solid 1px #ccc;background-color:white;width:242px;padding:20px;margin:0 auto;box-sizing:border-box">
+
+<div id="drone" style=>
+  <div style="border:solid 2px #0af;width:200px;padding:20px;margin:0 auto;">
     <div>
       <div mt="toggle" id="power" style="width:40px;height:25px;float:left;margin:0"></div>
       <span style="height:25px;line-height:28px;margin-left:10px">Power On</span>
@@ -58,8 +44,8 @@
       </div> -->
       <div style="padding:15px 0px 0px;width:200px;overflow:auto">
         <div mt="slider" id="timbre" style="width:200px;height:25px;display:inline-block;"></div>
-        <div mt="number" id="timbreNum" style="width:50px;height:25px;float:right"></div>
-        <div style="display:inline-block;float:left;padding:3px 0px 0px">Brightness</div>
+      <!--  <div mt="number" id="timbreNum" style="width:50px;height:25px;float:right"></div> -->
+        <div style="display:inline-block;float:left;padding:3px 0px 0px">Timbre</div>
       </div>
       <div style="padding:15px 0px 0px;width:200px;overflow:auto">
         <div mt="pan" id="pan" style="width:200px;height:25px;display:inline-block;"></div>
@@ -67,15 +53,15 @@
       </div>
 
       <div style="padding:15px 0px 0px;width:200px;overflow:auto">
-        <div mt="position" id="filter" style="width:200px;height:200px;display:inline-block;"></div>
+        <div mt="position" id="filter" style="width:200px;height:150px;display:inline-block;"></div>
         <div style="display:inline-block;float:left;padding:3px 0px 0px">Filter</div>
       </div>
 
       <div>
-        <div style="padding:15px 0px 0px;width:60px;overflow:auto;float:left">
+    <!--    <div style="padding:15px 0px 0px;width:60px;overflow:auto;float:left">
           <div mt="dial" id="reverb" style="width:60px;height:60px;margin:0 auto"></div>
           <div style="text-align:center;padding:10px 0px 0px">Reverb</div>
-        </div>
+        </div> -->
     <!--    <div style="padding:15px 0px 0px;width:60px;overflow:auto;float:left;margin-left:9px;">
           <div mt="dial" id="drive" style="width:60px;height:60px;margin:0 auto"></div>
           <div style="text-align:center;padding:10px 0px 0px">Drive</div>
@@ -88,8 +74,14 @@
       </div>
 
     </div>
+
+
+    <div>
+      <div mt="spectrogram" id="spectrogram" style="width:240px;height:50px;margin-left:-20px;margin-bottom:-20px;"></div>
+    </div>
   </div>
 
+</div>
 
 
 <style>
@@ -97,7 +89,8 @@
 body {
   font-family:helvetica;
   font-weight:300;
-  background-color:#eee
+  background-color:#111;
+  color:#0af;
 }
 .mt-ui {
   margin:0px;
@@ -107,36 +100,10 @@ body {
 <script>
 
   mt.context = Tone.context;
-/*
-  drum = mt.rack('drum');
-  drum.sequencer.rows = 2
-  drum.sequencer.columns = 16
 
-  drum.power.on('change',function(v) {
-    if (v) {
-      drum.sequencer.start(50)
-    } else {
-      drum.sequencer.stop()
-    }
-  })
-
-  var synth = new Tone.PolySynth(10, Tone.MembraneSynth).toMaster();
-
-  drum.sequencer.on('step',function(v) {
-    v.forEach(function(noteon,i) {
-      if (noteon) {
-        synth.triggerAttackRelease(mt.tune.note(0,i-3), "4n");
-      }
-    })
-  })
-
-  drum.tempo.min = 10
-  drum.tempo.max = 200
-  drum.tempo.on('change',function(v) {
-    console.log(v)
-    drum.sequencer.interval.ms(v)
-  })
- */
+  mt.colors.accent = "#0af";
+  mt.colors.fill = "#333";
+  mt.colors.white = "#000";
 
 /*
 Notes:
@@ -168,25 +135,29 @@ select.options
   droneSynth.filter.chain( droneSynth.compressor, droneSynth.vol, droneSynth.pan, droneSynth.verb, Tone.Master)
 
 
-  droneSynth.fm.harmonicity.value = 2
-  droneSynth.fm2.harmonicity.value = 2
+  droneSynth.fm.harmonicity.value = 4
+  droneSynth.fm2.harmonicity.value = 4
 
 
   drone.power.on('change',function(v) {
     if (v) {
-      droneSynth.vol.volume.rampTo(-20,2)
+      droneSynth.vol.volume.rampTo(-20,1)
     } else {
-      droneSynth.vol.volume.rampTo(-Infinity,2)
+      droneSynth.vol.volume.rampTo(-Infinity,1)
     }
   })
 
-  drone.timbre.min = 0
-  drone.timbre.max = 10
+  drone.timbre.min = 10
+  drone.timbre.max = 20
   drone.timbre.on('change',function(v) {
     droneSynth.fm.modulationIndex.rampTo(v,0.1)
     droneSynth.fm2.modulationIndex.rampTo(v,0.1)
   })
   drone.timbre.value = 0
+
+/*  drone.timbreNum.link(drone.timbre)
+  drone.timbreNum.colorize("dark","#0af")
+  drone.timbreNum.colorize("fill","#000") */
 
 
   drone.pan.on('change',function(v) {
@@ -208,63 +179,17 @@ select.options
 
 
 
-    drone.reverb.on('change',function(v) {
+  /*  drone.reverb.on('change',function(v) {
       droneSynth.verb.wet.value = v
     })
 
-    drone.reverb.value = 0
+    drone.reverb.value = 0 */
+
+    droneSynth.verb.wet.value = 0.2
 
 
-/*
-
-      drone.drive.on('change',function(v) {
-        droneSynth.drive.wet.value = v
-      })
-
-      drone.drive.value = 0
-
-
-
-    drone.delay.on('change',function(v) {
-      droneSynth.delay.wet.value = v
-    })
-
-    drone.delay.value = 0
- */
-
-/*
-  var metal = new Tone.MetalSynth({
-    frequency:500,
-    envelope:{
-      attack:0.001,
-      decay:0.5,
-      release:0.1
-    },
-    harmonicity:5.1,
-    modulationIndex:20,
-    resonance:2000,
-    octaves:2.5
-  }).toMaster();
-  var loop = new Tone.Loop(function(time) {
-    metal.frequency.value = mt.ri(100,500)
-    metal.triggerAttackRelease(0.1,time)
-  //  console.log(time);
-}, 0.2).start()
-*/
-
-//var fmOsc = new Tone.FMOscillator("Ab3", "sine", "square").toMaster().start();
-
-
-  Tone.Transport.start()
-
-//  var player2 = new Tone.Player("./media/D-sharp.mp3")
-  //play as soon as the buffer is loaded
-//  player2.autostart = true;
-//  player2.loop = true;
-
-//  ui.oscilloscope.connect(player2)
-//  ui.meter.connect(player2);
-//  ui.spectrogram.connect(player2);
+    drone.spectrogram.connect(Tone.Master);
+    drone.spectrogram.colorize("fill","#000")
 
 </script>
 </html>
