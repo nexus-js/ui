@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["es6Boilerplate"] = factory();
+		exports["NexusUI"] = factory();
 	else
-		root["es6Boilerplate"] = factory();
+		root["NexusUI"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -56,8 +56,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var MusiciansToolkit = __webpack_require__(1);
-	window.mt = new MusiciansToolkit();
+	var NexusUI = __webpack_require__(1);
+	window.Nexus = new NexusUI();
 
 /***/ },
 /* 1 */
@@ -66,10 +66,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _applyConstructor = function (Constructor, args) { var instance = Object.create(Constructor.prototype); var result = Constructor.apply(instance, args); return result != null && (typeof result == "object" || typeof result == "function") ? result : instance; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
@@ -81,7 +77,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Rack = _interopRequire(__webpack_require__(38));
 	
-	var Time = _interopRequire(__webpack_require__(40));
+	//import Time from './time/time';
 	
 	var Tune = _interopRequire(__webpack_require__(45));
 	
@@ -97,104 +93,82 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let Step = require('./models/step');
 	var Matrix = __webpack_require__(25);
 	//let Toggle = require('./models/toggle');
+	//
+	//
+	
+	var WAAClock = _interopRequire(__webpack_require__(41));
+	
+	var Interval = _interopRequire(__webpack_require__(44));
 	
 	/**
 	Musician's Toolkit => created as mt
 	*/
 	
-	var MusiciansToolkit = (function () {
-	    function MusiciansToolkit(context) {
-	        var _this = this;
+	var NexusUI = function NexusUI(context) {
+	  _classCallCheck(this, NexusUI);
 	
-	        _classCallCheck(this, MusiciansToolkit);
+	  for (var key in Interfaces) {
+	    this[key] = Interfaces[key];
+	  }
 	
-	        /*  for (var key in Interfaces) {
-	              this[key] = Interfaces[key];
-	          }
-	        */
-	        for (var key in math) {
-	            this[key] = math[key];
-	        }
+	  for (var _key in math) {
+	    this[_key] = math[_key];
+	  }
 	
-	        for (var key in Interfaces) {
-	            (function (key) {
-	                var tempKey = key;
-	                var lowercaseKey = key.charAt(0).toLowerCase() + key.slice(1);
-	                _this[lowercaseKey] = function (id, options) {
-	                    return new Interfaces[tempKey](id, options);
-	                };
-	            })(key);
-	        }
+	  var Core = {
+	    Rack: Rack
+	  };
 	
-	        var DefaultContext = window.AudioContext || window.webkitAudioContext;
-	        this.context = context || new DefaultContext();
+	  var Models = {
+	    Counter: Counter,
+	    Radio: Radio,
+	    Drunk: Drunk,
+	    Sequence: Sequence,
+	    Matrix: Matrix
+	  };
 	
-	        this.time = new Time(this.context);
-	        this.tune = new Tune();
+	  for (var _key2 in Models) {
+	    this[_key2] = Models[_key2];
+	  }
 	
-	        this.colors = {
-	            accent: "#2bb",
-	            fill: "#eee",
-	            light: "#fff",
-	            dark: "#333",
-	            mediumLight: "#ccc",
-	            mediumDark: "#666"
-	        };
+	  for (var _key3 in Core) {
+	    this[_key3] = Core[_key3];
+	  }
 	
-	        this.transform = Transform;
-	    }
+	  /*    for (let key in Interfaces) {
+	         let tempKey = key;
+	         let lowercaseKey = key.charAt(0).toLowerCase() + key.slice(1);
+	         this[lowercaseKey] = function(id,options) {
+	           return new Interfaces[tempKey](id,options);
+	         };
+	      } */
 	
-	    _createClass(MusiciansToolkit, {
-	        rack: {
-	            value: function rack(parent, title, open) {
-	                return new Rack(parent, title, open);
-	            }
-	        },
-	        counter: {
-	            value: function counter(min, max, mode, value) {
-	                return new Counter(min, max, mode, value);
-	            }
-	        },
-	        radio: {
-	            value: function radio(length) {
-	                for (var _len = arguments.length, onVals = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	                    onVals[_key - 1] = arguments[_key];
-	                }
+	  var DefaultContext = window.AudioContext || window.webkitAudioContext;
+	  this.context = context || new DefaultContext();
 	
-	                return _applyConstructor(Radio, [length].concat(onVals));
-	            }
-	        },
-	        drunk: {
-	            value: function drunk(min, max, value, increment, loop) {
-	                return new Drunk(min, max, value, increment, loop);
-	            }
-	        },
-	        sequence: {
-	            value: (function (_sequence) {
-	                var _sequenceWrapper = function sequence(_x, _x2, _x3, _x4) {
-	                    return _sequence.apply(this, arguments);
-	                };
+	  //  this.time = new Time(this.context);
+	  //
 	
-	                _sequenceWrapper.toString = function () {
-	                    return _sequence.toString();
-	                };
+	  this.tune = new Tune();
+	  this.note = this.tune.note.bind(this.tune);
 	
-	                return _sequenceWrapper;
-	            })(function (sequence, mode, position, cacheSize) {
-	                return new Sequence(sequence, mode, position, cacheSize);
-	            })
-	        },
-	        matrix: {
-	            value: function matrix(rows, columns) {
-	                return new Matrix(rows, columns);
-	            }
-	        }
-	    });
+	  this.clock = new WAAClock(this.context);
+	  this.clock.start();
+	  this.Interval = Interval;
 	
-	    return MusiciansToolkit;
-	})();
+	  this.colors = {
+	    accent: "#2bb",
+	    fill: "#eee",
+	    light: "#fff",
+	    dark: "#333",
+	    mediumLight: "#ccc",
+	    mediumDark: "#666"
+	  };
 	
-	module.exports = MusiciansToolkit;
+	  this.transform = Transform;
+	};
+	
+	module.exports = NexusUI;
 
 /***/ },
 /* 2 */
@@ -878,7 +852,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.mouse = {};
 	    this.wait = false;
 	    this.colors = {};
-	    var defaultColors = mt.colors;
+	    var defaultColors = Nexus.colors; // jshint ignore:line
 	    this.colors.accent = defaultColors.accent;
 	    this.colors.fill = defaultColors.fill;
 	    this.colors.light = defaultColors.light;
@@ -4821,7 +4795,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * The interval object which controls timing and sequence scheduling.
 	     * @type {interval}
 	     */
-	    this.interval = mt.time.interval(200, function () {}, false);
+	    this.interval = new Nexus.Interval(200, function () {}, false); // jshint ignore:line
 	
 	    /**
 	    A Matrix model containing methods for manipulating the sequencer's array of values.
@@ -7815,7 +7789,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Spectrogram.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = mt.context;
+	    this.context = Nexus.context; // jshint ignore:line
 	
 	    this.analyser = this.context.createAnalyser();
 	    this.analyser.fftSize = 2048;
@@ -7982,7 +7956,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Meter.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = mt.context;
+	    this.context = Nexus.context; // jshint ignore:line
 	
 	    this.channels = 2;
 	
@@ -8204,7 +8178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Oscilloscope.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = mt.context;
+	    this.context = Nexus.context; // jshint ignore:line
 	
 	    this.analyser = this.context.createAnalyser();
 	    this.analyser.fftSize = 2048;
@@ -8403,7 +8377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.meta.title = name;
 	    this.meta.open = open;
 	    this.meta.colors = {};
-	    var defaultColors = mt.colors;
+	    var defaultColors = Nexus.colors; // jshint ignore:line
 	    this.meta.colors.accent = defaultColors.accent;
 	    this.meta.colors.fill = defaultColors.fill;
 	    this.meta.colors.light = defaultColors.light;
@@ -8582,48 +8556,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.element = element;
 
 /***/ },
-/* 40 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var WAAClock = _interopRequire(__webpack_require__(41));
-	
-	var Interval = _interopRequire(__webpack_require__(44));
-	
-	var Time = (function () {
-	  function Time(context) {
-	    _classCallCheck(this, Time);
-	
-	    this.createClock(context);
-	  }
-	
-	  _createClass(Time, {
-	    createClock: {
-	      value: function createClock(context) {
-	        this.clock = new WAAClock(context);
-	        this.clock.start();
-	      }
-	    },
-	    interval: {
-	      value: function interval(rate, func, on) {
-	        return new Interval(rate, func, on, this.clock);
-	      }
-	    }
-	  });
-	
-	  return Time;
-	})();
-	
-	module.exports = Time;
-
-/***/ },
+/* 40 */,
 /* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -9070,12 +9003,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var Interval = (function () {
-	  function Interval(rate, func, on, clock) {
+	  function Interval(rate, func, on) {
 	    _classCallCheck(this, Interval);
 	
 	    this.rate = rate;
 	    this.on = on;
-	    this.clock = clock;
+	    this.clock = Nexus.clock; // jshint ignore:line
 	
 	    this.pattern = [1];
 	    this.index = 0;
@@ -9535,4 +9468,4 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-//# sourceMappingURL=mt.map
+//# sourceMappingURL=NexusUI.map

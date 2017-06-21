@@ -1,4 +1,4 @@
 'use strict';
 
-let MusiciansToolkit = require('./lib/main');
-window.mt = new MusiciansToolkit();
+let NexusUI = require('./lib/main');
+window.Nexus = new NexusUI();
