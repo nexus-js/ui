@@ -3115,7 +3115,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(RadioButton.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this.buttons = [];
-	    this.numberOfButtons = this.settings.numberOfButtons;
+	    this._numberOfButtons = this.settings.numberOfButtons;
 	    this.active = -1;
 	
 	    this.init();
@@ -3134,7 +3134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    buildInterface: {
 	      value: function buildInterface() {
 	
-	        for (var i = 0; i < this.numberOfButtons; i++) {
+	        for (var i = 0; i < this._numberOfButtons; i++) {
 	          var container = document.createElement("span");
 	
 	          var button = new Button(container, {
@@ -3151,17 +3151,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    sizeInterface: {
 	      value: function sizeInterface() {
 	
-	        var buttonWidth = this.width / this.numberOfButtons;
+	        var buttonWidth = this.width / this._numberOfButtons;
 	        var buttonHeight = this.height;
 	
-	        for (var i = 0; i < this.numberOfButtons; i++) {
+	        for (var i = 0; i < this._numberOfButtons; i++) {
 	          this.buttons[i].resize(buttonWidth, buttonHeight);
 	        }
 	      }
 	    },
 	    colorInterface: {
 	      value: function colorInterface() {
-	        for (var i = 0; i < this.numberOfButtons; i++) {
+	        for (var i = 0; i < this._numberOfButtons; i++) {
 	          this.buttons[i].colors = this.colors;
 	          this.buttons[i].render();
 	        }
@@ -3213,6 +3213,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.active = -1;
 	        this.emit("change", this.active);
 	        this.render();
+	      }
+	    },
+	    numberOfButtons: {
+	      get: function () {
+	        return this._numberOfButtons;
+	      },
+	
+	      /**
+	       * Update how many buttons are in the interface
+	       * @param  {number} buttons How many buttons are in the interface
+	       */
+	      set: function (buttons) {
+	        this._numberOfButtons = buttons;
+	        for (var i = 0; i < this.buttons.length; i++) {
+	          this.buttons[i].destroy();
+	        }
+	        this.buttons = [];
+	        //  for (let i=0;i<this.buttons.length;i++) {
+	        //    this.buttons[i].destroy();
+	        //  }
+	        this.empty();
+	        this.buildInterface();
 	      }
 	    }
 	  });
@@ -3653,9 +3675,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function release() {}
 	    },
 	    defineOptions: {
-	      value: function defineOptions(v) {
-	        if (v) {
-	          this._options = v;
+	
+	      /**
+	       * Update the list of options. This removes all existing options and creates a new list of options.
+	       * @param  {array} options New array of options
+	       */
+	
+	      value: function defineOptions(options) {
+	        if (options) {
+	          this._options = options;
 	        }
 	
 	        for (var i = 0; i < this.element.options.length; i++) {
@@ -9061,10 +9089,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  _createClass(Interval, {
 	    _event: {
-	      value: function _event() {
-	        if (this.pattern[this.index % this.pattern.length]) {
-	          this.event();
-	        }
+	      value: function _event(e) {
+	        //  if (this.pattern[this.index%this.pattern.length]) {
+	        this.event(e);
+	        //  }
 	        this.index++;
 	      }
 	    },
@@ -9077,7 +9105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    start: {
 	      value: function start() {
 	        this.on = true;
-	        this.interval = this.clock.callbackAtTime(this._event.bind(this), this.clock.context.currentTime).repeat(this.rate / 1000);
+	        this.interval = this.clock.callbackAtTime(this._event.bind(this), this.clock.context.currentTime).repeat(this.rate / 1000).tolerance({ early: 0.1, late: 1 });
 	      }
 	    },
 	    ms: {
@@ -9133,7 +9161,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.scales = scales;
 	
-	    this.loadScale("ji_diatonic");
+	    this.loadScale("et");
 	  }
 	
 	  _createClass(Tune, {
