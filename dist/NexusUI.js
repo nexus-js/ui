@@ -2460,13 +2460,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Circular button with optional aftertouch.
 	*
-	* @demo <span mt="button"></span>
+	* @demo <span nexus-ui="button"></span>
 	*
 	* @example
-	* var button = mt.button('#button')
+	* var button = new Nexus.Button('button')
 	*
 	* @example
-	* var button = mt.button('#button',{
+	* var button = new Nexus.Button('button',{
 	*   mode: 'toggle',
 	*   state: true,
 	*   size: [100,100],
@@ -8325,19 +8325,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	/*
-	What does the API look like?
+	Main concept:
+	synth = new Nexus.Rack('elementID');
 	
-	1) Main concept:
-	synth = mt.rack('#container');
+	Transform all elements inside the div
+	synth.elementID will hold the first slider interface
 	
-	Transform all elements inside a div
-	synth.ui.slider1 will hold the first slider interface
-	
-	
-	2) What about writing a rack that is re-usable?
+	2) In future, potentially writing a rack that is re-usable?
 	Could also take JSON
 	
-	mt.rack('#container',{
+	new Nexus.Rack('elementID',{
 	  pre: () => {
 	    create some divs here, or some audio code
 	  },
@@ -8542,7 +8539,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    elements.push(htmlElements[i]);
 	  }
 	  for (var i = 0; i < elements.length; i++) {
-	    var type = elements[i].getAttribute("mt");
+	    var type = elements[i].getAttribute("nexus-ui");
 	    if (type) {
 	      var widget = element(elements[i], type);
 	      ui[widget.id] = widget;

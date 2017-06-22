@@ -1709,17 +1709,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"button\"></span>",
+        "description": "<span nexus-ui=\"button\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var button = mt.button('#button')",
+        "description": "var button = new Nexus.Button('button')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
+        "description": "var button = new Nexus.Button('button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
         "lineNumber": 10
       },
       {
@@ -1758,10 +1758,10 @@
     },
     "examples": [
       {
-        "description": "var button = mt.button('#button')"
+        "description": "var button = new Nexus.Button('button')"
       },
       {
-        "description": "var button = mt.button('#button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
+        "description": "var button = new Nexus.Button('button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
       }
     ],
     "name": "Button",
@@ -10557,7 +10557,7 @@
           "column": 0
         },
         "end": {
-          "line": 141,
+          "line": 162,
           "column": 1
         }
       },
@@ -10844,6 +10844,178 @@
             }
           ],
           "namespace": "RadioButton#deselect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Update how many buttons are in the interface",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 45,
+                        "offset": 44
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 45,
+                    "offset": 44
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 45,
+                "offset": 44
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "How many buttons are in the interface",
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              },
+              "name": "buttons"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 145,
+              "column": 2
+            },
+            "end": {
+              "line": 148,
+              "column": 5
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 149,
+                "column": 2
+              },
+              "end": {
+                "line": 160,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/interfaces/radiobutton.js"
+          },
+          "params": [
+            {
+              "name": "buttons",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "How many buttons are in the interface",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 38,
+                            "offset": 37
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 38,
+                        "offset": 37
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 38,
+                    "offset": 37
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            }
+          ],
+          "name": "numberOfButtons",
+          "kind": "member",
+          "memberof": "RadioButton",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "RadioButton",
+              "kind": "class"
+            },
+            {
+              "name": "numberOfButtons",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "RadioButton#numberOfButtons"
         }
       ],
       "static": [],
@@ -13756,7 +13928,7 @@
               },
               "end": {
                 "line": 200,
-                "column": 62
+                "column": 64
               }
             },
             "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
@@ -18012,28 +18184,28 @@
     "tags": [],
     "loc": {
       "start": {
-        "line": 22,
+        "line": 26,
         "column": 0
       },
       "end": {
-        "line": 24,
+        "line": 28,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 26,
+          "line": 30,
           "column": 0
         },
         "end": {
-          "line": 88,
+          "line": 98,
           "column": 1
         }
       },
       "file": "/Library/WebServer/Documents/mt/lib/main.js"
     },
-    "name": "MusiciansToolkit",
+    "name": "NexusUI",
     "kind": "class",
     "members": {
       "instance": [],
@@ -18042,11 +18214,11 @@
     },
     "path": [
       {
-        "name": "MusiciansToolkit",
+        "name": "NexusUI",
         "kind": "class"
       }
     ],
-    "namespace": "MusiciansToolkit"
+    "namespace": "NexusUI"
   },
   {
     "description": {
