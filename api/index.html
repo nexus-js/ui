@@ -34,49 +34,49 @@
       <h2>Interfaces</h2>
 
       <h3>Core</h3>
-      <a href="#Button">button</a><br />
-      <a href="#Dial">dial</a><br />
-      <a href="#Number">number</a><br />
-      <a href="#Position">position</a><br />
-      <a href="#Slider">slider</a><br />
-      <a href="#Toggle">toggle</a><br />
+      <a href="#Button">Button</a><br />
+      <a href="#Dial">Dial</a><br />
+      <a href="#Number">Number</a><br />
+      <a href="#Position">Position</a><br />
+      <a href="#Slider">Slider</a><br />
+      <a href="#Toggle">Toggle</a><br />
 
       <h3>General</h3>
-      <a href="#Envelope">envelope</a><br />
-      <a href="#Multislider">multislider</a><br />
-      <a href="#Piano">piano</a><br />
-      <a href="#RadioButton">radiobutton</a><br />
-      <a href="#Select">select</a><br />
+      <a href="#Envelope">Envelope</a><br />
+      <a href="#Multislider">Multislider</a><br />
+      <a href="#Piano">Piano</a><br />
+      <a href="#RadioButton">RadioButton</a><br />
+      <a href="#Select">Select</a><br />
     <!--  <a href="#Range">range</a><br /> -->
-      <a href="#Sequencer">sequencer</a><br />
-      <a href="#TextButton">textbutton</a><br />
+      <a href="#Sequencer">Sequencer</a><br />
+      <a href="#TextButton">TextButton</a><br />
     <!--  <a href="#Waveform">waveform</a><br /> -->
 
 
       <h3>Mobile</h3>
-      <a href="#Tilt">tilt</a><br />
+      <a href="#Tilt">Tilt</a><br />
 
       <h3>Spatialization</h3>
-      <a href="#Pan">pan</a><br />
-      <a href="#Pan2D">pan2d</a><br />
+      <a href="#Pan">Pan</a><br />
+      <a href="#Pan2D">Pan2D</a><br />
 
       <h3>Visualization</h3>
-      <a href="#Meter">meter</a><br />
-      <a href="#Oscilloscope">oscilloscope</a><br />
-      <a href="#Spectrogram">spectragram</a><br />
+      <a href="#Meter">Meter</a><br />
+      <a href="#Oscilloscope">Pscilloscope</a><br />
+      <a href="#Spectrogram">Spectragram</a><br />
 
 
       <h2>Tuning</h2>
-      <a href="#tune">tune</a><br />
+      <a href="#tune">Tune</a><br />
 
       <h2>Timing</h2>
-      <a href="#interval">interval</a><br />
+      <a href="#interval">Interval</a><br />
 
       <h2>Models</h2>
-      <a href="#counter">counter</a><br />
-      <a href="#sequence">sequence</a><br />
-      <a href="#drunk">drunk</a><br />
-      <a href="#matrix">matrix</a><br />
+      <a href="#counter">Counter</a><br />
+      <a href="#sequence">Sequence</a><br />
+      <a href="#drunk">Drunk</a><br />
+      <a href="#matrix">Matrix</a><br />
 
       <h2>Helpers</h2>
       <a href="#ri">ri (random integer)</a><br />
@@ -566,7 +566,7 @@ synth.frequency.value = Nexus.note(2);
      </code></pre>
 
     <p>
-      By default the scale is an equal-tempered major scale. An API for changing the scale is near completion.
+      By default the scale is an equal-tempered major scale. An API for changing the scale is below.
     </p>
 
      <p>
@@ -576,9 +576,9 @@ synth.frequency.value = Nexus.note(2);
 
     <!-- section -->
 
-    <h3>Turning Scale Degrees to Frequency Numbers with Nexus.note()</h3>
+    <h3>Turning Scale Degrees to Frequency Values</h3>
      <p>
-       <b>Nexus.note()</b> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
+       <b>Nexus.note()</b> provides a method for turning scale degrees into frequency values which your web audio synth will understand.
      </p>
 
      <pre>
@@ -609,27 +609,36 @@ synth.frequency.value = Nexus.note(0,-1);
        <code class="language-javascript">
  // Play 5 octaves of the major scale
 
- var counter = new Nexus.Counter( 0, 6 );
+ var counter = new Nexus.Counter( 0, 36 );
 
- var beat = new Nexus.Interval(100,function() {
-   synth.frequency.value = Nexus.tune.note( counter.next() );
+ var beat = new Nexus.Interval(200,function() {
+   synth.frequency.value = Nexus.note( counter.next() );
  })
        </code>
      </pre>
 
 
 
-     <!-- section
 
-     <h3>Getting Ratios or MIDI instead of Frequencies</h3>
+     <h3>Getting Pitch Ratios or adjusted MIDI values</h3>
      <p>
-       For other ways of retrieving pitch data, ... <b>mt.tune.frequency</b>, <b>mt.tune.ratio</b>, and <b>mt.tune.midi</b>
+       If working with an audio sample, you may wish to tune your sample by changing its playback speed.
+
+       You can use <b>Nexus.tune.ratio()</b> to get the frequency ratio of a note to the root of your scale. This ratio can be used to set the playback speed of your sample.
+
+      <pre>
+        <code class="language-javascript">
+// This gives you the pitch ratio between the 5th note in scale and the root.
+Nexus.tune.ratio(4)  // returns 1.49830693925
+
+// You can use this to set the playback speed of a sampler
+sampler.playbackRate = Nexus.tune.ratio(4)
+        </code>
+      </pre>
+
      </p>
 
-    -->
 
-
-    <!-- section
 
     <h3>Changing the Scale</h3>
     <p>
@@ -639,35 +648,55 @@ synth.frequency.value = Nexus.note(0,-1);
       We do not provide any other built-in scales. However, we provide two ways for you to create your own scale.
     </p>
 
-    <h4>Describing an Equal-Tempered Scale</h4>
+    <h4>Describing a Scale</h4>
+
+    To define your own scale, you can call <b>.createScale()</b> with a list of the chromatic scale degrees you want in your scale.
+
     <pre><code class="language-javascript">
 // Create a minor scale
-mt.tune.createScale(0,2,3,5,7,8,10);
+Nexus.tune.createScale(0,2,3,5,7,8,10);
+
+// Now, Nexus.note() will refer to the scale you defined
+Nexus.note(0) // returns the frequency number of the root
+Nexus.note(1) // returns the frequency number of a Major 2nd
+Nexus.note(2) // returns the frequency number of a Minor 3rd
     </code></pre>
 
 
     <h4>Describing a Just Intonation Scale</h4>
+
+    You can also define <a href="https://en.wikipedia.org/wiki/Just_intonation">just intonation</a> scales.
+
+    To do so, call <b>.createJIScale()</b> with your own list of pitch ratios.
+
     <pre><code class="language-javascript">
 // Create a major scale in just intonation
-mt.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
+Nexus.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
+
+
+// Now, Nexus.note() will refer to the scale you defined
+Nexus.note(0) // returns the frequency number for ratio 1/1
+Nexus.note(1) // returns the frequency number for ratio 9/8
+Nexus.note(2) // returns the frequency number for ratio 5/4
     </code></pre>
 
 
 
     <h3>Changing the root </h3>
     <p>
-      By default, the root of the scale is Middle C. Therefore, <b>mt.note(0)</b> returns the frequency for Middle C.
+      By default, the root of the scale is Middle C. Therefore, <b>Nexus.note(0)</b> returns the frequency for Middle C.
     </p>
 
     <p>
-      You can set the root using <b>mt.tune.root</b>, which is a frequency value.
+      You can set the root using <b>Nexus.tune.root</b>, which is a frequency value.
     </p>
 
     <pre><code class="language-javascript">
-// Set the root to C 3 octaves below Middle C.
-mt.tune.root = mt.tune.note(0,-3);
+// Set the root to 3 octaves below Middle C.
+Nexus.tune.root = Nexus.note(0,-3);
     </code></pre>
 
+    In this way, you can change your scale root on the fly by setting it to other notes of the scale you are currently using.
 
     <p>
       The root can also be set using traditional musical values like "C3" or "A1". This is the only place in this toolkit where this type of music notation is used.
@@ -675,21 +704,21 @@ mt.tune.root = mt.tune.note(0,-3);
 
     <pre><code class="language-javascript">
 // Set the root to low A.
-mt.tune.root = "A1";
+Nexus.tune.root = "A1";
     </code></pre>
 
 
     <p>
-      If working in just intonation, you can set mt.tune.root direction to a frequency value.
+      You can also set Nexus.tune.root direction to a frequency value, for example if you are working in Just Intonation.
     </p>
 
     <pre><code class="language-javascript">
-// Set the root of your JI scale to 120hz.
-mt.tune.root = 120;
+// Set the root of your scale to 120hz.
+Nexus.tune.root = 120;
     </code></pre>
 
 
-
+<!--
 
     <h3>Examples</h3>
 
@@ -1923,7 +1952,7 @@ drunk.value = 500   // jumps to this value
   	font-size:30px;
   }
   .tutorial h4 {
-  	font-size:30px;
+  	font-size:25px;
     margin:35px 0px 10px;
   }
   .tutorial h5 {

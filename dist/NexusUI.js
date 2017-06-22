@@ -228,13 +228,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Two-dimensional touch slider.
 	*
-	* @demo <span mt="position"></span>
+	* @demo <span nexus-ui="position"></span>
 	*
 	* @example
-	* var position = new mt.Position('#target')
+	* var position = new Nexus.Position('#target')
 	*
 	* @example
-	* var position = new mt.Position('#target',{
+	* var position = new Nexus.Position('#target',{
 	*   'size': [200,200],
 	*   'mode': 'absolute',  // "absolute" or "relative"
 	*   'x': 0.5,  // initial x value
@@ -606,9 +606,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} max   Upper limit
 	 * @return {number}       The input value constrained within the lower and upper limits
 	 * @example
-	 * mt.clip(11,0,10)   // returns 10
-	 * mt.clip(-1,0,10)   // returns 0
-	 * mt.clip(5,0,10)    // returns 5
+	 * Nexus.clip(11,0,10)   // returns 10
+	 * Nexus.clip(-1,0,10)   // returns 0
+	 * Nexus.clip(5,0,10)    // returns 5
 	 */
 	
 	exports.clip = function (value, min, max) {
@@ -628,8 +628,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} outMax Output range maximum
 	 * @return {number}        The input value scaled to its new range
 	 * @example
-	 * mt.scale(0.5,0,1,0,10)   // returns 5
-	 * mt.scale(0.9,0,1,1,0)    // returns 0.1
+	 * Nexus.scale(0.5,0,1,0,10)   // returns 5
+	 * Nexus.scale(0.9,0,1,1,0)    // returns 0.1
 	 */
 	exports.scale = function (inNum, inMin, inMax, outMin, outMax) {
 	  if (inMin === inMax) {
@@ -676,7 +676,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} midi MIDI note value
 	 * @return {number}      Frequence value
 	 * @example
-	 * mt.mtof(60)  // returns the frequency number of Middle C
+	 * Nexus.mtof(60)  // returns the frequency number of Middle C
 	 */
 	exports.mtof = function (midi) {
 	  return Math.pow(2, (midi - 69) / 12) * 440;
@@ -689,8 +689,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} max Upper value
 	 * @return {number}     Interpolated value
 	 * @example
-	 * mt.interp(0.5,2,4)   // returns 3
-	 * mt.interp(0.1,0,10)     // returns 1
+	 * Nexus.interp(0.5,2,4)   // returns 3
+	 * Nexus.interp(0.1,0,10)     // returns 1
 	 */
 	exports.interp = function (loc, min, max) {
 	  return loc * (max - min) + min;
@@ -700,8 +700,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Return a random choice from a list of arguments
 	 * @return {various} One random argument
 	 * @example
-	 * mt.pick(1,2,3,4)   // returns 1, 2, 3, or 4
-	 * mt.pick(function1,function2)   // returns either function1 or function2
+	 * Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4
+	 * Nexus.pick(function1,function2)   // returns either function1 or function2
 	 */
 	exports.pick = function () {
 	  return arguments[~ ~(Math.random() * arguments.length)];
@@ -712,10 +712,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} num Relative octave number (e.g. -1 for one octave down, 1 for one octave up)
 	 * @return {number}     Octave multiplier
 	 * @example
-	 * mt.octave(-1)  // returns 0.5
-	 * mt.octave(0)   // returns 1
-	 * mt.octave(1)   // returns 2
-	 * mt.octave(2)   // returns 4
+	 * Nexus.octave(-1)  // returns 0.5
+	 * Nexus.octave(0)   // returns 1
+	 * Nexus.octave(1)   // returns 2
+	 * Nexus.octave(2)   // returns 4
 	 */
 	exports.octave = function (num) {
 	  return Math.pow(2, num);
@@ -727,8 +727,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} bound2 Maximum random value
 	 * @return {number}        Random integer between lower and upper boundary
 	 * @example
-	 * mt.ri(10)    // returns random int from 0 to 10
-	 * mt.ri(20,2000) // returns random int from 20 to 2000
+	 * Nexus.ri(10)    // returns random int from 0 to 10
+	 * Nexus.ri(20,2000) // returns random int from 20 to 2000
 	 */
 	exports.ri = function (bound1, bound2) {
 	  if (!bound2) {
@@ -746,8 +746,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} bound2 Maximum random value
 	 * @return {number}        Random float between lower and upper boundary
 	 * @example
-	 * mt.rf(1)    // returns random float from 0 to 1
-	 * mt.rf(1,2) // returns random float from 1 to 2
+	 * Nexus.rf(1)    // returns random float from 0 to 1
+	 * Nexus.rf(1,2) // returns random float from 1 to 2
 	 */
 	exports.rf = function (bound1, bound2) {
 	  if (!bound2) {
@@ -772,7 +772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {Array} data Array of numbers to average
 	 * @return {number}      Average of the input data
 	 * @example
-	 * mt.average([0,2,4,6,8,10])   // returns 5
+	 * Nexus.average([0,2,4,6,8,10])   // returns 5
 	 */
 	exports.average = function (data) {
 	  var total = 0;
@@ -790,7 +790,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} y2 y of second poiny
 	 * @return {number}    Distance
 	 * @example
-	 * mt.distance(0,0,3,4)   // returns 5
+	 * Nexus.distance(0,0,3,4)   // returns 5
 	 */
 	exports.distance = function (x1, y1, x2, y2) {
 	  var a = x1 - x2;
@@ -807,7 +807,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param  {number} [odds=0.5] Likelihood of returning 1
 	 * @return {number}            1 or 0
 	 * @example
-	 * mt.coin(0.1)   // returns 1 (10% likely) or 0 (90% likely)
+	 * Nexus.coin(0.1)   // returns 1 (10% of the time) or 0 (90% of the time)
 	 */
 	exports.coin = function () {
 	  var odds = arguments[0] === undefined ? 0.5 : arguments[0];
@@ -1972,13 +1972,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Horizontal or vertical slider with settable interaction modes.
 	*
-	* @demo <span mt="slider" step=0.2></span>
+	* @demo <span nexus-ui="slider" step=0.2></span>
 	*
 	* @example
-	* var slider = new mt.Slider('#target')
+	* var slider = new Nexus.Slider('#target')
 	*
 	* @example
-	* var slider = new mt.Slider('#target',{
+	* var slider = new Nexus.Slider('#target',{
 	*     'size': [120,20],
 	*     'orientation': 'vertical',  // 'vertical' or 'horizontal'
 	*     'mode': 'relative',  // 'relative' or 'absolute'
@@ -2299,13 +2299,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Binary switch
 	*
-	* @demo <span mt="toggle"></span>
+	* @demo <span nexus-ui="toggle"></span>
 	*
 	* @example
-	* var toggle = new mt.Toggle('#target')
+	* var toggle = new Nexus.Toggle('#target')
 	*
 	* @example
-	* var toggle = new mt.Toggle('#target',{
+	* var toggle = new Nexus.Toggle('#target',{
 	*     'size': [40,20],
 	*     'value': 0
 	* })
@@ -2868,13 +2868,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Text button
 	*
-	* @demo <span mt="textButton"></span>
+	* @demo <span nexus-ui="textButton"></span>
 	*
 	* @example
-	* var textbutton = new mt.TextButton('#target')
+	* var textbutton = new Nexus.TextButton('#target')
 	*
 	* @example
-	* var dial = new mt.TextButton('#target',{
+	* var dial = new Nexus.TextButton('#target',{
 	*     'size': [150,50],
 	*     'value': 0,
 	*     'text': 'Play',
@@ -3050,13 +3050,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description An array of buttons. By default, selecting one button will deselect all other buttons, but this can be customized using the API below.
 	*
-	* @demo <div mt="RadioButton"></div>
+	* @demo <div nexus-ui="RadioButton"></div>
 	*
 	* @example
-	* var radiobutton = new mt.RadioButton('#target')
+	* var radiobutton = new Nexus.RadioButton('#target')
 	*
 	* @example
-	* var radiobutton = new mt.RadioButton('#target',{
+	* var radiobutton = new Nexus.RadioButton('#target',{
 	*   'size': [120,25],
 	*   'numberOfButtons': 4,
 	*   'active': -1
@@ -3241,13 +3241,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Number interface which is controllable by dragging or typing.
 	*
-	* @demo <span mt="number"></span>
+	* @demo <span nexus-ui="number"></span>
 	*
 	* @example
-	* var number = new mt.Number('#target')
+	* var number = new Nexus.Number('#target')
 	*
 	* @example
-	* var number = new mt.Number('#target',{
+	* var number = new Nexus.Number('#target',{
 	*   'size': [60,30],
 	*   'value': 0,
 	*   'min': 0,
@@ -3547,13 +3547,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Dropdown menu
 	*
-	* @demo <span mt="select"></span>
+	* @demo <span nexus-ui="select"></span>
 	*
 	* @example
-	* var select = new mt.Select('#target')
+	* var select = new Nexus.Select('#target')
 	*
 	* @example
-	* var select = new mt.Select('#target',{
+	* var select = new Nexus.Select('#target',{
 	*   'size': [100,30],
 	*   'options': ['default','options']
 	* })
@@ -3748,13 +3748,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Dial with radial or linear interaction.
 	*
-	* @demo <span mt="dial"></span>
+	* @demo <span nexus-ui="dial"></span>
 	*
 	* @example
-	* var dial = new mt.Dial('#target')
+	* var dial = new Nexus.Dial('#target')
 	*
 	* @example
-	* var dial = new mt.Dial('#target',{
+	* var dial = new Nexus.Dial('#target',{
 	*   'size': [75,75],
 	*   'interaction': 'radial', // "radial", "vertical", or "horizontal"
 	*   'mode': 'relative', // "absolute" or "relative"
@@ -4284,13 +4284,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Piano keyboard interface
 	*
-	* @demo <div mt="piano"></div>
+	* @demo <div nexus-ui="piano"></div>
 	*
 	* @example
-	* var piano = new mt.Piano('#target')
+	* var piano = new Nexus.Piano('#target')
 	*
 	* @example
-	* var piano = new mt.Piano('#target',{
+	* var piano = new Nexus.Piano('#target',{
 	*     'size': [500,150],
 	*     'mode': 'button',  // 'button', 'toggle', or 'impulse'
 	*     'lowNote': 24,
@@ -4738,13 +4738,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Grid of buttons with built-in step sequencer.
 	*
-	* @demo <div mt="sequencer" style="width:400px;height:200px;"></div>
+	* @demo <div nexus-ui="sequencer" style="width:400px;height:200px;"></div>
 	*
 	* @example
-	* var sequencer = new mt.Sequencer('#target')
+	* var sequencer = new Nexus.Sequencer('#target')
 	*
 	* @example
-	* var sequencer = new mt.Sequencer('#target',{
+	* var sequencer = new Nexus.Sequencer('#target',{
 	*  'size': [400,200],
 	*  'mode': 'toggle',
 	*  'rows': 5,
@@ -5774,13 +5774,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.
 	*
-	* @demo <span mt="pan2D"></span>
+	* @demo <span nexus-ui="pan2D"></span>
 	*
 	* @example
-	* var pan2d = new mt.Pan2d('#target')
+	* var pan2d = new Nexus.Pan2d('#target')
 	*
 	* @example
-	* var pan2d = new mt.Pan2d('#target',{
+	* var pan2d = new Nexus.Pan2D('#target',{
 	*     'size': [200,200],
 	*     'range': 0.5,  // panning radius of each speaker
 	*     'mode': 'absolute',   // 'absolute' or 'relative'
@@ -6067,10 +6067,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description 2- or 3-axis tilt sensor (depending on your device and browser).
 	*
-	* @demo <span mt='tilt'></span>
+	* @demo <span nexus-ui='tilt'></span>
 	*
 	* @example
-	* var tilt = new mt.Tilt('#target')
+	* var tilt = new Nexus.Tilt('#target')
 	*
 	* @output
 	* change
@@ -6369,13 +6369,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Multislider
 	*
-	* @demo <span mt="multislider"></span>
+	* @demo <span nexus-ui="multislider"></span>
 	*
 	* @example
-	* var multislider = new mt.Multislider('#target')
+	* var multislider = new Nexus.Multislider('#target')
 	*
 	* @example
-	* var multislider = new mt.Multislider('#target',{
+	* var multislider = new Nexus.Multislider('#target',{
 	*  'size': [200,100],
 	*  'numberOfSliders': 5,
 	*  'min': 0,
@@ -7009,10 +7009,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Stereo crossfader.
 	*
-	* @demo <span mt="pan"></span>
+	* @demo <span nexus-ui="pan"></span>
 	*
 	* @example
-	* var pan = new mt.Pan('#target')
+	* var pan = new Nexus.Pan('#target')
 	*
 	* @output
 	* change
@@ -7316,13 +7316,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Interactive linear ramp visualization.
 	*
-	* @demo <span mt="envelope"></span>
+	* @demo <span nexus-ui="envelope"></span>
 	*
 	* @example
-	* var envelope = new mt.Envelope('#target')
+	* var envelope = new Nexus.Envelope('#target')
 	*
 	* @example
-	* var envelope = new mt.Envelope('#target',{
+	* var envelope = new Nexus.Envelope('#target',{
 	*     'size': [300,150],
 	*     'scale': 1,
 	*     'points': [
@@ -7761,13 +7761,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Audio spectrum visualization
 	*
-	* @demo <span mt="spectrogram"></span>
+	* @demo <span nexus-ui="spectrogram"></span>
 	*
 	* @example
-	* var spectrogram = new mt.Spectrogram('#target')
+	* var spectrogram = new Nexus.Spectrogram('#target')
 	*
 	* @example
-	* var spectrogram = new mt.Spectrogram('#target',{
+	* var spectrogram = new Nexus.Spectrogram('#target',{
 	*   'size': [300,150]
 	* })
 	*
@@ -7928,13 +7928,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Stereo decibel meter
 	*
-	* @demo <span mt="meter"></span>
+	* @demo <span nexus-ui="meter"></span>
 	*
 	* @example
-	* var meter = new mt.Meter('#target')
+	* var meter = new Nexus.Meter('#target')
 	*
 	* @example
-	* var meter = new mt.Meter('#target',{
+	* var meter = new Nexus.Meter('#target',{
 	*   'size': [75,75]
 	* })
 	*
@@ -8150,13 +8150,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @description Visualizes a waveform's stream of values.
 	*
-	* @demo <span mt="oscilloscope"></span>
+	* @demo <span nexus-ui="oscilloscope"></span>
 	*
 	* @example
-	* var oscilloscope = new mt.Oscilloscope('#target')
+	* var oscilloscope = new Nexus.Oscilloscope('#target')
 	*
 	* @example
-	* var oscilloscope = new mt.Oscilloscope('#target',{
+	* var oscilloscope = new Nexus.Oscilloscope('#target',{
 	*   'size': [300,150]
 	* })
 	*
@@ -9070,6 +9070,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var scales = _interopRequire(__webpack_require__(46));
 	
+	var math = _interopRequire(__webpack_require__(5));
+	
 	var Tune = (function () {
 	  function Tune() {
 	    _classCallCheck(this, Tune);
@@ -9087,7 +9089,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.etmajor = [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116];
 	
 	    // Root frequency.
-	    this.tonic = 440; // * Math.pow(2,(60-69)/12);
+	    this.root = math.mtof(60); // * Math.pow(2,(60-69)/12);
 	
 	    this.scales = scales;
 	
@@ -9095,14 +9097,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  _createClass(Tune, {
-	    tonicize: {
-	
-	      /* Set the tonic frequency */
-	
-	      value: function tonicize(newTonic) {
-	        this.tonic = newTonic;
-	      }
-	    },
 	    note: {
 	
 	      /* Return data in the mode you are in (freq, ratio, or midi) */
@@ -9148,7 +9142,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          scaleDegree += this.scale.length;
 	        }
 	
-	        var freq = this.tonic * this.scale[scaleDegree];
+	        var ratio = this.scale[scaleDegree];
+	
+	        var freq = this.root * ratio;
 	
 	        freq = freq * Math.pow(2, octave);
 	
@@ -9201,6 +9197,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return n;
 	      }
 	    },
+	    createScale: {
+	      value: function createScale() {
+	        var newScale = [];
+	        for (var i = 0; i < arguments.length; i++) {
+	          newScale.push(math.mtof(60 + arguments[i]));
+	        }
+	        this.loadScaleFromFrequencies(newScale);
+	      }
+	    },
+	    createJIScale: {
+	      value: function createJIScale() {
+	        this.scale = [];
+	        for (var i = 0; i < arguments.length; i++) {
+	          this.scale.push(arguments[i]);
+	        }
+	      }
+	    },
+	    loadScaleFromFrequencies: {
+	      value: function loadScaleFromFrequencies(freqs) {
+	        this.scale = [];
+	        for (var i = 0; i < freqs.length - 1; i++) {
+	          this.scale.push(freqs[i] / freqs[0]);
+	        }
+	      }
+	    },
 	    loadScale: {
 	
 	      /* Load a new scale */
@@ -9209,53 +9230,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        /* load the scale */
 	        var freqs = this.scales[name].frequencies;
-	        this.scale = [];
-	        for (var i = 0; i < freqs.length - 1; i++) {
-	          this.scale.push(freqs[i] / freqs[0]);
-	        }
-	
-	        /* visualize in console
-	        console.log(' ');
-	        console.log('LOADED '+name);
-	        console.log(this.scales[name].description);
-	        console.log(this.scale); */
-	        var vis = [];
-	        for (var i = 0; i < 100; i++) {
-	          vis[i] = " ";
-	        }
-	        for (var i = 0; i < this.scale.length; i++) {
-	          var spot = Math.round(this.scale[i] * 100 - 100);
-	          if (i < 10) {
-	            vis.splice(spot, 1, i + 1);
-	          } else {
-	            vis.splice(spot, 5, i + 1);
-	          }
-	        }
-	        var textvis = "";
-	        for (var i = 0; i < vis.length; i++) {
-	          textvis += vis[i];
-	        }
-	        //console.log(name);
-	        //console.log(textvis);
-	        // ET scale vis
-	        vis = [];
-	        for (var i = 0; i < 100; i++) {
-	          vis[i] = " ";
-	        }
-	        for (var i = 0; i < this.etmajor.length; i++) {
-	          var spot = Math.round(this.etmajor[i] / this.etmajor[0] * 100 - 100);
-	          if (i < 10) {
-	            vis.splice(spot, 1, i + 1);
-	          } else {
-	            vis.splice(spot, 5, i + 1);
-	          }
-	        }
-	        textvis = "";
-	        for (var i = 0; i < vis.length; i++) {
-	          textvis += vis[i];
-	        }
-	        //console.log(textvis);
-	        //console.log('equal-tempered major (reference)');
+	        this.loadScaleFromFrequencies(freqs);
 	      }
 	    },
 	    search: {
@@ -9283,16 +9258,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          output.push(this.note(midis[i]));
 	        }
 	        return output;
-	      }
-	    },
-	    root: {
-	
-	      /* Change the tonic frequency? */
-	
-	      value: function root(newmidi, newfreq) {
-	        this.rootFreq = newfreq;
-	        // not working now ... needs much work.
-	        // setKey is not transposing now, either.
 	      }
 	    }
 	  });

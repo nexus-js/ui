@@ -1964,17 +1964,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"dial\"></span>",
+        "description": "<span nexus-ui=\"dial\"></span>",
         "lineNumber": 6
       },
       {
         "title": "example",
-        "description": "var dial = new mt.Dial('#target')",
+        "description": "var dial = new Nexus.Dial('#target')",
         "lineNumber": 8
       },
       {
         "title": "example",
-        "description": "var dial = new mt.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
+        "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
         "lineNumber": 11
       },
       {
@@ -2018,10 +2018,10 @@
     },
     "examples": [
       {
-        "description": "var dial = new mt.Dial('#target')"
+        "description": "var dial = new Nexus.Dial('#target')"
       },
       {
-        "description": "var dial = new mt.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
+        "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
       }
     ],
     "name": "Dial",
@@ -2821,17 +2821,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"envelope\"></span>",
+        "description": "<span nexus-ui=\"envelope\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var envelope = new mt.Envelope('#target')",
+        "description": "var envelope = new Nexus.Envelope('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var envelope = new mt.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})",
+        "description": "var envelope = new Nexus.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})",
         "lineNumber": 10
       },
       {
@@ -2870,10 +2870,10 @@
     },
     "examples": [
       {
-        "description": "var envelope = new mt.Envelope('#target')"
+        "description": "var envelope = new Nexus.Envelope('#target')"
       },
       {
-        "description": "var envelope = new mt.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})"
+        "description": "var envelope = new Nexus.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})"
       }
     ],
     "name": "Envelope",
@@ -4363,17 +4363,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"meter\"></span>",
+        "description": "<span nexus-ui=\"meter\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var meter = new mt.Meter('#target')",
+        "description": "var meter = new Nexus.Meter('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var meter = new mt.Meter('#target',{\n  'size': [75,75]\n})",
+        "description": "var meter = new Nexus.Meter('#target',{\n  'size': [75,75]\n})",
         "lineNumber": 10
       },
       {
@@ -4407,10 +4407,10 @@
     },
     "examples": [
       {
-        "description": "var meter = new mt.Meter('#target')"
+        "description": "var meter = new Nexus.Meter('#target')"
       },
       {
-        "description": "var meter = new mt.Meter('#target',{\n  'size': [75,75]\n})"
+        "description": "var meter = new Nexus.Meter('#target',{\n  'size': [75,75]\n})"
       }
     ],
     "name": "Meter",
@@ -4823,17 +4823,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"multislider\"></span>",
+        "description": "<span nexus-ui=\"multislider\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var multislider = new mt.Multislider('#target')",
+        "description": "var multislider = new Nexus.Multislider('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var multislider = new mt.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})",
+        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})",
         "lineNumber": 10
       },
       {
@@ -4872,10 +4872,10 @@
     },
     "examples": [
       {
-        "description": "var multislider = new mt.Multislider('#target')"
+        "description": "var multislider = new Nexus.Multislider('#target')"
       },
       {
-        "description": "var multislider = new mt.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})"
+        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})"
       }
     ],
     "name": "Multislider",
@@ -5840,17 +5840,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"number\"></span>",
+        "description": "<span nexus-ui=\"number\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var number = new mt.Number('#target')",
+        "description": "var number = new Nexus.Number('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var number = new mt.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})",
+        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})",
         "lineNumber": 10
       },
       {
@@ -5889,10 +5889,10 @@
     },
     "examples": [
       {
-        "description": "var number = new mt.Number('#target')"
+        "description": "var number = new Nexus.Number('#target')"
       },
       {
-        "description": "var number = new mt.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})"
+        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})"
       }
     ],
     "name": "Number",
@@ -6641,17 +6641,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"oscilloscope\"></span>",
+        "description": "<span nexus-ui=\"oscilloscope\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var oscilloscope = new mt.Oscilloscope('#target')",
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var oscilloscope = new mt.Oscilloscope('#target',{\n  'size': [300,150]\n})",
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})",
         "lineNumber": 10
       },
       {
@@ -6685,10 +6685,10 @@
     },
     "examples": [
       {
-        "description": "var oscilloscope = new mt.Oscilloscope('#target')"
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
       },
       {
-        "description": "var oscilloscope = new mt.Oscilloscope('#target',{\n  'size': [300,150]\n})"
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "name": "Oscilloscope",
@@ -7038,12 +7038,12 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"pan\"></span>",
+        "description": "<span nexus-ui=\"pan\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var pan = new mt.Pan('#target')",
+        "description": "var pan = new Nexus.Pan('#target')",
         "lineNumber": 7
       },
       {
@@ -7082,7 +7082,7 @@
     },
     "examples": [
       {
-        "description": "var pan = new mt.Pan('#target')"
+        "description": "var pan = new Nexus.Pan('#target')"
       }
     ],
     "name": "Pan",
@@ -7277,17 +7277,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"pan2D\"></span>",
+        "description": "<span nexus-ui=\"pan2D\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var pan2d = new mt.Pan2d('#target')",
+        "description": "var pan2d = new Nexus.Pan2d('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var pan2d = new mt.Pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})",
+        "description": "var pan2d = new Nexus.Pan2D('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})",
         "lineNumber": 10
       },
       {
@@ -7326,10 +7326,10 @@
     },
     "examples": [
       {
-        "description": "var pan2d = new mt.Pan2d('#target')"
+        "description": "var pan2d = new Nexus.Pan2d('#target')"
       },
       {
-        "description": "var pan2d = new mt.Pan2d('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})"
+        "description": "var pan2d = new Nexus.Pan2D('#target',{\n    'size': [200,200],\n    'range': 0.5,  // panning radius of each speaker\n    'mode': 'absolute',   // 'absolute' or 'relative'\n    'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n    ]\n})"
       }
     ],
     "name": "Pan2D",
@@ -8545,17 +8545,17 @@
       },
       {
         "title": "demo",
-        "description": "<div mt=\"piano\"></div>",
+        "description": "<div nexus-ui=\"piano\"></div>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var piano = new mt.Piano('#target')",
+        "description": "var piano = new Nexus.Piano('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var piano = new mt.Piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})",
+        "description": "var piano = new Nexus.Piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})",
         "lineNumber": 10
       },
       {
@@ -8594,10 +8594,10 @@
     },
     "examples": [
       {
-        "description": "var piano = new mt.Piano('#target')"
+        "description": "var piano = new Nexus.Piano('#target')"
       },
       {
-        "description": "var piano = new mt.Piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
+        "description": "var piano = new Nexus.Piano('#target',{\n    'size': [500,150],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
       }
     ],
     "name": "Piano",
@@ -9367,17 +9367,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"position\"></span>",
+        "description": "<span nexus-ui=\"position\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var position = new mt.Position('#target')",
+        "description": "var position = new Nexus.Position('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var position = new mt.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})",
+        "description": "var position = new Nexus.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})",
         "lineNumber": 10
       },
       {
@@ -9416,10 +9416,10 @@
     },
     "examples": [
       {
-        "description": "var position = new mt.Position('#target')"
+        "description": "var position = new Nexus.Position('#target')"
       },
       {
-        "description": "var position = new mt.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
+        "description": "var position = new Nexus.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
       }
     ],
     "name": "Position",
@@ -10516,17 +10516,17 @@
       },
       {
         "title": "demo",
-        "description": "<div mt=\"RadioButton\"></div>",
+        "description": "<div nexus-ui=\"RadioButton\"></div>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var radiobutton = new mt.RadioButton('#target')",
+        "description": "var radiobutton = new Nexus.RadioButton('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var radiobutton = new mt.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})",
+        "description": "var radiobutton = new Nexus.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})",
         "lineNumber": 10
       },
       {
@@ -10565,10 +10565,10 @@
     },
     "examples": [
       {
-        "description": "var radiobutton = new mt.RadioButton('#target')"
+        "description": "var radiobutton = new Nexus.RadioButton('#target')"
       },
       {
-        "description": "var radiobutton = new mt.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})"
+        "description": "var radiobutton = new Nexus.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})"
       }
     ],
     "name": "RadioButton",
@@ -11090,12 +11090,12 @@
       },
       {
         "title": "demo",
-        "description": "<div mt=\"Range\"></div>",
+        "description": "<div nexus-ui=\"Range\"></div>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var range = new mt.Range('#target')",
+        "description": "var range = new Nexus.Range('#target')",
         "lineNumber": 7
       },
       {
@@ -11134,7 +11134,7 @@
     },
     "examples": [
       {
-        "description": "var range = new mt.Range('#target')"
+        "description": "var range = new Nexus.Range('#target')"
       }
     ],
     "name": "Range",
@@ -13223,17 +13223,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"select\"></span>",
+        "description": "<span nexus-ui=\"select\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var select = new mt.Select('#target')",
+        "description": "var select = new Nexus.Select('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var select = new mt.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})",
+        "description": "var select = new Nexus.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})",
         "lineNumber": 10
       },
       {
@@ -13272,10 +13272,10 @@
     },
     "examples": [
       {
-        "description": "var select = new mt.Select('#target')"
+        "description": "var select = new Nexus.Select('#target')"
       },
       {
-        "description": "var select = new mt.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})"
+        "description": "var select = new Nexus.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})"
       }
     ],
     "name": "Select",
@@ -13771,17 +13771,17 @@
       },
       {
         "title": "demo",
-        "description": "<div mt=\"sequencer\" style=\"width:400px;height:200px;\"></div>",
+        "description": "<div nexus-ui=\"sequencer\" style=\"width:400px;height:200px;\"></div>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var sequencer = new mt.Sequencer('#target')",
+        "description": "var sequencer = new Nexus.Sequencer('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var sequencer = new mt.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
         "lineNumber": 10
       },
       {
@@ -13830,10 +13830,10 @@
     },
     "examples": [
       {
-        "description": "var sequencer = new mt.Sequencer('#target')"
+        "description": "var sequencer = new Nexus.Sequencer('#target')"
       },
       {
-        "description": "var sequencer = new mt.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
       }
     ],
     "name": "Sequencer",
@@ -14828,17 +14828,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"slider\" step=0.2></span>",
+        "description": "<span nexus-ui=\"slider\" step=0.2></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var slider = new mt.Slider('#target')",
+        "description": "var slider = new Nexus.Slider('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var slider = new mt.Slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})",
+        "description": "var slider = new Nexus.Slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})",
         "lineNumber": 10
       },
       {
@@ -14877,10 +14877,10 @@
     },
     "examples": [
       {
-        "description": "var slider = new mt.Slider('#target')"
+        "description": "var slider = new Nexus.Slider('#target')"
       },
       {
-        "description": "var slider = new mt.Slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})"
+        "description": "var slider = new Nexus.Slider('#target',{\n    'size': [120,20],\n    'orientation': 'vertical',  // 'vertical' or 'horizontal'\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0,\n    'hasKnob': true\n})"
       }
     ],
     "name": "Slider",
@@ -15561,17 +15561,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"spectrogram\"></span>",
+        "description": "<span nexus-ui=\"spectrogram\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var spectrogram = new mt.Spectrogram('#target')",
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var spectrogram = new mt.Spectrogram('#target',{\n  'size': [300,150]\n})",
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})",
         "lineNumber": 10
       },
       {
@@ -15605,10 +15605,10 @@
     },
     "examples": [
       {
-        "description": "var spectrogram = new mt.Spectrogram('#target')"
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')"
       },
       {
-        "description": "var spectrogram = new mt.Spectrogram('#target',{\n  'size': [300,150]\n})"
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "name": "Spectrogram",
@@ -15958,17 +15958,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"textButton\"></span>",
+        "description": "<span nexus-ui=\"textButton\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var textbutton = new mt.TextButton('#target')",
+        "description": "var textbutton = new Nexus.TextButton('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var dial = new mt.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})",
+        "description": "var dial = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})",
         "lineNumber": 10
       },
       {
@@ -16007,10 +16007,10 @@
     },
     "examples": [
       {
-        "description": "var textbutton = new mt.TextButton('#target')"
+        "description": "var textbutton = new Nexus.TextButton('#target')"
       },
       {
-        "description": "var dial = new mt.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})"
+        "description": "var dial = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})"
       }
     ],
     "name": "TextButton",
@@ -17228,12 +17228,12 @@
       },
       {
         "title": "demo",
-        "description": "<span mt='tilt'></span>",
+        "description": "<span nexus-ui='tilt'></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var tilt = new mt.Tilt('#target')",
+        "description": "var tilt = new Nexus.Tilt('#target')",
         "lineNumber": 7
       },
       {
@@ -17272,7 +17272,7 @@
     },
     "examples": [
       {
-        "description": "var tilt = new mt.Tilt('#target')"
+        "description": "var tilt = new Nexus.Tilt('#target')"
       }
     ],
     "name": "Tilt",
@@ -17685,17 +17685,17 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"toggle\"></span>",
+        "description": "<span nexus-ui=\"toggle\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var toggle = new mt.Toggle('#target')",
+        "description": "var toggle = new Nexus.Toggle('#target')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var toggle = new mt.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})",
+        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})",
         "lineNumber": 10
       },
       {
@@ -17734,10 +17734,10 @@
     },
     "examples": [
       {
-        "description": "var toggle = new mt.Toggle('#target')"
+        "description": "var toggle = new Nexus.Toggle('#target')"
       },
       {
-        "description": "var toggle = new mt.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})"
+        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})"
       }
     ],
     "name": "Toggle",
@@ -18052,28 +18052,23 @@
       },
       {
         "title": "demo",
-        "description": "<span mt=\"waveform\"></span>",
+        "description": "<span nexus-ui=\"waveform\"></span>",
         "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "var waveform = mt.waveform('#target',buffer);",
+        "description": "var waveform = new Nexus.waveform('#target',buffer);",
         "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
-        "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
-        "lineNumber": 21
+        "lineNumber": 10
       },
       {
         "title": "outputexample",
         "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 26
+        "lineNumber": 15
       }
     ],
     "loc": {
@@ -18082,18 +18077,18 @@
         "column": 0
       },
       "end": {
-        "line": 42,
+        "line": 31,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 45,
+          "line": 34,
           "column": 0
         },
         "end": {
-          "line": 269,
+          "line": 258,
           "column": 1
         }
       },
@@ -18101,10 +18096,7 @@
     },
     "examples": [
       {
-        "description": "var waveform = mt.waveform('#target',buffer);"
-      },
-      {
-        "description": "var dial = mt.dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
+        "description": "var waveform = new Nexus.waveform('#target',buffer);"
       }
     ],
     "name": "Waveform",
@@ -19079,7 +19071,7 @@
       },
       {
         "title": "example",
-        "description": "mt.clip(11,0,10)   // returns 10\nmt.clip(-1,0,10)   // returns 0\nmt.clip(5,0,10)    // returns 5",
+        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5",
         "lineNumber": 6
       }
     ],
@@ -19350,7 +19342,7 @@
     ],
     "examples": [
       {
-        "description": "mt.clip(11,0,10)   // returns 10\nmt.clip(-1,0,10)   // returns 0\nmt.clip(5,0,10)    // returns 5"
+        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5"
       }
     ],
     "name": "clip",
@@ -19486,7 +19478,7 @@
       },
       {
         "title": "example",
-        "description": "mt.scale(0.5,0,1,0,10)   // returns 5\nmt.scale(0.9,0,1,1,0)    // returns 0.1",
+        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1",
         "lineNumber": 8
       }
     ],
@@ -19877,7 +19869,7 @@
     ],
     "examples": [
       {
-        "description": "mt.scale(0.5,0,1,0,10)   // returns 5\nmt.scale(0.9,0,1,1,0)    // returns 0.1"
+        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1"
       }
     ],
     "name": "scale",
@@ -19973,7 +19965,7 @@
       },
       {
         "title": "example",
-        "description": "mt.mtof(60)  // returns the frequency number of Middle C",
+        "description": "Nexus.mtof(60)  // returns the frequency number of Middle C",
         "lineNumber": 4
       }
     ],
@@ -20124,7 +20116,7 @@
     ],
     "examples": [
       {
-        "description": "mt.mtof(60)  // returns the frequency number of Middle C"
+        "description": "Nexus.mtof(60)  // returns the frequency number of Middle C"
       }
     ],
     "name": "mtof",
@@ -20240,7 +20232,7 @@
       },
       {
         "title": "example",
-        "description": "mt.interp(0.5,2,4)   // returns 3\nmt.interp(0.1,0,10)     // returns 1",
+        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1",
         "lineNumber": 6
       }
     ],
@@ -20511,7 +20503,7 @@
     ],
     "examples": [
       {
-        "description": "mt.interp(0.5,2,4)   // returns 3\nmt.interp(0.1,0,10)     // returns 1"
+        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1"
       }
     ],
     "name": "interp",
@@ -20597,7 +20589,7 @@
       },
       {
         "title": "example",
-        "description": "mt.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nmt.pick(function1,function2)   // returns either function1 or function2",
+        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2",
         "lineNumber": 3
       }
     ],
@@ -20686,7 +20678,7 @@
     ],
     "examples": [
       {
-        "description": "mt.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nmt.pick(function1,function2)   // returns either function1 or function2"
+        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2"
       }
     ],
     "name": "pick",
@@ -20782,7 +20774,7 @@
       },
       {
         "title": "example",
-        "description": "mt.octave(-1)  // returns 0.5\nmt.octave(0)   // returns 1\nmt.octave(1)   // returns 2\nmt.octave(2)   // returns 4",
+        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4",
         "lineNumber": 4
       }
     ],
@@ -20933,7 +20925,7 @@
     ],
     "examples": [
       {
-        "description": "mt.octave(-1)  // returns 0.5\nmt.octave(0)   // returns 1\nmt.octave(1)   // returns 2\nmt.octave(2)   // returns 4"
+        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4"
       }
     ],
     "name": "octave",
@@ -21039,7 +21031,7 @@
       },
       {
         "title": "example",
-        "description": "mt.ri(10)    // returns random int from 0 to 10\nmt.ri(20,2000) // returns random int from 20 to 2000",
+        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000",
         "lineNumber": 5
       }
     ],
@@ -21250,7 +21242,7 @@
     ],
     "examples": [
       {
-        "description": "mt.ri(10)    // returns random int from 0 to 10\nmt.ri(20,2000) // returns random int from 20 to 2000"
+        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000"
       }
     ],
     "name": "ri",
@@ -21356,7 +21348,7 @@
       },
       {
         "title": "example",
-        "description": "mt.rf(1)    // returns random float from 0 to 1\nmt.rf(1,2) // returns random float from 1 to 2",
+        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2",
         "lineNumber": 5
       }
     ],
@@ -21567,7 +21559,7 @@
     ],
     "examples": [
       {
-        "description": "mt.rf(1)    // returns random float from 0 to 1\nmt.rf(1,2) // returns random float from 1 to 2"
+        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2"
       }
     ],
     "name": "rf",
@@ -21663,7 +21655,7 @@
       },
       {
         "title": "example",
-        "description": "mt.average([0,2,4,6,8,10])   // returns 5",
+        "description": "Nexus.average([0,2,4,6,8,10])   // returns 5",
         "lineNumber": 4
       }
     ],
@@ -21814,7 +21806,7 @@
     ],
     "examples": [
       {
-        "description": "mt.average([0,2,4,6,8,10])   // returns 5"
+        "description": "Nexus.average([0,2,4,6,8,10])   // returns 5"
       }
     ],
     "name": "average",
@@ -21940,7 +21932,7 @@
       },
       {
         "title": "example",
-        "description": "mt.distance(0,0,3,4)   // returns 5",
+        "description": "Nexus.distance(0,0,3,4)   // returns 5",
         "lineNumber": 7
       }
     ],
@@ -22271,7 +22263,7 @@
     ],
     "examples": [
       {
-        "description": "mt.distance(0,0,3,4)   // returns 5"
+        "description": "Nexus.distance(0,0,3,4)   // returns 5"
       }
     ],
     "name": "distance",
@@ -22371,7 +22363,7 @@
       },
       {
         "title": "example",
-        "description": "mt.coin(0.1)   // returns 1 (10% likely) or 0 (90% likely)",
+        "description": "Nexus.coin(0.1)   // returns 1 (10% of the time) or 0 (90% of the time)",
         "lineNumber": 4
       }
     ],
@@ -22526,7 +22518,7 @@
     ],
     "examples": [
       {
-        "description": "mt.coin(0.1)   // returns 1 (10% likely) or 0 (90% likely)"
+        "description": "Nexus.coin(0.1)   // returns 1 (10% of the time) or 0 (90% of the time)"
       }
     ],
     "name": "coin",
