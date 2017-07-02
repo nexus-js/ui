@@ -65,6 +65,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
@@ -83,7 +85,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//import RangeModel from './models/range';
 	
-	var Transform = _interopRequire(__webpack_require__(39));
+	var Transform = _interopRequireWildcard(__webpack_require__(39));
 	
 	var Counter = __webpack_require__(28);
 	var Radio = __webpack_require__(47);
@@ -93,8 +95,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let Step = require('./models/step');
 	var Matrix = __webpack_require__(25);
 	//let Toggle = require('./models/toggle');
-	//
-	//
 	
 	var WAAClock = _interopRequire(__webpack_require__(41));
 	
@@ -166,6 +166,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	
 	  this.transform = Transform;
+	  this.add = Transform.add;
 	};
 	
 	module.exports = NexusUI;
@@ -848,6 +849,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _classCallCheck(this, Interface);
 	
 	    _get(Object.getPrototypeOf(Interface.prototype), "constructor", this).call(this);
+	    this.type = this.constructor.name;
 	    this.settings = this.parseSettings(args, options, defaults);
 	    this.mouse = {};
 	    this.wait = false;
@@ -907,20 +909,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // ... target, colors, event, sizing...
 	
 	        // target
+	        this.parent = dom.parseElement(settings.target);
 	
-	        if (typeof settings.target === "string") {
-	          this.parent = document.getElementById(settings.target.replace("#", ""));
-	        } else if (settings.target instanceof HTMLElement) {
-	          this.parent = settings.target;
-	        } else if (settings.target instanceof SVGElement) {
-	          this.parent = settings.target;
-	        }
-	
+	        // nexus-ui attribute
 	        if (this.parent && this.parent instanceof HTMLElement && !settings.component) {
-	          if (this.parent.className) {
-	            this.parent.className += " mt-ui";
-	          } else {
-	            this.parent.className = "mt-ui";
+	          if (!this.parent.hasAttribute("nexus-ui")) {
+	            this.parent.setAttribute("nexus-ui", "");
 	          }
 	        }
 	
@@ -1218,10 +1212,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.parseElement = function (parent) {
 	  if (typeof parent === "string") {
-	    parent = document.getElementById(parent);
+	    parent = document.getElementById(parent.replace("#", ""));
 	  }
 	
-	  if (parent instanceof HTMLElement) {
+	  if (parent instanceof HTMLElement || parent instanceof SVGElement) {
 	    return parent;
 	  } else {
 	    return "No valid parent argument";
@@ -2463,16 +2457,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @demo <span nexus-ui="button"></span>
 	*
 	* @example
-	* var button = new Nexus.Button('button')
+	* var button = new Nexus.Button('#target')
 	*
 	* @example
-	* var button = new Nexus.Button('button',{
-	*   mode: 'toggle',
-	*   state: true,
-	*   size: [100,100],
-	*   event: function(v) {
-	*     alert(v);
-	*   }
+	* var button = new Nexus.Button('#target',{
+	*   'mode': 'toggle',
+	*   'state': true,
+	*   'size': [100,100]
 	* })
 	*
 	* @output
@@ -3441,6 +3432,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.on("change", function (v) {
 	          destination.value = v;
 	        });
+	        this.value = destination.value;
 	        /*  return {
 	            listener1: listener1,
 	            listener2: listener2,
@@ -4602,7 +4594,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ButtonTemplate = __webpack_require__(17);
 	var MatrixModel = __webpack_require__(25);
 	var CounterModel = __webpack_require__(28);
-	//let Time = require('../core/time');
 	var touch = __webpack_require__(9);
 	
 	var MatrixCell = (function (_ButtonTemplate) {
@@ -5781,10 +5772,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var pan2d = new Nexus.Pan2D('#target',{
-	*     'size': [200,200],
-	*     'range': 0.5,  // panning radius of each speaker
-	*     'mode': 'absolute',   // 'absolute' or 'relative'
-	*     'speakers': [  // the speaker [x,y] positions
+	*   'size': [200,200],
+	*   'range': 0.5,  // panning radius of each speaker
+	*   'mode': 'absolute',   // 'absolute' or 'relative'
+	*   'speakers': [  // the speaker [x,y] positions
 	*       [0.5,0.2],
 	*       [0.75,0.25],
 	*       [0.8,0.5],
@@ -5793,7 +5784,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*       [0.25,0.75]
 	*       [0.2,0.5],
 	*       [0.25,0.25]
-	*     ]
+	*   ]
 	* })
 	*
 	* @output
@@ -7020,7 +7011,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* The event data is an object containing the interface's <i>value</i> (-1 to 1), as well as <i>L</i> and <i>R</i> amplitude values (0-1) for left and right speakers, calculated by a square-root crossfade algorithm.
 	*
 	* @outputexample
-	* dial.on('change',function(v) {
+	* pan.on('change',function(v) {
 	*   console.log(v);
 	* })
 	*
@@ -7323,26 +7314,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var envelope = new Nexus.Envelope('#target',{
-	*     'size': [300,150],
-	*     'scale': 1,
-	*     'points': [
-	*       {
-	*           x: 0.1,
-	*           y: 0.4
-	*       },
-	*       {
-	*           x: 0.35,
-	*           y: 0.6
-	*       },
-	*       {
-	*           x: 0.65,
-	*           y: 0.2
-	*       },
-	*       {
-	*           x: 0.9,
-	*           y: 0.4
-	*       },
-	*     ]
+	*   'size': [300,150],
+	*   'points': [
+	*     {
+	*       x: 0.1,
+	*       y: 0.4
+	*     },
+	*     {
+	*       x: 0.35,
+	*       y: 0.6
+	*     },
+	*     {
+	*       x: 0.65,
+	*       y: 0.2
+	*     },
+	*     {
+	*       x: 0.9,
+	*       y: 0.4
+	*     },
+	*   ]
 	* })
 	*
 	* @output
@@ -7365,7 +7355,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [300, 150],
-	      scale: 1,
 	      points: [{
 	        x: 0.1,
 	        y: 0.4
@@ -7384,8 +7373,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _get(Object.getPrototypeOf(Envelope.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
 	    this.points = this.settings.points;
-	
-	    this.scale = this.settings.scale;
 	
 	    this.nodes = [];
 	
@@ -7935,7 +7922,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var meter = new Nexus.Meter('#target',{
-	*   'size': [75,75]
+	*   size: [75,75]
 	* })
 	*
 	* @output
@@ -8318,6 +8305,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -8334,12 +8323,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	2) In future, potentially writing a rack that is re-usable?
 	Could also take JSON
 	
-	new Nexus.Rack('elementID',{
+	new Nexus.Rack('#target',{
 	  pre: () => {
 	    create some divs here, or some audio code
 	  },
 	  interface: {
-	    slider1: mt.create.slider({
+	    slider1: Nexus.add.slider({
 	      top:10,
 	      left:10,
 	      width:50,
@@ -8348,7 +8337,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      max: 100,
 	      step: 1
 	    }),
-	    wave1: mt.create.waveform({
+	    wave1: Nexus.add.waveform({
 	      file: './path/to/file.mp3',
 	      width:500,
 	      height:100,
@@ -8364,13 +8353,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var transform = _interopRequireWildcard(__webpack_require__(39));
 	
+	var dom = _interopRequire(__webpack_require__(7));
+	
 	var Rack = (function () {
 	  function Rack(target, name, open) {
 	    _classCallCheck(this, Rack);
 	
 	    this.meta = {};
 	    this.meta.target = target;
-	    this.meta.parent = document.getElementById(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
+	    this.meta.parent = dom.parseElement(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
 	    this.meta.title = name;
 	    this.meta.open = open;
 	    this.meta.colors = {};
@@ -8511,8 +8502,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
-	var element = function (element, type) {
-	  var options = {};
+	var createInterfaceID = function (widget, interfaceIDs) {
+	  var type = widget.type;
+	  if (interfaceIDs[type]) {
+	    interfaceIDs[type]++;
+	  } else {
+	    interfaceIDs[type] = 1;
+	  }
+	  return type + interfaceIDs[type];
+	};
+	
+	var element = function (element, type, options) {
+	  options = options || {};
 	  for (var i = 0; i < element.attributes.length; i++) {
 	    var att = element.attributes[i];
 	    //  try {
@@ -8529,6 +8530,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var section = function (parent) {
 	
+	  var interfaceIDs = {};
+	
 	  var container = dom.parseElement(parent);
 	
 	  var ui = {};
@@ -8541,16 +8544,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	  for (var i = 0; i < elements.length; i++) {
 	    var type = elements[i].getAttribute("nexus-ui");
 	    if (type) {
-	      var widget = element(elements[i], type);
-	      ui[widget.id] = widget;
+	      var formattedType = false;
+	      for (var key in Interfaces) {
+	        if (type.toLowerCase() === key.toLowerCase()) {
+	          formattedType = key;
+	        }
+	      }
+	      console.log(formattedType);
+	      var widget = element(elements[i], formattedType);
+	      if (widget.id) {
+	        ui[widget.id] = widget;
+	      } else {
+	        var id = createInterfaceID(widget, interfaceIDs);
+	        ui[id] = widget;
+	      }
 	    }
 	  }
 	
 	  return ui;
 	};
 	
+	var add = function (type, options) {
+	  var target = document.createElement("div");
+	  var parent = document.body;
+	  if (options) {
+	    parent = options.parent;
+	  } else {
+	    options = {};
+	  }
+	  parent = dom.parseElement(parent);
+	  parent.appendChild(target);
+	  options.target = target;
+	  if (options.size) {
+	    target.style.width = options.size[0] + "px";
+	    target.style.height = options.size[1] + "px";
+	  }
+	  element(target, type, options);
+	};
+	/*
 	exports.section = section;
 	exports.element = element;
+	exports.add = add;
+	*/
+	exports.element = element;
+	exports.section = section;
+	exports.add = add;
 
 /***/ },
 /* 40 */,

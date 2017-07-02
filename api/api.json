@@ -1272,7 +1272,7 @@
           "column": 0
         },
         "end": {
-          "line": 325,
+          "line": 316,
           "column": 1
         }
       },
@@ -1364,22 +1364,22 @@
           ],
           "loc": {
             "start": {
-              "line": 276,
+              "line": 267,
               "column": 2
             },
             "end": {
-              "line": 283,
+              "line": 274,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 284,
+                "line": 275,
                 "column": 2
               },
               "end": {
-                "line": 292,
+                "line": 283,
                 "column": 3
               }
             },
@@ -1588,22 +1588,22 @@
           ],
           "loc": {
             "start": {
-              "line": 300,
+              "line": 291,
               "column": 2
             },
             "end": {
-              "line": 305,
+              "line": 296,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 306,
+                "line": 297,
                 "column": 2
               },
               "end": {
-                "line": 314,
+                "line": 305,
                 "column": 3
               }
             },
@@ -1714,12 +1714,12 @@
       },
       {
         "title": "example",
-        "description": "var button = new Nexus.Button('button')",
+        "description": "var button = new Nexus.Button('#button')",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var button = new Nexus.Button('button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})",
+        "description": "var button = new Nexus.Button('#button',{\n  'mode': 'toggle',\n  'state': true,\n  'size': [100,100],\n  'event': function(v) {\n    console.log(v);\n  }\n})",
         "lineNumber": 10
       },
       {
@@ -1758,10 +1758,10 @@
     },
     "examples": [
       {
-        "description": "var button = new Nexus.Button('button')"
+        "description": "var button = new Nexus.Button('#button')"
       },
       {
-        "description": "var button = new Nexus.Button('button',{\n  mode: 'toggle',\n  state: true,\n  size: [100,100],\n  event: function(v) {\n    alert(v);\n  }\n})"
+        "description": "var button = new Nexus.Button('#button',{\n  'mode': 'toggle',\n  'state': true,\n  'size': [100,100],\n  'event': function(v) {\n    console.log(v);\n  }\n})"
       }
     ],
     "name": "Button",
@@ -1974,23 +1974,23 @@
       },
       {
         "title": "example",
-        "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})",
+        "description": "var dial = new Nexus.Dial('#target',{\n  size: [75,75],\n  interaction: 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  mode: 'relative', // \"absolute\" or \"relative\"\n  min: 0,\n  max: 1,\n  step: 0,\n  value: 20,\n  event: function(v) {\n    console.log(v);\n  }\n})",
         "lineNumber": 11
       },
       {
         "title": "output",
         "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
-        "lineNumber": 22
+        "lineNumber": 25
       },
       {
         "title": "outputexample",
         "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 27
+        "lineNumber": 30
       },
       {
         "title": "tutorial",
         "description": "Dial\nygGMxq",
-        "lineNumber": 32
+        "lineNumber": 35
       }
     ],
     "loc": {
@@ -1999,18 +1999,18 @@
         "column": 0
       },
       "end": {
-        "line": 45,
+        "line": 48,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 47,
+          "line": 50,
           "column": 0
         },
         "end": {
-          "line": 378,
+          "line": 381,
           "column": 1
         }
       },
@@ -2021,7 +2021,7 @@
         "description": "var dial = new Nexus.Dial('#target')"
       },
       {
-        "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 20\n})"
+        "description": "var dial = new Nexus.Dial('#target',{\n  size: [75,75],\n  interaction: 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  mode: 'relative', // \"absolute\" or \"relative\"\n  min: 0,\n  max: 1,\n  step: 0,\n  value: 20,\n  event: function(v) {\n    console.log(v);\n  }\n})"
       }
     ],
     "name": "Dial",
@@ -2105,22 +2105,22 @@
           ],
           "loc": {
             "start": {
-              "line": 300,
+              "line": 303,
               "column": 4
             },
             "end": {
-              "line": 304,
+              "line": 307,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 305,
+                "line": 308,
                 "column": 4
               },
               "end": {
-                "line": 307,
+                "line": 310,
                 "column": 5
               }
             },
@@ -2224,22 +2224,22 @@
           ],
           "loc": {
             "start": {
-              "line": 315,
+              "line": 318,
               "column": 4
             },
             "end": {
-              "line": 319,
+              "line": 322,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 320,
+                "line": 323,
                 "column": 4
               },
               "end": {
-                "line": 322,
+                "line": 325,
                 "column": 5
               }
             },
@@ -2343,22 +2343,22 @@
           ],
           "loc": {
             "start": {
-              "line": 327,
+              "line": 330,
               "column": 4
             },
             "end": {
-              "line": 331,
+              "line": 334,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 332,
+                "line": 335,
                 "column": 4
               },
               "end": {
-                "line": 334,
+                "line": 337,
                 "column": 5
               }
             },
@@ -2462,22 +2462,22 @@
           ],
           "loc": {
             "start": {
-              "line": 339,
+              "line": 342,
               "column": 4
             },
             "end": {
-              "line": 343,
+              "line": 346,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 344,
+                "line": 347,
                 "column": 4
               },
               "end": {
-                "line": 346,
+                "line": 349,
                 "column": 5
               }
             },
@@ -2581,22 +2581,22 @@
           ],
           "loc": {
             "start": {
-              "line": 351,
+              "line": 354,
               "column": 4
             },
             "end": {
-              "line": 355,
+              "line": 358,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 356,
+                "line": 359,
                 "column": 4
               },
               "end": {
-                "line": 358,
+                "line": 361,
                 "column": 5
               }
             },
@@ -2700,22 +2700,22 @@
           ],
           "loc": {
             "start": {
-              "line": 364,
+              "line": 367,
               "column": 2
             },
             "end": {
-              "line": 368,
+              "line": 371,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 369,
+                "line": 372,
                 "column": 2
               },
               "end": {
-                "line": 371,
+                "line": 374,
                 "column": 3
               }
             },
@@ -2831,18 +2831,18 @@
       },
       {
         "title": "example",
-        "description": "var envelope = new Nexus.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})",
+        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ],\n  'event': function(v) {\n    console.log(v);\n  }\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires any time a node is moved. <br>\nThe event data is an array of point locations. Each item in the array is an object containing <i>x</i> and <i>y</i> properties describing the location of a point on the envelope.",
-        "lineNumber": 34
+        "lineNumber": 36
       },
       {
         "title": "outputexample",
         "description": "envelope.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 39
+        "lineNumber": 41
       }
     ],
     "loc": {
@@ -2851,18 +2851,18 @@
         "column": 0
       },
       "end": {
-        "line": 112,
+        "line": 114,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 114,
+          "line": 116,
           "column": 0
         },
         "end": {
-          "line": 469,
+          "line": 468,
           "column": 1
         }
       },
@@ -2873,7 +2873,7 @@
         "description": "var envelope = new Nexus.Envelope('#target')"
       },
       {
-        "description": "var envelope = new Nexus.Envelope('#target',{\n    'size': [300,150],\n    'scale': 1,\n    'points': [\n      {\n          x: 0.1,\n          y: 0.4\n      },\n      {\n          x: 0.35,\n          y: 0.6\n      },\n      {\n          x: 0.65,\n          y: 0.2\n      },\n      {\n          x: 0.9,\n          y: 0.4\n      },\n    ]\n})"
+        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ],\n  'event': function(v) {\n    console.log(v);\n  }\n})"
       }
     ],
     "name": "Envelope",
@@ -2942,22 +2942,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 347,
+              "line": 346,
               "column": 2
             },
             "end": {
-              "line": 349,
+              "line": 348,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 350,
+                "line": 349,
                 "column": 2
               },
               "end": {
-                "line": 354,
+                "line": 353,
                 "column": 3
               }
             },
@@ -3056,22 +3056,22 @@
           ],
           "loc": {
             "start": {
-              "line": 357,
+              "line": 356,
               "column": 2
             },
             "end": {
-              "line": 361,
+              "line": 360,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 362,
+                "line": 361,
                 "column": 2
               },
               "end": {
-                "line": 385,
+                "line": 384,
                 "column": 3
               }
             },
@@ -3277,22 +3277,22 @@
           ],
           "loc": {
             "start": {
-              "line": 388,
+              "line": 387,
               "column": 2
             },
             "end": {
-              "line": 391,
+              "line": 390,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 392,
+                "line": 391,
                 "column": 2
               },
               "end": {
-                "line": 408,
+                "line": 407,
                 "column": 3
               }
             },
@@ -3456,22 +3456,22 @@
           ],
           "loc": {
             "start": {
-              "line": 411,
+              "line": 410,
               "column": 2
             },
             "end": {
-              "line": 416,
+              "line": 415,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 417,
+                "line": 416,
                 "column": 2
               },
               "end": {
-                "line": 423,
+                "line": 422,
                 "column": 3
               }
             },
@@ -3747,22 +3747,22 @@
           ],
           "loc": {
             "start": {
-              "line": 426,
+              "line": 425,
               "column": 2
             },
             "end": {
-              "line": 431,
+              "line": 430,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 432,
+                "line": 431,
                 "column": 2
               },
               "end": {
-                "line": 438,
+                "line": 437,
                 "column": 3
               }
             },
@@ -4024,22 +4024,22 @@
           ],
           "loc": {
             "start": {
-              "line": 441,
+              "line": 440,
               "column": 2
             },
             "end": {
-              "line": 444,
+              "line": 443,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 445,
+                "line": 444,
                 "column": 2
               },
               "end": {
-                "line": 450,
+                "line": 449,
                 "column": 3
               }
             },
@@ -4189,22 +4189,22 @@
           ],
           "loc": {
             "start": {
-              "line": 453,
+              "line": 452,
               "column": 2
             },
             "end": {
-              "line": 456,
+              "line": 455,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 457,
+                "line": 456,
                 "column": 2
               },
               "end": {
-                "line": 467,
+                "line": 466,
                 "column": 3
               }
             },
@@ -4373,7 +4373,7 @@
       },
       {
         "title": "example",
-        "description": "var meter = new Nexus.Meter('#target',{\n  'size': [75,75]\n})",
+        "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})",
         "lineNumber": 10
       },
       {
@@ -4410,7 +4410,7 @@
         "description": "var meter = new Nexus.Meter('#target')"
       },
       {
-        "description": "var meter = new Nexus.Meter('#target',{\n  'size': [75,75]\n})"
+        "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})"
       }
     ],
     "name": "Meter",
@@ -5881,7 +5881,7 @@
           "column": 0
         },
         "end": {
-          "line": 268,
+          "line": 269,
           "column": 1
         }
       },
@@ -5992,7 +5992,7 @@
                 "column": 2
               },
               "end": {
-                "line": 211,
+                "line": 212,
                 "column": 3
               }
             },
@@ -6163,22 +6163,22 @@
           ],
           "loc": {
             "start": {
-              "line": 218,
+              "line": 219,
               "column": 2
             },
             "end": {
-              "line": 222,
+              "line": 223,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 223,
+                "line": 224,
                 "column": 2
               },
               "end": {
-                "line": 225,
+                "line": 226,
                 "column": 3
               }
             },
@@ -6282,22 +6282,22 @@
           ],
           "loc": {
             "start": {
-              "line": 232,
+              "line": 233,
               "column": 2
             },
             "end": {
-              "line": 236,
+              "line": 237,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 237,
+                "line": 238,
                 "column": 2
               },
               "end": {
-                "line": 239,
+                "line": 240,
                 "column": 3
               }
             },
@@ -6401,22 +6401,22 @@
           ],
           "loc": {
             "start": {
-              "line": 244,
+              "line": 245,
               "column": 2
             },
             "end": {
-              "line": 248,
+              "line": 249,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 249,
+                "line": 250,
                 "column": 2
               },
               "end": {
-                "line": 251,
+                "line": 252,
                 "column": 3
               }
             },
@@ -6520,22 +6520,22 @@
           ],
           "loc": {
             "start": {
-              "line": 256,
+              "line": 257,
               "column": 2
             },
             "end": {
-              "line": 260,
+              "line": 261,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 261,
+                "line": 262,
                 "column": 2
               },
               "end": {
-                "line": 263,
+                "line": 264,
                 "column": 3
               }
             },
