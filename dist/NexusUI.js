@@ -199,7 +199,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(11);
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
@@ -800,7 +800,364 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 6 */,
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var dom = __webpack_require__(7);
+	var util = __webpack_require__(8);
+	var touch = __webpack_require__(9);
+	var EventEmitter = __webpack_require__(10);
+	
+	/**
+	Interface
+	*/
+	
+	var Interface = (function (_EventEmitter) {
+	  function Interface(args, options, defaults) {
+	    _classCallCheck(this, Interface);
+	
+	    _get(Object.getPrototypeOf(Interface.prototype), "constructor", this).call(this);
+	    this.type = this.constructor.name;
+	    this.settings = this.parseSettings(args, options, defaults);
+	    this.mouse = {};
+	    this.wait = false;
+	    this.colors = {};
+	    var defaultColors = Nexus.colors; // jshint ignore:line
+	    this.colors.accent = defaultColors.accent;
+	    this.colors.fill = defaultColors.fill;
+	    this.colors.light = defaultColors.light;
+	    this.colors.dark = defaultColors.dark;
+	    this.colors.mediumLight = defaultColors.mediumLight;
+	    this.colors.mediumDark = defaultColors.mediumDark;
+	  }
+	
+	  _inherits(Interface, _EventEmitter);
+	
+	  _createClass(Interface, {
+	    parseSettings: {
+	      value: function parseSettings(args, options, defaults) {
+	
+	        options.unshift("target");
+	        defaults.defaultSize = defaults.size.splice(0, 2);
+	        defaults.size = false;
+	
+	        var settings = {
+	          target: document.body,
+	          colors: {}, // should inherit from a colors module,
+	          snapWithParent: true,
+	          event: function event() {},
+	          component: false
+	        };
+	
+	        for (var key in defaults) {
+	          settings[key] = defaults[key];
+	        }
+	
+	        for (var i = 0; i < args.length; i++) {
+	          // grabs the next argument
+	          var setting = args[i];
+	          // if it's an object, it must be the settings object
+	          if (util.isObject(setting)) {
+	            for (var key in setting) {
+	              settings[key] = setting[key];
+	            }
+	            // if it's a function, it must be the event setting
+	          } else if (typeof setting === "function") {
+	            settings.event = setting;
+	            // otherwise, consider it one of the widget's custom options
+	          } else if (options.length >= 1) {
+	            // grab the first option -- i.e. 'target'
+	            var key = options.splice(0, 1)[0];
+	            settings[key] = setting;
+	          }
+	        }
+	
+	        /*  handle common settings  */
+	
+	        // target
+	        this.parent = dom.parseElement(settings.target);
+	
+	        // nexus-ui attribute
+	        if (this.parent && this.parent instanceof HTMLElement && !settings.component) {
+	          if (!this.parent.hasAttribute("nexus-ui")) {
+	            this.parent.setAttribute("nexus-ui", "");
+	          }
+	        }
+	
+	        // size
+	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
+	          this.width = settings.size[0];
+	          this.height = settings.size[1];
+	          this.parent.style.width = this.width;
+	          this.parent.style.height = this.height;
+	        } else if (settings.snapWithParent) {
+	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
+	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
+	          if (!this.width) {
+	            this.width = settings.defaultSize[0];
+	            this.parent.style.width = this.width + "px";
+	          }
+	          if (!this.height) {
+	            this.height = settings.defaultSize[1];
+	            this.parent.style.height = this.height + "px";
+	          }
+	        } else {
+	          settings.size = settings.defaultSize;
+	          this.width = settings.size[0];
+	          this.height = settings.size[1];
+	        }
+	
+	        // event
+	        if (settings.event) {
+	          this.event = this.on("change", settings.event);
+	        } else {
+	          this.event = false;
+	        }
+	
+	        return settings;
+	      }
+	    },
+	    init: {
+	      value: function init() {
+	        this.buildFrame();
+	        this.buildInterface();
+	        this.attachListeners();
+	        this.sizeInterface();
+	        this.colorInterface();
+	        this.finalTouches();
+	      }
+	    },
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {}
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {}
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {}
+	    },
+	    attachListeners: {
+	      value: function attachListeners() {
+	        var _this = this;
+	
+	        this.interactionTarget = this.interactionTarget || this.element;
+	
+	        // Setup interaction
+	        if (touch.exists) {
+	          this.interactionTarget.addEventListener("touchstart", function (evt) {
+	            return _this.preTouch(evt);
+	          });
+	          this.interactionTarget.addEventListener("touchmove", function (evt) {
+	            return _this.preTouchMove(evt);
+	          });
+	          this.interactionTarget.addEventListener("touchend", function (evt) {
+	            return _this.preTouchRelease(evt);
+	          });
+	        }
+	        this.boundPreMove = function (evt) {
+	          return _this.preMove(evt);
+	        };
+	        this.boundPreRelease = function (evt) {
+	          return _this.preRelease(evt);
+	        };
+	        this.interactionTarget.addEventListener("mousedown", function (evt) {
+	          return _this.preClick(evt);
+	        });
+	      }
+	    },
+	    finalTouches: {
+	      value: function finalTouches() {
+	        this.element.style.cursor = "pointer";
+	      }
+	    },
+	    preClick: {
+	      value: function preClick(e) {
+	        // 10000 getComputedStyle calls takes 100 ms.
+	        // .:. one takes about .01ms
+	        if (this.element instanceof HTMLElement) {
+	          this.width = window.getComputedStyle(this.element, null).getPropertyValue("width").replace("px", "");
+	        }
+	        // 10000 getComputedStyle calls takes 40 ms.
+	        // .:. one takes about .004ms
+	        this.offset = dom.findPosition(this.element);
+	        this.mouse = dom.locateMouse(e, this.offset);
+	        this.clicked = true;
+	        this.click();
+	        this.moveEvent = document.addEventListener("mousemove", this.boundPreMove);
+	        this.releaseEvent = document.addEventListener("mouseup", this.boundPreRelease);
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    preMove: {
+	      value: function preMove(e) {
+	        var _this = this;
+	
+	        if (!this.wait) {
+	          this.mouse = dom.locateMouse(e, this.offset);
+	          this.move();
+	          this.wait = true;
+	          setTimeout(function () {
+	            _this.wait = false;
+	          }, 25);
+	        }
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    preRelease: {
+	      value: function preRelease(e) {
+	        this.mouse = dom.locateMouse(e, this.offset);
+	        this.clicked = false;
+	        this.release();
+	        document.removeEventListener("mousemove", this.boundPreMove);
+	        document.removeEventListener("mouseup", this.boundPreRelease);
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    click: {
+	      value: function click() {}
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {}
+	    },
+	    preTouch: {
+	
+	      /* touch */
+	
+	      value: function preTouch(e) {
+	        if (this.element instanceof HTMLElement) {
+	          this.width = window.getComputedStyle(this.element, null).getPropertyValue("width").replace("px", "");
+	        }
+	        this.offset = dom.findPosition(this.element);
+	        this.mouse = dom.locateTouch(e, this.offset);
+	        this.clicked = true;
+	        this.touch(e);
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    preTouchMove: {
+	      value: function preTouchMove(e) {
+	        if (this.clicked) {
+	          this.mouse = dom.locateTouch(e, this.offset);
+	          this.touchMove();
+	          e.preventDefault();
+	          e.stopPropagation();
+	        }
+	      }
+	    },
+	    preTouchRelease: {
+	      value: function preTouchRelease(e) {
+	        this.mouse = dom.locateTouch(e, this.offset);
+	        this.clicked = false;
+	        this.touchRelease();
+	        e.preventDefault();
+	        e.stopPropagation();
+	      }
+	    },
+	    touch: {
+	      value: function touch() {
+	        this.click();
+	      }
+	    },
+	    touchMove: {
+	      value: function touchMove() {
+	        this.move();
+	      }
+	    },
+	    touchRelease: {
+	      value: function touchRelease() {
+	        this.release();
+	      }
+	    },
+	    resize: {
+	
+	      /**
+	      * Resize the interface
+	      * @param width {number} New width in pixels
+	      * @param height {number} New height in pixels
+	      *
+	      * @example
+	      * button.resize(100,100);
+	      */
+	
+	      value: function resize(width, height) {
+	        this.width = width;
+	        this.height = height;
+	        this.parent.style.width = this.width + "px";
+	        this.parent.style.height = this.height + "px";
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.sizeInterface();
+	      }
+	    },
+	    empty: {
+	      value: function empty() {
+	        while (this.element.lastChild) {
+	          this.element.removeChild(this.element.lastChild);
+	        }
+	      }
+	    },
+	    destroy: {
+	
+	      /**
+	      * Remove the interface from the page and cancel its event listener(s).
+	      *
+	      * @example
+	      * button.destroy());
+	      */
+	
+	      value: function destroy() {
+	        this.empty();
+	        this.parent.removeChild(this.element);
+	        this.removeAllListeners();
+	        if (this.instrument) {
+	          delete this.instrument[this.id];
+	        }
+	        this.customDestroy();
+	      }
+	    },
+	    customDestroy: {
+	      value: function customDestroy() {}
+	    },
+	    colorize: {
+	      value: function colorize(type, color) {
+	        this.colors[type] = color;
+	        this.colorInterface();
+	      }
+	    }
+	  });
+	
+	  return Interface;
+	})(EventEmitter);
+	
+	module.exports = Interface;
+
+/***/ },
 /* 7 */
 /***/ function(module, exports) {
 
@@ -855,7 +1212,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 8 */,
+/* 8 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	exports.isObject = function (obj) {
+	  if (typeof obj === "object" && !Array.isArray(obj) && obj !== null && obj instanceof SVGElement === false && obj instanceof HTMLElement === false) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	};
+
+/***/ },
 /* 9 */
 /***/ function(module, exports) {
 
@@ -864,7 +1234,314 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.exists = "ontouchstart" in document.documentElement;
 
 /***/ },
-/* 10 */,
+/* 10 */
+/***/ function(module, exports) {
+
+	// Copyright Joyent, Inc. and other Node contributors.
+	//
+	// Permission is hereby granted, free of charge, to any person obtaining a
+	// copy of this software and associated documentation files (the
+	// "Software"), to deal in the Software without restriction, including
+	// without limitation the rights to use, copy, modify, merge, publish,
+	// distribute, sublicense, and/or sell copies of the Software, and to permit
+	// persons to whom the Software is furnished to do so, subject to the
+	// following conditions:
+	//
+	// The above copyright notice and this permission notice shall be included
+	// in all copies or substantial portions of the Software.
+	//
+	// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+	// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+	// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+	// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+	// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+	// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+	// USE OR OTHER DEALINGS IN THE SOFTWARE.
+	
+	function EventEmitter() {
+	  this._events = this._events || {};
+	  this._maxListeners = this._maxListeners || undefined;
+	}
+	module.exports = EventEmitter;
+	
+	// Backwards-compat with node 0.10.x
+	EventEmitter.EventEmitter = EventEmitter;
+	
+	EventEmitter.prototype._events = undefined;
+	EventEmitter.prototype._maxListeners = undefined;
+	
+	// By default EventEmitters will print a warning if more than 10 listeners are
+	// added to it. This is a useful default which helps finding memory leaks.
+	EventEmitter.defaultMaxListeners = 10;
+	
+	// Obviously not all Emitters should be limited to 10. This function allows
+	// that to be increased. Set to zero for unlimited.
+	EventEmitter.prototype.setMaxListeners = function(n) {
+	  if (!isNumber(n) || n < 0 || isNaN(n))
+	    throw TypeError('n must be a positive number');
+	  this._maxListeners = n;
+	  return this;
+	};
+	
+	EventEmitter.prototype.emit = function(type) {
+	  var er, handler, len, args, i, listeners;
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // If there is no 'error' event listener then throw.
+	  if (type === 'error') {
+	    if (!this._events.error ||
+	        (isObject(this._events.error) && !this._events.error.length)) {
+	      er = arguments[1];
+	      if (er instanceof Error) {
+	        throw er; // Unhandled 'error' event
+	      } else {
+	        // At least give some kind of context to the user
+	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+	        err.context = er;
+	        throw err;
+	      }
+	    }
+	  }
+	
+	  handler = this._events[type];
+	
+	  if (isUndefined(handler))
+	    return false;
+	
+	  if (isFunction(handler)) {
+	    switch (arguments.length) {
+	      // fast cases
+	      case 1:
+	        handler.call(this);
+	        break;
+	      case 2:
+	        handler.call(this, arguments[1]);
+	        break;
+	      case 3:
+	        handler.call(this, arguments[1], arguments[2]);
+	        break;
+	      // slower
+	      default:
+	        args = Array.prototype.slice.call(arguments, 1);
+	        handler.apply(this, args);
+	    }
+	  } else if (isObject(handler)) {
+	    args = Array.prototype.slice.call(arguments, 1);
+	    listeners = handler.slice();
+	    len = listeners.length;
+	    for (i = 0; i < len; i++)
+	      listeners[i].apply(this, args);
+	  }
+	
+	  return true;
+	};
+	
+	EventEmitter.prototype.addListener = function(type, listener) {
+	  var m;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events)
+	    this._events = {};
+	
+	  // To avoid recursion in the case that type === "newListener"! Before
+	  // adding it to the listeners, first emit "newListener".
+	  if (this._events.newListener)
+	    this.emit('newListener', type,
+	              isFunction(listener.listener) ?
+	              listener.listener : listener);
+	
+	  if (!this._events[type])
+	    // Optimize the case of one listener. Don't need the extra array object.
+	    this._events[type] = listener;
+	  else if (isObject(this._events[type]))
+	    // If we've already got an array, just append.
+	    this._events[type].push(listener);
+	  else
+	    // Adding the second element, need to change to array.
+	    this._events[type] = [this._events[type], listener];
+	
+	  // Check for listener leak
+	  if (isObject(this._events[type]) && !this._events[type].warned) {
+	    if (!isUndefined(this._maxListeners)) {
+	      m = this._maxListeners;
+	    } else {
+	      m = EventEmitter.defaultMaxListeners;
+	    }
+	
+	    if (m && m > 0 && this._events[type].length > m) {
+	      this._events[type].warned = true;
+	      console.error('(node) warning: possible EventEmitter memory ' +
+	                    'leak detected. %d listeners added. ' +
+	                    'Use emitter.setMaxListeners() to increase limit.',
+	                    this._events[type].length);
+	      if (typeof console.trace === 'function') {
+	        // not supported in IE 10
+	        console.trace();
+	      }
+	    }
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+	
+	EventEmitter.prototype.once = function(type, listener) {
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  var fired = false;
+	
+	  function g() {
+	    this.removeListener(type, g);
+	
+	    if (!fired) {
+	      fired = true;
+	      listener.apply(this, arguments);
+	    }
+	  }
+	
+	  g.listener = listener;
+	  this.on(type, g);
+	
+	  return this;
+	};
+	
+	// emits a 'removeListener' event iff the listener was removed
+	EventEmitter.prototype.removeListener = function(type, listener) {
+	  var list, position, length, i;
+	
+	  if (!isFunction(listener))
+	    throw TypeError('listener must be a function');
+	
+	  if (!this._events || !this._events[type])
+	    return this;
+	
+	  list = this._events[type];
+	  length = list.length;
+	  position = -1;
+	
+	  if (list === listener ||
+	      (isFunction(list.listener) && list.listener === listener)) {
+	    delete this._events[type];
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	
+	  } else if (isObject(list)) {
+	    for (i = length; i-- > 0;) {
+	      if (list[i] === listener ||
+	          (list[i].listener && list[i].listener === listener)) {
+	        position = i;
+	        break;
+	      }
+	    }
+	
+	    if (position < 0)
+	      return this;
+	
+	    if (list.length === 1) {
+	      list.length = 0;
+	      delete this._events[type];
+	    } else {
+	      list.splice(position, 1);
+	    }
+	
+	    if (this._events.removeListener)
+	      this.emit('removeListener', type, listener);
+	  }
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.removeAllListeners = function(type) {
+	  var key, listeners;
+	
+	  if (!this._events)
+	    return this;
+	
+	  // not listening for removeListener, no need to emit
+	  if (!this._events.removeListener) {
+	    if (arguments.length === 0)
+	      this._events = {};
+	    else if (this._events[type])
+	      delete this._events[type];
+	    return this;
+	  }
+	
+	  // emit removeListener for all listeners on all events
+	  if (arguments.length === 0) {
+	    for (key in this._events) {
+	      if (key === 'removeListener') continue;
+	      this.removeAllListeners(key);
+	    }
+	    this.removeAllListeners('removeListener');
+	    this._events = {};
+	    return this;
+	  }
+	
+	  listeners = this._events[type];
+	
+	  if (isFunction(listeners)) {
+	    this.removeListener(type, listeners);
+	  } else if (listeners) {
+	    // LIFO order
+	    while (listeners.length)
+	      this.removeListener(type, listeners[listeners.length - 1]);
+	  }
+	  delete this._events[type];
+	
+	  return this;
+	};
+	
+	EventEmitter.prototype.listeners = function(type) {
+	  var ret;
+	  if (!this._events || !this._events[type])
+	    ret = [];
+	  else if (isFunction(this._events[type]))
+	    ret = [this._events[type]];
+	  else
+	    ret = this._events[type].slice();
+	  return ret;
+	};
+	
+	EventEmitter.prototype.listenerCount = function(type) {
+	  if (this._events) {
+	    var evlistener = this._events[type];
+	
+	    if (isFunction(evlistener))
+	      return 1;
+	    else if (evlistener)
+	      return evlistener.length;
+	  }
+	  return 0;
+	};
+	
+	EventEmitter.listenerCount = function(emitter, type) {
+	  return emitter.listenerCount(type);
+	};
+	
+	function isFunction(arg) {
+	  return typeof arg === 'function';
+	}
+	
+	function isNumber(arg) {
+	  return typeof arg === 'number';
+	}
+	
+	function isObject(arg) {
+	  return typeof arg === 'object' && arg !== null;
+	}
+	
+	function isUndefined(arg) {
+	  return arg === void 0;
+	}
+
+
+/***/ },
 /* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -1239,7 +1916,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(11);
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
@@ -1567,7 +2244,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Toggle
@@ -1872,7 +2549,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
 	var ToggleModel = __webpack_require__(13);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	/**
 	Button Template
@@ -2305,7 +2982,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	//let svg = require('../util/svg');
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Button = __webpack_require__(16);
 	
 	/**
@@ -2493,7 +3170,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(11);
 	var math = __webpack_require__(5);
 	
@@ -2797,7 +3474,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Select
@@ -2994,7 +3671,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(11);
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
@@ -3402,7 +4079,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(17);
 	var touch = __webpack_require__(9);
 	
@@ -3852,7 +4529,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var dom = __webpack_require__(7);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var ButtonTemplate = __webpack_require__(17);
 	var MatrixModel = __webpack_require__(25);
 	var CounterModel = __webpack_require__(28);
@@ -5015,7 +5692,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(11);
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
@@ -5310,7 +5987,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = __webpack_require__(5);
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Tilt
@@ -5487,7 +6164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var dom = __webpack_require__(7);
 	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var SliderTemplate = __webpack_require__(32);
 	var touch = __webpack_require__(9);
 	
@@ -5956,7 +6633,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(11);
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
@@ -6248,7 +6925,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	var Step = __webpack_require__(11);
 	
 	var Interaction = _interopRequireWildcard(__webpack_require__(12));
@@ -6496,7 +7173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = __webpack_require__(5);
 	var svg = __webpack_require__(4);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	var Point = function Point(point, envelope) {
 	
@@ -6995,7 +7672,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var dom = __webpack_require__(7);
 	//let math = require('../util/math');
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Spectrogram
@@ -7157,7 +7834,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var dom = __webpack_require__(7);
 	var math = __webpack_require__(5);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Meter
@@ -7374,7 +8051,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var dom = __webpack_require__(7);
-	var Interface = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"../core/interface\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Interface = __webpack_require__(6);
 	
 	/**
 	* Oscilloscope
