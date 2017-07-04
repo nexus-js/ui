@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/mt.js"></script>
+  <script src="js/Tone9.js"></script>
+  <meta name="viewport" content="width=200, initial-scale=1">
+</head>
+<body style="margin:0;padding:0;">
+
+
+  <div style="font-size:20px;padding:20px;text-align:center;margin-top:40px;">
+    NexusUI Very Basic Demo
+  </div>
+
+
+<!--
+  <div id="drum" style="border:solid 1px #ccc;background-color:white;width:840px;padding:10px">
+    <div>
+      <div mt="toggle" id="power" style="width:40px;height:25px;float:left;margin:0px"></div>
+      <span style="height:25px;line-height:28px;margin:0px 10px">Power On</span>
+    </div>
+    <div style="overflow:auto">
+      <div mt="sequencer" id="sequencer" style="width:400px;height:50px;float:left;margin:10px 10px 10px 0px"></div>
+      <div mt="dial" id="tempo" style="width:50px;height:50px;float:left;margin:10px 10px 10px 0px"></div>
+    </div>
+  </div> -->
+
+
+
+<div id="drone" style=>
+  <div style="border:solid 2px #0af;width:200px;padding:20px;margin:0 auto;">
+    <div>
+      <div mt="toggle" id="power" style="width:40px;height:25px;float:left;margin:0"></div>
+      <span style="height:25px;line-height:28px;margin-left:10px">Power On</span>
+    <!--  <div mt="meter" id="meter" style="width:15px;height:30px;float:right;margin:0"></div> -->
+    </div>
+    <div style="overflow:auto">
+    <!--  <div style="padding:25px 0px 0px;width:200px;overflow:auto">
+        <div mt="select" id="waveform" style="width:100px;height:25px;"></div>
+        <div style="display:inline-block;float:left;padding:3px 0px 0px">Pitch</div>
+      </div> -->
+      <div style="padding:15px 0px 0px;width:200px;overflow:auto">
+        <div mt="slider" id="timbre" style="width:200px;height:25px;display:inline-block;"></div>
+      <!--  <div mt="number" id="timbreNum" style="width:50px;height:25px;float:right"></div> -->
+        <div style="display:inline-block;float:left;padding:3px 0px 0px">Timbre</div>
+      </div>
+      <div style="padding:15px 0px 0px;width:200px;overflow:auto">
+        <div mt="pan" id="pan" style="width:200px;height:25px;display:inline-block;"></div>
+        <div style="display:inline-block;float:left;padding:3px 0px 0px">Pan</div>
+      </div>
+
+      <div style="padding:15px 0px 0px;width:200px;overflow:auto">
+        <div mt="position" id="filter" style="width:200px;height:150px;display:inline-block;"></div>
+        <div style="display:inline-block;float:left;padding:3px 0px 0px">Filter</div>
+      </div>
+
+      <div>
+    <!--    <div style="padding:15px 0px 0px;width:60px;overflow:auto;float:left">
+          <div mt="dial" id="reverb" style="width:60px;height:60px;margin:0 auto"></div>
+          <div style="text-align:center;padding:10px 0px 0px">Reverb</div>
+        </div> -->
+    <!--    <div style="padding:15px 0px 0px;width:60px;overflow:auto;float:left;margin-left:9px;">
+          <div mt="dial" id="drive" style="width:60px;height:60px;margin:0 auto"></div>
+          <div style="text-align:center;padding:10px 0px 0px">Drive</div>
+        </div>
+        <div style="padding:15px 0px 0px;width:60px;overflow:auto;float:left;margin-left:9px;">
+          <div mt="dial" id="delay" style="width:60px;height:60px;margin:0 auto"></div>
+          <div style="text-align:center;padding:10px 0px 0px">Delay</div>
+        </div> -->
+
+      </div>
+
+    </div>
+
+
+    <div>
+      <div mt="spectrogram" id="spectrogram" style="width:240px;height:50px;margin-left:-20px;margin-bottom:-20px;"></div>
+    </div>
+  </div>
+
+</div>
+
+
+<style>
+
+body {
+  font-family:helvetica;
+  font-weight:300;
+  background-color:#111;
+  color:#0af;
+}
+.mt-ui {
+  margin:0px;
+}
+</style>
+</body>
+<script>
+
+  mt.context = Tone.context;
+
+  mt.colors.accent = "#0af";
+  mt.colors.fill = "#333";
+  mt.colors.white = "#000";
+
+/*
+Notes:
+radioButton.numberOfButtons
+select.options
+ */
+
+
+
+  drone = mt.rack('drone');
+
+  // drone.pitch1.numberOfButtons = 8;
+  // drone.pitch2.numberOfButtons = 8;
+  //
+  // drone.waveform.options = ["sine","sawtooth"]
+
+  droneSynth = {
+    fm: new Tone.FMOscillator(100, "sawtooth", "sawtooth").start(),
+    fm2: new Tone.FMOscillator(112.5, "sawtooth", "sawtooth").start(),
+    vol: new Tone.Volume(-Infinity),
+    pan: new Tone.Panner(0),
+    filter: new Tone.Filter(100, "bandpass"),
+    verb: new Tone.Freeverb(),
+    compressor: new Tone.Compressor(-30, 10)
+  }
+
+  droneSynth.fm.connect( droneSynth.filter )
+  droneSynth.fm2.connect( droneSynth.filter );
+  droneSynth.filter.chain( droneSynth.compressor, droneSynth.vol, droneSynth.pan, droneSynth.verb, Tone.Master)
+
+
+  droneSynth.fm.harmonicity.value = 4
+  droneSynth.fm2.harmonicity.value = 4
+
+
+  drone.power.on('change',function(v) {
+    if (v) {
+      droneSynth.vol.volume.rampTo(-20,1)
+    } else {
+      droneSynth.vol.volume.rampTo(-Infinity,1)
+    }
+  })
+
+  drone.timbre.min = 10
+  drone.timbre.max = 20
+  drone.timbre.on('change',function(v) {
+    droneSynth.fm.modulationIndex.rampTo(v,0.1)
+    droneSynth.fm2.modulationIndex.rampTo(v,0.1)
+  })
+  drone.timbre.value = 0
+
+/*  drone.timbreNum.link(drone.timbre)
+  drone.timbreNum.colorize("dark","#0af")
+  drone.timbreNum.colorize("fill","#000") */
+
+
+  drone.pan.on('change',function(v) {
+  //  console.log(droneSynth.pan.pan.value)
+    droneSynth.pan.pan.value = v.value;
+  })
+
+
+
+  drone.filter.minX = 0
+  drone.filter.maxX = 1400
+  drone.filter.minY = 0
+  drone.filter.maxY = 10
+
+  drone.filter.on('change',function(v) {
+    droneSynth.filter.frequency.value = v.x;
+    droneSynth.filter.Q.value = v.y;
+  })
+
+
+
+  /*  drone.reverb.on('change',function(v) {
+      droneSynth.verb.wet.value = v
+    })
+
+    drone.reverb.value = 0 */
+
+    droneSynth.verb.wet.value = 0.2
+
+
+    drone.spectrogram.connect(Tone.Master);
+    drone.spectrogram.colorize("fill","#000")
+
+</script>
+</html>

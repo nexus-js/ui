@@ -1,9 +1,9 @@
 module.exports = {
     entry: './index.js',
     output: {
-        filename: './dist/mt.js',
-        sourceMapFilename: './dist/mt.map',
-        library: 'es6Boilerplate',
+        filename: './dist/NexusUI.js',
+        sourceMapFilename: './dist/NexusUI.map',
+        library: 'NexusUI',
         libraryTarget: 'umd'
     },
     module: {

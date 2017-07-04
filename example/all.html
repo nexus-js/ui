@@ -4,31 +4,31 @@
 <head>
   <meta charset="utf-8" />
   <title>Musician's Toolkit</title>
-  <script src="../dist/mt.js"></script>
+  <script src="../dist/NexusUI.js"></script>
   <script src="js/Tone9.js"></script>
   <meta name="viewport" content="width=200, initial-scale=1">
 </head>
 <body style="margin:0;padding;0">
   <div id="all-interfaces">
-    <div mt="Dial" id="dial"></div>
-    <div mt="Slider" id="slider"></div>
-    <div mt="Toggle" id="toggle"></div>
-    <div mt="Position" id="position"></div>
-    <div mt="Button" id="button"></div>
-    <div mt="TextButton" id="textbutton"></div>
-    <div mt="RadioButton" id="radiobutton"></div>
-    <div mt="Number" id="number"></div>
-    <div mt="Select" id="select"></div>
-    <div mt="Piano" id="piano"></div>
-    <div mt="Sequencer" id="sequencer"></div>
-    <div mt="Pan2D" id="pan2D"></div>
-    <div mt="Tilt" id="tilt"></div>
-    <div mt="Multislider" id="multislider"></div>
-    <div mt="Pan" id="pan"></div>
-    <div mt="Envelope" id="envelope"></div>
-    <div mt="Oscilloscope" id="oscilloscope"></div>
-    <div mt="Meter" id="meter"></div>
-    <div mt="Spectrogram" id="spectrogram"></div>
+    <div nexus-ui="dial"></div>
+    <div nexus-ui="slider"></div>
+    <div nexus-ui="toggle" id="toggle"></div>
+    <div nexus-ui="position" id="position"></div>
+    <div nexus-ui="button" id="button"></div>
+    <div nexus-ui="textbutton" id="textbutton"></div>
+    <div nexus-ui="radiobutton" id="radiobutton"></div>
+    <div nexus-ui="number" id="number"></div>
+    <div nexus-ui="select" id="select"></div>
+    <div nexus-ui="piano" id="piano"></div>
+    <div nexus-ui="sequencer" id="sequencer"></div>
+    <div nexus-ui="pan2d" id="pan2D"></div>
+    <div nexus-ui="tilt" id="tilt"></div>
+    <div nexus-ui="multislider"></div>
+    <div nexus-ui="pan" id="pan"></div>
+    <div nexus-ui="envelope" id="envelope"></div>
+    <div nexus-ui="oscilloscope" id="oscilloscope"></div>
+    <div nexus-ui="meter" id="meter"></div>
+    <div nexus-ui="spectrogram" id="spectrogram"></div>
   </div>
 </body>
 <style>
@@ -37,7 +37,7 @@
   margin:20px auto;
   font-family:helvetica, sans-serif;
 }
-.mt-ui {
+[nexus-ui] {
   margin:15px auto;
   display:block;
   width:0;
@@ -51,9 +51,9 @@
 </style>
 <script>
 
-  mt.context = Tone.context;
+  Nexus.context = Tone.context;
 
-  ui = mt.rack('all-interfaces');
+  ui = new Nexus.Rack('#all-interfaces');
   ui.tilt.active = false
 
   var player2 = new Tone.Player("./media/D-sharp.mp3")

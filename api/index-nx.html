@@ -9,7 +9,7 @@
   <link rel='stylesheet' href='prism/prism.css' />
   <script src="prism/prism.js"></script>
   <script src="js/moustache.min.js"></script>
-  <script src="../dist/NexusUI.js"></script>
+  <script src="../dist/mt.js"></script>
   <script src="js/Tone9.js"></script>
 </head>
 <body class='documentation'>
@@ -34,49 +34,49 @@
       <h2>Interfaces</h2>
 
       <h3>Core</h3>
-      <a href="#Button">Button</a><br />
-      <a href="#Dial">Dial</a><br />
-      <a href="#Number">Number</a><br />
-      <a href="#Position">Position</a><br />
-      <a href="#Slider">Slider</a><br />
-      <a href="#Toggle">Toggle</a><br />
+      <a href="#Button">button</a><br />
+      <a href="#Dial">dial</a><br />
+      <a href="#Number">number</a><br />
+      <a href="#Position">position</a><br />
+      <a href="#Slider">slider</a><br />
+      <a href="#Toggle">toggle</a><br />
 
       <h3>General</h3>
-      <a href="#Envelope">Envelope</a><br />
-      <a href="#Multislider">Multislider</a><br />
-      <a href="#Piano">Piano</a><br />
-      <a href="#RadioButton">RadioButton</a><br />
-      <a href="#Select">Select</a><br />
+      <a href="#Envelope">envelope</a><br />
+      <a href="#Multislider">multislider</a><br />
+      <a href="#Piano">piano</a><br />
+      <a href="#RadioButton">radiobutton</a><br />
+      <a href="#Select">select</a><br />
     <!--  <a href="#Range">range</a><br /> -->
-      <a href="#Sequencer">Sequencer</a><br />
-      <a href="#TextButton">TextButton</a><br />
+      <a href="#Sequencer">sequencer</a><br />
+      <a href="#TextButton">textbutton</a><br />
     <!--  <a href="#Waveform">waveform</a><br /> -->
 
 
       <h3>Mobile</h3>
-      <a href="#Tilt">Tilt</a><br />
+      <a href="#Tilt">tilt</a><br />
 
       <h3>Spatialization</h3>
-      <a href="#Pan">Pan</a><br />
-      <a href="#Pan2D">Pan2D</a><br />
+      <a href="#Pan">pan</a><br />
+      <a href="#Pan2D">pan2d</a><br />
 
       <h3>Visualization</h3>
-      <a href="#Meter">Meter</a><br />
-      <a href="#Oscilloscope">Pscilloscope</a><br />
-      <a href="#Spectrogram">Spectragram</a><br />
+      <a href="#Meter">meter</a><br />
+      <a href="#Oscilloscope">oscilloscope</a><br />
+      <a href="#Spectrogram">spectragram</a><br />
 
 
       <h2>Tuning</h2>
-      <a href="#tune">Tune</a><br />
+      <a href="#tune">tune</a><br />
 
       <h2>Timing</h2>
-      <a href="#interval">Interval</a><br />
+      <a href="#interval">interval</a><br />
 
       <h2>Models</h2>
-      <a href="#counter">Counter</a><br />
-      <a href="#sequence">Sequence</a><br />
-      <a href="#drunk">Drunk</a><br />
-      <a href="#matrix">Matrix</a><br />
+      <a href="#counter">counter</a><br />
+      <a href="#sequence">sequence</a><br />
+      <a href="#drunk">drunk</a><br />
+      <a href="#matrix">matrix</a><br />
 
       <h2>Helpers</h2>
       <a href="#ri">ri (random integer)</a><br />
@@ -276,18 +276,18 @@
       <h5>Setup</h5>
 
       <p>
-        Download <a href="https://rawgit.com/taylorbf/Musicians-Toolkit/master/dist/NexusUI.js" download>NexusUI.js</a>. <br />
+        Download <a href="https://rawgit.com/taylorbf/Musicians-Toolkit/master/dist/mt.js" download>mt.js</a>. <br />
         (The link grabs the file directly from our <a href="http://github.com/taylorbf/Musicians-Toolkit" target="blank">GitHub</a>.)
       </p>
 
       <p>
-        Link to NexusUI.js in your HTML file.
+        Link to nexusui.js in your HTML file.
       </p>
 
        <pre><code class="language-html">
 &lt;html&gt;
   &lt;head&gt;
-    &lt;script src="path/to/NexusUI.js"&gt;&lt;/script&gt;
+    &lt;script src="path/to/nexusui.js"&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
 
@@ -304,14 +304,14 @@
        <pre><code class="language-html">
 &lt;html&gt;
   &lt;head&gt;
-    &lt;script src="path/to/NexusUI.js"&gt;&lt;/script&gt;
+    &lt;script src="path/to/nexusui.js"&gt;&lt;/script&gt;
   &lt;/head&gt;
   &lt;body&gt;
 
     &lt;div id="dial"&gt;&lt;/div&gt;
 
     &lt;script&gt;
-      var dial = new Nexus.Dial('#dial')
+      var dial = nx.dial('#dial')
     &lt;/script&gt;
 
   &lt;/body&gt;
@@ -337,7 +337,7 @@
        </p>
 
        <pre><code class="language-js">
-var dial = new Nexus.Dial("#dial");
+var dial = nx.dial("#dial");
 
 dial.on('change',function(v) {
   // v holds the new numeric value of the dial
@@ -426,7 +426,7 @@ dial.on('change',function(v) {
 
 
           <br /><br />
-          Alternately, you can set <b>Nexus.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
+          Alternately, you can set <b>nx.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
           <a href="https://codepen.io/taylorbf/pen/zzKGgz">See example on CodePen.</a>
 
           <br /><br />
@@ -470,7 +470,7 @@ dial.on('change',function(v) {
 
 
             <p>
-              You can create many interface components at once using <b>Nexus.Rack()</b>. Here is an example:
+              You can create many interface components at once using <b>nx.rack()</b>. Here is an example:
             </p>
 
             <p data-height="265" data-theme-id="0" data-slug-hash="RgGMJm" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Creating a Rack" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/RgGMJm/">Creating a Rack</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
@@ -488,7 +488,7 @@ dial.on('change',function(v) {
 <br /><br />
                 Give each interface element an ID which will be used to identify it in JavaScript later.
 <br /><br />
-                In your JavaScript, use <b>new Nexus.Rack("elementID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>mt</b> attributes will be transformed into interface elements.
+                In your JavaScript, use <b>nx.rack("#ContainerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>mt</b> attributes will be transformed into interface elements.
 
 
               <br /><br />
@@ -533,8 +533,9 @@ dial.on('change',function(v) {
 
               </p>
 
-              <p data-height="265" data-theme-id="0" data-slug-hash="owdpxy" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Number Box Sync" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/owdpxy/">Number Box Sync</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+              <p data-height="266" data-theme-id="0" data-slug-hash="eRdNaB" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/eRdNaB/">Colors</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+              <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
 
             </div>
 
@@ -545,7 +546,7 @@ dial.on('change',function(v) {
 
 <!--
 
-NEXUS.TUNE
+nx.TUNE
 
 -->
 
@@ -553,19 +554,19 @@ NEXUS.TUNE
     <h2>Tuning</h2>
 
     <p>
-      <b>Nexus.note()</b> and <b>Nexus.tune</b> offer ways to manage pitches and scales.
+      <b>nx.note()</b> and <b>nx.tune</b> offer ways to manage pitches and scales.
     </p>
 
      <pre><code class="language-javascript">
-// Nexus.note(0) returns the frequency of the 1st note of the scale
-synth.frequency.value = Nexus.note(0);
+// nx.note(0) returns the frequency of the 1st note of the scale
+synth.frequency.value = nx.note(0);
 
-// Nexus.note(2) returns the frequency of the 3rd note of the scale
-synth.frequency.value = Nexus.note(2);
+// nx.note(2) returns the frequency of the 3rd note of the scale
+synth.frequency.value = nx.note(2);
      </code></pre>
 
     <p>
-      By default the scale is an equal-tempered major scale. An API for changing the scale is below.
+      By default the scale is an equal-tempered major scale. An API for changing the scale is near completion.
     </p>
 
      <p>
@@ -575,69 +576,60 @@ synth.frequency.value = Nexus.note(2);
 
     <!-- section -->
 
-    <h3>Turning Scale Degrees to Frequency Values</h3>
+    <h3>Turning Scale Degrees to Frequency Numbers with nx.note()</h3>
      <p>
-       <b>Nexus.note()</b> provides a method for turning scale degrees into frequency values which your web audio synth will understand.
+       <b>nx.note()</b> provides a method to turn scale degrees into frequency numbers. An optional second octave parameter lets you shift the frequency up or down by an octave.
      </p>
 
      <pre>
        <code class="language-javascript">
-// Nexus.note(0) returns the frequency of 1st note of the scale
-synth.frequency.value = Nexus.note(0);
+// nx.note(0) returns the frequency of 1st note of the scale
+synth.frequency.value = nx.note(0);
 
-// Nexus.note(1) returns the frequency of 2nd note of the scale
-synth.frequency.value = Nexus.note(1);
+// nx.note(1) returns the frequency of 2nd note of the scale
+synth.frequency.value = nx.note(1);
 
 // Negative numbers wrap to a lower octave
-// Nexus.note(-1) returns the frequency of the top note of the scale, 1 octave lower
-synth.frequency.value = Nexus.note(-1);
+// nx.note(-1) returns the frequency of the top note of the scale, 1 octave lower
+synth.frequency.value = nx.note(-1);
 
 // You can also specify the octave using an optional second parameter
-// Nexus.note(0,2) returns the frequency of the 1st note of the scale, 2 octaves up.
-synth.frequency.value = Nexus.note(0,2);
+// nx.note(0,2) returns the frequency of the 1st note of the scale, 2 octaves up.
+synth.frequency.value = nx.note(0,2);
 
-// Nexus.note(0,-1) returns the frequency of the 1st note of the scale, 1 octave lower
-synth.frequency.value = Nexus.note(0,-1);
+// nx.note(0,-1) returns the frequency of the 1st note of the scale, 1 octave lower
+synth.frequency.value = nx.note(0,-1);
     </code></pre>
 
      <p>
-       By using counters or number generators in tandem with <b>Nexus.note()</b>, you can play scales, arpeggios, etc.
+       By using counters or number generators in tandem with <b>nx.note()</b>, you can play scales, arpeggios, etc.
      </p>
 
      <pre>
        <code class="language-javascript">
  // Play 5 octaves of the major scale
 
- var counter = new Nexus.Counter( 0, 36 );
+ var counter = nx.counter( 0, 6 );
 
- var beat = new Nexus.Interval(200,function() {
-   synth.frequency.value = Nexus.note( counter.next() );
+ nx.interval(100,function() {
+   synth.frequency.value = nx.tune.note( counter.next() );
  })
        </code>
      </pre>
 
 
 
+     <!-- section
 
-     <h3>Getting Pitch Ratios or adjusted MIDI values</h3>
+     <h3>Getting Ratios or MIDI instead of Frequencies</h3>
      <p>
-       If working with an audio sample, you may wish to tune your sample by changing its playback speed.
-
-       You can use <b>Nexus.tune.ratio()</b> to get the frequency ratio of a note to the root of your scale. This ratio can be used to set the playback speed of your sample.
-
-      <pre>
-        <code class="language-javascript">
-// This gives you the pitch ratio between the 5th note in scale and the root.
-Nexus.tune.ratio(4)  // returns 1.49830693925
-
-// You can use this to set the playback speed of a sampler
-sampler.playbackRate = Nexus.tune.ratio(4)
-        </code>
-      </pre>
-
+       For other ways of retrieving pitch data, ... <b>mt.tune.frequency</b>, <b>mt.tune.ratio</b>, and <b>mt.tune.midi</b>
      </p>
 
+    -->
 
+
+    <!-- section
 
     <h3>Changing the Scale</h3>
     <p>
@@ -647,55 +639,35 @@ sampler.playbackRate = Nexus.tune.ratio(4)
       We do not provide any other built-in scales. However, we provide two ways for you to create your own scale.
     </p>
 
-    <h4>Describing a Scale</h4>
-
-    To define your own scale, you can call <b>.createScale()</b> with a list of the chromatic scale degrees you want in your scale.
-
+    <h4>Describing an Equal-Tempered Scale</h4>
     <pre><code class="language-javascript">
 // Create a minor scale
-Nexus.tune.createScale(0,2,3,5,7,8,10);
-
-// Now, Nexus.note() will refer to the scale you defined
-Nexus.note(0) // returns the frequency number of the root
-Nexus.note(1) // returns the frequency number of a Major 2nd
-Nexus.note(2) // returns the frequency number of a Minor 3rd
+mt.tune.createScale(0,2,3,5,7,8,10);
     </code></pre>
 
 
     <h4>Describing a Just Intonation Scale</h4>
-
-    You can also define <a href="https://en.wikipedia.org/wiki/Just_intonation">just intonation</a> scales.
-
-    To do so, call <b>.createJIScale()</b> with your own list of pitch ratios.
-
     <pre><code class="language-javascript">
 // Create a major scale in just intonation
-Nexus.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
-
-
-// Now, Nexus.note() will refer to the scale you defined
-Nexus.note(0) // returns the frequency number for ratio 1/1
-Nexus.note(1) // returns the frequency number for ratio 9/8
-Nexus.note(2) // returns the frequency number for ratio 5/4
+mt.tune.createJIScale( 1/1, 9/8, 5/4, 4/3, 3/2, 8/5, 5/3, 15/8 );
     </code></pre>
 
 
 
     <h3>Changing the root </h3>
     <p>
-      By default, the root of the scale is Middle C. Therefore, <b>Nexus.note(0)</b> returns the frequency for Middle C.
+      By default, the root of the scale is Middle C. Therefore, <b>mt.note(0)</b> returns the frequency for Middle C.
     </p>
 
     <p>
-      You can set the root using <b>Nexus.tune.root</b>, which is a frequency value.
+      You can set the root using <b>mt.tune.root</b>, which is a frequency value.
     </p>
 
     <pre><code class="language-javascript">
-// Set the root to 3 octaves below Middle C.
-Nexus.tune.root = Nexus.note(0,-3);
+// Set the root to C 3 octaves below Middle C.
+mt.tune.root = mt.tune.note(0,-3);
     </code></pre>
 
-    In this way, you can change your scale root on the fly by setting it to other notes of the scale you are currently using.
 
     <p>
       The root can also be set using traditional musical values like "C3" or "A1". This is the only place in this toolkit where this type of music notation is used.
@@ -703,21 +675,21 @@ Nexus.tune.root = Nexus.note(0,-3);
 
     <pre><code class="language-javascript">
 // Set the root to low A.
-Nexus.tune.root = "A1";
+mt.tune.root = "A1";
     </code></pre>
 
 
     <p>
-      You can also set Nexus.tune.root direction to a frequency value, for example if you are working in Just Intonation.
+      If working in just intonation, you can set mt.tune.root direction to a frequency value.
     </p>
 
     <pre><code class="language-javascript">
-// Set the root of your scale to 120hz.
-Nexus.tune.root = 120;
+// Set the root of your JI scale to 120hz.
+mt.tune.root = 120;
     </code></pre>
 
 
-<!--
+
 
     <h3>Examples</h3>
 
@@ -768,13 +740,13 @@ Nexus.tune.root = 120;
       <h2>Timing</h2>
 
       <p>
-        <b>Nexus.Interval</b> creates a repeating pulse using <a href="http://github.com/sebpiq/WAAClock">WAAClock</a>.
+        <b>mt.interval</b> creates a repeating pulse using <a href="http://github.com/sebpiq/WAAClock">WAAClock</a>.
       </p>
 
        <pre><code class="language-javascript">
 // Create a pulse of 100ms. At each pulse, the callback function is executed.
 
-var interval = new Nexus.Interval(100, function() {
+var interval = mt.interval(100, function() {
   console.log('beep');
 })
        </code></pre>
@@ -796,7 +768,7 @@ var interval = new Nexus.Interval(100, function() {
       <pre><code class="language-javascript">
 // Create a pulse that does not autostart.
 
-var interval = new Nexus.Interval(100, function() {
+var interval = mt.interval(100, function() {
   console.log('beep');
 }, false)
       </code></pre>
@@ -815,7 +787,7 @@ interval.ms(200)
       <h3>All methods</h3>
       <pre><code class="language-javascript">
 // Create a pulse of 1 second
-var interval = new Nexus.Interval(1000, function() {
+var interval = mt.interval(1000, function() {
   console.log('beep');
 })
 
@@ -869,11 +841,11 @@ interval.event = function() {
 <br />
 Creating a Matrix Model from scratch...
        <pre><code class="language-javascript">
-matrix = new Nexus.Matrix(5,10);
+matrix = mt.matrix(5,10);
        </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10)
+var matrix = mt.matrix(5,10)
 document.write(matrix.formatAsText())
 </script>
 
@@ -892,7 +864,7 @@ document.write(matrix.formatAsText())
 <br /><br />
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 console.log( matrix.pattern );
 
 </code></pre>
@@ -912,13 +884,13 @@ console.log( matrix.pattern );
 <br /><br />
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.toggle.cell(2,2)
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.toggle.cell(2,2)
 document.write(matrix.formatAsText())
 </script>
@@ -995,13 +967,13 @@ document.write(matrix.formatAsText())
 <br /><br />
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.set.cell(0,0,1)
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.set.cell(0,0,1)
 document.write(matrix.formatAsText())
 </script>
@@ -1092,13 +1064,13 @@ document.write(matrix.formatAsText())
 <br /><br />
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.toggle.cell(0,0)
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.toggle.cell(0,0)
 document.write(matrix.formatAsText())
 </script>
@@ -1191,13 +1163,13 @@ document.write(matrix.formatAsText())
 <br /><br />
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.row( 0, [0,1] )
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.row( 0, [0,1] )
 document.write(matrix.formatAsText())
 </script>
@@ -1209,13 +1181,13 @@ document.write(matrix.formatAsText())
 
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.column( 0, [0,1] )
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.column( 0, [0,1] )
 document.write(matrix.formatAsText())
 </script>
@@ -1227,13 +1199,13 @@ document.write(matrix.formatAsText())
 
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.all( [0,1] )
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.all( [0,1] )
 document.write(matrix.formatAsText())
 </script>
@@ -1261,13 +1233,13 @@ document.write(matrix.formatAsText())
 <br /><br />
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.row( 0, [0.3, 0.6] )
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.row( 0, [0.3, 0.3] )
 document.write(matrix.formatAsText())
 </script>
@@ -1279,13 +1251,13 @@ document.write(matrix.formatAsText())
 
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.column( 0, [0.5] )
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.column( 0, [0.5] )
 document.write(matrix.formatAsText())
 </script>
@@ -1297,13 +1269,13 @@ document.write(matrix.formatAsText())
 
 
 <pre><code class="language-javascript">
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.all( [0.2, 0.5, 0.2, 0.8] )
 
 </code></pre>
 
 <pre><script>
-var matrix = new Nexus.Matrix(5,10);
+var matrix = mt.matrix(5,10);
 matrix.populate.all( [0.2, 0.5, 0.2, 0.8] )
 document.write(matrix.formatAsText())
 </script>
@@ -1331,7 +1303,7 @@ document.write(matrix.formatAsText())
 
   The sequencer interface uses a matrix model to hold its grid of values. You can use any of the above matrix manipulation methods on your sequencer grid, using the sequencer's <b>.matrix</b> property.
       <pre><code class="language-javascript">
-  var sequencer = new Nexus.Sequencer("#target",5,10);
+  var sequencer = new mt.Sequencer("#target",5,10);
   sequencer.matrix.toggle.row(2);
   sequencer.matrix.set.row(1, [0,1,0,1,0,1,0,1,0,1])
       </code></pre>
@@ -1358,7 +1330,7 @@ document.write(matrix.formatAsText())
           A Counter model is an object with a minimal API for counting up or down.
         </p>
          <pre><code class="language-javascript">
-counter = new Nexus.Counter(0,10)
+counter = mt.counter(0,10)
 counter.next()    // returns 0
 counter.next()    // returns 1
 counter.next()    // returns 2
@@ -1375,7 +1347,7 @@ counter.next()    // returns 0
         The counter method takes an optional third argument for the counting mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
 
         <pre><code class="language-javascript">
-counter = new Nexus.Counter(0,10,"down")
+counter = mt.counter(0,10,"down")
 counter.next()    // returns 10
 counter.next()    // returns 9
 counter.next()    // returns 8
@@ -1409,7 +1381,7 @@ counter.value = 50  // jumps the counter to this value
           A Sequence model steps through a series of numeric values defined by you.
         </p>
          <pre><code class="language-javascript">
-var sequence = new Nexus.Sequence([1,3,5,7])
+var sequence = mt.sequence([1,3,5,7])
 sequence.next()    // returns 1
 sequence.next()    // returns 3
 sequence.next()    // returns 5
@@ -1425,7 +1397,7 @@ sequence.next()    // returns 3
         The sequence model takes an optional second argument for the sequence mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
 
         <pre><code class="language-javascript">
-var sequence = new Nexus.Sequence([1,3,5,7],"down")
+var sequence = mt.sequence([1,3,5,7],"down")
 sequence.next()    // returns 7
 sequence.next()    // returns 5
 sequence.next()    // returns 3
@@ -1464,7 +1436,7 @@ sequence.value = 2   // this jumps to where the '2' value is in the sequence, wh
 // This drunk model has a range of 0 to 100
 // Its starting value is 50
 // Its stepping increment is 10
-var drunk = new Nexus.Drunk(0,100,50,10)
+var drunk = mt.drunk(0,100,50,10)
 drunk.next()    // returns 40
 drunk.next()    // returns 50
 drunk.next()    // returns 40
@@ -1501,8 +1473,8 @@ drunk.value = 500   // jumps to this value
   var Unformatted = {}
   var API = {}
   var Helpers = []
-  Nexus.context.close();
-  Nexus.context = Tone.context;
+  mt.context.close();
+  mt.context = Tone.context;
 
 
   $.getJSON('api.json', function(data) {
@@ -1727,7 +1699,7 @@ drunk.value = 500   // jumps to this value
           console.log(e);
         }
     }
-    instrument = new Nexus.Rack("demo");
+    instrument = mt.rack("demo");
 
     $(".example-toggle").click(function() {
       $(this).parent().find(".example").toggle();
@@ -1770,7 +1742,7 @@ drunk.value = 500   // jumps to this value
       }
 
       if (name=="intro") {
-          var splashRack = new Nexus.Rack("splash-demo");
+          var splashRack = mt.rack("splash-demo");
       }
 
     //  instrument = mt.rack("target");
@@ -1816,8 +1788,7 @@ drunk.value = 500   // jumps to this value
 
   var TypeLinks = [
     "Matrix",
-    "Counter",
-    "interval",
+    "Counter"
   ]
 
   var LoadLinks = {
@@ -1951,7 +1922,7 @@ drunk.value = 500   // jumps to this value
   	font-size:30px;
   }
   .tutorial h4 {
-  	font-size:25px;
+  	font-size:30px;
     margin:35px 0px 10px;
   }
   .tutorial h5 {
@@ -2025,9 +1996,10 @@ drunk.value = 500   // jumps to this value
     margin-top:30px;
   }
 
-  [nexus-ui] {
+  .mt-ui {
     display:inline-block;
   }
+
 
 
 
