@@ -57,7 +57,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	
 	var NexusUI = __webpack_require__(1);
-	window.Nexus = new NexusUI();
+	var Nexus = new NexusUI();
+	
+	if (window) {
+	  window.Nexus = Nexus;
+	}
+	
+	module.exports = Nexus;
+	
+	/*
+	if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+	  module.exports = Nexus;
+	} else {
+	  window.Nexus = Nexus;
+	  console.log("browser-y");
+	} */
 
 /***/ },
 /* 1 */
@@ -932,8 +946,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function init() {
 	        this.buildFrame();
 	        this.buildInterface();
-	        this.attachListeners();
 	        this.sizeInterface();
+	        this.attachListeners();
 	        this.colorInterface();
 	        this.finalTouches();
 	      }
@@ -2874,6 +2888,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.appendChild(this.textElement);
 	      }
 	    },
+	    buildInterface: {
+	      value: function buildInterface() {}
+	    },
 	    colorInterface: {
 	      value: function colorInterface() {
 	        this.element.style.color = this.colors.dark;
@@ -2891,15 +2908,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        var styles = "width: " + this.width + "px;";
 	        styles += "height: " + this.height + "px;";
-	        //  styles += 'background-color: #e7e7e7;';
-	        //  styles += 'color: #333;';
 	        styles += "padding: " + (this.height - textsize) / 2 + "px 0px;";
 	        styles += "box-sizing: border-box;";
 	        styles += "text-align: center;";
 	        styles += "font-family: inherit;";
 	        styles += "font-weight: 700;";
 	        styles += "opacity: 1;";
-	        //  styles += 'letter-spacing: 1px;';
 	        styles += "font-size:" + textsize + "px;";
 	        this.textElement.style.cssText = styles;
 	        this.render();
@@ -2910,9 +2924,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (!this.state) {
 	          this.element.style.backgroundColor = this.colors.fill;
 	          this.textElement.style.color = this.colors.dark;
-	          //if (this.alternateText) {
 	          this.textElement.innerHTML = this._text;
-	          //  }
 	        } else {
 	          this.element.style.backgroundColor = this.colors.accent;
 	          this.textElement.style.color = this.colors.fill;
@@ -3695,7 +3707,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*   'min': 0,
 	*   'max': 1,
 	*   'step': 0,
-	*   'value': 20
+	*   'value': 0
 	* })
 	*
 	* @output
@@ -3727,7 +3739,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      min: 0,
 	      max: 1,
 	      step: 0,
-	      value: 20
+	      value: 0
 	    };
 	
 	    _get(Object.getPrototypeOf(Dial.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -8497,11 +8509,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  return element(target, type, options);
 	};
-	/*
-	exports.section = section;
-	exports.element = element;
-	exports.add = add;
-	*/
+	
 	exports.element = element;
 	exports.section = section;
 	exports.add = add;
