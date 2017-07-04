@@ -6004,7 +6004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Tilt
 	*
-	* @description 2- or 3-axis tilt sensor (depending on your device and browser).
+	* @description Device tilt sensor with 2 or 3 axes (depending on your device and browser).
 	*
 	* @demo <span nexus-ui='tilt'></span>
 	*
@@ -6066,21 +6066,58 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildInterface() {
 	
 	        this.title = svg.create("text");
-	        this.circleLR = svg.create("circle");
-	        this.circleFB = svg.create("circle");
+	        this.circleX = svg.create("circle");
+	        this.circleY = svg.create("circle");
+	        this.circleZ = svg.create("circle");
 	
-	        this.circleLR.setAttribute("cx", this.width * 3 / 12);
-	        this.circleLR.setAttribute("cy", this.height * 3 / 4);
-	        this.circleLR.setAttribute("r", this.height / 10);
-	        this.circleLR.setAttribute("opacity", "0.7");
+	        this.barX = svg.create("path");
+	        this.barY = svg.create("path");
+	        this.barZ = svg.create("path");
 	
-	        this.circleFB.setAttribute("cx", this.width * 9 / 12);
-	        this.circleFB.setAttribute("cy", this.height * 3 / 4);
-	        this.circleFB.setAttribute("r", this.height / 10);
-	        this.circleFB.setAttribute("opacity", "0.7");
+	        this.barX2 = svg.create("path");
+	        this.barY2 = svg.create("path");
+	        this.barZ2 = svg.create("path");
+	
+	        this.barX.setAttribute("opacity", "0.8");
+	        this.barY.setAttribute("opacity", "0.8");
+	        this.barZ.setAttribute("opacity", "0.8");
+	        this.barX2.setAttribute("opacity", "0.8");
+	        this.barY2.setAttribute("opacity", "0.8");
+	        this.barZ2.setAttribute("opacity", "0.8");
+	
+	        this.circleX.setAttribute("cx", this.width * 3 / 12);
+	        this.circleX.setAttribute("cy", this.height * 3 / 4);
+	        this.circleX.setAttribute("r", this.height / 10);
+	        this.circleX.setAttribute("opacity", "0.4");
+	
+	        this.circleY.setAttribute("cx", this.width * 6 / 12);
+	        this.circleY.setAttribute("cy", this.height * 3 / 4);
+	        this.circleY.setAttribute("r", this.height / 10);
+	        this.circleY.setAttribute("opacity", "0.4");
+	
+	        this.circleZ.setAttribute("cx", this.width * 9 / 12);
+	        this.circleZ.setAttribute("cy", this.height * 3 / 4);
+	        this.circleZ.setAttribute("r", this.height / 10);
+	        this.circleZ.setAttribute("opacity", "0.4");
+	
+	        this.barX.setAttribute("stroke-width", Math.round(this.height / 30));
+	        this.barY.setAttribute("stroke-width", Math.round(this.height / 30));
+	        this.barZ.setAttribute("stroke-width", Math.round(this.height / 30));
+	
+	        this.barX.setAttribute("fill", "none");
+	        this.barY.setAttribute("fill", "none");
+	        this.barZ.setAttribute("fill", "none");
+	
+	        this.barX2.setAttribute("stroke-width", Math.round(this.height / 30));
+	        this.barY2.setAttribute("stroke-width", Math.round(this.height / 30));
+	        this.barZ2.setAttribute("stroke-width", Math.round(this.height / 30));
+	
+	        this.barX2.setAttribute("fill", "none");
+	        this.barY2.setAttribute("fill", "none");
+	        this.barZ2.setAttribute("fill", "none");
 	
 	        this.title.setAttribute("x", this.width / 2);
-	        this.title.setAttribute("y", this.height / 2 + 7);
+	        this.title.setAttribute("y", this.height / 3 + 7);
 	        this.title.setAttribute("font-size", "15px");
 	        this.title.setAttribute("font-weight", "bold");
 	        this.title.setAttribute("letter-spacing", "2px");
@@ -6088,8 +6125,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.title.setAttribute("text-anchor", "middle");
 	        this.title.textContent = "TILT";
 	
-	        //  this.element.appendChild(this.circleFB);
-	        //  this.element.appendChild(this.circleLR);
+	        this.element.appendChild(this.circleX);
+	        this.element.appendChild(this.circleY);
+	        this.element.appendChild(this.circleZ);
+	
+	        this.element.appendChild(this.barX);
+	        this.element.appendChild(this.barY);
+	        this.element.appendChild(this.barZ);
+	
+	        this.element.appendChild(this.barX2);
+	        this.element.appendChild(this.barY2);
+	        this.element.appendChild(this.barZ2);
+	
 	        this.element.appendChild(this.title);
 	      }
 	    },
@@ -6098,13 +6145,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        if (this._active) {
 	          this.element.style.backgroundColor = this.colors.accent;
-	          this.circleFB.setAttribute("fill", this.colors.light);
-	          this.circleLR.setAttribute("fill", this.colors.light);
+	          this.circleX.setAttribute("fill", this.colors.light);
+	          this.circleY.setAttribute("fill", this.colors.light);
+	          this.circleZ.setAttribute("fill", this.colors.light);
+	          this.circleX.setAttribute("stroke", this.colors.light);
+	          this.circleY.setAttribute("stroke", this.colors.light);
+	          this.circleZ.setAttribute("stroke", this.colors.light);
+	          this.barX.setAttribute("stroke", this.colors.light);
+	          this.barY.setAttribute("stroke", this.colors.light);
+	          this.barZ.setAttribute("stroke", this.colors.light);
+	          this.barX2.setAttribute("stroke", this.colors.light);
+	          this.barY2.setAttribute("stroke", this.colors.light);
+	          this.barZ2.setAttribute("stroke", this.colors.light);
 	          this.title.setAttribute("fill", this.colors.light);
 	        } else {
 	          this.element.style.backgroundColor = this.colors.fill;
-	          this.circleLR.setAttribute("fill", this.colors.mediumLight);
-	          this.circleFB.setAttribute("fill", this.colors.mediumLight);
+	          this.circleX.setAttribute("fill", this.colors.mediumLight);
+	          this.circleY.setAttribute("fill", this.colors.mediumLight);
+	          this.circleZ.setAttribute("fill", this.colors.mediumLight);
+	          this.circleX.setAttribute("stroke", this.colors.mediumLight);
+	          this.circleY.setAttribute("stroke", this.colors.mediumLight);
+	          this.circleZ.setAttribute("stroke", this.colors.mediumLight);
+	          this.barX.setAttribute("stroke", this.colors.mediumLight);
+	          this.barY.setAttribute("stroke", this.colors.mediumLight);
+	          this.barZ.setAttribute("stroke", this.colors.mediumLight);
+	          this.barX2.setAttribute("stroke", this.colors.mediumLight);
+	          this.barY2.setAttribute("stroke", this.colors.mediumLight);
+	          this.barZ2.setAttribute("stroke", this.colors.mediumLight);
 	          this.title.setAttribute("fill", this.colors.mediumLight);
 	        }
 	      }
@@ -6115,27 +6182,87 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          var y = v.beta;
 	          var x = v.gamma;
+	          var z = v.alpha;
 	
 	          // take the original -90 to 90 scale and normalize it 0-1
 	          x = math.scale(x, -90, 90, 0, 1);
 	          y = math.scale(y, -90, 90, 0, 1);
+	          z = math.scale(z, 0, 360, 0, 1);
+	
+	          var handlePoints = {
+	            start: Math.PI * 1.5,
+	            end: math.clip(math.scale(x, 0, 0.5, Math.PI * 1.5, Math.PI * 0.5), Math.PI * 0.5, Math.PI * 1.5)
+	          };
+	          var handle2Points = {
+	            start: Math.PI * 2.5,
+	            end: math.clip(math.scale(x, 0.5, 1, Math.PI * 2.5, Math.PI * 1.5), Math.PI * 1.5, Math.PI * 2.5)
+	          };
+	
+	          var handlePath = svg.arc(this.circleX.cx.baseVal.value, this.circleX.cy.baseVal.value, this.circleX.r.baseVal.value, handlePoints.start, handlePoints.end);
+	          var handle2Path = svg.arc(this.circleX.cx.baseVal.value, this.circleX.cy.baseVal.value, this.circleX.r.baseVal.value, handle2Points.start, handle2Points.end);
+	
+	          this.barX.setAttribute("d", handlePath);
+	          this.barX2.setAttribute("d", handle2Path);
+	
+	          handlePoints = {
+	            start: Math.PI * 1.5,
+	            end: math.clip(math.scale(y, 0, 0.5, Math.PI * 1.5, Math.PI * 0.5), Math.PI * 0.5, Math.PI * 1.5)
+	          };
+	          handle2Points = {
+	            start: Math.PI * 2.5,
+	            end: math.clip(math.scale(y, 0.5, 1, Math.PI * 2.5, Math.PI * 1.5), Math.PI * 1.5, Math.PI * 2.5)
+	          };
+	
+	          handlePath = svg.arc(this.circleY.cx.baseVal.value, this.circleY.cy.baseVal.value, this.circleY.r.baseVal.value, handlePoints.start, handlePoints.end);
+	          handle2Path = svg.arc(this.circleY.cx.baseVal.value, this.circleY.cy.baseVal.value, this.circleY.r.baseVal.value, handle2Points.start, handle2Points.end);
+	
+	          this.barY.setAttribute("d", handlePath);
+	          this.barY2.setAttribute("d", handle2Path);
+	
+	          handlePoints = {
+	            start: Math.PI * 1.5,
+	            end: math.clip(math.scale(z, 0, 0.5, Math.PI * 1.5, Math.PI * 0.5), Math.PI * 0.5, Math.PI * 1.5)
+	          };
+	          handle2Points = {
+	            start: Math.PI * 2.5,
+	            end: math.clip(math.scale(z, 0.5, 1, Math.PI * 2.5, Math.PI * 1.5), Math.PI * 1.5, Math.PI * 2.5)
+	          };
+	
+	          handlePath = svg.arc(this.circleZ.cx.baseVal.value, this.circleZ.cy.baseVal.value, this.circleZ.r.baseVal.value, handlePoints.start, handlePoints.end);
+	          handle2Path = svg.arc(this.circleZ.cx.baseVal.value, this.circleZ.cy.baseVal.value, this.circleZ.r.baseVal.value, handle2Points.start, handle2Points.end);
+	
+	          this.barZ.setAttribute("d", handlePath);
+	          this.barZ2.setAttribute("d", handle2Path);
+	
+	          /*
+	           let pointsX = {
+	            start: 0,
+	            end: math.scale( x, 0, 1, 0, Math.PI*2 )
+	          };
+	          //  console.log(this.circleX.cx.baseVal.value);
+	           let pathX = svg.arc(this.circleX.cx.baseVal.value, this.circleX.cy.baseVal.value, this.circleX.r.baseVal.value*2, pointsX.start, pointsX.end);
+	           this.barX.setAttribute('d',pathX); */
 	
 	          //this.textH.textContent = math.prune(x,2);
 	          //this.textV.textContent = math.prune(y,2);
 	          //
-	          this.circleFB.setAttribute("opacity", x);
-	          this.circleLR.setAttribute("opacity", y);
+	          //  this.circleX.setAttribute('opacity',x);
+	          //  this.circleY.setAttribute('opacity',y);
+	          //  this.circleZ.setAttribute('opacity',z);
 	
 	          this.emit("change", {
 	            x: x,
-	            y: y
+	            y: y,
+	            z: z
 	          });
 	        }
 	      }
 	    },
 	    click: {
 	      value: function click() {
-	        this.active = !this.active;
+	        if (window.DeviceOrientationEvent) {
+	          this.active = !this.active;
+	        }
 	      }
 	    },
 	    active: {

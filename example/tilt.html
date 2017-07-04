@@ -12,7 +12,7 @@
 
 
 
-  <div style="font-size:25px;padding:10px">
+  <div style="font-size:25px;">
     NexusUI Tilt Test
   </div>
 
@@ -20,8 +20,17 @@
 
   <div id="debugX">~</div>
   <div id="debugY">~</div>
+  <div id="debugZ">~</div>
 
 </body>
+<style>
+body {
+  font-family:helvetica;
+}
+[nexus-ui], div {
+  margin:10px;
+}
+</style>
 <script>
 
   Nexus.context = Tone.context;
@@ -37,6 +46,9 @@
       }
       if (v.y) {
         debugY.innerHTML = ~~(v.y * 1000);
+      }
+      if (v.z) {
+        debugZ.innerHTML = ~~(v.z * 1000);
       }
     }
   })
