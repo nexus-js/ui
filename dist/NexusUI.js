@@ -6047,11 +6047,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    if (window.DeviceOrientationEvent) {
 	      this.orientationListener = window.addEventListener("deviceorientation", this.boundUpdate, false);
-	    } /*else if (window.OrientationEvent) {
-	      //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
-	      } else {
-	      	console.log('Not supported on your device or browser.');
-	      } */
+	    } else {
+	      this._active = false;
+	      this.colorInterface();
+	    }
+	
+	    /*else if (window.OrientationEvent) {
+	    //	  	window.addEventListener('MozOrientation', this.boundMozTilt, false);
+	    } else {
+	    console.log('Not supported on your device or browser.');
+	    } */
 	  }
 	
 	  _inherits(Tilt, _Interface);
