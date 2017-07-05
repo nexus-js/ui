@@ -96,14 +96,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Transform = _interopRequireWildcard(__webpack_require__(39));
 	
 	var Counter = __webpack_require__(28);
-	var Radio = __webpack_require__(42);
+	var Radio = __webpack_require__(41);
 	var Drunk = __webpack_require__(27);
 	var Sequence = __webpack_require__(26);
 	var Matrix = __webpack_require__(25);
 	
-	var WAAClock = _interopRequire(__webpack_require__(43));
+	var WAAClock = _interopRequire(__webpack_require__(42));
 	
-	var Interval = _interopRequire(__webpack_require__(46));
+	var Interval = _interopRequire(__webpack_require__(45));
 	
 	/**
 	NexusUI => created as Nexus
@@ -4800,6 +4800,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.element.style.width = "100%";
 	        this.element.style.height = "100%";
 	        this.parent.appendChild(this.element);
+	        if (touch.exists) {
+	          this.addTouchListeners();
+	        }
 	      }
 	    },
 	    buildInterface: {
@@ -4834,9 +4837,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	          this.cells.push(cell);
 	          this.element.appendChild(container);
-	        }
-	        if (touch.exists) {
-	          this.addTouchListeners();
 	        }
 	        this.sizeInterface();
 	      }
@@ -8891,8 +8891,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 41 */,
-/* 42 */
+/* 41 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9018,17 +9017,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Radio;
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(44)
+	var WAAClock = __webpack_require__(43)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -9265,10 +9264,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)))
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -9454,7 +9453,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports) {
 
 	"use strict";
