@@ -83,6 +83,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
@@ -109,59 +111,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	NexusUI => created as Nexus
 	*/
 	
-	var NexusUI = function NexusUI(context) {
-	  _classCallCheck(this, NexusUI);
+	var NexusUI = (function () {
+	  function NexusUI(context) {
+	    _classCallCheck(this, NexusUI);
 	
-	  for (var key in Interfaces) {
-	    this[key] = Interfaces[key];
+	    for (var key in Interfaces) {
+	      this[key] = Interfaces[key];
+	    }
+	
+	    for (var _key in math) {
+	      this[_key] = math[_key];
+	    }
+	
+	    var Core = {
+	      Rack: Rack
+	    };
+	
+	    var Models = {
+	      Counter: Counter,
+	      Radio: Radio,
+	      Drunk: Drunk,
+	      Sequence: Sequence,
+	      Matrix: Matrix
+	    };
+	
+	    for (var _key2 in Models) {
+	      this[_key2] = Models[_key2];
+	    }
+	
+	    for (var _key3 in Core) {
+	      this[_key3] = Core[_key3];
+	    }
+	
+	    var DefaultContext = window.AudioContext || window.webkitAudioContext;
+	    this._context = context || new DefaultContext();
+	
+	    this.tune = new Tune();
+	    this.note = this.tune.note.bind(this.tune);
+	
+	    this.clock = new WAAClock(this._context);
+	    this.clock.start();
+	    this.Interval = Interval;
+	
+	    this.colors = {
+	      accent: "#2bb",
+	      fill: "#eee",
+	      light: "#fff",
+	      dark: "#333",
+	      mediumLight: "#ccc",
+	      mediumDark: "#666"
+	    };
+	
+	    this.transform = Transform;
+	    this.add = Transform.add;
 	  }
 	
-	  for (var _key in math) {
-	    this[_key] = math[_key];
-	  }
+	  _createClass(NexusUI, {
+	    context: {
 	
-	  var Core = {
-	    Rack: Rack
-	  };
+	      /*  setContext(context) {
+	          this.clock.stop();
+	          this.context = context;
+	          this.clock = new WAAClock(this.context);
+	          this.clock.start();
+	        } */
 	
-	  var Models = {
-	    Counter: Counter,
-	    Radio: Radio,
-	    Drunk: Drunk,
-	    Sequence: Sequence,
-	    Matrix: Matrix
-	  };
+	      get: function () {
+	        return this._context;
+	      },
+	      set: function (ctx) {
+	        this.clock.stop();
+	        this._context = ctx;
+	        this.clock = new WAAClock(this.context);
+	        this.clock.start();
+	      }
+	    }
+	  });
 	
-	  for (var _key2 in Models) {
-	    this[_key2] = Models[_key2];
-	  }
-	
-	  for (var _key3 in Core) {
-	    this[_key3] = Core[_key3];
-	  }
-	
-	  var DefaultContext = window.AudioContext || window.webkitAudioContext;
-	  this.context = context || new DefaultContext();
-	
-	  this.tune = new Tune();
-	  this.note = this.tune.note.bind(this.tune);
-	
-	  this.clock = new WAAClock(this.context);
-	  this.clock.start();
-	  this.Interval = Interval;
-	
-	  this.colors = {
-	    accent: "#2bb",
-	    fill: "#eee",
-	    light: "#fff",
-	    dark: "#333",
-	    mediumLight: "#ccc",
-	    mediumDark: "#666"
-	  };
-	
-	  this.transform = Transform;
-	  this.add = Transform.add;
-	};
+	  return NexusUI;
+	})();
 	
 	module.exports = NexusUI;
 
@@ -7932,7 +7960,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
-	        if (this.source) {
+	        if (this.source && this.dataArray) {
+	
+	          //console.log(this.dataArray);
 	
 	          var barWidth = this.canvas.element.width / this.bufferLength;
 	          var barHeight = undefined;
@@ -7941,7 +7971,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var definition = this.canvas.element.width / 50;
 	
 	          for (var i = 0; i < this.bufferLength; i = i + definition) {
-	            barHeight = Math.max.apply(null, this.dataArray.slice(i, i + definition));
+	            barHeight = Math.max.apply(null, this.dataArray.subarray(i, i + definition));
 	            barHeight /= 255;
 	            barHeight *= this.canvas.element.height;
 	

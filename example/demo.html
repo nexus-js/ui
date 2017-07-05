@@ -15,6 +15,8 @@
     NexusUI Basic Demo
   </div>
 
+  <button id="mobileStart">Press to Init Mobile Audio</button>
+
   <div id="drone" style=>
     <div style="background-color:#fff;border:solid 1px #ccc;width:200px;padding:20px;margin:0 auto;">
       <div>
@@ -63,6 +65,15 @@ body {
 <script>
 
   Nexus.context = Tone.context;
+
+  mobileStart = document.getElementById('mobileStart')
+  mobileStart.addEventListener('touchend',function() {
+    var osc = Nexus.context.createOscillator()
+    osc.connect(Nexus.context.destination)
+    osc.start(0)
+    osc.stop(0.1)
+    Nexus.clock.start();
+  })
 
   Nexus.colors.accent = "#2cc";
 
