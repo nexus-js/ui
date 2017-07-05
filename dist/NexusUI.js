@@ -8694,8 +8694,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var scales = _interopRequire(__webpack_require__(41));
-	
 	var math = _interopRequire(__webpack_require__(5));
 	
 	var Tune = (function () {
@@ -8717,9 +8715,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Root frequency.
 	    this.root = math.mtof(60); // * Math.pow(2,(60-69)/12);
 	
-	    this.scales = scales;
-	
-	    this.loadScale("et");
+	    // default is a major scale
+	    this.createScale(0, 2, 4, 5, 7, 9, 11);
 	  }
 	
 	  _createClass(Tune, {
@@ -8894,39 +8891,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ },
-/* 41 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	module.exports = {
-	  ji_12: {
-	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 436.04260883433, 470.92601754108, 490.54793493862, 523.2511306012],
-	    description: "Basic JI with 7-limit tritone"
-	  },
-	  ji_12a: {
-	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 305.22982618403, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
-	    description: "7-limit 12-tone scale"
-	  },
-	  ji_12b: {
-	    frequencies: [261.6255653006, 272.52663052146, 290.69507255622, 305.22982618403, 327.03195662575, 343.38355445704, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
-	    description: "alternate 7-limit 12-tone scale"
-	  },
-	  ji_12c: {
-	    frequencies: [261.6255653006, 272.52663052146, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 367.91095120397, 392.4383479509, 418.60090448096, 436.04260883433, 457.84473927605, 490.54793493862, 523.2511306012],
-	    description: "Kurzweil 'Just with natural b7th', is Sauveur Just with 7/4"
-	  },
-	  et: {
-	    frequencies: [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116],
-	    description: "Et Major"
-	  },
-	  ji_diatonic: {
-	    frequencies: [261.6255653006, 294.32876096318, 327.03195662575, 348.83408706747, 392.4383479509, 436.04260883433, 490.54793493862],
-	    description: "Basic JI with 7-limit tritone"
-	  }
-	};
-
-/***/ },
+/* 41 */,
 /* 42 */
 /***/ function(module, exports) {
 
