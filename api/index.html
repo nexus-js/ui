@@ -265,7 +265,11 @@
         </p>
 
         <p class="lib-overview">
-          This toolkit focuses on <b>interfaces</b>, <b>tuning</b>, and <b>timing</b>. It does not provide any sound-making capabilities –– for that, check out <a href="http://tonejs.github.io" target="blank">Tone.js</a>, <a href="https://github.com/sebpiq/WebPd" target="blank">WebPD</a>, <a href="https://github.com/charlieroberts/gibber.audio.lib" target="blank">Gibber.lib</a>, or the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" target="blank">Web Audio API</a>.
+          In addition to interfaces, the toolkit contains some helpers for tuning and timing. It does not provide any sound-making capabilities –– for that, check out <a href="http://tonejs.github.io" target="blank">Tone.js</a>, <a href="https://github.com/sebpiq/WebPd" target="blank">WebPD</a>, <a href="https://github.com/charlieroberts/gibber.audio.lib" target="blank">Gibber.lib</a>, or the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" target="blank">Web Audio API</a>.
+        </p>
+
+        <p class="lib-overview">
+          This toolkit is designed to help you rapidly prototype your musical ideas. It is lacking some features which would be useful for production –– for example, these interfaces are <b>not responsive</b> (they do not understand percentage widths and heights). NexusUI is an ongoing open-source project; please get in touch on GitHub if you would like to contribute.
         </p>
 
 
@@ -298,7 +302,7 @@
        <h5>Creating an Interface</h5>
 
        <p>
-         You can transform regular HTML elements into interfaces.
+         You can transform regular HTML elements into NexusUI interfaces.
        </p>
 
        <pre><code class="language-html">
@@ -318,11 +322,11 @@
 &lt;/html&gt;
        </code></pre>
 
-  <!--     <p>
-         Example:
+       <p>
+         Tip: you can also transform many elements at once by <a href="#rack">creating a rack</a>.
        </p>
 
-
+<!--
        <p data-height="265" data-theme-id="0" data-slug-hash="GmEJVL" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Basic Dial" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/GmEJVL/">Basic Dial</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
@@ -482,13 +486,13 @@ dial.on('change',function(v) {
 
             <div style="font-size:1.1em">
 
-              First, create a container element with an ID. This will be the container of the rack.
+              First, create an element that will be the container of the rack.
               <br /><br />
-                Inside that container, create several elements with <b>mt</b> attributes descibing what type of interface it should become, such as <b>mt="dial"</b>.
+              Inside that container, create several elements with <b>nexus-ui</b> attributes describing what type of interface it should transform into, such as <b>nexus-ui="dial"</b>.
 <br /><br />
-                Give each interface element an ID which will be used to identify it in JavaScript later.
+              Give each interface element an ID which will be used to identify it in JavaScript later.
 <br /><br />
-                In your JavaScript, use <b>new Nexus.Rack("elementID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>mt</b> attributes will be transformed into interface elements.
+              In your JavaScript, use <b>new Nexus.Rack("#containerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>nexus-ui</b> attributes will be transformed into interface elements.
 
 
               <br /><br />
@@ -496,8 +500,8 @@ dial.on('change',function(v) {
               Rack methods:<br />
               <b>.hide()</b><br />
               <b>.show()</b><br />
-              <b>.colorize()</b><br />
-
+              <b>.colorize()</b> (See <a href="#colors">changing colors</a>)
+              <br />
               <br /><br />
 
 

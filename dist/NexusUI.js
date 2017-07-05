@@ -91,19 +91,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Rack = _interopRequire(__webpack_require__(38));
 	
-	var Tune = _interopRequire(__webpack_require__(45));
+	var Tune = _interopRequire(__webpack_require__(40));
 	
 	var Transform = _interopRequireWildcard(__webpack_require__(39));
 	
 	var Counter = __webpack_require__(28);
-	var Radio = __webpack_require__(47);
+	var Radio = __webpack_require__(42);
 	var Drunk = __webpack_require__(27);
 	var Sequence = __webpack_require__(26);
 	var Matrix = __webpack_require__(25);
 	
-	var WAAClock = _interopRequire(__webpack_require__(41));
+	var WAAClock = _interopRequire(__webpack_require__(43));
 	
-	var Interval = _interopRequire(__webpack_require__(44));
+	var Interval = _interopRequire(__webpack_require__(46));
 	
 	/**
 	NexusUI => created as Nexus
@@ -916,8 +916,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.parent.style.width = this.width;
 	          this.parent.style.height = this.height;
 	        } else if (settings.snapWithParent) {
-	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
-	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
+	          this.width = parseFloat(this.parent.style.width);
+	          this.height = parseFloat(this.parent.style.height);
+	
+	          if (!this.width) {
+	            this.width = parseFloat(this.parent.width);
+	          }
+	          if (!this.height) {
+	            this.height = parseFloat(this.parent.height);
+	          }
+	
+	          if (this.parent.style.width) {
+	            if (this.parent.style.width.indexOf("%") > 0) {
+	              this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
+	            }
+	          }
+	          if (this.parent.width) {
+	            if (this.parent.width.indexOf("%") > 0) {
+	              this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
+	            }
+	          }
+	
+	          if (this.parent.style.height) {
+	            if (this.parent.style.height.indexOf("%") > 0) {
+	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
+	            }
+	          }
+	          if (this.parent.height) {
+	            if (this.parent.height.indexOf("%") > 0) {
+	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
+	            }
+	          }
+	
+	          /*  if (this.parent.style.height.indexOf("%")>0 || this.parent.height.indexOf("%")>0) {
+	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('height').replace('px',''));
+	            } */
+	
+	          //    this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('width').replace('px',''));
+	          //    this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('height').replace('px',''));
 	          if (!this.width) {
 	            this.width = settings.defaultSize[0];
 	            this.parent.style.width = this.width + "px";
@@ -4191,7 +4227,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function sizeInterface() {
 	
 	        //let radius = Math.min(this.width,this.height) / 5;
-	        var radius = 4;
+	        var radius = 0;
 	
 	        this.pad.setAttribute("x", 0.5);
 	        this.pad.setAttribute("y", 0.5);
@@ -4876,8 +4912,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.matrix.iterate(function (r, c, i) {
 	            if (c === _this.stepper.value) {
 	              _this.cells[i].pad.setAttribute("stroke", _this.colors.mediumLight);
-	              _this.cells[i].pad.setAttribute("stroke-width", "5");
-	              _this.cells[i].pad.setAttribute("stroke-opacity", "0.8");
+	              _this.cells[i].pad.setAttribute("stroke-width", "1");
+	              _this.cells[i].pad.setAttribute("stroke-opacity", "1");
 	            } else {
 	              _this.cells[i].pad.setAttribute("stroke", "none");
 	            }
@@ -8647,18 +8683,387 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.add = add;
 
 /***/ },
-/* 40 */,
-/* 41 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(42)
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var scales = _interopRequire(__webpack_require__(41));
+	
+	var math = _interopRequire(__webpack_require__(5));
+	
+	var Tune = (function () {
+	  function Tune() {
+	    _classCallCheck(this, Tune);
+	
+	    // the scale as ratios
+	    this.scale = [];
+	
+	    // i/o modes
+	    this.mode = {
+	      output: "frequency",
+	      input: "step"
+	    };
+	
+	    // ET major
+	    this.etmajor = [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116];
+	
+	    // Root frequency.
+	    this.root = math.mtof(60); // * Math.pow(2,(60-69)/12);
+	
+	    this.scales = scales;
+	
+	    this.loadScale("et");
+	  }
+	
+	  _createClass(Tune, {
+	    note: {
+	
+	      /* Return data in the mode you are in (freq, ratio, or midi) */
+	
+	      value: function note(input, octave) {
+	
+	        var newvalue = undefined;
+	
+	        if (this.mode.output === "frequency") {
+	          newvalue = this.frequency(input, octave);
+	        } else if (this.mode.output === "ratio") {
+	          newvalue = this.ratio(input, octave);
+	        } else if (this.mode.output === "MIDI") {
+	          newvalue = this.MIDI(input, octave);
+	        } else {
+	          newvalue = this.frequency(input, octave);
+	        }
+	
+	        return newvalue;
+	      }
+	    },
+	    frequency: {
+	
+	      /* Return freq data */
+	
+	      value: function frequency(stepIn, octaveIn) {
+	
+	        if (this.mode.input === "midi" || this.mode.input === "MIDI") {
+	          this.stepIn += 60;
+	        }
+	
+	        // what octave is our input
+	        var octave = Math.floor(stepIn / this.scale.length);
+	
+	        if (octaveIn) {
+	          octave += octaveIn;
+	        }
+	
+	        // which scale degree (0 - scale length) is our input
+	        var scaleDegree = stepIn % this.scale.length;
+	
+	        while (scaleDegree < 0) {
+	          scaleDegree += this.scale.length;
+	        }
+	
+	        var ratio = this.scale[scaleDegree];
+	
+	        var freq = this.root * ratio;
+	
+	        freq = freq * Math.pow(2, octave);
+	
+	        // truncate irrational numbers
+	        freq = Math.floor(freq * 100000000000) / 100000000000;
+	
+	        return freq;
+	      }
+	    },
+	    ratio: {
+	
+	      /* Force return ratio data */
+	
+	      value: function ratio(stepIn, octaveIn) {
+	
+	        if (this.mode.input === "midi" || this.mode.input === "MIDI") {
+	          this.stepIn += 60;
+	        }
+	
+	        // what octave is our input
+	        var octave = Math.floor(stepIn / this.scale.length);
+	
+	        if (octaveIn) {
+	          octave += octaveIn;
+	        }
+	
+	        // which scale degree (0 - scale length) is our input
+	        var scaleDegree = stepIn % this.scale.length;
+	
+	        // what ratio is our input to our key
+	        var ratio = Math.pow(2, octave) * this.scale[scaleDegree];
+	
+	        ratio = Math.floor(ratio * 100000000000) / 100000000000;
+	
+	        return ratio;
+	      }
+	    },
+	    MIDI: {
+	
+	      /* Force return adjusted MIDI data */
+	
+	      value: function MIDI(stepIn, octaveIn) {
+	
+	        var newvalue = this.frequency(stepIn, octaveIn);
+	
+	        var n = 69 + 12 * Math.log(newvalue / 440) / Math.log(2);
+	
+	        n = Math.floor(n * 1000000000) / 1000000000;
+	
+	        return n;
+	      }
+	    },
+	    createScale: {
+	      value: function createScale() {
+	        var newScale = [];
+	        for (var i = 0; i < arguments.length; i++) {
+	          newScale.push(math.mtof(60 + arguments[i]));
+	        }
+	        this.loadScaleFromFrequencies(newScale);
+	      }
+	    },
+	    createJIScale: {
+	      value: function createJIScale() {
+	        this.scale = [];
+	        for (var i = 0; i < arguments.length; i++) {
+	          this.scale.push(arguments[i]);
+	        }
+	      }
+	    },
+	    loadScaleFromFrequencies: {
+	      value: function loadScaleFromFrequencies(freqs) {
+	        this.scale = [];
+	        for (var i = 0; i < freqs.length - 1; i++) {
+	          this.scale.push(freqs[i] / freqs[0]);
+	        }
+	      }
+	    },
+	    loadScale: {
+	
+	      /* Load a new scale */
+	
+	      value: function loadScale(name) {
+	
+	        /* load the scale */
+	        var freqs = this.scales[name].frequencies;
+	        this.loadScaleFromFrequencies(freqs);
+	      }
+	    },
+	    search: {
+	
+	      /* Search the names of tunings
+	      	 Returns an array of names of tunings */
+	
+	      value: function search(letters) {
+	        var possible = [];
+	        for (var key in this.scales) {
+	          if (key.toLowerCase().indexOf(letters.toLowerCase()) !== -1) {
+	            possible.push(key);
+	          }
+	        }
+	        return possible;
+	      }
+	    },
+	    chord: {
+	
+	      /* Return a collection of notes as an array */
+	
+	      value: function chord(midis) {
+	        var output = [];
+	        for (var i = 0; i < midis.length; i++) {
+	          output.push(this.note(midis[i]));
+	        }
+	        return output;
+	      }
+	    }
+	  });
+	
+	  return Tune;
+	})();
+	
+	module.exports = Tune;
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	module.exports = {
+	  ji_12: {
+	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 436.04260883433, 470.92601754108, 490.54793493862, 523.2511306012],
+	    description: "Basic JI with 7-limit tritone"
+	  },
+	  ji_12a: {
+	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 305.22982618403, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
+	    description: "7-limit 12-tone scale"
+	  },
+	  ji_12b: {
+	    frequencies: [261.6255653006, 272.52663052146, 290.69507255622, 305.22982618403, 327.03195662575, 343.38355445704, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
+	    description: "alternate 7-limit 12-tone scale"
+	  },
+	  ji_12c: {
+	    frequencies: [261.6255653006, 272.52663052146, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 367.91095120397, 392.4383479509, 418.60090448096, 436.04260883433, 457.84473927605, 490.54793493862, 523.2511306012],
+	    description: "Kurzweil 'Just with natural b7th', is Sauveur Just with 7/4"
+	  },
+	  et: {
+	    frequencies: [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116],
+	    description: "Et Major"
+	  },
+	  ji_diatonic: {
+	    frequencies: [261.6255653006, 294.32876096318, 327.03195662575, 348.83408706747, 392.4383479509, 436.04260883433, 490.54793493862],
+	    description: "Basic JI with 7-limit tritone"
+	  }
+	};
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	//Disable jshint warning concerning trailing regular params
+	/*jshint -W138 */
+	
+	var Radio = (function () {
+	    //if non-existent buttons are switched, they are ignored
+	
+	    function Radio() {
+	        for (var _len = arguments.length, onVals = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	            onVals[_key - 1] = arguments[_key];
+	        }
+	
+	        var length = arguments[0] === undefined ? 3 : arguments[0];
+	
+	        _classCallCheck(this, Radio);
+	
+	        //each optional 'onVals' argument switches on that value in the Radio if it exists
+	        //In the example below, a 3-button radio is created, index 0 is switched on, index 1 is switched on then then attempted again producing an warning, and the final argument produces a warning because the index value does not exist.
+	        //Example:
+	        //`  radio = new Radio(3, 0, 1, 1, 3);
+	        //…  [1,1,0]
+	
+	        if (length < 0) {
+	            length = 1;
+	        }
+	
+	        this.length = length;
+	        this.onVals = onVals;
+	        this.array = new Array(length).fill(0);
+	
+	        if (onVals.length > 0) {
+	            this.on.apply(this, onVals);
+	        }
+	    }
+	
+	    _createClass(Radio, {
+	        select: {
+	            value: function select(value) {
+	                this.array.fill(0);
+	                this.array[value] = 1;
+	                return this.array;
+	            }
+	        },
+	        flip: {
+	            value: function flip() {
+	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+	                    values[_key] = arguments[_key];
+	                }
+	
+	                //flips the specified values. if no value is specified, flips all buttons
+	                var a = this.array;
+	                if (values.length > 0) {
+	                    values.forEach(function (v) {
+	                        if (v > a.length - 1) {
+	                            console.warn("Warning: AnonRadio[" + v + "] does not exist");
+	                        } else {
+	                            a[v] = a[v] ? 0 : 1;
+	                        }
+	                    });
+	                } else {
+	                    a.forEach(function (v, i, arr) {
+	                        arr[i] = v ? 0 : 1;
+	                    });
+	                }
+	                return a;
+	            }
+	        },
+	        on: {
+	            value: function on() {
+	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+	                    values[_key] = arguments[_key];
+	                }
+	
+	                //switch on the specified values. if no value specified, flips on all buttons
+	                var a = this.array;
+	                if (values.length > 0) {
+	                    values.forEach(function (v) {
+	                        if (v > a.length - 1) {
+	                            console.warn("Warning: AnonRadio[" + v + "] exceeds size of object");
+	                        } else {
+	                            if (a[v] === 1) {
+	                                console.warn("Warning: AnonRadio[" + v + "] was already on.");
+	                            }
+	                            a[v] = 1;
+	                        }
+	                    });
+	                } else {
+	                    a.fill(1);
+	                }
+	                return a;
+	            }
+	        },
+	        off: {
+	            value: function off() {
+	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
+	                    values[_key] = arguments[_key];
+	                }
+	
+	                //switch off the specified values. if no value specified, flips off all buttons
+	                var a = this.array;
+	                if (values.length > 0) {
+	                    values.forEach(function (v) {
+	                        a[v] = 0;
+	                    });
+	                } else {
+	                    a.fill(0);
+	                }
+	                return a;
+	            }
+	        }
+	    });
+	
+	    return Radio;
+	})();
+	
+	module.exports = Radio;
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var WAAClock = __webpack_require__(44)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -8895,10 +9300,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(45)))
 
 /***/ },
-/* 43 */
+/* 45 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -9084,7 +9489,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 44 */
+/* 46 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9149,376 +9554,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	})();
 	
 	module.exports = Interval;
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var scales = _interopRequire(__webpack_require__(46));
-	
-	var math = _interopRequire(__webpack_require__(5));
-	
-	var Tune = (function () {
-	  function Tune() {
-	    _classCallCheck(this, Tune);
-	
-	    // the scale as ratios
-	    this.scale = [];
-	
-	    // i/o modes
-	    this.mode = {
-	      output: "frequency",
-	      input: "step"
-	    };
-	
-	    // ET major
-	    this.etmajor = [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116];
-	
-	    // Root frequency.
-	    this.root = math.mtof(60); // * Math.pow(2,(60-69)/12);
-	
-	    this.scales = scales;
-	
-	    this.loadScale("et");
-	  }
-	
-	  _createClass(Tune, {
-	    note: {
-	
-	      /* Return data in the mode you are in (freq, ratio, or midi) */
-	
-	      value: function note(input, octave) {
-	
-	        var newvalue = undefined;
-	
-	        if (this.mode.output === "frequency") {
-	          newvalue = this.frequency(input, octave);
-	        } else if (this.mode.output === "ratio") {
-	          newvalue = this.ratio(input, octave);
-	        } else if (this.mode.output === "MIDI") {
-	          newvalue = this.MIDI(input, octave);
-	        } else {
-	          newvalue = this.frequency(input, octave);
-	        }
-	
-	        return newvalue;
-	      }
-	    },
-	    frequency: {
-	
-	      /* Return freq data */
-	
-	      value: function frequency(stepIn, octaveIn) {
-	
-	        if (this.mode.input === "midi" || this.mode.input === "MIDI") {
-	          this.stepIn += 60;
-	        }
-	
-	        // what octave is our input
-	        var octave = Math.floor(stepIn / this.scale.length);
-	
-	        if (octaveIn) {
-	          octave += octaveIn;
-	        }
-	
-	        // which scale degree (0 - scale length) is our input
-	        var scaleDegree = stepIn % this.scale.length;
-	
-	        while (scaleDegree < 0) {
-	          scaleDegree += this.scale.length;
-	        }
-	
-	        var ratio = this.scale[scaleDegree];
-	
-	        var freq = this.root * ratio;
-	
-	        freq = freq * Math.pow(2, octave);
-	
-	        // truncate irrational numbers
-	        freq = Math.floor(freq * 100000000000) / 100000000000;
-	
-	        return freq;
-	      }
-	    },
-	    ratio: {
-	
-	      /* Force return ratio data */
-	
-	      value: function ratio(stepIn, octaveIn) {
-	
-	        if (this.mode.input === "midi" || this.mode.input === "MIDI") {
-	          this.stepIn += 60;
-	        }
-	
-	        // what octave is our input
-	        var octave = Math.floor(stepIn / this.scale.length);
-	
-	        if (octaveIn) {
-	          octave += octaveIn;
-	        }
-	
-	        // which scale degree (0 - scale length) is our input
-	        var scaleDegree = stepIn % this.scale.length;
-	
-	        // what ratio is our input to our key
-	        var ratio = Math.pow(2, octave) * this.scale[scaleDegree];
-	
-	        ratio = Math.floor(ratio * 100000000000) / 100000000000;
-	
-	        return ratio;
-	      }
-	    },
-	    MIDI: {
-	
-	      /* Force return adjusted MIDI data */
-	
-	      value: function MIDI(stepIn, octaveIn) {
-	
-	        var newvalue = this.frequency(stepIn, octaveIn);
-	
-	        var n = 69 + 12 * Math.log(newvalue / 440) / Math.log(2);
-	
-	        n = Math.floor(n * 1000000000) / 1000000000;
-	
-	        return n;
-	      }
-	    },
-	    createScale: {
-	      value: function createScale() {
-	        var newScale = [];
-	        for (var i = 0; i < arguments.length; i++) {
-	          newScale.push(math.mtof(60 + arguments[i]));
-	        }
-	        this.loadScaleFromFrequencies(newScale);
-	      }
-	    },
-	    createJIScale: {
-	      value: function createJIScale() {
-	        this.scale = [];
-	        for (var i = 0; i < arguments.length; i++) {
-	          this.scale.push(arguments[i]);
-	        }
-	      }
-	    },
-	    loadScaleFromFrequencies: {
-	      value: function loadScaleFromFrequencies(freqs) {
-	        this.scale = [];
-	        for (var i = 0; i < freqs.length - 1; i++) {
-	          this.scale.push(freqs[i] / freqs[0]);
-	        }
-	      }
-	    },
-	    loadScale: {
-	
-	      /* Load a new scale */
-	
-	      value: function loadScale(name) {
-	
-	        /* load the scale */
-	        var freqs = this.scales[name].frequencies;
-	        this.loadScaleFromFrequencies(freqs);
-	      }
-	    },
-	    search: {
-	
-	      /* Search the names of tunings
-	      	 Returns an array of names of tunings */
-	
-	      value: function search(letters) {
-	        var possible = [];
-	        for (var key in this.scales) {
-	          if (key.toLowerCase().indexOf(letters.toLowerCase()) !== -1) {
-	            possible.push(key);
-	          }
-	        }
-	        return possible;
-	      }
-	    },
-	    chord: {
-	
-	      /* Return a collection of notes as an array */
-	
-	      value: function chord(midis) {
-	        var output = [];
-	        for (var i = 0; i < midis.length; i++) {
-	          output.push(this.note(midis[i]));
-	        }
-	        return output;
-	      }
-	    }
-	  });
-	
-	  return Tune;
-	})();
-	
-	module.exports = Tune;
-
-/***/ },
-/* 46 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	module.exports = {
-	  ji_12: {
-	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 436.04260883433, 470.92601754108, 490.54793493862, 523.2511306012],
-	    description: "Basic JI with 7-limit tritone"
-	  },
-	  ji_12a: {
-	    frequencies: [261.6255653006, 279.06726965397, 294.32876096318, 305.22982618403, 327.03195662575, 348.83408706747, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
-	    description: "7-limit 12-tone scale"
-	  },
-	  ji_12b: {
-	    frequencies: [261.6255653006, 272.52663052146, 290.69507255622, 305.22982618403, 327.03195662575, 343.38355445704, 366.27579142084, 392.4383479509, 418.60090448096, 448.50096908674, 457.84473927605, 490.54793493862, 523.2511306012],
-	    description: "alternate 7-limit 12-tone scale"
-	  },
-	  ji_12c: {
-	    frequencies: [261.6255653006, 272.52663052146, 294.32876096318, 313.95067836072, 327.03195662575, 348.83408706747, 367.91095120397, 392.4383479509, 418.60090448096, 436.04260883433, 457.84473927605, 490.54793493862, 523.2511306012],
-	    description: "Kurzweil 'Just with natural b7th', is Sauveur Just with 7/4"
-	  },
-	  et: {
-	    frequencies: [261.62558, 293.664764, 329.627563, 349.228241, 391.995422, 440, 493.883301, 523.25116],
-	    description: "Et Major"
-	  },
-	  ji_diatonic: {
-	    frequencies: [261.6255653006, 294.32876096318, 327.03195662575, 348.83408706747, 392.4383479509, 436.04260883433, 490.54793493862],
-	    description: "Basic JI with 7-limit tritone"
-	  }
-	};
-
-/***/ },
-/* 47 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	//Disable jshint warning concerning trailing regular params
-	/*jshint -W138 */
-	
-	var Radio = (function () {
-	    //if non-existent buttons are switched, they are ignored
-	
-	    function Radio() {
-	        for (var _len = arguments.length, onVals = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	            onVals[_key - 1] = arguments[_key];
-	        }
-	
-	        var length = arguments[0] === undefined ? 3 : arguments[0];
-	
-	        _classCallCheck(this, Radio);
-	
-	        //each optional 'onVals' argument switches on that value in the Radio if it exists
-	        //In the example below, a 3-button radio is created, index 0 is switched on, index 1 is switched on then then attempted again producing an warning, and the final argument produces a warning because the index value does not exist.
-	        //Example:
-	        //`  radio = new Radio(3, 0, 1, 1, 3);
-	        //…  [1,1,0]
-	
-	        if (length < 0) {
-	            length = 1;
-	        }
-	
-	        this.length = length;
-	        this.onVals = onVals;
-	        this.array = new Array(length).fill(0);
-	
-	        if (onVals.length > 0) {
-	            this.on.apply(this, onVals);
-	        }
-	    }
-	
-	    _createClass(Radio, {
-	        select: {
-	            value: function select(value) {
-	                this.array.fill(0);
-	                this.array[value] = 1;
-	                return this.array;
-	            }
-	        },
-	        flip: {
-	            value: function flip() {
-	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
-	                    values[_key] = arguments[_key];
-	                }
-	
-	                //flips the specified values. if no value is specified, flips all buttons
-	                var a = this.array;
-	                if (values.length > 0) {
-	                    values.forEach(function (v) {
-	                        if (v > a.length - 1) {
-	                            console.warn("Warning: AnonRadio[" + v + "] does not exist");
-	                        } else {
-	                            a[v] = a[v] ? 0 : 1;
-	                        }
-	                    });
-	                } else {
-	                    a.forEach(function (v, i, arr) {
-	                        arr[i] = v ? 0 : 1;
-	                    });
-	                }
-	                return a;
-	            }
-	        },
-	        on: {
-	            value: function on() {
-	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
-	                    values[_key] = arguments[_key];
-	                }
-	
-	                //switch on the specified values. if no value specified, flips on all buttons
-	                var a = this.array;
-	                if (values.length > 0) {
-	                    values.forEach(function (v) {
-	                        if (v > a.length - 1) {
-	                            console.warn("Warning: AnonRadio[" + v + "] exceeds size of object");
-	                        } else {
-	                            if (a[v] === 1) {
-	                                console.warn("Warning: AnonRadio[" + v + "] was already on.");
-	                            }
-	                            a[v] = 1;
-	                        }
-	                    });
-	                } else {
-	                    a.fill(1);
-	                }
-	                return a;
-	            }
-	        },
-	        off: {
-	            value: function off() {
-	                for (var _len = arguments.length, values = Array(_len), _key = 0; _key < _len; _key++) {
-	                    values[_key] = arguments[_key];
-	                }
-	
-	                //switch off the specified values. if no value specified, flips off all buttons
-	                var a = this.array;
-	                if (values.length > 0) {
-	                    values.forEach(function (v) {
-	                        a[v] = 0;
-	                    });
-	                } else {
-	                    a.fill(0);
-	                }
-	                return a;
-	            }
-	        }
-	    });
-	
-	    return Radio;
-	})();
-	
-	module.exports = Radio;
 
 /***/ }
 /******/ ])
