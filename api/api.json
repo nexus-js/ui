@@ -1719,7 +1719,7 @@
       },
       {
         "title": "example",
-        "description": "var button = new Nexus.Button('#target',{\n  'mode': 'toggle',\n  'state': true,\n  'size': [100,100]\n})",
+        "description": "var button = new Nexus.Button('#target',{\n  'size': [80,80],\n  'mode': 'aftertouch',\n  'state': false\n})",
         "lineNumber": 10
       },
       {
@@ -1750,7 +1750,7 @@
           "column": 0
         },
         "end": {
-          "line": 121,
+          "line": 120,
           "column": 1
         }
       },
@@ -1761,7 +1761,7 @@
         "description": "var button = new Nexus.Button('#target')"
       },
       {
-        "description": "var button = new Nexus.Button('#target',{\n  'mode': 'toggle',\n  'state': true,\n  'size': [100,100]\n})"
+        "description": "var button = new Nexus.Button('#target',{\n  'size': [80,80],\n  'mode': 'aftertouch',\n  'state': false\n})"
       }
     ],
     "name": "Button",
@@ -1845,22 +1845,22 @@
           ],
           "loc": {
             "start": {
-              "line": 54,
+              "line": 53,
               "column": 4
             },
             "end": {
-              "line": 58,
+              "line": 57,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 59,
+                "line": 58,
                 "column": 4
               },
               "end": {
-                "line": 59,
+                "line": 58,
                 "column": 35
               }
             },
@@ -11038,2139 +11038,6 @@
           "children": [
             {
               "type": "text",
-              "value": "Range slider",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 13,
-                  "offset": 12
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 13,
-              "offset": 12
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 13,
-          "offset": 12
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "Range slider",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<div nexus-ui=\"Range\"></div>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var range = new Nexus.Range('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "output",
-        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
-        "lineNumber": 10
-      },
-      {
-        "title": "outputexample",
-        "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 8,
-        "column": 0
-      },
-      "end": {
-        "line": 29,
-        "column": 3
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 31,
-          "column": 0
-        },
-        "end": {
-          "line": 129,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/range.js"
-    },
-    "examples": [
-      {
-        "description": "var range = new Nexus.Range('#target')"
-      }
-    ],
-    "name": "Range",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Minimum value of the range",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 36,
-                        "offset": 35
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 36,
-                    "offset": 35
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 36,
-                "offset": 35
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 17,
-              "column": 4
-            },
-            "end": {
-              "line": 19,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 20,
-                "column": 4
-              },
-              "end": {
-                "line": 20,
-                "column": 19
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "min",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "min",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#min"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Maximum value of the range",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 36,
-                        "offset": 35
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 36,
-                    "offset": 35
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 36,
-                "offset": 35
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 22,
-              "column": 4
-            },
-            "end": {
-              "line": 24,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 25,
-                "column": 4
-              },
-              "end": {
-                "line": 25,
-                "column": 19
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "max",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "max",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#max"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{Step} Start value of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 42,
-                        "offset": 41
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 42,
-                    "offset": 41
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 42,
-                "offset": 41
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 27,
-              "column": 4
-            },
-            "end": {
-              "line": 29,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 30,
-                "column": 4
-              },
-              "end": {
-                "line": 30,
-                "column": 40
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "start",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "start",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#start"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{Step} End value of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 40,
-                "offset": 39
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 32,
-              "column": 4
-            },
-            "end": {
-              "line": 34,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 35,
-                "column": 4
-              },
-              "end": {
-                "line": 35,
-                "column": 38
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "end",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "end",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#end"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Center of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 39,
-                        "offset": 38
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 39,
-                    "offset": 38
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 39,
-                "offset": 38
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 38,
-              "column": 2
-            },
-            "end": {
-              "line": 40,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 41,
-                "column": 2
-              },
-              "end": {
-                "line": 43,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "center",
-          "kind": "member",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "center",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#center"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Size of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 37,
-                        "offset": 36
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 37,
-                "offset": 36
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 54,
-              "column": 2
-            },
-            "end": {
-              "line": 56,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 57,
-                "column": 2
-              },
-              "end": {
-                "line": 59,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "size",
-          "kind": "member",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "size",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#size"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Move the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 25,
-                        "offset": 24
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 25,
-                "offset": 24
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "param",
-              "description": "New start value of the range selection",
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              },
-              "name": "start"
-            },
-            {
-              "title": "param",
-              "description": "New end value of the range selection",
-              "lineNumber": 3,
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              },
-              "name": "end"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 70,
-              "column": 2
-            },
-            "end": {
-              "line": 74,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 75,
-                "column": 2
-              },
-              "end": {
-                "line": 82,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "params": [
-            {
-              "name": "start",
-              "lineNumber": 2,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "New start value of the range selection",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 39,
-                            "offset": 38
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 39,
-                        "offset": 38
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 39,
-                    "offset": 38
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              }
-            },
-            {
-              "name": "end",
-              "lineNumber": 3,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "New end value of the range selection",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 37,
-                            "offset": 36
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 37,
-                        "offset": 36
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              }
-            }
-          ],
-          "name": "move",
-          "kind": "function",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "move",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#move"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Range",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Range"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 140,
-                  "offset": 139
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 140,
-              "offset": 139
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 140,
-          "offset": 139
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "param",
-        "description": "minimum",
-        "lineNumber": 2,
-        "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
-        },
-        "name": "min",
-        "default": "0"
-      },
-      {
-        "title": "param",
-        "description": "maximum",
-        "lineNumber": 3,
-        "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
-        },
-        "name": "max",
-        "default": "1"
-      },
-      {
-        "title": "param",
-        "description": null,
-        "lineNumber": 4,
-        "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
-        },
-        "name": "step",
-        "default": "0"
-      },
-      {
-        "title": "returns",
-        "description": "Step",
-        "lineNumber": 5,
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        }
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 5,
-        "column": 0
-      },
-      "end": {
-        "line": 11,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 13,
-          "column": 0
-        },
-        "end": {
-          "line": 84,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-    },
-    "params": [
-      {
-        "name": "min",
-        "lineNumber": 2,
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "minimum",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 8,
-                      "offset": 7
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 8,
-                  "offset": 7
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 8,
-              "offset": 7
-            }
-          }
-        },
-        "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
-        },
-        "default": "0"
-      },
-      {
-        "name": "max",
-        "lineNumber": 3,
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "maximum",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 8,
-                      "offset": 7
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 8,
-                  "offset": 7
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 8,
-              "offset": 7
-            }
-          }
-        },
-        "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
-        },
-        "default": "1"
-      },
-      {
-        "name": "step",
-        "lineNumber": 4,
-        "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
-        },
-        "default": "0"
-      }
-    ],
-    "returns": [
-      {
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "Step",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 5,
-                      "offset": 4
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 5,
-                  "offset": 4
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 5,
-              "offset": 4
-            }
-          }
-        },
-        "type": {
-          "type": "NameExpression",
-          "name": "Object"
-        }
-      }
-    ],
-    "name": "Range",
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Minimum value of the range",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 36,
-                        "offset": 35
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 36,
-                    "offset": 35
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 36,
-                "offset": 35
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 17,
-              "column": 4
-            },
-            "end": {
-              "line": 19,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 20,
-                "column": 4
-              },
-              "end": {
-                "line": 20,
-                "column": 19
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "min",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "min",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#min"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Maximum value of the range",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 36,
-                        "offset": 35
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 36,
-                    "offset": 35
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 36,
-                "offset": 35
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 22,
-              "column": 4
-            },
-            "end": {
-              "line": 24,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 25,
-                "column": 4
-              },
-              "end": {
-                "line": 25,
-                "column": 19
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "max",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "max",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#max"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{Step} Start value of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 42,
-                        "offset": 41
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 42,
-                    "offset": 41
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 42,
-                "offset": 41
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 27,
-              "column": 4
-            },
-            "end": {
-              "line": 29,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 30,
-                "column": 4
-              },
-              "end": {
-                "line": 30,
-                "column": 40
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "start",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "start",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#start"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{Step} End value of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 40,
-                "offset": 39
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 32,
-              "column": 4
-            },
-            "end": {
-              "line": 34,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 35,
-                "column": 4
-              },
-              "end": {
-                "line": 35,
-                "column": 38
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "end",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "end",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#end"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Center of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 39,
-                        "offset": 38
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 39,
-                    "offset": 38
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 39,
-                "offset": 38
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 38,
-              "column": 2
-            },
-            "end": {
-              "line": 40,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 41,
-                "column": 2
-              },
-              "end": {
-                "line": 43,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "center",
-          "kind": "member",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "center",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#center"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "{number} Size of the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 37,
-                        "offset": 36
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 37,
-                "offset": 36
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 54,
-              "column": 2
-            },
-            "end": {
-              "line": 56,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 57,
-                "column": 2
-              },
-              "end": {
-                "line": 59,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "name": "size",
-          "kind": "member",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "size",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#size"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Move the range selection",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 25,
-                        "offset": 24
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 25,
-                    "offset": 24
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 25,
-                "offset": 24
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "param",
-              "description": "New start value of the range selection",
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              },
-              "name": "start"
-            },
-            {
-              "title": "param",
-              "description": "New end value of the range selection",
-              "lineNumber": 3,
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              },
-              "name": "end"
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 70,
-              "column": 2
-            },
-            "end": {
-              "line": 74,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 75,
-                "column": 2
-              },
-              "end": {
-                "line": 82,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
-          },
-          "params": [
-            {
-              "name": "start",
-              "lineNumber": 2,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "New start value of the range selection",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 39,
-                            "offset": 38
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 39,
-                        "offset": 38
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 39,
-                    "offset": 38
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              }
-            },
-            {
-              "name": "end",
-              "lineNumber": 3,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "New end value of the range selection",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 37,
-                            "offset": 36
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 37,
-                        "offset": 36
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 37,
-                    "offset": 36
-                  }
-                }
-              },
-              "type": {
-                "type": "NameExpression",
-                "name": "number"
-              }
-            }
-          ],
-          "name": "move",
-          "kind": "function",
-          "memberof": "Range",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Range",
-              "kind": "class"
-            },
-            {
-              "name": "move",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Range#move"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Range",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Range"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
               "value": "Dropdown menu",
               "position": {
                 "start": {
@@ -15597,7 +13464,7 @@
           "column": 0
         },
         "end": {
-          "line": 130,
+          "line": 132,
           "column": 1
         }
       },
@@ -15685,22 +13552,22 @@
           ],
           "loc": {
             "start": {
-              "line": 100,
+              "line": 102,
               "column": 2
             },
             "end": {
-              "line": 103,
+              "line": 105,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 104,
+                "line": 106,
                 "column": 2
               },
               "end": {
-                "line": 111,
+                "line": 113,
                 "column": 3
               }
             },
@@ -15842,22 +13709,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 113,
+              "line": 115,
               "column": 2
             },
             "end": {
-              "line": 115,
+              "line": 117,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 116,
+                "line": 118,
                 "column": 2
               },
               "end": {
-                "line": 119,
+                "line": 121,
                 "column": 3
               }
             },
@@ -16262,2706 +14129,6 @@
           "children": [
             {
               "type": "text",
-              "value": "2- or 3-axis tilt sensor (depending on your device and browser).",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 65,
-                  "offset": 64
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 65,
-              "offset": 64
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 65,
-          "offset": 64
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "2- or 3-axis tilt sensor (depending on your device and browser).",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span mt='tilt'></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var tilt = new mt.Tilt('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "output",
-        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
-        "lineNumber": 10
-      },
-      {
-        "title": "outputexample",
-        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 7,
-        "column": 0
-      },
-      "end": {
-        "line": 28,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 30,
-          "column": 0
-        },
-        "end": {
-          "line": 155,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
-    },
-    "examples": [
-      {
-        "description": "var tilt = new mt.Tilt('#target')"
-      }
-    ],
-    "name": "Tilt",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 141,
-              "column": 2
-            },
-            "end": {
-              "line": 144,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 146,
-                "column": 2
-              },
-              "end": {
-                "line": 148,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 140,
-              "column": 2
-            },
-            "end": {
-              "line": 143,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 145,
-                "column": 2
-              },
-              "end": {
-                "line": 147,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 147,
-              "column": 2
-            },
-            "end": {
-              "line": 150,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 152,
-                "column": 2
-              },
-              "end": {
-                "line": 154,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup3.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 252,
-              "column": 2
-            },
-            "end": {
-              "line": 255,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 257,
-                "column": 2
-              },
-              "end": {
-                "line": 259,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup4.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 291,
-              "column": 2
-            },
-            "end": {
-              "line": 294,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 296,
-                "column": 2
-              },
-              "end": {
-                "line": 298,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Tilt",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Tilt"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "2- or 3-axis tilt sensor (depending on your device and browser).",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 65,
-                  "offset": 64
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 65,
-              "offset": 64
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 65,
-          "offset": 64
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "2- or 3-axis tilt sensor (depending on your device and browser).",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span mt='tilt'></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var tilt = new mt.Tilt('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "output",
-        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
-        "lineNumber": 10
-      },
-      {
-        "title": "outputexample",
-        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 7,
-        "column": 0
-      },
-      "end": {
-        "line": 28,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 30,
-          "column": 0
-        },
-        "end": {
-          "line": 154,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
-    },
-    "examples": [
-      {
-        "description": "var tilt = new mt.Tilt('#target')"
-      }
-    ],
-    "name": "Tilt",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 141,
-              "column": 2
-            },
-            "end": {
-              "line": 144,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 146,
-                "column": 2
-              },
-              "end": {
-                "line": 148,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 140,
-              "column": 2
-            },
-            "end": {
-              "line": 143,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 145,
-                "column": 2
-              },
-              "end": {
-                "line": 147,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 147,
-              "column": 2
-            },
-            "end": {
-              "line": 150,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 152,
-                "column": 2
-              },
-              "end": {
-                "line": 154,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup3.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 252,
-              "column": 2
-            },
-            "end": {
-              "line": 255,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 257,
-                "column": 2
-              },
-              "end": {
-                "line": 259,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup4.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 291,
-              "column": 2
-            },
-            "end": {
-              "line": 294,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 296,
-                "column": 2
-              },
-              "end": {
-                "line": 298,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Tilt",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Tilt"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "2- or 3-axis tilt sensor (depending on your device and browser).",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 65,
-                  "offset": 64
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 65,
-              "offset": 64
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 65,
-          "offset": 64
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "2- or 3-axis tilt sensor (depending on your device and browser).",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span nexus-ui='tilt'></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var tilt = new Nexus.Tilt('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "output",
-        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
-        "lineNumber": 10
-      },
-      {
-        "title": "outputexample",
-        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 7,
-        "column": 0
-      },
-      "end": {
-        "line": 28,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 30,
-          "column": 0
-        },
-        "end": {
-          "line": 165,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup3.js"
-    },
-    "examples": [
-      {
-        "description": "var tilt = new Nexus.Tilt('#target')"
-      }
-    ],
-    "name": "Tilt",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 141,
-              "column": 2
-            },
-            "end": {
-              "line": 144,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 146,
-                "column": 2
-              },
-              "end": {
-                "line": 148,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 140,
-              "column": 2
-            },
-            "end": {
-              "line": 143,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 145,
-                "column": 2
-              },
-              "end": {
-                "line": 147,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 147,
-              "column": 2
-            },
-            "end": {
-              "line": 150,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 152,
-                "column": 2
-              },
-              "end": {
-                "line": 154,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup3.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 252,
-              "column": 2
-            },
-            "end": {
-              "line": 255,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 257,
-                "column": 2
-              },
-              "end": {
-                "line": 259,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup4.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 291,
-              "column": 2
-            },
-            "end": {
-              "line": 294,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 296,
-                "column": 2
-              },
-              "end": {
-                "line": 298,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Tilt",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Tilt"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Device tilt sensor with 2 or 3 axes (depending on your device and browser).",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 76,
-                  "offset": 75
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 76,
-              "offset": 75
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 76,
-          "offset": 75
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "Device tilt sensor with 2 or 3 axes (depending on your device and browser).",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span nexus-ui='tilt'></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var tilt = new Nexus.Tilt('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "output",
-        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
-        "lineNumber": 10
-      },
-      {
-        "title": "outputexample",
-        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 7,
-        "column": 0
-      },
-      "end": {
-        "line": 28,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 30,
-          "column": 0
-        },
-        "end": {
-          "line": 270,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup4.js"
-    },
-    "examples": [
-      {
-        "description": "var tilt = new Nexus.Tilt('#target')"
-      }
-    ],
-    "name": "Tilt",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 141,
-              "column": 2
-            },
-            "end": {
-              "line": 144,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 146,
-                "column": 2
-              },
-              "end": {
-                "line": 148,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 140,
-              "column": 2
-            },
-            "end": {
-              "line": 143,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 145,
-                "column": 2
-              },
-              "end": {
-                "line": 147,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 147,
-              "column": 2
-            },
-            "end": {
-              "line": 150,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 152,
-                "column": 2
-              },
-              "end": {
-                "line": 154,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup3.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 252,
-              "column": 2
-            },
-            "end": {
-              "line": 255,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 257,
-                "column": 2
-              },
-              "end": {
-                "line": 259,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup4.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 291,
-              "column": 2
-            },
-            "end": {
-              "line": 294,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 296,
-                "column": 2
-              },
-              "end": {
-                "line": 298,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        }
-      ],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Tilt",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Tilt"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
               "value": "Device tilt sensor with 2 or 3 axes (depending on your device and browser).",
               "position": {
                 "start": {
@@ -19071,442 +14238,6 @@
     "kind": "class",
     "members": {
       "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 141,
-              "column": 2
-            },
-            "end": {
-              "line": 144,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 146,
-                "column": 2
-              },
-              "end": {
-                "line": 148,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 140,
-              "column": 2
-            },
-            "end": {
-              "line": 143,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 145,
-                "column": 2
-              },
-              "end": {
-                "line": 147,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup2.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 147,
-              "column": 2
-            },
-            "end": {
-              "line": 150,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 152,
-                "column": 2
-              },
-              "end": {
-                "line": 154,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup3.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Whether the interface is on (emitting values) or off (paused & not emitting values). Setting this property will update it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 123,
-                        "offset": 122
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 123,
-                    "offset": 122
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 123,
-                "offset": 122
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "boolean"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 252,
-              "column": 2
-            },
-            "end": {
-              "line": 255,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 257,
-                "column": 2
-              },
-              "end": {
-                "line": 259,
-                "column": 3
-              }
-            },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt-backup4.js"
-          },
-          "name": "active",
-          "kind": "member",
-          "memberof": "Tilt",
-          "scope": "instance",
-          "members": {
-            "instance": [],
-            "static": [],
-            "events": []
-          },
-          "path": [
-            {
-              "name": "Tilt",
-              "kind": "class"
-            },
-            {
-              "name": "active",
-              "kind": "member",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Tilt#active"
-        },
         {
           "description": {
             "type": "root",
@@ -19699,7 +14430,7 @@
       },
       {
         "title": "example",
-        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})",
+        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'state': false\n})",
         "lineNumber": 10
       },
       {
@@ -19741,7 +14472,7 @@
         "description": "var toggle = new Nexus.Toggle('#target')"
       },
       {
-        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'value': 0\n})"
+        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'state': false\n})"
       }
     ],
     "name": "Toggle",
@@ -20004,135 +14735,6 @@
           "children": [
             {
               "type": "text",
-              "value": "Audio waveform visualization with region selection",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 51,
-                  "offset": 50
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 51,
-              "offset": 50
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 51,
-          "offset": 50
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "Audio waveform visualization with region selection",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span nexus-ui=\"waveform\"></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var waveform = new Nexus.waveform('#target',buffer);",
-        "lineNumber": 7
-      },
-      {
-        "title": "output",
-        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
-        "lineNumber": 10
-      },
-      {
-        "title": "outputexample",
-        "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 10,
-        "column": 0
-      },
-      "end": {
-        "line": 31,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 34,
-          "column": 0
-        },
-        "end": {
-          "line": 256,
-          "column": 1
-        }
-      },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/waveform.js"
-    },
-    "examples": [
-      {
-        "description": "var waveform = new Nexus.waveform('#target',buffer);"
-      }
-    ],
-    "name": "Waveform",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
-    "kind": "class",
-    "members": {
-      "instance": [],
-      "static": [],
-      "events": []
-    },
-    "path": [
-      {
-        "name": "Waveform",
-        "kind": "class"
-      }
-    ],
-    "namespace": "Waveform"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
               "value": "NexusUI => created as Nexus",
               "position": {
                 "start": {
@@ -20195,7 +14797,7 @@
           "column": 0
         },
         "end": {
-          "line": 80,
+          "line": 91,
           "column": 1
         }
       },
@@ -20215,6 +14817,1181 @@
       }
     ],
     "namespace": "NexusUI"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 140,
+                  "offset": 139
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 140,
+              "offset": 139
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 140,
+          "offset": 139
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "param",
+        "description": "minimum",
+        "lineNumber": 2,
+        "type": {
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
+        },
+        "name": "min",
+        "default": "0"
+      },
+      {
+        "title": "param",
+        "description": "maximum",
+        "lineNumber": 3,
+        "type": {
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
+        },
+        "name": "max",
+        "default": "1"
+      },
+      {
+        "title": "param",
+        "description": null,
+        "lineNumber": 4,
+        "type": {
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
+        },
+        "name": "step",
+        "default": "0"
+      },
+      {
+        "title": "returns",
+        "description": "Step",
+        "lineNumber": 5,
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        }
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 5,
+        "column": 0
+      },
+      "end": {
+        "line": 11,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 13,
+          "column": 0
+        },
+        "end": {
+          "line": 84,
+          "column": 1
+        }
+      },
+      "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+    },
+    "params": [
+      {
+        "name": "min",
+        "lineNumber": 2,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "minimum",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 8,
+                      "offset": 7
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 8,
+                  "offset": 7
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 8,
+              "offset": 7
+            }
+          }
+        },
+        "type": {
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
+        },
+        "default": "0"
+      },
+      {
+        "name": "max",
+        "lineNumber": 3,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "maximum",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 8,
+                      "offset": 7
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 8,
+                  "offset": 7
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 8,
+              "offset": 7
+            }
+          }
+        },
+        "type": {
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
+        },
+        "default": "1"
+      },
+      {
+        "name": "step",
+        "lineNumber": 4,
+        "type": {
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
+        },
+        "default": "0"
+      }
+    ],
+    "returns": [
+      {
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "Step",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 5,
+                      "offset": 4
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 5,
+                  "offset": 4
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 5,
+              "offset": 4
+            }
+          }
+        },
+        "type": {
+          "type": "NameExpression",
+          "name": "Object"
+        }
+      }
+    ],
+    "name": "Range",
+    "kind": "class",
+    "members": {
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "{number} Minimum value of the range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 36,
+                        "offset": 35
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 36,
+                    "offset": 35
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 36,
+                "offset": 35
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 17,
+              "column": 4
+            },
+            "end": {
+              "line": 19,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 20,
+                "column": 4
+              },
+              "end": {
+                "line": 20,
+                "column": 19
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+          },
+          "name": "min",
+          "memberof": "Range",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Range",
+              "kind": "class"
+            },
+            {
+              "name": "min",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Range#min"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "{number} Maximum value of the range",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 36,
+                        "offset": 35
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 36,
+                    "offset": 35
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 36,
+                "offset": 35
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 22,
+              "column": 4
+            },
+            "end": {
+              "line": 24,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 25,
+                "column": 4
+              },
+              "end": {
+                "line": 25,
+                "column": 19
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+          },
+          "name": "max",
+          "memberof": "Range",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Range",
+              "kind": "class"
+            },
+            {
+              "name": "max",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Range#max"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "{Step} Start value of the range selection",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 42,
+                        "offset": 41
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 42,
+                    "offset": 41
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 42,
+                "offset": 41
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 27,
+              "column": 4
+            },
+            "end": {
+              "line": 29,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 30,
+                "column": 4
+              },
+              "end": {
+                "line": 30,
+                "column": 40
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+          },
+          "name": "start",
+          "memberof": "Range",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Range",
+              "kind": "class"
+            },
+            {
+              "name": "start",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Range#start"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "{Step} End value of the range selection",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 40,
+                "offset": 39
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 32,
+              "column": 4
+            },
+            "end": {
+              "line": 34,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 35,
+                "column": 4
+              },
+              "end": {
+                "line": 35,
+                "column": 38
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+          },
+          "name": "end",
+          "memberof": "Range",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Range",
+              "kind": "class"
+            },
+            {
+              "name": "end",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Range#end"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "{number} Center of the range selection",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 39,
+                "offset": 38
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 38,
+              "column": 2
+            },
+            "end": {
+              "line": 40,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 41,
+                "column": 2
+              },
+              "end": {
+                "line": 43,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+          },
+          "name": "center",
+          "kind": "member",
+          "memberof": "Range",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Range",
+              "kind": "class"
+            },
+            {
+              "name": "center",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Range#center"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "{number} Size of the range selection",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 37,
+                        "offset": 36
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 37,
+                    "offset": 36
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 37,
+                "offset": 36
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 54,
+              "column": 2
+            },
+            "end": {
+              "line": 56,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 57,
+                "column": 2
+              },
+              "end": {
+                "line": 59,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+          },
+          "name": "size",
+          "kind": "member",
+          "memberof": "Range",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Range",
+              "kind": "class"
+            },
+            {
+              "name": "size",
+              "kind": "member",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Range#size"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Move the range selection",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 25,
+                        "offset": 24
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 25,
+                "offset": 24
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "New start value of the range selection",
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              },
+              "name": "start"
+            },
+            {
+              "title": "param",
+              "description": "New end value of the range selection",
+              "lineNumber": 3,
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              },
+              "name": "end"
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 70,
+              "column": 2
+            },
+            "end": {
+              "line": 74,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 75,
+                "column": 2
+              },
+              "end": {
+                "line": 82,
+                "column": 3
+              }
+            },
+            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+          },
+          "params": [
+            {
+              "name": "start",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "New start value of the range selection",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 39,
+                            "offset": 38
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 39,
+                        "offset": 38
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 39,
+                    "offset": 38
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            },
+            {
+              "name": "end",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "New end value of the range selection",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 37,
+                            "offset": 36
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 37,
+                        "offset": 36
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 37,
+                    "offset": 36
+                  }
+                }
+              },
+              "type": {
+                "type": "NameExpression",
+                "name": "number"
+              }
+            }
+          ],
+          "name": "move",
+          "kind": "function",
+          "memberof": "Range",
+          "scope": "instance",
+          "members": {
+            "instance": [],
+            "static": [],
+            "events": []
+          },
+          "path": [
+            {
+              "name": "Range",
+              "kind": "class"
+            },
+            {
+              "name": "move",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Range#move"
+        }
+      ],
+      "static": [],
+      "events": []
+    },
+    "path": [
+      {
+        "name": "Range",
+        "kind": "class"
+      }
+    ],
+    "namespace": "Range"
   },
   {
     "description": {

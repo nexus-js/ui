@@ -168,14 +168,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  _createClass(NexusUI, {
 	    context: {
-	
-	      /*  setContext(context) {
-	          this.clock.stop();
-	          this.context = context;
-	          this.clock = new WAAClock(this.context);
-	          this.clock.start();
-	        } */
-	
 	      get: function () {
 	        return this._context;
 	      },
@@ -1944,10 +1936,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var Toggle = (function () {
-	  function Toggle() {
+	  function Toggle(state) {
 	    _classCallCheck(this, Toggle);
 	
-	    this.state = false;
+	    this.state = state || false;
 	  }
 	
 	  _createClass(Toggle, {
@@ -2337,7 +2329,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var toggle = new Nexus.Toggle('#target',{
 	*     'size': [40,20],
-	*     'value': 0
+	*     'state': false
 	* })
 	*
 	* @output
@@ -2362,12 +2354,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var defaults = {
 	      size: [40, 20],
 	      target: false,
-	      value: 0
+	      state: false
 	    };
 	
 	    _get(Object.getPrototypeOf(Toggle.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this._state = new ToggleModel();
+	    this._state = new ToggleModel(this.settings.state);
 	
 	    this.init();
 	  }
@@ -2495,9 +2487,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var button = new Nexus.Button('#target',{
-	*   'mode': 'toggle',
-	*   'state': true,
-	*   'size': [100,100]
+	*   'size': [80,80],
+	*   'mode': 'aftertouch',
+	*   'state': false
 	* })
 	*
 	* @output
@@ -2522,9 +2514,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [80, 80],
-	      target: false,
 	      mode: "aftertouch", // button, aftertouch, impulse, toggle
-	      value: 0
+	      state: false
 	    };
 	
 	    _get(Object.getPrototypeOf(Button.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -2646,7 +2637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      y: 0
 	    };
 	
-	    this._state = new ToggleModel();
+	    this._state = new ToggleModel(this.settings.state);
 	  }
 	
 	  _inherits(ButtonTemplate, _Interface);
