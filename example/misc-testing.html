@@ -16,7 +16,7 @@
     Testing Sandbox
   </div>
 
-  <span id="button"></span>
+  <span id="target"></span>
 
 
 </body>
@@ -32,9 +32,15 @@ body {
 
   Nexus.context = Tone.context;
 
-  toggle = new Nexus.Button('#button', {
-    state: true
-  });
+  var dial = new Nexus.Dial('#target',{
+    'size': [75,75],
+    'interaction': 'radial', // "radial", "vertical", or "horizontal"
+    'mode': 'relative', // "absolute" or "relative"
+    'min': 0,
+    'max': 10,
+    'step': 0,
+    'value': 6
+  })
 
 
 

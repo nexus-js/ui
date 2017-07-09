@@ -1823,9 +1823,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        switch (this.direction) {
 	          case "radial":
 	            var position = math.toPolar(current.x - this.boundary.center.x, current.y - this.boundary.center.y);
-	            // instead of using modulo, should simply adjust the lower values (0 - 0.5PI) to be higher (2PI - 2.5PI), then clip the numbers between 0.5 pi and 2.5 pi.
 	            position = position.angle / (Math.PI * 2);
-	            position = (position - 0.25) % 1;
+	            position = (position - 0.25 + 1) % 1;
 	            return position;
 	          case "vertical":
 	            return math.scale(current.y, this.boundary.min.y, this.boundary.max.y, 0, 1);
@@ -3993,22 +3992,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	                angle = 0;
 	              }
 	            }
-	          } else {
+	          } /* else {
 	            if (this.previousAngle !== false && Math.abs(this.previousAngle - angle) > 2) {
 	              if (this.previousAngle > 3) {
-	                angle = Math.PI * 2;
+	                angle = Math.PI*2;
 	              } else {
 	                angle = 0;
 	              }
 	            }
-	          }
+	            } */
 	          this.previousAngle = angle;
-	          //    this.position.value %= Math.PI*2;
 	
-	          this.value = this._value.updateNormal(angle / (Math.PI * 2));
-	          //if (this._value.changed) {
+	          var realValue = angle / (Math.PI * 2);
+	
+	          this.value = this._value.updateNormal(realValue);
+	
+	          if (this.mode === "relative") {
+	            this.position.value = realValue;
+	          }
+	
 	          this.emit("change", this._value.value);
-	          //}
+	
 	          this.render();
 	        }
 	      }
