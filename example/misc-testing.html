@@ -16,7 +16,7 @@
     Testing Sandbox
   </div>
 
-  <span id="target"></span>
+  <div id="target"></div>
 
 
 </body>
@@ -32,15 +32,16 @@ body {
 
   Nexus.context = Tone.context;
 
-  var dial = new Nexus.Slider('#target',{
-    'size': [275,45],
-    'mode': 'relative', // "absolute" or "relative"
-    'min': 0,
-    'max': 10,
-    'step': 0,
-    'value': 6,
-    'hasKnob': false
+  var thing = new Nexus.RadioButton('#target',{
+  'size': [200,25],
+  'numberOfButtons': 10,
+  'active': 2
+})
+
+  thing.on('change',function(e) {
+    console.log(e);
   })
+
 
 
 

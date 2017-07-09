@@ -933,8 +933,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
 	          this.width = settings.size[0];
 	          this.height = settings.size[1];
-	          this.parent.style.width = this.width;
-	          this.parent.style.height = this.height;
+	          this.parent.style.width = this.width + "px";
+	          this.parent.style.height = this.height + "px";
 	        } else if (settings.snapWithParent) {
 	          this.width = parseFloat(this.parent.style.width);
 	          this.height = parseFloat(this.parent.style.height);
@@ -2002,7 +2002,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var slider = new Nexus.Slider('#target',{
-	*     'size': [120,20]
+	*     'size': [120,20],
 	*     'mode': 'relative',  // 'relative' or 'absolute'
 	*     'min': 0,
 	*     'max': 1,
@@ -4284,7 +4284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var piano = new Nexus.Piano('#target',{
-	*     'size': [500,150],
+	*     'size': [500,125],
 	*     'mode': 'button',  // 'button', 'toggle', or 'impulse'
 	*     'lowNote': 24,
 	*     'highNote': 60
@@ -4345,7 +4345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function buildFrame() {
 	        this.element = document.createElement("div");
 	        this.element.style.position = "relative";
-	        this.element.style.borderRadius = "4px";
+	        this.element.style.borderRadius = "0px";
 	        this.element.style.display = "block";
 	        this.element.style.width = "100%";
 	        this.element.style.height = "100%";
@@ -4434,14 +4434,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    colorInterface: {
 	      value: function colorInterface() {
 	
+	        // Piano keys don't actually have a stroke border
+	        // They have space between them, which shows the Piano bg color
 	        this.element.style.backgroundColor = this.colors.mediumLight;
 	
 	        for (var i = 0; i < this.keys.length; i++) {
 	          this.keys[i].colors = {
 	            w: this.colors.light,
 	            b: this.colors.dark,
-	            accent: this.colors.accent
+	            accent: this.colors.accent,
+	            border: this.colors.mediumLight
 	          };
+	          this.keys[i].colorInterface();
 	          this.keys[i].render();
 	        }
 	      }
@@ -7518,6 +7522,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var node = new Point(point, _this);
 	          _this.nodes.push(node);
 	        });
+	
+	        this.sortPoints();
 	
 	        this.line = svg.create("polyline");
 	        this.line.setAttribute("stroke-width", 2);
