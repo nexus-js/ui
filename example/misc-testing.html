@@ -32,14 +32,14 @@ body {
 
   Nexus.context = Tone.context;
 
-  var dial = new Nexus.Dial('#target',{
-    'size': [75,75],
-    'interaction': 'radial', // "radial", "vertical", or "horizontal"
+  var dial = new Nexus.Slider('#target',{
+    'size': [275,45],
     'mode': 'relative', // "absolute" or "relative"
     'min': 0,
     'max': 10,
     'step': 0,
-    'value': 6
+    'value': 6,
+    'hasKnob': false
   })
 
 

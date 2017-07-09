@@ -2002,14 +2002,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	* @example
 	* var slider = new Nexus.Slider('#target',{
-	*     'size': [120,20],
-	*     'orientation': 'vertical',  // 'vertical' or 'horizontal'
+	*     'size': [120,20]
 	*     'mode': 'relative',  // 'relative' or 'absolute'
 	*     'min': 0,
 	*     'max': 1,
 	*     'step': 0,
-	*     'value': 0,
-	*     'hasKnob': true
+	*     'value': 0
 	* })
 	*
 	* @output
@@ -2033,20 +2031,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [120, 20],
-	      orientation: "vertical", // 'vertical' or 'horizontal'
 	      mode: "relative", // 'relative' or 'absolute'
 	      min: 0,
 	      max: 1,
 	      step: 0,
-	      value: 0,
-	      hasKnob: true
+	      value: 0
 	    };
 	
 	    _get(Object.getPrototypeOf(Slider.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.orientation = this.settings.orientation;
-	
-	    this.hasKnob = this.settings.hasKnob;
+	    this.orientation = "vertical"; // This will change automatically to 'horizontal'if the interface is wider than it is tall.
 	
 	    this._value = new Step(this.settings.min, this.settings.max, this.settings.step, this.settings.value);
 	
@@ -2152,10 +2146,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.knob.setAttribute("cy", y);
 	        }
 	        this.knob.setAttribute("r", this.knobData.r);
-	
-	        if (!this.hasKnob) {
-	          this.knob.setAttribute("fill", "transparent");
-	        }
 	      }
 	    },
 	    colorInterface: {
