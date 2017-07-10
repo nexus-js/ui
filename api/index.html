@@ -1724,12 +1724,11 @@ drunk.value = 500   // jumps to this value
     Prism.highlightAll();
 
     if (instrument) {
-      if (instrument[""])
-        try {
-          instrument[""].destroy();
-        } catch(e) {
-          console.log(e);
-        }
+      try {
+        instrument.empty()
+      } catch(e) {
+        console.log(e);
+      }
     }
     instrument = new Nexus.Rack("demo");
 
@@ -1739,14 +1738,14 @@ drunk.value = 500   // jumps to this value
 
     if (name=="Waveform") {
       player.load("media/D-sharp.mp3",function() {
-        instrument[""].load(player.buffer._buffer)
+        instrument["Waveform1"].load(player.buffer._buffer)
       })
     } else if (["Meter","Oscilloscope","Spectrogram"].indexOf(name)>-1) {
       player.load("media/D-sharp.mp3",function() {
         player.loopStart = 0;
         player.loopEnd = 3;
         player.loop = true;
-        instrument[""].connect(player,2);
+        instrument[name+"1"].connect(player,2);
         player.start();
       })
     }
@@ -1765,12 +1764,11 @@ drunk.value = 500   // jumps to this value
 
 
       if (instrument) {
-        if (instrument[""])
-          try {
-            instrument[""].destroy();
-          } catch(e) {
-            console.log(e);
-          }
+        try {
+          instrument.empty();
+        } catch(e) {
+          console.log(e);
+        }
       }
 
       if (name=="intro") {
@@ -1789,12 +1787,11 @@ drunk.value = 500   // jumps to this value
 
 
     if (instrument) {
-      if (instrument[""])
-        try {
-          instrument[""].destroy();
-        } catch(e) {
-          console.log(e);
-        }
+      try {
+        instrument.empty();
+      } catch(e) {
+        console.log(e);
+      }
     }
 
     var entry = {"helpers": Helpers}
@@ -1819,8 +1816,8 @@ drunk.value = 500   // jumps to this value
   }
 
   var TypeLinks = [
-    "Matrix",
-    "Counter",
+    "matrix",
+    "counter",
     "interval",
   ]
 

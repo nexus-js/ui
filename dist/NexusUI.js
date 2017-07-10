@@ -4793,15 +4793,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.interval = new Nexus.Interval(200, function () {}, false); // jshint ignore:line
 	
 	    /**
-	    A Matrix model containing methods for manipulating the sequencer's array of values. To learn how to manipulate the matrix, read about the <a href="#matrix">matrix model<a>.
-	    @type {Matrix}
+	    A Matrix model containing methods for manipulating the sequencer's array of values. To learn how to manipulate the matrix, read about the matrix model.
+	    @type {matrix}
 	    */
 	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);
 	    this.matrix.ui = this;
 	
 	    /**
 	    A Counter model which the sequencer steps through. For example, you could use this model to step through the sequencer in reverse, randomly, or in a drunk walk.
-	    @type {Counter}
+	    @type {counter}
 	    */
 	    this.stepper = new CounterModel(0, this.columns);
 	
@@ -8595,6 +8595,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        this.meta.colors[type] = color;
 	        this.colorInterface();
+	      }
+	    },
+	    empty: {
+	      value: function empty() {
+	        for (var key in this) {
+	          if (this[key].destroy) {
+	            this[key].destroy();
+	          }
+	        }
 	      }
 	    }
 	  });

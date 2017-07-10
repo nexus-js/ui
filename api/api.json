@@ -11829,7 +11829,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A Matrix model containing methods for manipulating the sequencer's array of values. To learn how to manipulate the matrix, read about the ",
+                    "value": "A Matrix model containing methods for manipulating the sequencer's array of values. To learn how to manipulate the matrix, read about the matrix model.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -11838,76 +11838,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 139,
-                        "offset": 138
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "html",
-                    "value": "<a href=\"#matrix\">",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 139,
-                        "offset": 138
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 157,
-                        "offset": 156
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": "matrix model",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 157,
-                        "offset": 156
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 169,
-                        "offset": 168
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "html",
-                    "value": "<a>",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 169,
-                        "offset": 168
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 172,
-                        "offset": 171
-                      },
-                      "indent": []
-                    }
-                  },
-                  {
-                    "type": "text",
-                    "value": ".",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 172,
-                        "offset": 171
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 173,
-                        "offset": 172
+                        "column": 152,
+                        "offset": 151
                       },
                       "indent": []
                     }
@@ -11921,8 +11853,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 173,
-                    "offset": 172
+                    "column": 152,
+                    "offset": 151
                   },
                   "indent": []
                 }
@@ -11936,8 +11868,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 173,
-                "offset": 172
+                "column": 152,
+                "offset": 151
               }
             }
           },
@@ -11948,7 +11880,7 @@
               "lineNumber": 2,
               "type": {
                 "type": "NameExpression",
-                "name": "Matrix"
+                "name": "matrix"
               }
             }
           ],
@@ -12055,7 +11987,7 @@
               "lineNumber": 2,
               "type": {
                 "type": "NameExpression",
-                "name": "Counter"
+                "name": "counter"
               }
             }
           ],
