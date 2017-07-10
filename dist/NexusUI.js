@@ -2877,9 +2877,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	* var textbutton = new Nexus.TextButton('#target')
 	*
 	* @example
-	* var dial = new Nexus.TextButton('#target',{
+	* var textbutton = new Nexus.TextButton('#target',{
 	*     'size': [150,50],
-	*     'value': 0,
+	*     'state': true,
 	*     'text': 'Play',
 	*     'alternate': false
 	* })
@@ -2904,7 +2904,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [150, 50],
-	      value: 0,
+	      state: true,
 	      text: "Play",
 	      alternate: false
 	    };
@@ -2916,6 +2916,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.init();
 	    this.render();
+	
+	    this.state = this.settings.state;
 	  }
 	
 	  _inherits(TextButton, _ButtonTemplate);
@@ -3086,7 +3088,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.buttons = [];
 	    this._numberOfButtons = this.settings.numberOfButtons;
-	    this.active = -1;
+	    this.active = this.settings.active;
 	
 	    this.init();
 	    this.render();
@@ -4791,7 +4793,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.interval = new Nexus.Interval(200, function () {}, false); // jshint ignore:line
 	
 	    /**
-	    A Matrix model containing methods for manipulating the sequencer's array of values.
+	    A Matrix model containing methods for manipulating the sequencer's array of values. To learn how to manipulate the matrix, read about the <a href="#matrix">matrix model<a>.
 	    @type {Matrix}
 	    */
 	    this.matrix = new MatrixModel(this.settings.rows, this.settings.columns);

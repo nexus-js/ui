@@ -11829,7 +11829,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A Matrix model containing methods for manipulating the sequencer's array of values.",
+                    "value": "A Matrix model containing methods for manipulating the sequencer's array of values. To learn how to manipulate the matrix, read about the ",
                     "position": {
                       "start": {
                         "line": 1,
@@ -11838,8 +11838,76 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 84,
-                        "offset": 83
+                        "column": 139,
+                        "offset": 138
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "html",
+                    "value": "<a href=\"#matrix\">",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 139,
+                        "offset": 138
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 157,
+                        "offset": 156
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "matrix model",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 157,
+                        "offset": 156
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 169,
+                        "offset": 168
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "html",
+                    "value": "<a>",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 169,
+                        "offset": 168
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 172,
+                        "offset": 171
+                      },
+                      "indent": []
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": ".",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 172,
+                        "offset": 171
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 173,
+                        "offset": 172
                       },
                       "indent": []
                     }
@@ -11853,8 +11921,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 84,
-                    "offset": 83
+                    "column": 173,
+                    "offset": 172
                   },
                   "indent": []
                 }
@@ -11868,8 +11936,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 84,
-                "offset": 83
+                "column": 173,
+                "offset": 172
               }
             }
           },
@@ -13835,7 +13903,7 @@
       },
       {
         "title": "example",
-        "description": "var dial = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})",
+        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': true,\n    'text': 'Play',\n    'alternate': false\n})",
         "lineNumber": 10
       },
       {
@@ -13866,7 +13934,7 @@
           "column": 0
         },
         "end": {
-          "line": 148,
+          "line": 150,
           "column": 1
         }
       },
@@ -13877,7 +13945,7 @@
         "description": "var textbutton = new Nexus.TextButton('#target')"
       },
       {
-        "description": "var dial = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'value': 0,\n    'text': 'Play',\n    'alternate': false\n})"
+        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': true,\n    'text': 'Play',\n    'alternate': false\n})"
       }
     ],
     "name": "TextButton",
@@ -13956,22 +14024,22 @@
           ],
           "loc": {
             "start": {
-              "line": 114,
+              "line": 116,
               "column": 2
             },
             "end": {
-              "line": 117,
+              "line": 119,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 118,
+                "line": 120,
                 "column": 2
               },
               "end": {
-                "line": 120,
+                "line": 122,
                 "column": 3
               }
             },
@@ -14065,22 +14133,22 @@
           ],
           "loc": {
             "start": {
-              "line": 133,
+              "line": 135,
               "column": 2
             },
             "end": {
-              "line": 136,
+              "line": 138,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 137,
+                "line": 139,
                 "column": 2
               },
               "end": {
-                "line": 139,
+                "line": 141,
                 "column": 3
               }
             },

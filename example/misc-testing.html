@@ -11,8 +11,7 @@
 <body style="margin:0;padding;0">
 
 
-
-  <div style="font-size:25px;">
+  <div style="font-size:25px;margin:10px;">
     Testing Sandbox
   </div>
 
@@ -24,7 +23,7 @@
 body {
   font-family:helvetica;
 }
-[nexus-ui], div {
+[nexus-ui] {
   margin:10px;
 }
 </style>
@@ -32,12 +31,8 @@ body {
 
   Nexus.context = Tone.context;
 
-  var thing = new Nexus.RadioButton('#target',{
-  'size': [200,25],
-  'numberOfButtons': 10,
-  'active': 2
-})
-
+  var thing = new Nexus.Pan('#target')
+  
   thing.on('change',function(e) {
     console.log(e);
   })
