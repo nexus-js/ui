@@ -8,11 +8,3 @@ if (window) {
 }
 
 module.exports = Nexus;
-
-/*
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-  module.exports = Nexus;
-} else {
-  window.Nexus = Nexus;
-  console.log("browser-y");
-} */
