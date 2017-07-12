@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/NexusUI.js"></script>
+  <script src="js/Tone9.js"></script>
+  <meta name="viewport" content="width=200, initial-scale=1">
+</head>
+<body style="margin:0;padding;0">
+  <div id="all-interfaces">
+    <div nexus-ui="dial"></div>
+    <div nexus-ui="slider"></div>
+    <div nexus-ui="toggle" id="toggle"></div>
+    <div nexus-ui="position" id="position"></div>
+    <div nexus-ui="button" id="button"></div>
+    <div nexus-ui="textbutton" id="textbutton"></div>
+    <div nexus-ui="radiobutton" id="radiobutton"></div>
+    <div nexus-ui="number" id="number"></div>
+    <div nexus-ui="select" id="select"></div>
+    <div nexus-ui="piano" id="piano"></div>
+    <div nexus-ui="sequencer" id="sequencer"></div>
+    <div nexus-ui="pan2d" id="pan2D"></div>
+    <div nexus-ui="tilt" id="tilt"></div>
+    <div nexus-ui="multislider"></div>
+    <div nexus-ui="pan" id="pan"></div>
+    <div nexus-ui="envelope" id="envelope"></div>
+    <div nexus-ui="oscilloscope" id="oscilloscope"></div>
+    <div nexus-ui="meter" id="meter"></div>
+    <div nexus-ui="spectrogram" id="spectrogram"></div>
+  </div>
+</body>
+<style>
+#all-interfaces {
+  width:500px;
+  margin:20px auto;
+  font-family:helvetica, sans-serif;
+}
+[nexus-ui] {
+  margin:15px auto;
+  display:block;
+  width:0;
+  height:0;
+}
+#synth1 {
+  margin: 50px auto;
+  display:block;
+  width: 300px;
+}
+</style>
+<script>
+
+  Nexus.context = Tone.context;
+
+  ui = new Nexus.Rack('#all-interfaces');
+  ui.tilt.active = false
+
+  var player2 = new Tone.Player("./media/D-sharp.mp3")
+  //play as soon as the buffer is loaded
+  player2.autostart = true;
+  player2.loop = true;
+
+  ui.oscilloscope.connect(player2)
+  ui.meter.connect(player2);
+  ui.spectrogram.connect(player2);
+
+</script>
+</html>

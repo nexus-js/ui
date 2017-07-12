@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/NexusUI.js"></script>
+  <script src="js/Tone9.js"></script>
+  <meta name="viewport" content="width=200, initial-scale=1">
+</head>
+<body style="margin:0;padding;0">
+
+
+
+  <div style="font-size:25px;">
+    NexusUI Tilt Test
+  </div>
+
+  <span id="tilt"></span>
+
+  <div id="debugX">~</div>
+  <div id="debugY">~</div>
+  <div id="debugZ">~</div>
+
+</body>
+<style>
+body {
+  font-family:helvetica;
+}
+[nexus-ui], div {
+  margin:10px;
+}
+</style>
+<script>
+
+  Nexus.context = Tone.context;
+
+  tilt = new Nexus.Tilt('#tilt');
+
+  debuxX = document.getElementById("debugX");
+  debuxY = document.getElementById("debugY");
+  tilt.on('change',function(v) {
+    if (v) {
+      if (v.x) {
+        debugX.innerHTML = ~~(v.x * 1000);
+      }
+      if (v.y) {
+        debugY.innerHTML = ~~(v.y * 1000);
+      }
+      if (v.z) {
+        debugZ.innerHTML = ~~(v.z * 1000);
+      }
+    }
+  })
+
+</script>
+</html>

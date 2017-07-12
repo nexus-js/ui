@@ -1,0 +1,8 @@
+#!/bin/sh
+webpack --devtool source-map --colors --watch
+
+node_modules/.bin/uglifyjs dist/bundle.js \
+  --output dist/bundle.min.js \
+  --source-map dist/bundle.min.map \
+  --source-map-url bundle.min.map \
+  --compress warnings=false
