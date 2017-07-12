@@ -1,10 +1,9 @@
-# NexusUI 2.0: Musician's Toolkit
+# NexusUI 
 
-This repository is a from-scratch refactor of NexusUI. Principles for the rewrite were:
+##### Version 2
 
-- Integration with web audio
-- Reliability over experimentation
-- Addition of tuning and timing mechanisms
-- More conventional Javascript API
+NexusUI is a JavaScript toolkit of web audio interfaces and other helper methods for building instruments in the browser.
 
-For documentation and tutorials, see [the API](http://taylorbf.github.io/Musicians-Toolkit/api/).
+For more info, see the [website](http://nexus-js.github.io/ui/).
+
+For documentation and tutorials, see [the API](http://nexus-js.github.io/ui/api/).
