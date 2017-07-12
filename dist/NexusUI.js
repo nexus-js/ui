@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -73,9 +73,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  console.log("browser-y");
 	} */
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -185,9 +185,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = NexusUI;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -215,9 +215,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Oscilloscope: __webpack_require__(37)
 	};
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	
 	"use strict";
@@ -550,9 +550,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Position;
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -607,9 +607,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	};
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -833,9 +833,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	};
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -1227,9 +1227,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Interface;
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -1281,9 +1281,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 	};
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -1295,17 +1295,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	};
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
 	exports.exists = "ontouchstart" in document.documentElement;
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
 	//
@@ -1611,9 +1611,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 
-/***/ },
+/***/ }),
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -1706,9 +1706,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Step;
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -1924,9 +1924,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return Button;
 	})();
 
-/***/ },
+/***/ }),
 /* 13 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -1968,9 +1968,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Toggle;
 
-/***/ },
+/***/ }),
 /* 14 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -2287,9 +2287,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Slider;
 
-/***/ },
+/***/ }),
 /* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -2447,9 +2447,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Toggle;
 
-/***/ },
+/***/ }),
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -2590,9 +2590,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Button;
 
-/***/ },
+/***/ }),
 /* 17 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -2850,9 +2850,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = ButtonTemplate;
 
-/***/ },
+/***/ }),
 /* 18 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -3025,9 +3025,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = TextButton;
 
-/***/ },
+/***/ }),
 /* 19 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -3214,9 +3214,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = RadioButton;
 
-/***/ },
+/***/ }),
 /* 20 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -3518,9 +3518,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Number;
 
-/***/ },
+/***/ }),
 /* 21 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -3711,9 +3711,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Select;
 
-/***/ },
+/***/ }),
 /* 22 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -4127,9 +4127,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Dial;
 
-/***/ },
+/***/ }),
 /* 23 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -4580,9 +4580,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	// loop through and render the keys?
 
-/***/ },
+/***/ }),
 /* 24 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -5068,9 +5068,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Sequencer;
 
-/***/ },
+/***/ }),
 /* 25 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -5445,9 +5445,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Matrix;
 
-/***/ },
+/***/ }),
 /* 26 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -5571,9 +5571,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Sequence;
 
-/***/ },
+/***/ }),
 /* 27 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -5631,9 +5631,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Drunk;
 
-/***/ },
+/***/ }),
 /* 28 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -5741,9 +5741,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Counter;
 
-/***/ },
+/***/ }),
 /* 29 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -5767,7 +5767,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/**
 	* Pan2D
 	*
-	* @description Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.
+	* @description Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the closeness of the sound source to each speaker and returns that distance as a numeric value.
 	*
 	* @demo <span nexus-ui="pan2D"></span>
 	*
@@ -5777,8 +5777,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var pan2d = new Nexus.Pan2D('#target',{
 	*   'size': [200,200],
-	*   'range': 0.5,  // panning radius of each speaker
-	*   'mode': 'absolute',   // 'absolute' or 'relative'
+	*   'range': 0.5,  // detection radius of each speaker
+	*   'mode': 'absolute',   // 'absolute' or 'relative' sound movement
 	*   'speakers': [  // the speaker [x,y] positions
 	*       [0.5,0.2],
 	*       [0.75,0.25],
@@ -6038,9 +6038,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Pan2D;
 
-/***/ },
+/***/ }),
 /* 30 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -6347,9 +6347,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Tilt;
 
-/***/ },
+/***/ }),
 /* 31 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -6815,9 +6815,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Multislider;
 
-/***/ },
+/***/ }),
 /* 32 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -7106,9 +7106,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = SliderTemplate;
 
-/***/ },
+/***/ }),
 /* 33 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -7356,9 +7356,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Pan;
 
-/***/ },
+/***/ }),
 /* 34 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -7857,9 +7857,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Envelope;
 
-/***/ },
+/***/ }),
 /* 35 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -8021,9 +8021,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Spectrogram;
 
-/***/ },
+/***/ }),
 /* 36 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -8239,9 +8239,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Meter;
 
-/***/ },
+/***/ }),
 /* 37 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -8418,9 +8418,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Oscilloscope;
 
-/***/ },
+/***/ }),
 /* 38 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -8613,9 +8613,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Rack;
 
-/***/ },
+/***/ }),
 /* 39 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -8714,9 +8714,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.section = section;
 	exports.add = add;
 
-/***/ },
+/***/ }),
 /* 40 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -8922,9 +8922,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Tune;
 
-/***/ },
+/***/ }),
 /* 41 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -9048,9 +9048,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Radio;
 
-/***/ },
+/***/ }),
 /* 42 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	var WAAClock = __webpack_require__(43)
 	
@@ -9058,9 +9058,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
-/***/ },
+/***/ }),
 /* 43 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
 	
@@ -9298,9 +9298,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)))
 
-/***/ },
+/***/ }),
 /* 44 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	// shim for using process in browser
 	var process = module.exports = {};
@@ -9472,6 +9472,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	process.removeListener = noop;
 	process.removeAllListeners = noop;
 	process.emit = noop;
+	process.prependListener = noop;
+	process.prependOnceListener = noop;
+	
+	process.listeners = function (name) { return [] }
 	
 	process.binding = function (name) {
 	    throw new Error('process.binding is not supported');
@@ -9484,9 +9488,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	process.umask = function() { return 0; };
 
 
-/***/ },
+/***/ }),
 /* 45 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	"use strict";
 	
@@ -9551,7 +9555,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = Interval;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;

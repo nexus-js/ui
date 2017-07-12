@@ -1,7 +1,7 @@
 {
   "name": "nexusui",
-  "version": "1.9.1",
-  "description": "Web Audio Interfaces, Tuning, and Timing",
+  "version": "2.0.0",
+  "description": "NexusUI: Web Audio Interfaces",
   "main": "index.js",
   "scripts": {
     "start": "script/build",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nexus-js/nexusui"
+    "url": "https://github.com/nexus-js/ui"
   },
   "keywords": [],
   "author": "Benjamin Taylor",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nexus-js/nexusui/issues"
+    "url": "https://github.com/nexus-js/ui/issues"
   },
-  "homepage": "https://nexusui.github.com/",
+  "homepage": "https://nexus-js.github.io/ui",
   "devDependencies": {
     "babel-core": "^4.7.16",
     "babel-jest": "^4.0.0",

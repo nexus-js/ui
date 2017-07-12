@@ -74,7 +74,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
     },
     "name": "ButtonTemplate",
     "augments": [
@@ -176,7 +176,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
           "examples": [
             {
@@ -293,7 +293,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
           "params": [
             {
@@ -461,7 +461,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
           "examples": [
             {
@@ -578,7 +578,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
           "examples": [
             {
@@ -716,7 +716,7 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
     "examples": [
       {
@@ -831,7 +831,7 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
     "examples": [
       {
@@ -946,7 +946,7 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
     "examples": [
       {
@@ -1061,7 +1061,7 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
     "examples": [
       {
@@ -1176,7 +1176,7 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
     "examples": [
       {
@@ -1276,7 +1276,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/core/interface.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
     },
     "name": "Interface",
     "augments": [
@@ -1383,7 +1383,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/core/interface.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
           },
           "params": [
             {
@@ -1607,7 +1607,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/core/interface.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
           },
           "examples": [
             {
@@ -1754,7 +1754,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/button.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/button.js"
     },
     "examples": [
       {
@@ -1864,7 +1864,7 @@
                 "column": 35
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/button.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/button.js"
           },
           "examples": [
             {
@@ -2014,7 +2014,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
     },
     "examples": [
       {
@@ -2124,7 +2124,7 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
           "examples": [
             {
@@ -2243,7 +2243,7 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
           "examples": [
             {
@@ -2362,7 +2362,7 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
           "examples": [
             {
@@ -2481,7 +2481,7 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
           "examples": [
             {
@@ -2600,7 +2600,7 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
           "examples": [
             {
@@ -2719,7 +2719,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
           "examples": [
             {
@@ -2866,7 +2866,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
     },
     "examples": [
       {
@@ -2961,7 +2961,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
           "name": "sortPoints",
           "kind": "function",
@@ -3075,7 +3075,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
           "params": [
             {
@@ -3296,7 +3296,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
           "params": [
             {
@@ -3475,7 +3475,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
           "params": [
             {
@@ -3766,7 +3766,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
           "params": [
             {
@@ -4043,7 +4043,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
           "params": [
             {
@@ -4208,7 +4208,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
           "params": [
             {
@@ -4403,7 +4403,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/meter.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
     },
     "examples": [
       {
@@ -4513,7 +4513,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/meter.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
           },
           "params": [
             {
@@ -4726,7 +4726,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/meter.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
           },
           "name": "disconnect",
           "kind": "function",
@@ -4868,7 +4868,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/multislider.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
     },
     "examples": [
       {
@@ -4973,7 +4973,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
           "name": "numberOfSliders",
           "kind": "member",
@@ -5087,7 +5087,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
           "examples": [
             {
@@ -5206,7 +5206,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
           "examples": [
             {
@@ -5325,7 +5325,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
           "examples": [
             {
@@ -5449,7 +5449,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
           "params": [
             {
@@ -5680,7 +5680,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
           "params": [
             {
@@ -5885,7 +5885,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
     },
     "examples": [
       {
@@ -5996,7 +5996,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
           "params": [
             {
@@ -6182,7 +6182,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
           "examples": [
             {
@@ -6301,7 +6301,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
           "examples": [
             {
@@ -6420,7 +6420,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
           "examples": [
             {
@@ -6539,7 +6539,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
           "examples": [
             {
@@ -6681,7 +6681,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/oscilloscope.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
     },
     "examples": [
       {
@@ -6784,7 +6784,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/oscilloscope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
           },
           "params": [
             {
@@ -6941,7 +6941,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/oscilloscope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
           },
           "name": "disconnect",
           "kind": "function",
@@ -7078,7 +7078,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan.js"
     },
     "examples": [
       {
@@ -7180,7 +7180,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan.js"
           },
           "name": "value",
           "kind": "member",
@@ -7225,7 +7225,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.",
+              "value": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the closeness of the sound source to each speaker and returns that distance as a numeric value.",
               "position": {
                 "start": {
                   "line": 1,
@@ -7234,8 +7234,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 209,
-                  "offset": 208
+                  "column": 216,
+                  "offset": 215
                 },
                 "indent": []
               }
@@ -7249,8 +7249,8 @@
             },
             "end": {
               "line": 1,
-              "column": 209,
-              "offset": 208
+              "column": 216,
+              "offset": 215
             },
             "indent": []
           }
@@ -7264,15 +7264,15 @@
         },
         "end": {
           "line": 1,
-          "column": 209,
-          "offset": 208
+          "column": 216,
+          "offset": 215
         }
       }
     },
     "tags": [
       {
         "title": "description",
-        "description": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the amplitude that should be sent to each speaker, according to different panning modes.",
+        "description": "Interface for moving a sound around an array of speakers. Speaker locations can be customized. The interface calculates the closeness of the sound source to each speaker and returns that distance as a numeric value.",
         "lineNumber": 3
       },
       {
@@ -7287,7 +7287,7 @@
       },
       {
         "title": "example",
-        "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // panning radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative'\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})",
+        "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // detection radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})",
         "lineNumber": 10
       },
       {
@@ -7322,14 +7322,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
     },
     "examples": [
       {
         "description": "var pan2d = new Nexus.Pan2d('#target')"
       },
       {
-        "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // panning radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative'\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})"
+        "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // detection radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})"
       }
     ],
     "name": "Pan2D",
@@ -7417,7 +7417,7 @@
                 "column": 35
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
           "name": "mode",
           "memberof": "Pan2D",
@@ -7514,7 +7514,7 @@
                 "column": 43
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
           "name": "speakers",
           "memberof": "Pan2D",
@@ -7611,7 +7611,7 @@
                 "column": 37
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
           "name": "range",
           "memberof": "Pan2D",
@@ -7708,7 +7708,7 @@
                 "column": 21
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
           "name": "levels",
           "memberof": "Pan2D",
@@ -7820,7 +7820,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
           "params": [
             {
@@ -8055,7 +8055,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
           "params": [
             {
@@ -8344,7 +8344,7 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/pan2d.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
     },
     "params": [
       {
@@ -8590,7 +8590,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/piano.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
     },
     "examples": [
       {
@@ -8700,7 +8700,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/piano.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
           },
           "params": [
             {
@@ -8928,7 +8928,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/piano.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
           },
           "params": [
             {
@@ -9156,7 +9156,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/piano.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
           },
           "params": [
             {
@@ -9412,7 +9412,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
     },
     "examples": [
       {
@@ -9522,7 +9522,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "examples": [
             {
@@ -9641,7 +9641,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "examples": [
             {
@@ -9755,7 +9755,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "name": "minX",
           "kind": "member",
@@ -9864,7 +9864,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "name": "minY",
           "kind": "member",
@@ -9973,7 +9973,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "name": "maxX",
           "kind": "member",
@@ -10082,7 +10082,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "name": "maxY",
           "kind": "member",
@@ -10191,7 +10191,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "name": "stepX",
           "kind": "member",
@@ -10300,7 +10300,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "name": "stepY",
           "kind": "member",
@@ -10414,7 +10414,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
           "examples": [
             {
@@ -10561,7 +10561,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/radiobutton.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
     },
     "examples": [
       {
@@ -10664,7 +10664,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/radiobutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
           },
           "params": [
             {
@@ -10821,7 +10821,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/radiobutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
           },
           "name": "deselect",
           "kind": "function",
@@ -10931,7 +10931,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/radiobutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
           },
           "params": [
             {
@@ -11135,7 +11135,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/select.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
     },
     "examples": [
       {
@@ -11241,7 +11241,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/select.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
           },
           "params": [
             {
@@ -11417,7 +11417,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/select.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
           },
           "examples": [
             {
@@ -11536,7 +11536,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/select.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
           },
           "examples": [
             {
@@ -11693,7 +11693,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
     },
     "examples": [
       {
@@ -11798,7 +11798,7 @@
                 "column": 64
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "name": "interval",
           "memberof": "Sequencer",
@@ -11905,7 +11905,7 @@
                 "column": 76
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "name": "matrix",
           "memberof": "Sequencer",
@@ -12012,7 +12012,7 @@
                 "column": 52
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "name": "stepper",
           "memberof": "Sequencer",
@@ -12120,7 +12120,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "params": [
             {
@@ -12281,7 +12281,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "name": "stop",
           "kind": "function",
@@ -12380,7 +12380,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "name": "next",
           "kind": "function",
@@ -12489,7 +12489,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "name": "rows",
           "kind": "member",
@@ -12598,7 +12598,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
           "name": "columns",
           "kind": "member",
@@ -12740,7 +12740,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
     },
     "examples": [
       {
@@ -12850,7 +12850,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
           "examples": [
             {
@@ -12969,7 +12969,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
           "examples": [
             {
@@ -13088,7 +13088,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
           "examples": [
             {
@@ -13207,7 +13207,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
           "examples": [
             {
@@ -13326,7 +13326,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
           "examples": [
             {
@@ -13468,7 +13468,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/spectrogram.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
     },
     "examples": [
       {
@@ -13571,7 +13571,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/spectrogram.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
           },
           "params": [
             {
@@ -13728,7 +13728,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/spectrogram.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
           },
           "name": "disconnect",
           "kind": "function",
@@ -13870,7 +13870,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/textbutton.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
     },
     "examples": [
       {
@@ -13975,7 +13975,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/textbutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
           },
           "name": "alternateText",
           "kind": "member",
@@ -14084,7 +14084,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/textbutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
           },
           "name": "text",
           "kind": "member",
@@ -14221,7 +14221,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/tilt.js"
     },
     "examples": [
       {
@@ -14323,7 +14323,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/tilt.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/tilt.js"
           },
           "name": "active",
           "kind": "member",
@@ -14465,7 +14465,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/interfaces/toggle.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
     },
     "examples": [
       {
@@ -14575,7 +14575,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/toggle.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
           },
           "examples": [
             {
@@ -14685,7 +14685,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/interfaces/toggle.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
           },
           "examples": [
             {
@@ -14801,7 +14801,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/main.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/main.js"
     },
     "name": "NexusUI",
     "kind": "class",
@@ -14945,7 +14945,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
     },
     "params": [
       {
@@ -15228,7 +15228,7 @@
                 "column": 19
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
           "name": "min",
           "memberof": "Range",
@@ -15325,7 +15325,7 @@
                 "column": 19
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
           "name": "max",
           "memberof": "Range",
@@ -15422,7 +15422,7 @@
                 "column": 40
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
           "name": "start",
           "memberof": "Range",
@@ -15519,7 +15519,7 @@
                 "column": 38
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
           "name": "end",
           "memberof": "Range",
@@ -15616,7 +15616,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
           "name": "center",
           "kind": "member",
@@ -15715,7 +15715,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
           "name": "size",
           "kind": "member",
@@ -15835,7 +15835,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
           "params": [
             {
@@ -16134,7 +16134,7 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/models/step.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
     },
     "params": [
       {
@@ -16492,7 +16492,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/step.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
           },
           "params": [
             {
@@ -16612,7 +16612,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/step.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
           },
           "params": [
             {
@@ -16721,7 +16721,7 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/mt/lib/models/step.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
           },
           "name": "normalized",
           "kind": "member",
@@ -16877,7 +16877,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -17284,7 +17284,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -17771,7 +17771,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -18038,7 +18038,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -18395,7 +18395,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "returns": [
       {
@@ -18580,7 +18580,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -18837,7 +18837,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -19154,7 +19154,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -19461,7 +19461,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -19738,7 +19738,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
@@ -20169,7 +20169,7 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/mt/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
     "params": [
       {
