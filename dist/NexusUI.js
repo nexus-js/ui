@@ -2871,7 +2871,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var textbutton = new Nexus.TextButton('#target',{
 	*     'size': [150,50],
-	*     'state': true,
+	*     'state': false,
 	*     'text': 'Play',
 	*     'alternate': false
 	* })
@@ -2896,7 +2896,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [150, 50],
-	      state: true,
+	      state: false,
 	      text: "Play",
 	      alternate: false
 	    };
@@ -3239,7 +3239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	*   'size': [60,30],
 	*   'value': 0,
 	*   'min': 0,
-	*   'max': 10,
+	*   'max': 20000,
 	*   'step': 1
 	* })
 	*
@@ -3266,7 +3266,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      size: [60, 30],
 	      value: 0,
 	      min: 0,
-	      max: 10,
+	      max: 20000,
 	      step: 1
 	    };
 	
@@ -3371,9 +3371,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.hasMoved = false;
 	        this.element.readOnly = true;
 	        this.actual = this.value;
-	        //  this.element.style.backgroundColor = '#d18';
-	        //  this.element.style.color = '#fff';
 	        this.initial = { y: this.mouse.y };
+	        this.changeFactor = math.invert(this.mouse.x / this.width);
+	        console.log(this.changeFactor);
 	      }
 	    },
 	    move: {
@@ -3381,7 +3381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.hasMoved = true;
 	        if (this.clicked) {
 	
-	          var newvalue = this.actual - (this.mouse.y - this.initial.y) / 200 * (this.max - this.min);
+	          var newvalue = this.actual - (this.mouse.y - this.initial.y) * (math.clip(this.max - this.min, 0, 1000) / 200) * Math.pow(this.changeFactor, 2);
 	          this.value = newvalue;
 	
 	          this.render();
@@ -4751,7 +4751,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @output
 	* step
 	* Fires any time the sequencer steps to the next column, in sequece mode. <br>
-	* The event data is an <i>array<i> containing all values in the column, top first.
+	* The event data is an <i>array</i> containing all values in the column, top first.
 	*
 	* @outputexample
 	* sequencer.on('step',function(v) {
@@ -8467,15 +8467,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = _interopRequire(__webpack_require__(7));
 	
 	var Rack = (function () {
-	  function Rack(target, name, open) {
+	  function Rack(target, settings) {
 	    _classCallCheck(this, Rack);
 	
 	    this.meta = {};
 	    this.meta.target = target;
-	    this.meta.parent = dom.parseElement(target); // should be a generic function for parsing a "target" argument that checks for string/DOM/jQUERY
-	    this.meta.title = name;
-	    this.meta.open = open;
+	    this.meta.parent = dom.parseElement(target); // should be a generic function for parsing a 'target' argument that checks for string/DOM/jQUERY
 	    this.meta.colors = {};
+	
+	    if (settings) {
+	      this.meta.keyword = settings.keyword || "nexus-ui";
+	      this.meta.title = settings.name || false;
+	      this.meta.open = settings.open || false;
+	    } else {
+	      this.meta.keyword = "nexus-ui";
+	      this.meta.title = false;
+	      this.meta.open = false;
+	    }
+	
 	    var defaultColors = Nexus.colors; // jshint ignore:line
 	    this.meta.colors.accent = defaultColors.accent;
 	    this.meta.colors.fill = defaultColors.fill;
@@ -8549,7 +8558,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        //  var width = this.meta.parent.style.width = getComputedStyle(this.meta.parent).getPropertyValue('width');
 	        //    this.meta.parent.style.width = width;
 	
-	        var ui = transform.section(this.meta.target);
+	        var ui = transform.section(this.meta.target, this.meta.keyword);
 	        for (var key in ui) {
 	          this[key] = ui[key];
 	        }
@@ -8648,7 +8657,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return widget;
 	};
 	
-	var section = function (parent) {
+	var section = function (parent, keyword) {
+	
+	  keyword = keyword || "nexus-ui";
 	
 	  var interfaceIDs = {};
 	
@@ -8662,7 +8673,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    elements.push(htmlElements[i]);
 	  }
 	  for (var i = 0; i < elements.length; i++) {
-	    var type = elements[i].getAttribute("nexus-ui");
+	    var type = elements[i].getAttribute(keyword);
 	    if (type) {
 	      var formattedType = false;
 	      for (var key in Interfaces) {

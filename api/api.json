@@ -5850,7 +5850,7 @@
       },
       {
         "title": "example",
-        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})",
+        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 20000,\n  'step': 1\n})",
         "lineNumber": 10
       },
       {
@@ -5892,7 +5892,7 @@
         "description": "var number = new Nexus.Number('#target')"
       },
       {
-        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 10,\n  'step': 1\n})"
+        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 20000,\n  'step': 1\n})"
       }
     ],
     "name": "Number",
@@ -11663,7 +11663,7 @@
       },
       {
         "title": "output",
-        "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array<i> containing all values in the column, top first.",
+        "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array</i> containing all values in the column, top first.",
         "lineNumber": 28
       },
       {
@@ -13835,7 +13835,7 @@
       },
       {
         "title": "example",
-        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': true,\n    'text': 'Play',\n    'alternate': false\n})",
+        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': false,\n    'text': 'Play',\n    'alternate': false\n})",
         "lineNumber": 10
       },
       {
@@ -13877,7 +13877,7 @@
         "description": "var textbutton = new Nexus.TextButton('#target')"
       },
       {
-        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': true,\n    'text': 'Play',\n    'alternate': false\n})"
+        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': false,\n    'text': 'Play',\n    'alternate': false\n})"
       }
     ],
     "name": "TextButton",

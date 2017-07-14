@@ -1,0 +1,509 @@
+<!doctype html>
+<html>
+<head>
+<!--Author: Ben Taylor -->
+	<title>Nexus Web Audio Interfaces</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="initial-scale=1., user-scalable=no, width=device-width"/>
+	<link rel="icon" type="image/png" href="favicon.png" />
+	<!-- foundation framework links -->
+	<link rel="stylesheet" href="foundation/css/foundation.css"/>
+	<script src="foundation/js/vendor/custom.modernizr.js"></script>
+	<!-- fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
+	<!-- jquery links -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/javascript" src="Tone9.js"></script>
+	<!-- nexus links -->
+	<script type="text/javascript" src="dist/NexusUI.js"></script>
+
+  <link rel='stylesheet' href='prism/prism.css' />
+  <script src="prism/prism.js"></script>
+
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@suncanon">
+	<meta name="twitter:creator" content="@suncanon">
+	<meta name="twitter:title" content="NexusUI: Web Audio Interfaces">
+	<meta name="twitter:description" content="A JavaScript toolkit for building instruments in the browser.">
+	<meta name="twitter:image" content="https://nexus-js.github.io/ui/images/card.png">
+
+</head>
+<body>
+
+	<style>
+
+		body {
+			line-height:normal;
+			font-family:'Open Sans', helvetica neue;
+		}
+
+		.row {
+			max-width:none;
+		}
+
+		a:hover {
+			text-decoration:underline;
+		}
+
+		h1, h2, h3 {
+			font-family: "Muli", sans-serif;
+			font-weight: 300;
+			color:#333;
+			font-size:20pt;
+			display:block;
+			line-height:20pt;
+			padding:3px 0px;
+			margin:0px 0px;
+		}
+
+		h2 {
+			font-size:16pt;
+		}
+
+		h3 {
+			padding-top:0px;
+			font-size:13pt;
+			font-weight: 1000;
+		}
+
+		.downloadlink {
+			display:inline-block;
+			margin:40px 0px 0px;
+			padding:5px 30px;
+			border:solid 1px #08c;
+			background-color:#f7f7ff;
+			text-align:center;
+		}
+		.downloadlink:hover {
+			background-color:#def;
+			text-decoration: none;
+		}
+
+		.demolink {
+			font-size:13pt;
+			line-height:0px;
+			margin:0px;
+		}
+
+		.tutorialrow {
+			/*margin: 40px 0px 60px 20px; */
+			margin:0px;
+		}
+
+		.codedisplay {
+			border:solid 0px #aaa;
+			outline:none;
+			background-color:#f7f7f7;
+			font-family: courier;
+			font-size:10pt;
+			color:#19b;
+			padding:20px !important;
+			border-radius:6px;
+			box-shadow:none;
+			-webkit-box-shadow:none;
+			resize:none;
+			width:100%;
+		}
+
+		textarea {
+			user-select:none;
+			-webkit-user-select:none;
+			-moz-user-select: none;
+		}
+
+		.columns {
+			padding:10px;
+		}
+
+		.titlerow {
+			font-size:26pt;
+			border-bottom:solid 2px #eee;
+			padding:140px 0px 10px 0px;
+			margin-bottom:40px;
+			font-family: "Open Sans";
+			text-align:center;
+			font-weight:300;
+			color:#888;
+		}
+
+		.codecolumn {
+			max-width:600px;
+		}
+
+		.textcolumn {
+			max-width:600px;
+			margin-right:100px;
+			margin-left:10px;
+		}
+
+		.nxoverview {
+			font-size:16pt;
+			line-height:normal;
+			color:#444;
+			margin-left:0px;
+			font-weight:300;
+		}
+
+		.nxoverviewrow {
+		}
+
+		.demorcv {
+			font-size:13pt;
+			color:#444;
+			text-align:left;
+			width:300px;
+			margin:10px auto;
+			color:#444;
+			height:30px;
+		}
+
+		.doccategory {
+			background-color:#f7f7f7;
+			padding:5px 5px 5px 5px;
+			color:#999;
+			font-size:13pt;
+			margin:45px 0px 15px;
+		}
+
+		.firstdoccat {
+			margin-top:0px;
+		}
+
+		.valuedefault {
+			color:#aaa;
+			font-size:10pt;
+		}
+
+
+		.dl {
+			border-radius:5px;
+			border:none;
+			font-weight:normal;
+			padding:10px 20px;
+			text-decoration:none;
+			cursor:pointer;
+			transition:0.2s;
+			display:inline-block;
+			margin:20px auto;
+
+			margin: 5px 10px 0px 0px;
+			padding:4px 20px;
+			border-radius:0px;
+		}
+
+		.dl-one, .dl-one:visited {
+		/*	background-color:#0bd; */
+			background-color: rgb(34, 187, 187);
+			color:white !important;
+		}
+
+		.dl-two, .dl-two:visited {
+			background-color:#ddd;
+			color:#000 !important;
+		}
+
+		.dl-one:hover {
+			background-color:rgb(34, 187, 187);
+			color:white;
+			text-decoration:none;
+		}
+
+		.dl-two:hover {
+			background-color:#ccc;
+			color:#111;
+			text-decoration:none;
+		}
+
+		button {
+			outline:none;
+		}
+
+
+		.smarttitle{
+			font-size:15pt;
+			text-align:center;
+		}
+		.smartsubtitle{
+			font-size:11pt;
+			text-align:center;
+		}
+
+
+
+	</style>
+
+
+  <div style="max-width:600px;margin:50px auto;">
+
+
+		<div class="row" style="position:relative;padding:0px 0px 0px;">
+			<div class="large-12 columns" style="margin:0px">
+				<h1>NexusUI 2.0</h1>
+				<h2>Web Audio Interfaces</h2><br>
+				<div id="demorack" style="margin-top:10px">
+
+					<div style="float:left">
+						<div nexus-ui="dial" id="demo2" style="width:80px;height:70px;margin-top:10px;"></div>
+						<div nexus-ui="number" id="demo3" style="width:50px;height:25px;margin:5px auto 0px;"></div>
+					</div>
+					<div nexus-ui="slider" id="demosl1" style="width:20px;height:100px;float:left;margin:10px 0px 0px 5px;"></div>
+					<div nexus-ui="slider" id="demosl2" style="width:20px;height:100px;float:left;margin:10px 0px 0px 5px;"></div>
+					<div nexus-ui="slider" id="demosl3" style="width:20px;height:100px;float:left;margin:10px 0px 0px 5px;"></div>
+					<div nexus-ui="sequencer" id="demo4" style="width:200px;height:100px;float:left;margin:10px 0px 0px 5px;"></div>
+
+				</div>
+			</div>
+
+			<script>
+
+			Nexus.context = Tone.context;
+
+			var rack1 = new Nexus.Rack("demorack")
+			rack1.demo3.link(rack1.demo2)
+			rack1.demosl1.value = 0.7
+			rack1.demosl2.value = 0.5
+			rack1.demosl3.value = 0.3
+			rack1.demo2.value = 0.5
+			rack1.demo4.columns = 10;
+			rack1.demo4.matrix.set.all([
+				[0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,1,0,0,0,0,1,0],
+				[0,0,1,0,1,0,0,1,0,1],
+				[1,0,0,0,0,1,0,0,0,0]
+			])
+			rack1.demo4.start();
+
+			</script>
+
+
+			<div class="large-12 columns" style="margin:40px 0px 0px;">
+
+				<p class="overview">
+	        NexusUI is a collection of HTML5 interfaces and Javascript helper functions to assist with building web audio instruments in the browser.
+	      </p>
+
+	      <p class="overview">
+
+					In addition to interfaces, it offers a few helper methods for <b>tuning</b> and <b>timing</b>.
+
+					 It does not provide any sound-making capabilities –– for that, check out the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" target="blank">Web Audio API</a> or web audio libraries such as <a href="http://tonejs.github.io" target="blank">Tone.js</a>, <a href="https://github.com/sebpiq/WebPd" target="blank">WebPD</a>, or <a href="https://github.com/charlieroberts/gibber.audio.lib" target="blank">Gibber.lib</a>.
+	      </p>
+
+				<div style="margin:40px auto 40px;">
+
+					<a class="dl dl-one" href="api/">Documentation</a>
+					<a class="dl dl-two" href="https://github.com/nexus-js/ui/">View on Github</a>
+
+				</div>
+			</div>
+
+
+
+			<hr />
+
+			<div class="large-12 columns" style="margin:15px 0px 25px;">
+
+				<b>A note on this update</b><br /><br />
+
+				Version 2 is a from-scratch rewrite of NexusUI. This version features a new &amp; more conventional Javascript API, a pared-down collection of interfaces, and SVG graphics instead of canvas graphics. We hope that this version will prove to be more user-friendly and more sustainable over time.
+
+			</div>
+
+			<hr />
+
+
+		</div>
+
+	<div class="row">
+
+		<div class="large-12 columns" style="margin:10px 0px;" id="example">
+
+			<b>Small Demo</b><br />
+
+			<br />
+
+			<button id="mobileStart" style="display:none;width:200px;margin:5px 3px;">Press to Initialize Mobile Audio</button>
+
+			<!-- result goes here -->
+
+			<div id="power" style="width:40px;height:17px;margin:15px 0px;"></div>
+			<div id="echo" style="width:200px;height:20px;margin:5px 3px;"></div>
+
+
+			<script>
+
+			mobileStart = document.getElementById('mobileStart')
+
+			if (/Mobi/.test(navigator.userAgent)) {
+			    mobileStart.style.display = "block";
+			}
+
+			mobileStart.addEventListener('click',function() {
+				var osc = Nexus.context.createOscillator();
+				osc.connect(Nexus.context.destination);
+				osc.start(0);
+				osc.stop(0.1);
+        Nexus.clock.start();
+			})
+
+			// Create interfaces
+			var power = new Nexus.Toggle("#power");
+			var delay = new Nexus.Slider("#echo");
+
+			// Create a sound source using Tone.js
+			var synth = new Tone.Oscillator(0,"sine").start();
+			var volume = new Tone.Volume(-Infinity);
+			var delayGen = new Tone.FeedbackDelay(0.2,0.7);
+			synth.chain( delayGen, volume, Tone.Master );
+
+			// Customize interface &
+			// Add event listeners
+			delay.min = 0;
+			delay.max = 0.7;
+			delay.on('change',function(value) {
+				delayGen.wet.value = value;
+			})
+			delay.value = 0.4;
+
+			power.on('change',function(v) {
+				volume.volume.cancelScheduledValues();
+				var level = v ? -20 : -Infinity;
+				volume.volume.rampTo(level,3)
+			})
+
+			// Create a sequence of note values
+			var sequence = new Nexus.Sequence([2,4,6,8,9,11,13]);
+
+			// Create a repeating pulse
+			// Change notes on each beat
+			var beat = new Nexus.Interval(100,function(e) {
+				synth.frequency.value = Nexus.note( sequence.next(), -1 );
+			});
+
+			beat.start();
+
+			</script>
+
+
+
+
+			<br /><br />
+			HTML
+
+			<pre class="codedisplay language-html"><code>&lt;div&gt; id="power"&gt;&lt;div&gt;
+&lt;div&gt; id="echo"&gt;&lt;div&gt;</code></pre>
+
+			<br /><br />
+			JS
+
+			<pre class="codedisplay language-javascript"><code>// Create interfaces
+var power = new Nexus.Toggle("#power");
+var delay = new Nexus.Slider("#echo");
+
+// Create a sound source using Tone.js
+var synth = new Tone.Oscillator(0,"triangle").start();
+var volume = new Tone.Volume(-Infinity);
+var delayGen = new Tone.FeedbackDelay(0.2,0.7);
+synth.chain( delayGen, volume, Tone.Master );
+
+// Customize interface &
+// Add event listeners
+delay.min = 0;
+delay.max = 0.7;
+delay.on('change',function(value) {
+	delayGen.wet.value = value;
+})
+delay.value = 0.4;
+
+power.on('change',function(v) {
+	volume.volume.cancelScheduledValues();
+	var level = v ? -20 : -Infinity;
+	volume.volume.rampTo(level,3)
+})
+
+// Create a sequence of note values
+var sequence = new Nexus.Sequence([2,4,6,8,9,11,13]);
+
+// Create a repeating pulse
+// Change notes on each beat
+var beat = new Nexus.Interval(100,function(e) {
+	synth.frequency.value = Nexus.note( sequence.next(), -1 );
+});
+
+beat.start();</code></pre>
+
+
+			<br /><br />
+			CSS
+
+			<pre class="codedisplay language-css"><code>#power {
+	width:40px;
+	height:17px;
+	margin:15px 0px;
+}
+
+#echo {
+	width:200px;
+	height:20px;
+	margin:5px 3px;
+}</code></pre>
+
+		</div>
+
+
+	</div>
+
+
+	</div>
+
+
+	<!-- FOOTER -->
+
+	<div class="row" style="font-size:10pt;color:#aaa;padding:30px;text-align:center;margin-top:20px;background-color:#eee;">
+
+				<div style="font-size:35pt;margin:5px auto 20px;color:#dadada;width:100px;text-align:center;">©</div>
+				experimental music & digital media @ louisiana state univeristy 2013-2016<br />
+				ben taylor 2017
+
+	</div>
+
+
+
+	<script>
+
+	    Prism.highlightAll();
+
+	</script>
+
+
+  <!-- This JS code is for Foundation responsive framework-->
+
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'foundation/js/vendor/zepto' : 'foundation/js/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+
+  <script src="foundation/js/foundation.min.js"></script>
+  <script>
+    	$(document).foundation();
+  </script>
+
+
+  <!-- GOOGLE ANALYTICS -->
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42209714-1', 'nexusosc.com');
+  ga('send', 'pageview');
+
+  </script>
+
+</body>
+</html>
