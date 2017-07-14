@@ -315,7 +315,7 @@
        </code></pre>
 
        <p>
-         Tip: you can also transform many elements at once by <a href="#rack">creating a rack</a>.
+        <b>Tip: you can also transform many elements at once by <a href="#rack">creating a rack</a> </b>.
        </p>
 
 <!--
@@ -485,6 +485,32 @@ dial.on('change',function(v) {
               Give each interface element an ID which will be used to identify it in JavaScript later.
 <br /><br />
               In your JavaScript, use <b>new Nexus.Rack("#containerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>nexus-ui</b> attributes will be transformed into interface elements.
+
+              <p>
+
+                Nexus.Rack optionally lets you specify which attribute to look for ('nexus-ui' by default). This is useful for using NexusUI with React, which requires <i>data-</i> attribute prefixes.
+              </p>
+
+              <p>
+                HTML:
+              </p>
+
+                <pre><code class="language-html">
+  &lt;div id="target"&gt;
+    &lt;div data-nx="dial"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+                </code></pre>
+
+
+              <p>
+                JS:
+              </p>
+
+                <pre><code class="language-javascript">
+  var synth = new Nexus.Rack("#target",{
+    attribute: 'data-nx'
+  })
+                </code></pre>
 
 
               <br /><br />
