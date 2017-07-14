@@ -1,44 +1,49 @@
 {
   "name": "nexusui",
-  "description": "Audio Interfaces for Web Audio and HTML5 Mobile Apps",
-  "author": "Ben Taylor <taylorbf@gmail.com>",
-  "contributors": [{
-    "name": "Jesse Allison",
-    "email": "jtallison@lsu.edu"
-  },{
-    "name": "Yemin Oh",
-    "email": "oh.yemin@gmail.com"
-  },{
-    "name": "Sebastien Piquemal",
-    "email": "sebpiq@gmail.com"
-  },{
-    "name": "Andrew Bernstein",
-    "email": "andrewbbernstein@gmail.com"
-  },{
-    "name": "Jason Sigal",
-    "email": "jason.sigal@gmail.com"
-  }],
-  "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/lsu-emdm/nexusui/"
+  "version": "2.0.0",
+  "description": "NexusUI: Web Audio Interfaces",
+  "main": "index.js",
+  "scripts": {
+    "start": "script/build",
+    "serve": "script/watch",
+    "test": "jest"
   },
-  "dependencies": {
-    "extend": "2.0.x"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexus-js/ui"
   },
+  "keywords": [],
+  "author": "Benjamin Taylor",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nexus-js/ui/issues"
+  },
+  "homepage": "https://nexus-js.github.io/ui",
   "devDependencies": {
-    "gulp": "3.8.x",
-    "gulp-rename": "1.2.x",
-    "gulp-uglify": "0.2.x",
-    "gulp-less": "1.2.x",
-    "gulp-util": "3.0.x",
-    "browserify": "5.12.x",
-    "run-sequence": "0.3.x",
-    "eventemitter2": "0.4.x",
-    "vinyl-source-stream": "1.0.x",
-    "jsdox": "0.2.x",
-    "extend": "2.0.x"
+    "babel-core": "^4.7.16",
+    "babel-jest": "^4.0.0",
+    "babel-loader": "^4.0.0",
+    "babelify": "^5.0.3",
+    "color-ops": "^2.0.0",
+    "es6ify": "^1.6.0",
+    "fuse": "^0.4.0",
+    "jest": "^0.1.37",
+    "jshint": "^2.6.3",
+    "jshint-loader": "^0.8.3",
+    "uglify-js": "^2.4.16",
+    "waaclock": "^0.5.3",
+    "webpack": "^1.5.3"
   },
-  "engine": "node >= 0.10.0",
-  "version": "1.2.0",
-  "license": "New BSD License"
+  "jest": {
+    "scriptPreprocessor": "./node_modules/babel-jest",
+    "testFileExtensions": [
+      "es6",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
+  }
 }

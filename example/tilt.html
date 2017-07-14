@@ -1,50 +1,57 @@
 <!doctype html>
-   	<html>
-	<head>
-		<title>NexusUI Demo</title>
-		<script type="text/javascript" src="../dist/nexusUI.js"></script>
-		<script>
+<html>
 
-			nx.onload = function() {
-				
-			    nx.colorize("accent", "#347");
-			    nx.colorize("border", "#bbb");
-			    nx.colorize("fill", "#eee");
-
-
-				/* log all events */
-
-				for (var key in nx.widgets) {
-
-					nx.widgets[key].on('*', function(data) {
-						var d = document.getElementById("tester");
-						d.innerHTML = data.x + " " + data.y + " " + data.z +"<br>" + d.innerHTML
-					})
-
-				}
-
-			 
-			}
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/NexusUI.js"></script>
+  <script src="js/Tone9.js"></script>
+  <meta name="viewport" content="width=200, initial-scale=1">
+</head>
+<body style="margin:0;padding;0">
 
 
-		</script>
 
-	</head>
+  <div style="font-size:25px;">
+    NexusUI Tilt Test
+  </div>
 
-	<body>
+  <span id="tilt"></span>
 
-		<style>
-			.nx {
-				float:left;
-				margin:5px;
-			}
-		</style>
+  <div id="debugX">~</div>
+  <div id="debugY">~</div>
+  <div id="debugZ">~</div>
 
+</body>
+<style>
+body {
+  font-family:helvetica;
+}
+[nexus-ui], div {
+  margin:10px;
+}
+</style>
+<script>
 
-		  <canvas nx="tilt" style="width:300px;height:300px"></canvas>
+  Nexus.context = Tone.context;
 
-		  <div id="tester" style="clear:both"></div>
+  tilt = new Nexus.Tilt('#tilt');
 
-	</body>
-	
+  debuxX = document.getElementById("debugX");
+  debuxY = document.getElementById("debugY");
+  tilt.on('change',function(v) {
+    if (v) {
+      if (v.x) {
+        debugX.innerHTML = ~~(v.x * 1000);
+      }
+      if (v.y) {
+        debugY.innerHTML = ~~(v.y * 1000);
+      }
+      if (v.z) {
+        debugZ.innerHTML = ~~(v.z * 1000);
+      }
+    }
+  })
+
+</script>
 </html>

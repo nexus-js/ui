@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Musician's Toolkit</title>
+  <script src="../dist/NexusUI.js"></script>
+  <script src="js/Tone9.js"></script>
+  <meta name="viewport" content="width=200, initial-scale=1">
+</head>
+<body style="margin:0;padding;0">
+
+
+  <div style="font-size:25px;margin:10px;">
+    Testing Sandbox
+  </div>
+
+  <div id="target"></div>
+
+
+</body>
+<style>
+body {
+  font-family:helvetica;
+}
+[nexus-ui] {
+  margin:10px;
+}
+</style>
+<script>
+
+  Nexus.context = Tone.context;
+
+  var thing = new Nexus.Pan('#target')
+  
+  thing.on('change',function(e) {
+    console.log(e);
+  })
+
+
+
+
+</script>
+</html>
