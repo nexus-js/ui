@@ -83,21 +83,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Rack = _interopRequire(__webpack_require__(38));
+	var Rack = _interopRequire(__webpack_require__(42));
 	
-	var Tune = _interopRequire(__webpack_require__(40));
+	var Tune = _interopRequire(__webpack_require__(44));
 	
-	var Transform = _interopRequireWildcard(__webpack_require__(39));
+	var Transform = _interopRequireWildcard(__webpack_require__(43));
 	
-	var Counter = __webpack_require__(28);
-	var Radio = __webpack_require__(41);
-	var Drunk = __webpack_require__(27);
-	var Sequence = __webpack_require__(26);
-	var Matrix = __webpack_require__(25);
+	var Counter = __webpack_require__(32);
+	var Radio = __webpack_require__(45);
+	var Drunk = __webpack_require__(31);
+	var Sequence = __webpack_require__(30);
+	var Matrix = __webpack_require__(29);
 	
-	var WAAClock = _interopRequire(__webpack_require__(42));
+	var WAAClock = _interopRequire(__webpack_require__(46));
 	
-	var Interval = _interopRequire(__webpack_require__(45));
+	var Interval = _interopRequire(__webpack_require__(49));
 	
 	/**
 	NexusUI => created as Nexus
@@ -187,24 +187,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Position: __webpack_require__(3),
 	  Slider: __webpack_require__(14),
 	  Toggle: __webpack_require__(15),
-	  //  Range: require('./range'),
-	  //  Waveform: require('./waveform'),
-	  Button: __webpack_require__(16),
-	  TextButton: __webpack_require__(18),
-	  RadioButton: __webpack_require__(19),
-	  Number: __webpack_require__(20),
-	  Select: __webpack_require__(21),
-	  Dial: __webpack_require__(22),
-	  Piano: __webpack_require__(23),
-	  Sequencer: __webpack_require__(24),
-	  Pan2D: __webpack_require__(29),
-	  Tilt: __webpack_require__(30),
-	  Multislider: __webpack_require__(31),
-	  Pan: __webpack_require__(33),
-	  Envelope: __webpack_require__(34),
-	  Spectrogram: __webpack_require__(35),
-	  Meter: __webpack_require__(36),
-	  Oscilloscope: __webpack_require__(37)
+	  Range: __webpack_require__(16),
+	  Waveform: __webpack_require__(18),
+	  Button: __webpack_require__(20),
+	  TextButton: __webpack_require__(22),
+	  RadioButton: __webpack_require__(23),
+	  Number: __webpack_require__(24),
+	  Select: __webpack_require__(25),
+	  Dial: __webpack_require__(26),
+	  Piano: __webpack_require__(27),
+	  Sequencer: __webpack_require__(28),
+	  Pan2D: __webpack_require__(33),
+	  Tilt: __webpack_require__(34),
+	  Multislider: __webpack_require__(35),
+	  Pan: __webpack_require__(37),
+	  Envelope: __webpack_require__(38),
+	  Spectrogram: __webpack_require__(39),
+	  Meter: __webpack_require__(40),
+	  Oscilloscope: __webpack_require__(41)
 	};
 
 /***/ }),
@@ -2445,6 +2445,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -2454,7 +2458,906 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var svg = __webpack_require__(4);
-	var ButtonTemplate = __webpack_require__(17);
+	var RangeModel = __webpack_require__(17);
+	var math = __webpack_require__(5);
+	
+	var Interface = _interopRequire(__webpack_require__(6));
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	var RangeSlider = (function (_Interface) {
+	  function RangeSlider() {
+	    _classCallCheck(this, RangeSlider);
+	
+	    var options = [];
+	
+	    var defaults = {
+	      size: [200, 30],
+	      mode: "select", // select, scale? drag? range?
+	      min: 0,
+	      max: 1,
+	      step: 0,
+	      start: 0.25,
+	      end: 0.75
+	    };
+	
+	    _get(Object.getPrototypeOf(RangeSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.min = this.settings.min;
+	    this.max = this.settings.max;
+	    this.step = this.settings.step;
+	    this.mode = this.settings.mode;
+	
+	    this.range = new RangeModel(this.min, this.max, this.step);
+	
+	    if (this.mode === "drag") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        size: new Interaction.Handle("relative", "vertical", [0, this.width], [this.height, 0])
+	      };
+	      this.position.size.sensitivity = 0.2;
+	    } else if (this.mode === "select") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        start: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        end: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0])
+	      };
+	    }
+	
+	    this.start = this.settings.start;
+	    this.end = this.settings.end;
+	
+	    this.init();
+	    return this;
+	  }
+	
+	  _inherits(RangeSlider, _Interface);
+	
+	  _createClass(RangeSlider, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("x", 0);
+	        this.element.setAttribute("y", 0);
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.dummy = svg.create("rect");
+	        this.dummy.setAttribute("width", "100%");
+	        this.dummy.setAttribute("height", "100%");
+	        this.dummy.setAttribute("x", 0);
+	        this.dummy.setAttribute("y", 0);
+	        this.dummy.setAttribute("fill", "none");
+	
+	        this.element.appendChild(this.dummy);
+	
+	        this.ref = svg.create("g");
+	        this.ref.setAttribute("width", "100%");
+	        this.ref.setAttribute("height", "100%");
+	        this.ref.setAttribute("x", 0);
+	        this.ref.setAttribute("y", 0);
+	        this.ref.setAttribute("fill", "none");
+	
+	        this.element.appendChild(this.ref);
+	
+	        this.bar = svg.create("rect");
+	        this.bar.setAttribute("x", 0);
+	        this.bar.setAttribute("y", 0);
+	        this.bar.setAttribute("stroke-width", "0");
+	        this.bar.setAttribute("fill-opacity", "0.4");
+	
+	        this.arrowL = svg.create("rect");
+	        this.arrowL.setAttribute("x", 0);
+	        this.arrowL.setAttribute("y", 0);
+	        this.arrowL.setAttribute("fill-opacity", "0.7");
+	
+	        this.arrowL.addEventListener("mousedown", function (e) {
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.arrowR = svg.create("rect");
+	        this.arrowR.setAttribute("fill-opacity", "0.7");
+	
+	        this.arrowR.addEventListener("mousedown", function (e) {
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.ref.appendChild(this.arrowL);
+	        this.ref.appendChild(this.arrowR);
+	        this.ref.appendChild(this.bar);
+	
+	        this.resize();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.accent);
+	        this.bar.setAttribute("stroke", this.colors.accent);
+	        this.arrowL.setAttribute("fill", this.colors.accent);
+	        this.arrowR.setAttribute("fill", this.colors.accent);
+	      }
+	    },
+	    resize: {
+	      value: function resize(w, h) {
+	        this.width = w || this.width;
+	        this.height = h || this.height;
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.bar.setAttribute("height", this.height);
+	        this.arrowL.setAttribute("width", 3);
+	        this.arrowL.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("width", 3);
+	        this.arrowR.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
+	        this.arrowR.setAttribute("y", 0);
+	        if (this.mode === "drag") {
+	          this.positoin.center.resize([0, this.width], [this.height, 0]);
+	          this.position.size.resize([0, this.width], [this.height, 0]);
+	        } else if (this.mode === "select") {
+	          this.position.center.resize([0, this.width], [this.height, 0]);
+	          this.position.start.resize([0, this.width], [this.height, 0]);
+	          this.position.end.resize([0, this.width], [this.height, 0]);
+	        }
+	        this.render();
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        this.ref.setAttribute("transform", "translate(" + this.range.start.normalized * this.width + ", 0)");
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 3);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.hasMoved = false;
+	        console.log("slider clicked");
+	
+	        if (this.mode === "drag") {
+	          this.position.center.anchor = this.mouse;
+	          this.position.size.anchor = this.mouse;
+	        } else if (this.mode === "select") {
+	          this.position.center.anchor = this.mouse;
+	          this.position.start.value = this.mouse / this.width;
+	          this.position.end.value = (this.mouse + 0.3) / this.width;
+	        }
+	        //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
+	        //  this.range.
+	        this.render();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.hasMoved = true;
+	          if (this.mode === "drag") {
+	
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
+	
+	            this.position.size.update(this.mouse);
+	            this.range.size = math.scale(this.position.size.value, 0, 1, this.min, this.max);
+	
+	            this.render();
+	          } else if (this.mode === "select") {
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            this.render();
+	          }
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        if (!this.hasMoved) {
+	          this.destroy();
+	        }
+	        this.render();
+	      }
+	    },
+	    start: {
+	      get: function () {
+	        return this.range.start.value;
+	      },
+	      set: function (value) {
+	        //  console.log("start is being set to", value);
+	        this.range.start.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    end: {
+	      get: function () {
+	        return this.range.end.value;
+	      },
+	      set: function (value) {
+	        //  console.log("end is being set to", value);
+	        this.range.end.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    updatePosition: {
+	      value: function updatePosition() {
+	        //  console.log("updatePosition is being set");
+	        var start = this.range.start.normalized;
+	        //        console.log("updatePosition start", start);
+	        var end = this.range.end.normalized;
+	        //        console.log("updatePosition end", end);
+	        var center = (end + start) / 2;
+	        var size = end - start;
+	
+	        console.log(this.position);
+	        //    console.log("updatePosition center", center);
+	        //        console.log("updatePosition size", size);
+	        if (this.position.center) {
+	          this.position.center.update(center);
+	        }
+	        if (this.position.size) {
+	          this.position.size.update(size);
+	        }
+	      }
+	    }
+	  });
+	
+	  return RangeSlider;
+	})(Interface);
+	
+	module.exports = RangeSlider;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var Step = _interopRequire(__webpack_require__(11));
+	
+	/**
+	  Creates an abstract model of a steppable range slider with start and end values which are constricted by a minimum, maximum, and step size.
+	  @param {number} [min=0] minimum
+	  @param {number} [max=1] maximum
+	  @param {number} [step=0]
+	  @returns {Object} Step
+	*/
+	
+	var Range = (function () {
+	  function Range() {
+	    var min = arguments[0] === undefined ? 0 : arguments[0];
+	    var max = arguments[1] === undefined ? 1 : arguments[1];
+	    var step = arguments[2] === undefined ? false : arguments[2];
+	
+	    _classCallCheck(this, Range);
+	
+	    /**
+	      {number} Minimum value of the range
+	    */
+	    this.min = min;
+	
+	    /**
+	      {number} Maximum value of the range
+	    */
+	    this.max = max;
+	
+	    /**
+	      {Step} Start value of the range selection
+	    */
+	    this.start = new Step(min, max, step);
+	
+	    /**
+	      {Step} End value of the range selection
+	    */
+	    this.end = new Step(min, max, step);
+	  }
+	
+	  _createClass(Range, {
+	    center: {
+	
+	      /**
+	        {number} Center of the range selection
+	      */
+	
+	      get: function () {
+	        return this.start.value + (this.end.value - this.start.value) / 2;
+	      },
+	      set: function (value) {
+	        var size = this.end.value - this.start.value;
+	        console.log("====");
+	        console.log(this.start.value);
+	        console.log(this.end.value);
+	        this.start.update(value - size / 2);
+	        this.end.update(this.start.value + size);
+	      }
+	    },
+	    size: {
+	
+	      /**
+	        {number} Size of the range selection
+	      */
+	
+	      get: function () {
+	        return this.end.value - this.start.value;
+	      },
+	      set: function (size) {
+	        var center = this.center;
+	        this.start.update(center - size / 2);
+	        // Ensure that the range slsection _is_ the size desired, even if it changes the center.
+	        this.end.update(this.start.value + size);
+	        //this.end.update(center + size/2);
+	      }
+	    },
+	    move: {
+	
+	      /**
+	        Move the range selection
+	        @param {number} start New start value of the range selection
+	        @param {number} end New end value of the range selection
+	      */
+	
+	      value: function move(start, end) {
+	        if (start) {
+	          this.start.update(start);
+	        }
+	        if (end) {
+	          this.end.update(end);
+	        }
+	      }
+	    }
+	  });
+	
+	  return Range;
+	})();
+	
+	module.exports = Range;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var Interface = __webpack_require__(6);
+	//let Step = require('../models/step');
+	//let math = require('../util/math');
+	var RangeSlider = __webpack_require__(19);
+	
+	/**
+	* Waveform
+	*
+	* @description Audio waveform visualization with region selection
+	*
+	* @demo <span nexus-ui="waveform"></span>
+	*
+	* @example
+	* var waveform = new Nexus.waveform('#target',buffer);
+	*
+	* @output
+	* change
+	* Fires any time the interface's value changes. <br>
+	* The event data is the number value of the interface.
+	*
+	* @outputexample
+	* dial.on('change',function(v) {
+	*   console.log(v);
+	* })
+	*
+	*
+	*/
+	
+	var Waveform = (function (_Interface) {
+	  function Waveform() {
+	    _classCallCheck(this, Waveform);
+	
+	    var options = ["scale", "value"];
+	
+	    var defaults = {
+	      size: [400, 150]
+	      //scaleX, scaleY
+	      //valueX, valueY
+	      //stepX, stepY
+	    };
+	
+	    _get(Object.getPrototypeOf(Waveform.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.selections = [];
+	    this.times = [{ dur: 10, format: 1 }, { dur: 50, format: 1 }, { dur: 100, format: 1 }, { dur: 200, format: 1 }, { dur: 500, format: 1 }, { dur: 1000, format: 1 }, { dur: 2000, format: 1 }, { dur: 5000, format: 1 }, { dur: 10000, format: 3 }, { dur: 15000, format: 3 }, { dur: 60000, format: 3 }, // 1 min
+	    { dur: 120000, format: 3 }, // 2 mins
+	    { dur: 300000, format: 3 }, // 5 mins
+	    { dur: 600000, format: 3 }];
+	    this.timescale = false;
+	
+	    this.definition = 2;
+	    this.pieces = ~ ~(this.width / this.definition);
+	
+	    this.channels = 1;
+	
+	    this.wavePieces = [];
+	
+	    this.init();
+	  }
+	
+	  _inherits(Waveform, _Interface);
+	
+	  _createClass(Waveform, {
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.element.style.borderRadius = "5px";
+	      }
+	    },
+	    sizeInterface: {
+	      value: function sizeInterface() {
+	
+	        this.waveHeight = this.height / this.channels;
+	
+	        this.empty();
+	        if (this.buffer) {
+	          this.buildWaveform();
+	        }
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.element.style.backgroundColor = this.colors.fill;
+	
+	        if (this.wavePieces) {
+	          for (var i = 0; i < this.wavePieces.length; i++) {
+	            this.wavePieces[i].setAttribute("fill", this.colors.dark);
+	          }
+	        }
+	      }
+	    },
+	    buildWaveform: {
+	      value: function buildWaveform() {
+	        for (var i = 0; i < this.buffer.length; i++) {
+	          var waveTop = i * this.waveHeight;
+	          var waveCenter = waveTop + this.waveHeight / 2;
+	          for (var j = 0; j < this.buffer[i].length; j++) {
+	            var ht1 = waveCenter - this.buffer[i][j][0] * this.waveHeight;
+	            var ht2 = waveCenter + Math.abs(this.buffer[i][j][1] * this.waveHeight);
+	            ht2 = ht2 - ht1;
+	
+	            var rect = svg.create("rect");
+	            rect.setAttribute("x", j * this.definition);
+	            rect.setAttribute("y", ht1);
+	            rect.setAttribute("width", this.definition);
+	            rect.setAttribute("height", ht2);
+	            rect.setAttribute("fill", this.colors.dark);
+	            this.wavePieces.push(rect);
+	
+	            this.element.appendChild(rect);
+	          }
+	        }
+	      }
+	    },
+	    render: {
+	      /*
+	        buildSelection() {
+	          let starttime = math.rf(this.duration);
+	          let endtime =  starttime + 0.2;
+	      
+	          let startx = this.width * starttime / this.duration;
+	          let endx = this.width * endtime / this.duration;
+	      
+	          let rect = svg.create('rect');
+	          rect.setAttribute('x',startx);
+	          rect.setAttribute('y',0);
+	          rect.setAttribute('width',endx - startx);
+	          rect.setAttribute('height',this.height);
+	          rect.setAttribute('fill','#d19');
+	          rect.setAttribute('stroke','#d19');
+	          rect.setAttribute('stroke-width','1');
+	          rect.setAttribute('fill-opacity','0.5');
+	      
+	          rect.addEventListener('mousedown', (e) => {
+	            console.log('selection clicked');
+	            e.preventDefault();
+	            e.stopPropagation()
+	          });
+	      
+	          this.element.appendChild( rect );
+	        } */
+	
+	      value: function render() {}
+	    },
+	    click: {
+	      value: function click() {
+	        //  this.value = {
+	        //    x: this._value.x.updateNormal( this.mouse.x / this.height ),
+	        //    y: this._value.y.updateNormal( this.mouse.y / this.height )
+	        //  };
+	
+	        this.selections.push(new RangeSlider(this.element));
+	        //will need to include this in settings: this.mouse.x / this.width
+	
+	        // rules:
+	        // if not on an existing selection, create a selection
+	        // if on an existing selection, save x location
+	        // and check whether it is in 'resize' territory
+	        // possible a different interaction for touch -- 'range' style
+	
+	        this.render();
+	      }
+	    },
+	    move: {
+	      value: function move() {}
+	    },
+	    release: {
+	      value: function release() {
+	        this.render();
+	      }
+	    },
+	    load: {
+	      value: function load(buffer) {
+	
+	        this.channels = buffer.numberOfChannels;
+	        this.duration = buffer.duration;
+	        this.sampleRate = buffer.sampleRate;
+	        this.waveHeight = this.height / this.channels;
+	
+	        // timescale
+	        this.durationMS = this.duration * 1000;
+	        this.timescale = 0;
+	        while (~ ~(this.durationMS / this.times[this.timescale].dur) > 7 && this.timescale < this.times.length) {
+	          this.timescale++;
+	        }
+	        this.timescale = this.times[this.timescale];
+	
+	        this.rawbuffer = [];
+	        this.buffer = [];
+	
+	        // reduce/crush buffers
+	        for (var i = 0; i < this.channels; i++) {
+	          this.rawbuffer.push(buffer.getChannelData(0));
+	          this.buffer.push([]);
+	
+	          // counts faster (sacrificing some accuracy) through larger buffers.
+	          // a 5 second sample will only look at every 2nd sample.
+	          // a 10 second buffer will only look at every 3rd sample.
+	          var countinc = ~ ~(this.rawbuffer[0].length / (this.sampleRate * 5)) + 1;
+	
+	          var groupsize = ~ ~(this.rawbuffer[i].length / this.pieces);
+	          var cmax = 0;
+	          var cmin = 0;
+	          var group = 0;
+	          for (var j = 0; j < this.rawbuffer[i].length; j += countinc) {
+	            if (this.rawbuffer[i][j] > 0) {
+	              cmax = Math.max(cmax, this.rawbuffer[i][j]);
+	            } else {
+	              cmin = Math.min(cmin, this.rawbuffer[i][j]);
+	            }
+	            if (j > group * groupsize) {
+	              this.buffer[i].push([cmax, cmin]);
+	              group++;
+	              cmin = 0;
+	              cmax = 0;
+	            }
+	          }
+	        }
+	
+	        this.buildWaveform();
+	
+	        //this.val.starttime = Math.round(this.val.start * this.durationMS);
+	        //this.val.stoptime = Math.round(this.val.stop * this.durationMS);
+	        //this.val.looptime = Math.round(this.val.size * this.durationMS);
+	      }
+	    }
+	  });
+	
+	  return Waveform;
+	})(Interface);
+	
+	module.exports = Waveform;
+	// 10 mins
+
+	//  this.knobCoordinates = {
+	//    x: this._value.x.normalized * this.width,
+	//    y: this._value.y.normalized * this.height
+	//  };
+
+	//  if (this.clicked) {
+	// rules:
+	// if not on an existing selection, expand the created selection
+	// if on an existing selection, move it or resize it
+	/*    this.value = {
+	      x: this._value.x.updateNormal( this.mouse.x / this.height ),
+	      y: this._value.y.updateNormal( this.mouse.y / this.height )
+	    };
+	    this.render();
+	  } */
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var RangeModel = __webpack_require__(17);
+	var math = __webpack_require__(5);
+	
+	var Interface = _interopRequire(__webpack_require__(6));
+	
+	var Interaction = _interopRequireWildcard(__webpack_require__(12));
+	
+	var RangeSlider = (function (_Interface) {
+	  function RangeSlider() {
+	    _classCallCheck(this, RangeSlider);
+	
+	    var options = [];
+	
+	    var defaults = {
+	      size: [100, 30],
+	      mode: "select"
+	    };
+	
+	    _get(Object.getPrototypeOf(RangeSlider.prototype), "constructor", this).call(this, arguments, options, defaults);
+	
+	    this.min = this.settings.min;
+	    this.max = this.settings.max;
+	    this.step = this.settings.step;
+	    this.mode = this.settings.mode;
+	
+	    this.range = new RangeModel(this.min, this.max, this.step);
+	
+	    if (this.mode === "drag") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        size: new Interaction.Handle("relative", "vertical", [0, this.width], [this.height, 0])
+	      };
+	      this.position.size.sensitivity = 0.2;
+	    } else if (this.mode === "select") {
+	      this.position = {
+	        center: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        start: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0]),
+	        end: new Interaction.Handle("relative", "horizontal", [0, this.width], [this.height, 0])
+	        //  size: new Interaction.Handle('relative','vertical',[0,this.width],[this.height,0])
+	      };
+	    }
+	
+	    this.init();
+	    return this;
+	  }
+	
+	  _inherits(RangeSlider, _Interface);
+	
+	  _createClass(RangeSlider, {
+	    buildFrame: {
+	      value: function buildFrame() {
+	        this.element = svg.create("svg");
+	        this.element.setAttribute("x", 0);
+	        this.element.setAttribute("y", 0);
+	        this.parent.appendChild(this.element);
+	      }
+	    },
+	    buildInterface: {
+	      value: function buildInterface() {
+	
+	        this.dummy = svg.create("rect");
+	        this.dummy.setAttribute("width", "100%");
+	        this.dummy.setAttribute("height", "100%");
+	        this.dummy.setAttribute("x", 0);
+	        this.dummy.setAttribute("y", 0);
+	        this.dummy.setAttribute("fill", "none");
+	
+	        this.element.appendChild(this.dummy);
+	
+	        this.ref = svg.create("g");
+	        this.ref.setAttribute("width", "100%");
+	        this.ref.setAttribute("height", "100%");
+	        this.ref.setAttribute("x", 0);
+	        this.ref.setAttribute("y", 0);
+	        this.ref.setAttribute("fill", "none");
+	
+	        this.element.appendChild(this.ref);
+	
+	        this.bar = svg.create("rect");
+	        this.bar.setAttribute("x", 0);
+	        this.bar.setAttribute("y", 0);
+	        this.bar.setAttribute("stroke-width", "0");
+	        this.bar.setAttribute("fill-opacity", "0.4");
+	
+	        this.arrowL = svg.create("rect");
+	        this.arrowL.setAttribute("x", 0);
+	        this.arrowL.setAttribute("y", 0);
+	        this.arrowL.setAttribute("fill-opacity", "0.7");
+	
+	        this.arrowL.addEventListener("mousedown", function (e) {
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.arrowR = svg.create("rect");
+	        this.arrowR.setAttribute("fill-opacity", "0.7");
+	
+	        this.arrowR.addEventListener("mousedown", function (e) {
+	          e.preventDefault();
+	          e.stopPropagation();
+	        });
+	
+	        this.ref.appendChild(this.arrowL);
+	        this.ref.appendChild(this.arrowR);
+	        this.ref.appendChild(this.bar);
+	
+	        this.resize();
+	      }
+	    },
+	    colorInterface: {
+	      value: function colorInterface() {
+	        this.bar.setAttribute("fill", this.colors.accent);
+	        this.bar.setAttribute("stroke", this.colors.accent);
+	        this.arrowL.setAttribute("fill", this.colors.accent);
+	        this.arrowR.setAttribute("fill", this.colors.accent);
+	      }
+	    },
+	    resize: {
+	      value: function resize(w, h) {
+	        this.width = w || this.width;
+	        this.height = h || this.height;
+	        this.element.setAttribute("width", this.width);
+	        this.element.setAttribute("height", this.height);
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.bar.setAttribute("height", this.height);
+	        this.arrowL.setAttribute("width", 3);
+	        this.arrowL.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("width", 3);
+	        this.arrowR.setAttribute("height", this.height);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width"));
+	        this.arrowR.setAttribute("y", 0);
+	        if (this.mode === "drag") {
+	          this.positoin.center.resize([0, this.width], [this.height, 0]);
+	          this.position.size.resize([0, this.width], [this.height, 0]);
+	        } else if (this.mode === "select") {
+	          this.position.center.resize([0, this.width], [this.height, 0]);
+	          this.position.start.resize([0, this.width], [this.height, 0]);
+	          this.position.end.resize([0, this.width], [this.height, 0]);
+	        }
+	        this.render();
+	      }
+	    },
+	    render: {
+	      value: function render() {
+	        this.ref.setAttribute("transform", "translate(" + this.range.start.normalized * this.width + ", 0)");
+	        this.bar.setAttribute("width", (this.range.end.normalized - this.range.start.normalized) * this.width);
+	        this.arrowR.setAttribute("x", this.bar.getAttribute("width") - 3);
+	      }
+	    },
+	    click: {
+	      value: function click() {
+	        this.hasMoved = false;
+	        console.log("slider clicked");
+	
+	        if (this.mode === "drag") {
+	          this.position.center.anchor = this.mouse;
+	          this.position.size.anchor = this.mouse;
+	        } else if (this.mode === "select") {
+	          this.position.center.anchor = this.mouse;
+	        }
+	        //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
+	        this.render();
+	      }
+	    },
+	    move: {
+	      value: function move() {
+	        if (this.clicked) {
+	          this.hasMoved = true;
+	          if (this.mode === "drag") {
+	
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            //this.range.center = math.scale(this.mouse.x,0,this.width,this.min,this.max);
+	
+	            this.position.size.update(this.mouse);
+	            this.range.size = math.scale(this.position.size.value, 0, 1, this.min, this.max);
+	
+	            this.render();
+	          } else if (this.mode === "select") {
+	            this.position.center.update(this.mouse);
+	            this.range.center = math.scale(this.position.center.value, 0, 1, this.min, this.max);
+	            this.render();
+	          }
+	        }
+	      }
+	    },
+	    release: {
+	      value: function release() {
+	        if (!this.hasMoved) {
+	          this.destroy();
+	        }
+	        this.render();
+	      }
+	    },
+	    start: {
+	      get: function () {
+	        return this.range.start.value;
+	      },
+	      set: function (value) {
+	        //  console.log("start is being set to", value);
+	        this.range.start.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    end: {
+	      get: function () {
+	        return this.range.end.value;
+	      },
+	      set: function (value) {
+	        //  console.log("end is being set to", value);
+	        this.range.end.value = value;
+	        this.updatePosition();
+	      }
+	    },
+	    updatePosition: {
+	      value: function updatePosition() {
+	        //  console.log("updatePosition is being set");
+	        var start = this.range.start.normalized;
+	        //        console.log("updatePosition start", start);
+	        var end = this.range.end.normalized;
+	        //        console.log("updatePosition end", end);
+	        var center = (end + start) / 2;
+	        var size = end - start;
+	
+	        //    console.log("updatePosition center", center);
+	        //        console.log("updatePosition size", size);
+	        this.position.center.update(center);
+	        this.position.size.update(size);
+	      }
+	    }
+	  });
+	
+	  return RangeSlider;
+	})(Interface);
+	
+	module.exports = RangeSlider;
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var svg = __webpack_require__(4);
+	var ButtonTemplate = __webpack_require__(21);
 	
 	/**
 	* Button
@@ -2583,7 +3486,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Button;
 
 /***/ }),
-/* 17 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2843,7 +3746,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = ButtonTemplate;
 
 /***/ }),
-/* 18 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2856,7 +3759,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
-	var ButtonTemplate = __webpack_require__(17);
+	var ButtonTemplate = __webpack_require__(21);
 	
 	/**
 	* TextButton
@@ -3018,7 +3921,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = TextButton;
 
 /***/ }),
-/* 19 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3033,7 +3936,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	//let svg = require('../util/svg');
 	var Interface = __webpack_require__(6);
-	var Button = __webpack_require__(16);
+	var Button = __webpack_require__(20);
 	
 	/**
 	* RadioButton
@@ -3207,7 +4110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = RadioButton;
 
 /***/ }),
-/* 20 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3511,7 +4414,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Number;
 
 /***/ }),
-/* 21 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -3704,7 +4607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Select;
 
 /***/ }),
-/* 22 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4120,7 +5023,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Dial;
 
 /***/ }),
-/* 23 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4135,7 +5038,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var svg = __webpack_require__(4);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(17);
+	var ButtonTemplate = __webpack_require__(21);
 	var touch = __webpack_require__(9);
 	
 	var PianoKey = (function (_ButtonTemplate) {
@@ -4573,7 +5476,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// loop through and render the keys?
 
 /***/ }),
-/* 24 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -4589,9 +5492,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var svg = __webpack_require__(4);
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
-	var ButtonTemplate = __webpack_require__(17);
-	var MatrixModel = __webpack_require__(25);
-	var CounterModel = __webpack_require__(28);
+	var ButtonTemplate = __webpack_require__(21);
+	var MatrixModel = __webpack_require__(29);
+	var CounterModel = __webpack_require__(32);
 	var touch = __webpack_require__(9);
 	
 	var MatrixCell = (function (_ButtonTemplate) {
@@ -5061,7 +5964,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequencer;
 
 /***/ }),
-/* 25 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5074,7 +5977,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Sequence = _interopRequire(__webpack_require__(26));
+	var Sequence = _interopRequire(__webpack_require__(30));
 	
 	// For the tutorial, looking at
 	
@@ -5438,7 +6341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Matrix;
 
 /***/ }),
-/* 26 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5451,7 +6354,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(27));
+	var Drunk = _interopRequire(__webpack_require__(31));
 	
 	var Sequence = (function () {
 	  function Sequence() {
@@ -5564,7 +6467,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Sequence;
 
 /***/ }),
-/* 27 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5624,7 +6527,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Drunk;
 
 /***/ }),
-/* 28 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5637,7 +6540,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Drunk = _interopRequire(__webpack_require__(27));
+	var Drunk = _interopRequire(__webpack_require__(31));
 	
 	var Counter = (function () {
 	    function Counter() {
@@ -5734,7 +6637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Counter;
 
 /***/ }),
-/* 29 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6031,7 +6934,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan2D;
 
 /***/ }),
-/* 30 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6340,7 +7243,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tilt;
 
 /***/ }),
-/* 31 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6356,7 +7259,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
-	var SliderTemplate = __webpack_require__(32);
+	var SliderTemplate = __webpack_require__(36);
 	var touch = __webpack_require__(9);
 	
 	var SingleSlider = (function (_SliderTemplate) {
@@ -6808,7 +7711,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Multislider;
 
 /***/ }),
-/* 32 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7099,7 +8002,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = SliderTemplate;
 
 /***/ }),
-/* 33 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7349,7 +8252,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan;
 
 /***/ }),
-/* 34 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7850,7 +8753,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Envelope;
 
 /***/ }),
-/* 35 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8014,7 +8917,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Spectrogram;
 
 /***/ }),
-/* 36 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8232,7 +9135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Meter;
 
 /***/ }),
-/* 37 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8411,7 +9314,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Oscilloscope;
 
 /***/ }),
-/* 38 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8462,7 +9365,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(39));
+	var transform = _interopRequireWildcard(__webpack_require__(43));
 	
 	var dom = _interopRequire(__webpack_require__(7));
 	
@@ -8615,7 +9518,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ }),
-/* 39 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8718,7 +9621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.add = add;
 
 /***/ }),
-/* 40 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8926,7 +9829,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ }),
-/* 41 */
+/* 45 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -9052,17 +9955,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Radio;
 
 /***/ }),
-/* 42 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(43)
+	var WAAClock = __webpack_require__(47)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ }),
-/* 43 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -9299,10 +10202,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(48)))
 
 /***/ }),
-/* 44 */
+/* 48 */
 /***/ (function(module, exports) {
 
 	// shim for using process in browser
@@ -9492,7 +10395,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ }),
-/* 45 */
+/* 49 */
 /***/ (function(module, exports) {
 
 	"use strict";

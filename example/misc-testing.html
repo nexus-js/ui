@@ -31,8 +31,8 @@ body {
 
   Nexus.context = Tone.context;
 
-  var thing = new Nexus.Pan('#target')
-  
+  var thing = new Nexus.Range('#target')
+
   thing.on('change',function(e) {
     console.log(e);
   })
