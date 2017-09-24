@@ -7,19 +7,19 @@
 	<meta name="viewport" content="initial-scale=1., user-scalable=no, width=device-width"/>
 	<link rel="icon" type="image/png" href="favicon.png" />
 	<!-- foundation framework links -->
-	<link rel="stylesheet" href="foundation/css/foundation.css"/>
-	<script src="foundation/js/vendor/custom.modernizr.js"></script>
+	<link rel="stylesheet" href="site/foundation/css/foundation.css"/>
+	<script src="site/foundation/js/vendor/custom.modernizr.js"></script>
 	<!-- fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600' rel='stylesheet' type='text/css'>
 	<!-- jquery links -->
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script type="text/javascript" src="Tone9.js"></script>
+	<script type="text/javascript" src="api/js/Tone9.js"></script>
 	<!-- nexus links -->
 	<script type="text/javascript" src="dist/NexusUI.js"></script>
 
-  <link rel='stylesheet' href='prism/prism.css' />
-  <script src="prism/prism.js"></script>
+  <link rel='stylesheet' href='api/prism/prism.css' />
+  <script src="api/prism/prism.js"></script>
 
 	<meta name="twitter:card" content="summary_large_image">
 	<meta name="twitter:site" content="@suncanon">
@@ -482,11 +482,11 @@ beat.start();</code></pre>
 
   <script>
   document.write('<script src=' +
-  ('__proto__' in {} ? 'foundation/js/vendor/zepto' : 'foundation/js/vendor/jquery') +
+  ('__proto__' in {} ? 'site/foundation/js/vendor/zepto' : 'site/foundation/js/vendor/jquery') +
   '.js><\/script>')
   </script>
 
-  <script src="foundation/js/foundation.min.js"></script>
+  <script src="site/foundation/js/foundation.min.js"></script>
   <script>
     	$(document).foundation();
   </script>
@@ -494,16 +494,16 @@ beat.start();</code></pre>
 
   <!-- GOOGLE ANALYTICS -->
 
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-42209714-1', 'nexusosc.com');
-  ga('send', 'pageview');
+	  ga('create', 'UA-42209714-2', 'auto');
+	  ga('send', 'pageview');
 
-  </script>
+	</script>
 
 </body>
 </html>

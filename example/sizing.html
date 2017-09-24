@@ -26,31 +26,15 @@ body {
 }
 [nexus-ui] {
   margin:10px;
-  float:left;
 }
 #target {
   width:500px;
-  height:500px;
-  border:dashed 2px #333;
+  height:40px;
 }
 </style>
 <script>
 
-  var thing = new Nexus.Add.Envelope('#target',{
-    size: [100,100]
-  })
-
-  thing.setPoints([
-    {
-      x: 0.25,
-      y: 0.25
-    },
-    {
-      x: 0.5,
-      y: 0.55
-    }
-
-  ])
+  var thing = new Nexus.Slider('#target')
 
 </script>
 </html>

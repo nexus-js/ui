@@ -36,21 +36,12 @@ body {
 </style>
 <script>
 
-  var thing = new Nexus.Add.Envelope('#target',{
-    size: [100,100]
-  })
-
-  thing.setPoints([
-    {
-      x: 0.25,
-      y: 0.25
-    },
-    {
-      x: 0.5,
-      y: 0.55
-    }
-
-  ])
+  for (var i=0;i<10;i++) {
+    var thing = new Nexus.Add.Dial('#target',{
+      size: [100,100],
+      value: i*0.1
+    })
+  }
 
 </script>
 </html>

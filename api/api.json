@@ -1257,22 +1257,22 @@
     "tags": [],
     "loc": {
       "start": {
-        "line": 9,
+        "line": 10,
         "column": 0
       },
       "end": {
-        "line": 11,
+        "line": 12,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 12,
+          "line": 13,
           "column": 0
         },
         "end": {
-          "line": 332,
+          "line": 363,
           "column": 1
         }
       },
@@ -1364,22 +1364,22 @@
           ],
           "loc": {
             "start": {
-              "line": 283,
+              "line": 314,
               "column": 2
             },
             "end": {
-              "line": 290,
+              "line": 321,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 291,
+                "line": 322,
                 "column": 2
               },
               "end": {
-                "line": 299,
+                "line": 330,
                 "column": 3
               }
             },
@@ -1588,22 +1588,22 @@
           ],
           "loc": {
             "start": {
-              "line": 307,
+              "line": 338,
               "column": 2
             },
             "end": {
-              "line": 312,
+              "line": 343,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 313,
+                "line": 344,
                 "column": 2
               },
               "end": {
-                "line": 321,
+                "line": 352,
                 "column": 3
               }
             },
@@ -2847,22 +2847,22 @@
     ],
     "loc": {
       "start": {
-        "line": 68,
+        "line": 69,
         "column": 0
       },
       "end": {
-        "line": 111,
+        "line": 112,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 113,
+          "line": 114,
           "column": 0
         },
         "end": {
-          "line": 465,
+          "line": 467,
           "column": 1
         }
       },
@@ -2942,22 +2942,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 343,
+              "line": 344,
               "column": 2
             },
             "end": {
-              "line": 345,
+              "line": 346,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 346,
+                "line": 347,
                 "column": 2
               },
               "end": {
-                "line": 350,
+                "line": 351,
                 "column": 3
               }
             },
@@ -3056,22 +3056,22 @@
           ],
           "loc": {
             "start": {
-              "line": 353,
+              "line": 354,
               "column": 2
             },
             "end": {
-              "line": 357,
+              "line": 358,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 358,
+                "line": 359,
                 "column": 2
               },
               "end": {
-                "line": 381,
+                "line": 382,
                 "column": 3
               }
             },
@@ -3277,22 +3277,22 @@
           ],
           "loc": {
             "start": {
-              "line": 384,
+              "line": 385,
               "column": 2
             },
             "end": {
-              "line": 387,
+              "line": 388,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 388,
+                "line": 389,
                 "column": 2
               },
               "end": {
-                "line": 404,
+                "line": 405,
                 "column": 3
               }
             },
@@ -3456,22 +3456,22 @@
           ],
           "loc": {
             "start": {
-              "line": 407,
+              "line": 408,
               "column": 2
             },
             "end": {
-              "line": 412,
+              "line": 413,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 413,
+                "line": 414,
                 "column": 2
               },
               "end": {
-                "line": 419,
+                "line": 420,
                 "column": 3
               }
             },
@@ -3747,22 +3747,22 @@
           ],
           "loc": {
             "start": {
-              "line": 422,
+              "line": 423,
               "column": 2
             },
             "end": {
-              "line": 427,
+              "line": 428,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 428,
+                "line": 429,
                 "column": 2
               },
               "end": {
-                "line": 434,
+                "line": 435,
                 "column": 3
               }
             },
@@ -4024,22 +4024,22 @@
           ],
           "loc": {
             "start": {
-              "line": 437,
+              "line": 438,
               "column": 2
             },
             "end": {
-              "line": 440,
+              "line": 441,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 441,
+                "line": 442,
                 "column": 2
               },
               "end": {
-                "line": 446,
+                "line": 447,
                 "column": 3
               }
             },
@@ -4189,22 +4189,22 @@
           ],
           "loc": {
             "start": {
-              "line": 449,
+              "line": 450,
               "column": 2
             },
             "end": {
-              "line": 452,
+              "line": 453,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 453,
+                "line": 454,
                 "column": 2
               },
               "end": {
-                "line": 463,
+                "line": 465,
                 "column": 3
               }
             },
@@ -4432,7 +4432,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -4441,8 +4441,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 56,
-                        "offset": 55
+                        "column": 557,
+                        "offset": 556
                       },
                       "indent": []
                     }
@@ -4456,8 +4456,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 56,
-                    "offset": 55
+                    "column": 557,
+                    "offset": 556
                   },
                   "indent": []
                 }
@@ -4471,8 +4471,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 56,
-                "offset": 55
+                "column": 557,
+                "offset": 556
               }
             }
           },
@@ -4490,11 +4490,16 @@
               "lineNumber": 3,
               "type": null,
               "name": "channels"
+            },
+            {
+              "title": "example",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );",
+              "lineNumber": 4
             }
           ],
           "loc": {
             "start": {
-              "line": 148,
+              "line": 146,
               "column": 2
             },
             "end": {
@@ -4627,6 +4632,11 @@
                   }
                 }
               }
+            }
+          ],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
             }
           ],
           "name": "connect",
@@ -6677,7 +6687,7 @@
           "column": 0
         },
         "end": {
-          "line": 148,
+          "line": 150,
           "column": 1
         }
       },
@@ -6710,7 +6720,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -6719,8 +6729,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 56,
-                        "offset": 55
+                        "column": 557,
+                        "offset": 556
                       },
                       "indent": []
                     }
@@ -6734,8 +6744,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 56,
-                    "offset": 55
+                    "column": 557,
+                    "offset": 556
                   },
                   "indent": []
                 }
@@ -6749,8 +6759,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 56,
-                "offset": 55
+                "column": 557,
+                "offset": 556
               }
             }
           },
@@ -6761,6 +6771,11 @@
               "lineNumber": 2,
               "type": null,
               "name": "node"
+            },
+            {
+              "title": "example",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );",
+              "lineNumber": 3
             }
           ],
           "loc": {
@@ -6769,18 +6784,18 @@
               "column": 2
             },
             "end": {
-              "line": 114,
+              "line": 116,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 116,
+                "line": 118,
                 "column": 2
               },
               "end": {
-                "line": 126,
+                "line": 128,
                 "column": 3
               }
             },
@@ -6842,6 +6857,11 @@
                   }
                 }
               }
+            }
+          ],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
             }
           ],
           "name": "connect",
@@ -6922,22 +6942,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 128,
+              "line": 130,
               "column": 2
             },
             "end": {
-              "line": 130,
+              "line": 132,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 131,
+                "line": 133,
                 "column": 2
               },
               "end": {
-                "line": 137,
+                "line": 139,
                 "column": 3
               }
             },
@@ -13464,7 +13484,7 @@
           "column": 0
         },
         "end": {
-          "line": 132,
+          "line": 134,
           "column": 1
         }
       },
@@ -13497,7 +13517,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -13506,8 +13526,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 56,
-                        "offset": 55
+                        "column": 557,
+                        "offset": 556
                       },
                       "indent": []
                     }
@@ -13521,8 +13541,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 56,
-                    "offset": 55
+                    "column": 557,
+                    "offset": 556
                   },
                   "indent": []
                 }
@@ -13536,8 +13556,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 56,
-                "offset": 55
+                "column": 557,
+                "offset": 556
               }
             }
           },
@@ -13548,6 +13568,11 @@
               "lineNumber": 2,
               "type": null,
               "name": "node"
+            },
+            {
+              "title": "example",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );",
+              "lineNumber": 3
             }
           ],
           "loc": {
@@ -13556,18 +13581,18 @@
               "column": 2
             },
             "end": {
-              "line": 105,
+              "line": 107,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 106,
+                "line": 108,
                 "column": 2
               },
               "end": {
-                "line": 113,
+                "line": 115,
                 "column": 3
               }
             },
@@ -13629,6 +13654,11 @@
                   }
                 }
               }
+            }
+          ],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
             }
           ],
           "name": "connect",
@@ -13709,22 +13739,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 115,
+              "line": 117,
               "column": 2
             },
             "end": {
-              "line": 117,
+              "line": 119,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 118,
+                "line": 120,
                 "column": 2
               },
               "end": {
-                "line": 121,
+                "line": 123,
                 "column": 3
               }
             },
@@ -14797,7 +14827,7 @@
           "column": 0
         },
         "end": {
-          "line": 91,
+          "line": 116,
           "column": 1
         }
       },
