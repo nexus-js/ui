@@ -863,7 +863,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var util = __webpack_require__(8);
 	var touch = __webpack_require__(9);
-	//let parseCSS = require('../util/cssparse');
 	var EventEmitter = __webpack_require__(10);
 	
 	/**
@@ -942,13 +941,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	
-	        //  parseCSS.parseSize(this.parent);
-	
 	        // size
-	
-	        /*  this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('width').replace('px',''));
-	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('height').replace('px',''));
-	          console.log(this.width,this.height) */
 	
 	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
 	          this.width = settings.size[0];
@@ -973,56 +966,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.width = settings.size[0];
 	          this.height = settings.size[1];
 	        }
-	
-	        /* orig
-	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
-	          this.width = settings.size[0];
-	          this.height = settings.size[1];
-	          this.parent.style.width = this.width + 'px';
-	          this.parent.style.height = this.height + 'px';
-	        } else if (settings.snapWithParent) {
-	          this.width = parseFloat(this.parent.style.width);
-	          this.height = parseFloat(this.parent.style.height);
-	           if (!this.width) {
-	            this.width = parseFloat(this.parent.width);
-	          }
-	          if (!this.height) {
-	            this.height = parseFloat(this.parent.height);
-	          }
-	           if (this.parent.style.width) {
-	            if (this.parent.style.width.indexOf('%')>0) {
-	              this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('width').replace('px',''));
-	            }
-	          }
-	          if (this.parent.width) {
-	            if (this.parent.width.indexOf('%')>0) {
-	              this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('width').replace('px',''));
-	            }
-	          }
-	           if (this.parent.style.height) {
-	            if (this.parent.style.height.indexOf('%')>0) {
-	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('height').replace('px',''));
-	            }
-	          }
-	          if (this.parent.height) {
-	            if (this.parent.height.indexOf('%')>0) {
-	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('height').replace('px',''));
-	            }
-	          }
-	           if (!this.width) {
-	            this.width = settings.defaultSize[0];
-	          //  this.parent.style.width = this.width + 'px';
-	          }
-	          if (!this.height) {
-	            this.height = settings.defaultSize[1];
-	          //  this.parent.style.height = this.height + 'px';
-	          }
-	        } else {
-	          settings.size = settings.defaultSize;
-	          this.width = settings.size[0];
-	          this.height = settings.size[1];
-	        }
-	         */
 	
 	        // event
 	        if (settings.event) {
@@ -1110,6 +1053,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.click();
 	        this.moveEvent = document.addEventListener("mousemove", this.boundPreMove);
 	        this.releaseEvent = document.addEventListener("mouseup", this.boundPreRelease);
+	        this.emit("click");
 	        e.preventDefault();
 	        e.stopPropagation();
 	      }
@@ -1135,6 +1079,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.mouse = dom.locateMouse(e, this.offset);
 	        this.clicked = false;
 	        this.release();
+	        this.emit("release");
 	        document.removeEventListener("mousemove", this.boundPreMove);
 	        document.removeEventListener("mouseup", this.boundPreRelease);
 	        e.preventDefault();
@@ -1162,6 +1107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.mouse = dom.locateTouch(e, this.offset);
 	        this.clicked = true;
 	        this.touch(e);
+	        this.emit("click");
 	        e.preventDefault();
 	        e.stopPropagation();
 	      }
@@ -1181,6 +1127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.mouse = dom.locateTouch(e, this.offset);
 	        this.clicked = false;
 	        this.touchRelease();
+	        this.emit("release");
 	        e.preventDefault();
 	        e.stopPropagation();
 	      }
@@ -1234,7 +1181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      * Remove the interface from the page and cancel its event listener(s).
 	      *
 	      * @example
-	      * button.destroy());
+	      * button.destroy();
 	      */
 	
 	      value: function destroy() {

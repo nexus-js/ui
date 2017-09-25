@@ -365,7 +365,7 @@
        <h5>Listening for Interaction Events</h5>
 
        <p>
-         Every NexusUI interface fires an event function when the interface is interacted with or changed programatically through the interface's API.
+         Every NexusUI interface fires an event function when the interface is interacted with or changed programatically through the interface's API. If you use Node.JS, this syntax should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
        </p>
 
        <pre><code class="language-js">
@@ -376,9 +376,21 @@ dial.on('change',function(v) {
 });
        </code></pre>
 
-       <p>
-         If you use Node.JS, this should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
-       </p>
+        <p>
+          Many of the core interfaces also fire events on mouse click and mouse release. The following interfaces accept click and release events: button, dial, number, pan, pan2d, position, slider, textbutton, toggle. We hope to develop this feature for all interfaces in the future.
+        </p>
+
+        <pre><code class="language-js">
+ var slider = new Nexus.Slider("#slider");
+
+ slider.on('click',function() {
+   console.log('clicked!');
+ });
+
+ slider.on('release',function() {
+   console.log('released');
+ });
+        </code></pre>
 
     <!--   <p>
         Example:
