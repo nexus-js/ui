@@ -7678,7 +7678,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        if (!this.hasMoved) {
 	          this.nodes[this.selected].destroy();
-	          this.nodes.splice(this.selected, 1);
 	        }
 	
 	        this.calculatePoints();
@@ -7774,15 +7773,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.sortPoints();
 	
 	        for (var i = 0; i < this.nodes.length; i++) {
-	          console.log("====");
-	          console.log(i, x);
 	          if (x < this.nodes[i].x) {
 	            index = i;
 	            break;
 	          }
 	        }
-	
-	        console.log(index);
 	
 	        this.nodes.splice(index, 0, new Point({
 	          x: x,
