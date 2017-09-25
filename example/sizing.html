@@ -26,33 +26,15 @@ body {
 }
 [nexus-ui] {
   margin:10px;
-  float:left;
 }
 #target {
   width:500px;
-  height:500px;
-  border:dashed 2px #333;
+  height:40px;
 }
 </style>
 <script>
 
-  var thing = new Nexus.Add.Number('#target',{
-    size: [100,100]
-  })
-
-  thing.on('change',function(v) {
-    console.log(v)
-  })
-
-  thing.on('click',function() {
-    console.log('down')
-  })
-
-  thing.on('release',function() {
-    console.log('up')
-  })
-
-
+  var thing = new Nexus.Slider('#target')
 
 </script>
 </html>

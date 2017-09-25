@@ -4,7 +4,7 @@
   <meta charset='utf-8' />
   <title>NexusUI API</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
-  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
   <link href="https://fonts.googleapis.com/css?family=Muli:400,700" rel="stylesheet">
   <script src="js/jquery.js"></script>
   <link rel='stylesheet' href='prism/prism.css' />
@@ -294,7 +294,7 @@
        <h5>Creating an Interface</h5>
 
        <p>
-         You can transform regular HTML elements into NexusUI interfaces.
+         You can transform regular HTML elements into NexusUI interfaces (&lt;div&gt; is recommended). By default, the interface component will adopt the height and width of the target element as specified in your CSS or in the element's style. Alternatively, you can specify the interface component's size in JavaScript when you create it (see the API for each interface).
        </p>
 
        <pre><code class="language-html">
@@ -315,8 +315,44 @@
        </code></pre>
 
        <p>
-        <b>Tip: you can also transform many elements at once by <a href="#rack">creating a rack</a> </b>.
+        You can also transform many elements at once by <a href="#rack">creating a rack</a>.
        </p>
+
+
+
+
+      <h5>Dynamically Adding and Removing Interfaces</h5>
+
+      <p>
+        You can also dynamically add interfaces to your page at any point using <b>Nexus.Add</b>. This lets you add many interfaces to the same parent element. You can later remove the interface using the interface's <b>.destroy()</b> method.
+      </p>
+
+      <pre><code class="language-html">
+&lt;html&gt;
+ &lt;head&gt;
+   &lt;script src="path/to/NexusUI.js"&gt;&lt;/script&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+
+   &lt;div id="instrument"&gt;&lt;/div&gt;
+
+   &lt;script&gt;
+     var dial = Nexus.Add.Dial('#instrument',{
+       'size': [100,100]
+     });
+
+     var slider = Nexus.Add.Slider('#instrument',{
+       'size': [25,100]
+     });
+
+     // then, to remove them tlater
+     dial.destroy();
+     slider.destroy();
+   &lt;/script&gt;
+
+ &lt;/body&gt;
+&lt;/html&gt;
+      </code></pre>
 
 <!--
        <p data-height="265" data-theme-id="0" data-slug-hash="GmEJVL" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Basic Dial" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/GmEJVL/">Basic Dial</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
@@ -329,7 +365,7 @@
        <h5>Listening for Interaction Events</h5>
 
        <p>
-         Every NexusUI interface fires an event function when the interface is interacted with or changed programatically through the interface's API.
+         Every NexusUI interface fires an event function when the interface is interacted with or changed programatically through the interface's API. If you use Node.JS, this syntax should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
        </p>
 
        <pre><code class="language-js">
@@ -340,9 +376,21 @@ dial.on('change',function(v) {
 });
        </code></pre>
 
-       <p>
-         If you use Node.JS, this should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
-       </p>
+        <p>
+          Many of the core interfaces also fire events on mouse click and mouse release. The following interfaces accept click and release events: button, dial, number, pan, pan2d, position, slider, textbutton, toggle. We hope to develop this feature for all interfaces in the future.
+        </p>
+
+        <pre><code class="language-js">
+ var slider = new Nexus.Slider("#slider");
+
+ slider.on('click',function() {
+   console.log('clicked!');
+ });
+
+ slider.on('release',function() {
+   console.log('released');
+ });
+        </code></pre>
 
     <!--   <p>
         Example:
@@ -476,7 +524,6 @@ dial.on('change',function(v) {
 -->
             <br /><br />
 
-            <div style="font-size:1.1em">
 
               First, create an element that will be the container of the rack.
               <br /><br />
@@ -486,8 +533,10 @@ dial.on('change',function(v) {
 <br /><br />
               In your JavaScript, use <b>new Nexus.Rack("#containerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>nexus-ui</b> attributes will be transformed into interface elements.
 
-              <p>
 
+              <h5>Using a Custom Attribute</h5>
+
+              <p>
                 Nexus.Rack optionally lets you specify which attribute to look for ('nexus-ui' by default). This is useful for using NexusUI with React, which requires <i>data-</i> attribute prefixes.
               </p>
 
@@ -515,7 +564,8 @@ dial.on('change',function(v) {
 
               <br /><br />
 
-              Rack methods:<br />
+              <h5>Rack Methods</h5>
+
               <b>.hide()</b><br />
               <b>.show()</b><br />
               <b>.colorize()</b> (See <a href="#colors">changing colors</a>)
@@ -1523,7 +1573,9 @@ drunk.value = 500   // jumps to this value
   var Unformatted = {}
   var API = {}
   var Helpers = []
-  Nexus.context.close();
+  if (Nexus.context.close) {
+    Nexus.context.close();
+  }
   Nexus.context = Tone.context;
 
 
@@ -1602,7 +1654,7 @@ drunk.value = 500   // jumps to this value
       //get inherited members
       if (unformatted.augments) {
         for (var i=0; i<unformatted.augments.length;i++) {
-          let name = unformatted.augments[i].name
+          var name = unformatted.augments[i].name
           if (name != "EventEmitter") {
             members = members.concat(Unformatted[name].members.instance)
             if (Unformatted[name].augments) {
@@ -1720,10 +1772,9 @@ drunk.value = 500   // jumps to this value
     window.addEventListener("hashchange", function() {
       var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
       load(hash);
-      window.scrollTo(0,0);
       toggleSidebar(false);
+      window.scrollTo(0,0);
     }, false);
-
 
   });
 
@@ -1862,6 +1913,8 @@ drunk.value = 500   // jumps to this value
     } else if (LoadLinks.Helper.indexOf(name)>=0) {
       helper(name);
     }
+    window.scrollTo(0,0);
+    document.getElementById("target").scrollTop = 0
   }
 
   var menuOpen = false;
@@ -1900,6 +1953,7 @@ drunk.value = 500   // jumps to this value
     width:225px;
     padding:10px 15px 15px;
     box-sizing:border-box;
+    z-index:5;
   }
   #tutorial {
     margin-left:225px;
@@ -2081,6 +2135,7 @@ drunk.value = 500   // jumps to this value
       top:0px;
       right:0px;
       width:100%;
+      height:32px;
     }
     #menu-tab img {
       float:right;
@@ -2112,4 +2167,19 @@ drunk.value = 500   // jumps to this value
   }
 
 </style>
+<script>
+window.scrollTo(0,0);
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-42209714-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
 </html>

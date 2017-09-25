@@ -36,23 +36,12 @@ body {
 </style>
 <script>
 
-  var thing = new Nexus.Add.Number('#target',{
-    size: [100,100]
-  })
-
-  thing.on('change',function(v) {
-    console.log(v)
-  })
-
-  thing.on('click',function() {
-    console.log('down')
-  })
-
-  thing.on('release',function() {
-    console.log('up')
-  })
-
-
+  for (var i=0;i<10;i++) {
+    var thing = new Nexus.Add.Dial('#target',{
+      size: [100,100],
+      value: i*0.1
+    })
+  }
 
 </script>
 </html>

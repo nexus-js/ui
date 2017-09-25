@@ -111,8 +111,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this[key] = Interfaces[key];
 	    }
 	
-	    for (var _key in math) {
-	      this[_key] = math[_key];
+	    for (var key in math) {
+	      this[key] = math[key];
 	    }
 	
 	    var Core = {
@@ -127,12 +127,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      Matrix: Matrix
 	    };
 	
-	    for (var _key2 in Models) {
-	      this[_key2] = Models[_key2];
+	    for (var key in Models) {
+	      this[key] = Models[key];
 	    }
 	
-	    for (var _key3 in Core) {
-	      this[_key3] = Core[_key3];
+	    for (var key in Core) {
+	      this[key] = Core[key];
 	    }
 	
 	    var DefaultContext = window.AudioContext || window.webkitAudioContext;
@@ -156,6 +156,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.transform = Transform;
 	    this.add = Transform.add;
+	
+	    this.Add = {};
+	    for (var key in Interfaces) {
+	      this.Add[key] = Transform.add.bind(this, key);
+	    }
+	
+	    /* create default component size */
+	    /* jshint ignore:start */
+	    var existingStylesheets = document.getElementsByTagName("style");
+	    var defaultSizeDeclaration = "[nexus-ui]{height:5000px;width:5000px}";
+	    var defaultStyleNode = document.createElement("style");
+	    defaultStyleNode.type = "text/css";
+	    defaultStyleNode.innerHTML = defaultSizeDeclaration;
+	    if (existingStylesheets.length > 0) {
+	      var parent = existingStylesheets[0].parentNode;
+	      parent.insertBefore(defaultStyleNode, existingStylesheets[0]);
+	    } else {
+	      document.write("<style>" + defaultSizeDeclaration + "</style>");
+	    }
+	    /* jshint ignore:end */
 	  }
 	
 	  _createClass(NexusUI, {
@@ -187,8 +207,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Position: __webpack_require__(3),
 	  Slider: __webpack_require__(14),
 	  Toggle: __webpack_require__(15),
-	  //  Range: require('./range'),
-	  //  Waveform: require('./waveform'),
+	  /*  Range: require('./rangeslider'),
+	    Waveform: require('./waveform'), */
 	  Button: __webpack_require__(16),
 	  TextButton: __webpack_require__(18),
 	  RadioButton: __webpack_require__(19),
@@ -922,57 +942,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        // size
+	
 	        if (settings.size && Array.isArray(settings.size) && settings.snapWithParent) {
 	          this.width = settings.size[0];
 	          this.height = settings.size[1];
 	          this.parent.style.width = this.width + "px";
 	          this.parent.style.height = this.height + "px";
-	        } else if (settings.snapWithParent) {
-	          this.width = parseFloat(this.parent.style.width);
-	          this.height = parseFloat(this.parent.style.height);
+	        } else if (settings.snapWithParent && !settings.component) {
 	
-	          if (!this.width) {
-	            this.width = parseFloat(this.parent.width);
-	          }
-	          if (!this.height) {
-	            this.height = parseFloat(this.parent.height);
-	          }
+	          this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
+	          this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
 	
-	          if (this.parent.style.width) {
-	            if (this.parent.style.width.indexOf("%") > 0) {
-	              this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
-	            }
-	          }
-	          if (this.parent.width) {
-	            if (this.parent.width.indexOf("%") > 0) {
-	              this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("width").replace("px", ""));
-	            }
-	          }
-	
-	          if (this.parent.style.height) {
-	            if (this.parent.style.height.indexOf("%") > 0) {
-	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
-	            }
-	          }
-	          if (this.parent.height) {
-	            if (this.parent.height.indexOf("%") > 0) {
-	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue("height").replace("px", ""));
-	            }
-	          }
-	
-	          /*  if (this.parent.style.height.indexOf("%")>0 || this.parent.height.indexOf("%")>0) {
-	              this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('height').replace('px',''));
-	            } */
-	
-	          //    this.width = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('width').replace('px',''));
-	          //    this.height = parseFloat(window.getComputedStyle(this.parent, null).getPropertyValue('height').replace('px',''));
-	          if (!this.width) {
+	          if (this.width == 5000) {
 	            this.width = settings.defaultSize[0];
-	            this.parent.style.width = this.width + "px";
+	            this.parent.style.width = this.parent.width = this.width + "px";
 	          }
-	          if (!this.height) {
+	          if (this.height == 5000) {
 	            this.height = settings.defaultSize[1];
-	            this.parent.style.height = this.height + "px";
+	            this.parent.style.height = this.parent.height = this.height + "px";
 	          }
 	        } else {
 	          settings.size = settings.defaultSize;
@@ -1066,6 +1053,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.click();
 	        this.moveEvent = document.addEventListener("mousemove", this.boundPreMove);
 	        this.releaseEvent = document.addEventListener("mouseup", this.boundPreRelease);
+	        this.emit("click");
 	        e.preventDefault();
 	        e.stopPropagation();
 	      }
@@ -1091,6 +1079,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.mouse = dom.locateMouse(e, this.offset);
 	        this.clicked = false;
 	        this.release();
+	        this.emit("release");
 	        document.removeEventListener("mousemove", this.boundPreMove);
 	        document.removeEventListener("mouseup", this.boundPreRelease);
 	        e.preventDefault();
@@ -1118,6 +1107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.mouse = dom.locateTouch(e, this.offset);
 	        this.clicked = true;
 	        this.touch(e);
+	        this.emit("click");
 	        e.preventDefault();
 	        e.stopPropagation();
 	      }
@@ -1137,6 +1127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.mouse = dom.locateTouch(e, this.offset);
 	        this.clicked = false;
 	        this.touchRelease();
+	        this.emit("release");
 	        e.preventDefault();
 	        e.stopPropagation();
 	      }
@@ -1190,7 +1181,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      * Remove the interface from the page and cancel its event listener(s).
 	      *
 	      * @example
-	      * button.destroy());
+	      * button.destroy();
 	      */
 	
 	      value: function destroy() {
@@ -7418,11 +7409,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	  };
 	
-	  this.move(this.x, this.y);
+	  this.move(this.x, this.y, true);
 	  this.resize();
 	
 	  this.destroy = function () {
 	    this.envelope.element.removeChild(this.element);
+	    this.envelope.nodes.splice(this.envelope.nodes.indexOf(this), 1);
 	  };
 	};
 	
@@ -7633,7 +7625,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        if (!this.hasMoved) {
 	          this.nodes[this.selected].destroy();
-	          this.nodes.splice(this.selected, 1);
 	        }
 	
 	        this.calculatePoints();
@@ -7724,7 +7715,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function addPoint(x, y) {
-	        var index = 0;
+	        var index = this.nodes.length;
 	
 	        this.sortPoints();
 	
@@ -7831,9 +7822,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function setPoints(allPoints) {
 	        var _this = this;
 	
-	        this.nodes.forEach(function (point) {
-	          point.destroy();
-	        });
+	        while (this.nodes.length) {
+	          this.nodes[0].destroy();
+	        }
 	        allPoints.forEach(function (point) {
 	          _this.addPoint(point.x, point.y);
 	        });
@@ -7971,8 +7962,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    connect: {
 	
 	      /**
-	      Equivalent to "patching in" an audio node to visualize.
+	      Equivalent to "patching in" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.
 	      @param node {AudioNode} The audio node to visualize
+	      @example Nexus.context = Tone.context // or another audio context you have created
+	      spectrogram.connect( Tone.Master );
 	      */
 	
 	      value: function connect(node) {
@@ -8173,9 +8166,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    connect: {
 	
 	      /**
-	      Equivalent to "patching in" an audio node to visualize.
+	      Equivalent to "patching in" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.
 	      @param node {AudioNode} The audio node to visualize
 	      @param channels {number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.
+	      @example Nexus.context = Tone.context // or another audio context you have created
+	      meter.connect( Tone.Master, 2 );
 	      */
 	
 	      value: function connect(node, channels) {
@@ -8363,8 +8358,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    connect: {
 	
 	      /**
-	      Equivalent to "patching in" an audio node to visualize.
+	      Equivalent to "patching in" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.
 	      @param node {AudioNode} The audio node to visualize
+	      @example Nexus.context = Tone.context // or another audio context you have created
+	      oscilloscope.connect( Tone.Master );
 	      */
 	
 	      value: function connect(node) {
@@ -8695,15 +8692,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return ui;
 	};
 	
-	var add = function (type, options) {
+	var add = function (type, parent, options) {
 	  var target = document.createElement("div");
-	  var parent = document.body;
-	  if (options) {
-	    parent = options.parent;
+	  options = options || {};
+	  if (parent) {
+	    parent = dom.parseElement(parent);
 	  } else {
-	    options = {};
+	    parent = document.body;
 	  }
-	  parent = dom.parseElement(parent);
 	  parent.appendChild(target);
 	  options.target = target;
 	  if (options.size) {
