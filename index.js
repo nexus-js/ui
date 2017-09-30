@@ -1,10 +1,9 @@
 'use strict';
 
 let NexusUI = require('./lib/main');
-let Nexus = new NexusUI();
 
 if (window) {
-  window.Nexus = Nexus;
+  window.Nexus = new NexusUI();
 }
 
-module.exports = Nexus;
+module.exports = NexusUI;

@@ -57,13 +57,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 	
 	var NexusUI = __webpack_require__(1);
-	var Nexus = new NexusUI();
 	
 	if (window) {
-	  window.Nexus = Nexus;
+	  window.Nexus = new NexusUI();
 	}
 	
-	module.exports = Nexus;
+	module.exports = NexusUI;
 
 /***/ }),
 /* 1 */
