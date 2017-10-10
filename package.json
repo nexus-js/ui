@@ -1,8 +1,8 @@
 {
   "name": "nexusui",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "NexusUI: Web Audio Interfaces",
-  "main": "index.js",
+  "main": "dist/NexusUI.js",
   "scripts": {
     "start": "script/build",
     "serve": "script/watch",
