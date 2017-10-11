@@ -1,6 +1,5 @@
 'use strict';
 
-let NexusUI = require('./lib/main');
-let Nexus = new NexusUI();
+import NexusUI from './lib/main';
 
-module.exports = Nexus;
+export default NexusUI;
