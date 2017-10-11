@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["NexusUI"] = factory();
+		exports["Nexus"] = factory();
 	else
-		root["NexusUI"] = factory();
+		root["Nexus"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -56,14 +56,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
-	var NexusUI = __webpack_require__(1);
-	var Nexus = new NexusUI();
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 	
-	if (window) {
-	  window.Nexus = Nexus;
-	}
+	var NexusUI = _interopRequire(__webpack_require__(1));
 	
-	module.exports = Nexus;
+	module.exports = NexusUI;
 
 /***/ }),
 /* 1 */
@@ -78,6 +75,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	exports.colors = colors;
+	exports.context = context;
+	exports.clock = clock;
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	"use strict";
 	
 	var Interfaces = _interopRequire(__webpack_require__(2));
 	
@@ -195,7 +200,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return NexusUI;
 	})();
 	
-	module.exports = NexusUI;
+	var Nexus = new NexusUI();
+	
+	function colors() {
+	  return Nexus.colors;
+	}
+	
+	function context() {
+	  return Nexus.context;
+	}
+	
+	function clock() {
+	  return Nexus.clock;
+	}
+	
+	exports["default"] = Nexus;
 
 /***/ }),
 /* 2 */
@@ -865,6 +884,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var touch = __webpack_require__(9);
 	var EventEmitter = __webpack_require__(10);
 	
+	var colors = __webpack_require__(1).colors;
+	
 	/**
 	Interface
 	*/
@@ -879,7 +900,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.mouse = {};
 	    this.wait = false;
 	    this.colors = {};
-	    var defaultColors = Nexus.colors; // jshint ignore:line
+	    var defaultColors = colors(); // jshint ignore:line
 	    this.colors.accent = defaultColors.accent;
 	    this.colors.fill = defaultColors.fill;
 	    this.colors.light = defaultColors.light;
@@ -7879,6 +7900,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	*/
 	
+	var context = __webpack_require__(1).context;
+	
 	var Spectrogram = (function (_Interface) {
 	  function Spectrogram() {
 	    _classCallCheck(this, Spectrogram);
@@ -7891,7 +7914,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Spectrogram.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = Nexus.context; // jshint ignore:line
+	    this.context = context(); // jshint ignore:line
 	
 	    this.analyser = this.context.createAnalyser();
 	    this.analyser.fftSize = 2048;
@@ -8045,6 +8068,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	*/
 	
+	var context = __webpack_require__(1).context;
+	
 	var Meter = (function (_Interface) {
 	  function Meter() {
 	    _classCallCheck(this, Meter);
@@ -8057,7 +8082,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Meter.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = Nexus.context; // jshint ignore:line
+	    this.context = context(); // jshint ignore:line
 	
 	    this.channels = 2;
 	
@@ -8264,6 +8289,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	*
 	*/
 	
+	var context = __webpack_require__(1).context;
+	
 	var Oscilloscope = (function (_Interface) {
 	  function Oscilloscope() {
 	    _classCallCheck(this, Oscilloscope);
@@ -8276,7 +8303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Oscilloscope.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = Nexus.context; // jshint ignore:line
+	    this.context = context(); // jshint ignore:line
 	
 	    this.analyser = this.context.createAnalyser();
 	    this.analyser.fftSize = 2048;
@@ -8463,6 +8490,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var dom = _interopRequire(__webpack_require__(7));
 	
+	var colors = __webpack_require__(1).colors;
+	
 	var Rack = (function () {
 	  function Rack(target, settings) {
 	    _classCallCheck(this, Rack);
@@ -8482,7 +8511,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.meta.open = false;
 	    }
 	
-	    var defaultColors = Nexus.colors; // jshint ignore:line
+	    var defaultColors = colors(); // jshint ignore:line
 	    this.meta.colors.accent = defaultColors.accent;
 	    this.meta.colors.fill = defaultColors.fill;
 	    this.meta.colors.light = defaultColors.light;
@@ -9489,7 +9518,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 45 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
@@ -9497,13 +9526,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
+	var clock = __webpack_require__(1).clock;
+	
 	var Interval = (function () {
 	  function Interval(rate, func, on) {
 	    _classCallCheck(this, Interval);
 	
 	    this.rate = rate;
 	    this.on = on;
-	    this.clock = Nexus.clock; // jshint ignore:line
+	    this.clock = clock(); // jshint ignore:line
 	
 	    this.pattern = [1];
 	    this.index = 0;
