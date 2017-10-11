@@ -3,7 +3,7 @@ module.exports = {
     output: {
         filename: './dist/NexusUI.js',
         sourceMapFilename: './dist/NexusUI.map',
-        library: 'NexusUI',
+        library: 'Nexus',
         libraryTarget: 'umd'
     },
     module: {
