@@ -5,7 +5,7 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo "${BLUE}Running in parallel:${NC} Webpack build, documentation.js build > api/api.json, and Python SimpleHTTPServer"
+echo "${BLUE}Running in parallel:${NC} \n**Webpack build, \n**documentation.js build > api/api.json, \n**Python SimpleHTTPServer"
 echo "${YELLOW}Warning:${NC} documentation.js does not display current build status. ${YELLOW}TODO:${NC} integrate into webpack configuration"
 webpack --watch --devtool inline-source-map & \
 node_modules/.bin/documentation build lib/** -f json -o api/api.json -w & \
