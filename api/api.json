@@ -74,7 +74,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
     },
     "augments": [
       {
@@ -201,7 +201,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -327,7 +327,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -504,7 +504,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -629,7 +629,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -775,7 +775,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -899,7 +899,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1023,7 +1023,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1147,7 +1147,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1271,7 +1271,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1361,26 +1361,26 @@
     "tags": [],
     "loc": {
       "start": {
-        "line": 9,
+        "line": 11,
         "column": 0
       },
       "end": {
-        "line": 11,
+        "line": 13,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 12,
+          "line": 14,
           "column": 0
         },
         "end": {
-          "line": 304,
+          "line": 306,
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/core/interface.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/core/interface.js"
     },
     "augments": [
       {
@@ -1393,17 +1393,17 @@
       {
         "title": "param",
         "name": "args",
-        "lineNumber": 14
+        "lineNumber": 16
       },
       {
         "title": "param",
         "name": "options",
-        "lineNumber": 14
+        "lineNumber": 16
       },
       {
         "title": "param",
         "name": "defaults",
-        "lineNumber": 14
+        "lineNumber": 16
       }
     ],
     "properties": [],
@@ -1493,26 +1493,26 @@
           ],
           "loc": {
             "start": {
-              "line": 255,
+              "line": 257,
               "column": 2
             },
             "end": {
-              "line": 262,
+              "line": 264,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 263,
+                "line": 265,
                 "column": 2
               },
               "end": {
-                "line": 271,
+                "line": 273,
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/core/interface.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1727,26 +1727,26 @@
           ],
           "loc": {
             "start": {
-              "line": 279,
+              "line": 281,
               "column": 2
             },
             "end": {
-              "line": 284,
+              "line": 286,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 285,
+                "line": 287,
                 "column": 2
               },
               "end": {
-                "line": 293,
+                "line": 295,
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/core/interface.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1902,7 +1902,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/button.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/button.js"
     },
     "augments": [
       {
@@ -2020,7 +2020,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/button.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/button.js"
           },
           "augments": [],
           "examples": [
@@ -2179,7 +2179,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
     },
     "augments": [
       {
@@ -2297,7 +2297,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2425,7 +2425,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2553,7 +2553,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2681,7 +2681,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2809,7 +2809,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2937,7 +2937,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -3093,7 +3093,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
     },
     "augments": [
       {
@@ -3196,7 +3196,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3320,7 +3320,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3552,7 +3552,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3741,7 +3741,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4044,7 +4044,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4333,7 +4333,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4508,7 +4508,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4709,18 +4709,13 @@
           "column": 0
         },
         "end": {
-          "line": 196,
-          "column": 1
+          "line": 29,
+          "column": 34
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/meter.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/meter.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
+    "augments": [],
     "examples": [
       {
         "description": "var meter = new Nexus.Meter('#target')"
@@ -4735,380 +4730,635 @@
     "sees": [],
     "throws": [],
     "todos": [],
-    "name": "Meter",
-    "kind": "class",
+    "name": "context",
     "members": {
       "global": [],
       "inner": [],
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 557,
-                        "offset": 556
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 557,
-                    "offset": 556
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 557,
-                "offset": 556
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "param",
-              "description": "{AudioNode} The audio node to visualize",
-              "lineNumber": 2,
-              "type": null,
-              "name": "node"
-            },
-            {
-              "title": "param",
-              "description": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
-              "lineNumber": 3,
-              "type": null,
-              "name": "channels"
-            },
-            {
-              "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );",
-              "lineNumber": 4
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 146,
-              "column": 2
-            },
-            "end": {
-              "line": 152,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 154,
-                "column": 2
-              },
-              "end": {
-                "line": 173,
-                "column": 3
-              }
-            },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/meter.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
-            }
-          ],
-          "params": [
-            {
-              "title": "param",
-              "name": "node",
-              "lineNumber": 2,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{AudioNode} The audio node to visualize",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 40,
-                            "offset": 39
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                }
-              }
-            },
-            {
-              "title": "param",
-              "name": "channels",
-              "lineNumber": 3,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 225,
-                            "offset": 224
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 225,
-                        "offset": 224
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 225,
-                    "offset": 224
-                  }
-                }
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "connect",
-          "kind": "function",
-          "memberof": "Meter",
-          "scope": "instance",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Meter",
-              "kind": "class"
-            },
-            {
-              "name": "connect",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Meter#connect"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Stop visualizing the source node and disconnect it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 52,
-                        "offset": 51
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 52,
-                    "offset": 51
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 52,
-                "offset": 51
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 175,
-              "column": 2
-            },
-            "end": {
-              "line": 177,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 178,
-                "column": 2
-              },
-              "end": {
-                "line": 185,
-                "column": 3
-              }
-            },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/meter.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "disconnect",
-          "kind": "function",
-          "memberof": "Meter",
-          "scope": "instance",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Meter",
-              "kind": "class"
-            },
-            {
-              "name": "disconnect",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Meter#disconnect"
-        }
-      ],
+      "instance": [],
       "events": [],
       "static": []
     },
     "path": [
       {
-        "name": "Meter",
-        "kind": "class"
+        "name": "context"
       }
     ],
-    "namespace": "Meter"
+    "namespace": "context"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Visualizes a waveform's stream of values.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 42,
+                  "offset": 41
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 42,
+              "offset": 41
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 42,
+          "offset": 41
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "Visualizes a waveform's stream of values.",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span nexus-ui=\"oscilloscope\"></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "&nbsp;\nNo events",
+        "lineNumber": 15
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 6,
+        "column": 0
+      },
+      "end": {
+        "line": 25,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 27,
+          "column": 0
+        },
+        "end": {
+          "line": 27,
+          "column": 34
+        }
+      },
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/oscilloscope.js"
+    },
+    "augments": [],
+    "examples": [
+      {
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
+      },
+      {
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
+      }
+    ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "context",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "context"
+      }
+    ],
+    "namespace": "context"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Audio spectrum visualization",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 29,
+                  "offset": 28
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 29,
+              "offset": 28
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 29,
+          "offset": 28
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "description",
+        "description": "Audio spectrum visualization",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span nexus-ui=\"spectrogram\"></span>",
+        "lineNumber": 5
+      },
+      {
+        "title": "example",
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "&nbsp;\nNo events",
+        "lineNumber": 15
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 7,
+        "column": 0
+      },
+      "end": {
+        "line": 26,
+        "column": 2
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 28,
+          "column": 0
+        },
+        "end": {
+          "line": 28,
+          "column": 34
+        }
+      },
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/spectrogram.js"
+    },
+    "augments": [],
+    "examples": [
+      {
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')"
+      },
+      {
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
+      }
+    ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "context",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "context"
+      }
+    ],
+    "namespace": "context"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 557,
+                  "offset": 556
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 557,
+              "offset": 556
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 557,
+          "offset": 556
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "param",
+        "description": "{AudioNode} The audio node to visualize",
+        "lineNumber": 2,
+        "type": null,
+        "name": "node"
+      },
+      {
+        "title": "param",
+        "description": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
+        "lineNumber": 3,
+        "type": null,
+        "name": "channels"
+      },
+      {
+        "title": "example",
+        "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );",
+        "lineNumber": 4
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 148,
+        "column": 2
+      },
+      "end": {
+        "line": 154,
+        "column": 4
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 156,
+          "column": 2
+        },
+        "end": {
+          "line": 175,
+          "column": 3
+        }
+      },
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/meter.js"
+    },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
+      }
+    ],
+    "params": [
+      {
+        "title": "param",
+        "name": "node",
+        "lineNumber": 2,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "{AudioNode} The audio node to visualize",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 40,
+                      "offset": 39
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 40,
+                  "offset": 39
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 40,
+              "offset": 39
+            }
+          }
+        }
+      },
+      {
+        "title": "param",
+        "name": "channels",
+        "lineNumber": 3,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 225,
+                      "offset": 224
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 225,
+                  "offset": 224
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 225,
+              "offset": 224
+            }
+          }
+        }
+      }
+    ],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "connect",
+    "kind": "function",
+    "memberof": "Meter",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "connect",
+        "kind": "function",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#connect"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Stop visualizing the source node and disconnect it.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 52,
+                  "offset": 51
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 52,
+              "offset": 51
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 52,
+          "offset": 51
+        }
+      }
+    },
+    "tags": [],
+    "loc": {
+      "start": {
+        "line": 177,
+        "column": 2
+      },
+      "end": {
+        "line": 179,
+        "column": 4
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 180,
+          "column": 2
+        },
+        "end": {
+          "line": 187,
+          "column": 3
+        }
+      },
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/meter.js"
+    },
+    "augments": [],
+    "examples": [],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "disconnect",
+    "kind": "function",
+    "memberof": "Meter",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "disconnect",
+        "kind": "function",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#disconnect"
   },
   {
     "description": {
@@ -5216,7 +5466,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
     },
     "augments": [
       {
@@ -5329,7 +5579,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5453,7 +5703,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5581,7 +5831,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5709,7 +5959,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5842,7 +6092,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6083,7 +6333,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6297,7 +6547,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
     },
     "augments": [
       {
@@ -6416,7 +6666,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6611,7 +6861,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6739,7 +6989,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6867,7 +7117,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6995,7 +7245,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7054,7 +7304,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Visualizes a waveform's stream of values.",
+              "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
               "position": {
                 "start": {
                   "line": 1,
@@ -7063,8 +7313,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 42,
-                  "offset": 41
+                  "column": 557,
+                  "offset": 556
                 },
                 "indent": []
               }
@@ -7078,8 +7328,8 @@
             },
             "end": {
               "line": 1,
-              "column": 42,
-              "offset": 41
+              "column": 557,
+              "offset": 556
             },
             "indent": []
           }
@@ -7093,391 +7343,242 @@
         },
         "end": {
           "line": 1,
-          "column": 42,
-          "offset": 41
+          "column": 557,
+          "offset": 556
         }
       }
     },
     "tags": [
       {
-        "title": "description",
-        "description": "Visualizes a waveform's stream of values.",
+        "title": "param",
+        "description": "{AudioNode} The audio node to visualize",
+        "lineNumber": 2,
+        "type": null,
+        "name": "node"
+      },
+      {
+        "title": "example",
+        "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );",
         "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span nexus-ui=\"oscilloscope\"></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})",
-        "lineNumber": 10
-      },
-      {
-        "title": "output",
-        "description": "&nbsp;\nNo events",
-        "lineNumber": 15
       }
     ],
     "loc": {
       "start": {
-        "line": 6,
-        "column": 0
+        "line": 113,
+        "column": 2
       },
       "end": {
-        "line": 25,
-        "column": 2
+        "line": 118,
+        "column": 4
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 27,
-          "column": 0
+          "line": 120,
+          "column": 2
         },
         "end": {
-          "line": 150,
-          "column": 1
+          "line": 130,
+          "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/oscilloscope.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/oscilloscope.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
+    "augments": [],
     "examples": [
       {
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
-      },
-      {
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
+        "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
       }
     ],
+    "params": [
+      {
+        "title": "param",
+        "name": "node",
+        "lineNumber": 2,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "{AudioNode} The audio node to visualize",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 40,
+                      "offset": 39
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 40,
+                  "offset": 39
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 40,
+              "offset": 39
+            }
+          }
+        }
+      }
+    ],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "connect",
+    "kind": "function",
+    "memberof": "Oscilloscope",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "connect",
+        "kind": "function",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#connect"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Stop visualizing the source node and disconnect it.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 52,
+                  "offset": 51
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 52,
+              "offset": 51
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 52,
+          "offset": 51
+        }
+      }
+    },
+    "tags": [],
+    "loc": {
+      "start": {
+        "line": 132,
+        "column": 2
+      },
+      "end": {
+        "line": 134,
+        "column": 4
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 135,
+          "column": 2
+        },
+        "end": {
+          "line": 141,
+          "column": 3
+        }
+      },
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/oscilloscope.js"
+    },
+    "augments": [],
+    "examples": [],
     "params": [],
     "properties": [],
     "returns": [],
     "sees": [],
     "throws": [],
     "todos": [],
-    "name": "Oscilloscope",
-    "kind": "class",
+    "name": "disconnect",
+    "kind": "function",
+    "memberof": "Oscilloscope",
+    "scope": "instance",
     "members": {
       "global": [],
       "inner": [],
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 557,
-                        "offset": 556
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 557,
-                    "offset": 556
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 557,
-                "offset": 556
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "param",
-              "description": "{AudioNode} The audio node to visualize",
-              "lineNumber": 2,
-              "type": null,
-              "name": "node"
-            },
-            {
-              "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );",
-              "lineNumber": 3
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 111,
-              "column": 2
-            },
-            "end": {
-              "line": 116,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 118,
-                "column": 2
-              },
-              "end": {
-                "line": 128,
-                "column": 3
-              }
-            },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/oscilloscope.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
-            }
-          ],
-          "params": [
-            {
-              "title": "param",
-              "name": "node",
-              "lineNumber": 2,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{AudioNode} The audio node to visualize",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 40,
-                            "offset": 39
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                }
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "connect",
-          "kind": "function",
-          "memberof": "Oscilloscope",
-          "scope": "instance",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Oscilloscope",
-              "kind": "class"
-            },
-            {
-              "name": "connect",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Oscilloscope#connect"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Stop visualizing the source node and disconnect it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 52,
-                        "offset": 51
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 52,
-                    "offset": 51
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 52,
-                "offset": 51
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 130,
-              "column": 2
-            },
-            "end": {
-              "line": 132,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 133,
-                "column": 2
-              },
-              "end": {
-                "line": 139,
-                "column": 3
-              }
-            },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/oscilloscope.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "disconnect",
-          "kind": "function",
-          "memberof": "Oscilloscope",
-          "scope": "instance",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Oscilloscope",
-              "kind": "class"
-            },
-            {
-              "name": "disconnect",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Oscilloscope#disconnect"
-        }
-      ],
+      "instance": [],
       "events": [],
       "static": []
     },
     "path": [
       {
-        "name": "Oscilloscope",
-        "kind": "class"
+        "name": "disconnect",
+        "kind": "function",
+        "scope": "instance"
       }
     ],
-    "namespace": "Oscilloscope"
+    "namespace": "#disconnect"
   },
   {
     "description": {
@@ -7580,7 +7681,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan.js"
     },
     "augments": [
       {
@@ -7690,7 +7791,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan.js"
           },
           "augments": [],
           "examples": [],
@@ -7842,7 +7943,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
     },
     "augments": [
       {
@@ -7945,7 +8046,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8052,7 +8153,7 @@
                 "column": 43
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8159,7 +8260,7 @@
                 "column": 37
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8266,7 +8367,7 @@
                 "column": 21
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8388,7 +8489,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8634,7 +8735,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8935,7 +9036,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
     },
     "augments": [],
     "examples": [],
@@ -9189,7 +9290,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
     },
     "augments": [
       {
@@ -9307,7 +9408,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9546,7 +9647,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9785,7 +9886,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10052,7 +10153,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
     },
     "augments": [
       {
@@ -10170,7 +10271,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10298,7 +10399,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10421,7 +10522,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10540,7 +10641,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10659,7 +10760,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10778,7 +10879,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10897,7 +10998,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11016,7 +11117,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11140,7 +11241,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -11296,7 +11397,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
     },
     "augments": [
       {
@@ -11407,7 +11508,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11574,7 +11675,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11694,7 +11795,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11908,7 +12009,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
     },
     "augments": [
       {
@@ -12022,7 +12123,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [],
@@ -12208,7 +12309,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12336,7 +12437,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12502,7 +12603,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
     },
     "augments": [
       {
@@ -12620,7 +12721,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [
@@ -12741,7 +12842,7 @@
                 "column": 64
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -12858,7 +12959,7 @@
                 "column": 76
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -12975,7 +13076,7 @@
                 "column": 52
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13093,7 +13194,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13264,7 +13365,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13373,7 +13474,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13492,7 +13593,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13611,7 +13712,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13763,7 +13864,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
     },
     "augments": [
       {
@@ -13881,7 +13982,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14009,7 +14110,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14137,7 +14238,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14265,7 +14366,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14393,7 +14494,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14452,7 +14553,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Audio spectrum visualization",
+              "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
               "position": {
                 "start": {
                   "line": 1,
@@ -14461,8 +14562,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 29,
-                  "offset": 28
+                  "column": 557,
+                  "offset": 556
                 },
                 "indent": []
               }
@@ -14476,8 +14577,8 @@
             },
             "end": {
               "line": 1,
-              "column": 29,
-              "offset": 28
+              "column": 557,
+              "offset": 556
             },
             "indent": []
           }
@@ -14491,391 +14592,242 @@
         },
         "end": {
           "line": 1,
-          "column": 29,
-          "offset": 28
+          "column": 557,
+          "offset": 556
         }
       }
     },
     "tags": [
       {
-        "title": "description",
-        "description": "Audio spectrum visualization",
+        "title": "param",
+        "description": "{AudioNode} The audio node to visualize",
+        "lineNumber": 2,
+        "type": null,
+        "name": "node"
+      },
+      {
+        "title": "example",
+        "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );",
         "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span nexus-ui=\"spectrogram\"></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var spectrogram = new Nexus.Spectrogram('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})",
-        "lineNumber": 10
-      },
-      {
-        "title": "output",
-        "description": "&nbsp;\nNo events",
-        "lineNumber": 15
       }
     ],
     "loc": {
       "start": {
-        "line": 7,
-        "column": 0
+        "line": 104,
+        "column": 2
       },
       "end": {
-        "line": 26,
-        "column": 2
+        "line": 109,
+        "column": 4
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 28,
-          "column": 0
+          "line": 110,
+          "column": 2
         },
         "end": {
-          "line": 134,
-          "column": 1
+          "line": 117,
+          "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/spectrogram.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/spectrogram.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
+    "augments": [],
     "examples": [
       {
-        "description": "var spectrogram = new Nexus.Spectrogram('#target')"
-      },
-      {
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
+        "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
       }
     ],
+    "params": [
+      {
+        "title": "param",
+        "name": "node",
+        "lineNumber": 2,
+        "description": {
+          "type": "root",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "{AudioNode} The audio node to visualize",
+                  "position": {
+                    "start": {
+                      "line": 1,
+                      "column": 1,
+                      "offset": 0
+                    },
+                    "end": {
+                      "line": 1,
+                      "column": 40,
+                      "offset": 39
+                    },
+                    "indent": []
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 40,
+                  "offset": 39
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 40,
+              "offset": 39
+            }
+          }
+        }
+      }
+    ],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "connect",
+    "kind": "function",
+    "memberof": "Spectrogram",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "connect",
+        "kind": "function",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#connect"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Stop visualizing the source node and disconnect it.",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 52,
+                  "offset": 51
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 52,
+              "offset": 51
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 52,
+          "offset": 51
+        }
+      }
+    },
+    "tags": [],
+    "loc": {
+      "start": {
+        "line": 119,
+        "column": 2
+      },
+      "end": {
+        "line": 121,
+        "column": 4
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 122,
+          "column": 2
+        },
+        "end": {
+          "line": 125,
+          "column": 3
+        }
+      },
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/spectrogram.js"
+    },
+    "augments": [],
+    "examples": [],
     "params": [],
     "properties": [],
     "returns": [],
     "sees": [],
     "throws": [],
     "todos": [],
-    "name": "Spectrogram",
-    "kind": "class",
+    "name": "disconnect",
+    "kind": "function",
+    "memberof": "Spectrogram",
+    "scope": "instance",
     "members": {
       "global": [],
       "inner": [],
-      "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 557,
-                        "offset": 556
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 557,
-                    "offset": 556
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 557,
-                "offset": 556
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "param",
-              "description": "{AudioNode} The audio node to visualize",
-              "lineNumber": 2,
-              "type": null,
-              "name": "node"
-            },
-            {
-              "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );",
-              "lineNumber": 3
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 102,
-              "column": 2
-            },
-            "end": {
-              "line": 107,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 108,
-                "column": 2
-              },
-              "end": {
-                "line": 115,
-                "column": 3
-              }
-            },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/spectrogram.js"
-          },
-          "augments": [],
-          "examples": [
-            {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
-            }
-          ],
-          "params": [
-            {
-              "title": "param",
-              "name": "node",
-              "lineNumber": 2,
-              "description": {
-                "type": "root",
-                "children": [
-                  {
-                    "type": "paragraph",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "{AudioNode} The audio node to visualize",
-                        "position": {
-                          "start": {
-                            "line": 1,
-                            "column": 1,
-                            "offset": 0
-                          },
-                          "end": {
-                            "line": 1,
-                            "column": 40,
-                            "offset": 39
-                          },
-                          "indent": []
-                        }
-                      }
-                    ],
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 40,
-                        "offset": 39
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 40,
-                    "offset": 39
-                  }
-                }
-              }
-            }
-          ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "connect",
-          "kind": "function",
-          "memberof": "Spectrogram",
-          "scope": "instance",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Spectrogram",
-              "kind": "class"
-            },
-            {
-              "name": "connect",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Spectrogram#connect"
-        },
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "Stop visualizing the source node and disconnect it.",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 52,
-                        "offset": 51
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 52,
-                    "offset": 51
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 52,
-                "offset": 51
-              }
-            }
-          },
-          "tags": [],
-          "loc": {
-            "start": {
-              "line": 117,
-              "column": 2
-            },
-            "end": {
-              "line": 119,
-              "column": 4
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 120,
-                "column": 2
-              },
-              "end": {
-                "line": 123,
-                "column": 3
-              }
-            },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/spectrogram.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "disconnect",
-          "kind": "function",
-          "memberof": "Spectrogram",
-          "scope": "instance",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Spectrogram",
-              "kind": "class"
-            },
-            {
-              "name": "disconnect",
-              "kind": "function",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Spectrogram#disconnect"
-        }
-      ],
+      "instance": [],
       "events": [],
       "static": []
     },
     "path": [
       {
-        "name": "Spectrogram",
-        "kind": "class"
+        "name": "disconnect",
+        "kind": "function",
+        "scope": "instance"
       }
     ],
-    "namespace": "Spectrogram"
+    "namespace": "#disconnect"
   },
   {
     "description": {
@@ -14983,7 +14935,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/textbutton.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/textbutton.js"
     },
     "augments": [
       {
@@ -15096,7 +15048,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/textbutton.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15215,7 +15167,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/textbutton.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15362,7 +15314,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/tilt.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/tilt.js"
     },
     "augments": [
       {
@@ -15472,7 +15424,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/tilt.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/tilt.js"
           },
           "augments": [],
           "examples": [],
@@ -15624,7 +15576,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/toggle.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/toggle.js"
     },
     "augments": [
       {
@@ -15742,7 +15694,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/toggle.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -15861,7 +15813,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/toggle.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -15986,7 +15938,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/main.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/main.js"
     },
     "augments": [],
     "examples": [],
@@ -16146,7 +16098,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
     },
     "augments": [],
     "examples": [],
@@ -16432,7 +16384,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16539,7 +16491,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16646,7 +16598,7 @@
                 "column": 40
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16753,7 +16705,7 @@
                 "column": 38
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16860,7 +16812,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16969,7 +16921,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17099,7 +17051,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17409,7 +17361,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
     },
     "augments": [],
     "examples": [],
@@ -17768,7 +17720,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -17898,7 +17850,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18017,7 +17969,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
+            "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18183,7 +18135,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -18601,7 +18553,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19101,7 +19053,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19377,7 +19329,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19745,7 +19697,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19939,7 +19891,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20205,7 +20157,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20532,7 +20484,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20849,7 +20801,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21135,7 +21087,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21578,7 +21530,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
