@@ -1584,7 +1584,7 @@ drunk.value = 500   // jumps to this value
       Unformatted[entry.name] = entry
     })
 
-
+    
     // Parse Helper doc into Helpers object
     for (var key in Unformatted) {
       if ( LoadLinks.Helper.indexOf(key) >=0 ) {
@@ -1599,8 +1599,8 @@ drunk.value = 500   // jumps to this value
           },
           example: unformatted.examples[0].description,
         }
-        var params = []
-        if (entry.parameters) {
+        if (entry.parameters && entry.parameters.length>0) {
+          let params = []
           entry.parameters.forEach(function(param) {
             params.push({
               name: param.name,
@@ -1609,7 +1609,7 @@ drunk.value = 500   // jumps to this value
             })
           })
           entry.parameters = params
-          entry.parameters[ entry.parameters.length - 1 ].last = true;
+          entry.parameters[ entry.parameters.length - 1 ].last = true
         }
         Helpers.push(entry);
       }
@@ -1690,14 +1690,14 @@ drunk.value = 500   // jumps to this value
             }
           }
           /*  parameters */
-          if (members[i].params) {
+          if (members[i].params && members[i].params.length>0) {
             for (var j=0; j<members[i].params.length; j++) {
               method.parameters.push({
                 name: members[i].params[j].name
               //  type: members[i].params[j].name,
               })
             }
-            method.parameters[ method.parameters.length - 1 ].last = true;
+            method.parameters[ method.parameters.length - 1 ].last = true
           }
 
           entry.methods.push(method)
