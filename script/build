@@ -1,5 +1,5 @@
 #!/bin/sh
-webpack --devtool source-map --colors --watch
+webpack --devtool source-map --colors
 
 node_modules/.bin/uglifyjs dist/bundle.js \
   --output dist/bundle.min.js \
