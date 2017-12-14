@@ -7,6 +7,7 @@
     "build": "script/build",
     "serve": "script/watch",
     "docgen": "node_modules/.bin/documentation build lib/** -f json -o api/api.json",
+    "docserve": "script/docserve-nix",
     "test": "jest"
   },
   "repository": {
