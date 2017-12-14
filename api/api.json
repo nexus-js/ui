@@ -74,17 +74,42 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
     },
-    "name": "ButtonTemplate",
     "augments": [
       {
         "title": "augments",
         "name": "Interface"
       }
     ],
+    "examples": [],
+    "params": [
+      {
+        "title": "param",
+        "name": "args",
+        "lineNumber": 14
+      },
+      {
+        "title": "param",
+        "name": "options",
+        "lineNumber": 14
+      },
+      {
+        "title": "param",
+        "name": "defaults",
+        "lineNumber": 14
+      }
+    ],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "ButtonTemplate",
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -176,21 +201,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "button.state = true;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "state",
           "kind": "member",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -293,10 +327,17 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "button.flip();"
+            }
+          ],
           "params": [
             {
+              "title": "param",
               "name": "value",
               "lineNumber": 2,
               "description": {
@@ -353,19 +394,21 @@
               }
             }
           ],
-          "examples": [
-            {
-              "description": "button.flip();"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "flip",
           "kind": "function",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -461,15 +504,14 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "button.turnOn();"
             }
           ],
-          "name": "turnOn",
-          "kind": "function",
           "params": [
             {
               "title": "param",
@@ -477,12 +519,21 @@
               "lineNumber": 186
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "turnOn",
+          "kind": "function",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -578,15 +629,14 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/components/buttontemplate.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "button.turnOff();"
             }
           ],
-          "name": "turnOff",
-          "kind": "function",
           "params": [
             {
               "title": "param",
@@ -594,12 +644,21 @@
               "lineNumber": 206
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "turnOff",
+          "kind": "function",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -615,8 +674,8 @@
           "namespace": "ButtonTemplate#turnOff"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -716,21 +775,30 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
     },
+    "augments": [],
     "examples": [
       {
         "description": "slider.value = 10;"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "value",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -831,21 +899,30 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
     },
+    "augments": [],
     "examples": [
       {
         "description": "slider.min = 1000;"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "min",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -946,21 +1023,30 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
     },
+    "augments": [],
     "examples": [
       {
         "description": "slider.max = 1000;"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "max",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -1061,21 +1147,30 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
     },
+    "augments": [],
     "examples": [
       {
         "description": "slider.step = 5;"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "step",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -1176,21 +1271,30 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/components/slidertemplate.js"
     },
+    "augments": [],
     "examples": [
       {
         "description": "slider.mode = \"relative\";"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "mode",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -1257,36 +1361,61 @@
     "tags": [],
     "loc": {
       "start": {
-        "line": 10,
+        "line": 9,
         "column": 0
       },
       "end": {
-        "line": 12,
+        "line": 11,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 13,
+          "line": 12,
           "column": 0
         },
         "end": {
-          "line": 363,
+          "line": 304,
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/core/interface.js"
     },
-    "name": "Interface",
     "augments": [
       {
         "title": "augments",
         "name": "EventEmitter"
       }
     ],
+    "examples": [],
+    "params": [
+      {
+        "title": "param",
+        "name": "args",
+        "lineNumber": 14
+      },
+      {
+        "title": "param",
+        "name": "options",
+        "lineNumber": 14
+      },
+      {
+        "title": "param",
+        "name": "defaults",
+        "lineNumber": 14
+      }
+    ],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "Interface",
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -1364,29 +1493,36 @@
           ],
           "loc": {
             "start": {
-              "line": 314,
+              "line": 255,
               "column": 2
             },
             "end": {
-              "line": 321,
+              "line": 262,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 322,
+                "line": 263,
                 "column": 2
               },
               "end": {
-                "line": 330,
+                "line": 271,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/core/interface.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "button.resize(100,100);"
+            }
+          ],
           "params": [
             {
+              "title": "param",
               "name": "width",
               "lineNumber": 2,
               "description": {
@@ -1443,6 +1579,7 @@
               }
             },
             {
+              "title": "param",
               "name": "height",
               "lineNumber": 3,
               "description": {
@@ -1499,19 +1636,21 @@
               }
             }
           ],
-          "examples": [
-            {
-              "description": "button.resize(100,100);"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "resize",
           "kind": "function",
           "memberof": "Interface",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -1582,46 +1721,55 @@
           "tags": [
             {
               "title": "example",
-              "description": "button.destroy());",
+              "description": "button.destroy();",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 338,
+              "line": 279,
               "column": 2
             },
             "end": {
-              "line": 343,
+              "line": 284,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 344,
+                "line": 285,
                 "column": 2
               },
               "end": {
-                "line": 352,
+                "line": 293,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/core/interface.js"
           },
+          "augments": [],
           "examples": [
             {
-              "description": "button.destroy());"
+              "description": "button.destroy();"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "destroy",
           "kind": "function",
           "memberof": "Interface",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -1637,8 +1785,8 @@
           "namespace": "Interface#destroy"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -1754,8 +1902,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/button.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/button.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "ButtonTemplate"
+      }
+    ],
     "examples": [
       {
         "description": "var button = new Nexus.Button('#target')"
@@ -1764,15 +1918,17 @@
         "description": "var button = new Nexus.Button('#target',{\n  'size': [80,80],\n  'mode': 'aftertouch',\n  'state': false\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Button",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "ButtonTemplate"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -1783,7 +1939,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Interaction mode",
+                    "value": "Interaction mode: supports \"button\", \"aftertouch\", \"impulse\", or \"toggle\"",
                     "position": {
                       "start": {
                         "line": 1,
@@ -1792,8 +1948,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 17,
-                        "offset": 16
+                        "column": 74,
+                        "offset": 73
                       },
                       "indent": []
                     }
@@ -1807,8 +1963,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 17,
-                    "offset": 16
+                    "column": 74,
+                    "offset": 73
                   },
                   "indent": []
                 }
@@ -1822,8 +1978,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 17,
-                "offset": 16
+                "column": 74,
+                "offset": 73
               }
             }
           },
@@ -1864,20 +2020,29 @@
                 "column": 35
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/button.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/button.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "button.mode = 'toggle';"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "mode",
           "memberof": "Button",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -1892,8 +2057,8 @@
           "namespace": "Button#mode"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -2014,8 +2179,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var dial = new Nexus.Dial('#target')"
@@ -2024,15 +2195,17 @@
         "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 0\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Dial",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -2124,21 +2297,30 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "dial.value = 10;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -2243,21 +2425,30 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "dial.min = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -2362,21 +2553,30 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "dial.max = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -2481,21 +2681,30 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "dial.step = 5;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -2600,21 +2809,30 @@
                 "column": 5
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "dial.mode = \"relative\";"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "mode",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -2719,21 +2937,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/dial.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "dial.normalized = 0.5;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "normalized",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -2749,8 +2976,8 @@
           "namespace": "Dial#normalized"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -2862,12 +3089,18 @@
           "column": 0
         },
         "end": {
-          "line": 467,
+          "line": 465,
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var envelope = new Nexus.Envelope('#target')"
@@ -2876,15 +3109,17 @@
         "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Envelope",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -2942,35 +3177,45 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 344,
+              "line": 343,
               "column": 2
             },
             "end": {
-              "line": 346,
+              "line": 345,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 347,
+                "line": 346,
                 "column": 2
               },
               "end": {
-                "line": 351,
+                "line": 350,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "sortPoints",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -3056,29 +3301,32 @@
           ],
           "loc": {
             "start": {
-              "line": 354,
+              "line": 353,
               "column": 2
             },
             "end": {
-              "line": 358,
+              "line": 357,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 359,
+                "line": 358,
                 "column": 2
               },
               "end": {
-                "line": 382,
+                "line": 381,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "x",
               "lineNumber": 2,
               "description": {
@@ -3135,6 +3383,7 @@
               }
             },
             {
+              "title": "param",
               "name": "y",
               "lineNumber": 3,
               "description": {
@@ -3191,14 +3440,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "addPoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -3277,29 +3533,32 @@
           ],
           "loc": {
             "start": {
-              "line": 385,
+              "line": 384,
               "column": 2
             },
             "end": {
-              "line": 388,
+              "line": 387,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 389,
+                "line": 388,
                 "column": 2
               },
               "end": {
-                "line": 405,
+                "line": 404,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "x",
               "lineNumber": 2,
               "description": {
@@ -3356,14 +3615,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "scan",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -3456,29 +3722,32 @@
           ],
           "loc": {
             "start": {
-              "line": 408,
+              "line": 407,
               "column": 2
             },
             "end": {
-              "line": 413,
+              "line": 412,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 414,
+                "line": 413,
                 "column": 2
               },
               "end": {
-                "line": 420,
+                "line": 419,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -3535,6 +3804,7 @@
               }
             },
             {
+              "title": "param",
               "name": "x",
               "lineNumber": 3,
               "description": {
@@ -3591,6 +3861,7 @@
               }
             },
             {
+              "title": "param",
               "name": "y",
               "lineNumber": 4,
               "description": {
@@ -3647,14 +3918,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "movePoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -3747,29 +4025,32 @@
           ],
           "loc": {
             "start": {
-              "line": 423,
+              "line": 422,
               "column": 2
             },
             "end": {
-              "line": 428,
+              "line": 427,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 429,
+                "line": 428,
                 "column": 2
               },
               "end": {
-                "line": 435,
+                "line": 434,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -3826,6 +4107,7 @@
               }
             },
             {
+              "title": "param",
               "name": "xOffset",
               "lineNumber": 3,
               "description": {
@@ -3882,6 +4164,7 @@
               }
             },
             {
+              "title": "param",
               "name": "yOffset",
               "lineNumber": 4,
               "description": {
@@ -3938,14 +4221,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "adjustPoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -4024,29 +4314,32 @@
           ],
           "loc": {
             "start": {
-              "line": 438,
+              "line": 437,
               "column": 2
             },
             "end": {
-              "line": 441,
+              "line": 440,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 442,
+                "line": 441,
                 "column": 2
               },
               "end": {
-                "line": 447,
+                "line": 446,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -4103,14 +4396,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "destroyPoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -4189,29 +4489,32 @@
           ],
           "loc": {
             "start": {
-              "line": 450,
+              "line": 449,
               "column": 2
             },
             "end": {
-              "line": 453,
+              "line": 452,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 454,
+                "line": 453,
                 "column": 2
               },
               "end": {
-                "line": 465,
+                "line": 463,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/envelope.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "allPoints",
               "lineNumber": 2,
               "description": {
@@ -4268,14 +4571,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "setPoints",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -4291,8 +4601,8 @@
           "namespace": "Envelope#setPoints"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -4403,8 +4713,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/meter.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var meter = new Nexus.Meter('#target')"
@@ -4413,15 +4729,17 @@
         "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Meter",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -4518,10 +4836,17 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/meter.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
+            }
+          ],
           "params": [
             {
+              "title": "param",
               "name": "node",
               "lineNumber": 2,
               "description": {
@@ -4578,6 +4903,7 @@
               }
             },
             {
+              "title": "param",
               "name": "channels",
               "lineNumber": 3,
               "description": {
@@ -4634,19 +4960,21 @@
               }
             }
           ],
-          "examples": [
-            {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "connect",
           "kind": "function",
           "memberof": "Meter",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -4736,16 +5064,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/meter.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "disconnect",
           "kind": "function",
           "memberof": "Meter",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -4761,8 +5099,8 @@
           "namespace": "Meter#disconnect"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -4878,8 +5216,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var multislider = new Nexus.Multislider('#target')"
@@ -4888,15 +5232,17 @@
         "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Multislider",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -4983,16 +5329,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "numberOfSliders",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -5097,21 +5453,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "multislider.min = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -5216,21 +5581,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "multislider.max = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -5335,21 +5709,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "multislider.step = 5;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -5459,10 +5842,17 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "// Set the first slider to value 0.5\nmultislider.setSlider(0,0.5)"
+            }
+          ],
           "params": [
             {
+              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -5519,6 +5909,7 @@
               }
             },
             {
+              "title": "param",
               "name": "value",
               "lineNumber": 3,
               "description": {
@@ -5575,19 +5966,21 @@
               }
             }
           ],
-          "examples": [
-            {
-              "description": "// Set the first slider to value 0.5\nmultislider.setSlider(0,0.5)"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "setSlider",
           "kind": "function",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -5690,10 +6083,17 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/multislider.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "multislider.setAllSliders([0.2,0.3,0.4,0.5,0.6])"
+            }
+          ],
           "params": [
             {
+              "title": "param",
               "name": "values",
               "lineNumber": 2,
               "description": {
@@ -5750,19 +6150,21 @@
               }
             }
           ],
-          "examples": [
-            {
-              "description": "multislider.setAllSliders([0.2,0.3,0.4,0.5,0.6])"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "setAllSliders",
           "kind": "function",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -5778,8 +6180,8 @@
           "namespace": "Multislider#setAllSliders"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -5895,8 +6297,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var number = new Nexus.Number('#target')"
@@ -5905,15 +6313,17 @@
         "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 20000,\n  'step': 1\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Number",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -6006,10 +6416,22 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "number.link(slider)"
+            }
+          ],
           "params": [
             {
+              "title": "param",
+              "name": "destination",
+              "lineNumber": 189
+            },
+            {
+              "title": "param",
               "name": "element",
               "lineNumber": 2,
               "description": {
@@ -6068,26 +6490,23 @@
                 "type": "NameExpression",
                 "name": "Interface"
               }
-            },
-            {
-              "title": "param",
-              "name": "destination",
-              "lineNumber": 189
             }
           ],
-          "examples": [
-            {
-              "description": "number.link(slider)"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "link",
           "kind": "function",
           "memberof": "Number",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -6192,21 +6611,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "number.value = 10;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -6311,21 +6739,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "number.min = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -6430,21 +6867,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "number.max = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -6549,21 +6995,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/number.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "number.step = 5;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -6579,8 +7034,8 @@
           "namespace": "Number#step"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -6691,8 +7146,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/oscilloscope.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
@@ -6701,15 +7162,17 @@
         "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Oscilloscope",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -6799,10 +7262,17 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/oscilloscope.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
+            }
+          ],
           "params": [
             {
+              "title": "param",
               "name": "node",
               "lineNumber": 2,
               "description": {
@@ -6859,19 +7329,21 @@
               }
             }
           ],
-          "examples": [
-            {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "connect",
           "kind": "function",
           "memberof": "Oscilloscope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -6961,16 +7433,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/oscilloscope.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "disconnect",
           "kind": "function",
           "memberof": "Oscilloscope",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -6986,8 +7468,8 @@
           "namespace": "Oscilloscope#disconnect"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -7098,22 +7580,30 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan.js"
     },
-    "examples": [
-      {
-        "description": "var pan = new Nexus.Pan('#target')"
-      }
-    ],
-    "name": "Pan",
     "augments": [
       {
         "title": "augments",
         "name": "Interface"
       }
     ],
+    "examples": [
+      {
+        "description": "var pan = new Nexus.Pan('#target')"
+      }
+    ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "Pan",
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -7200,16 +7690,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Pan",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -7225,8 +7725,8 @@
           "namespace": "Pan#value"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -7342,8 +7842,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var pan2d = new Nexus.Pan2d('#target')"
@@ -7352,15 +7858,17 @@
         "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // detection radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Pan2D",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -7437,15 +7945,25 @@
                 "column": 35
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "mode",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -7534,15 +8052,25 @@
                 "column": 43
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "speakers",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -7631,15 +8159,25 @@
                 "column": 37
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "range",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -7728,15 +8266,25 @@
                 "column": 21
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "levels",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -7840,10 +8388,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "x",
               "lineNumber": 2,
               "description": {
@@ -7900,6 +8451,7 @@
               }
             },
             {
+              "title": "param",
               "name": "y",
               "lineNumber": 3,
               "description": {
@@ -7956,14 +8508,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "moveSource",
           "kind": "function",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -8075,10 +8634,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -8135,6 +8697,7 @@
               }
             },
             {
+              "title": "param",
               "name": "x",
               "lineNumber": 3,
               "description": {
@@ -8191,6 +8754,7 @@
               }
             },
             {
+              "title": "param",
               "name": "y",
               "lineNumber": 4,
               "description": {
@@ -8247,14 +8811,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "moveSpeaker",
           "kind": "function",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -8270,8 +8841,8 @@
           "namespace": "Pan2D#moveSpeaker"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -8364,10 +8935,13 @@
           "column": 3
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/pan2d.js"
     },
+    "augments": [],
+    "examples": [],
     "params": [
       {
+        "title": "param",
         "name": "locations",
         "lineNumber": 2,
         "description": {
@@ -8494,15 +9068,20 @@
         }
       }
     ],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
-    "path": [
-      {}
-    ],
-    "namespace": "undefined"
+    "path": [],
+    "namespace": ""
   },
   {
     "description": {
@@ -8610,8 +9189,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var piano = new Nexus.Piano('#target')"
@@ -8620,15 +9205,17 @@
         "description": "var piano = new Nexus.Piano('#target',{\n    'size': [500,125],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Piano",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -8720,10 +9307,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "low",
               "lineNumber": 2,
               "description": {
@@ -8780,6 +9370,7 @@
               }
             },
             {
+              "title": "param",
               "name": "high",
               "lineNumber": 3,
               "description": {
@@ -8836,14 +9427,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "setRange",
           "kind": "function",
           "memberof": "Piano",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -8948,10 +9546,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "note",
               "lineNumber": 2,
               "description": {
@@ -9008,6 +9609,7 @@
               }
             },
             {
+              "title": "param",
               "name": "on",
               "lineNumber": 3,
               "description": {
@@ -9064,14 +9666,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "toggleKey",
           "kind": "function",
           "memberof": "Piano",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -9176,10 +9785,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/piano.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -9236,6 +9848,7 @@
               }
             },
             {
+              "title": "param",
               "name": "on",
               "lineNumber": 3,
               "description": {
@@ -9292,14 +9905,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "toggleIndex",
           "kind": "function",
           "memberof": "Piano",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -9315,8 +9935,8 @@
           "namespace": "Piano#toggleIndex"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -9432,8 +10052,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var position = new Nexus.Position('#target')"
@@ -9442,15 +10068,17 @@
         "description": "var position = new Nexus.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Position",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -9542,21 +10170,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "position.x = 0.5;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "x",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -9661,21 +10298,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "position.x = 0.5;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "y",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -9775,16 +10421,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "minX",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -9884,16 +10540,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "minY",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -9993,16 +10659,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "maxX",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -10102,16 +10778,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "maxY",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -10211,16 +10897,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "stepX",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -10320,16 +11016,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "stepY",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -10434,21 +11140,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/position.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "position.mode = \"relative\";"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "mode",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -10464,8 +11179,8 @@
           "namespace": "Position#mode"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -10581,8 +11296,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var radiobutton = new Nexus.RadioButton('#target')"
@@ -10591,15 +11312,17 @@
         "description": "var radiobutton = new Nexus.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "RadioButton",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -10684,10 +11407,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -10744,14 +11470,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "select",
           "kind": "function",
           "memberof": "RadioButton",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -10841,16 +11574,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "deselect",
           "kind": "function",
           "memberof": "RadioButton",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -10951,10 +11694,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/radiobutton.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "buttons",
               "lineNumber": 2,
               "description": {
@@ -11015,14 +11761,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "numberOfButtons",
           "kind": "member",
           "memberof": "RadioButton",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -11038,8 +11791,8 @@
           "namespace": "RadioButton#numberOfButtons"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -11155,8 +11908,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var select = new Nexus.Select('#target')"
@@ -11165,15 +11924,17 @@
         "description": "var select = new Nexus.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Select",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -11261,10 +12022,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "options",
               "lineNumber": 2,
               "description": {
@@ -11325,14 +12089,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "defineOptions",
           "kind": "function",
           "memberof": "Select",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -11437,21 +12208,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "select.value = \"sawtooth\";"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Select",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -11556,21 +12336,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/select.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "select.selectedIndex = 2;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "selectedIndex",
           "kind": "member",
           "memberof": "Select",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -11586,8 +12375,8 @@
           "namespace": "Select#selectedIndex"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -11709,12 +12498,18 @@
           "column": 0
         },
         "end": {
-          "line": 443,
+          "line": 448,
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var sequencer = new Nexus.Sequencer('#target')"
@@ -11723,16 +12518,144 @@
         "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Sequencer",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Button interaction mode: see Button",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 36,
+                        "offset": 35
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 36,
+                    "offset": 35
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 36,
+                "offset": 35
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "string"
+              }
+            },
+            {
+              "title": "example",
+              "description": "button.mode = 'toggle';",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 190,
+              "column": 4
+            },
+            "end": {
+              "line": 194,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 195,
+                "column": 4
+              },
+              "end": {
+                "line": 195,
+                "column": 35
+              }
+            },
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "button.mode = 'toggle';"
+            }
+          ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "mode",
+          "memberof": "Sequencer",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Sequencer",
+              "kind": "class"
+            },
+            {
+              "name": "mode",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Sequencer#mode"
+        },
         {
           "description": {
             "type": "root",
@@ -11799,34 +12722,44 @@
           ],
           "loc": {
             "start": {
-              "line": 192,
+              "line": 197,
               "column": 4
             },
             "end": {
-              "line": 195,
-              "column": 7
+              "line": 200,
+              "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 196,
+                "line": 201,
                 "column": 4
               },
               "end": {
-                "line": 196,
+                "line": 201,
                 "column": 64
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "interval",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -11906,34 +12839,44 @@
           ],
           "loc": {
             "start": {
-              "line": 198,
+              "line": 203,
               "column": 4
             },
             "end": {
-              "line": 201,
+              "line": 206,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 202,
+                "line": 207,
                 "column": 4
               },
               "end": {
-                "line": 202,
+                "line": 207,
                 "column": 76
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "matrix",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12013,34 +12956,44 @@
           ],
           "loc": {
             "start": {
-              "line": 205,
+              "line": 210,
               "column": 4
             },
             "end": {
-              "line": 208,
+              "line": 213,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 209,
+                "line": 214,
                 "column": 4
               },
               "end": {
-                "line": 209,
+                "line": 214,
                 "column": 52
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "stepper",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12121,29 +13074,32 @@
           ],
           "loc": {
             "start": {
-              "line": 336,
+              "line": 341,
               "column": 2
             },
             "end": {
-              "line": 339,
+              "line": 344,
               "column": 5
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 340,
+                "line": 345,
                 "column": 2
               },
               "end": {
-                "line": 346,
+                "line": 351,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "ms",
               "lineNumber": 2,
               "description": {
@@ -12204,14 +13160,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "start",
           "kind": "function",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12282,35 +13245,45 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 348,
+              "line": 353,
               "column": 2
             },
             "end": {
-              "line": 350,
+              "line": 355,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 351,
+                "line": 356,
                 "column": 2
               },
               "end": {
-                "line": 353,
+                "line": 358,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "stop",
           "kind": "function",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12381,35 +13354,45 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 355,
+              "line": 360,
               "column": 2
             },
             "end": {
-              "line": 357,
+              "line": 362,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 358,
+                "line": 363,
                 "column": 2
               },
               "end": {
-                "line": 362,
+                "line": 367,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "next",
           "kind": "function",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12490,35 +13473,45 @@
           ],
           "loc": {
             "start": {
-              "line": 412,
+              "line": 417,
               "column": 2
             },
             "end": {
-              "line": 415,
+              "line": 420,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 416,
+                "line": 421,
                 "column": 2
               },
               "end": {
-                "line": 418,
+                "line": 423,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "rows",
           "kind": "member",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12599,35 +13592,45 @@
           ],
           "loc": {
             "start": {
-              "line": 427,
+              "line": 432,
               "column": 2
             },
             "end": {
-              "line": 430,
+              "line": 435,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 431,
+                "line": 436,
                 "column": 2
               },
               "end": {
-                "line": 433,
+                "line": 438,
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/sequencer.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "columns",
           "kind": "member",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12643,8 +13646,8 @@
           "namespace": "Sequencer#columns"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -12760,8 +13763,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var slider = new Nexus.Slider('#target')"
@@ -12770,15 +13779,17 @@
         "description": "var slider = new Nexus.Slider('#target',{\n    'size': [120,20],\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Slider",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -12870,21 +13881,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "slider.value = 10;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -12989,21 +14009,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "slider.min = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -13108,21 +14137,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "slider.max = 1000;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -13227,21 +14265,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "slider.step = 5;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -13346,21 +14393,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/slider.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "slider.mode = \"relative\";"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "mode",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -13376,8 +14432,8 @@
           "namespace": "Slider#mode"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -13488,8 +14544,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/spectrogram.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var spectrogram = new Nexus.Spectrogram('#target')"
@@ -13498,15 +14560,17 @@
         "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Spectrogram",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -13596,10 +14660,17 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/spectrogram.js"
           },
+          "augments": [],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
+            }
+          ],
           "params": [
             {
+              "title": "param",
               "name": "node",
               "lineNumber": 2,
               "description": {
@@ -13656,19 +14727,21 @@
               }
             }
           ],
-          "examples": [
-            {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
-            }
-          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "connect",
           "kind": "function",
           "memberof": "Spectrogram",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -13758,16 +14831,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/spectrogram.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "disconnect",
           "kind": "function",
           "memberof": "Spectrogram",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -13783,8 +14866,8 @@
           "namespace": "Spectrogram#disconnect"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -13900,8 +14983,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/textbutton.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "ButtonTemplate"
+      }
+    ],
     "examples": [
       {
         "description": "var textbutton = new Nexus.TextButton('#target')"
@@ -13910,15 +14999,17 @@
         "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': false,\n    'text': 'Play',\n    'alternate': false\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "TextButton",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "ButtonTemplate"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -14005,16 +15096,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/textbutton.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "alternateText",
           "kind": "member",
           "memberof": "TextButton",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -14114,16 +15215,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/textbutton.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "text",
           "kind": "member",
           "memberof": "TextButton",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -14139,8 +15250,8 @@
           "namespace": "TextButton#text"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -14251,22 +15362,30 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/tilt.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/tilt.js"
     },
-    "examples": [
-      {
-        "description": "var tilt = new Nexus.Tilt('#target')"
-      }
-    ],
-    "name": "Tilt",
     "augments": [
       {
         "title": "augments",
         "name": "Interface"
       }
     ],
+    "examples": [
+      {
+        "description": "var tilt = new Nexus.Tilt('#target')"
+      }
+    ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "Tilt",
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -14353,16 +15472,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/tilt.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/tilt.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "active",
           "kind": "member",
           "memberof": "Tilt",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -14378,8 +15507,8 @@
           "namespace": "Tilt#active"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -14495,8 +15624,14 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/toggle.js"
     },
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var toggle = new Nexus.Toggle('#target')"
@@ -14505,15 +15640,17 @@
         "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'state': false\n})"
       }
     ],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Toggle",
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -14605,21 +15742,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/toggle.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "toggle.state = false;"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "state",
           "kind": "member",
           "memberof": "Toggle",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -14715,21 +15861,30 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/interfaces/toggle.js"
           },
+          "augments": [],
           "examples": [
             {
               "description": "toggle.flip();"
             }
           ],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "flip",
           "kind": "function",
           "memberof": "Toggle",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -14745,8 +15900,8 @@
           "namespace": "Toggle#flip"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -14831,14 +15986,30 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/main.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/main.js"
     },
+    "augments": [],
+    "examples": [],
+    "params": [
+      {
+        "title": "param",
+        "name": "context",
+        "lineNumber": 25
+      }
+    ],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "NexusUI",
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -14975,10 +16146,13 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
     },
+    "augments": [],
+    "examples": [],
     "params": [
       {
+        "title": "param",
         "name": "min",
         "lineNumber": 2,
         "description": {
@@ -15034,15 +16208,13 @@
           }
         },
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "0"
       },
       {
+        "title": "param",
         "name": "max",
         "lineNumber": 3,
         "description": {
@@ -15098,27 +16270,23 @@
           }
         },
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "1"
       },
       {
+        "title": "param",
         "name": "step",
         "lineNumber": 4,
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "0"
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -15173,15 +16341,21 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "Object"
         }
       }
     ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Range",
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -15258,15 +16432,25 @@
                 "column": 19
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "min",
           "memberof": "Range",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -15355,15 +16539,25 @@
                 "column": 19
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "max",
           "memberof": "Range",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -15452,15 +16646,25 @@
                 "column": 40
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "start",
           "memberof": "Range",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -15549,15 +16753,25 @@
                 "column": 38
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "end",
           "memberof": "Range",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -15646,16 +16860,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "center",
           "kind": "member",
           "memberof": "Range",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -15745,16 +16969,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "size",
           "kind": "member",
           "memberof": "Range",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -15865,10 +17099,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/range.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "start",
               "lineNumber": 2,
               "description": {
@@ -15929,6 +17166,7 @@
               }
             },
             {
+              "title": "param",
               "name": "end",
               "lineNumber": 3,
               "description": {
@@ -15989,14 +17227,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "move",
           "kind": "function",
           "memberof": "Range",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -16012,8 +17257,8 @@
           "namespace": "Range#move"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -16164,10 +17409,13 @@
           "column": 1
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
     },
+    "augments": [],
+    "examples": [],
     "params": [
       {
+        "title": "param",
         "name": "min",
         "lineNumber": 2,
         "description": {
@@ -16223,15 +17471,13 @@
           }
         },
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "0"
       },
       {
+        "title": "param",
         "name": "max",
         "lineNumber": 3,
         "description": {
@@ -16287,27 +17533,23 @@
           }
         },
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "1"
       },
       {
+        "title": "param",
         "name": "step",
         "lineNumber": 4,
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "0"
       },
       {
+        "title": "param",
         "name": "value",
         "lineNumber": 5,
         "description": {
@@ -16363,15 +17605,13 @@
           }
         },
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "0"
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -16426,15 +17666,21 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "Object"
         }
       }
     ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "Step",
     "kind": "class",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [
         {
           "description": {
@@ -16522,10 +17768,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "value",
               "lineNumber": 2,
               "type": {
@@ -16534,14 +17783,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "update",
           "kind": "function",
           "memberof": "Step",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -16642,10 +17898,13 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
           },
+          "augments": [],
+          "examples": [],
           "params": [
             {
+              "title": "param",
               "name": "value",
               "lineNumber": 2,
               "type": {
@@ -16654,14 +17913,21 @@
               }
             }
           ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "updateNormal",
           "kind": "function",
           "memberof": "Step",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -16751,16 +18017,26 @@
                 "column": 3
               }
             },
-            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
+            "file": "/Users/miesco/workspace/nexusUI/lib/models/step.js"
           },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
           "name": "normalized",
           "kind": "member",
           "memberof": "Step",
           "scope": "instance",
           "members": {
+            "global": [],
+            "inner": [],
             "instance": [],
-            "static": [],
-            "events": []
+            "events": [],
+            "static": []
           },
           "path": [
             {
@@ -16776,8 +18052,8 @@
           "namespace": "Step#normalized"
         }
       ],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -16907,10 +18183,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "value",
         "lineNumber": 2,
         "description": {
@@ -16971,6 +18254,7 @@
         }
       },
       {
+        "title": "param",
         "name": "min",
         "lineNumber": 3,
         "description": {
@@ -17031,6 +18315,7 @@
         }
       },
       {
+        "title": "param",
         "name": "max",
         "lineNumber": 4,
         "description": {
@@ -17091,6 +18376,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -17145,25 +18431,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "clip",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -17314,10 +18601,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "inNum",
         "lineNumber": 2,
         "description": {
@@ -17378,6 +18672,7 @@
         }
       },
       {
+        "title": "param",
         "name": "inMin",
         "lineNumber": 3,
         "description": {
@@ -17438,6 +18733,7 @@
         }
       },
       {
+        "title": "param",
         "name": "inMax",
         "lineNumber": 4,
         "description": {
@@ -17498,6 +18794,7 @@
         }
       },
       {
+        "title": "param",
         "name": "outMin",
         "lineNumber": 5,
         "description": {
@@ -17558,6 +18855,7 @@
         }
       },
       {
+        "title": "param",
         "name": "outMax",
         "lineNumber": 6,
         "description": {
@@ -17618,6 +18916,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -17672,25 +18971,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "scale",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -17801,10 +19101,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.mtof(60)  // returns the frequency number of Middle C"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "midi",
         "lineNumber": 2,
         "description": {
@@ -17865,6 +19172,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -17919,25 +19227,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.mtof(60)  // returns the frequency number of Middle C"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "mtof",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -18068,10 +19377,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "loc",
         "lineNumber": 2,
         "description": {
@@ -18132,6 +19448,7 @@
         }
       },
       {
+        "title": "param",
         "name": "min",
         "lineNumber": 3,
         "description": {
@@ -18192,6 +19509,7 @@
         }
       },
       {
+        "title": "param",
         "name": "max",
         "lineNumber": 4,
         "description": {
@@ -18252,6 +19570,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -18306,25 +19625,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "interp",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -18425,8 +19745,16 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2"
+      }
+    ],
+    "params": [],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -18481,25 +19809,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "various"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "pick",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -18610,10 +19939,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "num",
         "lineNumber": 2,
         "description": {
@@ -18674,6 +20010,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -18728,25 +20065,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "octave",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -18867,10 +20205,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "bound1",
         "lineNumber": 2,
         "description": {
@@ -18931,6 +20276,7 @@
         }
       },
       {
+        "title": "param",
         "name": "bound2",
         "lineNumber": 3,
         "description": {
@@ -18991,6 +20337,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -19045,25 +20392,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "ri",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -19184,10 +20532,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "bound1",
         "lineNumber": 2,
         "description": {
@@ -19248,6 +20603,7 @@
         }
       },
       {
+        "title": "param",
         "name": "bound2",
         "lineNumber": 3,
         "description": {
@@ -19308,6 +20664,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -19362,25 +20719,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "rf",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -19491,10 +20849,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.average([0,2,4,6,8,10])   // returns 5"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "data",
         "lineNumber": 2,
         "description": {
@@ -19555,6 +20920,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -19609,25 +20975,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.average([0,2,4,6,8,10])   // returns 5"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "average",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -19768,10 +21135,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.distance(0,0,3,4)   // returns 5"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "x1",
         "lineNumber": 2,
         "description": {
@@ -19832,6 +21206,7 @@
         }
       },
       {
+        "title": "param",
         "name": "y1",
         "lineNumber": 3,
         "description": {
@@ -19892,6 +21267,7 @@
         }
       },
       {
+        "title": "param",
         "name": "x2",
         "lineNumber": 4,
         "description": {
@@ -19952,6 +21328,7 @@
         }
       },
       {
+        "title": "param",
         "name": "y2",
         "lineNumber": 5,
         "description": {
@@ -20012,6 +21389,7 @@
         }
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -20066,25 +21444,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.distance(0,0,3,4)   // returns 5"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "distance",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
@@ -20199,10 +21578,17 @@
           "column": 2
         }
       },
-      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
+      "file": "/Users/miesco/workspace/nexusUI/lib/util/math.js"
     },
+    "augments": [],
+    "examples": [
+      {
+        "description": "Nexus.coin(0.1)   // returns 1 (10% of the time) or 0 (90% of the time)"
+      }
+    ],
     "params": [
       {
+        "title": "param",
         "name": "odds",
         "lineNumber": 2,
         "description": {
@@ -20258,15 +21644,13 @@
           }
         },
         "type": {
-          "type": "OptionalType",
-          "expression": {
-            "type": "NameExpression",
-            "name": "number"
-          }
+          "type": "NameExpression",
+          "name": "number"
         },
         "default": "0.5"
       }
     ],
+    "properties": [],
     "returns": [
       {
         "description": {
@@ -20321,25 +21705,26 @@
             }
           }
         },
+        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "examples": [
-      {
-        "description": "Nexus.coin(0.1)   // returns 1 (10% of the time) or 0 (90% of the time)"
-      }
-    ],
+    "sees": [],
+    "throws": [],
+    "todos": [],
     "name": "coin",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
+      "global": [],
+      "inner": [],
       "instance": [],
-      "static": [],
-      "events": []
+      "events": [],
+      "static": []
     },
     "path": [
       {
