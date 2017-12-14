@@ -1,8 +1,8 @@
 #!/bin/sh
 webpack --devtool source-map --colors
 
-node_modules/.bin/uglifyjs dist/bundle.js \
-  --output dist/bundle.min.js \
-  --source-map dist/bundle.min.map \
-  --source-map-url bundle.min.map \
+node_modules/.bin/uglifyjs dist/NexusUI.js \
+  --output dist/NexusUI.min.js \
+  --source-map dist/NexusUI.min.map \
+  --source-map-url NexusUI.min.map \
   --compress warnings=false
