@@ -27,7 +27,7 @@
       <a href="#colors">Changing Colors</a><br />
       <a href="#rack">Creating a Rack</a><br />
       <a href="#sync">Syncing Number Boxes</a><br />
-      <a href="#controlarray">Control an Array of Interfaces</a><br />
+      <a href="#dialarray">Instantiate Dial Array</a><br />
 
       <h2>Interfaces</h2>
 
@@ -612,11 +612,12 @@ dial.on('change',function(v) {
             </div>
 
           <!--
-          Control a Set of Interfaces
+          Dial Array
           -->
-          <div id="controlarray" class="custom-tutorial" style="display:none">
+          <div id="dialarray" class="custom-tutorial" style="display:none">
             &nbsp;
             <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Control an Array of Interfaces</h1>
+            <p>You can easily create a set of interfaces by initiating an array of them. Below is an example of how to do this with the dial interface.</p>
             <h2>Option 1: this (recommended)</h2>
             <p>Inside any event function in NexusUI, this will refer to the interface that called the event. So in your example, using this.value in a dial's event callback would return the value of the dial.</p>
             <p>Consider adding i as an index property of your dial and then retrieving it within the callback as this.index</p>

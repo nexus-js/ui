@@ -74,7 +74,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
+      "file": "/Users/miesco/workspace/ui/lib/components/buttontemplate.js"
     },
     "augments": [
       {
@@ -201,7 +201,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -327,7 +327,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -504,7 +504,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -629,7 +629,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/components/buttontemplate.js"
+            "file": "/Users/miesco/workspace/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -775,7 +775,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -899,7 +899,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1023,7 +1023,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1147,7 +1147,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1271,7 +1271,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/components/slidertemplate.js"
+      "file": "/Users/miesco/workspace/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1380,7 +1380,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/core/interface.js"
+      "file": "/Users/miesco/workspace/ui/lib/core/interface.js"
     },
     "augments": [
       {
@@ -1512,7 +1512,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/core/interface.js"
+            "file": "/Users/miesco/workspace/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1746,7 +1746,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/core/interface.js"
+            "file": "/Users/miesco/workspace/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1902,7 +1902,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/button.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/button.js"
     },
     "augments": [
       {
@@ -2020,7 +2020,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/button.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/button.js"
           },
           "augments": [],
           "examples": [
@@ -2179,7 +2179,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/dial.js"
     },
     "augments": [
       {
@@ -2297,7 +2297,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2425,7 +2425,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2553,7 +2553,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2681,7 +2681,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2809,7 +2809,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2937,7 +2937,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/dial.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -3093,7 +3093,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
     },
     "augments": [
       {
@@ -3196,7 +3196,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3320,7 +3320,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3552,7 +3552,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3741,7 +3741,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4044,7 +4044,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4333,7 +4333,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4508,7 +4508,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/envelope.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4713,7 +4713,7 @@
           "column": 34
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/meter.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/meter.js"
     },
     "augments": [],
     "examples": [
@@ -4846,7 +4846,7 @@
           "column": 34
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/oscilloscope.js"
     },
     "augments": [],
     "examples": [
@@ -4979,7 +4979,7 @@
           "column": 34
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/spectrogram.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/spectrogram.js"
     },
     "augments": [],
     "examples": [
@@ -5106,7 +5106,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/meter.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/meter.js"
     },
     "augments": [],
     "examples": [
@@ -5330,7 +5330,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/meter.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/meter.js"
     },
     "augments": [],
     "examples": [],
@@ -5466,7 +5466,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/multislider.js"
     },
     "augments": [
       {
@@ -5579,7 +5579,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5703,7 +5703,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5831,7 +5831,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5959,7 +5959,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6092,7 +6092,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6333,7 +6333,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/multislider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6547,7 +6547,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/number.js"
     },
     "augments": [
       {
@@ -6666,7 +6666,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6861,7 +6861,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6989,7 +6989,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7117,7 +7117,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7245,7 +7245,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/number.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7383,7 +7383,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/oscilloscope.js"
     },
     "augments": [],
     "examples": [
@@ -7550,7 +7550,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/oscilloscope.js"
     },
     "augments": [],
     "examples": [],
@@ -7681,7 +7681,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/pan.js"
     },
     "augments": [
       {
@@ -7791,7 +7791,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/pan.js"
           },
           "augments": [],
           "examples": [],
@@ -7943,7 +7943,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
     },
     "augments": [
       {
@@ -8046,7 +8046,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8153,7 +8153,7 @@
                 "column": 43
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8260,7 +8260,7 @@
                 "column": 37
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8367,7 +8367,7 @@
                 "column": 21
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8489,7 +8489,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8735,7 +8735,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -9036,7 +9036,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/pan2d.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/pan2d.js"
     },
     "augments": [],
     "examples": [],
@@ -9290,7 +9290,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/piano.js"
     },
     "augments": [
       {
@@ -9408,7 +9408,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9647,7 +9647,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9886,7 +9886,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/piano.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10153,7 +10153,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
     },
     "augments": [
       {
@@ -10271,7 +10271,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10399,7 +10399,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10522,7 +10522,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10641,7 +10641,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10760,7 +10760,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10879,7 +10879,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10998,7 +10998,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11117,7 +11117,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11241,7 +11241,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/position.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -11397,7 +11397,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/radiobutton.js"
     },
     "augments": [
       {
@@ -11508,7 +11508,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11675,7 +11675,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11795,7 +11795,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -12009,7 +12009,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/select.js"
     },
     "augments": [
       {
@@ -12123,7 +12123,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [],
@@ -12309,7 +12309,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12437,7 +12437,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/select.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12603,7 +12603,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
     },
     "augments": [
       {
@@ -12721,7 +12721,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [
@@ -12842,7 +12842,7 @@
                 "column": 64
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -12959,7 +12959,7 @@
                 "column": 76
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13076,7 +13076,7 @@
                 "column": 52
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13194,7 +13194,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13365,7 +13365,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13474,7 +13474,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13593,7 +13593,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13712,7 +13712,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13864,7 +13864,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/slider.js"
     },
     "augments": [
       {
@@ -13982,7 +13982,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14110,7 +14110,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14238,7 +14238,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14366,7 +14366,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14494,7 +14494,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/slider.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14632,7 +14632,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/spectrogram.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/spectrogram.js"
     },
     "augments": [],
     "examples": [
@@ -14799,7 +14799,7 @@
           "column": 3
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/spectrogram.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/spectrogram.js"
     },
     "augments": [],
     "examples": [],
@@ -14935,7 +14935,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/textbutton.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/textbutton.js"
     },
     "augments": [
       {
@@ -15048,7 +15048,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/textbutton.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15167,7 +15167,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/textbutton.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15314,7 +15314,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/tilt.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/tilt.js"
     },
     "augments": [
       {
@@ -15424,7 +15424,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/tilt.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/tilt.js"
           },
           "augments": [],
           "examples": [],
@@ -15576,7 +15576,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/toggle.js"
+      "file": "/Users/miesco/workspace/ui/lib/interfaces/toggle.js"
     },
     "augments": [
       {
@@ -15694,7 +15694,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/toggle.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -15813,7 +15813,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/interfaces/toggle.js"
+            "file": "/Users/miesco/workspace/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -15938,7 +15938,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/main.js"
+      "file": "/Users/miesco/workspace/ui/lib/main.js"
     },
     "augments": [],
     "examples": [],
@@ -16098,7 +16098,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+      "file": "/Users/miesco/workspace/ui/lib/models/range.js"
     },
     "augments": [],
     "examples": [],
@@ -16384,7 +16384,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16491,7 +16491,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16598,7 +16598,7 @@
                 "column": 40
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16705,7 +16705,7 @@
                 "column": 38
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16812,7 +16812,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16921,7 +16921,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17051,7 +17051,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/range.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17361,7 +17361,7 @@
           "column": 1
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
+      "file": "/Users/miesco/workspace/ui/lib/models/step.js"
     },
     "augments": [],
     "examples": [],
@@ -17720,7 +17720,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -17850,7 +17850,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -17969,7 +17969,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/miesco/workspace/nexus/ui/lib/models/step.js"
+            "file": "/Users/miesco/workspace/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18135,7 +18135,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -18553,7 +18553,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19053,7 +19053,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19329,7 +19329,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19697,7 +19697,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19891,7 +19891,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20157,7 +20157,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20484,7 +20484,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20801,7 +20801,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21087,7 +21087,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21530,7 +21530,7 @@
           "column": 2
         }
       },
-      "file": "/Users/miesco/workspace/nexus/ui/lib/util/math.js"
+      "file": "/Users/miesco/workspace/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
