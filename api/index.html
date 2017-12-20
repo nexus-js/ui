@@ -27,6 +27,7 @@
       <a href="#colors">Changing Colors</a><br />
       <a href="#rack">Creating a Rack</a><br />
       <a href="#sync">Syncing Number Boxes</a><br />
+      <a href="#controlarray">Control an Array of Interfaces</a><br />
 
       <h2>Interfaces</h2>
 
@@ -609,6 +610,32 @@ dial.on('change',function(v) {
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
             </div>
+
+          <!--
+          Control a Set of Interfaces
+          -->
+          <div id="controlarray" class="custom-tutorial" style="display:none">
+            &nbsp;
+            <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Control an Array of Interfaces</h1>
+            <h2>Option 1: this (recommended)</h2>
+            <p>Inside any event function in NexusUI, this will refer to the interface that called the event. So in your example, using this.value in a dial's event callback would return the value of the dial.</p>
+            <p>Consider adding i as an index property of your dial and then retrieving it within the callback as this.index</p>
+            <!-- <p data-height="265" data-theme-id="0" data-slug-hash="EoVVBp" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="NexusUI: Interfaces Indexing - using 'this'" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/EoVVBp/">NexusUI: Interfaces Indexing - using 'this'</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+            <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
+            <a href="https://codepen.io/taylorbf/pen/EoVVBp?editors=0011">Codepen</a>
+            <p>See the console for output.</p>
+            
+            <h2>Option 2: bind</h2>
+            <p>First option is to use .bind() to bind i as a parameter of the callback. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">See MDN for a detailed description of bind.</a> Basic code here is:</p>
+            <pre><code class="language-javascript">
+              // assuming this dial is created in a loop....
+              dial.on('change', function (index,data) {
+              console.log( index, data );
+              }.bind( dial, i ));
+            </code></pre>
+            <a href="https://codepen.io/taylorbf/pen/Leppzr">Codepen</a>
+            <p>See the Codepen console for output. There is a button on the bottom left to open the Codepen console if it is not already open. </p>
+          </div>
 
 
 
