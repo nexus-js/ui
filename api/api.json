@@ -74,42 +74,17 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/buttontemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
     },
+    "name": "ButtonTemplate",
     "augments": [
       {
         "title": "augments",
         "name": "Interface"
       }
     ],
-    "examples": [],
-    "params": [
-      {
-        "title": "param",
-        "name": "args",
-        "lineNumber": 14
-      },
-      {
-        "title": "param",
-        "name": "options",
-        "lineNumber": 14
-      },
-      {
-        "title": "param",
-        "name": "defaults",
-        "lineNumber": 14
-      }
-    ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "ButtonTemplate",
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -201,30 +176,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "button.state = true;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "state",
           "kind": "member",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -327,17 +293,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
-          "augments": [],
-          "examples": [
-            {
-              "description": "button.flip();"
-            }
-          ],
           "params": [
             {
-              "title": "param",
               "name": "value",
               "lineNumber": 2,
               "description": {
@@ -394,21 +353,19 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
+          "examples": [
+            {
+              "description": "button.flip();"
+            }
+          ],
           "name": "flip",
           "kind": "function",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -504,14 +461,15 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "button.turnOn();"
             }
           ],
+          "name": "turnOn",
+          "kind": "function",
           "params": [
             {
               "title": "param",
@@ -519,21 +477,12 @@
               "lineNumber": 186
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "turnOn",
-          "kind": "function",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -629,14 +578,15 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/buttontemplate.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/components/buttontemplate.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "button.turnOff();"
             }
           ],
+          "name": "turnOff",
+          "kind": "function",
           "params": [
             {
               "title": "param",
@@ -644,21 +594,12 @@
               "lineNumber": 206
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "turnOff",
-          "kind": "function",
           "memberof": "ButtonTemplate",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -674,8 +615,8 @@
           "namespace": "ButtonTemplate#turnOff"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -775,30 +716,21 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "slider.value = 10;"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "value",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -899,30 +831,21 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "slider.min = 1000;"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "min",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -1023,30 +946,21 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "slider.max = 1000;"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "max",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -1147,30 +1061,21 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "slider.step = 5;"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "step",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -1271,30 +1176,21 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/components/slidertemplate.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/components/slidertemplate.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "slider.mode = \"relative\";"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "mode",
     "kind": "member",
     "memberof": "SliderTemplate",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -1380,42 +1276,17 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/core/interface.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
     },
+    "name": "Interface",
     "augments": [
       {
         "title": "augments",
         "name": "EventEmitter"
       }
     ],
-    "examples": [],
-    "params": [
-      {
-        "title": "param",
-        "name": "args",
-        "lineNumber": 16
-      },
-      {
-        "title": "param",
-        "name": "options",
-        "lineNumber": 16
-      },
-      {
-        "title": "param",
-        "name": "defaults",
-        "lineNumber": 16
-      }
-    ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "Interface",
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -1512,17 +1383,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/core/interface.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
           },
-          "augments": [],
-          "examples": [
-            {
-              "description": "button.resize(100,100);"
-            }
-          ],
           "params": [
             {
-              "title": "param",
               "name": "width",
               "lineNumber": 2,
               "description": {
@@ -1579,7 +1443,6 @@
               }
             },
             {
-              "title": "param",
               "name": "height",
               "lineNumber": 3,
               "description": {
@@ -1636,21 +1499,19 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
+          "examples": [
+            {
+              "description": "button.resize(100,100);"
+            }
+          ],
           "name": "resize",
           "kind": "function",
           "memberof": "Interface",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -1746,30 +1607,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/core/interface.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/core/interface.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "button.destroy();"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "destroy",
           "kind": "function",
           "memberof": "Interface",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -1785,8 +1637,8 @@
           "namespace": "Interface#destroy"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -1902,14 +1754,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/button.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/button.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "ButtonTemplate"
-      }
-    ],
     "examples": [
       {
         "description": "var button = new Nexus.Button('#target')"
@@ -1918,17 +1764,15 @@
         "description": "var button = new Nexus.Button('#target',{\n  'size': [80,80],\n  'mode': 'aftertouch',\n  'state': false\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Button",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "ButtonTemplate"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -2020,29 +1864,20 @@
                 "column": 35
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/button.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/button.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "button.mode = 'toggle';"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "mode",
           "memberof": "Button",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -2057,8 +1892,8 @@
           "namespace": "Button#mode"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -2179,14 +2014,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/dial.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var dial = new Nexus.Dial('#target')"
@@ -2195,17 +2024,15 @@
         "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 0\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Dial",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -2297,30 +2124,21 @@
                 "column": 5
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "dial.value = 10;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -2425,30 +2243,21 @@
                 "column": 5
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "dial.min = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -2553,30 +2362,21 @@
                 "column": 5
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "dial.max = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -2681,30 +2481,21 @@
                 "column": 5
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "dial.step = 5;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -2809,30 +2600,21 @@
                 "column": 5
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "dial.mode = \"relative\";"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "mode",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -2937,30 +2719,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/dial.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/dial.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "dial.normalized = 0.5;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "normalized",
           "kind": "member",
           "memberof": "Dial",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -2976,8 +2749,8 @@
           "namespace": "Dial#normalized"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -3093,14 +2866,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var envelope = new Nexus.Envelope('#target')"
@@ -3109,17 +2876,15 @@
         "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Envelope",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -3196,26 +2961,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "sortPoints",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -3320,13 +3075,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "x",
               "lineNumber": 2,
               "description": {
@@ -3383,7 +3135,6 @@
               }
             },
             {
-              "title": "param",
               "name": "y",
               "lineNumber": 3,
               "description": {
@@ -3440,21 +3191,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "addPoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -3552,13 +3296,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "x",
               "lineNumber": 2,
               "description": {
@@ -3615,21 +3356,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "scan",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -3741,13 +3475,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -3804,7 +3535,6 @@
               }
             },
             {
-              "title": "param",
               "name": "x",
               "lineNumber": 3,
               "description": {
@@ -3861,7 +3591,6 @@
               }
             },
             {
-              "title": "param",
               "name": "y",
               "lineNumber": 4,
               "description": {
@@ -3918,21 +3647,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "movePoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -4044,13 +3766,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -4107,7 +3826,6 @@
               }
             },
             {
-              "title": "param",
               "name": "xOffset",
               "lineNumber": 3,
               "description": {
@@ -4164,7 +3882,6 @@
               }
             },
             {
-              "title": "param",
               "name": "yOffset",
               "lineNumber": 4,
               "description": {
@@ -4221,21 +3938,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "adjustPoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -4333,13 +4043,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -4396,21 +4103,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "destroyPoint",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -4508,13 +4208,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/envelope.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/envelope.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "allPoints",
               "lineNumber": 2,
               "description": {
@@ -4571,21 +4268,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "setPoints",
           "kind": "function",
           "memberof": "Envelope",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -4601,8 +4291,8 @@
           "namespace": "Envelope#setPoints"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -4713,9 +4403,8 @@
           "column": 34
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/meter.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "var meter = new Nexus.Meter('#target')"
@@ -4724,19 +4413,11 @@
         "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "context",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -4846,9 +4527,8 @@
           "column": 34
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/oscilloscope.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
@@ -4857,19 +4537,11 @@
         "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "context",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -4979,9 +4651,8 @@
           "column": 34
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/spectrogram.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
     },
-    "augments": [],
     "examples": [
       {
         "description": "var spectrogram = new Nexus.Spectrogram('#target')"
@@ -4990,19 +4661,11 @@
         "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "context",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -5106,17 +4769,10 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/meter.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "node",
         "lineNumber": 2,
         "description": {
@@ -5173,7 +4829,6 @@
         }
       },
       {
-        "title": "param",
         "name": "channels",
         "lineNumber": 3,
         "description": {
@@ -5230,21 +4885,19 @@
         }
       }
     ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
+      }
+    ],
     "name": "connect",
     "kind": "function",
     "memberof": "Meter",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -5330,26 +4983,16 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/meter.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/meter.js"
     },
-    "augments": [],
-    "examples": [],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "disconnect",
     "kind": "function",
     "memberof": "Meter",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -5447,33 +5090,27 @@
     ],
     "loc": {
       "start": {
-        "line": 131,
+        "line": 134,
         "column": 0
       },
       "end": {
-        "line": 161,
+        "line": 164,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 169,
+          "line": 172,
           "column": 0
         },
         "end": {
-          "line": 429,
+          "line": 432,
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/multislider.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var multislider = new Nexus.Multislider('#target')"
@@ -5482,17 +5119,15 @@
         "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Multislider",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -5560,45 +5195,35 @@
           ],
           "loc": {
             "start": {
-              "line": 332,
+              "line": 335,
               "column": 2
             },
             "end": {
-              "line": 335,
+              "line": 338,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 336,
+                "line": 339,
                 "column": 2
               },
               "end": {
-                "line": 338,
+                "line": 341,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "numberOfSliders",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -5684,49 +5309,40 @@
           ],
           "loc": {
             "start": {
-              "line": 354,
+              "line": 357,
               "column": 2
             },
             "end": {
-              "line": 358,
+              "line": 361,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 359,
+                "line": 362,
                 "column": 2
               },
               "end": {
-                "line": 361,
+                "line": 364,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "multislider.min = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -5812,49 +5428,40 @@
           ],
           "loc": {
             "start": {
-              "line": 368,
+              "line": 371,
               "column": 2
             },
             "end": {
-              "line": 372,
+              "line": 375,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 373,
+                "line": 376,
                 "column": 2
               },
               "end": {
-                "line": 375,
+                "line": 378,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "multislider.max = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -5940,49 +5547,40 @@
           ],
           "loc": {
             "start": {
-              "line": 382,
+              "line": 385,
               "column": 2
             },
             "end": {
-              "line": 386,
+              "line": 389,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 387,
+                "line": 390,
                 "column": 2
               },
               "end": {
-                "line": 389,
+                "line": 392,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "multislider.step = 5;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -6073,36 +5671,29 @@
           ],
           "loc": {
             "start": {
-              "line": 396,
+              "line": 399,
               "column": 2
             },
             "end": {
-              "line": 403,
+              "line": 406,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 404,
+                "line": 407,
                 "column": 2
               },
               "end": {
-                "line": 410,
+                "line": 413,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
-          "augments": [],
-          "examples": [
-            {
-              "description": "// Set the first slider to value 0.5\nmultislider.setSlider(0,0.5)"
-            }
-          ],
           "params": [
             {
-              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -6159,7 +5750,6 @@
               }
             },
             {
-              "title": "param",
               "name": "value",
               "lineNumber": 3,
               "description": {
@@ -6216,21 +5806,19 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
+          "examples": [
+            {
+              "description": "// Set the first slider to value 0.5\nmultislider.setSlider(0,0.5)"
+            }
+          ],
           "name": "setSlider",
           "kind": "function",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -6314,36 +5902,29 @@
           ],
           "loc": {
             "start": {
-              "line": 412,
+              "line": 415,
               "column": 2
             },
             "end": {
-              "line": 417,
+              "line": 420,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 418,
+                "line": 421,
                 "column": 2
               },
               "end": {
-                "line": 427,
+                "line": 430,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/multislider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/multislider.js"
           },
-          "augments": [],
-          "examples": [
-            {
-              "description": "multislider.setAllSliders([0.2,0.3,0.4,0.5,0.6])"
-            }
-          ],
           "params": [
             {
-              "title": "param",
               "name": "values",
               "lineNumber": 2,
               "description": {
@@ -6400,21 +5981,19 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
+          "examples": [
+            {
+              "description": "multislider.setAllSliders([0.2,0.3,0.4,0.5,0.6])"
+            }
+          ],
           "name": "setAllSliders",
           "kind": "function",
           "memberof": "Multislider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -6430,8 +6009,8 @@
           "namespace": "Multislider#setAllSliders"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -6547,14 +6126,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/number.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var number = new Nexus.Number('#target')"
@@ -6563,17 +6136,15 @@
         "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 20000,\n  'step': 1\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Number",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -6666,22 +6237,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
-          "augments": [],
-          "examples": [
-            {
-              "description": "number.link(slider)"
-            }
-          ],
           "params": [
             {
-              "title": "param",
-              "name": "destination",
-              "lineNumber": 189
-            },
-            {
-              "title": "param",
               "name": "element",
               "lineNumber": 2,
               "description": {
@@ -6740,23 +6299,26 @@
                 "type": "NameExpression",
                 "name": "Interface"
               }
+            },
+            {
+              "title": "param",
+              "name": "destination",
+              "lineNumber": 189
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
+          "examples": [
+            {
+              "description": "number.link(slider)"
+            }
+          ],
           "name": "link",
           "kind": "function",
           "memberof": "Number",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -6861,30 +6423,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "number.value = 10;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -6989,30 +6542,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "number.min = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -7117,30 +6661,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "number.max = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -7245,30 +6780,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/number.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/number.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "number.step = 5;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Number",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -7284,8 +6810,8 @@
           "namespace": "Number#step"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -7383,17 +6909,10 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/oscilloscope.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "node",
         "lineNumber": 2,
         "description": {
@@ -7450,21 +6969,19 @@
         }
       }
     ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
+      }
+    ],
     "name": "connect",
     "kind": "function",
     "memberof": "Oscilloscope",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -7550,26 +7067,16 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/oscilloscope.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/oscilloscope.js"
     },
-    "augments": [],
-    "examples": [],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "disconnect",
     "kind": "function",
     "memberof": "Oscilloscope",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -7681,30 +7188,22 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan.js"
     },
+    "examples": [
+      {
+        "description": "var pan = new Nexus.Pan('#target')"
+      }
+    ],
+    "name": "Pan",
     "augments": [
       {
         "title": "augments",
         "name": "Interface"
       }
     ],
-    "examples": [
-      {
-        "description": "var pan = new Nexus.Pan('#target')"
-      }
-    ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "Pan",
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -7791,26 +7290,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Pan",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -7826,8 +7315,8 @@
           "namespace": "Pan#value"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -7943,14 +7432,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var pan2d = new Nexus.Pan2d('#target')"
@@ -7959,17 +7442,15 @@
         "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // detection radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Pan2D",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -8046,25 +7527,15 @@
                 "column": 35
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "mode",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -8153,25 +7624,15 @@
                 "column": 43
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "speakers",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -8260,25 +7721,15 @@
                 "column": 37
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "range",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -8367,25 +7818,15 @@
                 "column": 21
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "levels",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -8489,13 +7930,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "x",
               "lineNumber": 2,
               "description": {
@@ -8552,7 +7990,6 @@
               }
             },
             {
-              "title": "param",
               "name": "y",
               "lineNumber": 3,
               "description": {
@@ -8609,21 +8046,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "moveSource",
           "kind": "function",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -8735,13 +8165,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -8798,7 +8225,6 @@
               }
             },
             {
-              "title": "param",
               "name": "x",
               "lineNumber": 3,
               "description": {
@@ -8855,7 +8281,6 @@
               }
             },
             {
-              "title": "param",
               "name": "y",
               "lineNumber": 4,
               "description": {
@@ -8912,21 +8337,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "moveSpeaker",
           "kind": "function",
           "memberof": "Pan2D",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -8942,8 +8360,8 @@
           "namespace": "Pan2D#moveSpeaker"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -9036,13 +8454,10 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/pan2d.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/pan2d.js"
     },
-    "augments": [],
-    "examples": [],
     "params": [
       {
-        "title": "param",
         "name": "locations",
         "lineNumber": 2,
         "description": {
@@ -9169,20 +8584,15 @@
         }
       }
     ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
-    "path": [],
-    "namespace": ""
+    "path": [
+      {}
+    ],
+    "namespace": "undefined"
   },
   {
     "description": {
@@ -9290,14 +8700,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/piano.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var piano = new Nexus.Piano('#target')"
@@ -9306,17 +8710,15 @@
         "description": "var piano = new Nexus.Piano('#target',{\n    'size': [500,125],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Piano",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -9408,13 +8810,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/piano.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "low",
               "lineNumber": 2,
               "description": {
@@ -9471,7 +8870,6 @@
               }
             },
             {
-              "title": "param",
               "name": "high",
               "lineNumber": 3,
               "description": {
@@ -9528,21 +8926,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "setRange",
           "kind": "function",
           "memberof": "Piano",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -9647,13 +9038,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/piano.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "note",
               "lineNumber": 2,
               "description": {
@@ -9710,7 +9098,6 @@
               }
             },
             {
-              "title": "param",
               "name": "on",
               "lineNumber": 3,
               "description": {
@@ -9767,21 +9154,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "toggleKey",
           "kind": "function",
           "memberof": "Piano",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -9886,13 +9266,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/piano.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/piano.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -9949,7 +9326,6 @@
               }
             },
             {
-              "title": "param",
               "name": "on",
               "lineNumber": 3,
               "description": {
@@ -10006,21 +9382,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "toggleIndex",
           "kind": "function",
           "memberof": "Piano",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -10036,8 +9405,8 @@
           "namespace": "Piano#toggleIndex"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -10153,14 +9522,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var position = new Nexus.Position('#target')"
@@ -10169,17 +9532,15 @@
         "description": "var position = new Nexus.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Position",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -10271,30 +9632,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "position.x = 0.5;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "x",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -10399,30 +9751,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "position.x = 0.5;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "y",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -10522,26 +9865,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "minX",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -10641,26 +9974,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "minY",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -10760,26 +10083,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "maxX",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -10879,26 +10192,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "maxY",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -10998,26 +10301,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "stepX",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -11117,26 +10410,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "stepY",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -11241,30 +10524,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/position.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/position.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "position.mode = \"relative\";"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "mode",
           "kind": "member",
           "memberof": "Position",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -11280,8 +10554,8 @@
           "namespace": "Position#mode"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -11397,14 +10671,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/radiobutton.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var radiobutton = new Nexus.RadioButton('#target')"
@@ -11413,17 +10681,15 @@
         "description": "var radiobutton = new Nexus.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "RadioButton",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -11508,13 +10774,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/radiobutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "index",
               "lineNumber": 2,
               "description": {
@@ -11571,21 +10834,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "select",
           "kind": "function",
           "memberof": "RadioButton",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -11675,26 +10931,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/radiobutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "deselect",
           "kind": "function",
           "memberof": "RadioButton",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -11795,13 +11041,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/radiobutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/radiobutton.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "buttons",
               "lineNumber": 2,
               "description": {
@@ -11862,21 +11105,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "numberOfButtons",
           "kind": "member",
           "memberof": "RadioButton",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -11892,8 +11128,8 @@
           "namespace": "RadioButton#numberOfButtons"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -12005,18 +11241,12 @@
           "column": 0
         },
         "end": {
-          "line": 172,
+          "line": 185,
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/select.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var select = new Nexus.Select('#target')"
@@ -12025,17 +11255,15 @@
         "description": "var select = new Nexus.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Select",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -12119,17 +11347,14 @@
                 "column": 2
               },
               "end": {
-                "line": 131,
+                "line": 144,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/select.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "options",
               "lineNumber": 2,
               "description": {
@@ -12190,21 +11415,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "defineOptions",
           "kind": "function",
           "memberof": "Select",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -12290,49 +11508,40 @@
           ],
           "loc": {
             "start": {
-              "line": 134,
+              "line": 147,
               "column": 2
             },
             "end": {
-              "line": 138,
+              "line": 151,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 139,
+                "line": 152,
                 "column": 2
               },
               "end": {
-                "line": 141,
+                "line": 154,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/select.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "select.value = \"sawtooth\";"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Select",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -12418,49 +11627,40 @@
           ],
           "loc": {
             "start": {
-              "line": 153,
+              "line": 166,
               "column": 2
             },
             "end": {
-              "line": 157,
+              "line": 170,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 158,
+                "line": 171,
                 "column": 2
               },
               "end": {
-                "line": 160,
+                "line": 173,
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/select.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/select.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "select.selectedIndex = 2;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "selectedIndex",
           "kind": "member",
           "memberof": "Select",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -12476,8 +11676,8 @@
           "namespace": "Select#selectedIndex"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -12573,7 +11773,7 @@
       },
       {
         "title": "output",
-        "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array</i> containing all values in the column, top first.",
+        "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array</i> containing all values in the column, <i>bottom row first</i>.",
         "lineNumber": 28
       },
       {
@@ -12603,14 +11803,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var sequencer = new Nexus.Sequencer('#target')"
@@ -12619,17 +11813,15 @@
         "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Sequencer",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -12721,29 +11913,20 @@
                 "column": 35
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "button.mode = 'toggle';"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "mode",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -12842,25 +12025,15 @@
                 "column": 64
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "interval",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -12959,25 +12132,15 @@
                 "column": 76
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "matrix",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -13076,25 +12239,15 @@
                 "column": 52
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "stepper",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -13194,13 +12347,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "ms",
               "lineNumber": 2,
               "description": {
@@ -13261,21 +12411,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "start",
           "kind": "function",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -13365,26 +12508,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "stop",
           "kind": "function",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -13474,26 +12607,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "next",
           "kind": "function",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -13593,26 +12716,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "rows",
           "kind": "member",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -13712,26 +12825,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/sequencer.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/sequencer.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "columns",
           "kind": "member",
           "memberof": "Sequencer",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -13747,8 +12850,8 @@
           "namespace": "Sequencer#columns"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -13864,14 +12967,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/slider.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var slider = new Nexus.Slider('#target')"
@@ -13880,17 +12977,15 @@
         "description": "var slider = new Nexus.Slider('#target',{\n    'size': [120,20],\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Slider",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -13982,30 +13077,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "slider.value = 10;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "value",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -14110,30 +13196,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "slider.min = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "min",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -14238,30 +13315,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "slider.max = 1000;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "max",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -14366,30 +13434,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "slider.step = 5;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "step",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -14494,30 +13553,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/slider.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/slider.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "slider.mode = \"relative\";"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "mode",
           "kind": "member",
           "memberof": "Slider",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -14533,8 +13583,8 @@
           "namespace": "Slider#mode"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -14632,17 +13682,10 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/spectrogram.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "node",
         "lineNumber": 2,
         "description": {
@@ -14699,21 +13742,19 @@
         }
       }
     ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
+      }
+    ],
     "name": "connect",
     "kind": "function",
     "memberof": "Spectrogram",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -14799,26 +13840,16 @@
           "column": 3
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/spectrogram.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/spectrogram.js"
     },
-    "augments": [],
-    "examples": [],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "disconnect",
     "kind": "function",
     "memberof": "Spectrogram",
     "scope": "instance",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -14935,14 +13966,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/textbutton.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "ButtonTemplate"
-      }
-    ],
     "examples": [
       {
         "description": "var textbutton = new Nexus.TextButton('#target')"
@@ -14951,17 +13976,15 @@
         "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': false,\n    'text': 'Play',\n    'alternateText': 'Stop'\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "TextButton",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "ButtonTemplate"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -15048,26 +14071,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/textbutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "alternateText",
           "kind": "member",
           "memberof": "TextButton",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -15167,26 +14180,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/textbutton.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/textbutton.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "text",
           "kind": "member",
           "memberof": "TextButton",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -15202,8 +14205,8 @@
           "namespace": "TextButton#text"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -15314,30 +14317,22 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/tilt.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/tilt.js"
     },
+    "examples": [
+      {
+        "description": "var tilt = new Nexus.Tilt('#target')"
+      }
+    ],
+    "name": "Tilt",
     "augments": [
       {
         "title": "augments",
         "name": "Interface"
       }
     ],
-    "examples": [
-      {
-        "description": "var tilt = new Nexus.Tilt('#target')"
-      }
-    ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "Tilt",
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -15424,26 +14419,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/tilt.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/tilt.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "active",
           "kind": "member",
           "memberof": "Tilt",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -15459,8 +14444,8 @@
           "namespace": "Tilt#active"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -15576,14 +14561,8 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/toggle.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
     },
-    "augments": [
-      {
-        "title": "augments",
-        "name": "Interface"
-      }
-    ],
     "examples": [
       {
         "description": "var toggle = new Nexus.Toggle('#target')"
@@ -15592,17 +14571,15 @@
         "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'state': false\n})"
       }
     ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Toggle",
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -15694,30 +14671,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/toggle.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "toggle.state = false;"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "state",
           "kind": "member",
           "memberof": "Toggle",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -15813,30 +14781,21 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/interfaces/toggle.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/interfaces/toggle.js"
           },
-          "augments": [],
           "examples": [
             {
               "description": "toggle.flip();"
             }
           ],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "flip",
           "kind": "function",
           "memberof": "Toggle",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -15852,8 +14811,8 @@
           "namespace": "Toggle#flip"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -15938,30 +14897,14 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/main.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/main.js"
     },
-    "augments": [],
-    "examples": [],
-    "params": [
-      {
-        "title": "param",
-        "name": "context",
-        "lineNumber": 25
-      }
-    ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "NexusUI",
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -16098,13 +15041,10 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
     },
-    "augments": [],
-    "examples": [],
     "params": [
       {
-        "title": "param",
         "name": "min",
         "lineNumber": 2,
         "description": {
@@ -16160,13 +15100,15 @@
           }
         },
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "0"
       },
       {
-        "title": "param",
         "name": "max",
         "lineNumber": 3,
         "description": {
@@ -16222,23 +15164,27 @@
           }
         },
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "1"
       },
       {
-        "title": "param",
         "name": "step",
         "lineNumber": 4,
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "0"
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -16293,21 +15239,15 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "Object"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Range",
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -16384,25 +15324,15 @@
                 "column": 19
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "min",
           "memberof": "Range",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -16491,25 +15421,15 @@
                 "column": 19
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "max",
           "memberof": "Range",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -16598,25 +15518,15 @@
                 "column": 40
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "start",
           "memberof": "Range",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -16705,25 +15615,15 @@
                 "column": 38
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "end",
           "memberof": "Range",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -16812,26 +15712,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "center",
           "kind": "member",
           "memberof": "Range",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -16921,26 +15811,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "size",
           "kind": "member",
           "memberof": "Range",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -17051,13 +15931,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/range.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/range.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "start",
               "lineNumber": 2,
               "description": {
@@ -17118,7 +15995,6 @@
               }
             },
             {
-              "title": "param",
               "name": "end",
               "lineNumber": 3,
               "description": {
@@ -17179,21 +16055,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "move",
           "kind": "function",
           "memberof": "Range",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -17209,8 +16078,8 @@
           "namespace": "Range#move"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -17361,13 +16230,10 @@
           "column": 1
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/step.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
     },
-    "augments": [],
-    "examples": [],
     "params": [
       {
-        "title": "param",
         "name": "min",
         "lineNumber": 2,
         "description": {
@@ -17423,13 +16289,15 @@
           }
         },
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "0"
       },
       {
-        "title": "param",
         "name": "max",
         "lineNumber": 3,
         "description": {
@@ -17485,23 +16353,27 @@
           }
         },
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "1"
       },
       {
-        "title": "param",
         "name": "step",
         "lineNumber": 4,
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "0"
       },
       {
-        "title": "param",
         "name": "value",
         "lineNumber": 5,
         "description": {
@@ -17557,13 +16429,15 @@
           }
         },
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "0"
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -17618,21 +16492,15 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "Object"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
     "name": "Step",
     "kind": "class",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [
         {
           "description": {
@@ -17720,13 +16588,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/step.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "value",
               "lineNumber": 2,
               "type": {
@@ -17735,21 +16600,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "update",
           "kind": "function",
           "memberof": "Step",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -17850,13 +16708,10 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/step.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
           },
-          "augments": [],
-          "examples": [],
           "params": [
             {
-              "title": "param",
               "name": "value",
               "lineNumber": 2,
               "type": {
@@ -17865,21 +16720,14 @@
               }
             }
           ],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "updateNormal",
           "kind": "function",
           "memberof": "Step",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -17969,26 +16817,16 @@
                 "column": 3
               }
             },
-            "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/models/step.js"
+            "file": "/Library/WebServer/Documents/NexusUI/lib/models/step.js"
           },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
           "name": "normalized",
           "kind": "member",
           "memberof": "Step",
           "scope": "instance",
           "members": {
-            "global": [],
-            "inner": [],
             "instance": [],
-            "events": [],
-            "static": []
+            "static": [],
+            "events": []
           },
           "path": [
             {
@@ -18004,8 +16842,8 @@
           "namespace": "Step#normalized"
         }
       ],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -18135,17 +16973,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "value",
         "lineNumber": 2,
         "description": {
@@ -18206,7 +17037,6 @@
         }
       },
       {
-        "title": "param",
         "name": "min",
         "lineNumber": 3,
         "description": {
@@ -18267,7 +17097,6 @@
         }
       },
       {
-        "title": "param",
         "name": "max",
         "lineNumber": 4,
         "description": {
@@ -18328,7 +17157,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -18383,26 +17211,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5"
+      }
+    ],
     "name": "clip",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -18553,17 +17380,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "inNum",
         "lineNumber": 2,
         "description": {
@@ -18624,7 +17444,6 @@
         }
       },
       {
-        "title": "param",
         "name": "inMin",
         "lineNumber": 3,
         "description": {
@@ -18685,7 +17504,6 @@
         }
       },
       {
-        "title": "param",
         "name": "inMax",
         "lineNumber": 4,
         "description": {
@@ -18746,7 +17564,6 @@
         }
       },
       {
-        "title": "param",
         "name": "outMin",
         "lineNumber": 5,
         "description": {
@@ -18807,7 +17624,6 @@
         }
       },
       {
-        "title": "param",
         "name": "outMax",
         "lineNumber": 6,
         "description": {
@@ -18868,7 +17684,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -18923,26 +17738,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1"
+      }
+    ],
     "name": "scale",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -19053,17 +17867,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.mtof(60)  // returns the frequency number of Middle C"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "midi",
         "lineNumber": 2,
         "description": {
@@ -19124,7 +17931,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -19179,26 +17985,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.mtof(60)  // returns the frequency number of Middle C"
+      }
+    ],
     "name": "mtof",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -19329,17 +18134,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "loc",
         "lineNumber": 2,
         "description": {
@@ -19400,7 +18198,6 @@
         }
       },
       {
-        "title": "param",
         "name": "min",
         "lineNumber": 3,
         "description": {
@@ -19461,7 +18258,6 @@
         }
       },
       {
-        "title": "param",
         "name": "max",
         "lineNumber": 4,
         "description": {
@@ -19522,7 +18318,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -19577,26 +18372,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1"
+      }
+    ],
     "name": "interp",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -19697,16 +18491,8 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2"
-      }
-    ],
-    "params": [],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -19761,26 +18547,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "various"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2"
+      }
+    ],
     "name": "pick",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -19891,17 +18676,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "num",
         "lineNumber": 2,
         "description": {
@@ -19962,7 +18740,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -20017,26 +18794,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4"
+      }
+    ],
     "name": "octave",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -20157,17 +18933,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "bound1",
         "lineNumber": 2,
         "description": {
@@ -20228,7 +18997,6 @@
         }
       },
       {
-        "title": "param",
         "name": "bound2",
         "lineNumber": 3,
         "description": {
@@ -20289,7 +19057,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -20344,26 +19111,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000"
+      }
+    ],
     "name": "ri",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -20484,17 +19250,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "bound1",
         "lineNumber": 2,
         "description": {
@@ -20555,7 +19314,6 @@
         }
       },
       {
-        "title": "param",
         "name": "bound2",
         "lineNumber": 3,
         "description": {
@@ -20616,7 +19374,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -20671,26 +19428,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2"
+      }
+    ],
     "name": "rf",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -20801,17 +19557,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.average([0,2,4,6,8,10])   // returns 5"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "data",
         "lineNumber": 2,
         "description": {
@@ -20872,7 +19621,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -20927,26 +19675,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.average([0,2,4,6,8,10])   // returns 5"
+      }
+    ],
     "name": "average",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -21087,17 +19834,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.distance(0,0,3,4)   // returns 5"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "x1",
         "lineNumber": 2,
         "description": {
@@ -21158,7 +19898,6 @@
         }
       },
       {
-        "title": "param",
         "name": "y1",
         "lineNumber": 3,
         "description": {
@@ -21219,7 +19958,6 @@
         }
       },
       {
-        "title": "param",
         "name": "x2",
         "lineNumber": 4,
         "description": {
@@ -21280,7 +20018,6 @@
         }
       },
       {
-        "title": "param",
         "name": "y2",
         "lineNumber": 5,
         "description": {
@@ -21341,7 +20078,6 @@
         }
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -21396,26 +20132,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.distance(0,0,3,4)   // returns 5"
+      }
+    ],
     "name": "distance",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
@@ -21530,17 +20265,10 @@
           "column": 2
         }
       },
-      "file": "/mnt/c/Users/Default.LAPTOP-8SC97F37/workspace/ui/lib/util/math.js"
+      "file": "/Library/WebServer/Documents/NexusUI/lib/util/math.js"
     },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.coin(0.1)   // returns 1 (10% of the time) or 0 (90% of the time)"
-      }
-    ],
     "params": [
       {
-        "title": "param",
         "name": "odds",
         "lineNumber": 2,
         "description": {
@@ -21596,13 +20324,15 @@
           }
         },
         "type": {
-          "type": "NameExpression",
-          "name": "number"
+          "type": "OptionalType",
+          "expression": {
+            "type": "NameExpression",
+            "name": "number"
+          }
         },
         "default": "0.5"
       }
     ],
-    "properties": [],
     "returns": [
       {
         "description": {
@@ -21657,26 +20387,25 @@
             }
           }
         },
-        "title": "returns",
         "type": {
           "type": "NameExpression",
           "name": "number"
         }
       }
     ],
-    "sees": [],
-    "throws": [],
-    "todos": [],
+    "examples": [
+      {
+        "description": "Nexus.coin(0.1)   // returns 1 (10% of the time) or 0 (90% of the time)"
+      }
+    ],
     "name": "coin",
     "kind": "function",
     "memberof": "math",
     "scope": "static",
     "members": {
-      "global": [],
-      "inner": [],
       "instance": [],
-      "events": [],
-      "static": []
+      "static": [],
+      "events": []
     },
     "path": [
       {
