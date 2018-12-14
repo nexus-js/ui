@@ -36,21 +36,15 @@ body {
 </style>
 <script>
 
-  var thing = new Nexus.Add.Number('#target',{
-    size: [100,100]
+  var thing = new Nexus.Add.Envelope('#target',{
+    size: [300,200],
+    points: [
+      { x: 0, y: 0, xMin: 0, xMax: 0.5, yMin:0, yMax: 0.8},
+      { x: 0.5, y: 0.5, xMin: 0.5, xMax: 1, yMin:0, yMax: 0.8}
+    ]
   })
 
-  thing.on('change',function(v) {
-    console.log(v)
-  })
 
-  thing.on('click',function() {
-    console.log('down')
-  })
-
-  thing.on('release',function() {
-    console.log('up')
-  })
 
 
 

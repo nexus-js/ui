@@ -7407,6 +7407,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  this.x = point.x;
 	  this.y = point.y;
+	
+	  this.xMin = point.xMin || 0;
+	  this.xMax = point.xMax || 1;
+	  this.yMin = point.yMin || 0;
+	  this.yMax = point.yMax || 1;
+	
 	  this.envelope = envelope;
 	
 	  this.element = svg.create("circle");
@@ -7433,13 +7439,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var nextNode = this.envelope.nodes[nextIndex];
 	
 	      var lowX = prevIndex >= 0 ? prevNode.x : 0;
+	      lowX = lowX < this.xMin ? this.xMin : lowX;
+	
 	      var highX = nextIndex < this.envelope.nodes.length ? nextNode.x : 1;
+	      highX = highX > this.xMax ? this.xMax : highX;
 	
 	      if (this.x < lowX) {
 	        this.x = lowX;
 	      }
 	      if (this.x > highX) {
 	        this.x = highX;
+	      }
+	
+	      if (this.y < this.yMin) {
+	        this.y = this.yMin;
+	      }
+	      if (this.y > this.yMax) {
+	        this.y = this.yMax;
 	      }
 	    }
 	
@@ -7477,6 +7493,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	* @example
 	* var envelope = new Nexus.Envelope('#target',{
 	*   'size': [300,150],
+	*   'noNewPoints': false,
 	*   'points': [
 	*     {
 	*       x: 0.1,
@@ -7517,6 +7534,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    var defaults = {
 	      size: [300, 150],
+	      noNewPoints: false,
 	      points: [{
 	        x: 0.1,
 	        y: 0.4
@@ -7704,7 +7722,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	
 	        // if not very close to any node, create a node
-	        if (nearestDist > 0.07) {
+	        if (!this.settings.noNewPoints && nearestDist > 0.07) {
 	
 	          nearestIndex = this.getIndexFromX(this.mouse.x / this.width);
 	
