@@ -74,7 +74,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/components/buttontemplate.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
     },
     "augments": [
       {
@@ -201,7 +201,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/components/buttontemplate.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -327,7 +327,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/components/buttontemplate.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -504,7 +504,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/components/buttontemplate.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -629,7 +629,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/components/buttontemplate.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -775,7 +775,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/components/slidertemplate.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -899,7 +899,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/components/slidertemplate.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1023,7 +1023,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/components/slidertemplate.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1147,7 +1147,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/components/slidertemplate.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1271,7 +1271,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/components/slidertemplate.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1380,7 +1380,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/core/interface.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/core/interface.js"
     },
     "augments": [
       {
@@ -1512,7 +1512,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/core/interface.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1746,7 +1746,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/core/interface.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1902,7 +1902,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/button.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/button.js"
     },
     "augments": [
       {
@@ -2020,7 +2020,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/button.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/button.js"
           },
           "augments": [],
           "examples": [
@@ -2179,7 +2179,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/dial.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
     },
     "augments": [
       {
@@ -2297,7 +2297,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/dial.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2425,7 +2425,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/dial.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2553,7 +2553,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/dial.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2681,7 +2681,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/dial.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2809,7 +2809,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/dial.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2937,7 +2937,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/dial.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -3058,42 +3058,42 @@
       },
       {
         "title": "example",
-        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})",
+        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'noNewPoints': false,\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires any time a node is moved. <br>\nThe event data is an array of point locations. Each item in the array is an object containing <i>x</i> and <i>y</i> properties describing the location of a point on the envelope.",
-        "lineNumber": 33
+        "lineNumber": 34
       },
       {
         "title": "outputexample",
         "description": "envelope.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 38
+        "lineNumber": 39
       }
     ],
     "loc": {
       "start": {
-        "line": 69,
+        "line": 81,
         "column": 0
       },
       "end": {
-        "line": 112,
+        "line": 125,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 114,
+          "line": 127,
           "column": 0
         },
         "end": {
-          "line": 465,
+          "line": 479,
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
     },
     "augments": [
       {
@@ -3106,7 +3106,7 @@
         "description": "var envelope = new Nexus.Envelope('#target')"
       },
       {
-        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})"
+        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'noNewPoints': false,\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})"
       }
     ],
     "params": [],
@@ -3177,26 +3177,26 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 343,
+              "line": 357,
               "column": 2
             },
             "end": {
-              "line": 345,
+              "line": 359,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 346,
+                "line": 360,
                 "column": 2
               },
               "end": {
-                "line": 350,
+                "line": 364,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3301,26 +3301,26 @@
           ],
           "loc": {
             "start": {
-              "line": 353,
+              "line": 367,
               "column": 2
             },
             "end": {
-              "line": 357,
+              "line": 371,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 358,
+                "line": 372,
                 "column": 2
               },
               "end": {
-                "line": 381,
+                "line": 395,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3533,26 +3533,26 @@
           ],
           "loc": {
             "start": {
-              "line": 384,
+              "line": 398,
               "column": 2
             },
             "end": {
-              "line": 387,
+              "line": 401,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 388,
+                "line": 402,
                 "column": 2
               },
               "end": {
-                "line": 404,
+                "line": 418,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3722,26 +3722,26 @@
           ],
           "loc": {
             "start": {
-              "line": 407,
+              "line": 421,
               "column": 2
             },
             "end": {
-              "line": 412,
+              "line": 426,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 413,
+                "line": 427,
                 "column": 2
               },
               "end": {
-                "line": 419,
+                "line": 433,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4025,26 +4025,26 @@
           ],
           "loc": {
             "start": {
-              "line": 422,
+              "line": 436,
               "column": 2
             },
             "end": {
-              "line": 427,
+              "line": 441,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 428,
+                "line": 442,
                 "column": 2
               },
               "end": {
-                "line": 434,
+                "line": 448,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4314,26 +4314,26 @@
           ],
           "loc": {
             "start": {
-              "line": 437,
+              "line": 451,
               "column": 2
             },
             "end": {
-              "line": 440,
+              "line": 454,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 441,
+                "line": 455,
                 "column": 2
               },
               "end": {
-                "line": 446,
+                "line": 460,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4489,26 +4489,26 @@
           ],
           "loc": {
             "start": {
-              "line": 449,
+              "line": 463,
               "column": 2
             },
             "end": {
-              "line": 452,
+              "line": 466,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 453,
+                "line": 467,
                 "column": 2
               },
               "end": {
-                "line": 463,
+                "line": 477,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/envelope.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4713,7 +4713,7 @@
           "column": 34
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/meter.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/meter.js"
     },
     "augments": [],
     "examples": [
@@ -4846,7 +4846,7 @@
           "column": 34
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/oscilloscope.js"
     },
     "augments": [],
     "examples": [
@@ -4979,7 +4979,7 @@
           "column": 34
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/spectrogram.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/spectrogram.js"
     },
     "augments": [],
     "examples": [
@@ -5106,7 +5106,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/meter.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/meter.js"
     },
     "augments": [],
     "examples": [
@@ -5330,7 +5330,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/meter.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/meter.js"
     },
     "augments": [],
     "examples": [],
@@ -5431,42 +5431,42 @@
       },
       {
         "title": "example",
-        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})",
+        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'candycane': 3,\n 'values': [0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1],\n 'smoothing': 0,\n 'mode': 'bar'  // 'bar' or 'line'\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\nFires any time the interface's value changes. <br>\nThe event data an object containing <i>index</i> and <i>value</i> properties",
-        "lineNumber": 20
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object containing <i>index</i> and <i>value</i> properties",
+        "lineNumber": 23
       },
       {
         "title": "outputexample",
         "description": "multislider.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 25
+        "lineNumber": 28
       }
     ],
     "loc": {
       "start": {
-        "line": 134,
+        "line": 8,
         "column": 0
       },
       "end": {
-        "line": 164,
+        "line": 41,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 172,
+          "line": 43,
           "column": 0
         },
         "end": {
-          "line": 432,
+          "line": 449,
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/multislider.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
     },
     "augments": [
       {
@@ -5479,7 +5479,7 @@
         "description": "var multislider = new Nexus.Multislider('#target')"
       },
       {
-        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'values': [0.7,0.7,0.7,0.7,0.7]\n})"
+        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'candycane': 3,\n 'values': [0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1],\n 'smoothing': 0,\n 'mode': 'bar'  // 'bar' or 'line'\n})"
       }
     ],
     "params": [],
@@ -5503,7 +5503,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Get or set the number of sliders",
+                    "value": "The current values of the slider. NOTE: Use this only to get the current values. Setting this array will not update the multislider. To set the multislider's values, use setSlider() or setAllSliders()",
                     "position": {
                       "start": {
                         "line": 1,
@@ -5512,8 +5512,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 33,
-                        "offset": 32
+                        "column": 201,
+                        "offset": 200
                       },
                       "indent": []
                     }
@@ -5527,8 +5527,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 33,
-                    "offset": 32
+                    "column": 201,
+                    "offset": 200
                   },
                   "indent": []
                 }
@@ -5542,8 +5542,125 @@
               },
               "end": {
                 "line": 1,
-                "column": 33,
-                "offset": 32
+                "column": 201,
+                "offset": 200
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "Array"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 70,
+              "column": 4
+            },
+            "end": {
+              "line": 73,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 74,
+                "column": 4
+              },
+              "end": {
+                "line": 74,
+                "column": 39
+              }
+            },
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "values",
+          "memberof": "Multislider",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Multislider",
+              "kind": "class"
+            },
+            {
+              "name": "values",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Multislider#values"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Applies a simple low-pass filter to the multislider as it is interacted with. A smoothing of 0 will be no smoothing. A smoothing of 1 will smooth 1 slider on each side of the interaction. A smoothing of 2 will smooth 2 sliders on each side, and so on.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 252,
+                        "offset": 251
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 252,
+                    "offset": 251
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 252,
+                "offset": 251
               }
             }
           },
@@ -5560,26 +5677,143 @@
           ],
           "loc": {
             "start": {
-              "line": 335,
+              "line": 80,
+              "column": 4
+            },
+            "end": {
+              "line": 83,
+              "column": 6
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 84,
+                "column": 4
+              },
+              "end": {
+                "line": 84,
+                "column": 45
+              }
+            },
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "smoothing",
+          "memberof": "Multislider",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Multislider",
+              "kind": "class"
+            },
+            {
+              "name": "smoothing",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Multislider#smoothing"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Get the number of sliders",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 26,
+                        "offset": 25
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 26,
+                    "offset": 25
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 26,
+                "offset": 25
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "type",
+              "description": null,
+              "lineNumber": 2,
+              "type": {
+                "type": "NameExpression",
+                "name": "Number"
+              }
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 362,
               "column": 2
             },
             "end": {
-              "line": 338,
+              "line": 365,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 339,
+                "line": 366,
                 "column": 2
               },
               "end": {
-                "line": 341,
+                "line": 368,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/multislider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5684,26 +5918,26 @@
           ],
           "loc": {
             "start": {
-              "line": 357,
+              "line": 371,
               "column": 2
             },
             "end": {
-              "line": 361,
+              "line": 375,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 362,
+                "line": 376,
                 "column": 2
               },
               "end": {
-                "line": 364,
+                "line": 378,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/multislider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5812,26 +6046,26 @@
           ],
           "loc": {
             "start": {
-              "line": 371,
+              "line": 385,
               "column": 2
             },
             "end": {
-              "line": 375,
+              "line": 389,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 376,
+                "line": 390,
                 "column": 2
               },
               "end": {
-                "line": 378,
+                "line": 392,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/multislider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5940,26 +6174,26 @@
           ],
           "loc": {
             "start": {
-              "line": 385,
+              "line": 399,
               "column": 2
             },
             "end": {
-              "line": 389,
+              "line": 403,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 390,
+                "line": 404,
                 "column": 2
               },
               "end": {
-                "line": 392,
+                "line": 406,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/multislider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6073,26 +6307,26 @@
           ],
           "loc": {
             "start": {
-              "line": 399,
+              "line": 413,
               "column": 2
             },
             "end": {
-              "line": 406,
+              "line": 420,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 407,
+                "line": 421,
                 "column": 2
               },
               "end": {
-                "line": 413,
+                "line": 428,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/multislider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6314,26 +6548,26 @@
           ],
           "loc": {
             "start": {
-              "line": 415,
+              "line": 430,
               "column": 2
             },
             "end": {
-              "line": 420,
+              "line": 435,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 421,
+                "line": 436,
                 "column": 2
               },
               "end": {
-                "line": 430,
+                "line": 447,
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/multislider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6547,7 +6781,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/number.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
     },
     "augments": [
       {
@@ -6666,7 +6900,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/number.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6861,7 +7095,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/number.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6989,7 +7223,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/number.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7117,7 +7351,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/number.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7245,7 +7479,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/number.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7383,7 +7617,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/oscilloscope.js"
     },
     "augments": [],
     "examples": [
@@ -7550,7 +7784,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/oscilloscope.js"
     },
     "augments": [],
     "examples": [],
@@ -7681,7 +7915,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan.js"
     },
     "augments": [
       {
@@ -7791,7 +8025,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan.js"
           },
           "augments": [],
           "examples": [],
@@ -7943,7 +8177,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
     },
     "augments": [
       {
@@ -8046,7 +8280,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8153,7 +8387,7 @@
                 "column": 43
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8260,7 +8494,7 @@
                 "column": 37
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8367,7 +8601,7 @@
                 "column": 21
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8489,7 +8723,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8735,7 +8969,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -9036,7 +9270,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/pan2d.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
     },
     "augments": [],
     "examples": [],
@@ -9290,7 +9524,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/piano.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
     },
     "augments": [
       {
@@ -9408,7 +9642,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/piano.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9647,7 +9881,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/piano.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9886,7 +10120,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/piano.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10153,7 +10387,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
     },
     "augments": [
       {
@@ -10271,7 +10505,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10399,7 +10633,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10522,7 +10756,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10641,7 +10875,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10760,7 +10994,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10879,7 +11113,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10998,7 +11232,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11117,7 +11351,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11241,7 +11475,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/position.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -11397,7 +11631,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/radiobutton.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
     },
     "augments": [
       {
@@ -11508,7 +11742,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11675,7 +11909,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11795,7 +12029,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -12009,7 +12243,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/select.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
     },
     "augments": [
       {
@@ -12123,7 +12357,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/select.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [],
@@ -12309,7 +12543,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/select.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12437,7 +12671,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/select.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12603,7 +12837,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
     },
     "augments": [
       {
@@ -12721,7 +12955,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [
@@ -12842,7 +13076,7 @@
                 "column": 64
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -12959,7 +13193,7 @@
                 "column": 76
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13076,7 +13310,7 @@
                 "column": 52
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13194,7 +13428,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13365,7 +13599,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13474,7 +13708,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13593,7 +13827,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13712,7 +13946,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/sequencer.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13864,7 +14098,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/slider.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
     },
     "augments": [
       {
@@ -13982,7 +14216,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/slider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14110,7 +14344,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/slider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14238,7 +14472,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/slider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14366,7 +14600,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/slider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14494,7 +14728,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/slider.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14632,7 +14866,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/spectrogram.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/spectrogram.js"
     },
     "augments": [],
     "examples": [
@@ -14799,7 +15033,7 @@
           "column": 3
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/spectrogram.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/spectrogram.js"
     },
     "augments": [],
     "examples": [],
@@ -14935,7 +15169,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/textbutton.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/textbutton.js"
     },
     "augments": [
       {
@@ -15048,7 +15282,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/textbutton.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15167,7 +15401,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/textbutton.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15314,7 +15548,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/tilt.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/tilt.js"
     },
     "augments": [
       {
@@ -15424,7 +15658,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/tilt.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/tilt.js"
           },
           "augments": [],
           "examples": [],
@@ -15576,7 +15810,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/toggle.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/toggle.js"
     },
     "augments": [
       {
@@ -15694,7 +15928,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/toggle.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -15813,7 +16047,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/interfaces/toggle.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -15938,7 +16172,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/main.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/main.js"
     },
     "augments": [],
     "examples": [],
@@ -16098,7 +16332,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
     },
     "augments": [],
     "examples": [],
@@ -16384,7 +16618,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16491,7 +16725,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16598,7 +16832,7 @@
                 "column": 40
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16705,7 +16939,7 @@
                 "column": 38
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16812,7 +17046,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16921,7 +17155,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17051,7 +17285,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/range.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17361,7 +17595,7 @@
           "column": 1
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/models/step.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
     },
     "augments": [],
     "examples": [],
@@ -17720,7 +17954,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/step.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -17850,7 +18084,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/step.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -17969,7 +18203,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/nuno/Code/nexus-ui/lib/models/step.js"
+            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18135,7 +18369,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -18553,7 +18787,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19053,7 +19287,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19329,7 +19563,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19697,7 +19931,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19891,7 +20125,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20157,7 +20391,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20484,7 +20718,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20801,7 +21035,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21087,7 +21321,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21530,7 +21764,7 @@
           "column": 2
         }
       },
-      "file": "/Users/nuno/Code/nexus-ui/lib/util/math.js"
+      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
