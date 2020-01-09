@@ -2078,8 +2078,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        if (this.width < this.height) {
 	          this.orientation = "vertical";
+	          this.position.direction = "vertical";
 	        } else {
 	          this.orientation = "horizontal";
+	          this.position.direction = "horizontal";
 	        }
 	
 	        if (this.position) {
