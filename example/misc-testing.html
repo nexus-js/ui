@@ -9,6 +9,7 @@
   <script src="js/Tone9.js"></script>
   <meta name="viewport" content="width=200, initial-scale=1">
 </head>
+
 <body style="margin:0;padding;0">
 
 
@@ -21,28 +22,27 @@
 
 </body>
 <style>
-body {
-  font-family:helvetica;
-}
-[nexus-ui] {
-  margin:10px;
-  float:left;
-}
-#target {
-  width:500px;
-  height:500px;
-  border:dashed 2px #333;
-}
+  body {
+    font-family: helvetica;
+  }
+
+  [nexus-ui] {
+    margin: 10px;
+    float: left;
+  }
+
+  #target {
+    width: 500px;
+    height: 500px;
+    border: dashed 2px #333;
+  }
 </style>
 <script>
-
-  var thing = new Nexus.Add.Multislider('#target',{
-    size: [300,200]
+  var thing = new Nexus.Add.Slider('#target', {
+    size: [300, 200]
   })
 
-
-
-
-
+  thing.resize(200, 400)
 </script>
+
 </html>

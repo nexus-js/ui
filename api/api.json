@@ -74,7 +74,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
     },
     "augments": [
       {
@@ -201,7 +201,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -327,7 +327,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -504,7 +504,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -629,7 +629,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -775,7 +775,7 @@
           "column": 3
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -899,7 +899,7 @@
           "column": 3
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1023,7 +1023,7 @@
           "column": 3
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1147,7 +1147,7 @@
           "column": 3
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1271,7 +1271,7 @@
           "column": 3
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1380,7 +1380,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/core/interface.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
     },
     "augments": [
       {
@@ -1512,7 +1512,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/core/interface.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1746,7 +1746,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/core/interface.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1902,7 +1902,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/button.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/button.js"
     },
     "augments": [
       {
@@ -2020,7 +2020,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/button.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/button.js"
           },
           "augments": [],
           "examples": [
@@ -2179,7 +2179,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
     },
     "augments": [
       {
@@ -2297,7 +2297,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2425,7 +2425,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2553,7 +2553,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2681,7 +2681,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2809,7 +2809,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2937,7 +2937,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -3093,7 +3093,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
     },
     "augments": [
       {
@@ -3196,7 +3196,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3320,7 +3320,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3552,7 +3552,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3741,7 +3741,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4044,7 +4044,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4333,7 +4333,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4508,7 +4508,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4699,7 +4699,7 @@
       },
       "end": {
         "line": 27,
-        "column": 2
+        "column": 3
       }
     },
     "context": {
@@ -4709,13 +4709,18 @@
           "column": 0
         },
         "end": {
-          "line": 29,
-          "column": 34
+          "line": 191,
+          "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/meter.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
     },
-    "augments": [],
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
         "description": "var meter = new Nexus.Meter('#target')"
@@ -4730,635 +4735,380 @@
     "sees": [],
     "throws": [],
     "todos": [],
-    "name": "context",
+    "name": "Meter",
+    "kind": "class",
     "members": {
       "global": [],
       "inner": [],
-      "instance": [],
-      "events": [],
-      "static": []
-    },
-    "path": [
-      {
-        "name": "context"
-      }
-    ],
-    "namespace": "context"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
+      "instance": [
         {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Visualizes a waveform's stream of values.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 42,
-                  "offset": 41
-                },
-                "indent": []
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 557,
+                        "offset": 556
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 557,
+                    "offset": 556
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 557,
+                "offset": 556
               }
             }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 42,
-              "offset": 41
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 42,
-          "offset": 41
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "Visualizes a waveform's stream of values.",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span nexus-ui=\"oscilloscope\"></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})",
-        "lineNumber": 10
-      },
-      {
-        "title": "output",
-        "description": "&nbsp;\nNo events",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 6,
-        "column": 0
-      },
-      "end": {
-        "line": 25,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 27,
-          "column": 0
-        },
-        "end": {
-          "line": 27,
-          "column": 34
-        }
-      },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/oscilloscope.js"
-    },
-    "augments": [],
-    "examples": [
-      {
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
-      },
-      {
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
-      }
-    ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "context",
-    "members": {
-      "global": [],
-      "inner": [],
-      "instance": [],
-      "events": [],
-      "static": []
-    },
-    "path": [
-      {
-        "name": "context"
-      }
-    ],
-    "namespace": "context"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
+          },
+          "tags": [
             {
-              "type": "text",
-              "value": "Audio spectrum visualization",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 29,
-                  "offset": 28
-                },
-                "indent": []
-              }
+              "title": "param",
+              "description": "{AudioNode} The audio node to visualize",
+              "lineNumber": 2,
+              "type": null,
+              "name": "node"
+            },
+            {
+              "title": "param",
+              "description": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
+              "lineNumber": 3,
+              "type": null,
+              "name": "channels"
+            },
+            {
+              "title": "example",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );",
+              "lineNumber": 4
             }
           ],
-          "position": {
+          "loc": {
             "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
+              "line": 144,
+              "column": 2
             },
             "end": {
-              "line": 1,
-              "column": 29,
-              "offset": 28
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 29,
-          "offset": 28
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "description",
-        "description": "Audio spectrum visualization",
-        "lineNumber": 3
-      },
-      {
-        "title": "demo",
-        "description": "<span nexus-ui=\"spectrogram\"></span>",
-        "lineNumber": 5
-      },
-      {
-        "title": "example",
-        "description": "var spectrogram = new Nexus.Spectrogram('#target')",
-        "lineNumber": 7
-      },
-      {
-        "title": "example",
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})",
-        "lineNumber": 10
-      },
-      {
-        "title": "output",
-        "description": "&nbsp;\nNo events",
-        "lineNumber": 15
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 7,
-        "column": 0
-      },
-      "end": {
-        "line": 26,
-        "column": 2
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 28,
-          "column": 0
-        },
-        "end": {
-          "line": 28,
-          "column": 34
-        }
-      },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/spectrogram.js"
-    },
-    "augments": [],
-    "examples": [
-      {
-        "description": "var spectrogram = new Nexus.Spectrogram('#target')"
-      },
-      {
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
-      }
-    ],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "context",
-    "members": {
-      "global": [],
-      "inner": [],
-      "instance": [],
-      "events": [],
-      "static": []
-    },
-    "path": [
-      {
-        "name": "context"
-      }
-    ],
-    "namespace": "context"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 557,
-                  "offset": 556
-                },
-                "indent": []
+              "line": 150,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 152,
+                "column": 2
+              },
+              "end": {
+                "line": 171,
+                "column": 3
               }
+            },
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
             }
           ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 557,
-              "offset": 556
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 557,
-          "offset": 556
-        }
-      }
-    },
-    "tags": [
-      {
-        "title": "param",
-        "description": "{AudioNode} The audio node to visualize",
-        "lineNumber": 2,
-        "type": null,
-        "name": "node"
-      },
-      {
-        "title": "param",
-        "description": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
-        "lineNumber": 3,
-        "type": null,
-        "name": "channels"
-      },
-      {
-        "title": "example",
-        "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );",
-        "lineNumber": 4
-      }
-    ],
-    "loc": {
-      "start": {
-        "line": 148,
-        "column": 2
-      },
-      "end": {
-        "line": 154,
-        "column": 4
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 156,
-          "column": 2
-        },
-        "end": {
-          "line": 175,
-          "column": 3
-        }
-      },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/meter.js"
-    },
-    "augments": [],
-    "examples": [
-      {
-        "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
-      }
-    ],
-    "params": [
-      {
-        "title": "param",
-        "name": "node",
-        "lineNumber": 2,
-        "description": {
-          "type": "root",
-          "children": [
+          "params": [
             {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "{AudioNode} The audio node to visualize",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 40,
-                      "offset": 39
-                    },
-                    "indent": []
+              "title": "param",
+              "name": "node",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{AudioNode} The audio node to visualize",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
                   }
                 }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 40,
-                  "offset": 39
-                },
-                "indent": []
               }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
             },
-            "end": {
-              "line": 1,
-              "column": 40,
-              "offset": 39
-            }
-          }
-        }
-      },
-      {
-        "title": "param",
-        "name": "channels",
-        "lineNumber": 3,
-        "description": {
-          "type": "root",
-          "children": [
             {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 225,
-                      "offset": 224
-                    },
-                    "indent": []
+              "title": "param",
+              "name": "channels",
+              "lineNumber": 3,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 225,
+                            "offset": 224
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 225,
+                        "offset": 224
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 225,
+                    "offset": 224
                   }
                 }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 225,
-                  "offset": 224
-                },
-                "indent": []
               }
             }
           ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 225,
-              "offset": 224
-            }
-          }
-        }
-      }
-    ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "connect",
-    "kind": "function",
-    "memberof": "Meter",
-    "scope": "instance",
-    "members": {
-      "global": [],
-      "inner": [],
-      "instance": [],
-      "events": [],
-      "static": []
-    },
-    "path": [
-      {
-        "name": "connect",
-        "kind": "function",
-        "scope": "instance"
-      }
-    ],
-    "namespace": "#connect"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "connect",
+          "kind": "function",
+          "memberof": "Meter",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
             {
-              "type": "text",
-              "value": "Stop visualizing the source node and disconnect it.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 52,
-                  "offset": 51
-                },
-                "indent": []
-              }
+              "name": "Meter",
+              "kind": "class"
+            },
+            {
+              "name": "connect",
+              "kind": "function",
+              "scope": "instance"
             }
           ],
-          "position": {
+          "namespace": "Meter#connect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Stop visualizing the source node and disconnect it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 52,
+                        "offset": 51
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
             "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
+              "line": 173,
+              "column": 2
             },
             "end": {
-              "line": 1,
-              "column": 52,
-              "offset": 51
+              "line": 175,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 176,
+                "column": 2
+              },
+              "end": {
+                "line": 181,
+                "column": 3
+              }
             },
-            "indent": []
-          }
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "disconnect",
+          "kind": "function",
+          "memberof": "Meter",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Meter",
+              "kind": "class"
+            },
+            {
+              "name": "disconnect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Meter#disconnect"
         }
       ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 52,
-          "offset": 51
-        }
-      }
-    },
-    "tags": [],
-    "loc": {
-      "start": {
-        "line": 177,
-        "column": 2
-      },
-      "end": {
-        "line": 179,
-        "column": 4
-      }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 180,
-          "column": 2
-        },
-        "end": {
-          "line": 187,
-          "column": 3
-        }
-      },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/meter.js"
-    },
-    "augments": [],
-    "examples": [],
-    "params": [],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "disconnect",
-    "kind": "function",
-    "memberof": "Meter",
-    "scope": "instance",
-    "members": {
-      "global": [],
-      "inner": [],
-      "instance": [],
       "events": [],
       "static": []
     },
     "path": [
       {
-        "name": "disconnect",
-        "kind": "function",
-        "scope": "instance"
+        "name": "Meter",
+        "kind": "class"
       }
     ],
-    "namespace": "#disconnect"
+    "namespace": "Meter"
   },
   {
     "description": {
@@ -5466,7 +5216,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
     },
     "augments": [
       {
@@ -5579,7 +5329,7 @@
                 "column": 39
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5696,7 +5446,7 @@
                 "column": 45
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5813,7 +5563,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5937,7 +5687,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6065,7 +5815,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6193,7 +5943,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6326,7 +6076,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6567,7 +6317,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6781,7 +6531,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
     },
     "augments": [
       {
@@ -6900,7 +6650,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7095,7 +6845,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7223,7 +6973,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7351,7 +7101,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7479,7 +7229,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7538,7 +7288,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+              "value": "Visualizes a waveform's stream of values.",
               "position": {
                 "start": {
                   "line": 1,
@@ -7547,8 +7297,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 557,
-                  "offset": 556
+                  "column": 42,
+                  "offset": 41
                 },
                 "indent": []
               }
@@ -7562,8 +7312,8 @@
             },
             "end": {
               "line": 1,
-              "column": 557,
-              "offset": 556
+              "column": 42,
+              "offset": 41
             },
             "indent": []
           }
@@ -7577,242 +7327,391 @@
         },
         "end": {
           "line": 1,
-          "column": 557,
-          "offset": 556
+          "column": 42,
+          "offset": 41
         }
       }
     },
     "tags": [
       {
-        "title": "param",
-        "description": "{AudioNode} The audio node to visualize",
-        "lineNumber": 2,
-        "type": null,
-        "name": "node"
+        "title": "description",
+        "description": "Visualizes a waveform's stream of values.",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span nexus-ui=\"oscilloscope\"></span>",
+        "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );",
-        "lineNumber": 3
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "&nbsp;\nNo events",
+        "lineNumber": 15
       }
     ],
     "loc": {
       "start": {
-        "line": 113,
-        "column": 2
+        "line": 7,
+        "column": 0
       },
       "end": {
-        "line": 118,
-        "column": 4
+        "line": 26,
+        "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 120,
-          "column": 2
+          "line": 28,
+          "column": 0
         },
         "end": {
-          "line": 130,
-          "column": 3
+          "line": 151,
+          "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
     },
-    "augments": [],
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
-        "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
-      }
-    ],
-    "params": [
-      {
-        "title": "param",
-        "name": "node",
-        "lineNumber": 2,
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "{AudioNode} The audio node to visualize",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 40,
-                      "offset": 39
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 40,
-                  "offset": 39
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 40,
-              "offset": 39
-            }
-          }
-        }
-      }
-    ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "connect",
-    "kind": "function",
-    "memberof": "Oscilloscope",
-    "scope": "instance",
-    "members": {
-      "global": [],
-      "inner": [],
-      "instance": [],
-      "events": [],
-      "static": []
-    },
-    "path": [
-      {
-        "name": "connect",
-        "kind": "function",
-        "scope": "instance"
-      }
-    ],
-    "namespace": "#connect"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Stop visualizing the source node and disconnect it.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 52,
-                  "offset": 51
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 52,
-              "offset": 51
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 52,
-          "offset": 51
-        }
-      }
-    },
-    "tags": [],
-    "loc": {
-      "start": {
-        "line": 132,
-        "column": 2
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
       },
-      "end": {
-        "line": 134,
-        "column": 4
+      {
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
       }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 135,
-          "column": 2
-        },
-        "end": {
-          "line": 141,
-          "column": 3
-        }
-      },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/oscilloscope.js"
-    },
-    "augments": [],
-    "examples": [],
+    ],
     "params": [],
     "properties": [],
     "returns": [],
     "sees": [],
     "throws": [],
     "todos": [],
-    "name": "disconnect",
-    "kind": "function",
-    "memberof": "Oscilloscope",
-    "scope": "instance",
+    "name": "Oscilloscope",
+    "kind": "class",
     "members": {
       "global": [],
       "inner": [],
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 557,
+                        "offset": 556
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 557,
+                    "offset": 556
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 557,
+                "offset": 556
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{AudioNode} The audio node to visualize",
+              "lineNumber": 2,
+              "type": null,
+              "name": "node"
+            },
+            {
+              "title": "example",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 115,
+              "column": 2
+            },
+            "end": {
+              "line": 120,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 122,
+                "column": 2
+              },
+              "end": {
+                "line": 131,
+                "column": 3
+              }
+            },
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
+            }
+          ],
+          "params": [
+            {
+              "title": "param",
+              "name": "node",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{AudioNode} The audio node to visualize",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "connect",
+          "kind": "function",
+          "memberof": "Oscilloscope",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Oscilloscope",
+              "kind": "class"
+            },
+            {
+              "name": "connect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Oscilloscope#connect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Stop visualizing the source node and disconnect it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 52,
+                        "offset": 51
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 133,
+              "column": 2
+            },
+            "end": {
+              "line": 135,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 136,
+                "column": 2
+              },
+              "end": {
+                "line": 141,
+                "column": 3
+              }
+            },
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "disconnect",
+          "kind": "function",
+          "memberof": "Oscilloscope",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Oscilloscope",
+              "kind": "class"
+            },
+            {
+              "name": "disconnect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Oscilloscope#disconnect"
+        }
+      ],
       "events": [],
       "static": []
     },
     "path": [
       {
-        "name": "disconnect",
-        "kind": "function",
-        "scope": "instance"
+        "name": "Oscilloscope",
+        "kind": "class"
       }
     ],
-    "namespace": "#disconnect"
+    "namespace": "Oscilloscope"
   },
   {
     "description": {
@@ -7915,7 +7814,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan.js"
     },
     "augments": [
       {
@@ -8025,7 +7924,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan.js"
           },
           "augments": [],
           "examples": [],
@@ -8177,7 +8076,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
     },
     "augments": [
       {
@@ -8280,7 +8179,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8387,7 +8286,7 @@
                 "column": 43
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8494,7 +8393,7 @@
                 "column": 37
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8601,7 +8500,7 @@
                 "column": 21
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8723,7 +8622,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8969,7 +8868,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -9270,7 +9169,7 @@
           "column": 3
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/pan2d.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
     },
     "augments": [],
     "examples": [],
@@ -9524,7 +9423,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
     },
     "augments": [
       {
@@ -9642,7 +9541,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9881,7 +9780,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10120,7 +10019,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/piano.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10387,7 +10286,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
     },
     "augments": [
       {
@@ -10505,7 +10404,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10633,7 +10532,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10756,7 +10655,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10875,7 +10774,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10994,7 +10893,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11113,7 +11012,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11232,7 +11131,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11351,7 +11250,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11475,7 +11374,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -11631,7 +11530,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
     },
     "augments": [
       {
@@ -11742,7 +11641,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11909,7 +11808,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -12029,7 +11928,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/radiobutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -12243,7 +12142,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
     },
     "augments": [
       {
@@ -12357,7 +12256,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [],
@@ -12543,7 +12442,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12671,7 +12570,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/select.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12837,7 +12736,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
     },
     "augments": [
       {
@@ -12955,7 +12854,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [
@@ -13076,7 +12975,7 @@
                 "column": 64
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13193,7 +13092,7 @@
                 "column": 76
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13310,7 +13209,7 @@
                 "column": 52
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13428,7 +13327,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13599,7 +13498,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13708,7 +13607,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13827,7 +13726,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13946,7 +13845,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -14094,11 +13993,11 @@
           "column": 0
         },
         "end": {
-          "line": 275,
+          "line": 277,
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
     },
     "augments": [
       {
@@ -14197,26 +14096,26 @@
           ],
           "loc": {
             "start": {
-              "line": 210,
+              "line": 212,
               "column": 2
             },
             "end": {
-              "line": 214,
+              "line": 216,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 215,
+                "line": 217,
                 "column": 2
               },
               "end": {
-                "line": 217,
+                "line": 219,
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14325,26 +14224,26 @@
           ],
           "loc": {
             "start": {
-              "line": 225,
+              "line": 227,
               "column": 2
             },
             "end": {
-              "line": 229,
+              "line": 231,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 230,
+                "line": 232,
                 "column": 2
               },
               "end": {
-                "line": 232,
+                "line": 234,
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14453,26 +14352,26 @@
           ],
           "loc": {
             "start": {
-              "line": 237,
+              "line": 239,
               "column": 2
             },
             "end": {
-              "line": 241,
+              "line": 243,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 242,
+                "line": 244,
                 "column": 2
               },
               "end": {
-                "line": 244,
+                "line": 246,
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14581,26 +14480,26 @@
           ],
           "loc": {
             "start": {
-              "line": 249,
+              "line": 251,
               "column": 2
             },
             "end": {
-              "line": 253,
+              "line": 255,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 254,
+                "line": 256,
                 "column": 2
               },
               "end": {
-                "line": 256,
+                "line": 258,
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14709,26 +14608,26 @@
           ],
           "loc": {
             "start": {
-              "line": 261,
+              "line": 263,
               "column": 2
             },
             "end": {
-              "line": 265,
+              "line": 267,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 266,
+                "line": 268,
                 "column": 2
               },
               "end": {
-                "line": 268,
+                "line": 270,
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14787,7 +14686,7 @@
           "children": [
             {
               "type": "text",
-              "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+              "value": "Audio spectrum visualization",
               "position": {
                 "start": {
                   "line": 1,
@@ -14796,8 +14695,8 @@
                 },
                 "end": {
                   "line": 1,
-                  "column": 557,
-                  "offset": 556
+                  "column": 29,
+                  "offset": 28
                 },
                 "indent": []
               }
@@ -14811,8 +14710,8 @@
             },
             "end": {
               "line": 1,
-              "column": 557,
-              "offset": 556
+              "column": 29,
+              "offset": 28
             },
             "indent": []
           }
@@ -14826,242 +14725,391 @@
         },
         "end": {
           "line": 1,
-          "column": 557,
-          "offset": 556
+          "column": 29,
+          "offset": 28
         }
       }
     },
     "tags": [
       {
-        "title": "param",
-        "description": "{AudioNode} The audio node to visualize",
-        "lineNumber": 2,
-        "type": null,
-        "name": "node"
+        "title": "description",
+        "description": "Audio spectrum visualization",
+        "lineNumber": 3
+      },
+      {
+        "title": "demo",
+        "description": "<span nexus-ui=\"spectrogram\"></span>",
+        "lineNumber": 5
       },
       {
         "title": "example",
-        "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );",
-        "lineNumber": 3
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')",
+        "lineNumber": 7
+      },
+      {
+        "title": "example",
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})",
+        "lineNumber": 10
+      },
+      {
+        "title": "output",
+        "description": "&nbsp;\nNo events",
+        "lineNumber": 15
       }
     ],
     "loc": {
       "start": {
-        "line": 104,
-        "column": 2
+        "line": 8,
+        "column": 0
       },
       "end": {
-        "line": 109,
-        "column": 4
+        "line": 27,
+        "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 110,
-          "column": 2
+          "line": 29,
+          "column": 0
         },
         "end": {
-          "line": 117,
-          "column": 3
+          "line": 142,
+          "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/spectrogram.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
     },
-    "augments": [],
+    "augments": [
+      {
+        "title": "augments",
+        "name": "Interface"
+      }
+    ],
     "examples": [
       {
-        "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
-      }
-    ],
-    "params": [
-      {
-        "title": "param",
-        "name": "node",
-        "lineNumber": 2,
-        "description": {
-          "type": "root",
-          "children": [
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "{AudioNode} The audio node to visualize",
-                  "position": {
-                    "start": {
-                      "line": 1,
-                      "column": 1,
-                      "offset": 0
-                    },
-                    "end": {
-                      "line": 1,
-                      "column": 40,
-                      "offset": 39
-                    },
-                    "indent": []
-                  }
-                }
-              ],
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 40,
-                  "offset": 39
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 40,
-              "offset": 39
-            }
-          }
-        }
-      }
-    ],
-    "properties": [],
-    "returns": [],
-    "sees": [],
-    "throws": [],
-    "todos": [],
-    "name": "connect",
-    "kind": "function",
-    "memberof": "Spectrogram",
-    "scope": "instance",
-    "members": {
-      "global": [],
-      "inner": [],
-      "instance": [],
-      "events": [],
-      "static": []
-    },
-    "path": [
-      {
-        "name": "connect",
-        "kind": "function",
-        "scope": "instance"
-      }
-    ],
-    "namespace": "#connect"
-  },
-  {
-    "description": {
-      "type": "root",
-      "children": [
-        {
-          "type": "paragraph",
-          "children": [
-            {
-              "type": "text",
-              "value": "Stop visualizing the source node and disconnect it.",
-              "position": {
-                "start": {
-                  "line": 1,
-                  "column": 1,
-                  "offset": 0
-                },
-                "end": {
-                  "line": 1,
-                  "column": 52,
-                  "offset": 51
-                },
-                "indent": []
-              }
-            }
-          ],
-          "position": {
-            "start": {
-              "line": 1,
-              "column": 1,
-              "offset": 0
-            },
-            "end": {
-              "line": 1,
-              "column": 52,
-              "offset": 51
-            },
-            "indent": []
-          }
-        }
-      ],
-      "position": {
-        "start": {
-          "line": 1,
-          "column": 1,
-          "offset": 0
-        },
-        "end": {
-          "line": 1,
-          "column": 52,
-          "offset": 51
-        }
-      }
-    },
-    "tags": [],
-    "loc": {
-      "start": {
-        "line": 119,
-        "column": 2
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')"
       },
-      "end": {
-        "line": 121,
-        "column": 4
+      {
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
       }
-    },
-    "context": {
-      "loc": {
-        "start": {
-          "line": 122,
-          "column": 2
-        },
-        "end": {
-          "line": 125,
-          "column": 3
-        }
-      },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/spectrogram.js"
-    },
-    "augments": [],
-    "examples": [],
+    ],
     "params": [],
     "properties": [],
     "returns": [],
     "sees": [],
     "throws": [],
     "todos": [],
-    "name": "disconnect",
-    "kind": "function",
-    "memberof": "Spectrogram",
-    "scope": "instance",
+    "name": "Spectrogram",
+    "kind": "class",
     "members": {
       "global": [],
       "inner": [],
-      "instance": [],
+      "instance": [
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 557,
+                        "offset": 556
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 557,
+                    "offset": 556
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 557,
+                "offset": 556
+              }
+            }
+          },
+          "tags": [
+            {
+              "title": "param",
+              "description": "{AudioNode} The audio node to visualize",
+              "lineNumber": 2,
+              "type": null,
+              "name": "node"
+            },
+            {
+              "title": "example",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );",
+              "lineNumber": 3
+            }
+          ],
+          "loc": {
+            "start": {
+              "line": 111,
+              "column": 2
+            },
+            "end": {
+              "line": 116,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 117,
+                "column": 2
+              },
+              "end": {
+                "line": 124,
+                "column": 3
+              }
+            },
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
+          },
+          "augments": [],
+          "examples": [
+            {
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
+            }
+          ],
+          "params": [
+            {
+              "title": "param",
+              "name": "node",
+              "lineNumber": 2,
+              "description": {
+                "type": "root",
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "{AudioNode} The audio node to visualize",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 1,
+                            "offset": 0
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 40,
+                            "offset": 39
+                          },
+                          "indent": []
+                        }
+                      }
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 40,
+                        "offset": 39
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 40,
+                    "offset": 39
+                  }
+                }
+              }
+            }
+          ],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "connect",
+          "kind": "function",
+          "memberof": "Spectrogram",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Spectrogram",
+              "kind": "class"
+            },
+            {
+              "name": "connect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Spectrogram#connect"
+        },
+        {
+          "description": {
+            "type": "root",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Stop visualizing the source node and disconnect it.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 52,
+                        "offset": 51
+                      },
+                      "indent": []
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  },
+                  "indent": []
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
+          },
+          "tags": [],
+          "loc": {
+            "start": {
+              "line": 126,
+              "column": 2
+            },
+            "end": {
+              "line": 128,
+              "column": 4
+            }
+          },
+          "context": {
+            "loc": {
+              "start": {
+                "line": 129,
+                "column": 2
+              },
+              "end": {
+                "line": 132,
+                "column": 3
+              }
+            },
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
+          },
+          "augments": [],
+          "examples": [],
+          "params": [],
+          "properties": [],
+          "returns": [],
+          "sees": [],
+          "throws": [],
+          "todos": [],
+          "name": "disconnect",
+          "kind": "function",
+          "memberof": "Spectrogram",
+          "scope": "instance",
+          "members": {
+            "global": [],
+            "inner": [],
+            "instance": [],
+            "events": [],
+            "static": []
+          },
+          "path": [
+            {
+              "name": "Spectrogram",
+              "kind": "class"
+            },
+            {
+              "name": "disconnect",
+              "kind": "function",
+              "scope": "instance"
+            }
+          ],
+          "namespace": "Spectrogram#disconnect"
+        }
+      ],
       "events": [],
       "static": []
     },
     "path": [
       {
-        "name": "disconnect",
-        "kind": "function",
-        "scope": "instance"
+        "name": "Spectrogram",
+        "kind": "class"
       }
     ],
-    "namespace": "#disconnect"
+    "namespace": "Spectrogram"
   },
   {
     "description": {
@@ -15169,7 +15217,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/textbutton.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
     },
     "augments": [
       {
@@ -15282,7 +15330,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/textbutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15401,7 +15449,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/textbutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15548,7 +15596,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/tilt.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/tilt.js"
     },
     "augments": [
       {
@@ -15658,7 +15706,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/tilt.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/tilt.js"
           },
           "augments": [],
           "examples": [],
@@ -15810,7 +15858,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/toggle.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
     },
     "augments": [
       {
@@ -15928,7 +15976,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/toggle.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -16047,7 +16095,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/interfaces/toggle.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -16172,7 +16220,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/main.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/main.js"
     },
     "augments": [],
     "examples": [],
@@ -16332,7 +16380,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
     },
     "augments": [],
     "examples": [],
@@ -16618,7 +16666,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16725,7 +16773,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16832,7 +16880,7 @@
                 "column": 40
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16939,7 +16987,7 @@
                 "column": 38
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17046,7 +17094,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17155,7 +17203,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17285,7 +17333,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17595,7 +17643,7 @@
           "column": 1
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
     },
     "augments": [],
     "examples": [],
@@ -17954,7 +18002,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18084,7 +18132,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18203,7 +18251,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/taylor/Documents/GitHub/nexusui/lib/models/step.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18369,7 +18417,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -18787,7 +18835,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19287,7 +19335,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19563,7 +19611,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19931,7 +19979,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20125,7 +20173,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20391,7 +20439,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20718,7 +20766,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21035,7 +21083,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21321,7 +21369,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21764,7 +21812,7 @@
           "column": 2
         }
       },
-      "file": "/Users/taylor/Documents/GitHub/nexusui/lib/util/math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [

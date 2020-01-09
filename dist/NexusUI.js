@@ -7648,28 +7648,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	//let math = require('../util/math');
 	var Interface = __webpack_require__(6);
 	
-	/**
-	* Spectrogram
-	*
-	* @description Audio spectrum visualization
-	*
-	* @demo <span nexus-ui="spectrogram"></span>
-	*
-	* @example
-	* var spectrogram = new Nexus.Spectrogram('#target')
-	*
-	* @example
-	* var spectrogram = new Nexus.Spectrogram('#target',{
-	*   'size': [300,150]
-	* })
-	*
-	* @output
-	* &nbsp;
-	* No events
-	*
-	*/
-	
 	var context = __webpack_require__(1).context;
+	
+	/**
+	 * Spectrogram
+	 *
+	 * @description Audio spectrum visualization
+	 *
+	 * @demo <span nexus-ui="spectrogram"></span>
+	 *
+	 * @example
+	 * var spectrogram = new Nexus.Spectrogram('#target')
+	 *
+	 * @example
+	 * var spectrogram = new Nexus.Spectrogram('#target',{
+	 *   'size': [300,150]
+	 * })
+	 *
+	 * @output
+	 * &nbsp;
+	 * No events
+	 *
+	 */
 	
 	var Spectrogram = (function (_Interface) {
 	  function Spectrogram() {
@@ -7718,7 +7718,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
-	
 	        if (this.active) {
 	          requestAnimationFrame(this.render.bind(this));
 	        }
@@ -7729,7 +7728,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        if (this.source && this.dataArray) {
-	
 	          //console.log(this.dataArray);
 	
 	          var barWidth = this.canvas.element.width / this.bufferLength;
@@ -7816,28 +7814,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
 	
-	/**
-	* Meter
-	*
-	* @description Stereo decibel meter
-	*
-	* @demo <span nexus-ui="meter"></span>
-	*
-	* @example
-	* var meter = new Nexus.Meter('#target')
-	*
-	* @example
-	* var meter = new Nexus.Meter('#target',{
-	*   size: [75,75]
-	* })
-	*
-	* @output
-	* &nbsp;
-	* No events
-	*
-	*/
-	
 	var context = __webpack_require__(1).context;
+	
+	/**
+	 * Meter
+	 *
+	 * @description Stereo decibel meter
+	 *
+	 * @demo <span nexus-ui="meter"></span>
+	 *
+	 * @example
+	 * var meter = new Nexus.Meter('#target')
+	 *
+	 * @example
+	 * var meter = new Nexus.Meter('#target',{
+	 *   size: [75,75]
+	 * })
+	 *
+	 * @output
+	 * &nbsp;
+	 * No events
+	 *
+	 */
 	
 	var Meter = (function (_Interface) {
 	  function Meter() {
@@ -7870,15 +7868,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.dataArray = new Float32Array(this.bufferLength);
 	
 	    /*
-	        // add linear gradient
-	        var grd = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
-	        // light blue
-	        grd.addColorStop(0, '#000');
-	        grd.addColorStop(0.2, '#bbb');
-	        grd.addColorStop(0.4, '#d18');
-	        // dark blue
-	        grd.addColorStop(1, '#d18');
-	        canvasCtx.fillStyle = grd; */
+	    // add linear gradient
+	    var grd = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+	    // light blue
+	    grd.addColorStop(0, '#000');
+	    grd.addColorStop(0.2, '#bbb');
+	    grd.addColorStop(0.4, '#d18');
+	    // dark blue
+	    grd.addColorStop(1, '#d18');
+	    canvasCtx.fillStyle = grd; */
 	
 	    this.active = true;
 	
@@ -7912,7 +7910,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
-	
 	        if (this.active) {
 	          requestAnimationFrame(this.render.bind(this));
 	        }
@@ -7921,9 +7918,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
 	
 	        for (var i = 0; i < this.analysers.length; i++) {
-	
 	          if (this.source) {
-	
 	            this.analysers[i].getFloatTimeDomainData(this.dataArray);
 	
 	            var rms = 0;
@@ -7944,7 +7939,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          //console.log(db)
 	
 	          if (this.db > -70) {
-	
 	            var linear = math.normalize(this.db, -70, 5);
 	            var exp = linear * linear;
 	            var y = math.scale(exp, 0, 1, this.element.height, 0);
@@ -7995,7 +7989,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function disconnect() {
-	
 	        this.source.disconnect(this.splitter);
 	        this.source = false;
 	        //  this.dummy.connect(this.splitter);
@@ -8037,28 +8030,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	
-	/**
-	* Oscilloscope
-	*
-	* @description Visualizes a waveform's stream of values.
-	*
-	* @demo <span nexus-ui="oscilloscope"></span>
-	*
-	* @example
-	* var oscilloscope = new Nexus.Oscilloscope('#target')
-	*
-	* @example
-	* var oscilloscope = new Nexus.Oscilloscope('#target',{
-	*   'size': [300,150]
-	* })
-	*
-	* @output
-	* &nbsp;
-	* No events
-	*
-	*/
-	
 	var context = __webpack_require__(1).context;
+	
+	/**
+	 * Oscilloscope
+	 *
+	 * @description Visualizes a waveform's stream of values.
+	 *
+	 * @demo <span nexus-ui="oscilloscope"></span>
+	 *
+	 * @example
+	 * var oscilloscope = new Nexus.Oscilloscope('#target')
+	 *
+	 * @example
+	 * var oscilloscope = new Nexus.Oscilloscope('#target',{
+	 *   'size': [300,150]
+	 * })
+	 *
+	 * @output
+	 * &nbsp;
+	 * No events
+	 *
+	 */
 	
 	var Oscilloscope = (function (_Interface) {
 	  function Oscilloscope() {
@@ -8110,7 +8103,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    render: {
 	      value: function render() {
-	
 	        if (this.active) {
 	          requestAnimationFrame(this.render.bind(this));
 	        }
@@ -8126,12 +8118,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.canvas.context.beginPath();
 	
 	        if (this.source) {
-	
 	          var sliceWidth = this.canvas.element.width * 1 / this.bufferLength;
 	          var x = 0;
 	
 	          for (var i = 0; i < this.bufferLength; i++) {
-	
 	            var v = this.dataArray[i] / 128;
 	            var y = v * this.canvas.element.height / 2;
 	
@@ -8161,7 +8151,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function connect(node) {
-	
 	        if (this.source) {
 	          this.disconnect();
 	        }
