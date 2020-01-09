@@ -9,6 +9,7 @@
   <script src="js/Tone9.js"></script>
   <meta name="viewport" content="width=200, initial-scale=1">
 </head>
+
 <body style="margin:0;padding;0">
 
 
@@ -21,38 +22,40 @@
 
 </body>
 <style>
-body {
-  font-family:helvetica;
-}
-[nexus-ui] {
-  margin:10px;
-  float:left;
-}
-#target {
-  width:500px;
-  height:500px;
-  border:dashed 2px #333;
-}
+  body {
+    font-family: helvetica;
+  }
+
+  [nexus-ui] {
+    margin: 10px;
+    float: left;
+  }
+
+  #target {
+    width: 500px;
+    height: 500px;
+    border: dashed 2px #333;
+  }
 </style>
 <script>
-
-  var thing = new Nexus.Add.Number('#target',{
-    size: [100,100]
+  var thing = new Nexus.Add.Slider('#target', {
+    size: [50, 150],
+    mode: 'relative'
   })
 
-  thing.on('change',function(v) {
+  // thing.resize(150, 50)
+
+  thing.on('change', function (v) {
     console.log(v)
   })
 
-  thing.on('click',function() {
-    console.log('down')
-  })
+  // thing.on('click', function () {
+  //   console.log('down')
+  // })
 
-  thing.on('release',function() {
-    console.log('up')
-  })
-
-
-
+  // thing.on('release', function () {
+  //   console.log('up')
+  // })
 </script>
+
 </html>
