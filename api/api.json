@@ -6512,22 +6512,22 @@
     ],
     "loc": {
       "start": {
-        "line": 7,
+        "line": 8,
         "column": 0
       },
       "end": {
-        "line": 37,
+        "line": 38,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 40,
+          "line": 41,
           "column": 0
         },
         "end": {
-          "line": 265,
+          "line": 262,
           "column": 1
         }
       },
@@ -6631,22 +6631,22 @@
           ],
           "loc": {
             "start": {
-              "line": 184,
+              "line": 181,
               "column": 2
             },
             "end": {
-              "line": 188,
+              "line": 185,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 189,
+                "line": 186,
                 "column": 2
               },
               "end": {
-                "line": 208,
+                "line": 205,
                 "column": 3
               }
             },
@@ -6662,7 +6662,7 @@
             {
               "title": "param",
               "name": "destination",
-              "lineNumber": 189
+              "lineNumber": 186
             },
             {
               "title": "param",
@@ -6826,22 +6826,22 @@
           ],
           "loc": {
             "start": {
-              "line": 215,
+              "line": 212,
               "column": 2
             },
             "end": {
-              "line": 219,
+              "line": 216,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 220,
+                "line": 217,
                 "column": 2
               },
               "end": {
-                "line": 222,
+                "line": 219,
                 "column": 3
               }
             },
@@ -6954,22 +6954,22 @@
           ],
           "loc": {
             "start": {
-              "line": 229,
+              "line": 226,
               "column": 2
             },
             "end": {
-              "line": 233,
+              "line": 230,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 234,
+                "line": 231,
                 "column": 2
               },
               "end": {
-                "line": 236,
+                "line": 233,
                 "column": 3
               }
             },
@@ -7082,22 +7082,22 @@
           ],
           "loc": {
             "start": {
-              "line": 241,
+              "line": 238,
               "column": 2
             },
             "end": {
-              "line": 245,
+              "line": 242,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 246,
+                "line": 243,
                 "column": 2
               },
               "end": {
-                "line": 248,
+                "line": 245,
                 "column": 3
               }
             },
@@ -7210,22 +7210,22 @@
           ],
           "loc": {
             "start": {
-              "line": 253,
+              "line": 250,
               "column": 2
             },
             "end": {
-              "line": 257,
+              "line": 254,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 258,
+                "line": 255,
                 "column": 2
               },
               "end": {
-                "line": 260,
+                "line": 257,
                 "column": 3
               }
             },
@@ -12717,22 +12717,22 @@
     ],
     "loc": {
       "start": {
-        "line": 134,
+        "line": 135,
         "column": 0
       },
       "end": {
-        "line": 171,
+        "line": 172,
         "column": 2
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 173,
+          "line": 174,
           "column": 0
         },
         "end": {
-          "line": 448,
+          "line": 449,
           "column": 1
         }
       },
@@ -12835,22 +12835,22 @@
           ],
           "loc": {
             "start": {
-              "line": 190,
+              "line": 191,
               "column": 4
             },
             "end": {
-              "line": 194,
+              "line": 195,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 195,
+                "line": 196,
                 "column": 4
               },
               "end": {
-                "line": 195,
+                "line": 196,
                 "column": 35
               }
             },
@@ -12956,23 +12956,23 @@
           ],
           "loc": {
             "start": {
-              "line": 197,
+              "line": 198,
               "column": 4
             },
             "end": {
-              "line": 200,
+              "line": 201,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 201,
+                "line": 202,
                 "column": 4
               },
               "end": {
-                "line": 201,
-                "column": 64
+                "line": 202,
+                "column": 58
               }
             },
             "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
@@ -13073,22 +13073,22 @@
           ],
           "loc": {
             "start": {
-              "line": 203,
+              "line": 204,
               "column": 4
             },
             "end": {
-              "line": 206,
+              "line": 207,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 207,
+                "line": 208,
                 "column": 4
               },
               "end": {
-                "line": 207,
+                "line": 208,
                 "column": 76
               }
             },
@@ -13190,22 +13190,22 @@
           ],
           "loc": {
             "start": {
-              "line": 210,
+              "line": 211,
               "column": 4
             },
             "end": {
-              "line": 213,
+              "line": 214,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 214,
+                "line": 215,
                 "column": 4
               },
               "end": {
-                "line": 214,
+                "line": 215,
                 "column": 52
               }
             },
@@ -13308,22 +13308,22 @@
           ],
           "loc": {
             "start": {
-              "line": 341,
+              "line": 342,
               "column": 2
             },
             "end": {
-              "line": 344,
+              "line": 345,
               "column": 5
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 345,
+                "line": 346,
                 "column": 2
               },
               "end": {
-                "line": 351,
+                "line": 352,
                 "column": 3
               }
             },
@@ -13479,22 +13479,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 353,
+              "line": 354,
               "column": 2
             },
             "end": {
-              "line": 355,
+              "line": 356,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 356,
+                "line": 357,
                 "column": 2
               },
               "end": {
-                "line": 358,
+                "line": 359,
                 "column": 3
               }
             },
@@ -13588,22 +13588,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 360,
+              "line": 361,
               "column": 2
             },
             "end": {
-              "line": 362,
+              "line": 363,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 363,
+                "line": 364,
                 "column": 2
               },
               "end": {
-                "line": 367,
+                "line": 368,
                 "column": 3
               }
             },
@@ -13707,22 +13707,22 @@
           ],
           "loc": {
             "start": {
-              "line": 417,
+              "line": 418,
               "column": 2
             },
             "end": {
-              "line": 420,
+              "line": 421,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 421,
+                "line": 422,
                 "column": 2
               },
               "end": {
-                "line": 423,
+                "line": 424,
                 "column": 3
               }
             },
@@ -13826,22 +13826,22 @@
           ],
           "loc": {
             "start": {
-              "line": 432,
+              "line": 433,
               "column": 2
             },
             "end": {
-              "line": 435,
+              "line": 436,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 436,
+                "line": 437,
                 "column": 2
               },
               "end": {
-                "line": 438,
+                "line": 439,
                 "column": 3
               }
             },

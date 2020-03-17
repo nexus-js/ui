@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset='utf-8' />
   <title>NexusUI API</title>
@@ -13,6 +14,7 @@
   <script src="../dist/NexusUI.js"></script>
   <script src="js/Tone9.js"></script>
 </head>
+
 <body class='documentation'>
 
 
@@ -20,73 +22,73 @@
     <img src="media/hamburger.png" width="40px">
   </div>
 
-  <div id="sidebar" class="menuClosed" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';" >
+  <div id="sidebar" class="menuClosed" onmouseover="document.body.style.overflow='hidden';" onmouseout="document.body.style.overflow='auto';">
 
-      <h2>NexusUI</h2>
-      <a href="#intro">Getting Started</a><br />
-      <a href="#colors">Changing Colors</a><br />
-      <a href="#rack">Creating a Rack</a><br />
-      <a href="#sync">Syncing Number Boxes</a><br />
+    <h2>NexusUI</h2>
+    <a href="#intro">Getting Started</a><br />
+    <a href="#colors">Changing Colors</a><br />
+    <a href="#rack">Creating a Rack</a><br />
+    <a href="#sync">Syncing Number Boxes</a><br />
 
-      <h2>Interfaces</h2>
+    <h2>Interfaces</h2>
 
-      <h3>Core</h3>
-      <a href="#Button">Button</a><br />
-      <a href="#Dial">Dial</a><br />
-      <a href="#Number">Number</a><br />
-      <a href="#Position">Position</a><br />
-      <a href="#Slider">Slider</a><br />
-      <a href="#Toggle">Toggle</a><br />
+    <h3>Core</h3>
+    <a href="#Button">Button</a><br />
+    <a href="#Dial">Dial</a><br />
+    <a href="#Number">Number</a><br />
+    <a href="#Position">Position</a><br />
+    <a href="#Slider">Slider</a><br />
+    <a href="#Toggle">Toggle</a><br />
 
-      <h3>General</h3>
-      <a href="#Envelope">Envelope</a><br />
-      <a href="#Multislider">Multislider</a><br />
-      <a href="#Piano">Piano</a><br />
-      <a href="#RadioButton">RadioButton</a><br />
-      <a href="#Select">Select</a><br />
+    <h3>General</h3>
+    <a href="#Envelope">Envelope</a><br />
+    <a href="#Multislider">Multislider</a><br />
+    <a href="#Piano">Piano</a><br />
+    <a href="#RadioButton">RadioButton</a><br />
+    <a href="#Select">Select</a><br />
     <!--  <a href="#Range">range</a><br /> -->
-      <a href="#Sequencer">Sequencer</a><br />
-      <a href="#TextButton">TextButton</a><br />
+    <a href="#Sequencer">Sequencer</a><br />
+    <a href="#TextButton">TextButton</a><br />
     <!--  <a href="#Waveform">waveform</a><br /> -->
 
 
-      <h3>Mobile</h3>
-      <a href="#Tilt">Tilt</a><br />
+    <h3>Mobile</h3>
+    <a href="#Tilt">Tilt</a><br />
 
-      <h3>Spatialization</h3>
-      <a href="#Pan">Pan</a><br />
-      <a href="#Pan2D">Pan2D</a><br />
+    <h3>Spatialization</h3>
+    <a href="#Pan">Pan</a><br />
+    <a href="#Pan2D">Pan2D</a><br />
 
-      <h3>Visualization</h3>
-      <a href="#Meter">Meter</a><br />
-      <a href="#Oscilloscope">Oscilloscope</a><br />
-      <a href="#Spectrogram">Spectragram</a><br />
+    <h3>Visualization</h3>
+    <a href="#Meter">Meter</a><br />
+    <a href="#Oscilloscope">Oscilloscope</a><br />
+    <a href="#Spectrogram">Spectragram</a><br />
 
 
-      <h2>Tuning</h2>
-      <a href="#tune">Tune</a><br />
+    <h2>Tuning</h2>
+    <a href="#tune">Tune</a><br />
 
-      <h2>Timing</h2>
-      <a href="#interval">Interval</a><br />
+    <h2>Timing</h2>
+    <a href="#interval">Interval</a><br />
 
-      <h2>Models</h2>
-      <a href="#counter">Counter</a><br />
-      <a href="#sequence">Sequence</a><br />
-      <a href="#drunk">Drunk</a><br />
-      <a href="#matrix">Matrix</a><br />
+    <h2>Models</h2>
+    <a href="#counter">Counter</a><br />
+    <a href="#sequence">Sequence</a><br />
+    <a href="#drunk">Drunk</a><br />
+    <a href="#matrix">Matrix</a><br />
 
-      <h2>Helpers</h2>
-      <a href="#ri">ri (random integer)</a><br />
-      <a href="#rf">rf (random float)</a><br />
-      <a href="#clip">clip</a><br />
-      <a href="#scale">scale</a><br />
-      <a href="#mtof">mtof</a><br />
-      <a href="#interp">interp</a><br />
-      <a href="#pick">pick</a><br />
-      <a href="#octave">octave</a><br />
-      <a href="#distance">distance</a><br />
-      <a href="#average">average</a><br />
-      <a href="#coin">coin</a><br />
+    <h2>Helpers</h2>
+    <a href="#ri">ri (random integer)</a><br />
+    <a href="#rf">rf (random float)</a><br />
+    <a href="#clip">clip</a><br />
+    <a href="#scale">scale</a><br />
+    <a href="#mtof">mtof</a><br />
+    <a href="#interp">interp</a><br />
+    <a href="#pick">pick</a><br />
+    <a href="#octave">octave</a><br />
+    <a href="#distance">distance</a><br />
+    <a href="#average">average</a><br />
+    <a href="#coin">coin</a><br />
 
   </div>
 
@@ -95,7 +97,7 @@
     <div id="target"></div>
 
     <script id="template" type="x-tmpl-mustache">
-    <h2>{{ name }}</h2>
+      <h2>{{ name }}</h2>
 
     <div class="overview" >
     {{ description }}
@@ -242,45 +244,57 @@
 
   -->
 
-    <div id="intro" class="custom-tutorial" style="display:none">
-      &nbsp;
-      <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">NexusUI</h1>
-      <h2 style="margin: 10px auto 0px;width:100%;font-size:18pt;font-weight:normal">Web Audio Interfaces</h2>
-      <h3 style="margin: 10px auto 0px;width:100%;font-size:14pt;font-weight:normal">Version 2</h3>
+  <div id="intro" class="custom-tutorial" style="display:none">
+    &nbsp;
+    <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">NexusUI</h1>
+    <h2 style="margin: 10px auto 0px;width:100%;font-size:18pt;font-weight:normal">Web Audio Interfaces</h2>
+    <h3 style="margin: 10px auto 0px;width:100%;font-size:14pt;font-weight:normal">Version 2</h3>
 
-      <div style="margin:0px auto">
+    <div style="margin:0px auto">
 
-        <div id="splash-demo" style="width:400px;text-align:center;margin:0 auto">
-        </div>
-
-
-        <p class="lib-overview">
-          NexusUI is a collection of HTML5 interfaces and Javascript helper functions to assist with building web audio instruments in the browser.
-        </p>
-
-        <p class="lib-overview">
-          In addition to interfaces, the toolkit contains some helpers for tuning and timing. It does not provide any sound-making capabilities –– for that, check out <a href="http://tonejs.github.io" target="blank">Tone.js</a>, <a href="https://github.com/sebpiq/WebPd" target="blank">WebPD</a>, <a href="https://github.com/charlieroberts/gibber.audio.lib" target="blank">Gibber.lib</a>, or the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" target="blank">Web Audio API</a>.
-        </p>
-
-        <p class="lib-overview">
-          This toolkit is designed to help you rapidly prototype your musical ideas. It is lacking some features which would be useful for production –– for example, these interfaces are <b>not responsive</b> (they do not understand percentage widths and heights). NexusUI is an ongoing open-source project; please get in touch on GitHub if you would like to contribute.
-        </p>
-
-
+      <div id="splash-demo" style="width:400px;text-align:center;margin:0 auto">
       </div>
 
-      <h5>Setup</h5>
 
-      <p>
-        Download <a href="https://rawgit.com/nexus-js/ui/master/dist/NexusUI.js" download>NexusUI.js</a>. <br />
-        (The link grabs the file directly from our <a href="http://github.com/nexus-js/ui/" target="blank">GitHub</a>.)
+      <p class="lib-overview">
+        NexusUI is a collection of HTML5 interfaces and Javascript helper functions to assist with building web audio instruments in the browser.
       </p>
 
-      <p>
-        Link to NexusUI.js in your HTML file.
+      <p class="lib-overview">
+        In addition to interfaces, the toolkit contains some helpers for tuning and timing. It does not provide any sound-making capabilities –– for that, check out <a href="http://tonejs.github.io" target="blank">Tone.js</a>, <a href="https://github.com/sebpiq/WebPd" target="blank">WebPD</a>, <a
+          href="https://github.com/charlieroberts/gibber.audio.lib" target="blank">Gibber.lib</a>, or the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API" target="blank">Web Audio API</a>.
       </p>
 
-       <pre><code class="language-html">
+      <p class="lib-overview">
+        This toolkit is designed to help you rapidly prototype your musical ideas. It is lacking some features which would be useful for production –– for example, these interfaces are <b>not responsive</b> (they do not understand percentage widths and heights). NexusUI is an ongoing open-source
+        project; please get in touch on GitHub if you would like to contribute.
+      </p>
+
+
+    </div>
+
+    <h5>Setup</h5>
+
+    <p>
+      Download <a href="https://cdn.jsdelivr.net/npm/nexusui@2.0.13/dist/NexusUI.js" download>NexusUI.js</a>. <br />
+      (The link grabs the latest version of the file directly from our NPM.)
+    </p>
+
+    <p>
+      Or access on a CDN if you want a hosted file:
+    </p>
+    <ul>
+      <li><a href="https://cdn.jsdelivr.net/npm/nexusui@2.0.13/dist/NexusUI.js">Development</a></li>
+      <li><a href="https://cdn.jsdelivr.net/npm/nexusui@2.0.13/dist/NexusUI.min.js">Production</a></li>
+    </ul>
+
+
+
+    <p>
+      Link to NexusUI.js in your HTML file.
+    </p>
+
+    <pre><code class="language-html">
 &lt;html&gt;
   &lt;head&gt;
     &lt;script src="path/to/NexusUI.js"&gt;&lt;/script&gt;
@@ -291,13 +305,14 @@
 &lt;/html&gt;
        </code></pre>
 
-       <h5>Creating an Interface</h5>
+    <h5>Creating an Interface</h5>
 
-       <p>
-         You can transform regular HTML elements into NexusUI interfaces (&lt;div&gt; is recommended). By default, the interface component will adopt the height and width of the target element as specified in your CSS or in the element's style. Alternatively, you can specify the interface component's size in JavaScript when you create it (see the API for each interface).
-       </p>
+    <p>
+      You can transform regular HTML elements into NexusUI interfaces (&lt;div&gt; is recommended). By default, the interface component will adopt the height and width of the target element as specified in your CSS or in the element's style. Alternatively, you can specify the interface component's
+      size in JavaScript when you create it (see the API for each interface).
+    </p>
 
-       <pre><code class="language-html">
+    <pre><code class="language-html">
 &lt;html&gt;
   &lt;head&gt;
     &lt;script src="path/to/NexusUI.js"&gt;&lt;/script&gt;
@@ -314,20 +329,20 @@
 &lt;/html&gt;
        </code></pre>
 
-       <p>
-        You can also transform many elements at once by <a href="#rack">creating a rack</a>.
-       </p>
+    <p>
+      You can also transform many elements at once by <a href="#rack">creating a rack</a>.
+    </p>
 
 
 
 
-      <h5>Dynamically Adding and Removing Interfaces</h5>
+    <h5>Dynamically Adding and Removing Interfaces</h5>
 
-      <p>
-        You can also dynamically add interfaces to your page at any point using <b>Nexus.Add</b>. This lets you add many interfaces to the same parent element. You can later remove the interface using the interface's <b>.destroy()</b> method.
-      </p>
+    <p>
+      You can also dynamically add interfaces to your page at any point using <b>Nexus.Add</b>. This lets you add many interfaces to the same parent element. You can later remove the interface using the interface's <b>.destroy()</b> method.
+    </p>
 
-      <pre><code class="language-html">
+    <pre><code class="language-html">
 &lt;html&gt;
  &lt;head&gt;
    &lt;script src="path/to/NexusUI.js"&gt;&lt;/script&gt;
@@ -354,7 +369,7 @@
 &lt;/html&gt;
       </code></pre>
 
-<!--
+    <!--
        <p data-height="265" data-theme-id="0" data-slug-hash="GmEJVL" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Basic Dial" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/GmEJVL/">Basic Dial</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
@@ -362,13 +377,13 @@
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
 
 
-       <h5>Listening for Interaction Events</h5>
+    <h5>Listening for Interaction Events</h5>
 
-       <p>
-         Every NexusUI interface fires an event function when the interface is interacted with or changed programatically through the interface's API. If you use Node.JS, this syntax should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
-       </p>
+    <p>
+      Every NexusUI interface fires an event function when the interface is interacted with or changed programatically through the interface's API. If you use Node.JS, this syntax should look familiar –– every NexusUI interface extends Node.js's built-in EventEmitter.
+    </p>
 
-       <pre><code class="language-js">
+    <pre><code class="language-js">
 var dial = new Nexus.Dial("#dial");
 
 dial.on('change',function(v) {
@@ -376,11 +391,11 @@ dial.on('change',function(v) {
 });
        </code></pre>
 
-        <p>
-          Many of the core interfaces also fire events on mouse click and mouse release. The following interfaces accept click and release events: button, dial, number, pan, pan2d, position, slider, textbutton, toggle. We hope to develop this feature for all interfaces in the future.
-        </p>
+    <p>
+      Many of the core interfaces also fire events on mouse click and mouse release. The following interfaces accept click and release events: button, dial, number, pan, pan2d, position, slider, textbutton, toggle. We hope to develop this feature for all interfaces in the future.
+    </p>
 
-        <pre><code class="language-js">
+    <pre><code class="language-js">
  var slider = new Nexus.Slider("#slider");
 
  slider.on('click',function() {
@@ -402,43 +417,41 @@ dial.on('change',function(v) {
     <!--   <p data-height="265" data-theme-id="0" data-slug-hash="YVQXEL" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT - Interface Event Demo" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/YVQXEL/">MT - Interface Event Demo</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
 
-      <h5>Interface Options</h5>
+    <h5>Interface Options</h5>
 
-      <p>
-        Each interface has an API through which you can customize its values and interaction modes. Common options include:
-        <ul>
-          <li>
-            Setting a numeric range for the value of the interface
-          </li>
-          <li>
-            Absolute or relative mouse interaction
-          </li>
-          <li>
-            Vertical, horizontal, or radial (for dials) interaction &amp; orientation
-          </li>
-        </ul>
-      </p>
+    <p>
+      Each interface has an API through which you can customize its values and interaction modes. Common options include:
+      <ul>
+        <li>
+          Setting a numeric range for the value of the interface
+        </li>
+        <li>
+          Absolute or relative mouse interaction
+        </li>
+        <li>
+          Vertical, horizontal, or radial (for dials) interaction &amp; orientation
+        </li>
+      </ul>
+    </p>
 
-      <p>
-        Example:
-      </p>
+    <p>
+      Example:
+    </p>
 
-      <p data-height="265" data-theme-id="0" data-slug-hash="BRZNvg" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT - Interface Options Demo" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/BRZNvg/">MT - Interface Options Demo</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    <p data-height="265" data-theme-id="0" data-slug-hash="BRZNvg" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT - Interface Options Demo" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/BRZNvg/">MT - Interface Options Demo</a> by Ben
+      Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
-      <h5>Documentation</h5>
+    <h5>Documentation</h5>
 
-      <p>
-        Check out the API for more details on interface options, as well as for tutorials on tuning and timing mechanisms.
-      </p>
+    <p>
+      Check out the API for more details on interface options, as well as for tutorials on tuning and timing mechanisms.
+    </p>
 
-      <br /><br /><br />
-
-
-    </div>
+    <br /><br /><br />
 
 
-
+  </div>
 
 
 
@@ -450,49 +463,51 @@ dial.on('change',function(v) {
 
 
 
-      <!--
+
+
+
+  <!--
 
       COLORS
 
       -->
 
-        <div id="colors" class="custom-tutorial" style="display:none">
-          &nbsp;
-          <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Colors</h1>
+  <div id="colors" class="custom-tutorial" style="display:none">
+    &nbsp;
+    <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Colors</h1>
 
 
-          <p>
-            You can change an interface's colors using <b>.colorize()</b>
-          </p>
+    <p>
+      You can change an interface's colors using <b>.colorize()</b>
+    </p>
 
-          <p data-height="266" data-theme-id="0" data-slug-hash="eRdNaB" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/eRdNaB/">Colors</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-          <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    <p data-height="266" data-theme-id="0" data-slug-hash="eRdNaB" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/eRdNaB/">Colors</a> by Ben Taylor (<a
+        href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 
-          <br /><br />
-          Alternately, you can set <b>Nexus.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
-          <a href="https://codepen.io/taylorbf/pen/zzKGgz">See example on CodePen.</a>
+    <br /><br />
+    Alternately, you can set <b>Nexus.colors</b>, which will be inherited by every interface created from that point on. This is useful if you want all of your interface components to share the same color scheme.
+    <a href="https://codepen.io/taylorbf/pen/zzKGgz">See example on CodePen.</a>
 
-          <br /><br />
+    <br /><br />
 
-        <!--  <p data-height="265" data-theme-id="0" data-slug-hash="zzKGgz" data-default-tab="result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors - Inheritance" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/zzKGgz/">Colors - Inheritance</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <!--  <p data-height="265" data-theme-id="0" data-slug-hash="zzKGgz" data-default-tab="result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors - Inheritance" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/zzKGgz/">Colors - Inheritance</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
           <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
 
-        <!--  <p data-height="265" data-theme-id="0" data-slug-hash="zzKGgz" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors - Inheritance" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/zzKGgz/">Colors - Inheritance</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <!--  <p data-height="265" data-theme-id="0" data-slug-hash="zzKGgz" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Colors - Inheritance" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/zzKGgz/">Colors - Inheritance</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
 
-          A complete list of color properties used in the interfaces are:
-          <b>accent</b>,
-          <b>fill</b>,
-          <b>dark</b>,
-          <b>light</b>,
-          <b>mediumDark</b>,
-          <b>mediumLight</b>.
-          Not all interfaces use all of these colors.
+    A complete list of color properties used in the interfaces are:
+    <b>accent</b>,
+    <b>fill</b>,
+    <b>dark</b>,
+    <b>light</b>,
+    <b>mediumDark</b>,
+    <b>mediumLight</b>.
+    Not all interfaces use all of these colors.
 
-        </div>
-
-
+  </div>
 
 
 
@@ -502,83 +517,84 @@ dial.on('change',function(v) {
 
 
 
-        <!--
+
+
+  <!--
 
         RACK
 
         -->
 
-          <div id="rack" class="custom-tutorial" style="display:none">
-            &nbsp;
-            <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Creating a Rack</h1>
+  <div id="rack" class="custom-tutorial" style="display:none">
+    &nbsp;
+    <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Creating a Rack</h1>
 
 
-            <p>
-              You can create many interface components at once using <b>Nexus.Rack()</b>. Here is an example:
-            </p>
+    <p>
+      You can create many interface components at once using <b>Nexus.Rack()</b>. Here is an example:
+    </p>
 
-            <p data-height="265" data-theme-id="0" data-slug-hash="RgGMJm" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Creating a Rack" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/RgGMJm/">Creating a Rack</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    <p data-height="265" data-theme-id="0" data-slug-hash="RgGMJm" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Creating a Rack" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/RgGMJm/">Creating a Rack</a> by Ben Taylor (<a
+        href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
-             <!--<iframe width="100%" height="300" src="//jsfiddle.net/suncannon/e8vtubc2/1/embedded/js,html,result/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+    <!--<iframe width="100%" height="300" src="//jsfiddle.net/suncannon/e8vtubc2/1/embedded/js,html,result/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 -->
-            <br /><br />
+    <br /><br />
 
 
-              First, create an element that will be the container of the rack.
-              <br /><br />
-              Inside that container, create several elements with <b>nexus-ui</b> attributes describing what type of interface it should transform into, such as <b>nexus-ui="dial"</b>.
-<br /><br />
-              Give each interface element an ID which will be used to identify it in JavaScript later.
-<br /><br />
-              In your JavaScript, use <b>new Nexus.Rack("#containerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>nexus-ui</b> attributes will be transformed into interface elements.
+    First, create an element that will be the container of the rack.
+    <br /><br />
+    Inside that container, create several elements with <b>nexus-ui</b> attributes describing what type of interface it should transform into, such as <b>nexus-ui="dial"</b>.
+    <br /><br />
+    Give each interface element an ID which will be used to identify it in JavaScript later.
+    <br /><br />
+    In your JavaScript, use <b>new Nexus.Rack("#containerID")</b> to transform the container element into a rack. When this happens, any elements inside the container with valid <b>nexus-ui</b> attributes will be transformed into interface elements.
 
 
-              <h5>Using a Custom Attribute</h5>
+    <h5>Using a Custom Attribute</h5>
 
-              <p>
-                Nexus.Rack optionally lets you specify which attribute to look for ('nexus-ui' by default). This is useful for using NexusUI with React, which requires <i>data-</i> attribute prefixes.
-              </p>
+    <p>
+      Nexus.Rack optionally lets you specify which attribute to look for ('nexus-ui' by default). This is useful for using NexusUI with React, which requires <i>data-</i> attribute prefixes.
+    </p>
 
-              <p>
-                HTML:
-              </p>
+    <p>
+      HTML:
+    </p>
 
-                <pre><code class="language-html">
+    <pre><code class="language-html">
   &lt;div id="target"&gt;
     &lt;div data-nx="dial"&gt;&lt;/div&gt;
   &lt;/div&gt;
                 </code></pre>
 
 
-              <p>
-                JS:
-              </p>
+    <p>
+      JS:
+    </p>
 
-                <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
   var synth = new Nexus.Rack("#target",{
     attribute: 'data-nx'
   })
                 </code></pre>
 
 
-              <br /><br />
+    <br /><br />
 
-              <h5>Rack Methods</h5>
+    <h5>Rack Methods</h5>
 
-              <b>.hide()</b><br />
-              <b>.show()</b><br />
-              <b>.colorize()</b> (See <a href="#colors">changing colors</a>)
-              <br />
-              <br /><br />
-
-
-          </div>
+    <b>.hide()</b><br />
+    <b>.show()</b><br />
+    <b>.colorize()</b> (See <a href="#colors">changing colors</a>)
+    <br />
+    <br /><br />
 
 
-          </div>
+  </div>
 
 
+  </div>
 
 
 
@@ -586,36 +602,39 @@ dial.on('change',function(v) {
 
 
 
-          <!--
+
+
+  <!--
 
           SYNCING NUMBER BOXES
 
           -->
 
-            <div id="sync" class="custom-tutorial" style="display:none">
-              &nbsp;
-              <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Linking a Number Box to a Dial or Slider</h1>
+  <div id="sync" class="custom-tutorial" style="display:none">
+    &nbsp;
+    <h1 style="margin: 5px auto;width:100%;font-size:27pt;font-weight:700;">Linking a Number Box to a Dial or Slider</h1>
 
 
-              <p>
-                A number box can be linked to the value of a dial or slider using <b>.link()</b>
+    <p>
+      A number box can be linked to the value of a dial or slider using <b>.link()</b>
 
-                <br /><br />
-                In this case, when the dial or slider is updated, the number box will show its numeric value. When the number box is updated or interacted with, the dial or slider will be updated to the new value as well.
+      <br /><br />
+      In this case, when the dial or slider is updated, the number box will show its numeric value. When the number box is updated or interacted with, the dial or slider will be updated to the new value as well.
 
-              </p>
+    </p>
 
-              <p data-height="265" data-theme-id="0" data-slug-hash="owdpxy" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Number Box Sync" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/owdpxy/">Number Box Sync</a> by Ben Taylor (<a href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
-<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+    <p data-height="265" data-theme-id="0" data-slug-hash="owdpxy" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Number Box Sync" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/owdpxy/">Number Box Sync</a> by Ben Taylor (<a
+        href="https://codepen.io/taylorbf">@taylorbf</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+    <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
-            </div>
-
-
-
+  </div>
 
 
 
-<!--
+
+
+
+  <!--
 
 NEXUS.TUNE
 
@@ -628,7 +647,7 @@ NEXUS.TUNE
       <b>Nexus.note()</b> and <b>Nexus.tune</b> offer ways to manage pitches and scales.
     </p>
 
-     <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 // Nexus.note(0) returns the frequency of the 1st note of the scale
 synth.frequency.value = Nexus.note(0);
 
@@ -640,19 +659,19 @@ synth.frequency.value = Nexus.note(2);
       By default the scale is an equal-tempered major scale. An API for changing the scale is below.
     </p>
 
-     <p>
-       This approach emphasizes algorithmic composition by using numbers to traverse musical scales.
-     </p>
+    <p>
+      This approach emphasizes algorithmic composition by using numbers to traverse musical scales.
+    </p>
 
 
     <!-- section -->
 
     <h3>Turning Scale Degrees to Frequency Values</h3>
-     <p>
-       <b>Nexus.note()</b> provides a method for turning scale degrees into frequency values which your web audio synth will understand.
-     </p>
+    <p>
+      <b>Nexus.note()</b> provides a method for turning scale degrees into frequency values which your web audio synth will understand.
+    </p>
 
-     <pre>
+    <pre>
        <code class="language-javascript">
 // Nexus.note(0) returns the frequency of 1st note of the scale
 synth.frequency.value = Nexus.note(0);
@@ -672,11 +691,11 @@ synth.frequency.value = Nexus.note(0,2);
 synth.frequency.value = Nexus.note(0,-1);
     </code></pre>
 
-     <p>
-       By using counters or number generators in tandem with <b>Nexus.note()</b>, you can play scales, arpeggios, etc.
-     </p>
+    <p>
+      By using counters or number generators in tandem with <b>Nexus.note()</b>, you can play scales, arpeggios, etc.
+    </p>
 
-     <pre>
+    <pre>
        <code class="language-javascript">
  // Play 5 octaves of the major scale
 
@@ -691,11 +710,11 @@ synth.frequency.value = Nexus.note(0,-1);
 
 
 
-     <h3>Getting Pitch Ratios or adjusted MIDI values</h3>
-     <p>
-       If working with an audio sample, you may wish to tune your sample by changing its playback speed.
+    <h3>Getting Pitch Ratios or adjusted MIDI values</h3>
+    <p>
+      If working with an audio sample, you may wish to tune your sample by changing its playback speed.
 
-       You can use <b>Nexus.tune.ratio()</b> to get the frequency ratio of a note to the root of your scale. This ratio can be used to set the playback speed of your sample.
+      You can use <b>Nexus.tune.ratio()</b> to get the frequency ratio of a note to the root of your scale. This ratio can be used to set the playback speed of your sample.
 
       <pre>
         <code class="language-javascript">
@@ -707,7 +726,7 @@ sampler.playbackRate = Nexus.tune.ratio(4)
         </code>
       </pre>
 
-     </p>
+    </p>
 
 
 
@@ -789,7 +808,7 @@ Nexus.tune.root = 120;
     </code></pre>
 
 
-<!--
+    <!--
 
     <h3>Examples</h3>
 
@@ -836,14 +855,14 @@ Nexus.tune.root = 120;
 
   -->
 
-    <div id="interval" class="custom-tutorial" style="display:none">
-      <h2>Timing</h2>
+  <div id="interval" class="custom-tutorial" style="display:none">
+    <h2>Timing</h2>
 
-      <p>
-        <b>Nexus.Interval</b> creates a repeating pulse using <a href="http://github.com/sebpiq/WAAClock">WAAClock</a>.
-      </p>
+    <p>
+      <b>Nexus.Interval</b> creates a repeating pulse using <a href="http://github.com/sebpiq/WAAClock">WAAClock</a>.
+    </p>
 
-       <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 // Create a pulse of 100ms. At each pulse, the callback function is executed.
 
 var interval = new Nexus.Interval(100, function() {
@@ -851,21 +870,21 @@ var interval = new Nexus.Interval(100, function() {
 })
        </code></pre>
 
-       <p>
-         This interval uses a web audio context to handle timing, so it is more accurate than a regular <b>setInterval</b> or <b>setTimeout</b>
-       </p>
+    <p>
+      This interval uses a web audio context to handle timing, so it is more accurate than a regular <b>setInterval</b> or <b>setTimeout</b>
+    </p>
 
 
 
 
-      <h3>Autostart</h3>
+    <h3>Autostart</h3>
 
-      <p>
-        Be default, the interval will automatically start when it is created.
-        However a third parameter can set autostart to false.
-      </p>
+    <p>
+      Be default, the interval will automatically start when it is created.
+      However a third parameter can set autostart to false.
+    </p>
 
-      <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 // Create a pulse that does not autostart.
 
 var interval = new Nexus.Interval(100, function() {
@@ -874,18 +893,18 @@ var interval = new Nexus.Interval(100, function() {
       </code></pre>
 
 
-      <!-- section -->
+    <!-- section -->
 
-      <h3>Changing the Interval Period</h3>
-      <pre><code class="language-javascript">
+    <h3>Changing the Interval Period</h3>
+    <pre><code class="language-javascript">
 // Change your interval period to 200ms.
 interval.ms(200)
       </code></pre>
 
 
-      <!-- section -->
-      <h3>All methods</h3>
-      <pre><code class="language-javascript">
+    <!-- section -->
+    <h3>All methods</h3>
+    <pre><code class="language-javascript">
 // Create a pulse of 1 second
 var interval = new Nexus.Interval(1000, function() {
   console.log('beep');
@@ -907,7 +926,7 @@ interval.event = function() {
       </code></pre>
 
 
-    </div>
+  </div>
 
 
 
@@ -932,19 +951,19 @@ interval.event = function() {
 
   -->
 
-    <div id="matrix" class="custom-tutorial" style="display:none">
-      <h2>Matrix Model</h2>
+  <div id="matrix" class="custom-tutorial" style="display:none">
+    <h2>Matrix Model</h2>
 
-      <p>
-        The Matrix Model lets you read, write, and manipulate a two-dimensional array of data (such as the data that is visualized by a <a href="#Sequencer">sequencer</a>).
-      </p>
-<br />
-Creating a Matrix Model from scratch...
-       <pre><code class="language-javascript">
+    <p>
+      The Matrix Model lets you read, write, and manipulate a two-dimensional array of data (such as the data that is visualized by a <a href="#Sequencer">sequencer</a>).
+    </p>
+    <br />
+    Creating a Matrix Model from scratch...
+    <pre><code class="language-javascript">
 matrix = new Nexus.Matrix(5,10);
        </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10)
 document.write(matrix.formatAsText())
 </script>
@@ -958,18 +977,18 @@ document.write(matrix.formatAsText())
 
 
 
-<h3>Accessing a Matrix's Values</h3>
-<br />
-<b>matrix.pattern</b> contains a 2-dimensional JavaScript array. <b>matrix.pattern[0]</b> contains an array of the first row's values. <b>matrix.pattern[0][0]</b> contains the value of the first cell in the first row.
-<br /><br />
+    <h3>Accessing a Matrix's Values</h3>
+    <br />
+    <b>matrix.pattern</b> contains a 2-dimensional JavaScript array. <b>matrix.pattern[0]</b> contains an array of the first row's values. <b>matrix.pattern[0][0]</b> contains the value of the first cell in the first row.
+    <br /><br />
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 console.log( matrix.pattern );
 
 </code></pre>
 
-<br /><br /><br />
+    <br /><br /><br />
 
 
 
@@ -978,18 +997,18 @@ console.log( matrix.pattern );
 
 
 
-<h3>Toggling cells</h3>
-<br />
-<b>matrix.toggle</b> flips a cell or group of cells to their opposite state
-<br /><br />
+    <h3>Toggling cells</h3>
+    <br />
+    <b>matrix.toggle</b> flips a cell or group of cells to their opposite state
+    <br /><br />
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.toggle.cell(2,2)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.toggle.cell(2,2)
 document.write(matrix.formatAsText())
@@ -1002,12 +1021,12 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.toggle.row(2)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.toggle.row(2)
 document.write(matrix.formatAsText())
 </script>
@@ -1019,12 +1038,12 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.toggle.column(2)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.toggle.column(2)
 document.write(matrix.formatAsText())
 </script>
@@ -1034,12 +1053,12 @@ document.write(matrix.formatAsText())
 </pre>
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.toggle.all()
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.toggle.all()
 document.write(matrix.formatAsText())
 </script>
@@ -1057,22 +1076,22 @@ document.write(matrix.formatAsText())
 
 
 
-<!-- -->
+    <!-- -->
 
 
 
-<h3>Setting cells</h3>
-<br />
-<b>matrix.toggle</b> flips a cell or group of cells to their opposite state
-<br /><br />
+    <h3>Setting cells</h3>
+    <br />
+    <b>matrix.toggle</b> flips a cell or group of cells to their opposite state
+    <br /><br />
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.set.cell(0,0,1)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.set.cell(0,0,1)
 document.write(matrix.formatAsText())
@@ -1085,12 +1104,12 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.set.row(0,[0,1,0,1,0,1,0,1,0,1])
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.set.row(0,[0,1,0,1,0,1,0,1,0,1])
 document.write(matrix.formatAsText())
 </script>
@@ -1102,12 +1121,12 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.set.column(0,[0,1,1,1,0])
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.set.column(0,[0,1,1,1,0])
 document.write(matrix.formatAsText())
 </script>
@@ -1117,7 +1136,7 @@ document.write(matrix.formatAsText())
 </pre>
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.set.all([
   [0,1,0,1,0,1,0,1,0,1],
   [0,1,0,1,0,1,0,1,0,1],
@@ -1128,7 +1147,7 @@ matrix.set.all([
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.set.all([
   [0,1,0,1,0,1,0,1,0,1],
   [0,1,0,1,0,1,0,1,0,1],
@@ -1154,22 +1173,22 @@ document.write(matrix.formatAsText())
 
 
 
-<!-- -->
+    <!-- -->
 
 
 
-<h3>Rotating</h3>
-<br />
-<b>matrix.rotate</b> moves parts of the matrix to the right or left
-<br /><br />
+    <h3>Rotating</h3>
+    <br />
+    <b>matrix.rotate</b> moves parts of the matrix to the right or left
+    <br /><br />
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.toggle.cell(0,0)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.toggle.cell(0,0)
 document.write(matrix.formatAsText())
@@ -1182,12 +1201,12 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.rotate.row(0)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.rotate.row(0)
 document.write(matrix.formatAsText())
 </script>
@@ -1198,12 +1217,12 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.rotate.row(0,4)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.rotate.row(0,4)
 document.write(matrix.formatAsText())
 </script>
@@ -1215,12 +1234,12 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.rotate.column(5)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.rotate.column(5)
 document.write(matrix.formatAsText())
 </script>
@@ -1230,12 +1249,12 @@ document.write(matrix.formatAsText())
 </pre>
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 matrix.rotate.all(2)
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 matrix.rotate.all(2)
 document.write(matrix.formatAsText())
 </script>
@@ -1253,22 +1272,22 @@ document.write(matrix.formatAsText())
 
 
 
-<!-- -->
+    <!-- -->
 
 
 
-<h3>Populating with Patterns</h3>
-<br />
-<b>matrix.populate</b> can set row or column using a pattern.
-<br /><br />
+    <h3>Populating with Patterns</h3>
+    <br />
+    <b>matrix.populate</b> can set row or column using a pattern.
+    <br /><br />
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.row( 0, [0,1] )
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.row( 0, [0,1] )
 document.write(matrix.formatAsText())
@@ -1280,13 +1299,13 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.column( 0, [0,1] )
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.column( 0, [0,1] )
 document.write(matrix.formatAsText())
@@ -1298,13 +1317,13 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.all( [0,1] )
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.all( [0,1] )
 document.write(matrix.formatAsText())
@@ -1323,22 +1342,22 @@ document.write(matrix.formatAsText())
 
 
 
-<!-- -->
+    <!-- -->
 
 
 
-<h3>Populating with Probability</h3>
-<br />
-<b>matrix.populate</b> can set row or column using a pattern of probability values.
-<br /><br />
+    <h3>Populating with Probability</h3>
+    <br />
+    <b>matrix.populate</b> can set row or column using a pattern of probability values.
+    <br /><br />
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.row( 0, [0.3, 0.6] )
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.row( 0, [0.3, 0.3] )
 document.write(matrix.formatAsText())
@@ -1350,13 +1369,13 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.column( 0, [0.5] )
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.column( 0, [0.5] )
 document.write(matrix.formatAsText())
@@ -1368,13 +1387,13 @@ document.write(matrix.formatAsText())
 
 
 
-<pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.all( [0.2, 0.5, 0.2, 0.8] )
 
 </code></pre>
 
-<pre><script>
+    <pre><script>
 var matrix = new Nexus.Matrix(5,10);
 matrix.populate.all( [0.2, 0.5, 0.2, 0.8] )
 document.write(matrix.formatAsText())
@@ -1390,7 +1409,7 @@ document.write(matrix.formatAsText())
 
 
 
-  <!--     <pre><code class="language-javascript">
+    <!--     <pre><code class="language-javascript">
   // Every 100ms, play a random note from a random octave in the major scale
   mt.interval(100,function() {
    var scaleDegree = mt.ri( 0, mt.tune.scale.length );
@@ -1399,37 +1418,37 @@ document.write(matrix.formatAsText())
   })
        </code></pre> -->
 
-  <h3>Matrix and the Sequencer Interface</h3>
+    <h3>Matrix and the Sequencer Interface</h3>
 
-  The sequencer interface uses a matrix model to hold its grid of values. You can use any of the above matrix manipulation methods on your sequencer grid, using the sequencer's <b>.matrix</b> property.
-      <pre><code class="language-javascript">
+    The sequencer interface uses a matrix model to hold its grid of values. You can use any of the above matrix manipulation methods on your sequencer grid, using the sequencer's <b>.matrix</b> property.
+    <pre><code class="language-javascript">
   var sequencer = new Nexus.Sequencer("#target",5,10);
   sequencer.matrix.toggle.row(2);
   sequencer.matrix.set.row(1, [0,1,0,1,0,1,0,1,0,1])
       </code></pre>
 
-<br /><br /><br /><br />
+    <br /><br /><br /><br />
 
 
-    </div>
+  </div>
 
 
 
 
 
-    <!--
+  <!--
 
     MT.COUNTER
 
     -->
 
-      <div id="counter" class="custom-tutorial" style="display:none">
-        <h2>Counter Model</h2>
+  <div id="counter" class="custom-tutorial" style="display:none">
+    <h2>Counter Model</h2>
 
-        <p>
-          A Counter model is an object with a minimal API for counting up or down.
-        </p>
-         <pre><code class="language-javascript">
+    <p>
+      A Counter model is an object with a minimal API for counting up or down.
+    </p>
+    <pre><code class="language-javascript">
 counter = new Nexus.Counter(0,10)
 counter.next()    // returns 0
 counter.next()    // returns 1
@@ -1440,22 +1459,22 @@ counter.next()    // returns 10
 counter.next()    // returns 0
          </code></pre>
 
-        <!-- section -->
+    <!-- section -->
 
-        <h3>Modes</h3>
+    <h3>Modes</h3>
 
-        The counter method takes an optional third argument for the counting mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
+    The counter method takes an optional third argument for the counting mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
 
-        <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 counter = new Nexus.Counter(0,10,"down")
 counter.next()    // returns 10
 counter.next()    // returns 9
 counter.next()    // returns 8
         </code></pre>
 
-        <h3>Properties</h3>
+    <h3>Properties</h3>
 
-        <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 counter.min = 10
 counter.max = 100
 counter.mode = "down"
@@ -1463,24 +1482,24 @@ counter.value = 50  // jumps the counter to this value
         </code></pre>
 
 
-      </div>
+  </div>
 
 
 
 
-      <!--
+  <!--
 
       MT.SEQUENCE
 
       -->
 
-      <div id="sequence" class="custom-tutorial" style="display:none">
-        <h2>Sequence Model</h2>
+  <div id="sequence" class="custom-tutorial" style="display:none">
+    <h2>Sequence Model</h2>
 
-        <p>
-          A Sequence model steps through a series of numeric values defined by you.
-        </p>
-         <pre><code class="language-javascript">
+    <p>
+      A Sequence model steps through a series of numeric values defined by you.
+    </p>
+    <pre><code class="language-javascript">
 var sequence = new Nexus.Sequence([1,3,5,7])
 sequence.next()    // returns 1
 sequence.next()    // returns 3
@@ -1490,13 +1509,13 @@ sequence.next()    // returns 1
 sequence.next()    // returns 3
          </code></pre>
 
-        <!-- section -->
+    <!-- section -->
 
-        <h3>Modes</h3>
+    <h3>Modes</h3>
 
-        The sequence model takes an optional second argument for the sequence mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
+    The sequence model takes an optional second argument for the sequence mode, which can be <b>up</b>, <b>down</b>, <b>drunk</b> (randomly chooses to step up or down), or <b>random</b> (chooses a random number from within the counting range).
 
-        <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 var sequence = new Nexus.Sequence([1,3,5,7],"down")
 sequence.next()    // returns 7
 sequence.next()    // returns 5
@@ -1506,33 +1525,33 @@ sequence.next()    // returns 7
 sequence.next()    // returns 5
         </code></pre>
 
-        <h3>Properties</h3>
+    <h3>Properties</h3>
 
-        <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 sequence.values = [2,4,5,8]   // updates the sequence of values
 sequence.mode = "drunk"
 sequence.value = 2   // this jumps to where the '2' value is in the sequence, which is index 0.
         </code></pre>
 
 
-      </div>
+  </div>
 
 
 
 
-      <!--
+  <!--
 
       MT.DRUNK
 
       -->
 
-      <div id="drunk" class="custom-tutorial" style="display:none">
-        <h2>Drunk Model</h2>
+  <div id="drunk" class="custom-tutorial" style="display:none">
+    <h2>Drunk Model</h2>
 
-        <p>
-          A Drunk Model does a "drunk walk" through a given range, meaning it will randomly step up or down by a given increment.
-        </p>
-         <pre><code class="language-javascript">
+    <p>
+      A Drunk Model does a "drunk walk" through a given range, meaning it will randomly step up or down by a given increment.
+    </p>
+    <pre><code class="language-javascript">
 // This drunk model has a range of 0 to 100
 // Its starting value is 50
 // Its stepping increment is 10
@@ -1545,12 +1564,12 @@ drunk.next()    // returns 40
 drunk.next()    // returns 30
          </code></pre>
 
-        <!-- section -->
+    <!-- section -->
 
 
-        <h3>Properties</h3>
+    <h3>Properties</h3>
 
-        <pre><code class="language-javascript">
+    <pre><code class="language-javascript">
 drunk.min = 100
 drunk.max = 1000
 drunk.increment = 100
@@ -1558,7 +1577,7 @@ drunk.value = 500   // jumps to this value
         </code></pre>
 
 
-      </div>
+  </div>
 
 
 
@@ -1569,7 +1588,6 @@ drunk.value = 500   // jumps to this value
 </body>
 
 <script>
-
   var Unformatted = {}
   var API = {}
   var Helpers = []
@@ -1579,15 +1597,15 @@ drunk.value = 500   // jumps to this value
   Nexus.context = Tone.context;
 
 
-  $.getJSON('api.json', function(data) {
-    data.forEach(function(entry) {
+  $.getJSON('api.json', function (data) {
+    data.forEach(function (entry) {
       Unformatted[entry.name] = entry
     })
 
-    
+
     // Parse Helper doc into Helpers object
     for (var key in Unformatted) {
-      if ( LoadLinks.Helper.indexOf(key) >=0 ) {
+      if (LoadLinks.Helper.indexOf(key) >= 0) {
         var unformatted = Unformatted[key]
         var entry = {
           name: unformatted.name,
@@ -1599,9 +1617,9 @@ drunk.value = 500   // jumps to this value
           },
           example: unformatted.examples[0].description,
         }
-        if (entry.parameters && entry.parameters.length>0) {
+        if (entry.parameters && entry.parameters.length > 0) {
           let params = []
-          entry.parameters.forEach(function(param) {
+          entry.parameters.forEach(function (param) {
             params.push({
               name: param.name,
               type: param.type.name,
@@ -1609,7 +1627,7 @@ drunk.value = 500   // jumps to this value
             })
           })
           entry.parameters = params
-          entry.parameters[ entry.parameters.length - 1 ].last = true
+          entry.parameters[entry.parameters.length - 1].last = true
         }
         Helpers.push(entry);
       }
@@ -1626,22 +1644,22 @@ drunk.value = 500   // jumps to this value
       }
       var exampleTypes = ['Basic', 'With Options']
       if (entry.examples) {
-        for (var i=0; i<entry.examples.length;i++) {
+        for (var i = 0; i < entry.examples.length; i++) {
           entry.examples[i].title = exampleTypes[i];
         }
       }
-      for (var i=0; i<unformatted.tags.length;i++) {
-        if (unformatted.tags[i].title==="output") {
-          var name = unformatted.tags[i].description.split('\n').slice(0,1)[0]
+      for (var i = 0; i < unformatted.tags.length; i++) {
+        if (unformatted.tags[i].title === "output") {
+          var name = unformatted.tags[i].description.split('\n').slice(0, 1)[0]
           var desc = unformatted.tags[i].description.split('\n').slice(1).join("\n")
           entry.outputs.push({
             name: name,
             description: desc,
             example: ''
           })
-        } else if (unformatted.tags[i].title==="outputexample") {
-          if (entry.outputs.length-1>=0) {
-            entry.outputs[entry.outputs.length-1].example = unformatted.tags[i].description
+        } else if (unformatted.tags[i].title === "outputexample") {
+          if (entry.outputs.length - 1 >= 0) {
+            entry.outputs[entry.outputs.length - 1].example = unformatted.tags[i].description
           }
         }
         entry[unformatted.tags[i].title] = unformatted.tags[i].description
@@ -1653,12 +1671,12 @@ drunk.value = 500   // jumps to this value
 
       //get inherited members
       if (unformatted.augments) {
-        for (var i=0; i<unformatted.augments.length;i++) {
+        for (var i = 0; i < unformatted.augments.length; i++) {
           var name = unformatted.augments[i].name
           if (name != "EventEmitter") {
             members = members.concat(Unformatted[name].members.instance)
             if (Unformatted[name].augments) {
-              unformatted.augments.push( Unformatted[name].augments[0] )
+              unformatted.augments.push(Unformatted[name].augments[0])
             }
           }
         }
@@ -1667,8 +1685,8 @@ drunk.value = 500   // jumps to this value
       //sort members
       entry.properties = []
       entry.methods = []
-      for (var i=0; i<members.length;i++) {
-        if (members[i].kind=="function") {
+      for (var i = 0; i < members.length; i++) {
+        if (members[i].kind == "function") {
           var method = {
             name: members[i].name,
             parameters: [],
@@ -1676,7 +1694,7 @@ drunk.value = 500   // jumps to this value
             returns: false,
             example: false,
           }
-          for (var j=0; j<members[i].tags.length; j++) {
+          for (var j = 0; j < members[i].tags.length; j++) {
             var tag = members[i].tags[j]
             switch (tag.title) {
               case 'type':
@@ -1690,14 +1708,14 @@ drunk.value = 500   // jumps to this value
             }
           }
           /*  parameters */
-          if (members[i].params && members[i].params.length>0) {
-            for (var j=0; j<members[i].params.length; j++) {
+          if (members[i].params && members[i].params.length > 0) {
+            for (var j = 0; j < members[i].params.length; j++) {
               method.parameters.push({
                 name: members[i].params[j].name
-              //  type: members[i].params[j].name,
+                //  type: members[i].params[j].name,
               })
             }
-            method.parameters[ method.parameters.length - 1 ].last = true
+            method.parameters[method.parameters.length - 1].last = true
           }
 
           entry.methods.push(method)
@@ -1708,13 +1726,13 @@ drunk.value = 500   // jumps to this value
             type: '',
             example: false
           }
-          for (var j=0; j<members[i].tags.length; j++) {
+          for (var j = 0; j < members[i].tags.length; j++) {
             var tag = members[i].tags[j]
             switch (tag.title) {
               case 'type':
                 property.type = tag.type.name
-                if (TypeLinks.indexOf(property.type)>=0) {
-                  property.type = '<a href="#'+property.type+'">'+property.type+'</a>';
+                if (TypeLinks.indexOf(property.type) >= 0) {
+                  property.type = '<a href="#' + property.type + '">' + property.type + '</a>';
                 }
                 break;
               case 'example':
@@ -1729,28 +1747,29 @@ drunk.value = 500   // jumps to this value
       }
 
       /* alphabetize members */
-    //  for (var i=0; i<entry.properties.length;i++) {
-        entry.properties.sort(function(a, b) {
-            return a.name.localeCompare(b.name);
-        });
-            entry.methods.sort(function(a, b) {
-                return a.name.localeCompare(b.name);
-            });
-    //  }
+      //  for (var i=0; i<entry.properties.length;i++) {
+      entry.properties.sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+      });
+      entry.methods.sort(function (a, b) {
+        return a.name.localeCompare(b.name);
+      });
+      //  }
 
 
 
       entry.tutorials = []
-      for (var i=0; i<unformatted.tags.length;i++) {
+      for (var i = 0; i < unformatted.tags.length; i++) {
         if (unformatted.tags[i].title == 'tutorial') {
           var contents = unformatted.tags[i].description
           var name = contents.split("\n")[0]
           var codepen = contents.split("\n")[1]
           var description = contents.split("\n")[2]
-          entry.tutorials.push( {
+          entry.tutorials.push({
             description: description,
             name: name,
-            codepen: '<p data-height="265" data-theme-id="0" data-slug-hash="'+codepen+'" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="'+codepen+'" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/'+codepen+'/">'+codepen+'</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p><scr'+'ipt async src="https://production-assets.codepen.io/assets/embed/ei.js"></scr'+'ipt>'
+            codepen: '<p data-height="265" data-theme-id="0" data-slug-hash="' + codepen + '" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="' + codepen + '" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/' + codepen + '/">' +
+              codepen + '</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p><scr' + 'ipt async src="https://production-assets.codepen.io/assets/embed/ei.js"></scr' + 'ipt>'
           })
         }
       }
@@ -1762,18 +1781,18 @@ drunk.value = 500   // jumps to this value
 
 
     //load hash
-    if(window.location.hash) {
+    if (window.location.hash) {
       var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
       load(hash);
     } else {
       window.location.hash = "#intro";
     }
 
-    window.addEventListener("hashchange", function() {
+    window.addEventListener("hashchange", function () {
       var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
       load(hash);
       toggleSidebar(false);
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     }, false);
 
   });
@@ -1782,12 +1801,12 @@ drunk.value = 500   // jumps to this value
   var player = player = new Tone.Player("media/D-sharp.mp3");
 
   function doc(name) {
-  //  if (window.location.hash.substring(1)!=name) {
-  //    window.location.hash = name;
-  //  }
+    //  if (window.location.hash.substring(1)!=name) {
+    //    window.location.hash = name;
+    //  }
     var entry = API[name];
     var template = $('#template').html();
-    Mustache.parse(template);   // optional, speeds up future uses
+    Mustache.parse(template); // optional, speeds up future uses
     var rendered = Mustache.render(template, entry);
     $('#target').html(rendered);
     Prism.highlightAll();
@@ -1795,26 +1814,26 @@ drunk.value = 500   // jumps to this value
     if (instrument) {
       try {
         instrument.empty()
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
     }
     instrument = new Nexus.Rack("demo");
 
-    $(".example-toggle").click(function() {
+    $(".example-toggle").click(function () {
       $(this).parent().find(".example").toggle();
     })
 
-    if (name=="Waveform") {
-      player.load("media/D-sharp.mp3",function() {
+    if (name == "Waveform") {
+      player.load("media/D-sharp.mp3", function () {
         instrument["Waveform1"].load(player.buffer._buffer)
       })
-    } else if (["Meter","Oscilloscope","Spectrogram"].indexOf(name)>-1) {
-      player.load("media/D-sharp.mp3",function() {
+    } else if (["Meter", "Oscilloscope", "Spectrogram"].indexOf(name) > -1) {
+      player.load("media/D-sharp.mp3", function () {
         player.loopStart = 0;
         player.loopEnd = 3;
         player.loop = true;
-        instrument[name+"1"].connect(player,2);
+        instrument[name + "1"].connect(player, 2);
         player.start();
       })
     }
@@ -1822,12 +1841,12 @@ drunk.value = 500   // jumps to this value
 
 
   function tut(name) {
-  //  if (window.location.hash.substring(1)!=name) {
-  //    window.location.hash = name;
-  //  }
+    //  if (window.location.hash.substring(1)!=name) {
+    //    window.location.hash = name;
+    //  }
     $('#target').empty();
-    if ($("#"+name).length>0) {
-      $("#"+name).clone().appendTo('#target').show()
+    if ($("#" + name).length > 0) {
+      $("#" + name).clone().appendTo('#target').show()
       Prism.highlightAll();
 
 
@@ -1835,50 +1854,52 @@ drunk.value = 500   // jumps to this value
       if (instrument) {
         try {
           instrument.empty();
-        } catch(e) {
+        } catch (e) {
           console.log(e);
         }
       }
 
-      if (name=="intro") {
-          var splashRack = new Nexus.Rack("splash-demo");
+      if (name == "intro") {
+        var splashRack = new Nexus.Rack("splash-demo");
       }
 
-    //  instrument = mt.rack("target");
+      //  instrument = mt.rack("target");
     }
   }
 
   function helper(name) {
 
-  //  if (window.location.hash.substring(1)!=name) {
-  //    window.location.hash = name;
-  //  }
+    //  if (window.location.hash.substring(1)!=name) {
+    //    window.location.hash = name;
+    //  }
 
 
     if (instrument) {
       try {
         instrument.empty();
-      } catch(e) {
+      } catch (e) {
         console.log(e);
       }
     }
 
-    var entry = {"helpers": Helpers}
+    var entry = {
+      "helpers": Helpers
+    }
     var template = $('#helper-template').html();
-    Mustache.parse(template);   // optional, speeds up future uses
+    Mustache.parse(template); // optional, speeds up future uses
     var rendered = Mustache.render(template, entry);
 
     $('#target').html(rendered);
     Prism.highlightAll();
 
     $('html, body').animate({
-        scrollTop: $("#"+name).offset().top - 20
-    },50);
+      scrollTop: $("#" + name).offset().top - 20
+    }, 50);
 
 
-  /*  $("#"+name).css("background-color","#0af");
-    $("#"+name).css("transition","background-color 1s ease");
-    $("#"+name).css("background-color","#fff"); */
+    /*  $("#"+name).css("background-color","#0af");
+      $("#"+name).css("transition","background-color 1s ease");
+      $("#"+name).css("background-color","#fff"); */
 
 
 
@@ -1906,20 +1927,21 @@ drunk.value = 500   // jumps to this value
   }
 
   function load(name) {
-    if (LoadLinks.Doc.indexOf(name)>=0) {
+    if (LoadLinks.Doc.indexOf(name) >= 0) {
       doc(name);
-    } else if (LoadLinks.Tut.indexOf(name)>=0) {
+    } else if (LoadLinks.Tut.indexOf(name) >= 0) {
       tut(name);
-    } else if (LoadLinks.Helper.indexOf(name)>=0) {
+    } else if (LoadLinks.Helper.indexOf(name) >= 0) {
       helper(name);
     }
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     document.getElementById("target").scrollTop = 0
   }
 
   var menuOpen = false;
+
   function toggleSidebar(on) {
-    if (on || on==false) {
+    if (on || on == false) {
       menuOpen = !on;
     }
     if (menuOpen) {
@@ -1934,104 +1956,119 @@ drunk.value = 500   // jumps to this value
   }
 </script>
 <style>
-
   body {
     font-family: 'Muli', helvetica;
-    padding:0;
-    margin:0;
-    width:100%;
-    user-select:#000 !important;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    user-select: #000 !important;
   }
+
   #menu-tab {
-    display:none;
+    display: none;
   }
+
   #sidebar {
-    position:fixed;
-    height:100%;
-    top:0px;
-    overflow:auto;
-    width:225px;
-    padding:10px 15px 15px;
-    box-sizing:border-box;
-    z-index:5;
+    position: fixed;
+    height: 100%;
+    top: 0px;
+    overflow: auto;
+    width: 225px;
+    padding: 10px 15px 15px;
+    box-sizing: border-box;
+    z-index: 5;
   }
+
   #tutorial {
-    margin-left:225px;
+    margin-left: 225px;
   }
 
   #target {
-    width:100%;
+    width: 100%;
   }
 
-  h1, h2, h3 {
-    line-height: 1em;
-    padding:0;
-    font-weight:700;
-  }
-  h1 {
-    margin:20px 0px 5px;
-  }
-  h2 {
-    margin:20px 0px 5px;
-    font-size:20px;
-  }
+  h1,
+  h2,
   h3 {
-    margin:10px 0px 5px;
-    font-size:16px;
+    line-height: 1em;
+    padding: 0;
+    font-weight: 700;
   }
+
+  h1 {
+    margin: 20px 0px 5px;
+  }
+
+  h2 {
+    margin: 20px 0px 5px;
+    font-size: 20px;
+  }
+
+  h3 {
+    margin: 10px 0px 5px;
+    font-size: 16px;
+  }
+
   #sidebar a {
-    line-height:1.3em;
-    color:#555;
-    text-decoration:none;
+    line-height: 1.3em;
+    color: #555;
+    text-decoration: none;
   }
+
   #sidebar a:hover {
-    text-decoration:underline;
+    text-decoration: underline;
   }
+
   #tutorial a {
-    line-height:1.3em;
-    color:#09d;
-    text-decoration:none;
+    line-height: 1.3em;
+    color: #09d;
+    text-decoration: none;
   }
+
   #tutorial a:hover {
-    text-decoration:underline;
+    text-decoration: underline;
   }
 
 
 
   /* Doc Tutorial Entry */
   .tutorial {
-  	margin-left: 225px;
-  	padding:0px 20px;
-  	height:100%;
-  	overflow:auto;
-  	box-sizing:border-box;
-  	font-weight: 400;
-  	font-size:15px;
+    margin-left: 225px;
+    padding: 0px 20px;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    font-weight: 400;
+    font-size: 15px;
   }
 
   .tutorial .overview {
-  	padding-bottom:20px;
+    padding-bottom: 20px;
   }
 
   .tutorial #demo {
-  	margin-top:10px;
+    margin-top: 10px;
   }
 
   .tutorial h2 {
-  	font-size:35px;
+    font-size: 35px;
   }
+
   .tutorial h3 {
-  	font-size:30px;
+    font-size: 30px;
   }
+
   .tutorial h4 {
-  	font-size:25px;
-    margin:35px 0px 10px;
+    font-size: 25px;
+    margin: 35px 0px 10px;
   }
+
   .tutorial h5 {
-  	font-size:20px;
-    margin:20px 0px 10px;
+    font-size: 20px;
+    margin: 20px 0px 10px;
   }
-/*
+
+  /*
   .tutorial .output, .tutorial .properties, .tutorial .codepen {
   	border-top: solid 0px #ccc;
   	margin-top:30px;
@@ -2039,67 +2076,77 @@ drunk.value = 500   // jumps to this value
   } */
 
   .tutorial .properties {
-    padding:0px 0px 0px;
+    padding: 0px 0px 0px;
   }
 
-  .tutorial .property-name, .tutorial .method-name {
+  .tutorial .property-name,
+  .tutorial .method-name {
     font-weight: 700;
     padding: 0px 20px 0px 0px;
     font-size: 17px;
     display: inline-block;
 
   }
-  .tutorial .property-type, .tutorial .method-type {
-  	display:inline-block;
-  	font-style:italic;
-  	color:#aaa;
-  }
-  .tutorial .property-description, .tutorial .method-description {
-  	padding:5px 0px;
-  	font-size:15px;
-  	color:#333;
-  	letter-spacing: 0.2px;
-  }
-  .tutorial .property-example, .tutorial .method-example {
-  	padding:20px;
-    display:none;
+
+  .tutorial .property-type,
+  .tutorial .method-type {
+    display: inline-block;
+    font-style: italic;
+    color: #aaa;
   }
 
-  .tutorial .property, .tutorial .method {
+  .tutorial .property-description,
+  .tutorial .method-description {
+    padding: 5px 0px;
+    font-size: 15px;
+    color: #333;
+    letter-spacing: 0.2px;
+  }
+
+  .tutorial .property-example,
+  .tutorial .method-example {
+    padding: 20px;
+    display: none;
+  }
+
+  .tutorial .property,
+  .tutorial .method {
     border: solid 1px #555;
     padding: 10px 20px;
     border-left-width: 1px;
     margin: 20px 0px;
     border-bottom: none;
     border-right: none;
-    position:relative;
+    position: relative;
   }
+
   .tutorial .example-toggle {
-    position:absolute;
-    top:0px;
-    right:0px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
     border: solid 1px #555;
-    color:#333;
-    padding:3px 6px;
-    font-size:11px;
-    border-top:none;
-    cursor:pointer;
+    color: #333;
+    padding: 3px 6px;
+    font-size: 11px;
+    border-top: none;
+    cursor: pointer;
   }
+
   .tutorial .example-toggle:hover {
-    background-color:#eee;
+    background-color: #eee;
   }
 
 
   .custom-tutorial pre {
-    padding:0px 25px;
+    padding: 0px 25px;
   }
 
   .custom-tutorial h3 {
-    margin-top:30px;
+    margin-top: 30px;
   }
 
   [nexus-ui] {
-    display:inline-block;
+    display: inline-block;
   }
 
 
@@ -2112,8 +2159,8 @@ drunk.value = 500   // jumps to this value
   }
 
   #intro h5 {
-    margin-top:35px;
-    font-size:20pt;
+    margin-top: 35px;
+    font-size: 20pt;
   }
 
 
@@ -2121,65 +2168,79 @@ drunk.value = 500   // jumps to this value
 
   @media (max-width: 730px) {
     body {
-      height:auto;
+      height: auto;
     }
+
     #menu-tab {
-      background-color:#000;
-      color:#fff;
-      text-align:left;
-      padding:20px 20px;
-      overflow:auto;
-      cursor:pointer;
-      display:block;
-      position:fixed;
-      top:0px;
-      right:0px;
-      width:100%;
-      height:32px;
+      background-color: #000;
+      color: #fff;
+      text-align: left;
+      padding: 20px 20px;
+      overflow: auto;
+      cursor: pointer;
+      display: block;
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      width: 100%;
+      height: 32px;
     }
+
     #menu-tab img {
-      float:right;
+      float: right;
     }
+
     #sidebar {
-      width:100%;
-      position:absolute;
-      top:70px;
+      width: 100%;
+      position: absolute;
+      top: 70px;
       padding-bottom: 100px;
-     /* display:none; */
-      overflow:auto;
-      height:100%;
-      background-color:white;
-      z-index:3;
+      /* display:none; */
+      overflow: auto;
+      height: 100%;
+      background-color: white;
+      z-index: 3;
     }
-    #sidebar a, #sidebar h2, #sidebar h3 {
-      font-size:120%;
+
+    #sidebar a,
+    #sidebar h2,
+    #sidebar h3 {
+      font-size: 120%;
     }
+
     #tutorial {
-      margin-left:0px;
+      margin-left: 0px;
       margin-top: 70px;
     }
+
     .menuClosed {
-      display:none;
+      display: none;
     }
+
     .menuOpen {
-      display:block;
+      display: block;
     }
   }
-
 </style>
 <script>
-window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 </script>
 
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
   ga('create', 'UA-42209714-3', 'auto');
   ga('send', 'pageview');
-
 </script>
 
 </html>
