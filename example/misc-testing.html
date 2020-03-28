@@ -17,7 +17,7 @@
     Testing Sandbox
   </div>
 
-  <div id="target"></div>
+  <div id="sequencer"></div>
 
 
 </body>
@@ -38,15 +38,14 @@
   }
 </style>
 <script>
-  var thing = new Nexus.Add.Slider('#target', {
-    size: [300, 200]
-  })
-
-  thing.resize(200, 400)
-
-  var num = new Nexus.Add.Number('#target', {
-    step: 0.1
-  })
+  const sequencer = new Nexus.Sequencer('#sequencer', {
+    size: [400, 110],
+    mode: 'toggle',
+    rows: 4,
+    columns: 16,
+    paddingRow: 10,
+    paddingColumn: 5
+  });
 </script>
 
 </html>
