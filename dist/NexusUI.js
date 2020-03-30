@@ -4653,7 +4653,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      size: [80, 80],
 	      target: false,
 	      mode: "toggle",
-	      value: 0
+	      value: 0,
+	      paddingRow: 2,
+	      paddingColumn: 2
 	    };
 	
 	    _get(Object.getPrototypeOf(MatrixCell.prototype), "constructor", this).call(this, arguments, options, defaults);
@@ -4664,8 +4666,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    this.matrix = this.settings.matrix;
 	
-	    this.paddingRow = this.settings.paddingRow;
-	    this.paddingColumn = this.settings.paddingColumn;
+	    this.paddingRow = this.settings.paddingRow || defaults.paddingRow;
+	    this.paddingColumn = this.settings.paddingColumn || defaults.paddingColumn;
 	
 	    this.interacting = false;
 	    this.paintbrush = false;
