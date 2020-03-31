@@ -38,15 +38,11 @@
   }
 </style>
 <script>
-  var thing = new Nexus.Add.Slider('#target', {
-    size: [300, 200]
-  })
+  var thing = new Nexus.RadioButton("#target", {
+    size: [25, 100],
+  });
 
-  thing.resize(200, 400)
-
-  var num = new Nexus.Add.Number('#target', {
-    step: 0.1
-  })
+  thing.on('change', x => console.log(x))
 </script>
 
 </html>

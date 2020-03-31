@@ -74,7 +74,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\buttontemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
     },
     "augments": [
       {
@@ -201,7 +201,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -327,7 +327,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -504,7 +504,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -629,7 +629,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\buttontemplate.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -775,7 +775,7 @@
           "column": 3
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -899,7 +899,7 @@
           "column": 3
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1023,7 +1023,7 @@
           "column": 3
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1147,7 +1147,7 @@
           "column": 3
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1271,7 +1271,7 @@
           "column": 3
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\components\\slidertemplate.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1380,7 +1380,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\core\\interface.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
     },
     "augments": [
       {
@@ -1512,7 +1512,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\core\\interface.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1746,7 +1746,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\core\\interface.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1867,17 +1867,17 @@
       },
       {
         "title": "example",
-        "description": "var button = new Nexus.Button('#target',{\r\n  'size': [80,80],\r\n  'mode': 'aftertouch',\r\n  'state': false\r\n})",
+        "description": "var button = new Nexus.Button('#target',{\n  'size': [80,80],\n  'mode': 'aftertouch',\n  'state': false\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nIn <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.<br>\r\nIn <b>aftertouch mode</b>, the output data is an object containing x (0-1) and y (0-1) positions of aftertouch.",
+        "description": "change\nFires any time the interface's value changes. <br>\nIn <b>button mode</b>, <b>toggle mode</b>, and <b>impulse mode</b>, the output data is a boolean describing the state of the button.<br>\nIn <b>aftertouch mode</b>, the output data is an object containing x (0-1) and y (0-1) positions of aftertouch.",
         "lineNumber": 17
       },
       {
         "title": "outputexample",
-        "description": "button.on('change',function(v) {\r\n  // v is the value of the button\r\n  console.log(v);\r\n})",
+        "description": "button.on('change',function(v) {\n  // v is the value of the button\n  console.log(v);\n})",
         "lineNumber": 23
       }
     ],
@@ -1902,7 +1902,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\button.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/button.js"
     },
     "augments": [
       {
@@ -1915,7 +1915,7 @@
         "description": "var button = new Nexus.Button('#target')"
       },
       {
-        "description": "var button = new Nexus.Button('#target',{\r\n  'size': [80,80],\r\n  'mode': 'aftertouch',\r\n  'state': false\r\n})"
+        "description": "var button = new Nexus.Button('#target',{\n  'size': [80,80],\n  'mode': 'aftertouch',\n  'state': false\n})"
       }
     ],
     "params": [],
@@ -2020,7 +2020,7 @@
                 "column": 35
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\button.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/button.js"
           },
           "augments": [],
           "examples": [
@@ -2139,22 +2139,22 @@
       },
       {
         "title": "example",
-        "description": "var dial = new Nexus.Dial('#target',{\r\n  'size': [75,75],\r\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\r\n  'mode': 'relative', // \"absolute\" or \"relative\"\r\n  'min': 0,\r\n  'max': 1,\r\n  'step': 0,\r\n  'value': 0\r\n})",
+        "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 0\n})",
         "lineNumber": 11
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data is the number value of the interface.",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
         "lineNumber": 22
       },
       {
         "title": "outputexample",
-        "description": "dial.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "dial.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 27
       },
       {
         "title": "tutorial",
-        "description": "Dial\r\nygGMxq",
+        "description": "Dial\nygGMxq",
         "lineNumber": 32
       }
     ],
@@ -2179,7 +2179,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\dial.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
     },
     "augments": [
       {
@@ -2192,7 +2192,7 @@
         "description": "var dial = new Nexus.Dial('#target')"
       },
       {
-        "description": "var dial = new Nexus.Dial('#target',{\r\n  'size': [75,75],\r\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\r\n  'mode': 'relative', // \"absolute\" or \"relative\"\r\n  'min': 0,\r\n  'max': 1,\r\n  'step': 0,\r\n  'value': 0\r\n})"
+        "description": "var dial = new Nexus.Dial('#target',{\n  'size': [75,75],\n  'interaction': 'radial', // \"radial\", \"vertical\", or \"horizontal\"\n  'mode': 'relative', // \"absolute\" or \"relative\"\n  'min': 0,\n  'max': 1,\n  'step': 0,\n  'value': 0\n})"
       }
     ],
     "params": [],
@@ -2297,7 +2297,7 @@
                 "column": 5
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2425,7 +2425,7 @@
                 "column": 5
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2553,7 +2553,7 @@
                 "column": 5
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2681,7 +2681,7 @@
                 "column": 5
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2809,7 +2809,7 @@
                 "column": 5
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2937,7 +2937,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\dial.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -3058,17 +3058,17 @@
       },
       {
         "title": "example",
-        "description": "var envelope = new Nexus.Envelope('#target',{\r\n  'size': [300,150],\r\n  'noNewPoints': false,\r\n  'points': [\r\n    {\r\n      x: 0.1,\r\n      y: 0.4\r\n    },\r\n    {\r\n      x: 0.35,\r\n      y: 0.6\r\n    },\r\n    {\r\n      x: 0.65,\r\n      y: 0.2\r\n    },\r\n    {\r\n      x: 0.9,\r\n      y: 0.4\r\n    },\r\n  ]\r\n})",
+        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'noNewPoints': false,\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time a node is moved. <br>\r\nThe event data is an array of point locations. Each item in the array is an object containing <i>x</i> and <i>y</i> properties describing the location of a point on the envelope.",
+        "description": "change\nFires any time a node is moved. <br>\nThe event data is an array of point locations. Each item in the array is an object containing <i>x</i> and <i>y</i> properties describing the location of a point on the envelope.",
         "lineNumber": 34
       },
       {
         "title": "outputexample",
-        "description": "envelope.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "envelope.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 39
       }
     ],
@@ -3093,7 +3093,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
     },
     "augments": [
       {
@@ -3106,7 +3106,7 @@
         "description": "var envelope = new Nexus.Envelope('#target')"
       },
       {
-        "description": "var envelope = new Nexus.Envelope('#target',{\r\n  'size': [300,150],\r\n  'noNewPoints': false,\r\n  'points': [\r\n    {\r\n      x: 0.1,\r\n      y: 0.4\r\n    },\r\n    {\r\n      x: 0.35,\r\n      y: 0.6\r\n    },\r\n    {\r\n      x: 0.65,\r\n      y: 0.2\r\n    },\r\n    {\r\n      x: 0.9,\r\n      y: 0.4\r\n    },\r\n  ]\r\n})"
+        "description": "var envelope = new Nexus.Envelope('#target',{\n  'size': [300,150],\n  'noNewPoints': false,\n  'points': [\n    {\n      x: 0.1,\n      y: 0.4\n    },\n    {\n      x: 0.35,\n      y: 0.6\n    },\n    {\n      x: 0.65,\n      y: 0.2\n    },\n    {\n      x: 0.9,\n      y: 0.4\n    },\n  ]\n})"
       }
     ],
     "params": [],
@@ -3196,7 +3196,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3320,7 +3320,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3552,7 +3552,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3741,7 +3741,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4044,7 +4044,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4333,7 +4333,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4508,7 +4508,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\envelope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4683,12 +4683,12 @@
       },
       {
         "title": "example",
-        "description": "var meter = new Nexus.Meter('#target',{\r\n  size: [75,75]\r\n})",
+        "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "&nbsp;\r\nNo events",
+        "description": "&nbsp;\nNo events",
         "lineNumber": 15
       }
     ],
@@ -4713,7 +4713,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\meter.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
     },
     "augments": [
       {
@@ -4726,7 +4726,7 @@
         "description": "var meter = new Nexus.Meter('#target')"
       },
       {
-        "description": "var meter = new Nexus.Meter('#target',{\r\n  size: [75,75]\r\n})"
+        "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})"
       }
     ],
     "params": [],
@@ -4811,7 +4811,7 @@
             },
             {
               "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\r\nmeter.connect( Tone.Master, 2 );",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );",
               "lineNumber": 4
             }
           ],
@@ -4836,12 +4836,12 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\meter.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\r\nmeter.connect( Tone.Master, 2 );"
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
             }
           ],
           "params": [
@@ -5064,7 +5064,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\meter.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
           },
           "augments": [],
           "examples": [],
@@ -5181,17 +5181,17 @@
       },
       {
         "title": "example",
-        "description": "var multislider = new Nexus.Multislider('#target',{\r\n 'size': [200,100],\r\n 'numberOfSliders': 5,\r\n 'min': 0,\r\n 'max': 1,\r\n 'step': 0,\r\n 'candycane': 3,\r\n 'values': [0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1],\r\n 'smoothing': 0,\r\n 'mode': 'bar'  // 'bar' or 'line'\r\n})",
+        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'candycane': 3,\n 'values': [0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1],\n 'smoothing': 0,\n 'mode': 'bar'  // 'bar' or 'line'\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data is an object containing <i>index</i> and <i>value</i> properties",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object containing <i>index</i> and <i>value</i> properties",
         "lineNumber": 23
       },
       {
         "title": "outputexample",
-        "description": "multislider.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "multislider.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 28
       }
     ],
@@ -5216,7 +5216,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
     },
     "augments": [
       {
@@ -5229,7 +5229,7 @@
         "description": "var multislider = new Nexus.Multislider('#target')"
       },
       {
-        "description": "var multislider = new Nexus.Multislider('#target',{\r\n 'size': [200,100],\r\n 'numberOfSliders': 5,\r\n 'min': 0,\r\n 'max': 1,\r\n 'step': 0,\r\n 'candycane': 3,\r\n 'values': [0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1],\r\n 'smoothing': 0,\r\n 'mode': 'bar'  // 'bar' or 'line'\r\n})"
+        "description": "var multislider = new Nexus.Multislider('#target',{\n 'size': [200,100],\n 'numberOfSliders': 5,\n 'min': 0,\n 'max': 1,\n 'step': 0,\n 'candycane': 3,\n 'values': [0.9,0.8,0.7,0.6,0.5,0.4,0.3,0.2,0.1],\n 'smoothing': 0,\n 'mode': 'bar'  // 'bar' or 'line'\n})"
       }
     ],
     "params": [],
@@ -5329,7 +5329,7 @@
                 "column": 39
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5446,7 +5446,7 @@
                 "column": 45
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5563,7 +5563,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5687,7 +5687,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5815,7 +5815,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5943,7 +5943,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6051,7 +6051,7 @@
             },
             {
               "title": "example",
-              "description": "// Set the first slider to value 0.5\r\nmultislider.setSlider(0,0.5)",
+              "description": "// Set the first slider to value 0.5\nmultislider.setSlider(0,0.5)",
               "lineNumber": 4
             }
           ],
@@ -6076,12 +6076,12 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "// Set the first slider to value 0.5\r\nmultislider.setSlider(0,0.5)"
+              "description": "// Set the first slider to value 0.5\nmultislider.setSlider(0,0.5)"
             }
           ],
           "params": [
@@ -6317,7 +6317,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\multislider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6496,17 +6496,17 @@
       },
       {
         "title": "example",
-        "description": "var number = new Nexus.Number('#target',{\r\n  'size': [60,30],\r\n  'value': 0,\r\n  'min': 0,\r\n  'max': 20000,\r\n  'step': 1\r\n})",
+        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 20000,\n  'step': 1\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data is the number value of the interface.",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is the number value of the interface.",
         "lineNumber": 19
       },
       {
         "title": "outputexample",
-        "description": "number.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "number.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 24
       }
     ],
@@ -6531,7 +6531,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\number.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
     },
     "augments": [
       {
@@ -6544,7 +6544,7 @@
         "description": "var number = new Nexus.Number('#target')"
       },
       {
-        "description": "var number = new Nexus.Number('#target',{\r\n  'size': [60,30],\r\n  'value': 0,\r\n  'min': 0,\r\n  'max': 20000,\r\n  'step': 1\r\n})"
+        "description": "var number = new Nexus.Number('#target',{\n  'size': [60,30],\n  'value': 0,\n  'min': 0,\n  'max': 20000,\n  'step': 1\n})"
       }
     ],
     "params": [],
@@ -6650,7 +6650,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6845,7 +6845,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6973,7 +6973,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7101,7 +7101,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7229,7 +7229,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\number.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7350,12 +7350,12 @@
       },
       {
         "title": "example",
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\r\n  'size': [300,150]\r\n})",
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "&nbsp;\r\nNo events",
+        "description": "&nbsp;\nNo events",
         "lineNumber": 15
       }
     ],
@@ -7380,7 +7380,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\oscilloscope.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
     },
     "augments": [
       {
@@ -7393,7 +7393,7 @@
         "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
       },
       {
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\r\n  'size': [300,150]\r\n})"
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "params": [],
@@ -7471,7 +7471,7 @@
             },
             {
               "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\r\noscilloscope.connect( Tone.Master );",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );",
               "lineNumber": 3
             }
           ],
@@ -7496,12 +7496,12 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\oscilloscope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\r\noscilloscope.connect( Tone.Master );"
+              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
             }
           ],
           "params": [
@@ -7667,7 +7667,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\oscilloscope.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
           },
           "augments": [],
           "examples": [],
@@ -7784,12 +7784,12 @@
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data is an object containing the interface's <i>value</i> (-1 to 1), as well as <i>L</i> and <i>R</i> amplitude values (0-1) for left and right speakers, calculated by a square-root crossfade algorithm.",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object containing the interface's <i>value</i> (-1 to 1), as well as <i>L</i> and <i>R</i> amplitude values (0-1) for left and right speakers, calculated by a square-root crossfade algorithm.",
         "lineNumber": 10
       },
       {
         "title": "outputexample",
-        "description": "pan.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "pan.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 15
       }
     ],
@@ -7814,7 +7814,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan.js"
     },
     "augments": [
       {
@@ -7924,7 +7924,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan.js"
           },
           "augments": [],
           "examples": [],
@@ -8041,17 +8041,17 @@
       },
       {
         "title": "example",
-        "description": "var pan2d = new Nexus.Pan2D('#target',{\r\n  'size': [200,200],\r\n  'range': 0.5,  // detection radius of each speaker\r\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\r\n  'speakers': [  // the speaker [x,y] positions\r\n      [0.5,0.2],\r\n      [0.75,0.25],\r\n      [0.8,0.5],\r\n      [0.75,0.75],\r\n      [0.5,0.8],\r\n      [0.25,0.75]\r\n      [0.2,0.5],\r\n      [0.25,0.25]\r\n  ]\r\n})",
+        "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // detection radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the \"source\" node's position changes. <br>\r\nThe event data is an array of the amplitudes (0-1), representing the level of each speaker (as calculated by its distance to the audio source).",
+        "description": "change\nFires any time the \"source\" node's position changes. <br>\nThe event data is an array of the amplitudes (0-1), representing the level of each speaker (as calculated by its distance to the audio source).",
         "lineNumber": 27
       },
       {
         "title": "outputexample",
-        "description": "pan2d.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "pan2d.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 32
       }
     ],
@@ -8076,7 +8076,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
     },
     "augments": [
       {
@@ -8089,7 +8089,7 @@
         "description": "var pan2d = new Nexus.Pan2d('#target')"
       },
       {
-        "description": "var pan2d = new Nexus.Pan2D('#target',{\r\n  'size': [200,200],\r\n  'range': 0.5,  // detection radius of each speaker\r\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\r\n  'speakers': [  // the speaker [x,y] positions\r\n      [0.5,0.2],\r\n      [0.75,0.25],\r\n      [0.8,0.5],\r\n      [0.75,0.75],\r\n      [0.5,0.8],\r\n      [0.25,0.75]\r\n      [0.2,0.5],\r\n      [0.25,0.25]\r\n  ]\r\n})"
+        "description": "var pan2d = new Nexus.Pan2D('#target',{\n  'size': [200,200],\n  'range': 0.5,  // detection radius of each speaker\n  'mode': 'absolute',   // 'absolute' or 'relative' sound movement\n  'speakers': [  // the speaker [x,y] positions\n      [0.5,0.2],\n      [0.75,0.25],\n      [0.8,0.5],\n      [0.75,0.75],\n      [0.5,0.8],\n      [0.25,0.75]\n      [0.2,0.5],\n      [0.25,0.25]\n  ]\n})"
       }
     ],
     "params": [],
@@ -8179,7 +8179,7 @@
                 "column": 35
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8286,7 +8286,7 @@
                 "column": 43
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8393,7 +8393,7 @@
                 "column": 37
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8500,7 +8500,7 @@
                 "column": 21
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8622,7 +8622,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8868,7 +8868,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -9142,7 +9142,7 @@
     "tags": [
       {
         "title": "param",
-        "description": "{Array} Array of speaker locations. Each item in the array should be an array of normalized x and y coordinates.\r\n\r\nsetSpeakers(locations) {\r\n\r\n}",
+        "description": "{Array} Array of speaker locations. Each item in the array should be an array of normalized x and y coordinates.\n\nsetSpeakers(locations) {\n\n}",
         "lineNumber": 2,
         "type": null,
         "name": "locations"
@@ -9169,7 +9169,7 @@
           "column": 3
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\pan2d.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
     },
     "augments": [],
     "examples": [],
@@ -9226,12 +9226,12 @@
                     "start": {
                       "line": 3,
                       "column": 1,
-                      "offset": 116
+                      "offset": 114
                     },
                     "end": {
                       "line": 3,
                       "column": 25,
-                      "offset": 140
+                      "offset": 138
                     },
                     "indent": []
                   }
@@ -9241,12 +9241,12 @@
                 "start": {
                   "line": 3,
                   "column": 1,
-                  "offset": 116
+                  "offset": 114
                 },
                 "end": {
                   "line": 3,
                   "column": 25,
-                  "offset": 140
+                  "offset": 138
                 },
                 "indent": []
               }
@@ -9261,12 +9261,12 @@
                     "start": {
                       "line": 5,
                       "column": 1,
-                      "offset": 144
+                      "offset": 140
                     },
                     "end": {
                       "line": 5,
                       "column": 2,
-                      "offset": 145
+                      "offset": 141
                     },
                     "indent": []
                   }
@@ -9276,12 +9276,12 @@
                 "start": {
                   "line": 5,
                   "column": 1,
-                  "offset": 144
+                  "offset": 140
                 },
                 "end": {
                   "line": 5,
                   "column": 2,
-                  "offset": 145
+                  "offset": 141
                 },
                 "indent": []
               }
@@ -9296,7 +9296,7 @@
             "end": {
               "line": 5,
               "column": 2,
-              "offset": 145
+              "offset": 141
             }
           }
         }
@@ -9388,17 +9388,17 @@
       },
       {
         "title": "example",
-        "description": "var piano = new Nexus.Piano('#target',{\r\n    'size': [500,125],\r\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\r\n    'lowNote': 24,\r\n    'highNote': 60\r\n})",
+        "description": "var piano = new Nexus.Piano('#target',{\n    'size': [500,125],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time a new key is pressed or released <br>\r\nThe event data is an object containing <i>note</i> and <i>state</i> properties.",
+        "description": "change\nFires any time a new key is pressed or released <br>\nThe event data is an object containing <i>note</i> and <i>state</i> properties.",
         "lineNumber": 18
       },
       {
         "title": "outputexample",
-        "description": "piano.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "piano.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 23
       }
     ],
@@ -9423,7 +9423,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\piano.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
     },
     "augments": [
       {
@@ -9436,7 +9436,7 @@
         "description": "var piano = new Nexus.Piano('#target')"
       },
       {
-        "description": "var piano = new Nexus.Piano('#target',{\r\n    'size': [500,125],\r\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\r\n    'lowNote': 24,\r\n    'highNote': 60\r\n})"
+        "description": "var piano = new Nexus.Piano('#target',{\n    'size': [500,125],\n    'mode': 'button',  // 'button', 'toggle', or 'impulse'\n    'lowNote': 24,\n    'highNote': 60\n})"
       }
     ],
     "params": [],
@@ -9541,7 +9541,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\piano.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9780,7 +9780,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\piano.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10019,7 +10019,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\piano.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10251,17 +10251,17 @@
       },
       {
         "title": "example",
-        "description": "var position = new Nexus.Position('#target',{\r\n  'size': [200,200],\r\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\r\n  'x': 0.5,  // initial x value\r\n  'minX': 0,\r\n  'maxX': 1,\r\n  'stepX': 0,\r\n  'y': 0.5,  // initial y value\r\n  'minY': 0,\r\n  'maxY': 1,\r\n  'stepY': 0\r\n})",
+        "description": "var position = new Nexus.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data is an object with x and y properties containing the x and y values of the interface.",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object with x and y properties containing the x and y values of the interface.",
         "lineNumber": 24
       },
       {
         "title": "outputexample",
-        "description": "position.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "position.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 29
       }
     ],
@@ -10286,7 +10286,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
     },
     "augments": [
       {
@@ -10299,7 +10299,7 @@
         "description": "var position = new Nexus.Position('#target')"
       },
       {
-        "description": "var position = new Nexus.Position('#target',{\r\n  'size': [200,200],\r\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\r\n  'x': 0.5,  // initial x value\r\n  'minX': 0,\r\n  'maxX': 1,\r\n  'stepX': 0,\r\n  'y': 0.5,  // initial y value\r\n  'minY': 0,\r\n  'maxY': 1,\r\n  'stepY': 0\r\n})"
+        "description": "var position = new Nexus.Position('#target',{\n  'size': [200,200],\n  'mode': 'absolute',  // \"absolute\" or \"relative\"\n  'x': 0.5,  // initial x value\n  'minX': 0,\n  'maxX': 1,\n  'stepX': 0,\n  'y': 0.5,  // initial y value\n  'minY': 0,\n  'maxY': 1,\n  'stepY': 0\n})"
       }
     ],
     "params": [],
@@ -10404,7 +10404,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10532,7 +10532,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10655,7 +10655,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10774,7 +10774,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10893,7 +10893,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11012,7 +11012,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11131,7 +11131,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11250,7 +11250,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11374,7 +11374,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\position.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -11495,17 +11495,17 @@
       },
       {
         "title": "example",
-        "description": "var radiobutton = new Nexus.RadioButton('#target',{\r\n  'size': [120,25],\r\n  'numberOfButtons': 4,\r\n  'active': -1\r\n})",
+        "description": "var radiobutton = new Nexus.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data an <i>integer</i>, the index of the button that is currently on. If no button is selected, the value will be -1.",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data an <i>integer</i>, the index of the button that is currently on. If no button is selected, the value will be -1.",
         "lineNumber": 17
       },
       {
         "title": "outputexample",
-        "description": "radiobutton.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "radiobutton.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 22
       }
     ],
@@ -11530,7 +11530,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\radiobutton.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
     },
     "augments": [
       {
@@ -11543,7 +11543,7 @@
         "description": "var radiobutton = new Nexus.RadioButton('#target')"
       },
       {
-        "description": "var radiobutton = new Nexus.RadioButton('#target',{\r\n  'size': [120,25],\r\n  'numberOfButtons': 4,\r\n  'active': -1\r\n})"
+        "description": "var radiobutton = new Nexus.RadioButton('#target',{\n  'size': [120,25],\n  'numberOfButtons': 4,\n  'active': -1\n})"
       }
     ],
     "params": [],
@@ -11641,7 +11641,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\radiobutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11808,7 +11808,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\radiobutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11928,7 +11928,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\radiobutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -12107,17 +12107,17 @@
       },
       {
         "title": "example",
-        "description": "var select = new Nexus.Select('#target',{\r\n  'size': [100,30],\r\n  'options': ['default','options']\r\n})",
+        "description": "var select = new Nexus.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data is an object containing the text value of the selected option, as well as the numeric index of the selection.",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is an object containing the text value of the selected option, as well as the numeric index of the selection.",
         "lineNumber": 16
       },
       {
         "title": "outputexample",
-        "description": "select.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "select.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 21
       }
     ],
@@ -12142,7 +12142,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\select.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
     },
     "augments": [
       {
@@ -12155,7 +12155,7 @@
         "description": "var select = new Nexus.Select('#target')"
       },
       {
-        "description": "var select = new Nexus.Select('#target',{\r\n  'size': [100,30],\r\n  'options': ['default','options']\r\n})"
+        "description": "var select = new Nexus.Select('#target',{\n  'size': [100,30],\n  'options': ['default','options']\n})"
       }
     ],
     "params": [],
@@ -12256,7 +12256,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\select.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [],
@@ -12442,7 +12442,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\select.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12570,7 +12570,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\select.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12691,27 +12691,27 @@
       },
       {
         "title": "example",
-        "description": "var sequencer = new Nexus.Sequencer('#target',{\r\n 'size': [400,200],\r\n 'mode': 'toggle',\r\n 'rows': 5,\r\n 'columns': 10\r\n})",
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's matrix changes. <br>\r\nThe event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.",
+        "description": "change\nFires any time the interface's matrix changes. <br>\nThe event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.",
         "lineNumber": 18
       },
       {
         "title": "outputexample",
-        "description": "sequencer.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "sequencer.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 23
       },
       {
         "title": "output",
-        "description": "step\r\nFires any time the sequencer steps to the next column, in sequece mode. <br>\r\nThe event data is an <i>array</i> containing all values in the column, <i>bottom row first</i>.",
+        "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array</i> containing all values in the column, <i>bottom row first</i>.",
         "lineNumber": 28
       },
       {
         "title": "outputexample",
-        "description": "sequencer.on('step',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "sequencer.on('step',function(v) {\n  console.log(v);\n})",
         "lineNumber": 33
       }
     ],
@@ -12736,7 +12736,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
     },
     "augments": [
       {
@@ -12749,7 +12749,7 @@
         "description": "var sequencer = new Nexus.Sequencer('#target')"
       },
       {
-        "description": "var sequencer = new Nexus.Sequencer('#target',{\r\n 'size': [400,200],\r\n 'mode': 'toggle',\r\n 'rows': 5,\r\n 'columns': 10\r\n})"
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
       }
     ],
     "params": [],
@@ -12854,7 +12854,7 @@
                 "column": 35
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [
@@ -12975,7 +12975,7 @@
                 "column": 58
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13092,7 +13092,7 @@
                 "column": 76
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13209,7 +13209,7 @@
                 "column": 52
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13327,7 +13327,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13498,7 +13498,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13607,7 +13607,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13726,7 +13726,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13845,7 +13845,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\sequencer.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13962,17 +13962,17 @@
       },
       {
         "title": "example",
-        "description": "var slider = new Nexus.Slider('#target',{\r\n    'size': [120,20],\r\n    'mode': 'relative',  // 'relative' or 'absolute'\r\n    'min': 0,\r\n    'max': 1,\r\n    'step': 0,\r\n    'value': 0\r\n})",
+        "description": "var slider = new Nexus.Slider('#target',{\n    'size': [120,20],\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires when the interface's value changes. <br>\r\nEvent data: <i>number</i> The number value of the interface.",
+        "description": "change\nFires when the interface's value changes. <br>\nEvent data: <i>number</i> The number value of the interface.",
         "lineNumber": 20
       },
       {
         "title": "outputexample",
-        "description": "slider.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "slider.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 25
       }
     ],
@@ -13997,7 +13997,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\slider.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
     },
     "augments": [
       {
@@ -14010,7 +14010,7 @@
         "description": "var slider = new Nexus.Slider('#target')"
       },
       {
-        "description": "var slider = new Nexus.Slider('#target',{\r\n    'size': [120,20],\r\n    'mode': 'relative',  // 'relative' or 'absolute'\r\n    'min': 0,\r\n    'max': 1,\r\n    'step': 0,\r\n    'value': 0\r\n})"
+        "description": "var slider = new Nexus.Slider('#target',{\n    'size': [120,20],\n    'mode': 'relative',  // 'relative' or 'absolute'\n    'min': 0,\n    'max': 1,\n    'step': 0,\n    'value': 0\n})"
       }
     ],
     "params": [],
@@ -14115,7 +14115,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14243,7 +14243,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14371,7 +14371,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14499,7 +14499,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14627,7 +14627,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\slider.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14748,12 +14748,12 @@
       },
       {
         "title": "example",
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\r\n  'size': [300,150]\r\n})",
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "&nbsp;\r\nNo events",
+        "description": "&nbsp;\nNo events",
         "lineNumber": 15
       }
     ],
@@ -14778,7 +14778,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\spectrogram.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
     },
     "augments": [
       {
@@ -14791,7 +14791,7 @@
         "description": "var spectrogram = new Nexus.Spectrogram('#target')"
       },
       {
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\r\n  'size': [300,150]\r\n})"
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
       }
     ],
     "params": [],
@@ -14869,7 +14869,7 @@
             },
             {
               "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\r\nspectrogram.connect( Tone.Master );",
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );",
               "lineNumber": 3
             }
           ],
@@ -14894,12 +14894,12 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\spectrogram.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\r\nspectrogram.connect( Tone.Master );"
+              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
             }
           ],
           "params": [
@@ -15065,7 +15065,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\spectrogram.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
           },
           "augments": [],
           "examples": [],
@@ -15182,17 +15182,17 @@
       },
       {
         "title": "example",
-        "description": "var textbutton = new Nexus.TextButton('#target',{\r\n    'size': [150,50],\r\n    'state': false,\r\n    'text': 'Play',\r\n    'alternateText': 'Stop'\r\n})",
+        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': false,\n    'text': 'Play',\n    'alternateText': 'Stop'\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nThe event data is a <i>string</i> of the text on the button at the moment it was clicked.",
+        "description": "change\nFires any time the interface's value changes. <br>\nThe event data is a <i>string</i> of the text on the button at the moment it was clicked.",
         "lineNumber": 18
       },
       {
         "title": "outputexample",
-        "description": "textbutton.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "textbutton.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 23
       }
     ],
@@ -15217,7 +15217,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\textbutton.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
     },
     "augments": [
       {
@@ -15230,7 +15230,7 @@
         "description": "var textbutton = new Nexus.TextButton('#target')"
       },
       {
-        "description": "var textbutton = new Nexus.TextButton('#target',{\r\n    'size': [150,50],\r\n    'state': false,\r\n    'text': 'Play',\r\n    'alternateText': 'Stop'\r\n})"
+        "description": "var textbutton = new Nexus.TextButton('#target',{\n    'size': [150,50],\n    'state': false,\n    'text': 'Play',\n    'alternateText': 'Stop'\n})"
       }
     ],
     "params": [],
@@ -15330,7 +15330,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\textbutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15449,7 +15449,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\textbutton.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15566,12 +15566,12 @@
       },
       {
         "title": "output",
-        "description": "change\r\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\r\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
+        "description": "change\nFires at a regular interval, as long as this interface is active (see the interface's <i>.active</i> property)<br>\nThe event data is an <i>object</i> containing x (number) and y (number) properties which represent the current tilt state of the device.",
         "lineNumber": 10
       },
       {
         "title": "outputexample",
-        "description": "tilt.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "tilt.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 15
       }
     ],
@@ -15596,7 +15596,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\tilt.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/tilt.js"
     },
     "augments": [
       {
@@ -15706,7 +15706,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\tilt.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/tilt.js"
           },
           "augments": [],
           "examples": [],
@@ -15823,17 +15823,17 @@
       },
       {
         "title": "example",
-        "description": "var toggle = new Nexus.Toggle('#target',{\r\n    'size': [40,20],\r\n    'state': false\r\n})",
+        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'state': false\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
-        "description": "change\r\nFires any time the interface's value changes. <br>\r\nParameter: The boolean state of the interface.",
+        "description": "change\nFires any time the interface's value changes. <br>\nParameter: The boolean state of the interface.",
         "lineNumber": 16
       },
       {
         "title": "outputexample",
-        "description": "toggle.on('change',function(v) {\r\n  console.log(v);\r\n})",
+        "description": "toggle.on('change',function(v) {\n  console.log(v);\n})",
         "lineNumber": 21
       }
     ],
@@ -15858,7 +15858,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\toggle.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
     },
     "augments": [
       {
@@ -15871,7 +15871,7 @@
         "description": "var toggle = new Nexus.Toggle('#target')"
       },
       {
-        "description": "var toggle = new Nexus.Toggle('#target',{\r\n    'size': [40,20],\r\n    'state': false\r\n})"
+        "description": "var toggle = new Nexus.Toggle('#target',{\n    'size': [40,20],\n    'state': false\n})"
       }
     ],
     "params": [],
@@ -15976,7 +15976,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\toggle.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -16095,7 +16095,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\interfaces\\toggle.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -16220,7 +16220,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\main.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/main.js"
     },
     "augments": [],
     "examples": [],
@@ -16380,7 +16380,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
     },
     "augments": [],
     "examples": [],
@@ -16666,7 +16666,7 @@
                 "column": 19
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16773,7 +16773,7 @@
                 "column": 19
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16880,7 +16880,7 @@
                 "column": 40
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16987,7 +16987,7 @@
                 "column": 38
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17094,7 +17094,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17203,7 +17203,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17333,7 +17333,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\range.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17643,7 +17643,7 @@
           "column": 1
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\step.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
     },
     "augments": [],
     "examples": [],
@@ -18002,7 +18002,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\step.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18132,7 +18132,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\step.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18251,7 +18251,7 @@
                 "column": 3
               }
             },
-            "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\models\\step.js"
+            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18392,7 +18392,7 @@
       },
       {
         "title": "example",
-        "description": "Nexus.clip(11,0,10)   // returns 10\r\nNexus.clip(-1,0,10)   // returns 0\r\nNexus.clip(5,0,10)    // returns 5",
+        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5",
         "lineNumber": 6
       }
     ],
@@ -18417,12 +18417,12 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
       {
-        "description": "Nexus.clip(11,0,10)   // returns 10\r\nNexus.clip(-1,0,10)   // returns 0\r\nNexus.clip(5,0,10)    // returns 5"
+        "description": "Nexus.clip(11,0,10)   // returns 10\nNexus.clip(-1,0,10)   // returns 0\nNexus.clip(5,0,10)    // returns 5"
       }
     ],
     "params": [
@@ -18810,7 +18810,7 @@
       },
       {
         "title": "example",
-        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\r\nNexus.scale(0.9,0,1,1,0)    // returns 0.1",
+        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1",
         "lineNumber": 8
       }
     ],
@@ -18835,12 +18835,12 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
       {
-        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\r\nNexus.scale(0.9,0,1,1,0)    // returns 0.1"
+        "description": "Nexus.scale(0.5,0,1,0,10)   // returns 5\nNexus.scale(0.9,0,1,1,0)    // returns 0.1"
       }
     ],
     "params": [
@@ -19335,7 +19335,7 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19586,7 +19586,7 @@
       },
       {
         "title": "example",
-        "description": "Nexus.interp(0.5,2,4)   // returns 3\r\nNexus.interp(0.1,0,10)     // returns 1",
+        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1",
         "lineNumber": 6
       }
     ],
@@ -19611,12 +19611,12 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
       {
-        "description": "Nexus.interp(0.5,2,4)   // returns 3\r\nNexus.interp(0.1,0,10)     // returns 1"
+        "description": "Nexus.interp(0.5,2,4)   // returns 3\nNexus.interp(0.1,0,10)     // returns 1"
       }
     ],
     "params": [
@@ -19954,7 +19954,7 @@
       },
       {
         "title": "example",
-        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\r\nNexus.pick(function1,function2)   // returns either function1 or function2",
+        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2",
         "lineNumber": 3
       }
     ],
@@ -19979,12 +19979,12 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
       {
-        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\r\nNexus.pick(function1,function2)   // returns either function1 or function2"
+        "description": "Nexus.pick(1,2,3,4)   // returns 1, 2, 3, or 4\nNexus.pick(function1,function2)   // returns either function1 or function2"
       }
     ],
     "params": [],
@@ -20148,7 +20148,7 @@
       },
       {
         "title": "example",
-        "description": "Nexus.octave(-1)  // returns 0.5\r\nNexus.octave(0)   // returns 1\r\nNexus.octave(1)   // returns 2\r\nNexus.octave(2)   // returns 4",
+        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4",
         "lineNumber": 4
       }
     ],
@@ -20173,12 +20173,12 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
       {
-        "description": "Nexus.octave(-1)  // returns 0.5\r\nNexus.octave(0)   // returns 1\r\nNexus.octave(1)   // returns 2\r\nNexus.octave(2)   // returns 4"
+        "description": "Nexus.octave(-1)  // returns 0.5\nNexus.octave(0)   // returns 1\nNexus.octave(1)   // returns 2\nNexus.octave(2)   // returns 4"
       }
     ],
     "params": [
@@ -20414,7 +20414,7 @@
       },
       {
         "title": "example",
-        "description": "Nexus.ri(10)    // returns random int from 0 to 10\r\nNexus.ri(20,2000) // returns random int from 20 to 2000",
+        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000",
         "lineNumber": 5
       }
     ],
@@ -20439,12 +20439,12 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
       {
-        "description": "Nexus.ri(10)    // returns random int from 0 to 10\r\nNexus.ri(20,2000) // returns random int from 20 to 2000"
+        "description": "Nexus.ri(10)    // returns random int from 0 to 10\nNexus.ri(20,2000) // returns random int from 20 to 2000"
       }
     ],
     "params": [
@@ -20741,7 +20741,7 @@
       },
       {
         "title": "example",
-        "description": "Nexus.rf(1)    // returns random float from 0 to 1\r\nNexus.rf(1,2) // returns random float from 1 to 2",
+        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2",
         "lineNumber": 5
       }
     ],
@@ -20766,12 +20766,12 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
       {
-        "description": "Nexus.rf(1)    // returns random float from 0 to 1\r\nNexus.rf(1,2) // returns random float from 1 to 2"
+        "description": "Nexus.rf(1)    // returns random float from 0 to 1\nNexus.rf(1,2) // returns random float from 1 to 2"
       }
     ],
     "params": [
@@ -21083,7 +21083,7 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21369,7 +21369,7 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21812,7 +21812,7 @@
           "column": 2
         }
       },
-      "file": "C:\\Users\\Vladan\\Documents\\Workspace\\ui\\lib\\util\\math.js"
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
