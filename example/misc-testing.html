@@ -38,13 +38,16 @@
   }
 </style>
 <script>
-  var thing = new Nexus.Sequencer("#target", {
-    'size': [600, 200],
-    'mode': 'toggle',
-    'rows': 5,
-    'columns': 8,
-    paddingRow: 10,
-    paddingColumn: 20
+  var thing = new Nexus.Multislider("#target", {
+    'size': [200, 100],
+    'numberOfSliders': 9,
+    'min': 0,
+    'max': 1,
+    'step': 0,
+    'candycane': 3,
+    'values': [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
+    'smoothing': 0,
+    'mode': 'bar' // 'bar' or 'line'
   });
 
   thing.on('change', x => console.log(x))
