@@ -4,9 +4,9 @@
   "description": "NexusUI: Web Audio Interfaces",
   "main": "dist/NexusUI.js",
   "scripts": {
-    "start": "npm run docserve",
+    "serve": "npm run docserve",
     "build": "script/build",
-    "serve": "script/watch",
+    "start": "script/watch",
     "docgen": "node_modules/.bin/documentation build lib/** -f json -o api/api.json",
     "docserve": "script/docserve-nix",
     "test": "jest",

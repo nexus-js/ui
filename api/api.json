@@ -12629,6 +12629,232 @@
           "children": [
             {
               "type": "text",
+              "value": "Amount of row padding",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 22,
+                  "offset": 21
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 22,
+              "offset": 21
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 22,
+          "offset": 21
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "type",
+        "description": null,
+        "lineNumber": 2,
+        "type": {
+          "type": "NameExpression",
+          "name": "number"
+        }
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 32,
+        "column": 4
+      },
+      "end": {
+        "line": 35,
+        "column": 7
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 36,
+          "column": 4
+        },
+        "end": {
+          "line": 36,
+          "column": 70
+        }
+      },
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+    },
+    "augments": [],
+    "examples": [],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "paddingRow",
+    "memberof": "MatrixCell",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "paddingRow",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#paddingRow"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Amount of column padding",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 25,
+                  "offset": 24
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 25,
+              "offset": 24
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 25,
+          "offset": 24
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "type",
+        "description": null,
+        "lineNumber": 2,
+        "type": {
+          "type": "NameExpression",
+          "name": "number"
+        }
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 38,
+        "column": 4
+      },
+      "end": {
+        "line": 41,
+        "column": 7
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 42,
+          "column": 4
+        },
+        "end": {
+          "line": 42,
+          "column": 79
+        }
+      },
+      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+    },
+    "augments": [],
+    "examples": [],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "paddingColumn",
+    "memberof": "MatrixCell",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "paddingColumn",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#paddingColumn"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
               "value": "Grid of buttons with built-in step sequencer.",
               "position": {
                 "start": {
@@ -12691,48 +12917,48 @@
       },
       {
         "title": "example",
-        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10,\n 'paddingRow': 10,\n 'paddingColumn': 20\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires any time the interface's matrix changes. <br>\nThe event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.",
-        "lineNumber": 18
+        "lineNumber": 20
       },
       {
         "title": "outputexample",
         "description": "sequencer.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 23
+        "lineNumber": 25
       },
       {
         "title": "output",
         "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array</i> containing all values in the column, <i>bottom row first</i>.",
-        "lineNumber": 28
+        "lineNumber": 30
       },
       {
         "title": "outputexample",
         "description": "sequencer.on('step',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 33
+        "lineNumber": 35
       }
     ],
     "loc": {
       "start": {
-        "line": 125,
+        "line": 133,
         "column": 0
       },
       "end": {
-        "line": 162,
+        "line": 172,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 164,
+          "line": 174,
           "column": 0
         },
         "end": {
-          "line": 441,
+          "line": 451,
           "column": 1
         }
       },
@@ -12749,7 +12975,7 @@
         "description": "var sequencer = new Nexus.Sequencer('#target')"
       },
       {
-        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10,\n 'paddingRow': 10,\n 'paddingColumn': 20\n})"
       }
     ],
     "params": [],
@@ -12835,22 +13061,22 @@
           ],
           "loc": {
             "start": {
-              "line": 179,
+              "line": 189,
               "column": 4
             },
             "end": {
-              "line": 183,
+              "line": 193,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 184,
+                "line": 194,
                 "column": 4
               },
               "end": {
-                "line": 184,
+                "line": 194,
                 "column": 35
               }
             },
@@ -12956,22 +13182,22 @@
           ],
           "loc": {
             "start": {
-              "line": 186,
+              "line": 196,
               "column": 4
             },
             "end": {
-              "line": 189,
+              "line": 199,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 190,
+                "line": 200,
                 "column": 4
               },
               "end": {
-                "line": 190,
+                "line": 200,
                 "column": 66
               }
             },
@@ -13073,22 +13299,22 @@
           ],
           "loc": {
             "start": {
-              "line": 192,
+              "line": 202,
               "column": 4
             },
             "end": {
-              "line": 195,
+              "line": 205,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 196,
+                "line": 206,
                 "column": 4
               },
               "end": {
-                "line": 196,
+                "line": 206,
                 "column": 77
               }
             },
@@ -13190,22 +13416,22 @@
           ],
           "loc": {
             "start": {
-              "line": 199,
+              "line": 209,
               "column": 4
             },
             "end": {
-              "line": 202,
+              "line": 212,
               "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 203,
+                "line": 213,
                 "column": 4
               },
               "end": {
-                "line": 203,
+                "line": 213,
                 "column": 53
               }
             },
@@ -13308,22 +13534,22 @@
           ],
           "loc": {
             "start": {
-              "line": 331,
+              "line": 341,
               "column": 2
             },
             "end": {
-              "line": 334,
+              "line": 344,
               "column": 5
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 335,
+                "line": 345,
                 "column": 2
               },
               "end": {
-                "line": 341,
+                "line": 351,
                 "column": 3
               }
             },
@@ -13479,22 +13705,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 343,
+              "line": 353,
               "column": 2
             },
             "end": {
-              "line": 345,
+              "line": 355,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 346,
+                "line": 356,
                 "column": 2
               },
               "end": {
-                "line": 348,
+                "line": 358,
                 "column": 3
               }
             },
@@ -13588,22 +13814,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 350,
+              "line": 360,
               "column": 2
             },
             "end": {
-              "line": 352,
+              "line": 362,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 353,
+                "line": 363,
                 "column": 2
               },
               "end": {
-                "line": 357,
+                "line": 367,
                 "column": 3
               }
             },
@@ -13707,22 +13933,22 @@
           ],
           "loc": {
             "start": {
-              "line": 411,
+              "line": 421,
               "column": 2
             },
             "end": {
-              "line": 414,
+              "line": 424,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 415,
+                "line": 425,
                 "column": 2
               },
               "end": {
-                "line": 417,
+                "line": 427,
                 "column": 3
               }
             },
@@ -13826,22 +14052,22 @@
           ],
           "loc": {
             "start": {
-              "line": 426,
+              "line": 436,
               "column": 2
             },
             "end": {
-              "line": 429,
+              "line": 439,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 430,
+                "line": 440,
                 "column": 2
               },
               "end": {
-                "line": 432,
+                "line": 442,
                 "column": 3
               }
             },
