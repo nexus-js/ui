@@ -12717,22 +12717,22 @@
     ],
     "loc": {
       "start": {
-        "line": 135,
+        "line": 125,
         "column": 0
       },
       "end": {
-        "line": 172,
-        "column": 2
+        "line": 162,
+        "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 174,
+          "line": 164,
           "column": 0
         },
         "end": {
-          "line": 449,
+          "line": 441,
           "column": 1
         }
       },
@@ -12835,22 +12835,22 @@
           ],
           "loc": {
             "start": {
-              "line": 191,
+              "line": 179,
               "column": 4
             },
             "end": {
-              "line": 195,
-              "column": 6
+              "line": 183,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 196,
+                "line": 184,
                 "column": 4
               },
               "end": {
-                "line": 196,
+                "line": 184,
                 "column": 35
               }
             },
@@ -12956,23 +12956,23 @@
           ],
           "loc": {
             "start": {
-              "line": 198,
+              "line": 186,
               "column": 4
             },
             "end": {
-              "line": 201,
-              "column": 6
+              "line": 189,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 202,
+                "line": 190,
                 "column": 4
               },
               "end": {
-                "line": 202,
-                "column": 58
+                "line": 190,
+                "column": 66
               }
             },
             "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
@@ -13073,23 +13073,23 @@
           ],
           "loc": {
             "start": {
-              "line": 204,
+              "line": 192,
               "column": 4
             },
             "end": {
-              "line": 207,
-              "column": 6
+              "line": 195,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 208,
+                "line": 196,
                 "column": 4
               },
               "end": {
-                "line": 208,
-                "column": 76
+                "line": 196,
+                "column": 77
               }
             },
             "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
@@ -13190,23 +13190,23 @@
           ],
           "loc": {
             "start": {
-              "line": 211,
+              "line": 199,
               "column": 4
             },
             "end": {
-              "line": 214,
-              "column": 6
+              "line": 202,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 215,
+                "line": 203,
                 "column": 4
               },
               "end": {
-                "line": 215,
-                "column": 52
+                "line": 203,
+                "column": 53
               }
             },
             "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
@@ -13308,22 +13308,22 @@
           ],
           "loc": {
             "start": {
-              "line": 342,
+              "line": 331,
               "column": 2
             },
             "end": {
-              "line": 345,
+              "line": 334,
               "column": 5
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 346,
+                "line": 335,
                 "column": 2
               },
               "end": {
-                "line": 352,
+                "line": 341,
                 "column": 3
               }
             },
@@ -13479,22 +13479,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 354,
+              "line": 343,
               "column": 2
             },
             "end": {
-              "line": 356,
+              "line": 345,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 357,
+                "line": 346,
                 "column": 2
               },
               "end": {
-                "line": 359,
+                "line": 348,
                 "column": 3
               }
             },
@@ -13588,22 +13588,22 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 361,
+              "line": 350,
               "column": 2
             },
             "end": {
-              "line": 363,
+              "line": 352,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 364,
+                "line": 353,
                 "column": 2
               },
               "end": {
-                "line": 368,
+                "line": 357,
                 "column": 3
               }
             },
@@ -13707,22 +13707,22 @@
           ],
           "loc": {
             "start": {
-              "line": 418,
+              "line": 411,
               "column": 2
             },
             "end": {
-              "line": 421,
+              "line": 414,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 422,
+                "line": 415,
                 "column": 2
               },
               "end": {
-                "line": 424,
+                "line": 417,
                 "column": 3
               }
             },
@@ -13826,22 +13826,22 @@
           ],
           "loc": {
             "start": {
-              "line": 433,
+              "line": 426,
               "column": 2
             },
             "end": {
-              "line": 436,
+              "line": 429,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 437,
+                "line": 430,
                 "column": 2
               },
               "end": {
-                "line": 439,
+                "line": 432,
                 "column": 3
               }
             },

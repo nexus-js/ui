@@ -38,8 +38,13 @@
   }
 </style>
 <script>
-  var thing = new Nexus.RadioButton("#target", {
-    size: [25, 100],
+  var thing = new Nexus.Sequencer("#target", {
+    'size': [600, 200],
+    'mode': 'toggle',
+    'rows': 5,
+    'columns': 8,
+    paddingRow: 10,
+    paddingColumn: 20
   });
 
   thing.on('change', x => console.log(x))
