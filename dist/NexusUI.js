@@ -3355,7 +3355,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }).bind(this));
 	
 	        util.setInputFilter(this.element, function (value) {
-	          return /^\d*\.?\d*$/.test(value);
+	          return /^-?\d*\.?\d*$/.test(value);
 	        });
 	
 	        this.element.addEventListener("keydown", (function (e) {
