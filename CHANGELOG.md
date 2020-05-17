@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.3](https://github.com/nexus-js/ui/compare/v2.1.2...v2.1.3) (2020-05-17)
+
+
+### Bug Fixes
+
+* ([#138](https://github.com/nexus-js/ui/issues/138)) [#179](https://github.com/nexus-js/ui/issues/179) ([f08069c](https://github.com/nexus-js/ui/commit/f08069c1473b783dd802b1291cc02863e8b6a997))
+* Nexus.tune.createScale() does not produce expected scale ([#138](https://github.com/nexus-js/ui/issues/138)) ([449fbd5](https://github.com/nexus-js/ui/commit/449fbd5be320bc63bd6f385b2fe6ee33b8a18d85))
+* numberOfSliders does not change number of sliders for Multislider ([#161](https://github.com/nexus-js/ui/issues/161)) ([bdb3700](https://github.com/nexus-js/ui/commit/bdb370014a3a2d01f485adaa87632b38eb23dd92))
+
 ### [2.1.2](https://github.com/nexus-js/ui/compare/v2.1.1...v2.1.2) (2020-03-31)
 
 ### [2.1.1](https://github.com/nexus-js/ui/compare/v2.1.0...v2.1.1) (2020-03-31)
