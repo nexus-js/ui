@@ -88,21 +88,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var math = _interopRequire(__webpack_require__(5));
 	
-	var Rack = _interopRequire(__webpack_require__(37));
+	var Rack = _interopRequire(__webpack_require__(38));
 	
-	var Tune = _interopRequire(__webpack_require__(39));
+	var Tune = _interopRequire(__webpack_require__(40));
 	
-	var Transform = _interopRequireWildcard(__webpack_require__(38));
+	var Transform = _interopRequireWildcard(__webpack_require__(39));
 	
 	var Counter = __webpack_require__(28);
-	var Radio = __webpack_require__(40);
+	var Radio = __webpack_require__(41);
 	var Drunk = __webpack_require__(27);
 	var Sequence = __webpack_require__(26);
 	var Matrix = __webpack_require__(25);
 	
-	var WAAClock = _interopRequire(__webpack_require__(41));
+	var WAAClock = _interopRequire(__webpack_require__(42));
 	
-	var Interval = _interopRequire(__webpack_require__(44));
+	var Interval = _interopRequire(__webpack_require__(29));
 	
 	/**
 	NexusUI => created as Nexus
@@ -236,14 +236,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Dial: __webpack_require__(22),
 	  Piano: __webpack_require__(23),
 	  Sequencer: __webpack_require__(24),
-	  Pan2D: __webpack_require__(29),
-	  Tilt: __webpack_require__(30),
-	  Multislider: __webpack_require__(31),
-	  Pan: __webpack_require__(32),
-	  Envelope: __webpack_require__(33),
-	  Spectrogram: __webpack_require__(34),
-	  Meter: __webpack_require__(35),
-	  Oscilloscope: __webpack_require__(36)
+	  Pan2D: __webpack_require__(30),
+	  Tilt: __webpack_require__(31),
+	  Multislider: __webpack_require__(32),
+	  Pan: __webpack_require__(33),
+	  Envelope: __webpack_require__(34),
+	  Spectrogram: __webpack_require__(35),
+	  Meter: __webpack_require__(36),
+	  Oscilloscope: __webpack_require__(37)
 	};
 
 /***/ }),
@@ -4647,6 +4647,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var ButtonTemplate = __webpack_require__(17);
 	var MatrixModel = __webpack_require__(25);
 	var CounterModel = __webpack_require__(28);
+	var Interval = __webpack_require__(29);
 	var touch = __webpack_require__(9);
 	
 	var MatrixCell = (function (_ButtonTemplate) {
@@ -4855,7 +4856,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * The interval object which controls timing and sequence scheduling.
 	     * @type {interval}
 	     */
-	    this.interval = new Nexus.Interval(200, function () {}, false); // jshint ignore:line
+	    this.interval = new Interval(200, function () {}, false); // jshint ignore:line
 	
 	    /**
 	     * A Matrix model containing methods for manipulating the sequencer's array of values. To learn how to manipulate the matrix, read about the matrix model.
@@ -5814,6 +5815,75 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 	
+	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+	
+	var clock = __webpack_require__(1).clock;
+	
+	var Interval = (function () {
+	  function Interval(rate, func, on) {
+	    _classCallCheck(this, Interval);
+	
+	    this.rate = rate;
+	    this.on = on;
+	    this.clock = clock(); // jshint ignore:line
+	
+	    this.pattern = [1];
+	    this.index = 0;
+	
+	    this.event = func ? func : function () {};
+	
+	    if (this.on) {
+	      this.start();
+	    }
+	  }
+	
+	  _createClass(Interval, {
+	    _event: {
+	      value: function _event(e) {
+	        //  if (this.pattern[this.index%this.pattern.length]) {
+	        this.event(e);
+	        //  }
+	        this.index++;
+	      }
+	    },
+	    stop: {
+	      value: function stop() {
+	        this.on = false;
+	        this.interval.clear();
+	      }
+	    },
+	    start: {
+	      value: function start() {
+	        this.on = true;
+	        this.interval = this.clock.callbackAtTime(this._event.bind(this), this.clock.context.currentTime).repeat(this.rate / 1000).tolerance({ early: 0.1, late: 1 });
+	      }
+	    },
+	    ms: {
+	      value: function ms(newrate) {
+	        if (this.on) {
+	          var ratio = newrate / this.rate;
+	          this.rate = newrate;
+	          this.clock.timeStretch(this.clock.context.currentTime, [this.interval], ratio);
+	        } else {
+	          this.rate = newrate;
+	        }
+	      }
+	    }
+	  });
+	
+	  return Interval;
+	})();
+	
+	module.exports = Interval;
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
 	var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -6106,7 +6176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan2D;
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6415,7 +6485,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tilt;
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6892,7 +6962,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Multislider;
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7142,7 +7212,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Pan;
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7661,7 +7731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Envelope;
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -7827,7 +7897,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Spectrogram;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8044,7 +8114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Meter;
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8223,7 +8293,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Oscilloscope;
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8274,7 +8344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	*/
 	
-	var transform = _interopRequireWildcard(__webpack_require__(38));
+	var transform = _interopRequireWildcard(__webpack_require__(39));
 	
 	var dom = _interopRequire(__webpack_require__(7));
 	
@@ -8429,7 +8499,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Rack;
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8531,7 +8601,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.add = add;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -8734,7 +8804,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Tune;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -8860,17 +8930,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = Radio;
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var WAAClock = __webpack_require__(42)
+	var WAAClock = __webpack_require__(43)
 	
 	module.exports = WAAClock
 	if (typeof window !== 'undefined') window.WAAClock = WAAClock
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {var isBrowser = (typeof window !== 'undefined')
@@ -9107,10 +9177,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	WAAClock.prototype._relTime = function(absTime) {
 	  return absTime - this.context.currentTime
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(43)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(44)))
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports) {
 
 	// shim for using process in browser
@@ -9298,75 +9368,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	process.umask = function() { return 0; };
 
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
-	
-	var clock = __webpack_require__(1).clock;
-	
-	var Interval = (function () {
-	  function Interval(rate, func, on) {
-	    _classCallCheck(this, Interval);
-	
-	    this.rate = rate;
-	    this.on = on;
-	    this.clock = clock(); // jshint ignore:line
-	
-	    this.pattern = [1];
-	    this.index = 0;
-	
-	    this.event = func ? func : function () {};
-	
-	    if (this.on) {
-	      this.start();
-	    }
-	  }
-	
-	  _createClass(Interval, {
-	    _event: {
-	      value: function _event(e) {
-	        //  if (this.pattern[this.index%this.pattern.length]) {
-	        this.event(e);
-	        //  }
-	        this.index++;
-	      }
-	    },
-	    stop: {
-	      value: function stop() {
-	        this.on = false;
-	        this.interval.clear();
-	      }
-	    },
-	    start: {
-	      value: function start() {
-	        this.on = true;
-	        this.interval = this.clock.callbackAtTime(this._event.bind(this), this.clock.context.currentTime).repeat(this.rate / 1000).tolerance({ early: 0.1, late: 1 });
-	      }
-	    },
-	    ms: {
-	      value: function ms(newrate) {
-	        if (this.on) {
-	          var ratio = newrate / this.rate;
-	          this.rate = newrate;
-	          this.clock.timeStretch(this.clock.context.currentTime, [this.interval], ratio);
-	        } else {
-	          this.rate = newrate;
-	        }
-	      }
-	    }
-	  });
-	
-	  return Interval;
-	})();
-	
-	module.exports = Interval;
 
 /***/ })
 /******/ ])
