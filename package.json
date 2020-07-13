@@ -35,7 +35,7 @@
     "jest": "^0.1.37",
     "jshint": "^2.6.3",
     "jshint-loader": "^0.8.3",
-    "standard-version": "^7.1.0",
+    "standard-version": "^8.0.1",
     "uglify-js": "^2.4.16",
     "waaclock": "^0.5.3",
     "webpack": "^1.5.3"
