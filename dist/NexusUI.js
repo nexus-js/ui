@@ -80,7 +80,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.context = context;
 	exports.clock = clock;
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+	        value: true
 	});
 	"use strict";
 	
@@ -109,109 +109,109 @@ return /******/ (function(modules) { // webpackBootstrap
 	*/
 	
 	var NexusUI = (function () {
-	  function NexusUI(context) {
-	    _classCallCheck(this, NexusUI);
+	        function NexusUI(context) {
+	                _classCallCheck(this, NexusUI);
 	
-	    for (var key in Interfaces) {
-	      this[key] = Interfaces[key];
-	    }
+	                for (var key in Interfaces) {
+	                        this[key] = Interfaces[key];
+	                }
 	
-	    for (var key in math) {
-	      this[key] = math[key];
-	    }
+	                for (var key in math) {
+	                        this[key] = math[key];
+	                }
 	
-	    var Core = {
-	      Rack: Rack
-	    };
+	                var Core = {
+	                        Rack: Rack
+	                };
 	
-	    var Models = {
-	      Counter: Counter,
-	      Radio: Radio,
-	      Drunk: Drunk,
-	      Sequence: Sequence,
-	      Matrix: Matrix
-	    };
+	                var Models = {
+	                        Counter: Counter,
+	                        Radio: Radio,
+	                        Drunk: Drunk,
+	                        Sequence: Sequence,
+	                        Matrix: Matrix
+	                };
 	
-	    for (var key in Models) {
-	      this[key] = Models[key];
-	    }
+	                for (var key in Models) {
+	                        this[key] = Models[key];
+	                }
 	
-	    for (var key in Core) {
-	      this[key] = Core[key];
-	    }
+	                for (var key in Core) {
+	                        this[key] = Core[key];
+	                }
 	
-	    var DefaultContext = window.AudioContext || window.webkitAudioContext;
-	    this._context = context || new DefaultContext();
+	                var DefaultContext = window.AudioContext || window.webkitAudioContext;
+	                this._context = context || new DefaultContext();
 	
-	    this.tune = new Tune();
-	    this.note = this.tune.note.bind(this.tune);
+	                this.tune = new Tune();
+	                this.note = this.tune.note.bind(this.tune);
 	
-	    this.clock = new WAAClock(this._context);
-	    this.clock.start();
-	    this.Interval = Interval;
+	                this.clock = new WAAClock(this._context);
+	                this.clock.start();
+	                this.Interval = Interval;
 	
-	    this.colors = {
-	      accent: "#2bb",
-	      fill: "#eee",
-	      light: "#fff",
-	      dark: "#333",
-	      mediumLight: "#ccc",
-	      mediumDark: "#666"
-	    };
+	                this.colors = {
+	                        accent: "#2bb",
+	                        fill: "#eee",
+	                        light: "#fff",
+	                        dark: "#333",
+	                        mediumLight: "#ccc",
+	                        mediumDark: "#666"
+	                };
 	
-	    this.transform = Transform;
-	    this.add = Transform.add;
+	                this.transform = Transform;
+	                this.add = Transform.add;
 	
-	    this.Add = {};
-	    for (var key in Interfaces) {
-	      this.Add[key] = Transform.add.bind(this, key);
-	    }
+	                this.Add = {};
+	                for (var key in Interfaces) {
+	                        this.Add[key] = Transform.add.bind(this, key);
+	                }
 	
-	    /* create default component size */
-	    /* jshint ignore:start */
-	    var existingStylesheets = document.getElementsByTagName("style");
-	    var defaultSizeDeclaration = "[nexus-ui]{height:5000px;width:5000px}";
-	    var defaultStyleNode = document.createElement("style");
-	    defaultStyleNode.type = "text/css";
-	    defaultStyleNode.innerHTML = defaultSizeDeclaration;
-	    if (existingStylesheets.length > 0) {
-	      var parent = existingStylesheets[0].parentNode;
-	      parent.insertBefore(defaultStyleNode, existingStylesheets[0]);
-	    } else {
-	      document.write("<style>" + defaultSizeDeclaration + "</style>");
-	    }
-	    /* jshint ignore:end */
-	  }
+	                /* create default component size */
+	                /* jshint ignore:start */
+	                var existingStylesheets = document.getElementsByTagName("style");
+	                var defaultSizeDeclaration = "[nexus-ui]{height:5000px;width:5000px}";
+	                var defaultStyleNode = document.createElement("style");
+	                defaultStyleNode.type = "text/css";
+	                defaultStyleNode.innerHTML = defaultSizeDeclaration;
+	                if (existingStylesheets.length > 0) {
+	                        var parent = existingStylesheets[0].parentNode;
+	                        parent.insertBefore(defaultStyleNode, existingStylesheets[0]);
+	                } else {
+	                        document.write("<style>" + defaultSizeDeclaration + "</style>");
+	                }
+	                /* jshint ignore:end */
+	        }
 	
-	  _createClass(NexusUI, {
-	    context: {
-	      get: function () {
-	        return this._context;
-	      },
-	      set: function (ctx) {
-	        this.clock.stop();
-	        this._context = ctx;
-	        this.clock = new WAAClock(this.context);
-	        this.clock.start();
-	      }
-	    }
-	  });
+	        _createClass(NexusUI, {
+	                context: {
+	                        get: function () {
+	                                return this._context;
+	                        },
+	                        set: function (ctx) {
+	                                this.clock.stop();
+	                                this._context = ctx;
+	                                this.clock = new WAAClock(this.context);
+	                                this.clock.start();
+	                        }
+	                }
+	        });
 	
-	  return NexusUI;
+	        return NexusUI;
 	})();
 	
 	var Nexus = new NexusUI();
 	
 	function colors() {
-	  return Nexus.colors;
+	        return Nexus.colors;
 	}
 	
 	function context() {
-	  return Nexus.context;
+	        return Nexus.context;
 	}
 	
 	function clock() {
-	  return Nexus.clock;
+	        return Nexus.clock;
 	}
 	
 	exports["default"] = Nexus;
@@ -591,50 +591,50 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports = {
 	
-	  create: function (type) {
-	    return document.createElementNS("http://www.w3.org/2000/svg", type);
-	  },
+	    create: function (type) {
+	        return document.createElementNS("http://www.w3.org/2000/svg", type);
+	    },
 	
-	  arc: function (x, y, radius, startAngle, endAngle) {
+	    arc: function (x, y, radius, startAngle, endAngle) {
 	
-	    var start = math.toCartesian(radius, endAngle);
-	    var end = math.toCartesian(radius, startAngle);
+	        var start = math.toCartesian(radius, endAngle);
+	        var end = math.toCartesian(radius, startAngle);
 	
-	    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+	        var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
 	
-	    var d = ["M", start.x + x, start.y + y, "A", radius, radius, 0, largeArcFlag, 0, end.x + x, end.y + y].join(" ");
+	        var d = ["M", start.x + x, start.y + y, "A", radius, radius, 0, largeArcFlag, 0, end.x + x, end.y + y].join(" ");
 	
-	    return d;
-	  },
+	        return d;
+	    },
 	
-	  radialGradient: function (defs, numberOfStops) {
+	    radialGradient: function (defs, numberOfStops) {
 	
-	    var id = "gradient" + math.ri(100000000000);
-	    var stops = [];
+	        var id = "gradient" + math.ri(100000000000);
+	        var stops = [];
 	
-	    var gradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
-	    gradient.setAttribute("id", id);
-	    gradient.setAttribute("cx", "50%");
-	    gradient.setAttribute("cy", "50%");
-	    gradient.setAttribute("r", "50%");
+	        var gradient = document.createElementNS("http://www.w3.org/2000/svg", "radialGradient");
+	        gradient.setAttribute("id", id);
+	        gradient.setAttribute("cx", "50%");
+	        gradient.setAttribute("cy", "50%");
+	        gradient.setAttribute("r", "50%");
 	
-	    defs.appendChild(gradient);
+	        defs.appendChild(gradient);
 	
-	    for (var i = 0; i < numberOfStops; i++) {
-	      var _stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
-	      _stop.setAttribute("id", "stop" + i);
-	      //stop.setAttribute('offset', '70%');
-	      //stop.setAttribute('stop-color', 'White');
-	      gradient.appendChild(_stop);
-	      stops.push(_stop);
+	        for (var i = 0; i < numberOfStops; i++) {
+	            var _stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+	            _stop.setAttribute("id", "stop" + i);
+	            //stop.setAttribute('offset', '70%');
+	            //stop.setAttribute('stop-color', 'White');
+	            gradient.appendChild(_stop);
+	            stops.push(_stop);
+	        }
+	
+	        return {
+	            id: id,
+	            stops: stops,
+	            element: gradient
+	        };
 	    }
-	
-	    return {
-	      id: id,
-	      stops: stops,
-	      element: gradient
-	    };
-	  }
 	
 	};
 
@@ -4065,10 +4065,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      Dial's value. When set, it will automatically be adjust to fit min/max/step settings of the interface.
 	      @type {number}
 	      @example dial.value = 10;
-	       get value() {
+	        get value() {
 	        return this._value.value;
 	      }
-	       set value(value) {
+	        set value(value) {
 	        this._value.update(value);
 	        this.emit('change',this.value);
 	        this.render();
@@ -4531,52 +4531,67 @@ return /******/ (function(modules) { // webpackBootstrap
 	    },
 	    addTouchListeners: {
 	      value: function addTouchListeners() {
-	        var _this = this;
-	
 	        this.preClick = this.preMove = this.preRelease = function () {};
 	        this.click = this.move = this.release = function () {};
 	        this.preTouch = this.preTouchMove = this.preTouchRelease = function () {};
 	        this.touch = this.touchMove = this.touchRelease = function () {};
 	
-	        this.currentElement = false;
+	        var allActiveTouches = {};
+	        var keys = this.keys;
 	
-	        this.element.addEventListener("touchstart", function (e) {
-	          console.log("touchstart");
-	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-	          var key = _this.keys[element.index];
-	          _this.paintbrush = !key.state;
-	          key.down(_this.paintbrush);
-	          _this.currentElement = element.index;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
+	        function cloneTouch(touch) {
+	          return { identifier: touch.identifier, clientX: touch.clientX, clientY: touch.clientY };
+	        }
 	
-	        this.element.addEventListener("touchmove", function (e) {
-	          var element = document.elementFromPoint(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
-	          var key = _this.keys[element.index];
-	          if (element.index !== _this.currentElement) {
-	            if (_this.currentElement) {
-	              var pastKey = _this.keys[_this.currentElement];
-	              pastKey.up();
+	        function updateKeyState() {
+	          var allActiveKeys = {};
+	
+	          // Check/set "key-down" status for all keys that are currently touched.
+	          Object.keys(allActiveTouches).forEach(function (id) {
+	            var touch = allActiveTouches[id];
+	            var el = document.elementFromPoint(touch.clientX, touch.clientY);
+	            var key = el ? keys[el.index] : null;
+	            if (key) {
+	              allActiveKeys[el.index] = id;
+	              if (!key.state) {
+	                key.down();
+	              }
+	            } else {
+	              delete allActiveTouches[id];
 	            }
-	            key.down(_this.paintbrush);
-	          } else {
-	            key.bend();
-	          }
-	          _this.currentElement = element.index;
-	          e.preventDefault();
-	          e.stopPropagation();
-	        });
+	          });
 	
-	        this.element.addEventListener("touchend", function (e) {
-	          // no touches to calculate because none remaining
-	          var key = _this.keys[_this.currentElement];
-	          key.up();
-	          _this.interacting = false;
-	          _this.currentElement = false;
+	          // Set "key-up" status for all keys that are untouched.
+	          keys.forEach(function (key) {
+	            if (key.state && !allActiveKeys[key.pad.index]) {
+	              key.up();
+	            }
+	          });
+	        }
+	
+	        function handleTouchStartAndMove(e) {
 	          e.preventDefault();
 	          e.stopPropagation();
-	        });
+	          for (var i = 0; i < e.changedTouches.length; i++) {
+	            var _touch = e.changedTouches[i];
+	            allActiveTouches[_touch.identifier] = cloneTouch(_touch);
+	          }
+	          updateKeyState();
+	        }
+	
+	        function handleTouchEnd(e) {
+	          e.preventDefault();
+	          e.stopPropagation();
+	          for (var i = 0; i < e.changedTouches.length; i++) {
+	            var _touch = e.changedTouches[i];
+	            delete allActiveTouches[_touch.identifier];
+	          }
+	          updateKeyState();
+	        }
+	
+	        this.element.addEventListener("touchstart", handleTouchStartAndMove);
+	        this.element.addEventListener("touchmove", handleTouchStartAndMove);
+	        this.element.addEventListener("touchend", handleTouchEnd);
 	      }
 	    },
 	    setRange: {
@@ -6163,8 +6178,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      /**
 	      Set all speaker locations
 	      @param locations {Array} Array of speaker locations. Each item in the array should be an array of normalized x and y coordinates.
-	       setSpeakers(locations) {
-	       }
+	        setSpeakers(locations) {
+	        }
 	      */
 	
 	    }
@@ -6427,13 +6442,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.barZ2.setAttribute("d", handle2Path);
 	
 	          /*
-	           let pointsX = {
+	            let pointsX = {
 	            start: 0,
 	            end: math.scale( x, 0, 1, 0, Math.PI*2 )
 	          };
 	          //  console.log(this.circleX.cx.baseVal.value);
-	           let pathX = svg.arc(this.circleX.cx.baseVal.value, this.circleX.cy.baseVal.value, this.circleX.r.baseVal.value*2, pointsX.start, pointsX.end);
-	           this.barX.setAttribute('d',pathX); */
+	            let pathX = svg.arc(this.circleX.cx.baseVal.value, this.circleX.cy.baseVal.value, this.circleX.r.baseVal.value*2, pointsX.start, pointsX.end);
+	            this.barX.setAttribute('d',pathX); */
 	
 	          //this.textH.textContent = math.prune(x,2);
 	          //this.textV.textContent = math.prune(y,2);
@@ -6568,7 +6583,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    The current values of the slider. NOTE: Use this only to get the current values. Setting this array will not update the multislider. To set the multislider's values, use setSlider() or setAllSliders()
 	    @type {Array}
 	    */
-	    this.values = this.settings.values.length > this._numberOfSliders ? this.settings.values.slice(0, this._numberOfSliders) : this.settings.values.concat(Array(this._numberOfSliders - this.settings.values.length).fill(0));
+	    var vs = this.settings.values;
+	    this.values = vs.length > this._numberOfSliders ? vs.slice(0, this._numberOfSliders) : vs.concat(Array(this._numberOfSliders - vs.length).fill(0));
 	
 	    this.candycane = this.settings.candycane;
 	

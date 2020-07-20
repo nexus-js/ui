@@ -5,7 +5,7 @@
   "main": "dist/NexusUI.js",
   "scripts": {
     "serve": "npm run docserve",
-    "build": "script/build",
+    "build": "bash script/build",
     "start": "script/watch",
     "docgen": "node_modules/.bin/documentation build lib/** -f json -o api/api.json",
     "docserve": "script/docserve-nix",
