@@ -208,7 +208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    context: {
 	      get: function () {
 	        if (!this._context) {
-	          this.context = new DefaultContext();
+	          this._context = new DefaultContext();
 	        }
 	        return this._context;
 	      },
