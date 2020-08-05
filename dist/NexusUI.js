@@ -167,20 +167,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        this.Add[key] = Transform.add.bind(this, key);
 	                }
 	
-	                /* create default component size */
-	                /* jshint ignore:start */
-	                var existingStylesheets = document.getElementsByTagName("style");
-	                var defaultSizeDeclaration = "[nexus-ui]{height:5000px;width:5000px}";
+	                /* create default component size as 1st style element in document */
 	                var defaultStyleNode = document.createElement("style");
 	                defaultStyleNode.type = "text/css";
-	                defaultStyleNode.innerHTML = defaultSizeDeclaration;
-	                if (existingStylesheets.length > 0) {
-	                        var parent = existingStylesheets[0].parentNode;
-	                        parent.insertBefore(defaultStyleNode, existingStylesheets[0]);
-	                } else {
-	                        document.write("<style>" + defaultSizeDeclaration + "</style>");
-	                }
-	                /* jshint ignore:end */
+	                defaultStyleNode.innerHTML = "[nexus-ui]{height:5000px;width:5000px}";
+	                var h = document.head;
+	                h.insertBefore(defaultStyleNode, h.firstElementChild);
 	        }
 	
 	        _createClass(NexusUI, {
