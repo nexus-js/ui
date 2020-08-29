@@ -80,7 +80,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.context = context;
 	exports.clock = clock;
 	Object.defineProperty(exports, "__esModule", {
-	        value: true
+	  value: true
 	});
 	"use strict";
 	
@@ -104,114 +104,150 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var Interval = _interopRequire(__webpack_require__(29));
 	
+	var DefaultContext = window.AudioContext || window.webkitAudioContext;
+	
+	function unlockAudioContext(audioContext) {
+	  var events = ["touchstart", "touchend", "mousedown", "keydown"];
+	
+	  function unlock() {
+	    events.forEach(function (eventName) {
+	      return document.body.removeEventListener(eventName, unlock);
+	    });
+	    if (audioContext.state === "suspended") {
+	      console.log("Audio context - unlocked ...");
+	      audioContext.resume();
+	    }
+	  }
+	
+	  if (audioContext.state === "suspended") {
+	    console.log("Audio context - suspended until user interaction ...");
+	    events.forEach(function (eventName) {
+	      document.body.addEventListener(eventName, unlock, false);
+	    });
+	  }
+	}
+	
 	/**
 	NexusUI => created as Nexus
 	*/
 	
 	var NexusUI = (function () {
-	        function NexusUI(context) {
-	                _classCallCheck(this, NexusUI);
+	  function NexusUI(context) {
+	    _classCallCheck(this, NexusUI);
 	
-	                for (var key in Interfaces) {
-	                        this[key] = Interfaces[key];
-	                }
+	    for (var key in Interfaces) {
+	      this[key] = Interfaces[key];
+	    }
 	
-	                for (var key in math) {
-	                        this[key] = math[key];
-	                }
+	    for (var key in math) {
+	      this[key] = math[key];
+	    }
 	
-	                var Core = {
-	                        Rack: Rack
-	                };
+	    var Core = {
+	      Rack: Rack
+	    };
 	
-	                var Models = {
-	                        Counter: Counter,
-	                        Radio: Radio,
-	                        Drunk: Drunk,
-	                        Sequence: Sequence,
-	                        Matrix: Matrix
-	                };
+	    var Models = {
+	      Counter: Counter,
+	      Radio: Radio,
+	      Drunk: Drunk,
+	      Sequence: Sequence,
+	      Matrix: Matrix
+	    };
 	
-	                for (var key in Models) {
-	                        this[key] = Models[key];
-	                }
+	    for (var key in Models) {
+	      this[key] = Models[key];
+	    }
 	
-	                for (var key in Core) {
-	                        this[key] = Core[key];
-	                }
+	    for (var key in Core) {
+	      this[key] = Core[key];
+	    }
 	
-	                var DefaultContext = window.AudioContext || window.webkitAudioContext;
-	                this._context = context || new DefaultContext();
+	    this._context = context;
 	
-	                this.tune = new Tune();
-	                this.note = this.tune.note.bind(this.tune);
+	    this.tune = new Tune();
+	    this.note = this.tune.note.bind(this.tune);
 	
-	                this.clock = new WAAClock(this._context);
-	                this.clock.start();
-	                this.Interval = Interval;
+	    this._clock = null;
+	    this.Interval = Interval;
 	
-	                this.colors = {
-	                        accent: "#2bb",
-	                        fill: "#eee",
-	                        light: "#fff",
-	                        dark: "#333",
-	                        mediumLight: "#ccc",
-	                        mediumDark: "#666"
-	                };
+	    this.colors = {
+	      accent: "#2bb",
+	      fill: "#eee",
+	      light: "#fff",
+	      dark: "#333",
+	      mediumLight: "#ccc",
+	      mediumDark: "#666"
+	    };
 	
-	                this.transform = Transform;
-	                this.add = Transform.add;
+	    this.transform = Transform;
+	    this.add = Transform.add;
 	
-	                this.Add = {};
-	                for (var key in Interfaces) {
-	                        this.Add[key] = Transform.add.bind(this, key);
-	                }
+	    this.Add = {};
+	    for (var key in Interfaces) {
+	      this.Add[key] = Transform.add.bind(this, key);
+	    }
 	
-	                /* create default component size */
-	                /* jshint ignore:start */
-	                var existingStylesheets = document.getElementsByTagName("style");
-	                var defaultSizeDeclaration = "[nexus-ui]{height:5000px;width:5000px}";
-	                var defaultStyleNode = document.createElement("style");
-	                defaultStyleNode.type = "text/css";
-	                defaultStyleNode.innerHTML = defaultSizeDeclaration;
-	                if (existingStylesheets.length > 0) {
-	                        var parent = existingStylesheets[0].parentNode;
-	                        parent.insertBefore(defaultStyleNode, existingStylesheets[0]);
-	                } else {
-	                        document.write("<style>" + defaultSizeDeclaration + "</style>");
-	                }
-	                /* jshint ignore:end */
+	    /* create default component size */
+	    /* jshint ignore:start */
+	    var existingStylesheets = document.getElementsByTagName("style");
+	    var defaultSizeDeclaration = "[nexus-ui]{height:5000px;width:5000px}";
+	    var defaultStyleNode = document.createElement("style");
+	    defaultStyleNode.type = "text/css";
+	    defaultStyleNode.innerHTML = defaultSizeDeclaration;
+	    if (existingStylesheets.length > 0) {
+	      var parent = existingStylesheets[0].parentNode;
+	      parent.insertBefore(defaultStyleNode, existingStylesheets[0]);
+	    } else {
+	      document.write("<style>" + defaultSizeDeclaration + "</style>");
+	    }
+	    /* jshint ignore:end */
+	  }
+	
+	  _createClass(NexusUI, {
+	    context: {
+	      get: function () {
+	        if (!this._context) {
+	          this._context = new DefaultContext();
+	        }
+	        return this._context;
+	      },
+	      set: function (ctx) {
+	        if (this._clock) {
+	          this._clock.stop();
+	          this._clock = null;
 	        }
 	
-	        _createClass(NexusUI, {
-	                context: {
-	                        get: function () {
-	                                return this._context;
-	                        },
-	                        set: function (ctx) {
-	                                this.clock.stop();
-	                                this._context = ctx;
-	                                this.clock = new WAAClock(this.context);
-	                                this.clock.start();
-	                        }
-	                }
-	        });
+	        this._context = ctx;
+	        unlockAudioContext(ctx);
+	      }
+	    },
+	    clock: {
+	      get: function () {
+	        if (!this._clock) {
+	          this._clock = new WAAClock(this.context);
+	          this._clock.start();
+	        }
+	        return this._clock;
+	      }
+	    }
+	  });
 	
-	        return NexusUI;
+	  return NexusUI;
 	})();
 	
 	var Nexus = new NexusUI();
 	
 	function colors() {
-	        return Nexus.colors;
+	  return Nexus.colors;
 	}
 	
 	function context() {
-	        return Nexus.context;
+	  return Nexus.context;
 	}
 	
 	function clock() {
-	        return Nexus.clock;
+	  return Nexus.clock;
 	}
 	
 	exports["default"] = Nexus;
@@ -7761,10 +7797,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 	
 	var dom = __webpack_require__(7);
-	//let math = require('../util/math');
 	var Interface = __webpack_require__(6);
-	
-	var context = __webpack_require__(1).context;
 	
 	/**
 	 * Spectrogram
@@ -7775,11 +7808,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @example
 	 * var spectrogram = new Nexus.Spectrogram('#target')
+	 * spectrogram.connect(myWebAudioNode)
 	 *
 	 * @example
 	 * var spectrogram = new Nexus.Spectrogram('#target',{
 	 *   'size': [300,150]
 	 * })
+	 * spectrogram.connect(myWebAudioNode)
 	 *
 	 * @output
 	 * &nbsp;
@@ -7791,7 +7826,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Spectrogram() {
 	    _classCallCheck(this, Spectrogram);
 	
-	    var options = ["scale", "value"];
+	    var options = [];
 	
 	    var defaults = {
 	      size: [300, 150]
@@ -7799,16 +7834,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Spectrogram.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = context(); // jshint ignore:line
-	
-	    this.analyser = this.context.createAnalyser();
-	    this.analyser.fftSize = 2048;
-	    this.bufferLength = this.analyser.frequencyBinCount;
-	    this.dataArray = new Uint8Array(this.bufferLength);
-	
-	    this.active = true;
-	
-	    this.source = false;
+	    this.analyser = null;
+	    this.bufferLength = 0;
+	    this.dataArray = null;
+	    this.active = false;
+	    this.source = null;
 	
 	    this.init();
 	  }
@@ -7838,7 +7868,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          requestAnimationFrame(this.render.bind(this));
 	        }
 	
-	        this.analyser.getByteFrequencyData(this.dataArray);
+	        if (this.analyser) {
+	          this.analyser.getByteFrequencyData(this.dataArray);
+	        }
 	
 	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
@@ -7868,18 +7900,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    connect: {
 	
 	      /**
-	      Equivalent to "patching in" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.
+	      Equivalent to "patching in" an audio node to visualize.
 	      @param node {AudioNode} The audio node to visualize
-	      @example Nexus.context = Tone.context // or another audio context you have created
-	      spectrogram.connect( Tone.Master );
+	      @example spectrogram.connect( Tone.Master );
 	      */
 	
 	      value: function connect(node) {
 	        if (this.source) {
 	          this.disconnect();
 	        }
+	
+	        this.analyser = node.context.createAnalyser();
+	        this.analyser.fftSize = 2048;
+	        this.bufferLength = this.analyser.frequencyBinCount;
+	        this.dataArray = new Uint8Array(this.bufferLength);
+	
+	        this.active = true;
+	
 	        this.source = node;
 	        this.source.connect(this.analyser);
+	
 	        this.render();
 	      }
 	    },
@@ -7890,13 +7930,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function disconnect() {
-	        this.source.disconnect(this.analyser);
+	        if (this.source) {
+	          this.source.disconnect(this.analyser);
+	        }
+	
+	        this.analyser = null;
+	        this.bufferLength = 0;
+	        this.dataArray = null;
+	        this.active = false;
 	        this.source = null;
 	      }
 	    },
 	    click: {
 	      value: function click() {
-	        this.active = !this.active;
+	        this.active = !this.active && this.source;
 	        this.render();
 	      }
 	    },
@@ -7930,8 +7977,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var math = __webpack_require__(5);
 	var Interface = __webpack_require__(6);
 	
-	var context = __webpack_require__(1).context;
-	
 	/**
 	 * Meter
 	 *
@@ -7941,11 +7986,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @example
 	 * var meter = new Nexus.Meter('#target')
+	 * meter.connect(myWebAudioNode)
 	 *
 	 * @example
-	 * var meter = new Nexus.Meter('#target',{
+	 * var meter = new Nexus.Meter('#target', {
 	 *   size: [75,75]
 	 * })
+	 * meter.connect(myWebAudioNode)
 	 *
 	 * @output
 	 * &nbsp;
@@ -7957,7 +8004,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Meter() {
 	    _classCallCheck(this, Meter);
 	
-	    var options = ["scale", "value"];
+	    var options = [];
 	
 	    var defaults = {
 	      size: [30, 100]
@@ -7965,37 +8012,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Meter.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = context(); // jshint ignore:line
-	
 	    this.channels = 2;
-	
-	    this.splitter = this.context.createChannelSplitter(this.channels);
-	
+	    this.splitter = null;
 	    this.analysers = [];
-	
-	    for (var i = 0; i < this.channels; i++) {
-	      var analyser = this.context.createAnalyser();
-	      this.splitter.connect(analyser, i);
-	      analyser.fftSize = 1024;
-	      analyser.smoothingTimeConstant = 1;
-	      this.analysers.push(analyser);
-	    }
-	    this.bufferLength = this.analysers[0].frequencyBinCount;
-	    this.dataArray = new Float32Array(this.bufferLength);
-	
-	    /*
-	    // add linear gradient
-	    var grd = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
-	    // light blue
-	    grd.addColorStop(0, '#000');
-	    grd.addColorStop(0.2, '#bbb');
-	    grd.addColorStop(0.4, '#d18');
-	    // dark blue
-	    grd.addColorStop(1, '#d18');
-	    canvasCtx.fillStyle = grd; */
-	
-	    this.active = true;
-	
+	    this.bufferLength = 0;
+	    this.dataArray = null;
+	    this.active = false;
+	    this.source = null;
 	    this.db = -Infinity;
 	
 	    this.init();
@@ -8070,32 +8093,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	    connect: {
 	
 	      /**
-	      Equivalent to "patching in" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.
+	      Equivalent to "patching in" an audio node to visualize.
 	      @param node {AudioNode} The audio node to visualize
 	      @param channels {number} (optional) The number of channels in the source node to watch. If not specified, the interface will look for a .channelCount property on the input node. If it does not exist, the interface will default to 1 channel.
-	      @example Nexus.context = Tone.context // or another audio context you have created
-	      meter.connect( Tone.Master, 2 );
+	      @example meter.connect( Tone.Master, 2 );
 	      */
 	
 	      value: function connect(node, channels) {
 	        if (this.source) {
 	          this.disconnect();
 	        }
-	        //this.dummy.disconnect(this.splitter);
 	
-	        if (channels) {
-	          this.channels = channels;
-	        } else if (node.channelCount) {
-	          this.channels = node.channelCount;
-	        } else {
-	          this.channels = 2;
+	        this.channels = channels || node.channelCount || 2;
+	
+	        this.splitter = node.context.createChannelSplitter(this.channels);
+	
+	        this.analysers = [];
+	        for (var i = 0; i < this.channels; i++) {
+	          var analyser = node.context.createAnalyser();
+	          analyser.fftSize = 1024;
+	          analyser.smoothingTimeConstant = 1;
+	          this.splitter.connect(analyser, i);
+	          this.analysers.push(analyser);
 	        }
+	        this.bufferLength = this.analysers[0].frequencyBinCount;
+	        this.dataArray = new Float32Array(this.bufferLength);
+	
+	        this.active = true;
+	
 	        this.meterWidth = this.canvas.element.width / this.channels;
 	
 	        this.source = node;
 	        this.source.connect(this.splitter);
 	
-	        //  this.render();
+	        this.render();
 	      }
 	    },
 	    disconnect: {
@@ -8105,15 +8136,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	      */
 	
 	      value: function disconnect() {
-	        this.source.disconnect(this.splitter);
-	        this.source = false;
-	        //  this.dummy.connect(this.splitter);
-	        this.meterWidth = this.canvas.element.width / this.channels;
+	        if (this.source) {
+	          this.source.disconnect(this.splitter);
+	        }
+	
+	        this.splitter = null;
+	        this.analysers = [];
+	        this.bufferLength = 0;
+	        this.dataArray = null;
+	        this.active = false;
+	        this.source = null;
 	      }
 	    },
 	    click: {
 	      value: function click() {
-	        this.active = !this.active;
+	        this.active = !this.active && this.source;
 	        this.render();
 	      }
 	    },
@@ -8146,8 +8183,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var dom = __webpack_require__(7);
 	var Interface = __webpack_require__(6);
 	
-	var context = __webpack_require__(1).context;
-	
 	/**
 	 * Oscilloscope
 	 *
@@ -8157,11 +8192,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * @example
 	 * var oscilloscope = new Nexus.Oscilloscope('#target')
+	 * oscilloscope.connect(myWebAudioNode)
 	 *
 	 * @example
 	 * var oscilloscope = new Nexus.Oscilloscope('#target',{
 	 *   'size': [300,150]
 	 * })
+	 * oscilloscope.connect(myWebAudioNode)
 	 *
 	 * @output
 	 * &nbsp;
@@ -8173,7 +8210,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Oscilloscope() {
 	    _classCallCheck(this, Oscilloscope);
 	
-	    var options = ["scale", "value"];
+	    var options = [];
 	
 	    var defaults = {
 	      size: [300, 150]
@@ -8181,17 +8218,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    _get(Object.getPrototypeOf(Oscilloscope.prototype), "constructor", this).call(this, arguments, options, defaults);
 	
-	    this.context = context(); // jshint ignore:line
+	    this.analyser = null;
+	    this.bufferLength = 0;
+	    this.dataArray = null;
 	
-	    this.analyser = this.context.createAnalyser();
-	    this.analyser.fftSize = 2048;
-	    this.bufferLength = this.analyser.frequencyBinCount;
-	    this.dataArray = new Uint8Array(this.bufferLength);
-	    this.analyser.getByteTimeDomainData(this.dataArray);
+	    this.active = false;
 	
-	    this.active = true;
-	
-	    this.source = false;
+	    this.source = null;
 	
 	    this.init();
 	
@@ -8223,7 +8256,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          requestAnimationFrame(this.render.bind(this));
 	        }
 	
-	        this.analyser.getByteTimeDomainData(this.dataArray);
+	        if (this.analyser) {
+	          this.analyser.getByteTimeDomainData(this.dataArray);
+	        }
 	
 	        this.canvas.context.fillStyle = this.colors.fill;
 	        this.canvas.context.fillRect(0, 0, this.canvas.element.width, this.canvas.element.height);
@@ -8260,16 +8295,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    connect: {
 	
 	      /**
-	      Equivalent to "patching in" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.
+	      Equivalent to "patching in" an audio node to visualize.
 	      @param node {AudioNode} The audio node to visualize
-	      @example Nexus.context = Tone.context // or another audio context you have created
-	      oscilloscope.connect( Tone.Master );
+	      @example oscilloscope.connect( Tone.Master );
 	      */
 	
 	      value: function connect(node) {
 	        if (this.source) {
 	          this.disconnect();
 	        }
+	
+	        this.analyser = node.context.createAnalyser();
+	        this.analyser.fftSize = 2048;
+	        this.bufferLength = this.analyser.frequencyBinCount;
+	        this.dataArray = new Uint8Array(this.bufferLength);
+	        this.analyser.getByteTimeDomainData(this.dataArray);
+	
+	        this.active = true;
 	
 	        this.source = node;
 	        this.source.connect(this.analyser);
@@ -8286,13 +8328,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function disconnect() {
 	        if (this.source) {
 	          this.source.disconnect(this.analyser);
-	          this.source = null;
 	        }
+	
+	        this.analyser = null;
+	        this.bufferLength = 0;
+	        this.dataArray = null;
+	        this.active = false;
+	        this.source = null;
 	      }
 	    },
 	    click: {
 	      value: function click() {
-	        this.active = !this.active;
+	        this.active = !this.active && this.source;
 	        this.render();
 	      }
 	    },
