@@ -276,7 +276,7 @@
     <h5>Setup</h5>
 
     <p>
-      Download <a href="https://cdn.jsdelivr.net/npm/nexusui@2.0.13/dist/NexusUI.js" download>NexusUI.js</a>. <br />
+      Download <a href="https://cdn.jsdelivr.net/npm/nexusui@latest/dist/NexusUI.js" download>NexusUI.js</a>. <br />
       (The link grabs the latest version of the file directly from our NPM.)
     </p>
 
@@ -284,8 +284,8 @@
       Or access on a CDN if you want a hosted file:
     </p>
     <ul>
-      <li><a href="https://cdn.jsdelivr.net/npm/nexusui@2.0.13/dist/NexusUI.js">Development</a></li>
-      <li><a href="https://cdn.jsdelivr.net/npm/nexusui@2.0.13/dist/NexusUI.min.js">Production</a></li>
+      <li><a href="https://cdn.jsdelivr.net/npm/nexusui@latest/dist/NexusUI.js">Development</a></li>
+      <li><a href="https://cdn.jsdelivr.net/npm/nexusui@latest/dist/NexusUI.min.js">Production</a></li>
     </ul>
 
 
@@ -373,7 +373,7 @@
        <p data-height="265" data-theme-id="0" data-slug-hash="GmEJVL" data-default-tab="html,result" data-user="taylorbf" data-embed-version="2" data-pen-title="Basic Dial" class="codepen">See the Pen <a href="https://codepen.io/taylorbf/pen/GmEJVL/">Basic Dial</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
-    <!--   <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT Test" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">MT Test</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+       <p data-height="265" data-theme-id="0" data-slug-hash="ygGMxq" data-default-tab="js,result" data-user="taylorbf" data-embed-version="2" data-pen-title="MT Test" class="codepen">See the Pen <a href="http://codepen.io/taylorbf/pen/ygGMxq/">MT Test</a> by Ben Taylor (<a href="http://codepen.io/taylorbf">@taylorbf</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script> -->
 
 
@@ -1591,17 +1591,12 @@ drunk.value = 500   // jumps to this value
   var Unformatted = {}
   var API = {}
   var Helpers = []
-  if (Nexus.context.close) {
-    Nexus.context.close();
-  }
   Nexus.context = Tone.context;
-
 
   $.getJSON('api.json', function (data) {
     data.forEach(function (entry) {
       Unformatted[entry.name] = entry
     })
-
 
     // Parse Helper doc into Helpers object
     for (var key in Unformatted) {

@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=200, initial-scale=1">
 </head>
 
-<body style="margin:0;padding;0">
+<body style="margin:0;padding:0;">
 
 
   <div style="font-size:25px;margin:10px;">
@@ -38,15 +38,19 @@
   }
 </style>
 <script>
-  var thing = new Nexus.Add.Slider('#target', {
-    size: [300, 200]
-  })
+  var thing = new Nexus.Multislider("#target", {
+    'size': [200, 100],
+    'numberOfSliders': 9,
+    'min': 0,
+    'max': 1,
+    'step': 0,
+    'candycane': 3,
+    'values': [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1],
+    'smoothing': 0,
+    'mode': 'bar' // 'bar' or 'line'
+  });
 
-  thing.resize(200, 400)
-
-  var num = new Nexus.Add.Number('#target', {
-    step: 0.1
-  })
+  thing.on('change', x => console.log(x))
 </script>
 
 </html>

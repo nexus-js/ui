@@ -1,12 +1,12 @@
 {
   "name": "nexusui",
-  "version": "2.0.13",
+  "version": "2.1.6",
   "description": "NexusUI: Web Audio Interfaces",
   "main": "dist/NexusUI.js",
   "scripts": {
-    "start": "npm run docserve",
-    "build": "script/build",
-    "serve": "script/watch",
+    "serve": "npm run docserve",
+    "build": "bash script/build",
+    "start": "script/watch",
     "docgen": "node_modules/.bin/documentation build lib/** -f json -o api/api.json",
     "docserve": "script/docserve-nix",
     "test": "jest",
@@ -35,7 +35,7 @@
     "jest": "^0.1.37",
     "jshint": "^2.6.3",
     "jshint-loader": "^0.8.3",
-    "standard-version": "^7.1.0",
+    "standard-version": "^8.0.1",
     "uglify-js": "^2.4.16",
     "waaclock": "^0.5.3",
     "webpack": "^1.5.3"

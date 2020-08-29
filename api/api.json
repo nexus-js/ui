@@ -74,7 +74,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/components/buttontemplate.js"
     },
     "augments": [
       {
@@ -201,7 +201,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -327,7 +327,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -504,7 +504,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -629,7 +629,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/buttontemplate.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/components/buttontemplate.js"
           },
           "augments": [],
           "examples": [
@@ -775,7 +775,7 @@
           "column": 3
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -899,7 +899,7 @@
           "column": 3
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1023,7 +1023,7 @@
           "column": 3
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1147,7 +1147,7 @@
           "column": 3
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1271,7 +1271,7 @@
           "column": 3
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/components/slidertemplate.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/components/slidertemplate.js"
     },
     "augments": [],
     "examples": [
@@ -1380,7 +1380,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/core/interface.js"
     },
     "augments": [
       {
@@ -1512,7 +1512,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1746,7 +1746,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/core/interface.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/core/interface.js"
           },
           "augments": [],
           "examples": [
@@ -1902,7 +1902,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/button.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/button.js"
     },
     "augments": [
       {
@@ -2020,7 +2020,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/button.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/button.js"
           },
           "augments": [],
           "examples": [
@@ -2179,7 +2179,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/dial.js"
     },
     "augments": [
       {
@@ -2297,7 +2297,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2425,7 +2425,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2553,7 +2553,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2681,7 +2681,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2809,7 +2809,7 @@
                 "column": 5
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -2937,7 +2937,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/dial.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/dial.js"
           },
           "augments": [],
           "examples": [
@@ -3093,7 +3093,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
     },
     "augments": [
       {
@@ -3196,7 +3196,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3320,7 +3320,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3552,7 +3552,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -3741,7 +3741,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4044,7 +4044,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4333,7 +4333,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4508,7 +4508,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/envelope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/envelope.js"
           },
           "augments": [],
           "examples": [],
@@ -4678,42 +4678,42 @@
       },
       {
         "title": "example",
-        "description": "var meter = new Nexus.Meter('#target')",
+        "description": "var meter = new Nexus.Meter('#target')\nmeter.connect(myWebAudioNode)",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})",
-        "lineNumber": 10
+        "description": "var meter = new Nexus.Meter('#target', {\n  size: [75,75]\n})\nmeter.connect(myWebAudioNode)",
+        "lineNumber": 11
       },
       {
         "title": "output",
         "description": "&nbsp;\nNo events",
-        "lineNumber": 15
+        "lineNumber": 17
       }
     ],
     "loc": {
       "start": {
-        "line": 8,
+        "line": 7,
         "column": 0
       },
       "end": {
-        "line": 27,
+        "line": 28,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 29,
+          "line": 30,
           "column": 0
         },
         "end": {
-          "line": 191,
+          "line": 181,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/meter.js"
     },
     "augments": [
       {
@@ -4723,10 +4723,10 @@
     ],
     "examples": [
       {
-        "description": "var meter = new Nexus.Meter('#target')"
+        "description": "var meter = new Nexus.Meter('#target')\nmeter.connect(myWebAudioNode)"
       },
       {
-        "description": "var meter = new Nexus.Meter('#target',{\n  size: [75,75]\n})"
+        "description": "var meter = new Nexus.Meter('#target', {\n  size: [75,75]\n})\nmeter.connect(myWebAudioNode)"
       }
     ],
     "params": [],
@@ -4750,7 +4750,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -4759,8 +4759,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 557,
-                        "offset": 556
+                        "column": 56,
+                        "offset": 55
                       },
                       "indent": []
                     }
@@ -4774,8 +4774,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 557,
-                    "offset": 556
+                    "column": 56,
+                    "offset": 55
                   },
                   "indent": []
                 }
@@ -4789,8 +4789,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 557,
-                "offset": 556
+                "column": 56,
+                "offset": 55
               }
             }
           },
@@ -4811,37 +4811,37 @@
             },
             {
               "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );",
+              "description": "meter.connect( Tone.Master, 2 );",
               "lineNumber": 4
             }
           ],
           "loc": {
             "start": {
-              "line": 144,
+              "line": 121,
               "column": 2
             },
             "end": {
-              "line": 150,
+              "line": 126,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 152,
+                "line": 127,
                 "column": 2
               },
               "end": {
-                "line": 171,
+                "line": 155,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/meter.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nmeter.connect( Tone.Master, 2 );"
+              "description": "meter.connect( Tone.Master, 2 );"
             }
           ],
           "params": [
@@ -5045,26 +5045,26 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 173,
+              "line": 157,
               "column": 2
             },
             "end": {
-              "line": 175,
+              "line": 159,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 176,
+                "line": 160,
                 "column": 2
               },
               "end": {
-                "line": 181,
+                "line": 171,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/meter.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/meter.js"
           },
           "augments": [],
           "examples": [],
@@ -5197,26 +5197,26 @@
     ],
     "loc": {
       "start": {
-        "line": 8,
+        "line": 7,
         "column": 0
       },
       "end": {
-        "line": 41,
-        "column": 2
+        "line": 40,
+        "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 43,
+          "line": 42,
           "column": 0
         },
         "end": {
-          "line": 449,
+          "line": 443,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
     },
     "augments": [
       {
@@ -5244,123 +5244,6 @@
       "global": [],
       "inner": [],
       "instance": [
-        {
-          "description": {
-            "type": "root",
-            "children": [
-              {
-                "type": "paragraph",
-                "children": [
-                  {
-                    "type": "text",
-                    "value": "The current values of the slider. NOTE: Use this only to get the current values. Setting this array will not update the multislider. To set the multislider's values, use setSlider() or setAllSliders()",
-                    "position": {
-                      "start": {
-                        "line": 1,
-                        "column": 1,
-                        "offset": 0
-                      },
-                      "end": {
-                        "line": 1,
-                        "column": 201,
-                        "offset": 200
-                      },
-                      "indent": []
-                    }
-                  }
-                ],
-                "position": {
-                  "start": {
-                    "line": 1,
-                    "column": 1,
-                    "offset": 0
-                  },
-                  "end": {
-                    "line": 1,
-                    "column": 201,
-                    "offset": 200
-                  },
-                  "indent": []
-                }
-              }
-            ],
-            "position": {
-              "start": {
-                "line": 1,
-                "column": 1,
-                "offset": 0
-              },
-              "end": {
-                "line": 1,
-                "column": 201,
-                "offset": 200
-              }
-            }
-          },
-          "tags": [
-            {
-              "title": "type",
-              "description": null,
-              "lineNumber": 2,
-              "type": {
-                "type": "NameExpression",
-                "name": "Array"
-              }
-            }
-          ],
-          "loc": {
-            "start": {
-              "line": 70,
-              "column": 4
-            },
-            "end": {
-              "line": 73,
-              "column": 6
-            }
-          },
-          "context": {
-            "loc": {
-              "start": {
-                "line": 74,
-                "column": 4
-              },
-              "end": {
-                "line": 74,
-                "column": 39
-              }
-            },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
-          },
-          "augments": [],
-          "examples": [],
-          "params": [],
-          "properties": [],
-          "returns": [],
-          "sees": [],
-          "throws": [],
-          "todos": [],
-          "name": "values",
-          "memberof": "Multislider",
-          "scope": "instance",
-          "members": {
-            "global": [],
-            "inner": [],
-            "instance": [],
-            "events": [],
-            "static": []
-          },
-          "path": [
-            {
-              "name": "Multislider",
-              "kind": "class"
-            },
-            {
-              "name": "values",
-              "scope": "instance"
-            }
-          ],
-          "namespace": "Multislider#values"
-        },
         {
           "description": {
             "type": "root",
@@ -5427,26 +5310,26 @@
           ],
           "loc": {
             "start": {
-              "line": 80,
+              "line": 78,
               "column": 4
             },
             "end": {
-              "line": 83,
+              "line": 81,
               "column": 6
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 84,
+                "line": 82,
                 "column": 4
               },
               "end": {
-                "line": 84,
+                "line": 82,
                 "column": 45
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5544,26 +5427,26 @@
           ],
           "loc": {
             "start": {
-              "line": 362,
+              "line": 358,
               "column": 2
             },
             "end": {
-              "line": 365,
+              "line": 361,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 366,
+                "line": 362,
                 "column": 2
               },
               "end": {
-                "line": 368,
+                "line": 364,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [],
@@ -5668,26 +5551,26 @@
           ],
           "loc": {
             "start": {
-              "line": 371,
+              "line": 366,
               "column": 2
             },
             "end": {
-              "line": 375,
+              "line": 370,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 376,
+                "line": 371,
                 "column": 2
               },
               "end": {
-                "line": 378,
+                "line": 373,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5796,26 +5679,26 @@
           ],
           "loc": {
             "start": {
-              "line": 385,
+              "line": 380,
               "column": 2
             },
             "end": {
-              "line": 389,
+              "line": 384,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 390,
+                "line": 385,
                 "column": 2
               },
               "end": {
-                "line": 392,
+                "line": 387,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -5924,26 +5807,26 @@
           ],
           "loc": {
             "start": {
-              "line": 399,
+              "line": 394,
               "column": 2
             },
             "end": {
-              "line": 403,
+              "line": 398,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 404,
+                "line": 399,
                 "column": 2
               },
               "end": {
-                "line": 406,
+                "line": 401,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6057,26 +5940,26 @@
           ],
           "loc": {
             "start": {
-              "line": 413,
+              "line": 408,
               "column": 2
             },
             "end": {
-              "line": 420,
+              "line": 415,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 421,
+                "line": 416,
                 "column": 2
               },
               "end": {
-                "line": 428,
+                "line": 423,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6298,26 +6181,26 @@
           ],
           "loc": {
             "start": {
-              "line": 430,
+              "line": 425,
               "column": 2
             },
             "end": {
-              "line": 435,
+              "line": 430,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 436,
+                "line": 431,
                 "column": 2
               },
               "end": {
-                "line": 447,
+                "line": 442,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/multislider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
           },
           "augments": [],
           "examples": [
@@ -6434,6 +6317,118 @@
           "children": [
             {
               "type": "text",
+              "value": "The current values of the slider. NOTE: Use this only to get the current values. Setting this array will not update the multislider. To set the multislider's values, use setSlider() or setAllSliders()",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 201,
+                  "offset": 200
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 201,
+              "offset": 200
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 201,
+          "offset": 200
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "type",
+        "description": null,
+        "lineNumber": 2,
+        "type": {
+          "type": "NameExpression",
+          "name": "Array"
+        }
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 67,
+        "column": 4
+      },
+      "end": {
+        "line": 70,
+        "column": 6
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 71,
+          "column": 4
+        },
+        "end": {
+          "line": 71,
+          "column": 36
+        }
+      },
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/multislider.js"
+    },
+    "augments": [],
+    "examples": [],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "vs",
+    "kind": "constant",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "vs",
+        "kind": "constant"
+      }
+    ],
+    "namespace": "vs"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
               "value": "Number interface which is controllable by dragging or typing.",
               "position": {
                 "start": {
@@ -6531,7 +6526,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/number.js"
     },
     "augments": [
       {
@@ -6650,7 +6645,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6845,7 +6840,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -6973,7 +6968,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7101,7 +7096,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7229,7 +7224,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/number.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/number.js"
           },
           "augments": [],
           "examples": [
@@ -7345,42 +7340,42 @@
       },
       {
         "title": "example",
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')",
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')\noscilloscope.connect(myWebAudioNode)",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})",
-        "lineNumber": 10
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})\noscilloscope.connect(myWebAudioNode)",
+        "lineNumber": 11
       },
       {
         "title": "output",
         "description": "&nbsp;\nNo events",
-        "lineNumber": 15
+        "lineNumber": 17
       }
     ],
     "loc": {
       "start": {
-        "line": 7,
+        "line": 6,
         "column": 0
       },
       "end": {
-        "line": 26,
+        "line": 27,
         "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 28,
+          "line": 29,
           "column": 0
         },
         "end": {
-          "line": 151,
+          "line": 162,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/oscilloscope.js"
     },
     "augments": [
       {
@@ -7390,10 +7385,10 @@
     ],
     "examples": [
       {
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')"
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target')\noscilloscope.connect(myWebAudioNode)"
       },
       {
-        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})"
+        "description": "var oscilloscope = new Nexus.Oscilloscope('#target',{\n  'size': [300,150]\n})\noscilloscope.connect(myWebAudioNode)"
       }
     ],
     "params": [],
@@ -7417,7 +7412,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -7426,8 +7421,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 557,
-                        "offset": 556
+                        "column": 56,
+                        "offset": 55
                       },
                       "indent": []
                     }
@@ -7441,8 +7436,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 557,
-                    "offset": 556
+                    "column": 56,
+                    "offset": 55
                   },
                   "indent": []
                 }
@@ -7456,8 +7451,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 557,
-                "offset": 556
+                "column": 56,
+                "offset": 55
               }
             }
           },
@@ -7471,37 +7466,37 @@
             },
             {
               "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );",
+              "description": "oscilloscope.connect( Tone.Master );",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 115,
+              "line": 114,
               "column": 2
             },
             "end": {
-              "line": 120,
+              "line": 118,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 122,
+                "line": 120,
                 "column": 2
               },
               "end": {
-                "line": 131,
+                "line": 137,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/oscilloscope.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\noscilloscope.connect( Tone.Master );"
+              "description": "oscilloscope.connect( Tone.Master );"
             }
           ],
           "params": [
@@ -7648,26 +7643,26 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 133,
+              "line": 139,
               "column": 2
             },
             "end": {
-              "line": 135,
+              "line": 141,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 136,
+                "line": 142,
                 "column": 2
               },
               "end": {
-                "line": 141,
+                "line": 152,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/oscilloscope.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/oscilloscope.js"
           },
           "augments": [],
           "examples": [],
@@ -7814,7 +7809,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan.js"
     },
     "augments": [
       {
@@ -7924,7 +7919,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan.js"
           },
           "augments": [],
           "examples": [],
@@ -8076,7 +8071,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
     },
     "augments": [
       {
@@ -8179,7 +8174,7 @@
                 "column": 35
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8286,7 +8281,7 @@
                 "column": 43
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8393,7 +8388,7 @@
                 "column": 37
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8500,7 +8495,7 @@
                 "column": 21
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8622,7 +8617,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -8868,7 +8863,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
           },
           "augments": [],
           "examples": [],
@@ -9169,7 +9164,7 @@
           "column": 3
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/pan2d.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/pan2d.js"
     },
     "augments": [],
     "examples": [],
@@ -9419,11 +9414,11 @@
           "column": 0
         },
         "end": {
-          "line": 420,
+          "line": 434,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/piano.js"
     },
     "augments": [
       {
@@ -9522,26 +9517,26 @@
           ],
           "loc": {
             "start": {
-              "line": 390,
+              "line": 404,
               "column": 2
             },
             "end": {
-              "line": 394,
+              "line": 408,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 395,
+                "line": 409,
                 "column": 2
               },
               "end": {
-                "line": 400,
+                "line": 414,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -9761,26 +9756,26 @@
           ],
           "loc": {
             "start": {
-              "line": 402,
+              "line": 416,
               "column": 2
             },
             "end": {
-              "line": 406,
+              "line": 420,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 407,
+                "line": 421,
                 "column": 2
               },
               "end": {
-                "line": 409,
+                "line": 423,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10000,26 +9995,26 @@
           ],
           "loc": {
             "start": {
-              "line": 411,
+              "line": 425,
               "column": 2
             },
             "end": {
-              "line": 415,
+              "line": 429,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 416,
+                "line": 430,
                 "column": 2
               },
               "end": {
-                "line": 418,
+                "line": 432,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/piano.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/piano.js"
           },
           "augments": [],
           "examples": [],
@@ -10286,7 +10281,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
     },
     "augments": [
       {
@@ -10404,7 +10399,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10532,7 +10527,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -10655,7 +10650,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10774,7 +10769,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -10893,7 +10888,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11012,7 +11007,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11131,7 +11126,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11250,7 +11245,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [],
@@ -11374,7 +11369,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/position.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/position.js"
           },
           "augments": [],
           "examples": [
@@ -11516,7 +11511,7 @@
       },
       "end": {
         "line": 34,
-        "column": 2
+        "column": 3
       }
     },
     "context": {
@@ -11526,11 +11521,11 @@
           "column": 0
         },
         "end": {
-          "line": 159,
+          "line": 164,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/radiobutton.js"
     },
     "augments": [
       {
@@ -11622,26 +11617,26 @@
           ],
           "loc": {
             "start": {
-              "line": 117,
+              "line": 123,
               "column": 2
             },
             "end": {
-              "line": 120,
+              "line": 126,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 121,
+                "line": 127,
                 "column": 2
               },
               "end": {
-                "line": 127,
+                "line": 133,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11789,26 +11784,26 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 129,
+              "line": 135,
               "column": 2
             },
             "end": {
-              "line": 131,
+              "line": 137,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 132,
+                "line": 138,
                 "column": 2
               },
               "end": {
-                "line": 136,
+                "line": 142,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -11909,26 +11904,26 @@
           ],
           "loc": {
             "start": {
-              "line": 142,
+              "line": 148,
               "column": 2
             },
             "end": {
-              "line": 145,
+              "line": 151,
               "column": 5
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 146,
+                "line": 152,
                 "column": 2
               },
               "end": {
-                "line": 157,
+                "line": 163,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/radiobutton.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/radiobutton.js"
           },
           "augments": [],
           "examples": [],
@@ -12142,7 +12137,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/select.js"
     },
     "augments": [
       {
@@ -12256,7 +12251,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [],
@@ -12442,7 +12437,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12570,7 +12565,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/select.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/select.js"
           },
           "augments": [],
           "examples": [
@@ -12619,6 +12614,232 @@
       }
     ],
     "namespace": "Select"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Amount of row padding",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 22,
+                  "offset": 21
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 22,
+              "offset": 21
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 22,
+          "offset": 21
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "type",
+        "description": null,
+        "lineNumber": 2,
+        "type": {
+          "type": "NameExpression",
+          "name": "number"
+        }
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 33,
+        "column": 4
+      },
+      "end": {
+        "line": 36,
+        "column": 7
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 37,
+          "column": 4
+        },
+        "end": {
+          "line": 37,
+          "column": 70
+        }
+      },
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
+    },
+    "augments": [],
+    "examples": [],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "paddingRow",
+    "memberof": "MatrixCell",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "paddingRow",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#paddingRow"
+  },
+  {
+    "description": {
+      "type": "root",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "Amount of column padding",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 25,
+                  "offset": 24
+                },
+                "indent": []
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 25,
+              "offset": 24
+            },
+            "indent": []
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 25,
+          "offset": 24
+        }
+      }
+    },
+    "tags": [
+      {
+        "title": "type",
+        "description": null,
+        "lineNumber": 2,
+        "type": {
+          "type": "NameExpression",
+          "name": "number"
+        }
+      }
+    ],
+    "loc": {
+      "start": {
+        "line": 39,
+        "column": 4
+      },
+      "end": {
+        "line": 42,
+        "column": 7
+      }
+    },
+    "context": {
+      "loc": {
+        "start": {
+          "line": 43,
+          "column": 4
+        },
+        "end": {
+          "line": 43,
+          "column": 79
+        }
+      },
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
+    },
+    "augments": [],
+    "examples": [],
+    "params": [],
+    "properties": [],
+    "returns": [],
+    "sees": [],
+    "throws": [],
+    "todos": [],
+    "name": "paddingColumn",
+    "memberof": "MatrixCell",
+    "scope": "instance",
+    "members": {
+      "global": [],
+      "inner": [],
+      "instance": [],
+      "events": [],
+      "static": []
+    },
+    "path": [
+      {
+        "name": "paddingColumn",
+        "scope": "instance"
+      }
+    ],
+    "namespace": "#paddingColumn"
   },
   {
     "description": {
@@ -12691,52 +12912,52 @@
       },
       {
         "title": "example",
-        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})",
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10,\n 'paddingRow': 10,\n 'paddingColumn': 20\n})",
         "lineNumber": 10
       },
       {
         "title": "output",
         "description": "change\nFires any time the interface's matrix changes. <br>\nThe event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.",
-        "lineNumber": 18
+        "lineNumber": 20
       },
       {
         "title": "outputexample",
         "description": "sequencer.on('change',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 23
+        "lineNumber": 25
       },
       {
         "title": "output",
         "description": "step\nFires any time the sequencer steps to the next column, in sequece mode. <br>\nThe event data is an <i>array</i> containing all values in the column, <i>bottom row first</i>.",
-        "lineNumber": 28
+        "lineNumber": 30
       },
       {
         "title": "outputexample",
         "description": "sequencer.on('step',function(v) {\n  console.log(v);\n})",
-        "lineNumber": 33
+        "lineNumber": 35
       }
     ],
     "loc": {
       "start": {
-        "line": 135,
+        "line": 134,
         "column": 0
       },
       "end": {
-        "line": 172,
-        "column": 2
+        "line": 173,
+        "column": 3
       }
     },
     "context": {
       "loc": {
         "start": {
-          "line": 174,
+          "line": 175,
           "column": 0
         },
         "end": {
-          "line": 449,
+          "line": 452,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
     },
     "augments": [
       {
@@ -12749,7 +12970,7 @@
         "description": "var sequencer = new Nexus.Sequencer('#target')"
       },
       {
-        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10\n})"
+        "description": "var sequencer = new Nexus.Sequencer('#target',{\n 'size': [400,200],\n 'mode': 'toggle',\n 'rows': 5,\n 'columns': 10,\n 'paddingRow': 10,\n 'paddingColumn': 20\n})"
       }
     ],
     "params": [],
@@ -12835,26 +13056,26 @@
           ],
           "loc": {
             "start": {
-              "line": 191,
+              "line": 190,
               "column": 4
             },
             "end": {
-              "line": 195,
-              "column": 6
+              "line": 194,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 196,
+                "line": 195,
                 "column": 4
               },
               "end": {
-                "line": 196,
+                "line": 195,
                 "column": 35
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [
@@ -12956,26 +13177,26 @@
           ],
           "loc": {
             "start": {
-              "line": 198,
+              "line": 197,
               "column": 4
             },
             "end": {
-              "line": 201,
-              "column": 6
+              "line": 200,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 202,
+                "line": 201,
                 "column": 4
               },
               "end": {
-                "line": 202,
-                "column": 58
+                "line": 201,
+                "column": 60
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13073,26 +13294,26 @@
           ],
           "loc": {
             "start": {
-              "line": 204,
+              "line": 203,
               "column": 4
             },
             "end": {
-              "line": 207,
-              "column": 6
+              "line": 206,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 208,
+                "line": 207,
                 "column": 4
               },
               "end": {
-                "line": 208,
-                "column": 76
+                "line": 207,
+                "column": 77
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13190,26 +13411,26 @@
           ],
           "loc": {
             "start": {
-              "line": 211,
+              "line": 210,
               "column": 4
             },
             "end": {
-              "line": 214,
-              "column": 6
+              "line": 213,
+              "column": 7
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 215,
+                "line": 214,
                 "column": 4
               },
               "end": {
-                "line": 215,
-                "column": 52
+                "line": 214,
+                "column": 53
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13327,7 +13548,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13498,7 +13719,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13607,7 +13828,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13707,26 +13928,26 @@
           ],
           "loc": {
             "start": {
-              "line": 418,
+              "line": 422,
               "column": 2
             },
             "end": {
-              "line": 421,
+              "line": 425,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 422,
+                "line": 426,
                 "column": 2
               },
               "end": {
-                "line": 424,
+                "line": 428,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13826,26 +14047,26 @@
           ],
           "loc": {
             "start": {
-              "line": 433,
+              "line": 437,
               "column": 2
             },
             "end": {
-              "line": 436,
+              "line": 440,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 437,
+                "line": 441,
                 "column": 2
               },
               "end": {
-                "line": 439,
+                "line": 443,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/sequencer.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/sequencer.js"
           },
           "augments": [],
           "examples": [],
@@ -13997,7 +14218,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/slider.js"
     },
     "augments": [
       {
@@ -14115,7 +14336,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14243,7 +14464,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14371,7 +14592,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14499,7 +14720,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14627,7 +14848,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/slider.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/slider.js"
           },
           "augments": [],
           "examples": [
@@ -14743,23 +14964,23 @@
       },
       {
         "title": "example",
-        "description": "var spectrogram = new Nexus.Spectrogram('#target')",
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')\nspectrogram.connect(myWebAudioNode)",
         "lineNumber": 7
       },
       {
         "title": "example",
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})",
-        "lineNumber": 10
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})\nspectrogram.connect(myWebAudioNode)",
+        "lineNumber": 11
       },
       {
         "title": "output",
         "description": "&nbsp;\nNo events",
-        "lineNumber": 15
+        "lineNumber": 17
       }
     ],
     "loc": {
       "start": {
-        "line": 8,
+        "line": 6,
         "column": 0
       },
       "end": {
@@ -14774,11 +14995,11 @@
           "column": 0
         },
         "end": {
-          "line": 142,
+          "line": 154,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/spectrogram.js"
     },
     "augments": [
       {
@@ -14788,10 +15009,10 @@
     ],
     "examples": [
       {
-        "description": "var spectrogram = new Nexus.Spectrogram('#target')"
+        "description": "var spectrogram = new Nexus.Spectrogram('#target')\nspectrogram.connect(myWebAudioNode)"
       },
       {
-        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})"
+        "description": "var spectrogram = new Nexus.Spectrogram('#target',{\n  'size': [300,150]\n})\nspectrogram.connect(myWebAudioNode)"
       }
     ],
     "params": [],
@@ -14815,7 +15036,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Equivalent to \"patching in\" an audio node to visualize. NOTE: You cannot connect audio nodes across two different audio contexts. NexusUI runs its audio analysis on its own audio context, Nexus.context. If the audio node you are visualizing is created on a different audio context, you will need to tell NexusUI to use that context instead: i.e. Nexus.context = YourAudioContextName. For example, in ToneJS projects, the line would be: Nexus.context = Tone.context . We recommend that you write that line of code only once at the beginning of your project.",
+                    "value": "Equivalent to \"patching in\" an audio node to visualize.",
                     "position": {
                       "start": {
                         "line": 1,
@@ -14824,8 +15045,8 @@
                       },
                       "end": {
                         "line": 1,
-                        "column": 557,
-                        "offset": 556
+                        "column": 56,
+                        "offset": 55
                       },
                       "indent": []
                     }
@@ -14839,8 +15060,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 557,
-                    "offset": 556
+                    "column": 56,
+                    "offset": 55
                   },
                   "indent": []
                 }
@@ -14854,8 +15075,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 557,
-                "offset": 556
+                "column": 56,
+                "offset": 55
               }
             }
           },
@@ -14869,37 +15090,37 @@
             },
             {
               "title": "example",
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );",
+              "description": "spectrogram.connect( Tone.Master );",
               "lineNumber": 3
             }
           ],
           "loc": {
             "start": {
-              "line": 111,
+              "line": 108,
               "column": 2
             },
             "end": {
-              "line": 116,
+              "line": 112,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 117,
+                "line": 113,
                 "column": 2
               },
               "end": {
-                "line": 124,
+                "line": 129,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/spectrogram.js"
           },
           "augments": [],
           "examples": [
             {
-              "description": "Nexus.context = Tone.context // or another audio context you have created\nspectrogram.connect( Tone.Master );"
+              "description": "spectrogram.connect( Tone.Master );"
             }
           ],
           "params": [
@@ -15046,26 +15267,26 @@
           "tags": [],
           "loc": {
             "start": {
-              "line": 126,
+              "line": 131,
               "column": 2
             },
             "end": {
-              "line": 128,
+              "line": 133,
               "column": 4
             }
           },
           "context": {
             "loc": {
               "start": {
-                "line": 129,
+                "line": 134,
                 "column": 2
               },
               "end": {
-                "line": 132,
+                "line": 144,
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/spectrogram.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/spectrogram.js"
           },
           "augments": [],
           "examples": [],
@@ -15217,7 +15438,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/textbutton.js"
     },
     "augments": [
       {
@@ -15330,7 +15551,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15449,7 +15670,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/textbutton.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/textbutton.js"
           },
           "augments": [],
           "examples": [],
@@ -15596,7 +15817,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/tilt.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/tilt.js"
     },
     "augments": [
       {
@@ -15706,7 +15927,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/tilt.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/tilt.js"
           },
           "augments": [],
           "examples": [],
@@ -15858,7 +16079,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/interfaces/toggle.js"
     },
     "augments": [
       {
@@ -15976,7 +16197,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -16095,7 +16316,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/interfaces/toggle.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/interfaces/toggle.js"
           },
           "augments": [],
           "examples": [
@@ -16216,11 +16437,11 @@
           "column": 0
         },
         "end": {
-          "line": 116,
+          "line": 104,
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/main.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/main.js"
     },
     "augments": [],
     "examples": [],
@@ -16380,7 +16601,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
     },
     "augments": [],
     "examples": [],
@@ -16666,7 +16887,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16773,7 +16994,7 @@
                 "column": 19
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16880,7 +17101,7 @@
                 "column": 40
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -16987,7 +17208,7 @@
                 "column": 38
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17094,7 +17315,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17203,7 +17424,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17333,7 +17554,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/range.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/range.js"
           },
           "augments": [],
           "examples": [],
@@ -17643,7 +17864,7 @@
           "column": 1
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/models/step.js"
     },
     "augments": [],
     "examples": [],
@@ -18002,7 +18223,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18132,7 +18353,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18251,7 +18472,7 @@
                 "column": 3
               }
             },
-            "file": "/Users/tatecarson/Documents/webDev/ui/lib/models/step.js"
+            "file": "/Users/tatecarson/webDev/ui/lib/models/step.js"
           },
           "augments": [],
           "examples": [],
@@ -18417,7 +18638,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -18835,7 +19056,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19335,7 +19556,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19611,7 +19832,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -19979,7 +20200,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20173,7 +20394,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20439,7 +20660,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -20766,7 +20987,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21083,7 +21304,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21369,7 +21590,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
@@ -21812,7 +22033,7 @@
           "column": 2
         }
       },
-      "file": "/Users/tatecarson/Documents/webDev/ui/lib/util/math.js"
+      "file": "/Users/tatecarson/webDev/ui/lib/util/math.js"
     },
     "augments": [],
     "examples": [
