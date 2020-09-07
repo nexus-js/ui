@@ -12917,7 +12917,7 @@
       },
       {
         "title": "output",
-        "description": "change\nFires any time the interface's matrix changes. <br>\nThe event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.",
+        "description": "change\nFires whenever a value is received. For example, when clicking a cell from off to on. <br>\nThe event data is an object containing <i>row</i> (number), <i>column</i> (number), and <i>state</i> (boolean) properties.",
         "lineNumber": 20
       },
       {
