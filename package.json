@@ -16,6 +16,7 @@
     "type": "git",
     "url": "https://github.com/nexus-js/ui"
   },
+  "types": "dist/types/index.d.ts",
   "keywords": [],
   "author": "Benjamin Taylor",
   "license": "MIT",
