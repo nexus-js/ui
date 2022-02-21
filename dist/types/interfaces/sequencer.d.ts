@@ -2,7 +2,7 @@ import ButtonTemplate, {
   ButtonMode,
   ButtonTemplateOptions,
 } from "../components/buttontemplate";
-import Interface, { InterfaceOptions } from "../core/interface";
+import Interface from "../core/interface";
 import Counter from "../models/counter";
 import Matrix from "../models/matrix";
 import Interval from "../time/interval";
@@ -29,7 +29,7 @@ export class MatrixCell extends ButtonTemplate<MatrixCellOptions> {
 type SequencerOptions = {
   mode: ButtonMode;
   rows: number;
-  column: number;
+  columns: number;
   paddingRow: number;
   paddingColumn: number;
 };
