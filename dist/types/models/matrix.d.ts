@@ -48,5 +48,5 @@ export default class Matrix {
   set rows(rows: number);
   get rows(): number;
   set columns(columns: number);
-  get columns(): any;
+  get columns(): number;
 }
