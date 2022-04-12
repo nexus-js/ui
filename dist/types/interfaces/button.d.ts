@@ -39,7 +39,7 @@ export default class Button extends ButtonTemplate<ButtonTemplateOptions> {
     listener: (value: boolean | XYPosition, ...args: any[]) => void
   ): this;
   pad: SVGCircleElement;
-  interactionTarget: typeof this.pad;
+  interactionTarget: SVGCircleElement;
   defs: SVGDefsElement;
   gradient: SVGRadialGradientElement;
   render(): void;

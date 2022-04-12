@@ -23,7 +23,7 @@ export default class ButtonTemplate<
   position: XYPosition;
   _state: ToggleModel;
   pad: SVGElement;
-  interactionTarget: typeof this.pad;
+  interactionTarget: SVGElement;
   render(): void;
   up(): void;
   bend(mouse: XYPosition): void;
