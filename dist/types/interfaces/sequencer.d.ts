@@ -7,12 +7,12 @@ import Counter from "../models/counter";
 import Matrix from "../models/matrix";
 import Interval from "../time/interval";
 
-type MatrixCellOptions = ButtonTemplateOptions & {
+interface MatrixCellOptions extends ButtonTemplateOptions {
   value: number;
   paddingRow: number;
   paddingColumn: number;
   target: false;
-};
+}
 
 export class MatrixCell extends ButtonTemplate<MatrixCellOptions> {
   pad: SVGRectElement;
@@ -26,13 +26,13 @@ export class MatrixCell extends ButtonTemplate<MatrixCellOptions> {
   paintbrush: boolean;
 }
 
-type SequencerOptions = {
+interface SequencerOptions {
   mode: ButtonMode;
   rows: number;
   columns: number;
   paddingRow: number;
   paddingColumn: number;
-};
+}
 
 /**
  * Sequencer
