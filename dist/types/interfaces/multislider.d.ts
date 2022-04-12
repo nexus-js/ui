@@ -1,4 +1,4 @@
-import Interface, { InterfaceOptions } from "../core/interface";
+import Interface from "../core/interface";
 import { StepOptions } from "../models/step";
 
 type MultiSliderMode = "bar" | "line";

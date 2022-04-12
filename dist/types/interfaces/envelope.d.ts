@@ -1,4 +1,4 @@
-import Interface, { InterfaceOptions } from "../core/interface";
+import Interface from "../core/interface";
 import { XYPosition } from "../util/interaction";
 
 declare class Point {

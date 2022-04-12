@@ -1,4 +1,4 @@
-import Interface, { InterfaceOptions } from "../core/interface";
+import Interface from "../core/interface";
 import Step, { StepOptions } from "../models/step";
 
 type NumberOptions = StepOptions;
@@ -79,8 +79,8 @@ export default class Number extends Interface<NumberOptions> {
     @param {Interface} element Element to connect to.
     @example number.link(slider)
     */
-  link<InterfaceOptionsT extends InterfaceOptions>(
-    destination: Interface<InterfaceOptionsT>
+  link<InterfaceSpecificOptionsT>(
+    destination: Interface<InterfaceSpecificOptionsT>
   ): void;
   passiveUpdate(value: number): void;
 }

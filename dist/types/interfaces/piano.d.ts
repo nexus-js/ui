@@ -1,4 +1,4 @@
-import Interface, { InterfaceOptions } from "../core/interface";
+import Interface from "../core/interface";
 import ButtonTemplate, {
   ButtonMode,
   ButtonTemplateOptions,

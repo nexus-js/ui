@@ -1,4 +1,4 @@
-import Interface, { InterfaceOptions } from "../core/interface";
+import Interface from "../core/interface";
 import * as Interaction from "../util/interaction";
 import { HandleDirection, HandleMode } from "../util/interaction";
 import Step, { StepOptions } from "../models/step";

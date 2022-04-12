@@ -1,4 +1,4 @@
-import Interface, { InterfaceOptions } from "../core/interface";
+import Interface from "../core/interface";
 import Step from "../models/step";
 import * as Interaction from "../util/interaction";
 
