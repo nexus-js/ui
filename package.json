@@ -29,7 +29,7 @@
     "babel-loader": "^4.0.0",
     "babelify": "^5.0.3",
     "color-ops": "^2.0.0",
-    "documentation": "^5.3.5",
+    "documentation": "^14.0.0",
     "es6ify": "^1.6.0",
     "fuse": "^0.4.0",
     "jest": "^0.1.37",
