@@ -1,5 +1,7 @@
 # NexusUI 
 
+![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg)
+
 ##### Version 2
 
 NexusUI is a JavaScript toolkit of web audio interfaces and other helper methods for building instruments in the browser.
