@@ -1,6 +1,6 @@
 # NexusUI 
 
-![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg)
+![Maintainers Wanted](https://img.shields.io/badge/maintainers-wanted-red.svg)&nbsp;&nbsp;[![Visualise&nbsp;Repo](https://img.shields.io/badge/Visualise%20Repo-blue.svg)](https://repomapr.com/nexus-js/ui)
 
 ##### Version 2
 
